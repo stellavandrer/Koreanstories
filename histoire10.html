@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Histoire 10 — 쇼핑몰에서 · Korean Stories</title>
+  <meta name="description" content="Dixième histoire en coréen. Mina et Hana au centre commercial — soldes, tailles, essayages et caisse. Vocabulaire shopping essentiel !"/>
+  <meta property="og:title" content="Histoire 10 — 쇼핑몰에서 · Korean Stories"/>
+  <meta property="og:description" content="Mina et Hana font du shopping à Séoul. Soldes à -50%, cabine d'essayage et carte bancaire — apprends à magasiner en coréen !"/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+      --green:#22c55e;--red:#ef4444;
+      --amb:#F59E0B;--ambp:rgba(245,158,11,0.12);
+    }
+    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    .quit{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
+    .quit:hover{border-color:#FCD34D;color:#FCD34D}
+    .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .tb-title{font-family:'Playfair Display',serif;font-size:14px;color:white;font-style:italic}
+    .xp-pill{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:700;color:#F59E0B}
+    .hero{background:var(--navy);padding:28px 20px 32px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);border-radius:100px;padding:4px 14px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#FCD34D}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,6vw,36px);color:white;line-height:1.2;margin-bottom:8px}
+    .hero-title em{color:#FCD34D;font-style:italic}
+    .hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.7;max-width:340px;margin:0 auto 22px}
+    .hero-chars{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+    .hchar{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:6px 14px;font-size:20px;font-weight:300;color:#FCD34D}
+    .pbar-wrap{background:var(--navy);padding:0 20px 20px}
+    .pbar-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px}
+    .ptrack{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+    .pfill{height:100%;border-radius:100px;background:linear-gradient(90deg,#F59E0B,#FCD34D);transition:width .6s cubic-bezier(.4,0,.2,1);width:0%}
+    .pstep{font-size:11px;color:rgba(247,248,250,.35);font-weight:600;white-space:nowrap}
+    main{max-width:560px;margin:0 auto;padding:20px 16px}
+    .sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;display:block}
+    .story-panel{background:var(--navy);border-radius:24px;padding:26px;margin-bottom:22px;position:relative;overflow:hidden}
+    .story-panel::after{content:'';position:absolute;bottom:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(245,158,11,.04);pointer-events:none}
+    .story-title{font-family:'Playfair Display',serif;font-size:18px;color:white;margin-bottom:4px}
+    .story-meta{font-size:11px;color:rgba(247,248,250,.3);margin-bottom:18px}
+    .dialogue{display:flex;flex-direction:column;gap:16px}
+    .line{display:flex;gap:12px;align-items:flex-start}
+    .line.right{flex-direction:row-reverse}
+    .avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;margin-top:2px}
+    .avatar.mina{background:rgba(245,158,11,.15);color:#F59E0B}
+    .avatar.hana{background:rgba(236,72,153,.15);color:#ec4899}
+    .avatar.emp{background:rgba(34,197,94,.12);color:#16a34a}
+    .bubble-wrap{flex:1;max-width:calc(100% - 44px)}
+    .speaker{font-size:10px;font-weight:700;color:rgba(247,248,250,.3);margin-bottom:4px;letter-spacing:.06em;text-transform:uppercase}
+    .bubble{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 14px}
+    .line.right .bubble{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.15)}
+    .bubble-kr{font-size:18px;font-weight:600;color:white;line-height:1.5;margin-bottom:4px}
+    .bubble-fr{font-size:12px;color:rgba(247,248,250,.38);line-height:1.5}
+    .kw{color:#FCD34D;cursor:pointer;border-bottom:1px dashed rgba(252,211,77,.35);transition:all .18s;position:relative}
+    .kw:hover,.kw.pop{color:white;border-bottom-color:#F59E0B;background:rgba(245,158,11,.12);border-radius:4px;padding:0 2px}
+    .bubble-audio{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 10px;background:rgba(245,158,11,.08);border-radius:100px;color:#FCD34D;font-size:11px;font-weight:600;cursor:pointer;transition:all .18s;border:none}
+    .bubble-audio.playing{background:rgba(245,158,11,.18)}
+    .bubble-audio svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+    .tooltip{position:fixed;z-index:200;background:var(--navy2);border:1px solid rgba(245,158,11,.25);border-radius:16px;padding:14px 16px;max-width:230px;box-shadow:0 8px 32px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .18s}
+    .tooltip.show{opacity:1;pointer-events:auto}
+    .t-kr{font-family:'Playfair Display',serif;font-size:22px;color:#FCD34D;margin-bottom:2px}
+    .t-rom{font-size:11px;color:rgba(247,248,250,.38);margin-bottom:6px}
+    .t-fr{font-size:13px;font-weight:600;color:white;margin-bottom:6px}
+    .t-tip{font-size:11px;color:rgba(247,248,250,.45);line-height:1.55}
+    .culture-card{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:20px;margin-bottom:22px}
+    .cc-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .cc-icon{width:36px;height:36px;background:rgba(245,158,11,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .cc-title{font-size:14px;font-weight:700;color:var(--navy)}
+    .cc-sub{font-size:11px;color:var(--gray);margin-top:1px}
+    .cc-body{font-size:13px;color:#3a4a5c;line-height:1.7}
+    .cc-body strong{color:var(--navy)}
+    .cc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+    .cc-tag{font-size:11px;font-weight:600;background:rgba(245,158,11,.08);color:#b45309;border-radius:100px;padding:3px 10px}
+    .vocab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+    .recap-item{background:var(--pure);border:1.5px solid var(--border);border-radius:14px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .18s;position:relative}
+    .recap-item:hover,.recap-item.playing{background:rgba(245,158,11,.05);border-color:#FCD34D}
+    .recap-kr{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:2px}
+    .recap-rom{font-size:9px;color:var(--gray);margin-bottom:3px}
+    .recap-fr{font-size:10px;color:#b45309;font-weight:600}
+    .recap-audio-dot{width:6px;height:6px;border-radius:50%;background:#F59E0B;position:absolute;top:7px;right:7px;opacity:0}
+    .recap-item.playing .recap-audio-dot{opacity:1;animation:pulse .8s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+    .quiz-wrap{background:var(--pure);border:1.5px solid var(--border);border-radius:24px;overflow:hidden;margin-bottom:22px}
+    .quiz-header{background:var(--navy);padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+    .qh-title{font-family:'Playfair Display',serif;font-size:16px;color:white}
+    .qh-prog{font-size:12px;color:rgba(247,248,250,.4);font-weight:600}
+    .qprog-bar{height:3px;background:rgba(255,255,255,.08)}
+    .qprog-fill{height:100%;background:#F59E0B;transition:width .4s}
+    .quiz-body{padding:20px}
+    .q-prompt-lbl{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+    .q-word{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:6px;line-height:1.1}
+    .q-rom{font-size:12px;color:var(--gray);text-align:center;margin-bottom:20px}
+    .q-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .q-choice{padding:14px 10px;background:var(--white);border:2px solid var(--border);border-radius:14px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .18s;text-align:center;-webkit-tap-highlight-color:transparent}
+    .q-choice:hover{border-color:#F59E0B;background:rgba(245,158,11,.05)}
+    .q-choice.correct{border-color:var(--green);background:rgba(34,197,94,.08);color:#15803d}
+    .q-choice.wrong{border-color:var(--red);background:rgba(239,68,68,.08);color:#b91c1c}
+    .quiz-result{padding:24px 20px;text-align:center;display:none}
+    .qr-stars{font-size:32px;margin-bottom:10px;letter-spacing:4px}
+    .qr-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:4px}
+    .qr-sub{font-size:13px;color:var(--gray);margin-bottom:16px}
+    .qr-xp{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:700;color:#b45309;margin-bottom:16px}
+    .qr-btn{display:block;width:100%;padding:14px;background:var(--navy);color:var(--gold2);font-family:'Inter',sans-serif;font-size:14px;font-weight:700;border:none;border-radius:14px;cursor:pointer;text-decoration:none;text-align:center;transition:opacity .18s}
+    .qr-btn:hover{opacity:.88}
+    .teaser{background:var(--navy);border-radius:20px;padding:20px;margin-bottom:22px;display:flex;align-items:center;gap:14px;text-decoration:none}
+    .teaser-ico{width:44px;height:44px;border-radius:12px;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .teaser-title{font-size:13px;font-weight:700;color:white;margin-bottom:2px}
+    .teaser-sub{font-size:11px;color:rgba(247,248,250,.38)}
+    .teaser-arr{margin-left:auto;flex-shrink:0}
+    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
+    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
+    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .bni.act,.bni:hover{color:var(--navy)}
+    .bni.act svg{stroke:#F59E0B}
+    .dm-fab{position:fixed;bottom:76px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--navy);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:99;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+    .dm-fab svg{width:16px;height:16px;stroke:rgba(247,248,250,.5);fill:none;stroke-width:2;stroke-linecap:round}
+    .dm-fab:hover{border-color:rgba(245,158,11,.4)}
+    [data-theme="dark"] body{background:#0d1520;color:#e8edf3}
+    [data-theme="dark"] .culture-card,[data-theme="dark"] .quiz-wrap,[data-theme="dark"] .recap-item{background:#1a2535;border-color:#243045}
+    [data-theme="dark"] .cc-body,[data-theme="dark"] .q-word{color:#e8edf3}
+    [data-theme="dark"] .q-choice{background:#1a2535;border-color:#243045;color:#e8edf3}
+    [data-theme="dark"] .q-choice:hover{border-color:#F59E0B;background:rgba(245,158,11,.08)}
+    [data-theme="dark"] .recap-item:hover,[data-theme="dark"] .recap-item.playing{background:rgba(245,158,11,.06);border-color:#F59E0B}
+    [data-theme="dark"] .recap-kr{color:#e8edf3}
+    [data-theme="dark"] .bnav{background:#0d1520;border-color:#1a2535}
+    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni.act{color:#F59E0B!important}
+    [data-theme="dark"] .bni.act svg{stroke:#F59E0B!important}
+    [data-theme="dark"] .dm-fab{background:#1a2535;border-color:#243045}
+    [data-theme="dark"] .cc-tag{background:rgba(245,158,11,.1);color:#F59E0B}
+    [data-theme="dark"] .quiz-result{background:#1a2535}
+    [data-theme="dark"] .qr-btn{background:#243045}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="histoires.html" class="quit">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Histoires
+  </a>
+  <span class="tb-title">쇼핑몰에서</span>
+  <div class="xp-pill">
+    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    +30 XP
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">
+    <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    Histoire 10 · A2
+  </div>
+  <h1 class="hero-title">Au <em>shopping mall</em></h1>
+  <p class="hero-sub">Mina et Hana débarquent dans un centre commercial coréen en plein jour de soldes. Essayage, caisse, carte — le vocabulaire du shopping dont tu as besoin !</p>
+  <div class="hero-chars">
+    <span class="hchar">세일</span>
+    <span class="hchar">어울려요</span>
+    <span class="hchar">살게요</span>
+  </div>
+</div>
+
+<div class="pbar-wrap">
+  <div class="pbar-inner">
+    <div class="ptrack"><div class="pfill" id="pFill"></div></div>
+    <span class="pstep" id="pStep">0 / 12</span>
+  </div>
+</div>
+
+<div class="tooltip" id="tooltip">
+  <div class="t-kr" id="tKr"></div>
+  <div class="t-rom" id="tRom"></div>
+  <div class="t-fr" id="tFr"></div>
+  <div class="t-tip" id="tTip"></div>
+</div>
+
+<main>
+
+<span class="sec-lbl">Personnages</span>
+<div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap">
+  <div style="flex:1;min-width:140px;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:36px;height:36px;border-radius:50%;background:rgba(245,158,11,.12);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#F59E0B;flex-shrink:0">M</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy)">Mina</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:2px">Première fois dans un grand 쇼핑몰 coréen. Les soldes lui font perdre la tête.</div>
+    </div>
+  </div>
+  <div style="flex:1;min-width:140px;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:36px;height:36px;border-radius:50%;background:rgba(236,72,153,.1);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#ec4899;flex-shrink:0">H</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy)">Hana</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:2px">Coréenne de Séoul, experte du shopping. Elle connaît toutes les astuces pour trouver les meilleures affaires.</div>
+    </div>
+  </div>
+</div>
+
+<span class="sec-lbl">Dialogue</span>
+<div class="story-panel" id="storyPanel">
+  <div class="story-title">쇼핑몰에서</div>
+  <div class="story-meta">쇼핑몰 · Myeongdong · Séoul</div>
+  <div class="dialogue">
+
+    <div class="line" data-line="1">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="syopingmol">쇼핑몰</span>에 가요! 오늘 <span class="kw" data-id="seil">세일</span>이에요!</div>
+          <div class="bubble-fr">On va au shopping mall ! C'est les soldes aujourd'hui !</div>
+          <button class="bubble-audio" onclick="speak('쇼핑몰에 가요 오늘 세일이에요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line right" data-line="2">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">와, <span class="kw" data-id="seil">세일</span>이에요? 몇 퍼센트예요?</div>
+          <div class="bubble-fr">Waouh, c'est les soldes ? Quel pourcentage ?</div>
+          <button class="bubble-audio" onclick="speak('와 세일이에요 몇 퍼센트예요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line" data-line="3">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr">50% <span class="kw" data-id="seil">세일</span>이에요! 이 <span class="kw" data-id="ot">옷</span> 봐요!</div>
+          <div class="bubble-fr">-50% de réduction ! Regarde ces vêtements !</div>
+          <button class="bubble-audio" onclick="speak('오십 퍼센트 세일이에요 이 옷 봐요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line right" data-line="4">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">예뻐요! <span class="kw" data-id="ibeobwayo">입어봐요</span>?</div>
+          <div class="bubble-fr">C'est joli ! J'essaie ?</div>
+          <button class="bubble-audio" onclick="speak('예뻐요 입어봐요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line" data-line="5">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr">네, <span class="kw" data-id="ibeobwayo">입어봐요</span>! <span class="kw" data-id="saijeu">사이즈</span>가 뭐예요?</div>
+          <div class="bubble-fr">Oui, essaie ! C'est quelle taille ?</div>
+          <button class="bubble-audio" onclick="speak('네 입어봐요 사이즈가 뭐예요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line right" data-line="6">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">M <span class="kw" data-id="saijeu">사이즈</span>예요. <span class="kw" data-id="eoullyeoyo">어울려요</span>?</div>
+          <div class="bubble-fr">Taille M. Ça me va ?</div>
+          <button class="bubble-audio" onclick="speak('엠 사이즈예요 어울려요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line" data-line="7">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="neomu">너무</span> 예뻐요! 완전 <span class="kw" data-id="eoullyeoyo">어울려요</span>!</div>
+          <div class="bubble-fr">Trop joli ! Ça vous va parfaitement !</div>
+          <button class="bubble-audio" onclick="speak('너무 예뻐요 완전 어울려요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line right" data-line="8">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">얼마예요? <span class="kw" data-id="saekgal">색깔</span>도 있어요?</div>
+          <div class="bubble-fr">C'est combien ? Il y a d'autres couleurs ?</div>
+          <button class="bubble-audio" onclick="speak('얼마예요 색깔도 있어요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line" data-line="9">
+      <div class="avatar emp">E</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Employée</div>
+        <div class="bubble">
+          <div class="bubble-kr">35,000원이에요. <span class="kw" data-id="dareun">다른</span> <span class="kw" data-id="saekgal">색깔</span>도 있어요!</div>
+          <div class="bubble-fr">35 000 wons. Il y a d'autres couleurs aussi !</div>
+          <button class="bubble-audio" onclick="speak('삼만오천원이에요 다른 색깔도 있어요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line right" data-line="10">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="hyeongeum">현금</span> 없어요... <span class="kw" data-id="gyesan">계산</span> 카드로 돼요?</div>
+          <div class="bubble-fr">Je n'ai pas d'espèces... On peut payer par carte ?</div>
+          <button class="bubble-audio" onclick="speak('현금 없어요 계산 카드로 돼요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line" data-line="11">
+      <div class="avatar emp">E</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Employée</div>
+        <div class="bubble">
+          <div class="bubble-kr">네, 돼요! <span class="kw" data-id="yeongsujeung">영수증</span> 드릴까요?</div>
+          <div class="bubble-fr">Oui, bien sûr ! Je vous donne le reçu ?</div>
+          <button class="bubble-audio" onclick="speak('네 돼요 영수증 드릴까요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="line right" data-line="12">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">네, <span class="kw" data-id="salgeyo">살게요</span>! 감사합니다!</div>
+          <div class="bubble-fr">Oui, je le prends ! Merci !</div>
+          <button class="bubble-audio" onclick="speak('네 살게요 감사합니다',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="culture-card">
+  <div class="cc-header">
+    <div class="cc-icon">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#F59E0B;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    </div>
+    <div>
+      <div class="cc-title">Le shopping en Corée</div>
+      <div class="cc-sub">쇼핑몰 — une culture à part entière</div>
+    </div>
+  </div>
+  <p class="cc-body">
+    Le shopping est un véritable mode de vie en Corée. <strong>Myeongdong</strong> et <strong>Dongdaemun</strong> sont les quartiers shopping les plus célèbres de Séoul — ouverts tard le soir, parfois 24h/24. Les <strong>세일 (soldes)</strong> ont lieu en janvier et juillet, mais les promotions flash (<strong>특가</strong>) sont permanentes sur les apps coréennes. La culture du <strong>1+1</strong> (un acheté = un offert) est partout. Côté paiement : la Corée est l'un des pays les plus "cashless" au monde — la carte (<strong>카드</strong>) ou le phone pay (<strong>페이</strong>) suffisent presque toujours. Le <strong>영수증 (reçu)</strong> est systématiquement proposé.
+  </p>
+  <div class="cc-tags">
+    <span class="cc-tag">세일 = soldes</span>
+    <span class="cc-tag">1+1 = un acheté offert</span>
+    <span class="cc-tag">카드 = carte</span>
+    <span class="cc-tag">영수증 = reçu</span>
+  </div>
+</div>
+
+<span class="sec-lbl">Vocabulaire · 12 mots clés</span>
+<div class="vocab-grid" id="vocabGrid"></div>
+
+<div class="quiz-wrap" id="quizWrap">
+  <div class="quiz-header">
+    <span class="qh-title">Mini quiz</span>
+    <span class="qh-prog" id="qhProg">1 / 5</span>
+  </div>
+  <div class="qprog-bar"><div class="qprog-fill" id="qProgFill" style="width:0%"></div></div>
+  <div class="quiz-body" id="quizBody">
+    <div class="q-prompt-lbl">Que signifie ce mot ?</div>
+    <div class="q-word" id="qWord"></div>
+    <div class="q-rom" id="qRom"></div>
+    <div class="q-choices" id="qChoices"></div>
+  </div>
+  <div class="quiz-result" id="quizResult">
+    <div class="qr-stars" id="qrStars"></div>
+    <div class="qr-title" id="qrTitle"></div>
+    <div class="qr-sub" id="qrSub"></div>
+    <div class="qr-xp" id="qrXp">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span id="qrXpVal"></span>
+    </div>
+    <a href="histoires.html" class="qr-btn">Retour aux histoires</a>
+  </div>
+</div>
+
+<a href="#" class="teaser">
+  <div class="teaser-ico">
+    <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#22c55e;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  </div>
+  <div>
+    <div class="teaser-title">Histoire 11 — 집들이에서</div>
+    <div class="teaser-sub">Pendaison de crémaillère · Bientôt disponible</div>
+  </div>
+  <div class="teaser-arr">
+    <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:rgba(34,197,94,.6);fill:none;stroke-width:2;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+</a>
+
+</main>
+
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Accueil
+  </a>
+  <a href="histoires.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    Histoires
+  </a>
+  <a href="vocabulaire.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    Vocab
+  </a>
+  <a href="revision.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 000 5H6"/><path d="M18 9h1.5a2.5 2.5 0 010 5H18"/><path d="M8 9h8M8 15h8M9 9v13M15 9v13M9 3h6v6H9z"/></svg>
+    Révision
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Profil
+  </a>
+</nav>
+
+<button class="dm-fab" id="dmFab" title="Mode sombre">
+  <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+
+<script>
+const STORY_WORDS = [
+  {id:'syopingmol', kr:'쇼핑몰',   rom:'syo-ping-mol',  fr:'Centre commercial',        audio:'쇼핑몰',   tip:'쇼핑몰 = shopping mall. Mot emprunté à l\'anglais (shopping + mall). En Corée les grands centres commerciaux comme <strong>롯데월드몰</strong> ou <strong>현대백화점</strong> sont des destinations en soi. On y mange, on y fait du sport, on y regarde des films. Un 쇼핑몰 coréen, c\'est une ville dans la ville !'},
+  {id:'seil',       kr:'세일',     rom:'se-il',          fr:'Soldes / Promotion',       audio:'세일',     tip:'세일 = soldes, promotion. Mot emprunté à l\'anglais "sale". 세일 중이에요 = c\'est en solde. 세일 기간 = période de soldes. En Corée, les promos sont partout : 1+1 (un acheté = un offert), 50% 할인 (50% de réduction). Les apps comme Coupang ont des ventes flash quotidiennes !'},
+  {id:'ot',         kr:'옷',       rom:'ot',             fr:'Vêtement / Habit',         audio:'옷',       tip:'옷 = vêtement, habit. 옷을 입어요 = je mets des vêtements. 옷을 벗어요 = j\'enlève mes vêtements. 옷가게 = boutique de vêtements. 옷장 = armoire/garde-robe. Les Coréens sont très attentifs à l\'apparence et à la mode — la "K-fashion" est un vrai phénomène mondial avec Zara Korea, H&M, mais aussi des marques locales comme 무신사 (Musinsa) !'},
+  {id:'ibeobwayo',  kr:'입어봐요', rom:'i-beo-bwa-yo',   fr:'Essayez / J\'essaie',      audio:'입어봐요', tip:'입어봐요 vient de 입다 (mettre/porter) + 봐요 (essayez). 입어봐요 = essaie-le ! Littéralement "mets-le et vois". Même structure pour d\'autres essais : 먹어봐요 = goûte !, 해봐요 = essaie !, 가봐요 = vas-y voir ! La structure verbe + 봐요 est très productive en coréen !'},
+  {id:'saijeu',     kr:'사이즈',   rom:'sa-i-jeu',       fr:'Taille / Pointure',        audio:'사이즈',   tip:'사이즈 = taille, pointure. Mot emprunté à l\'anglais "size". 사이즈가 뭐예요 ? = c\'est quelle taille ? S/M/L/XL sont utilisés comme en Europe. Pour les chaussures : 몇 사이즈예요 ? = quelle pointure ? En Corée les tailles de vêtements peuvent différer légèrement — toujours vérifier avec les mesures en cm !'},
+  {id:'eoullyeoyo', kr:'어울려요', rom:'eo-ul-lyeo-yo',  fr:'Ça vous va bien',          audio:'어울려요', tip:'어울려요 vient de 어울리다 = aller bien, s\'harmoniser. 잘 어울려요 = ça vous va très bien. 안 어울려요 = ça ne vous va pas. 어울려요 ? = ça me va ? C\'est LE mot à connaître dans un magasin coréen. Les vendeurs coréens sont souvent très expressifs et n\'hésitent pas à dire 너무 어울려요 ! avec enthousiasme !'},
+  {id:'neomu',      kr:'너무',     rom:'neo-mu',         fr:'Trop / Vraiment (intensif)',audio:'너무',     tip:'너무 = trop (dans le sens intensif positif ou négatif selon contexte). 너무 예뻐요 = trop joli ! (=vraiment très joli). 너무 비싸요 = vraiment trop cher. 너무 맛있어요 = vraiment délicieux ! Attention : 너무 n\'est pas toujours négatif en coréen. À l\'oral, c\'est souvent juste un intensificateur. 아주 = très (plus neutre).'},
+  {id:'salgeyo',    kr:'살게요',   rom:'sal-ge-yo',      fr:'Je vais l\'acheter',        audio:'살게요',   tip:'살게요 vient de 사다 = acheter. 살게요 = je vais l\'acheter, je le prends. 살게요 ? → intention d\'achat confirmée ! 샀어요 = j\'ai acheté. 사고 싶어요 = j\'ai envie d\'acheter. 파세요 ? = vous vendez ça ? 팔아요 = on vend. 사다/팔다 = acheter/vendre — une paire à retenir ensemble !'},
+  {id:'saekgal',    kr:'색깔',     rom:'saek-gal',       fr:'Couleur',                  audio:'색깔',     tip:'색깔 = couleur (mot sino-coréen). 어떤 색깔 있어요 ? = quelles couleurs vous avez ? 빨간색 = rouge, 파란색 = bleu, 노란색 = jaune, 초록색 = vert, 하얀색 = blanc, 검은색 = noir. 무슨 색 좋아해요 ? = quelle couleur tu préfères ? La Corée est connue pour ses tenues coordonnées "커플룩" (couple look) !'},
+  {id:'dareun',     kr:'다른',     rom:'da-reun',        fr:'Autre / Différent',        audio:'다른',     tip:'다른 = autre, différent. 다른 색깔 있어요 ? = il y a d\'autres couleurs ? 다른 사이즈 = une autre taille. 다른 거 보여주세요 = montrez-m\'en un autre. 달라요 = c\'est différent. 다르다 = être différent. Très utile pour demander des alternatives en boutique !'},
+  {id:'gyesan',     kr:'계산',     rom:'gye-san',        fr:'Paiement / Addition',      audio:'계산',     tip:'계산 = paiement, calcul, addition. 계산해 주세요 = l\'addition s\'il vous plaît. 계산하다 = payer, calculer. 계산대 = caisse. Au restaurant on dit 계산해 주세요 pour demander l\'addition — jamais 빌 (bill) comme en anglais. En boutique, 여기서 계산해요 = on paie ici. Un mot clé dans tous les commerces !'},
+  {id:'hyeongeum',  kr:'현금',     rom:'hyeon-geum',     fr:'Espèces / Cash',           audio:'현금',     tip:'현금 = espèces, argent liquide. 현금 없어요 = je n\'ai pas d\'espèces. 현금 할인 있어요 ? = il y a une réduction en espèces ? En Corée la carte est reine — 카드 (carte) et les apps de paiement (카카오페이, 삼성페이) ont quasiment remplacé le cash. Mais certains petits commerces préfèrent encore 현금 !'},
+  {id:'yeongsujeung',kr:'영수증',  rom:'yeong-su-jeung', fr:'Reçu / Ticket de caisse',  audio:'영수증',   tip:'영수증 = reçu, ticket de caisse. 영수증 드릴까요 ? = je vous donne le reçu ? 영수증 주세요 = donnez-moi le reçu. En Corée, les 영수증 électroniques (문자/앱) remplacent de plus en plus les tickets papier. Pour un remboursement (환불), le 영수증 est indispensable. Conservez-le toujours !'},
+  {id:'hwanbul',    kr:'환불',     rom:'hwan-bul',       fr:'Remboursement',            audio:'환불',     tip:'환불 = remboursement. 환불 돼요 ? = c\'est remboursable ? 환불 해주세요 = remboursez-moi s\'il vous plaît. 교환 = échange (contre un autre article). 환불 정책 = politique de remboursement. En Corée le délai est souvent 7 jours pour les vêtements non portés avec l\'étiquette. Les grands magasins sont généralement très accommodants !'},
+  {id:'gyohwan',    kr:'교환',     rom:'gyo-hwan',       fr:'Échange / Remplacement',   audio:'교환',     tip:'교환 = échange. 교환해 주세요 = échangez-le s\'il vous plaît. 교환 vs 환불 : 교환 = on remplace l\'article, 환불 = on rembourse l\'argent. 색깔 교환 가능해요 ? = on peut échanger pour une autre couleur ? En Corée demander un 교환 est souvent plus simple qu\'un 환불 — les vendeurs préfèrent !'},
+  {id:'gyeonghaeyo',kr:'구경해요', rom:'gu-gyeong-hae-yo',fr:'Je regarde / Lèche-vitrine', audio:'구경해요', tip:'구경해요 vient de 구경하다 = regarder, faire du lèche-vitrine. 그냥 구경해요 = je regarde juste (réponse quand un vendeur demande "puis-je vous aider ?"). 구경 잘 하세요 = bonne visite. 구경거리 = choses à voir / attractions. En Corée les vendeurs abordent souvent les clients — 그냥 구경해요 est la phrase magique pour rester tranquille !'},
+];
+
+const RECAP_IDS = ['syopingmol','seil','ot','ibeobwayo','saijeu','eoullyeoyo','neomu','salgeyo','saekgal','dareun','gyesan','hyeongeum'];
+
+const grid = document.getElementById('vocabGrid');
+if(grid){
+  grid.innerHTML = RECAP_IDS.map(id=>STORY_WORDS.find(w=>w.id===id)).filter(Boolean).map(w=>`
+    <div class="recap-item" onclick="playAudio('${w.audio}',this)">
+      <div class="recap-audio-dot"></div>
+      <div class="recap-kr">${w.kr}</div>
+      <div class="recap-rom">${w.rom}</div>
+      <div class="recap-fr">${w.fr.split('/')[0].split('(')[0].trim()}</div>
+    </div>`).join('');
+}
+
+const tooltip=document.getElementById('tooltip');
+const tKr=document.getElementById('tKr'),tRom=document.getElementById('tRom'),tFr=document.getElementById('tFr'),tTip=document.getElementById('tTip');
+function showTooltip(el,id){
+  const w=STORY_WORDS.find(x=>x.id===id); if(!w) return;
+  tKr.textContent=w.kr; tRom.textContent=w.rom; tFr.textContent=w.fr; tTip.innerHTML=w.tip||'';
+  tooltip.classList.add('show');
+  const r=el.getBoundingClientRect();
+  let top=r.bottom+8+window.scrollY, left=r.left+window.scrollX;
+  const tw=230; if(left+tw>window.innerWidth-12) left=window.innerWidth-tw-12; if(left<8) left=8;
+  tooltip.style.top=top+'px'; tooltip.style.left=left+'px'; el.classList.add('pop');
+}
+document.querySelectorAll('.kw').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(tooltip.classList.contains('show')&&el.classList.contains('pop')){
+      tooltip.classList.remove('show'); document.querySelectorAll('.kw.pop').forEach(k=>k.classList.remove('pop'));
+    } else {
+      document.querySelectorAll('.kw.pop').forEach(k=>k.classList.remove('pop'));
+      showTooltip(el,el.dataset.id); updateProgress(el.closest('[data-line]'));
+    }
+  });
+});
+document.addEventListener('click',()=>{ tooltip.classList.remove('show'); document.querySelectorAll('.kw.pop').forEach(k=>k.classList.remove('pop')); });
+
+const seenLines=new Set();
+function updateProgress(lineEl){
+  if(!lineEl) return; seenLines.add(lineEl.dataset.line);
+  const pct=Math.min(100,Math.round(seenLines.size/12*100));
+  const fill=document.getElementById('pFill'),step=document.getElementById('pStep');
+  if(fill) fill.style.width=pct+'%'; if(step) step.textContent=seenLines.size+' / 12';
+}
+
+function speak(text,btn){
+  try{ const u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=0.85;
+    if(btn){ btn.classList.add('playing'); u.onend=()=>btn.classList.remove('playing'); }
+    speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){}
+}
+function playAudio(text,el){
+  try{ const u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=0.85;
+    el.classList.add('playing'); u.onend=()=>el.classList.remove('playing');
+    speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){}
+}
+
+const QUIZ_Q=[
+  {word:'syopingmol',choices:['Centre commercial','Soldes','Magasin de vêtements','Marché']},
+  {word:'seil',      choices:['Soldes / Promo','Taille','Vêtement','Couleur']},
+  {word:'eoullyeoyo',choices:['Ça vous va bien','J\'achète','Je regarde','C\'est cher']},
+  {word:'salgeyo',   choices:['Je vais l\'acheter','Je vais essayer','Je vais rentrer','Je vais payer']},
+  {word:'gyesan',    choices:['Paiement / Caisse','Remboursement','Échange','Couleur']},
+];
+
+let qIdx=0,qScore=0,qAnswered=false;
+const qWord=document.getElementById('qWord'),qRom=document.getElementById('qRom'),qChoices=document.getElementById('qChoices');
+const qhProg=document.getElementById('qhProg'),qProgFill=document.getElementById('qProgFill');
+const quizBody=document.getElementById('quizBody'),quizResult=document.getElementById('quizResult');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function loadQ(i){
+  qAnswered=false; const q=QUIZ_Q[i]; const w=STORY_WORDS.find(x=>x.id===q.word); if(!w) return;
+  qWord.textContent=w.kr; qRom.textContent=w.rom; qhProg.textContent=(i+1)+' / '+QUIZ_Q.length;
+  qProgFill.style.width=(i/QUIZ_Q.length*100)+'%';
+  const correct=w.fr.split('(')[0].trim();
+  const opts=shuffle([correct,...q.choices.filter(c=>c!==correct).slice(0,3)]);
+  qChoices.innerHTML=opts.map(o=>`<button class="q-choice" onclick="answer(this,'${o.replace(/'/g,"\\'")}','${correct.replace(/'/g,"\\'")}')"> ${o}</button>`).join('');
+}
+function answer(btn,chosen,correct){
+  if(qAnswered) return; qAnswered=true;
+  const isRight=chosen===correct;
+  if(isRight){btn.classList.add('correct');qScore++;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.q-choice').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});}
+  setTimeout(()=>{ qIdx++; if(qIdx<QUIZ_Q.length) loadQ(qIdx); else showResult(); },900);
+}
+function showResult(){
+  quizBody.style.display='none'; quizResult.style.display='block'; qProgFill.style.width='100%';
+  const xp=qScore*6;
+  const stars=qScore>=5?'★★★':qScore>=3?'★★☆':'★☆☆';
+  const titles=['Courage !','Bon début !','En progrès !','Bien joué !','Parfait !'];
+  const subs=['Relis le dialogue et clique les mots — les soldes t\'attendent !','Continue à explorer les mots surlignés !','Tu es sur la bonne voie — encore un effort !','Super ! Tu pourrais survivre dans un 쇼핑몰 coréen !','Bravo ! Prête pour le Black Friday coréen !'];
+  document.getElementById('qrStars').textContent=stars;
+  document.getElementById('qrTitle').textContent=titles[qScore]||'Super !';
+  document.getElementById('qrSub').textContent=subs[qScore]||'Excellent !';
+  document.getElementById('qrXpVal').textContent='+'+xp+' XP gagnés';
+  try{
+    const prev=parseInt(localStorage.getItem('ks_xp')||'0');
+    localStorage.setItem('ks_xp',prev+xp);
+    localStorage.setItem('ks_h10','done');
+    localStorage.setItem('ks_streak_last',new Date().toDateString());
+  }catch(e){}
+}
+loadQ(0);
+
+document.getElementById('dmFab').addEventListener('click',function(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  if(isDark){document.documentElement.removeAttribute('data-theme');try{localStorage.setItem('ks_theme','light');}catch(e){}}
+  else{document.documentElement.setAttribute('data-theme','dark');try{localStorage.setItem('ks_theme','dark');}catch(e){}}
+});
+</script>
+</body>
+</html>

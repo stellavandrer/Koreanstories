@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Histoire 11 — 집들이에서 · Korean Stories</title>
+  <meta name="description" content="Onzième histoire en coréen. Mina et Joon à la pendaison de crémaillère de Hana — cadeaux, compliments, bon appétit et félicitations !"/>
+  <meta property="og:title" content="Histoire 11 — 집들이에서 · Korean Stories"/>
+  <meta property="og:description" content="Hana inaugure son nouveau chez-soi ! Apprends à offrir un cadeau, complimenter une maison et porter un toast en coréen."/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+      --green:#22c55e;--red:#ef4444;
+      --rose:#F43F5E;--rosep:rgba(244,63,94,0.12);
+    }
+    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    .quit{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
+    .quit:hover{border-color:#FB7185;color:#FB7185}
+    .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .tb-title{font-family:'Playfair Display',serif;font-size:14px;color:white;font-style:italic}
+    .xp-pill{display:flex;align-items:center;gap:5px;background:rgba(244,63,94,.15);border:1px solid rgba(244,63,94,.3);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:700;color:#FB7185}
+    .hero{background:var(--navy);padding:28px 20px 32px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(244,63,94,.09) 0%,transparent 70%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.28);border-radius:100px;padding:4px 14px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#FB7185}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,6vw,36px);color:white;line-height:1.2;margin-bottom:8px}
+    .hero-title em{color:#FB7185;font-style:italic}
+    .hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.7;max-width:340px;margin:0 auto 22px}
+    .hero-chars{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+    .hchar{background:rgba(244,63,94,.10);border:1px solid rgba(244,63,94,.2);border-radius:10px;padding:6px 14px;font-size:20px;font-weight:300;color:#FB7185}
+    .pbar-wrap{background:var(--navy);padding:0 20px 20px}
+    .pbar-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px}
+    .ptrack{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+    .pfill{height:100%;border-radius:100px;background:linear-gradient(90deg,#F43F5E,#FB7185);transition:width .6s cubic-bezier(.4,0,.2,1);width:0%}
+    .pstep{font-size:11px;color:rgba(247,248,250,.35);font-weight:600;white-space:nowrap}
+    main{max-width:560px;margin:0 auto;padding:20px 16px}
+    .sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;display:block}
+    .story-panel{background:var(--navy);border-radius:24px;padding:26px;margin-bottom:22px;position:relative;overflow:hidden}
+    .story-panel::after{content:'';position:absolute;bottom:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(244,63,94,.04);pointer-events:none}
+    .story-title{font-family:'Playfair Display',serif;font-size:18px;color:white;margin-bottom:4px}
+    .story-meta{font-size:11px;color:rgba(247,248,250,.3);margin-bottom:18px}
+    .dialogue{display:flex;flex-direction:column;gap:16px}
+    .line{display:flex;gap:12px;align-items:flex-start}
+    .line.right{flex-direction:row-reverse}
+    .avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;margin-top:2px}
+    .avatar.mina{background:rgba(244,63,94,.18);color:#FB7185}
+    .avatar.joon{background:rgba(91,168,245,.15);color:#5BA8F5}
+    .avatar.hana{background:rgba(167,139,250,.15);color:#A78BFA}
+    .bubble-wrap{flex:1;max-width:calc(100% - 44px)}
+    .speaker{font-size:10px;font-weight:700;color:rgba(247,248,250,.3);margin-bottom:4px;letter-spacing:.06em;text-transform:uppercase}
+    .bubble{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 14px}
+    .line.right .bubble{background:rgba(244,63,94,.08);border-color:rgba(244,63,94,.15)}
+    .bubble-kr{font-size:18px;font-weight:600;color:white;line-height:1.5;margin-bottom:4px}
+    .bubble-fr{font-size:12px;color:rgba(247,248,250,.38);line-height:1.5}
+    .kw{color:#FB7185;cursor:pointer;border-bottom:1px dashed rgba(251,113,133,.35);transition:all .18s;position:relative}
+    .kw:hover,.kw.pop{color:white;border-bottom-color:#F43F5E;background:rgba(244,63,94,.12);border-radius:4px;padding:0 2px}
+    .bubble-audio{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 10px;background:rgba(244,63,94,.08);border-radius:100px;color:#FB7185;font-size:11px;font-weight:600;cursor:pointer;transition:all .18s;border:none}
+    .bubble-audio.playing{background:rgba(244,63,94,.18)}
+    .bubble-audio svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+    /* Tooltip */
+    .tooltip{position:fixed;z-index:200;background:var(--navy2);border:1px solid rgba(244,63,94,.25);border-radius:16px;padding:14px 16px;max-width:230px;box-shadow:0 8px 32px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .18s}
+    .tooltip.show{opacity:1;pointer-events:auto}
+    .t-kr{font-family:'Playfair Display',serif;font-size:22px;color:#FB7185;margin-bottom:2px}
+    .t-rom{font-size:11px;color:rgba(247,248,250,.38);margin-bottom:6px}
+    .t-fr{font-size:13px;color:white;font-weight:600;margin-bottom:6px}
+    .t-tip{font-size:11px;color:rgba(247,248,250,.45);line-height:1.6}
+
+    /* Culture card */
+    .culture-card{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:20px;margin-bottom:22px}
+    .culture-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--navy);margin-bottom:10px}
+    .culture-text{font-size:12px;color:var(--gray);line-height:1.75}
+    .cc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+    .cc-tag{background:rgba(244,63,94,.08);border:1px solid rgba(244,63,94,.2);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:600;color:#F43F5E}
+
+    /* Vocab grid */
+    .vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+    .recap-item{background:var(--pure);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:4px}
+    .recap-item:hover{border-color:#FB7185;transform:translateY(-1px)}
+    .recap-audio-dot{width:6px;height:6px;border-radius:50%;background:#F43F5E;opacity:.5;margin-bottom:2px}
+    .recap-kr{font-size:18px;font-weight:300;color:var(--navy)}
+    .recap-rom{font-size:10px;color:var(--gray);font-style:italic}
+    .recap-fr{font-size:11px;font-weight:600;color:var(--gray)}
+
+    /* Quiz */
+    .quiz-wrap{background:var(--navy);border-radius:24px;overflow:hidden;margin-bottom:22px}
+    .quiz-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 0}
+    .qh-title{font-family:'Playfair Display',serif;font-size:15px;color:white}
+    .qh-prog{font-size:11px;color:rgba(247,248,250,.35);font-weight:600}
+    .qprog-bar{height:3px;background:rgba(255,255,255,.08);margin:12px 20px 0}
+    .qprog-fill{height:100%;background:linear-gradient(90deg,#F43F5E,#FB7185);transition:width .4s}
+    .quiz-body{padding:20px}
+    .q-prompt-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,248,250,.25);margin-bottom:10px}
+    .q-word{font-family:'Playfair Display',serif;font-size:34px;color:white;margin-bottom:4px}
+    .q-rom{font-size:12px;color:rgba(247,248,250,.35);margin-bottom:18px;font-style:italic}
+    .q-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .q-choice{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;font-size:13px;font-weight:600;color:rgba(247,248,250,.7);cursor:pointer;transition:all .18s;text-align:center}
+    .q-choice:hover:not(:disabled){border-color:#FB7185;background:rgba(244,63,94,.1);color:#FB7185}
+    .q-choice.correct{border-color:#22c55e!important;background:rgba(34,197,94,.12)!important;color:#16a34a!important}
+    .q-choice.wrong{border-color:#ef4444!important;background:rgba(239,68,68,.1)!important;color:#ef4444!important}
+    .quiz-result{padding:24px 20px;text-align:center;display:none}
+    .qr-stars{font-size:28px;margin-bottom:10px}
+    .qr-title{font-family:'Playfair Display',serif;font-size:22px;color:white;margin-bottom:6px}
+    .qr-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.6;margin-bottom:16px}
+    .qr-xp{display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.2);border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:#FB7185;margin-bottom:14px}
+    .qr-btn{display:block;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:700;color:rgba(247,248,250,.6);text-decoration:none;transition:all .2s;text-align:center}
+    .qr-btn:hover{border-color:#FB7185;color:#FB7185}
+
+    /* Teaser */
+    .teaser{background:var(--navy);border-radius:20px;padding:20px;margin-bottom:22px;display:flex;align-items:center;gap:14px;text-decoration:none}
+    .teaser-ico{width:44px;height:44px;border-radius:12px;background:rgba(201,169,110,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .teaser-title{font-size:13px;font-weight:700;color:white;margin-bottom:2px}
+    .teaser-sub{font-size:11px;color:rgba(247,248,250,.38)}
+    .teaser-arr{margin-left:auto;flex-shrink:0}
+
+    /* Bottom nav */
+    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:90;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
+    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
+    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+    .bni.act{color:var(--navy)}
+    .bni.act svg{stroke:#F43F5E}
+    .bni:hover{color:var(--navy)}
+
+    /* Dark mode FAB */
+    .dm-fab{position:fixed;bottom:76px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--navy);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:99;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+    .dm-fab svg{width:16px;height:16px;stroke:rgba(247,248,250,.5);fill:none;stroke-width:2;stroke-linecap:round}
+    .dm-fab:hover{border-color:rgba(244,63,94,.4)}
+
+    /* Dark mode */
+    [data-theme="dark"]{--pure:#1e3352;--white:#162844;--border:rgba(255,255,255,.13);--gray:#7a9ab8;color-scheme:dark}
+    [data-theme="dark"] body{background:#0f1e32!important;color:#d8e8f5}
+    [data-theme="dark"] .bnav{background:#0a1628!important;border-top-color:rgba(255,255,255,.10)!important}
+    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni.act{color:#FB7185!important}
+    [data-theme="dark"] .bni.act svg{stroke:#FB7185!important}
+    [data-theme="dark"] .culture-card,[data-theme="dark"] .recap-item{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .culture-title,[data-theme="dark"] .recap-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .recap-item:hover{border-color:#FB7185!important}
+    [data-theme="dark"] .q-choice{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.12)!important;color:rgba(200,220,240,.7)!important}
+    [data-theme="dark"] .q-choice.correct{border-color:#4ade80!important;background:rgba(34,197,94,.12)!important;color:#4ade80!important}
+    [data-theme="dark"] .q-choice.wrong{border-color:#f87171!important;background:rgba(239,68,68,.1)!important;color:#f87171!important}
+    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .quiz-result{background:#1a2535}
+    [data-theme="dark"] .qr-btn{background:#243045}
+    [data-theme="dark"] .dm-fab{background:#1a2535;border-color:#243045}
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="histoires.html" class="quit">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Histoires
+  </a>
+  <span class="tb-title">집들이에서</span>
+  <div class="xp-pill">
+    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    +30 XP
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Histoire 11 · A2
+  </div>
+  <h1 class="hero-title">Pendaison de <em>crémaillère</em></h1>
+  <p class="hero-sub">Hana inaugure son nouveau chez-soi à Séoul ! Mina et Joon apportent des cadeaux, complimentent l'appartement et mangent ensemble. Clique les mots surlignés !</p>
+  <div class="hero-chars">
+    <span class="hchar">집들이</span>
+    <span class="hchar">축하해요</span>
+    <span class="hchar">맛있게 드세요</span>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="pbar-wrap">
+  <div class="pbar-inner">
+    <div class="ptrack"><div class="pfill" id="pFill"></div></div>
+    <span class="pstep" id="pStep">0 / 12</span>
+  </div>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="t-kr" id="tKr"></div>
+  <div class="t-rom" id="tRom"></div>
+  <div class="t-fr" id="tFr"></div>
+  <div class="t-tip" id="tTip"></div>
+</div>
+
+<main>
+
+<!-- CHARACTERS -->
+<span class="sec-lbl">Personnages</span>
+<div style="display:flex;gap:10px;margin-bottom:22px">
+  <div style="flex:1;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:36px;height:36px;border-radius:50%;background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#A78BFA;flex-shrink:0">H</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy)">Hana</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:2px">Elle vient de déménager dans son premier appartement à Mapo-gu. Elle est aux anges et invite ses amis pour fêter ça !</div>
+    </div>
+  </div>
+  <div style="flex:1;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:36px;height:36px;border-radius:50%;background:rgba(244,63,94,.1);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#F43F5E;flex-shrink:0">M</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy)">Mina + Joon</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:2px">Ils arrivent avec un cadeau et beaucoup d'enthousiasme. Premier 집들이 pour Mina depuis qu'elle est à Séoul !</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIALOGUE -->
+<span class="sec-lbl">Dialogue</span>
+<div class="story-panel" id="storyPanel">
+  <div class="story-title">집들이에서</div>
+  <div class="story-meta">Appartement de Hana · Mapo-gu · Séoul</div>
+  <div class="dialogue">
+
+    <!-- Line 1 -->
+    <div class="line" data-line="1">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="eoseo">어서 와요</span>! <span class="kw" data-id="jipduri">집들이</span>에 와줘서 고마워요!</div>
+          <div class="bubble-fr">Bienvenue ! Merci d'être venus à ma pendaison de crémaillère !</div>
+          <button class="bubble-audio" onclick="speak('어서 와요 집들이에 와줘서 고마워요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 2 -->
+    <div class="line right" data-line="2">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">와, <span class="kw" data-id="saejip">새집</span>이 정말 <span class="kw" data-id="yeppeoyo">예뻐요</span>!</div>
+          <div class="bubble-fr">Wow, ta nouvelle maison est vraiment belle !</div>
+          <button class="bubble-audio" onclick="speak('와 새집이 정말 예뻐요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 3 -->
+    <div class="line right" data-line="3">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr">여기요, <span class="kw" data-id="seonmul">선물</span>이에요.</div>
+          <div class="bubble-fr">Tiens, voilà un cadeau.</div>
+          <button class="bubble-audio" onclick="speak('여기요 선물이에요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 4 -->
+    <div class="line" data-line="4">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="gamsahaeyo">감사해요</span>! 들어와요, 앉아요.</div>
+          <div class="bubble-fr">Merci ! Entrez, asseyez-vous.</div>
+          <button class="bubble-audio" onclick="speak('감사해요 들어와요 앉아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 5 -->
+    <div class="line right" data-line="5">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="neolbeoyo">넓어요</span>! <span class="kw" data-id="maeumei">마음에 들어요</span>.</div>
+          <div class="bubble-fr">C'est spacieux ! J'adore vraiment.</div>
+          <button class="bubble-audio" onclick="speak('넓어요 마음에 들어요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 6 -->
+    <div class="line" data-line="6">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr">다 <span class="kw" data-id="hamkke">같이</span> 먹어요! <span class="kw" data-id="masitge">맛있게 드세요</span>.</div>
+          <div class="bubble-fr">Mangeons tous ensemble ! Bon appétit.</div>
+          <button class="bubble-audio" onclick="speak('다 같이 먹어요 맛있게 드세요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 7 -->
+    <div class="line right" data-line="7">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr">정말 맛있어요! <span class="kw" data-id="deo">더 먹어요</span>?</div>
+          <div class="bubble-fr">C'est vraiment délicieux ! Je reprends ?</div>
+          <button class="bubble-audio" onclick="speak('정말 맛있어요 더 먹어요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 8 -->
+    <div class="line right" data-line="8">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">저는 <span class="kw" data-id="baebulleo">배불러요</span>. 근데 더 먹을래요.</div>
+          <div class="bubble-fr">Je suis rassasiée. Mais je vais reprendre quand même.</div>
+          <button class="bubble-audio" onclick="speak('저는 배불러요 근데 더 먹을래요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 9 -->
+    <div class="line" data-line="9">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr">많이 드세요!</div>
+          <div class="bubble-fr">Mangez beaucoup !</div>
+          <button class="bubble-audio" onclick="speak('많이 드세요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 10 -->
+    <div class="line right" data-line="10">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr">하나야, 새집에서 <span class="kw" data-id="haengbok">행복하세요</span>! <span class="kw" data-id="orae">오래오래</span> 여기 살아요.</div>
+          <div class="bubble-fr">Hana, sois heureuse dans ta nouvelle maison ! Vis ici longtemps.</div>
+          <button class="bubble-audio" onclick="speak('하나야 새집에서 행복하세요 오래오래 여기 살아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 11 -->
+    <div class="line right" data-line="11">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="chukhahaeyo">축하해요</span>! 새집 정말 <span class="kw" data-id="yeppeoyo">예뻐요</span>.</div>
+          <div class="bubble-fr">Félicitations ! La nouvelle maison est vraiment belle.</div>
+          <button class="bubble-audio" onclick="speak('축하해요 새집 정말 예뻐요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 12 -->
+    <div class="line" data-line="12">
+      <div class="avatar hana">H</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Hana</div>
+        <div class="bubble">
+          <div class="bubble-kr">고마워요! <span class="kw" data-id="ttoolgeyyo">또 올게요</span>?</div>
+          <div class="bubble-fr">Merci ! Vous reviendrez ?</div>
+          <button class="bubble-audio" onclick="speak('고마워요 또 올게요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CULTURE CARD -->
+<div class="culture-card">
+  <div class="culture-title">Le 집들이 : une tradition très coréenne</div>
+  <p class="culture-text">
+    En Corée, la 집들이 (pendaison de crémaillère) est un moment très important. On offre traditionnellement des produits ménagers : une bougie, du savon ou du papier toilette — symboles de richesse et de prospérité ! L'hôte cuisine ou commande des plats pour ses invités. Quelques règles de bienséance : on enlève toujours les chaussures à l'entrée (<strong>신발 벗어요</strong>), on arrive avec un cadeau emballé, et on complimente toujours le logement. L'expression <strong>마음에 들어요</strong> (ça me plaît) est appréciée. Le repas se termine souvent avec un toast : <strong>건배!</strong> (Tchin-tchin !)
+  </p>
+  <div class="cc-tags">
+    <span class="cc-tag">집들이 = pendaison de crémaillère</span>
+    <span class="cc-tag">선물 = cadeau</span>
+    <span class="cc-tag">건배 = tchin-tchin</span>
+    <span class="cc-tag">신발 벗어요 = on enlève les chaussures</span>
+  </div>
+</div>
+
+<span class="sec-lbl">Vocabulaire · 12 mots clés</span>
+<div class="vocab-grid" id="vocabGrid"></div>
+
+<div class="quiz-wrap" id="quizWrap">
+  <div class="quiz-header">
+    <span class="qh-title">Mini quiz</span>
+    <span class="qh-prog" id="qhProg">1 / 5</span>
+  </div>
+  <div class="qprog-bar"><div class="qprog-fill" id="qProgFill" style="width:0%"></div></div>
+  <div class="quiz-body" id="quizBody">
+    <div class="q-prompt-lbl">Que signifie ce mot ?</div>
+    <div class="q-word" id="qWord"></div>
+    <div class="q-rom" id="qRom"></div>
+    <div class="q-choices" id="qChoices"></div>
+  </div>
+  <div class="quiz-result" id="quizResult">
+    <div class="qr-stars" id="qrStars"></div>
+    <div class="qr-title" id="qrTitle"></div>
+    <div class="qr-sub" id="qrSub"></div>
+    <div class="qr-xp" id="qrXp">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span id="qrXpVal"></span>
+    </div>
+    <a href="histoires.html" class="qr-btn">Retour aux histoires</a>
+  </div>
+</div>
+
+<a href="#" class="teaser">
+  <div class="teaser-ico">
+    <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#C9A96E;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  </div>
+  <div>
+    <div class="teaser-title">Histoire 12 — 은행에서</div>
+    <div class="teaser-sub">À la banque · Bientôt disponible</div>
+  </div>
+  <div class="teaser-arr">
+    <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:rgba(201,169,110,.6);fill:none;stroke-width:2;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
+</a>
+
+</main>
+
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="histoires.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="vocabulaire.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <span>Vocab</span>
+  </a>
+  <a href="revision.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 000 5H6"/><path d="M18 9h1.5a2.5 2.5 0 010 5H18"/><path d="M8 9h8M8 15h8M9 9v13M15 9v13M9 3h6v6H9z"/></svg>
+    <span>Révision</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<button class="dm-fab" id="dmFab" title="Mode sombre">
+  <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+
+<script>
+const STORY_WORDS = [
+  {id:'jipduri',    kr:'집들이',      rom:'jip-deu-ri',      fr:'Pendaison de crémaillère', audio:'집들이',      tip:'집들이 = pendaison de crémaillère. 집 = maison, 들이 vient de 들이다 = amener. Littéralement "amener dans la maison". C\'est une tradition très importante en Corée : on invite amis et famille quand on emménage. On offre souvent du papier toilette (화장지) ou une bougie — symboles de prospérité. Ne jamais arriver les mains vides !'},
+  {id:'eoseo',      kr:'어서 와요',    rom:'eo-seo-wa-yo',    fr:'Bienvenue / Entrez !',      audio:'어서 와요',   tip:'어서 와요 = bienvenue, entrez ! 어서 = vite, aussitôt. 와요 = venez. Formule d\'accueil standard en Corée quand on accueille quelqu\'un chez soi ou dans un magasin. La version plus formelle est 어서 오세요. On l\'entend dans presque chaque commerce et chez les Coréens qui reçoivent.'},
+  {id:'saejip',     kr:'새집',        rom:'sae-jip',         fr:'Nouvelle maison',           audio:'새집',        tip:'새집 = nouvelle maison. 새 = nouveau/elle, 집 = maison. 새 s\'utilise avec beaucoup de mots : 새 학교 = nouvelle école, 새 친구 = nouvel ami, 새해 = Nouvel An. 새집증후군 = "syndrome de la nouvelle maison" (NDLR: la pollution chimique des nouveaux appartements est un vrai sujet en Corée !).'},
+  {id:'yeppeoyo',   kr:'예뻐요',      rom:'yep-peo-yo',      fr:'C\'est beau / Joli',        audio:'예뻐요',      tip:'예뻐요 vient de 예쁘다 = être beau, joli. 예뻐요 ! = c\'est beau / elle est jolie ! Forme polie du présent. 진짜 예뻐요 = c\'est vraiment beau. 예쁘다 s\'utilise pour les personnes, les lieux et les objets. Complimenter l\'appartement de quelqu\'un avec 예뻐요 est toujours apprécié !'},
+  {id:'seonmul',    kr:'선물',        rom:'seon-mul',        fr:'Cadeau',                    audio:'선물',        tip:'선물 = cadeau. 선물 드릴게요 = je vais vous offrir un cadeau. 선물 받았어요 = j\'ai reçu un cadeau. En Corée, les cadeaux sont toujours emballés et offerts des deux mains en signe de respect. On ne les ouvre généralement pas devant la personne pour ne pas avoir l\'air avide. 선물가게 = boutique de cadeaux.'},
+  {id:'gamsahaeyo', kr:'감사해요',    rom:'gam-sa-hae-yo',   fr:'Merci / Je vous remercie',  audio:'감사해요',    tip:'감사해요 = merci (forme polie, plus formelle que 고마워요). 감사합니다 = merci beaucoup (très formel). 감사 vient du sino-coréen 感謝 = gratitude, remerciement. Dans un contexte formel ou professionnel, 감사합니다 est préféré. Avec les amis proches : 고마워 (informel). Apprends les deux !'},
+  {id:'neolbeoyo',  kr:'넓어요',      rom:'neol-beo-yo',     fr:'C\'est grand / Spacieux',   audio:'넓어요',      tip:'넓어요 vient de 넓다 = être grand, spacieux, large. 넓어요 = c\'est spacieux ! 넓은 방 = une grande chambre. 넓은 공원 = un grand parc. Son contraire : 좁아요 = c\'est petit/étroit. Les appartements à Séoul sont souvent petits — dire 넓어요 à quelqu\'un est donc un très beau compliment !'},
+  {id:'maeumei',    kr:'마음에 들어요',rom:'ma-eum-e-deu-leo-yo',fr:'J\'adore / Ça me plaît',audio:'마음에 들어요',tip:'마음에 들어요 = ça me plaît, j\'adore. 마음 = cœur, esprit. 들다 = entrer, convenir. Littéralement "ça entre dans mon cœur". C\'est une expression très appréciée en Corée pour exprimer un coup de cœur. 마음에 안 들어요 = ça ne me plaît pas. 당신 마음에 들어요 = vous me plaisez (romantique !).'},
+  {id:'hamkke',     kr:'같이',        rom:'ga-chi',          fr:'Ensemble / Avec',           audio:'같이',        tip:'같이 = ensemble, avec. 같이 가요 = allons-y ensemble. 같이 먹어요 = mangeons ensemble. 함께 est un synonyme plus formel. 같이 vs 함께 : 같이 est plus courant à l\'oral. L\'esprit collectif est très fort en Corée — manger seul (혼밥) est moins courant et parfois mal vu.'},
+  {id:'masitge',    kr:'맛있게 드세요',rom:'ma-sit-ge-deu-se-yo',fr:'Bon appétit !',           audio:'맛있게 드세요',tip:'맛있게 드세요 = bon appétit ! Littéralement "mangez délicieusement". 맛있게 = délicieusement (맛있다 + 게). 드세요 = mangeZ (forme honorifique de 먹어요). Il n\'y a pas de traduction directe unique en coréen pour "bon appétit" — 맛있게 드세요 est la formule la plus naturelle. On peut aussi dire 잘 먹겠습니다 avant de manger.'},
+  {id:'baebulleo',  kr:'배불러요',    rom:'bae-bul-leo-yo',  fr:'Je suis rassasié(e)',       audio:'배불러요',    tip:'배불러요 vient de 배부르다 = être rassasié. 배 = ventre, 부르다 = appeler, mais aussi "être plein". 배불러요 ! = je suis rassasié(e) ! Son contraire : 배고파요 = j\'ai faim. En Corée, dire 배불러요 à table est une façon de complimenter le repas. 배가 터질 것 같아요 = j\'ai l\'impression que mon ventre va exploser !'},
+  {id:'chukhahaeyo',kr:'축하해요',    rom:'chu-ka-hae-yo',   fr:'Félicitations !',           audio:'축하해요',    tip:'축하해요 = félicitations ! 축하합니다 = félicitations (très formel). 생일 축하해요 = joyeux anniversaire ! 결혼 축하해요 = félicitations pour votre mariage. 축 vient du sino-coréen 祝 = féliciter. En Corée on dit souvent 축하해요 accompagné d\'un cadeau ou d\'une enveloppe contenant de l\'argent (봉투). Un mot indispensable pour toutes les cérémonies !'},
+  {id:'haengbok',   kr:'행복하세요',  rom:'haeng-bok-ha-se-yo',fr:'Soyez heureux(se) !',    audio:'행복하세요',  tip:'행복하세요 = soyez heureux ! 행복 = bonheur (sino-coréen 幸福). 행복해요 = je suis heureux. 행복하다 = être heureux. 행복하게 살아요 = vivez heureux ! Souhait très sincère que l\'on fait lors des grands moments de vie : mariage, déménagement, anniversaire. La Corée a sa propre journée du bonheur (행복의 날) et 행복 est l\'une des valeurs familiales les plus importantes.'},
+  {id:'orae',       kr:'오래오래',    rom:'o-rae-o-rae',     fr:'Longtemps / Durablement',   audio:'오래오래',    tip:'오래오래 = longtemps (forme redoublée emphatique de 오래). La répétition d\'un mot renforce son sens en coréen. 오래 = longtemps. 오래오래 살아요 = vivez longtemps ! Souhait traditionnel coréen pour la santé et la longévité. 오래된 = ancien, qui dure depuis longtemps. 오래 기다렸어요 = j\'ai attendu longtemps.'},
+  {id:'deo',        kr:'더 먹어요',   rom:'deo-meo-geo-yo',  fr:'Mangez encore / Reprenez !', audio:'더 먹어요',   tip:'더 먹어요 = mangez encore, reprenez ! 더 = encore, plus, davantage. 더 주세요 = donnez-m\'en plus. 더 먹고 싶어요 = j\'ai encore envie de manger. En Corée il est très courant de servir à nouveau les invités — refuser poliment : 많이 먹었어요, 감사해요 = j\'ai beaucoup mangé, merci. 더 is polyvalent : 더 빨리 = plus vite, 더 많이 = davantage.'},
+  {id:'ttoolgeyyo', kr:'또 올게요',   rom:'tto-ol-ge-yo',    fr:'Je reviendrai / On reviendra !',audio:'또 올게요', tip:'또 올게요 = je reviendrai ! 또 = encore, de nouveau. 올게요 vient de 오다 = venir + 게요 = promesse/intention. 또 봐요 = on se revoit. 또 먹을게요 = je mangerai encore. En coréen, 게요 à la fin d\'un verbe exprime une intention ou une promesse douce. 또 올게요 est la façon la plus chaleureuse de finir une visite chez quelqu\'un.'},
+];
+
+const RECAP_IDS = ['jipduri','eoseo','saejip','yeppeoyo','seonmul','gamsahaeyo','neolbeoyo','maeumei','masitge','baebulleo','chukhahaeyo','haengbok'];
+
+const grid = document.getElementById('vocabGrid');
+if(grid){
+  grid.innerHTML = RECAP_IDS.map(id=>STORY_WORDS.find(w=>w.id===id)).filter(Boolean).map(w=>`
+    <div class="recap-item" onclick="playAudio('${w.audio}',this)">
+      <div class="recap-audio-dot"></div>
+      <div class="recap-kr">${w.kr}</div>
+      <div class="recap-rom">${w.rom}</div>
+      <div class="recap-fr">${w.fr.split('/')[0].split('(')[0].trim()}</div>
+    </div>`).join('');
+}
+
+const tooltip=document.getElementById('tooltip');
+const tKr=document.getElementById('tKr'),tRom=document.getElementById('tRom'),tFr=document.getElementById('tFr'),tTip=document.getElementById('tTip');
+function showTooltip(el,id){
+  const w=STORY_WORDS.find(x=>x.id===id); if(!w) return;
+  tKr.textContent=w.kr; tRom.textContent=w.rom; tFr.textContent=w.fr; tTip.innerHTML=w.tip||'';
+  tooltip.classList.add('show');
+  const r=el.getBoundingClientRect();
+  let top=r.bottom+8+window.scrollY, left=r.left+window.scrollX;
+  const tw=230; if(left+tw>window.innerWidth-12) left=window.innerWidth-tw-12; if(left<8) left=8;
+  tooltip.style.top=top+'px'; tooltip.style.left=left+'px'; el.classList.add('pop');
+}
+document.querySelectorAll('.kw').forEach(el=>{
+  el.addEventListener('click',e=>{
+    e.stopPropagation();
+    if(tooltip.classList.contains('show')&&el.classList.contains('pop')){
+      tooltip.classList.remove('show'); document.querySelectorAll('.kw.pop').forEach(k=>k.classList.remove('pop'));
+    } else {
+      document.querySelectorAll('.kw.pop').forEach(k=>k.classList.remove('pop'));
+      showTooltip(el,el.dataset.id); updateProgress(el.closest('[data-line]'));
+    }
+  });
+});
+document.addEventListener('click',()=>{ tooltip.classList.remove('show'); document.querySelectorAll('.kw.pop').forEach(k=>k.classList.remove('pop')); });
+
+const seenLines=new Set();
+function updateProgress(lineEl){
+  if(!lineEl) return; seenLines.add(lineEl.dataset.line);
+  const pct=Math.min(100,Math.round(seenLines.size/12*100));
+  const fill=document.getElementById('pFill'),step=document.getElementById('pStep');
+  if(fill) fill.style.width=pct+'%'; if(step) step.textContent=seenLines.size+' / 12';
+}
+
+function speak(text,btn){
+  try{ speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=0.85; u.pitch=1;
+    if(btn){ btn.classList.add('playing'); u.onend=()=>btn.classList.remove('playing'); }
+    speechSynthesis.speak(u); }catch(e){}
+}
+function playAudio(text,el){
+  try{ speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=0.85;
+    el.classList.add('playing'); u.onend=()=>el.classList.remove('playing');
+    speechSynthesis.speak(u); }catch(e){}
+}
+
+const QUIZ_Q=[
+  {word:'jipduri',    choices:['Pendaison de crémaillère','Cadeau','Nouvelle maison','Bienvenue']},
+  {word:'gamsahaeyo', choices:['Merci / Je vous remercie','Félicitations','Bon appétit','Je suis rassasié']},
+  {word:'chukhahaeyo',choices:['Félicitations !','Bienvenue !','Bonne nuit !','C\'est beau !']},
+  {word:'baebulleo',  choices:['Je suis rassasié','J\'ai faim','Je suis heureux','Je suis fatigué']},
+  {word:'maeumei',    choices:['J\'adore / Ça me plaît','C\'est grand','Je comprends','Je reviens']},
+];
+
+let qIdx=0,qScore=0,qAnswered=false;
+const qWord=document.getElementById('qWord'),qRom=document.getElementById('qRom'),qChoices=document.getElementById('qChoices');
+const qhProg=document.getElementById('qhProg'),qProgFill=document.getElementById('qProgFill');
+const quizBody=document.getElementById('quizBody'),quizResult=document.getElementById('quizResult');
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function loadQ(i){
+  qAnswered=false; const q=QUIZ_Q[i]; const w=STORY_WORDS.find(x=>x.id===q.word); if(!w) return;
+  qWord.textContent=w.kr; qRom.textContent=w.rom; qhProg.textContent=(i+1)+' / '+QUIZ_Q.length;
+  qProgFill.style.width=(i/QUIZ_Q.length*100)+'%';
+  const correct=w.fr.split('(')[0].trim();
+  const opts=shuffle([correct,...q.choices.filter(c=>c!==correct).slice(0,3)]);
+  qChoices.innerHTML=opts.map(o=>`<button class="q-choice" onclick="answer(this,'${o.replace(/'/g,"\\'")}','${correct.replace(/'/g,"\\'")}')"> ${o}</button>`).join('');
+}
+function answer(btn,chosen,correct){
+  if(qAnswered) return; qAnswered=true;
+  const isRight=chosen===correct;
+  if(isRight){btn.classList.add('correct');qScore++;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.q-choice').forEach(b=>{if(b.textContent.trim()===correct)b.classList.add('correct');});}
+  setTimeout(()=>{ qIdx++; if(qIdx<QUIZ_Q.length) loadQ(qIdx); else showResult(); },900);
+}
+function showResult(){
+  quizBody.style.display='none'; quizResult.style.display='block'; qProgFill.style.width='100%';
+  const xp=qScore*6;
+  const stars=qScore>=5?'★★★':qScore>=3?'★★☆':'★☆☆';
+  const titles=['Courage !','Bon début !','En progrès !','Bien joué !','Parfait !'];
+  const subs=['Relis le dialogue et clique les mots — la 집들이 t\'attend !','Continue à explorer les mots surlignés !','Tu es sur la bonne voie — encore un effort !','Super ! Tu serais un(e) invité(e) parfait(e) à une 집들이 coréenne !','Bravo ! Prêt(e) pour inaugurer un appartement à Séoul !'];
+  document.getElementById('qrStars').textContent=stars;
+  document.getElementById('qrTitle').textContent=titles[qScore]||'Super !';
+  document.getElementById('qrSub').textContent=subs[qScore]||'Excellent !';
+  document.getElementById('qrXpVal').textContent='+'+xp+' XP gagnés';
+  try{
+    const prev=parseInt(localStorage.getItem('ks_xp')||'0');
+    localStorage.setItem('ks_xp',prev+xp);
+    localStorage.setItem('ks_h11','done');
+    localStorage.setItem('ks_streak_last',new Date().toDateString());
+  }catch(e){}
+}
+loadQ(0);
+
+document.getElementById('dmFab').addEventListener('click',function(){
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  if(isDark){document.documentElement.removeAttribute('data-theme');try{localStorage.setItem('ks_theme','light');}catch(e){}}
+  else{document.documentElement.setAttribute('data-theme','dark');try{localStorage.setItem('ks_theme','dark');}catch(e){}}
+});
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

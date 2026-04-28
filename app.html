@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Korean Stories — Mon espace d'apprentissage</title>
+  <meta name="description" content="Ton tableau de bord pour apprendre le coréen. Reprends ta leçon, consulte ta progression et suis ton streak quotidien."/>
+  <meta property="og:title" content="Korean Stories — Mon espace d'apprentissage"/>
+  <meta property="og:description" content="Ton tableau de bord pour apprendre le coréen. Reprends ta leçon, consulte ta progression et suis ton streak quotidien."/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+    }
+
+    /* ── TOP NAV ── */
+    .tnav{
+      position:sticky;top:0;z-index:100;height:60px;padding:0 20px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:var(--navy);
+    }
+    .tnav-logo img{height:26px;display:block}
+    .tnav-stats{display:flex;align-items:center;gap:14px}
+    .stat-pill{
+      display:flex;align-items:center;gap:5px;
+      font-size:13px;font-weight:700;color:var(--gold);
+    }
+    .stat-pill svg{width:15px;height:15px;fill:currentColor}
+    .lives{display:flex;gap:2px}
+    .h{font-size:13px}
+    .h.lost{opacity:.22;filter:grayscale(1)}
+
+    /* ── GREETING ── */
+    .greeting{
+      background:var(--navy);
+      padding:20px 20px 0;
+    }
+    .greeting-inner{
+      max-width:520px;margin:0 auto;
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+    }
+    .greeting-text{flex:1;padding-bottom:22px}
+    .g-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.22);
+      border-radius:100px;padding:4px 12px;margin-bottom:12px;
+      font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+    }
+    .g-name{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(22px,5vw,28px);color:white;line-height:1.2;margin-bottom:8px;
+    }
+    .g-name em{color:var(--gold);font-style:italic}
+    .g-sub{font-size:13px;color:rgba(247,248,250,.48);line-height:1.65}
+    .g-mina{
+      height:160px;flex-shrink:0;
+      filter:drop-shadow(0 12px 28px rgba(0,0,0,.30));
+      animation:mfloat 5s ease-in-out infinite;
+    }
+    @keyframes mfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+    /* ── GOAL STRIP ── */
+    .goal-strip{background:var(--navy);padding:0 20px 20px}
+    .goal-card{
+      max-width:520px;margin:0 auto;
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+      border-radius:18px;padding:14px 18px;
+    }
+    .goal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+    .goal-lbl{font-size:11px;font-weight:600;color:rgba(247,248,250,.42);letter-spacing:.06em;text-transform:uppercase}
+    .goal-num{font-family:'Playfair Display',serif;font-size:17px;color:var(--gold)}
+    .gbar{height:7px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+    .gfill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .9s cubic-bezier(.4,0,.2,1)}
+    .goal-note{font-size:11px;color:rgba(247,248,250,.28);margin-top:5px}
+
+    /* ── MAIN ── */
+    main{max-width:560px;margin:0 auto;padding:22px 16px 12px}
+    .sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:13px;display:block}
+
+    /* ── CONTINUE CARD ── */
+    .cont-card{
+      background:var(--navy);border-radius:22px;padding:22px;
+      margin-bottom:26px;position:relative;overflow:hidden;
+      box-shadow:0 12px 40px rgba(15,27,45,.14);
+    }
+    .cont-card::after{
+      content:'';position:absolute;top:-50px;right:-50px;
+      width:180px;height:180px;border-radius:50%;
+      background:rgba(201,169,110,.06);pointer-events:none;
+    }
+    .cont-tag{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);
+      border-radius:100px;padding:3px 10px;margin-bottom:13px;
+      font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
+    }
+    .cont-title{font-family:'Playfair Display',serif;font-size:18px;color:white;margin-bottom:5px;line-height:1.3}
+    .cont-sub{font-size:13px;color:rgba(247,248,250,.44);margin-bottom:16px;line-height:1.6}
+    .cprog{margin-bottom:18px}
+    .cprog-top{display:flex;justify-content:space-between;margin-bottom:5px}
+    .cprog-lbl{font-size:11px;color:rgba(247,248,250,.38)}
+    .cprog-pct{font-size:11px;font-weight:700;color:var(--gold)}
+    .cprog-bar{height:5px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+    .cprog-fill{height:100%;border-radius:100px;background:var(--gold);transition:width .8s ease}
+    .cont-btn{
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      background:var(--gold);color:var(--navy);border:none;
+      width:100%;padding:14px 24px;border-radius:100px;
+      font-family:'Inter',sans-serif;font-size:14px;font-weight:700;
+      cursor:pointer;text-decoration:none;transition:all .22s;
+    }
+    .cont-btn:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,169,110,.3)}
+    .cont-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0}
+
+    /* ── MINA MESSAGE ── */
+    .mina-msg{
+      background:var(--pure);border:1.5px solid var(--border);
+      border-radius:18px;padding:16px 18px;margin-bottom:26px;
+      display:flex;align-items:flex-start;gap:12px;
+    }
+    .mina-av{
+      width:40px;height:40px;border-radius:50%;overflow:hidden;
+      background:linear-gradient(175deg,#FFF0F6,#FFC8DE);
+      flex-shrink:0;display:flex;align-items:flex-end;justify-content:center;
+    }
+    .mina-av img{width:130%;height:130%;object-fit:cover;object-position:top center;margin-top:-6px;margin-left:-6px}
+    .mina-nm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .mina-txt{font-size:13px;color:var(--gray);line-height:1.7}
+    .mina-txt em{font-style:normal;color:var(--navy);font-weight:600}
+
+    /* ── DÉFI DU JOUR ── */
+    .defi-card{
+      border-radius:22px;padding:20px;margin-bottom:26px;
+      position:relative;overflow:hidden;
+      background:linear-gradient(135deg,#1a0e2e 0%,#0f1b2d 100%);
+      border:1.5px solid rgba(167,139,250,.25);
+      box-shadow:0 8px 32px rgba(167,139,250,.12);
+    }
+    .defi-card::before{
+      content:'';position:absolute;top:-40px;right:-40px;
+      width:150px;height:150px;border-radius:50%;
+      background:radial-gradient(circle,rgba(167,139,250,.12) 0%,transparent 70%);pointer-events:none;
+    }
+    .defi-tag{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.2);
+      border-radius:100px;padding:3px 10px;margin-bottom:12px;
+      font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);
+    }
+    .defi-tag-done{
+      background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);color:var(--green);
+    }
+    .defi-word{
+      display:flex;align-items:center;gap:14px;
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;padding:14px 16px;margin-bottom:14px;
+    }
+    .defi-kr{font-size:32px;font-weight:300;color:white;line-height:1;flex:1}
+    .defi-rom{font-size:11px;color:rgba(247,248,250,.35);margin-top:3px}
+    .defi-speak{
+      width:40px;height:40px;border-radius:50%;
+      background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.25);
+      display:flex;align-items:center;justify-content:center;cursor:pointer;
+      transition:all .2s;flex-shrink:0;
+    }
+    .defi-speak:hover{background:rgba(167,139,250,.25);transform:scale(1.08)}
+    .defi-speak svg{width:16px;height:16px;stroke:var(--purple);fill:none;stroke-width:2;stroke-linecap:round}
+    .defi-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+    .defi-choice{
+      background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);
+      border-radius:12px;padding:11px 10px;font-size:13px;font-weight:600;color:rgba(247,248,250,.7);
+      cursor:pointer;transition:all .18s;text-align:center;
+    }
+    .defi-choice:hover:not(.disabled){background:rgba(167,139,250,.15);border-color:rgba(167,139,250,.4);color:white}
+    .defi-choice.correct{background:rgba(34,197,94,.15)!important;border-color:rgba(34,197,94,.5)!important;color:#4ade80!important}
+    .defi-choice.wrong{background:rgba(239,68,68,.1)!important;border-color:rgba(239,68,68,.3)!important;color:#f87171!important}
+    .defi-choice.disabled{cursor:default;pointer-events:none}
+    .defi-result{
+      display:none;align-items:flex-start;gap:10px;flex-direction:column;
+      background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);
+      border-radius:12px;padding:11px 14px;font-size:13px;font-weight:600;color:#4ade80;
+    }
+    .defi-result.show{display:flex}
+    .defi-result-row{display:flex;align-items:center;gap:8px}
+    .defi-example{
+      font-size:12px;font-weight:400;color:rgba(247,248,250,.55);line-height:1.6;
+      border-top:1px solid rgba(255,255,255,.07);padding-top:8px;width:100%;margin-top:2px;
+    }
+    .defi-example em{font-style:normal;color:rgba(247,248,250,.8);font-weight:500}
+    .defi-result-already{
+      text-align:center;font-size:12px;color:rgba(247,248,250,.35);padding:4px 0;
+    }
+    .defi-xp{
+      display:inline-flex;align-items:center;gap:4px;
+      background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.2);
+      border-radius:100px;padding:2px 9px;font-size:10px;font-weight:700;color:var(--amber);
+    }
+    .defi-streak{
+      display:inline-flex;align-items:center;gap:5px;
+      font-size:10px;font-weight:700;color:rgba(251,146,60,0.9);
+      background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.2);
+      border-radius:100px;padding:2px 9px;margin-left:6px;vertical-align:middle;
+    }
+
+    /* ── SECTIONS GRID ── */
+    .sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:26px}
+    .scard{
+      background:var(--pure);border:1.5px solid var(--border);
+      border-radius:20px;padding:17px 15px;
+      transition:all .25s;text-decoration:none;display:block;
+      position:relative;overflow:hidden;
+    }
+    .scard:hover:not(.locked){transform:translateY(-3px);box-shadow:0 12px 32px rgba(15,27,45,.09);border-color:var(--gold2)}
+    .scard.locked{opacity:.5;cursor:default}
+    .scard-icon{
+      width:44px;height:44px;border-radius:13px;
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:11px;font-size:22px;
+    }
+    .scard-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:1px}
+    .scard-kr{font-size:11px;color:var(--gray);margin-bottom:9px}
+    .scard-bar{height:4px;background:var(--border);border-radius:100px;overflow:hidden;margin-bottom:5px}
+    .scard-fill{height:100%;border-radius:100px}
+    .scard-pct{font-size:10px;font-weight:700;color:var(--gray)}
+    .scard-badge{
+      position:absolute;top:11px;right:11px;
+      font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+      padding:2px 7px;border-radius:100px;
+    }
+    .lock-ico{position:absolute;top:11px;right:11px;opacity:.4}
+    .lock-ico svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2;stroke-linecap:round}
+
+    /* ── DORI TIP ── */
+    .dori-tip{
+      background:linear-gradient(135deg,#FFFCE8,#FFF5C0 80%);
+      border:1.5px solid rgba(201,169,110,.28);
+      border-radius:20px;padding:16px 18px;
+      display:flex;align-items:center;gap:14px;
+      margin-bottom:26px;
+    }
+    .dori-tip img{height:62px;flex-shrink:0;filter:drop-shadow(0 4px 12px rgba(201,169,110,.25))}
+    .dori-msg{font-size:13px;color:var(--navy);line-height:1.65}
+    .dori-msg strong{color:#B8861A;font-weight:700}
+
+    /* ── LEADERBOARD ── */
+    .lb{background:var(--navy);border-radius:22px;padding:22px;margin-bottom:24px}
+    .lb-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .lb-title{font-family:'Playfair Display',serif;font-size:17px;color:white}
+    .lb-link{font-size:12px;color:var(--gold);text-decoration:none;font-weight:600}
+    .lb-link:hover{text-decoration:underline}
+    .lbrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+    .lbrow:last-of-type{border-bottom:none}
+    .lbpos{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);width:22px;text-align:center;flex-shrink:0}
+    .lbav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;overflow:hidden}
+    .lbav svg{width:36px;height:36px}
+    .lbinfo{flex:1}
+    .lbname{font-size:13px;font-weight:600;color:rgba(247,248,250,.88)}
+    .lbloc{font-size:11px;color:rgba(247,248,250,.35);margin-top:1px}
+    .lbxp{font-size:13px;font-weight:700;color:var(--gold);flex-shrink:0}
+    .lb-me{
+      background:rgba(201,169,110,.08);border-radius:12px;
+      padding:10px 14px;margin-top:12px;
+      font-size:12px;color:rgba(247,248,250,.45);text-align:center;
+    }
+    .lb-me strong{color:var(--gold)}
+    .lbrow-me{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:none}
+    .lbpos-me{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);width:22px;text-align:center;flex-shrink:0}
+    .lbav-me{width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--navy);flex-shrink:0}
+    .lbname-me{font-size:13px;font-weight:700;color:var(--gold)}
+    .lbloc-me{font-size:11px;color:rgba(201,169,110,.45);margin-top:1px}
+    .lbxp-me{font-size:13px;font-weight:700;color:var(--gold);flex-shrink:0}
+    @keyframes lbIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+    /* progress bar in lb */
+    .lb-prog{height:3px;border-radius:2px;background:rgba(255,255,255,.08);margin-top:4px;overflow:hidden}
+    .lb-prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 1.2s ease}
+
+    /* ── WELCOME CARD ── */
+    .welcome-card{background:linear-gradient(145deg,#1a3050,#0F1B2D);border:1px solid rgba(201,169,110,.22);border-radius:22px;padding:22px;margin-bottom:24px}
+    .wc-step{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:11px 14px;text-decoration:none}
+    .wc-step.active{background:rgba(201,169,110,.09);border-color:rgba(201,169,110,.18)}
+    .wc-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+
+    /* ── BOTTOM NAV ── */
+    .bnav{
+      position:fixed;bottom:0;left:0;right:0;z-index:100;
+      height:72px;background:var(--pure);border-top:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-around;
+      padding:0 8px 8px;
+    }
+    .bni{
+      display:flex;flex-direction:column;align-items:center;gap:3px;
+      padding:8px 12px;border-radius:14px;cursor:pointer;
+      text-decoration:none;transition:all .2s;flex:1;max-width:80px;
+      border:none;background:none;
+    }
+    .bni svg{width:22px;height:22px;stroke:var(--gray);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+    .bni span{font-size:10px;font-weight:600;color:var(--gray);transition:color .2s}
+    .bni.act svg,.bni:hover svg{stroke:var(--gold)}
+    .bni.act span,.bni:hover span{color:var(--gold)}
+
+    /* ── DESKTOP ── */
+    @media(min-width:640px){
+      body{padding-bottom:0}
+      .bnav{display:none}
+      .greeting,.goal-strip{
+        padding-left:max(20px,calc(50% - 280px));
+        padding-right:max(20px,calc(50% - 280px));
+      }
+      .g-mina{height:195px}
+    }
+    @media(min-width:900px){
+      body{display:grid;grid-template-columns:220px 1fr;min-height:100svh}
+      .tnav{display:none}
+      .greeting,.goal-strip{display:none}
+      /* Side nav appears */
+      .sidenav{
+        display:flex;flex-direction:column;
+        background:var(--navy);padding:28px 0;
+        position:sticky;top:0;height:100svh;overflow:auto;
+      }
+      .sidenav .sn-logo{padding:0 24px 32px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+      .sidenav .sn-logo img{height:26px}
+      .sn-item{
+        display:flex;align-items:center;gap:12px;
+        padding:12px 24px;font-size:13px;font-weight:600;
+        color:rgba(247,248,250,.45);text-decoration:none;transition:all .2s;
+        border-left:2px solid transparent;
+      }
+      .sn-item svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;flex-shrink:0}
+      .sn-item:hover,.sn-item.act{color:var(--gold);border-left-color:var(--gold);background:rgba(201,169,110,.05)}
+      .sn-user{
+        margin-top:auto;padding:16px 24px;border-top:1px solid rgba(255,255,255,.06);
+        display:flex;align-items:center;gap:10px;
+      }
+      .sn-av{width:34px;height:34px;border-radius:50%;background:var(--goldp);border:1.5px solid rgba(201,169,110,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--gold);flex-shrink:0}
+      .sn-uname{font-size:13px;font-weight:600;color:rgba(247,248,250,.7)}
+      .sn-ulvl{font-size:11px;color:rgba(247,248,250,.3)}
+      /* Stats bar on desktop */
+      .desk-stats{
+        display:flex;align-items:center;gap:20px;
+        background:var(--navy);padding:16px 28px;
+        border-bottom:1px solid rgba(255,255,255,.06);
+      }
+      .desk-stat{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--gold)}
+      .desk-stat svg{width:15px;height:15px;fill:currentColor}
+      .desk-g{
+        background:var(--navy);padding:28px 28px 0;margin-bottom:0;
+      }
+      .desk-g .greeting-inner{max-width:100%}
+      main{max-width:680px;padding:28px 28px}
+    }
+  
+    
+  
+    /* ═══════════════════════════════════════════════════════════
+       DARK MODE — GLOBAL SYSTEM
+       Tous les composants adaptatifs pour le mode sombre
+    ═══════════════════════════════════════════════════════════ */
+    [data-theme="dark"]{
+      --pure:#1e3352;
+      --white:#162844;
+      --border:rgba(255,255,255,.13);
+      --gray:#7a9ab8;
+      color-scheme:dark;
+    }
+    [data-theme="dark"] body{
+      background:#0f1e32!important;
+      color:#d8e8f5;
+    }
+    /* ── navigation ── */
+    [data-theme="dark"] .bnav,
+    [data-theme="dark"] .bnav-wrap{
+      background:#0a1628!important;
+      border-top-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni.act{color:#C9A96E!important}
+    [data-theme="dark"] .bni.act svg{stroke:#C9A96E!important}
+    [data-theme="dark"] .bni span{color:inherit!important}
+    /* ── cards génériques ── */
+    [data-theme="dark"] .scard,
+    [data-theme="dark"] .card,
+    [data-theme="dark"] .ex-card,
+    [data-theme="dark"] .qz-card,
+    [data-theme="dark"] .quiz-card,
+    [data-theme="dark"] .result-card,
+    [data-theme="dark"] .vocab-prev,
+    [data-theme="dark"] .flip-front{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .scard-name,
+    [data-theme="dark"] .scard-kr,
+    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .scard-pct{color:rgba(200,220,240,.45)!important}
+    /* ── leçon — choice buttons ── */
+    [data-theme="dark"] .ch{
+      background:#1e3352!important;
+      border:1.5px solid rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .ch:hover:not(:disabled){
+      border-color:#C9A96E!important;
+      background:rgba(201,169,110,.12)!important;
+    }
+    [data-theme="dark"] .ch.ok{
+      border-color:#4ade80!important;
+      background:rgba(34,197,94,.12)!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .ch.ko{
+      border-color:#f87171!important;
+      background:rgba(239,68,68,.12)!important;
+      color:#f87171!important;
+    }
+    /* ── leçon — keyboard keys ── */
+    [data-theme="dark"] .kbkey{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .kbkey .kk{color:#d8e8f5!important}
+    [data-theme="dark"] .kbkey .kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .kbrow{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .kb-target{
+      background:#162844!important;
+      border-color:rgba(255,255,255,.14)!important;
+    }
+    [data-theme="dark"] .tw-blank{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    /* ── leçon — UI text ── */
+    [data-theme="dark"] .q-prompt{color:#d8e8f5!important}
+    [data-theme="dark"] .q-big{
+      color:#d8e8f5!important;
+      border-color:rgba(255,255,255,.12)!important;
+      background:#1e3352!important;
+    }
+    [data-theme="dark"] .q-cnt{color:rgba(200,220,240,.4)!important}
+    [data-theme="dark"] .q-hint{color:rgba(200,220,240,.35)!important}
+    [data-theme="dark"] .fb{color:rgba(200,220,240,.55)}
+    [data-theme="dark"] .fb.ok{color:#4ade80!important}
+    [data-theme="dark"] .fb.ko{color:#f87171!important}
+    [data-theme="dark"] .wrap{background:#0f1e32!important}
+    [data-theme="dark"] .mhdr{background:#0a1628!important}
+    [data-theme="dark"] .tbar{
+      background:#0a1628!important;
+      border-color:rgba(255,255,255,.08)!important;
+    }
+    [data-theme="dark"] .ptrack{background:rgba(255,255,255,.1)!important}
+    [data-theme="dark"] .mnm{color:rgba(215,232,248,.9)!important}
+    [data-theme="dark"] .msay{color:rgba(200,220,240,.6)!important}
+    [data-theme="dark"] .res-msg{color:#d8e8f5!important}
+    [data-theme="dark"] .res-sec{
+      border-color:rgba(255,255,255,.15)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    /* ── exercice.html ── */
+    [data-theme="dark"] .mtab{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.15)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    [data-theme="dark"] .mtab.act{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .word-token{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .word-token.placed{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .wb-target{
+      background:rgba(255,255,255,.03)!important;
+      border-color:rgba(255,255,255,.14)!important;
+    }
+    [data-theme="dark"] .pair-token{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .pair-token.selected{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .lc-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .sc-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .sc-score-n{color:#d8e8f5!important}
+    [data-theme="dark"] .sc-start-title{color:#d8e8f5!important}
+    [data-theme="dark"] .sc-start-sub{color:rgba(200,220,240,.5)!important}
+    [data-theme="dark"] .fb-strip.ok{
+      background:rgba(34,197,94,.1)!important;
+      border-color:rgba(34,197,94,.25)!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .fb-strip.ko{
+      background:rgba(239,68,68,.08)!important;
+      border-color:rgba(239,68,68,.2)!important;
+      color:#f87171!important;
+    }
+    [data-theme="dark"] .next-btn{
+      background:#1e3352!important;
+      border:1.5px solid rgba(255,255,255,.15)!important;
+      color:#d8e8f5!important;
+    }
+    /* ── révision ── */
+    [data-theme="dark"] .ans-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .ans-btn.correct{
+      background:rgba(34,197,94,.1)!important;
+      border-color:#4ade80!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .ans-btn.wrong{
+      background:rgba(239,68,68,.1)!important;
+      border-color:#f87171!important;
+      color:#f87171!important;
+    }
+    [data-theme="dark"] .qz-card,
+    [data-theme="dark"] .qz-card-inner{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .qz-feedback.ok{color:#4ade80!important}
+    [data-theme="dark"] .qz-feedback.ko{color:#f87171!important}
+    /* ── vocabulaire ── */
+    [data-theme="dark"] .flip-front{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .filters{
+      background:#0f1e32!important;
+      border-color:rgba(255,255,255,.08)!important;
+    }
+    [data-theme="dark"] .fchip{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.13)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    [data-theme="dark"] .fchip.act{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    /* ── histoires ── */
+    [data-theme="dark"] .node-title{color:#d8e8f5!important}
+    [data-theme="dark"] .node-num{color:rgba(200,220,240,.35)!important}
+    [data-theme="dark"] .node-kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .node-bubble.state-locked{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.15)!important;
+    }
+    [data-theme="dark"] .node-bubble.state-soon{
+      background:#1e3352!important;
+      border-color:rgba(167,139,250,.2)!important;
+    }
+    [data-theme="dark"] .done-mini{
+      background:#1e3352!important;
+      border-color:rgba(34,197,94,.2)!important;
+    }
+    [data-theme="dark"] .done-mini-title{color:#d8e8f5!important}
+    [data-theme="dark"] .done-mini-sub{color:rgba(200,220,240,.4)!important}
+    [data-theme="dark"] .locked-hint{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+      color:rgba(200,220,240,.45)!important;
+    }
+    [data-theme="dark"] .locked-section{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .locked-section h3{color:#d8e8f5!important}
+    [data-theme="dark"] .locked-section p{color:rgba(200,220,240,.55)!important}
+    [data-theme="dark"] .connector.locked{
+      background:repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 6px,
+        transparent 6px,transparent 12px
+      )!important;
+    }
+    /* ── app.html ── */
+    [data-theme="dark"] .dori-tip{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .welcome-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .lbrow{background:rgba(255,255,255,.04)!important}
+    [data-theme="dark"] .lbl-name{color:#d8e8f5!important}
+    /* ── profil ── */
+    [data-theme="dark"] .stat-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .settings-list{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .setting-name{color:#d8e8f5!important}
+    [data-theme="dark"] .setting-sub{color:rgba(200,220,240,.45)!important}
+    /* ── sections labels ── */
+    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)!important}
+    /* ── histoire pages ── */
+    [data-theme="dark"] .dial-box{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .dial-text{color:#d8e8f5!important}
+    [data-theme="dark"] .dial-who{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .voc-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .voc-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .voc-fr{color:rgba(200,220,240,.55)!important}
+    /* ── hangeul page ── */
+    [data-theme="dark"] .char-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .char-glyph{color:#d8e8f5!important}
+    [data-theme="dark"] .char-rom{color:rgba(200,220,240,.55)!important}
+    /* ── generic inputs ── */
+    [data-theme="dark"] input:not([type="range"]),
+    [data-theme="dark"] textarea,
+    [data-theme="dark"] select{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- SIDE NAV (desktop) -->
+<nav class="sidenav" id="sidenav" style="display:none">
+  <div class="sn-logo"><img id="sidelogo" alt="Korean Stories"/></div>
+  <a href="app.html" class="sn-item act">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil
+  </a>
+  <a href="hangeul.html" class="sn-item">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Hangeul
+  </a>
+  <a href="lecon.html" class="sn-item" id="snLecons">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Leçons
+  </a>
+  <a href="vocabulaire.html" class="sn-item">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Vocabulaire
+  </a>
+  <a href="revision.html" class="sn-item">
+    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Révision
+  </a>
+  <a href="exercice.html" class="sn-item">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>Exercices
+  </a>
+  <a href="profil.html" class="sn-item">
+    <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 000 5H6"/><path d="M18 9h1.5a2.5 2.5 0 010 5H18"/><path d="M8 9h8M8 15h8M9 9v13M15 9v13M9 3h6v6H9z"/></svg>Classement
+  </a>
+  <a href="profil.html" class="sn-item">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil
+  </a>
+  <a href="index.html" class="sn-item" style="margin-top:12px">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>Accueil du site
+  </a>
+  <div class="sn-user">
+    <div class="sn-av">J</div>
+    <div>
+      <div class="sn-uname">Justine</div>
+      <div class="sn-ulvl" id="snUlvl">—</div>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT WRAPPER -->
+<div id="appContent">
+
+  <!-- TOP NAV (mobile/tablet) -->
+  <nav class="tnav">
+    <div class="tnav-logo"><img id="tnavLogo" alt="Korean Stories"/></div>
+    <div class="tnav-stats">
+      <button id="darkBtn" onclick="toggleDarkApp()" title="Mode sombre" style="background:none;border:none;cursor:pointer;font-size:16px;line-height:1;padding:4px;opacity:.65;transition:opacity .2s" aria-label="Basculer mode sombre"></button>
+      <div class="stat-pill">
+        <svg viewBox="0 0 24 24"><path d="M12 2c-1.5 4.5-5 7-5 11a5 5 0 0010 0c0-4-3.5-6.5-5-11zm0 14a2 2 0 01-2-2c0-2 2-3.5 2-3.5s2 1.5 2 3.5a2 2 0 01-2 2z" fill="#FF6B35" stroke="none"/></svg>
+        <span id="streakVal">0</span>
+      </div>
+      <div class="stat-pill">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpVal">0</span>
+      </div>
+      <div class="lives" id="livesRow"></div>
+    </div>
+  </nav>
+
+  <!-- GREETING -->
+  <div class="greeting">
+    <div class="greeting-inner">
+      <div class="greeting-text">
+        <div class="g-badge" id="greetBadge">Jour 1 — bienvenue&thinsp;!</div>
+        <h1 class="g-name" id="greetTitle">Bonjour, <em>Justine</em>&thinsp;!</h1>
+        <p class="g-sub" id="greetSub">Mina t'attend. 같이 공부해요&thinsp;!</p>
+      </div>
+      <img id="greetMina" class="g-mina" alt="Mina"/>
+    </div>
+  </div>
+
+  <!-- DAILY GOAL -->
+  <div class="goal-strip">
+    <div class="goal-card">
+      <div class="goal-top">
+        <span class="goal-lbl">Objectif du jour</span>
+        <span class="goal-num" id="goalNum">0 / 50 XP</span>
+      </div>
+      <div class="gbar"><div class="gfill" id="goalFill" style="width:0%"></div></div>
+      <div class="goal-note" id="goalNote">Commence une leçon pour gagner tes premiers XP aujourd'hui </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main>
+
+    <!-- CONTINUE -->
+    <span class="sec-lbl">Reprendre</span>
+    <div class="cont-card">
+      <div class="cont-tag">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:blink 2s infinite"></span>
+        Leçon 2 · De nouveaux sons
+      </div>
+      <h2 class="cont-title">ㄷ, ㅁ, ㅗ — 도·모 et le mot 고모</h2>
+      <p class="cont-sub">Trois nouveaux caractères. Tu vas lire "고모" (tante) et "나도" (moi aussi) — tes premiers vrais mots !</p>
+      <div class="cprog">
+        <div class="cprog-top">
+          <span class="cprog-lbl">Leçon 1 complète </span>
+          <span class="cprog-pct">1 / 3</span>
+        </div>
+        <div class="cprog-bar"><div class="cprog-fill" id="cprogFill" style="width:0%"></div></div>
+      </div>
+      <a href="lecon2.html" class="cont-btn">
+        Continuer — Leçon 2
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- MINA MESSAGE -->
+    <div class="mina-msg">
+      <div class="mina-av"><img id="minaMsg" alt="Mina"/></div>
+      <div>
+        <div class="mina-nm">Message de Mina</div>
+        <p class="mina-txt">오늘도 화이팅&thinsp;! Tu as appris ㄱ, ㄴ et ㅏ — c'est une base solide. Maintenant on ajoute ㄷ, ㅁ et ㅗ pour former tes <em>premiers vrais mots</em> coréens !</p>
+      </div>
+    </div>
+
+    <!-- DÉFI DU JOUR -->
+    <span class="sec-lbl" id="defiSeclbl">Défi du jour <span id="defiCountBadge" style="display:none;margin-left:6px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.25);border-radius:100px;padding:2px 8px;font-size:9px;color:#a78bfa;font-weight:700;letter-spacing:.05em;text-transform:none;vertical-align:middle"></span><span class="defi-streak" id="defiStreakBadge" style="display:none"></span></span>
+    <div class="defi-card" id="defiCard">
+      <div class="defi-tag" id="defiTag">Mot du jour · <span class="defi-xp" id="defiXpBadge">+15 XP</span></div>
+      <div class="defi-word">
+        <div>
+          <div class="defi-kr" id="defiKr">—</div>
+          <div class="defi-rom" id="defiRom">chargement…</div>
+        </div>
+        <button class="defi-speak" id="defiSpeak" onclick="speakDefi()">
+          <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+        </button>
+      </div>
+      <div style="font-size:11px;color:rgba(247,248,250,.35);margin-bottom:10px">Quelle est la traduction ?</div>
+      <div class="defi-choices" id="defiChoices"></div>
+      <div class="defi-result" id="defiResult">
+        <div class="defi-result-row">
+          <span>✓</span>
+          <span id="defiResultTxt">Exact ! +15 XP gagnés</span>
+        </div>
+        <div class="defi-example" id="defiExample" style="display:none"></div>
+      </div>
+      <div class="defi-result-already" id="defiDoneMsg" style="display:none"></div>
+    </div>
+
+    <!-- LEÇONS -->
+    <span class="sec-lbl" id="leconsSeclbl">Mes leçons</span>
+    <div id="leconsList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px"></div>
+
+    <!-- SECTIONS -->
+    <span class="sec-lbl">Sections</span>
+    <div class="sec-grid">
+
+      <a href="hangeul.html" class="scard">
+        <div class="scard-icon" style="background:rgba(201,169,110,.1)">
+          <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--gold);font-weight:700;line-height:1">가</span>
+        </div>
+        <div class="scard-badge" id="hangeulBadge" style="background:rgba(201,169,110,.14);color:#A87830">—</div>
+        <div class="scard-name">Hangeul</div>
+        <div class="scard-kr">한글</div>
+        <div class="scard-bar"><div class="scard-fill" id="hangeulFill" style="width:0%;background:var(--gold)"></div></div>
+        <div class="scard-pct" id="hangeulPct">0 %</div>
+      </a>
+
+      <a href="vocabulaire.html" class="scard">
+        <div class="scard-icon" style="background:rgba(255,142,168,.1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div class="scard-badge" style="background:rgba(255,142,168,.12);color:#C04060">A1</div>
+        <div class="scard-name">Vocabulaire</div>
+        <div class="scard-kr">어휘</div>
+        <div class="scard-bar"><div class="scard-fill" id="vocFill" style="width:0%;background:#FF8EA8"></div></div>
+        <div class="scard-pct" id="vocPct">0 %</div>
+      </a>
+
+      <a href="revision.html" class="scard">
+        <div class="scard-icon" style="background:rgba(245,158,11,.1)">
+          <span style="font-size:22px"></span>
+        </div>
+        <div class="scard-badge" style="background:rgba(245,158,11,.12);color:#B45309">Quiz</div>
+        <div class="scard-name">Révision</div>
+        <div class="scard-kr">복습</div>
+        <div class="scard-bar"><div class="scard-fill" id="revFill" style="width:0%;background:#F59E0B"></div></div>
+        <div class="scard-pct" id="revPct">0 %</div>
+      </a>
+
+      <a href="histoires.html" class="scard locked" title="Finir Hangeul pour débloquer" id="storiesCard">
+        <div class="scard-icon" style="background:rgba(91,168,245,.1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+        <div class="lock-ico" id="storiesLock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div class="scard-name">Histoires</div>
+        <div class="scard-kr">이야기</div>
+        <div class="scard-bar"><div class="scard-fill" id="storiesFill" style="width:0%;background:#5BA8F5"></div></div>
+        <div class="scard-pct" id="storiesPct" style="color:#C8D4E0">Bientôt</div>
+      </a>
+
+      <a href="#" class="scard locked" title="Accès Premium">
+        <div class="scard-icon" style="background:rgba(167,139,250,.1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+        <div class="lock-ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div class="scard-name">Oral</div>
+        <div class="scard-kr">말하기</div>
+        <div class="scard-bar"><div class="scard-fill" style="width:0%;background:#A78BFA"></div></div>
+        <div class="scard-pct" style="color:#C8D4E0">Premium</div>
+      </a>
+
+    </div>
+
+    <!-- DORI TIP -->
+    <div class="dori-tip">
+      <img src="Personnage/UI/dori_ui.svg" alt="Dori"/>
+      <div class="dori-msg" id="doriMsg">
+        <strong>+50 XP</strong> si tu termines ta leçon aujourd'hui&thinsp;!<br/>
+        Continue chaque jour pour débloquer le badge <strong>Semaine de feu</strong>.
+      </div>
+    </div>
+
+    <!-- WELCOME CARD (shown only for new users, XP=0) -->
+    <div id="welcomeCard" style="display:none">
+      <div class="welcome-card">
+        <div style="text-align:center;margin-bottom:18px">
+          <div style="font-size:36px;margin-bottom:10px">🇰🇷</div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;color:white;margin-bottom:5px">Bienvenue, Justine&thinsp;!</div>
+          <div style="font-size:12px;color:rgba(247,248,250,.42)">Commence en 3 étapes — ça prend 5 min</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+          <a href="hangeul.html" class="wc-step active">
+            <div class="wc-num" style="background:var(--gold);color:var(--navy)">1</div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600;color:white">Apprends l'alphabet coréen</div>
+              <div style="font-size:11px;color:rgba(247,248,250,.4);margin-top:1px">Hangeul · 40 caractères · ~30 min</div>
+            </div>
+            <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:var(--gold);fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+          <a href="lecon.html" class="wc-step">
+            <div class="wc-num" style="background:rgba(255,255,255,.08);color:rgba(247,248,250,.4)">2</div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600;color:rgba(247,248,250,.5)">Ta première leçon</div>
+              <div style="font-size:11px;color:rgba(247,248,250,.28);margin-top:1px">Leçon 1 — ㄱ, ㄴ, ㅏ · +50 XP</div>
+            </div>
+          </a>
+          <div class="wc-step">
+            <div class="wc-num" style="background:rgba(255,255,255,.08);color:rgba(247,248,250,.4)">3</div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600;color:rgba(247,248,250,.5)">Reviens chaque jour</div>
+              <div style="font-size:11px;color:rgba(247,248,250,.28);margin-top:1px">1 leçon/jour — construis ton streak</div>
+            </div>
+          </div>
+        </div>
+        <a href="hangeul.html" style="display:block;text-align:center;background:var(--gold);color:var(--navy);font-size:14px;font-weight:700;padding:13px;border-radius:14px;text-decoration:none;letter-spacing:.01em">Commencer maintenant →</a>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <span class="sec-lbl">Classement cette semaine</span>
+    <div class="lb">
+      <div class="lb-hd">
+        <span class="lb-title">Top apprenants</span>
+        <a href="profil.html" class="lb-link">Voir tout →</a>
+      </div>
+
+      <div id="lbBody"></div>
+
+      <div class="lb-me" id="lbMe">
+        Toi — <strong id="lbMeXp">— XP</strong> · Continue comme ça !
+      </div>
+    </div>
+
+  </main>
+
+</div><!-- /appContent -->
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bnav">
+  <a href="app.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="hangeul.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Hangeul</span>
+  </a>
+  <a href="lecon.html" class="bni" id="bnLecon">
+    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <span>Leçon</span>
+  </a>
+  <a href="vocabulaire.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Vocab</span>
+  </a>
+  <a href="exercice.html" class="bni">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
+    <span>Exercices</span>
+  </a>
+  <a href="revision.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    <span>Révision</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<script>
+  // ── Dark mode (quick toggle in nav) ──
+  function toggleDarkApp(){
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    try{ localStorage.setItem('ks_theme', isDark ? 'dark' : 'light'); }catch(e){}
+    const btn = document.getElementById('darkBtn');
+    if(btn) btn.innerHTML = isDark ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' : '';
+  }
+  // Sync button icon on load
+  (function(){
+    try{
+      if(localStorage.getItem('ks_theme')==='dark'){
+        const btn = document.getElementById('darkBtn');
+        if(btn) btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+      }
+    }catch(e){}
+  })();
+
+  // ── localStorage helpers ──
+  function ls(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+
+  // ─────────────────────────────────
+  // 🎉 CONFETTI
+  // ─────────────────────────────────
+  function launchConfetti(duration) {
+    try {
+      const cvs = document.createElement('canvas');
+      cvs.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+      document.body.appendChild(cvs);
+      const ctx = cvs.getContext('2d');
+      cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+      const colors = ['#C9A96E','#FFD800','#22c55e','#A78BFA','#F59E0B','#ffffff','#FF8EA8'];
+      const parts = Array.from({length:90}, () => ({
+        x: Math.random()*cvs.width, y: Math.random()*-cvs.height*0.4,
+        w: Math.random()*9+3, h: Math.random()*5+2,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        vx: Math.random()*4-2, vy: Math.random()*3+1.5,
+        rot: Math.random()*360, rotV: Math.random()*7-3
+      }));
+      const end = Date.now() + (duration||2200);
+      function frame() {
+        ctx.clearRect(0,0,cvs.width,cvs.height);
+        const rem = end - Date.now();
+        if(rem <= 0){ cvs.remove(); return; }
+        parts.forEach(p => {
+          p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.rot+=p.rotV;
+          ctx.save(); ctx.globalAlpha = Math.min(1, rem/400);
+          ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+          ctx.restore();
+        });
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    } catch(e) {}
+  }
+
+  // ── Streak & XP (top nav) ──
+  (function(){
+    const streak = parseInt(ls('ks_streak')||'0');
+    const xp     = parseInt(ls('ks_xp')||'0');
+    const sv = document.getElementById('streakVal');
+    const xv = document.getElementById('xpVal');
+    if(sv) sv.textContent = streak;
+    // XP count-up animé au chargement
+    if(xv) {
+      let n = 0;
+      const step = Math.max(1, Math.ceil(xp / 40));
+      const t = setInterval(() => {
+        n = Math.min(n + step, xp);
+        xv.textContent = n;
+        if(n >= xp) clearInterval(t);
+      }, 30);
+    }
+
+    // Lives (max 5, lose 1 per wrong answer tracked via ks_lives)
+    const maxL = 5;
+    const livesEl = document.getElementById('livesRow');
+    if(livesEl){
+      livesEl.innerHTML = Array.from({length:maxL},(_,i)=>`<span class="h">♥</span>`).join('');
+    }
+
+    // Greeting badge & subtitle
+    const badge = document.getElementById('greetBadge');
+    const sub   = document.getElementById('greetSub');
+    const h     = new Date().getHours();
+    const salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
+    const title = document.getElementById('greetTitle');
+    if(title) title.innerHTML = salut+', <em>Justine</em>&thinsp;!';
+    if(badge){
+      if(streak === 0)      badge.textContent = 'Premier jour — bienvenue !';
+      else if(streak === 1) badge.textContent = 'Jour 1 — c\'est parti !';
+      else if(streak < 7)   badge.textContent = streak + ' jours de suite — continue !';
+      else if(streak < 30)  badge.textContent = streak + ' jours — incroyable !';
+      else                  badge.textContent = streak + ' jours — tu es une légende !';
+    }
+    // ── Streak break detection ──
+    const todayChk = new Date().toISOString().slice(0,10);
+    const lastPlay = ls('ks_lastplay');
+    if(lastPlay && lastPlay !== todayChk && streak > 0) {
+      const daysDiff = Math.round((new Date(todayChk) - new Date(lastPlay)) / 86400000);
+      if(daysDiff > 1) {
+        try { localStorage.setItem('ks_streak','0'); } catch(e) {}
+        // Show gentle notification
+        setTimeout(() => {
+          const notif = document.createElement('div');
+          notif.style.cssText = 'position:fixed;top:68px;left:50%;transform:translateX(-50%);background:#1a2f4a;border:1px solid rgba(201,169,110,.22);border-radius:16px;padding:13px 20px;font-size:13px;font-weight:600;color:rgba(247,248,250,.75);z-index:200;text-align:center;max-width:300px;box-shadow:0 8px 28px rgba(0,0,0,.3)';
+          notif.innerHTML = 'Streak réinitialisé à 0<br><span style="font-size:11px;opacity:.55;font-weight:400">Reviens chaque jour pour maintenir ta série !</span>';
+          document.body.appendChild(notif);
+          setTimeout(() => { notif.style.transition='opacity .5s'; notif.style.opacity='0'; setTimeout(()=>notif.remove(),500); }, 3500);
+        }, 800);
+      }
+    }
+
+    if(sub){
+      const today = new Date().toISOString().slice(0,10);
+      const last  = ls('ks_lastplay');
+      if(last === today) sub.innerHTML = 'Tu as déjà pratiqué aujourd\'hui. 잘했어요 !<br/>Mina est fière. 같이 공부해요&thinsp;!';
+      else if(xp > 0)    sub.innerHTML = xp + ' XP accumulés. Une leçon de plus aujourd\'hui ?<br/>같이 공부해요&thinsp;!';
+      else               sub.innerHTML = 'Mina t\'attend pour ta première leçon.<br/>같이 공부해요&thinsp;!';
+    }
+
+    // Daily goal (basé sur XP du jour = XP total - XP avant aujourd'hui)
+    // On stocke ks_xp_day_start au chargement si la date a changé
+    const GOAL = 50; // XP objectif quotidien
+    const today2 = new Date().toISOString().slice(0,10);
+    let dayStart = 0;
+    try {
+      const stored = JSON.parse(localStorage.getItem('ks_daily')||'{}');
+      if(stored.date === today2) {
+        dayStart = stored.start||0;
+      } else {
+        // Nouveau jour — enregistre le point de départ
+        localStorage.setItem('ks_daily', JSON.stringify({date:today2,start:xp}));
+        dayStart = xp;
+      }
+    } catch(e){}
+    const todayXP = Math.max(0, xp - dayStart);
+    const gPct = Math.min(100, Math.round(todayXP / GOAL * 100));
+    const gnEl = document.getElementById('goalNum');
+    const gnNote = document.getElementById('goalNote');
+    if(gnEl) gnEl.textContent = todayXP + ' / ' + GOAL + ' XP';
+    if(gnNote){
+      if(todayXP >= GOAL) gnNote.textContent = 'Objectif atteint ! Tu es en feu aujourd\'hui. 화이팅 !';
+      else gnNote.textContent = 'Plus que ' + (GOAL - todayXP) + ' XP pour atteindre ton objectif ';
+    }
+    setTimeout(()=>{ const gf=document.getElementById('goalFill');if(gf)gf.style.width=gPct+'%'; },250);
+    // 🎉 Confetti si objectif atteint (une seule fois par jour)
+    if(todayXP >= GOAL) {
+      const goalKey = 'ks_goalcelebrated_' + today2;
+      if(!ls(goalKey)) {
+        try { localStorage.setItem(goalKey,'done'); } catch(e){}
+        setTimeout(() => launchConfetti(2500), 600);
+      }
+    }
+  })();
+
+  // Assets
+  const si = (id, src) => { const e = document.getElementById(id); if(e) e.src = src; };
+  const logoSrc = 'Logo/Logo - KoreanStories_logo_2x4_blanc_tagline.png';
+  si('tnavLogo', logoSrc);
+  si('sidelogo', logoSrc);
+  si('greetMina', "Personnage/Mina/PNG/Utilisation dans l'app/mina_utilisationapp_accueil.png");
+  si('minaMsg',   "Personnage/Mina/PNG/Utilisation dans l'app/mina_utilisationapp_astuce.png");
+
+  // ── Données des leçons ──
+  const LECONS = [
+    { id:1, key:'ks_l1', href:'lecon.html',  chars:'ㄱ, ㄴ, ㅏ', sub:'가·나', xp:50 },
+    { id:2, key:'ks_l2', href:'lecon2.html', chars:'ㄷ, ㅁ, ㅗ', sub:'도·모 · 고모 · 나도', xp:50 },
+    { id:3, key:'ks_l3', href:'lecon3.html', chars:'ㅂ, ㅅ, ㅜ', sub:'바나나 · 수박', xp:50 },
+    { id:4, key:'ks_l4', href:'lecon4.html', chars:'ㄹ, ㅣ, ㅓ', sub:'이리 · 나라', xp:50 },
+    { id:5, key:'ks_l5', href:'lecon5.html', chars:'ㅈ, ㅡ, ㅔ', sub:'저기 · 지구', xp:50 },
+    { id:6, key:'ks_l6', href:'lecon6.html', chars:'ㅎ, ㅐ, ㅛ', sub:'해 · 하루', xp:50 },
+    { id:7,  key:'ks_l7',  href:'lecon7.html',  chars:'ㅊ, ㅋ, ㅠ',           sub:'치즈 · 유리',   xp:50 },
+    { id:8,  key:'ks_l8',  href:'lecon8.html',  chars:'ㅌ, ㅍ, ㅑ',           sub:'파티 · 야채',   xp:50 },
+    { id:9,  key:'ks_l9',  href:'lecon9.html',  chars:'ㅘ, ㅝ, ㅕ',           sub:'봐요 · 여기',   xp:50 },
+    { id:10, key:'ks_l10', href:'lecon10.html', chars:'ㄲ, ㄸ, ㅃ, ㅆ, ㅉ',  sub:'빨리 · 또',     xp:50 },
+  ];
+  const H2_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h2')==='done'; }catch(e){ return false; } })();
+  const H3_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h3')==='done'; }catch(e){ return false; } })();
+  const H4_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h4')==='done'; }catch(e){ return false; } })();
+  const H5_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h5')==='done'; }catch(e){ return false; } })();
+  const H6_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h6')==='done'; }catch(e){ return false; } })();
+  const H7_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h7')==='done'; }catch(e){ return false; } })();
+  const H8_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h8')==='done'; }catch(e){ return false; } })();
+  const H9_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h9')==='done'; }catch(e){ return false; } })();
+  const H10_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h10')==='done'; }catch(e){ return false; } })();
+  const H11_DONE_APP = (function(){ try{ return localStorage.getItem('ks_h11')==='done'; }catch(e){ return false; } })();
+  const TOTAL_WORDS = H11_DONE_APP ? 145 : H10_DONE_APP ? 129 : H9_DONE_APP ? 113 : H8_DONE_APP ? 96 : H7_DONE_APP ? 80 : H6_DONE_APP ? 64 : H5_DONE_APP ? 53 : H4_DONE_APP ? 43 : H3_DONE_APP ? 35 : H2_DONE_APP ? 27 : 20;
+
+  // ── Lecture progression ──
+  function getProgress() {
+    const done = {};
+    LECONS.forEach(l => { try { done[l.key] = localStorage.getItem(l.key)==='done'; } catch(e){ done[l.key]=false; } });
+    return done;
+  }
+
+  // ── Rendu liste leçons ──
+  function renderLecons() {
+    const done = getProgress();
+    const container = document.getElementById('leconsList');
+    if(!container) return;
+
+    // Trouver la première leçon non complète (active)
+    let activeLec = LECONS.find(l => !done[l.key]) || LECONS[LECONS.length-1];
+
+    container.innerHTML = LECONS.map(l => {
+      const isDone = done[l.key];
+      // Verrouillée si la précédente n'est pas faite (sauf L1 toujours disponible)
+      const prevDone = l.id === 1 || done[LECONS[l.id-2].key];
+      const isActive = !isDone && prevDone;
+      const isLocked = !isDone && !prevDone;
+
+      if(isDone) {
+        return `<a href="${l.href}" style="text-decoration:none;display:flex;align-items:center;gap:14px;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:14px 16px;transition:all .2s">
+          <div style="width:42px;height:42px;border-radius:12px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0"></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:var(--navy)">Leçon ${l.id} — ${l.chars}</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px">${l.sub} · Complète</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:#15803d;background:rgba(34,197,94,.1);padding:4px 10px;border-radius:100px;white-space:nowrap">+${l.xp} XP</div>
+        </a>`;
+      } else if(isActive) {
+        return `<a href="${l.href}" style="text-decoration:none;display:flex;align-items:center;gap:14px;background:var(--navy);border:1.5px solid var(--navy);border-radius:18px;padding:14px 16px;transition:all .2s">
+          <div style="width:42px;height:42px;border-radius:12px;background:rgba(201,169,110,.18);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:300;color:var(--gold);flex-shrink:0">▶</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:white">Leçon ${l.id} — ${l.chars}</div>
+            <div style="font-size:11px;color:rgba(247,248,250,.45);margin-top:2px">${l.sub}</div>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:var(--gold);background:rgba(201,169,110,.14);padding:4px 10px;border-radius:100px;white-space:nowrap">En cours</div>
+        </a>`;
+      } else {
+        return `<div style="display:flex;align-items:center;gap:14px;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:14px 16px;opacity:.45">
+          <div style="width:42px;height:42px;border-radius:12px;background:var(--white);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9BB0" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:700;color:var(--navy)">Leçon ${l.id} — ${l.chars}</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:2px">${l.sub} · Verrouillée</div>
+          </div>
+          <div style="font-size:12px;font-weight:600;color:var(--gray)"></div>
+        </div>`;
+      }
+    }).join('');
+
+    // ── Story nodes after all leçons ──
+    const allLecsDone = LECONS.every(l => done[l.key]);
+    if(allLecsDone) {
+      const h1D = localStorage.getItem('ks_h1') === 'done';
+      const h2D = localStorage.getItem('ks_h2') === 'done';
+      const h3D = localStorage.getItem('ks_h3') === 'done';
+      const h4D = localStorage.getItem('ks_h4') === 'done';
+      const h5D = localStorage.getItem('ks_h5') === 'done';
+      const h6D = localStorage.getItem('ks_h6') === 'done';
+      const h7D = localStorage.getItem('ks_h7') === 'done';
+      const h8D = localStorage.getItem('ks_h8') === 'done';
+      const h9D = localStorage.getItem('ks_h9') === 'done';
+      const h10D = localStorage.getItem('ks_h10') === 'done';
+      const h11D = localStorage.getItem('ks_h11') === 'done';
+      const storyCards = [
+        { id:'h1', href:'histoire1.html', emoji:'', title:'Histoire 1 — 안녕하세요 !', sub:'Mina rencontre Joon · Dialogue · 7 mots', done: h1D, active: !h1D },
+        { id:'h2', href:'histoire2.html', emoji:'', title:'Histoire 2 — 시장에서', sub:'Au marché · Dialogue · 8 mots', done: h2D, active: h1D && !h2D, locked: !h1D },
+        { id:'h3', href:'histoire3.html', emoji:'', title:'Histoire 3 — 식당에서', sub:'Au restaurant · Dialogue · 8 mots', done: h3D, active: h2D && !h3D, locked: !h2D },
+        { id:'h4', href:'histoire4.html', emoji:'', title:'Histoire 4 — 카페에서', sub:'Au café · Dialogue · 8 mots', done: h4D, active: h3D && !h4D, locked: !h3D },
+        { id:'h5', href:'histoire5.html', emoji:'', title:'Histoire 5 — 편의점에서', sub:'À l\'épicerie · Dialogue · 10 mots', done: h5D, active: h4D && !h5D, locked: !h4D },
+        { id:'h6', href:'histoire6.html', emoji:'', title:'Histoire 6 — 지하철에서', sub:'Dans le métro · Dialogue · 11 mots', done: h6D, active: h5D && !h6D, locked: !h5D },
+        { id:'h7', href:'histoire7.html', emoji:'', title:'Histoire 7 — 친구 집에서', sub:'Chez un ami · Dialogue · 16 mots', done: h7D, active: h6D && !h7D, locked: !h6D },
+        { id:'h8', href:'histoire8.html', emoji:'', title:'Histoire 8 — 노래방에서', sub:'Au norebang · Dialogue · 16 mots', done: h8D, active: h7D && !h8D, locked: !h7D },
+        { id:'h9', href:'histoire9.html', emoji:'', title:'Histoire 9 — 병원에서', sub:'À l\'hôpital · Dialogue · 17 mots', done: h9D, active: h8D && !h9D, locked: !h8D },
+        { id:'h10', href:'histoire10.html', emoji:'', title:'Histoire 10 — 쇼핑몰에서', sub:'Shopping mall · Dialogue · 16 mots', done: h10D, active: h9D && !h10D, locked: !h9D },
+        { id:'h11', href:'histoire11.html', emoji:'', title:'Histoire 11 — 집들이에서', sub:'Pendaison de crémaillère · Dialogue · 16 mots', done: h11D, active: h10D && !h11D, locked: !h10D },
+      ];
+      container.innerHTML += storyCards.map((s, i) => {
+        if(s.done) {
+          return `<a href="${s.href}" style="text-decoration:none;display:flex;align-items:center;gap:14px;background:rgba(34,197,94,.06);border:1.5px solid rgba(34,197,94,.2);border-radius:18px;padding:14px 16px;transition:all .2s">
+            <div style="width:42px;height:42px;border-radius:12px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:#16a34a">${i+1}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:700;color:var(--navy)">${s.title}</div>
+              <div style="font-size:11px;color:var(--gray);margin-top:2px">${s.sub} · Complète</div>
+            </div>
+            <div style="font-size:12px;font-weight:700;color:#15803d;background:rgba(34,197,94,.1);padding:4px 10px;border-radius:100px;white-space:nowrap">✓ Lu</div>
+          </a>`;
+        } else if(s.active) {
+          return `<a href="${s.href}" style="text-decoration:none;display:flex;align-items:center;gap:14px;background:var(--navy);border:1.5px solid rgba(34,197,94,.35);border-radius:18px;padding:14px 16px;transition:all .2s">
+            <div style="width:42px;height:42px;border-radius:12px;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gold)">${i+1}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:700;color:white">${s.title}</div>
+              <div style="font-size:11px;color:rgba(247,248,250,.45);margin-top:2px">${s.sub}</div>
+            </div>
+            <div style="font-size:12px;font-weight:700;color:#22c55e;background:rgba(34,197,94,.14);padding:4px 10px;border-radius:100px;white-space:nowrap">Lire →</div>
+          </a>`;
+        } else if(s.soon) {
+          return `<div style="display:flex;align-items:center;gap:14px;background:var(--pure);border:1.5px dashed var(--border);border-radius:18px;padding:14px 16px;opacity:.5">
+            <div style="width:42px;height:42px;border-radius:12px;background:var(--white);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gray)">${i+1}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:700;color:var(--navy)">${s.title}</div>
+              <div style="font-size:11px;color:var(--gray);margin-top:2px">${s.sub}</div>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:#A78BFA;background:rgba(167,139,250,.1);padding:4px 10px;border-radius:100px;white-space:nowrap">Bientôt</div>
+          </div>`;
+        } else {
+          return `<div style="display:flex;align-items:center;gap:14px;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:14px 16px;opacity:.4">
+            <div style="width:42px;height:42px;border-radius:12px;background:var(--white);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A9BB0" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13px;font-weight:700;color:var(--navy)">${s.title}</div>
+              <div style="font-size:11px;color:var(--gray);margin-top:2px">${s.sub} · Verrouillée</div>
+            </div>
+            <div style="font-size:12px;font-weight:600;color:var(--gray)"></div>
+          </div>`;
+        }
+      }).join('');
+    }
+
+    // Mise à jour carte "Continuer"
+    const contTitle = document.querySelector('.cont-title');
+    const contSub = document.querySelector('.cont-sub');
+    const contBtn = document.querySelector('.cont-btn');
+    const contTag = document.querySelector('.cont-tag span:last-child') || document.querySelector('.cont-tag');
+    const doneCount = LECONS.filter(l => done[l.key]).length;
+
+    if(doneCount >= LECONS.length) {
+      const h1Done2 = localStorage.getItem('ks_h1') === 'done';
+      const h2Done2 = localStorage.getItem('ks_h2') === 'done';
+      const h3Done2 = localStorage.getItem('ks_h3') === 'done';
+      const h4Done2 = localStorage.getItem('ks_h4') === 'done';
+      const h5Done2 = localStorage.getItem('ks_h5') === 'done';
+      const h6Done2 = localStorage.getItem('ks_h6') === 'done';
+      const h7Done2 = localStorage.getItem('ks_h7') === 'done';
+      const h8Done2 = localStorage.getItem('ks_h8') === 'done';
+      const h9Done2 = localStorage.getItem('ks_h9') === 'done';
+      const h10Done2 = localStorage.getItem('ks_h10') === 'done';
+      const h11Done2 = localStorage.getItem('ks_h11') === 'done';
+      if(h11Done2) {
+        contCard.querySelector('.cc-title').textContent = '11 histoires lues !';
+        contCard.querySelector('.cc-sub').textContent = 'Bravo — tu maîtrises le coréen du quotidien ! Révise et perfectionne-toi !';
+        contCard.querySelector('.cc-btn').textContent = 'Revoir le vocabulaire';
+        contCard.querySelector('.cc-btn').href = 'vocabulaire.html';
+      } else if(h10Done2) {
+        contCard.querySelector('.cc-title').textContent = 'À toi — Histoire 11 !';
+        contCard.querySelector('.cc-sub').textContent = 'Hana invite ses amis pour sa pendaison de crémaillère ! 16 nouveaux mots !';
+        contCard.querySelector('.cc-btn').textContent = 'Lire Histoire 11 →';
+        contCard.querySelector('.cc-btn').href = 'histoire11.html';
+      } else if(h9Done2) {
+        contCard.querySelector('.cc-title').textContent = 'À toi — Histoire 10 !';
+        contCard.querySelector('.cc-sub').textContent = 'Mina et Hana font du shopping ! Soldes, tailles et caisse — 16 mots !';
+        contCard.querySelector('.cc-btn').textContent = 'Lire Histoire 10 →';
+        contCard.querySelector('.cc-btn').href = 'histoire10.html';
+      } else if(h8Done2) {
+        contCard.querySelector('.cc-title').textContent = '9 histoires lues !';
+        contCard.querySelector('.cc-sub').textContent = 'Tu es une vraie lectrice coréenne — continue les révisions !';
+        contCard.querySelector('.cc-btn').textContent = 'Revoir le vocabulaire';
+        contCard.querySelector('.cc-btn').href = 'vocabulaire.html';
+      } else if(h8Done2) {
+        contCard.querySelector('.cc-title').textContent = 'À toi — Histoire 9 !';
+        contCard.querySelector('.cc-sub').textContent = 'Mina est malade — aide-la chez le médecin. 17 nouveaux mots !';
+        contCard.querySelector('.cc-btn').textContent = 'Lire Histoire 9 →';
+        contCard.querySelector('.cc-btn').href = 'histoire9.html';
+      } else if(h7Done2) {
+        // All 7 stories done
+        if(contTitle) contTitle.textContent = 'Bravo — 7 histoires lues !';
+        if(contSub) contSub.textContent = 'Tu es au niveau A2+ ! Histoire 8 — 노래방에서 — arrive bientôt. Révise chaque jour !';
+        if(contBtn) {
+          contBtn.href = 'revision.html';
+          contBtn.innerHTML = `Révision quotidienne<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      } else if(h6Done2) {
+        // H6 done, H7 not yet
+        if(contTitle) contTitle.textContent = '친구 집에서 — Histoire 7';
+        if(contSub) contSub.textContent = 'Mina chez Joon ! Découvre 16 nouveaux mots et gagne jusqu\'à 30 XP.';
+        if(contBtn) {
+          contBtn.href = 'histoire7.html';
+          contBtn.innerHTML = `Lire l\'Histoire 7<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      } else if(h5Done2) {
+        // H5 done, H6 not yet
+        if(contTitle) contTitle.textContent = '지하철에서 — Histoire 6';
+        if(contSub) contSub.textContent = 'Mina et Joon dans le métro ! Découvre 11 nouveaux mots et gagne jusqu\'à 30 XP.';
+        if(contBtn) {
+          contBtn.href = 'histoire6.html';
+          contBtn.innerHTML = `Lire l\'Histoire 6<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      } else if(h4Done2) {
+        // H4 done, H5 not yet
+        if(contTitle) contTitle.textContent = '편의점에서 — Histoire 5';
+        if(contSub) contSub.textContent = 'Mina et Joon à l\'épicerie ! Découvre 10 nouveaux mots et gagne jusqu\'à 30 XP.';
+        if(contBtn) {
+          contBtn.href = 'histoire5.html';
+          contBtn.innerHTML = `Lire l\'Histoire 5<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      } else if(h1Done2 && h2Done2 && h3Done2) {
+        // H1+H2+H3 done, H4 not yet
+        if(contTitle) contTitle.textContent = '카페에서 — Histoire 4';
+        if(contSub) contSub.textContent = 'Mina et Joon au café ! Découvre 8 nouveaux mots et gagne jusqu\'à 30 XP.';
+        if(contBtn) {
+          contBtn.href = 'histoire4.html';
+          contBtn.innerHTML = `Lire l'Histoire 4<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      } else if(h1Done2 && h2Done2) {
+        // H1 + H2 done, H3 not yet
+        if(contTitle) contTitle.textContent = '식당에서 — Histoire 3';
+        if(contSub) contSub.textContent = 'Mina et Joon au restaurant ! Découvre 8 nouveaux mots et gagne jusqu\'à 30 XP.';
+        if(contBtn) {
+          contBtn.href = 'histoire3.html';
+          contBtn.innerHTML = `Lire l'Histoire 3<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      } else if(h1Done2) {
+        // H1 done, H2 not yet read
+        if(contTitle) contTitle.textContent = '시장에서 — Histoire 2';
+        if(contSub) contSub.textContent = 'Mina et Joon au marché ! Découvre 8 nouveaux mots et gagne jusqu\'à 30 XP.';
+        if(contBtn) {
+          contBtn.href = 'histoire2.html';
+          contBtn.innerHTML = `Lire l'Histoire 2<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      } else {
+        // Hangeul done, histoire not yet read
+        if(contTitle) contTitle.textContent = 'Hangeul maîtrisé';
+        if(contSub) contSub.textContent = 'Tu connais les 62 caractères ! Lis ton premier dialogue coréen dans Histoire 1.';
+        if(contBtn) {
+          contBtn.href = 'histoire1.html';
+          contBtn.innerHTML = `Lire l'Histoire 1<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+        }
+      }
+    } else {
+      if(contBtn) {
+        contBtn.href = activeLec.href;
+        contBtn.innerHTML = `Continuer — Leçon ${activeLec.id}<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+      }
+      if(contTitle) contTitle.textContent = `${activeLec.chars} — ${activeLec.sub}`;
+      if(contSub) contSub.textContent = `Découvre les sons ${activeLec.chars} et lis de nouveaux mots coréens.`;
+    }
+
+    // Pourcentage progression leçons
+    const lecPct = Math.round(doneCount / LECONS.length * 100);
+    const minaMsg = document.querySelector('.mina-txt');
+    if(minaMsg) {
+      const _h1m = localStorage.getItem('ks_h1') === 'done';
+      const _h2m = localStorage.getItem('ks_h2') === 'done';
+      const _h3m = localStorage.getItem('ks_h3') === 'done';
+      const _h4m = localStorage.getItem('ks_h4') === 'done';
+      const minaLines = [
+        '오늘도 화이팅 ! Commence par la Leçon 1 — <em>ㄱ, ㄴ et ㅏ</em>. Ton premier son coréen t\'attend !',
+        '잘했어요 ! Leçon 1 terminée. On découvre <em>ㄷ, ㅁ et ㅗ</em> — et tu vas lire 고모 (tante) pour la première fois !',
+        '훌륭해요 ! Deux leçons au compteur. On passe à <em>ㅂ, ㅅ et ㅜ</em> — tu vas taper 바나나 (banane) sur le clavier !',
+        '완벽해요 ! Trois leçons ! On attaque <em>ㄹ, ㅣ et ㅓ</em> — des sons essentiels pour parler coréen !',
+        '대단해요 ! Quatre leçons terminées — tu connais 12 caractères ! Maintenant <em>ㅈ, ㅡ et ㅔ</em> pour dire 저기 (là-bas) !',
+        '믿을 수 없어요 ! Cinq leçons ! Il te reste 5 leçons pour maîtriser tout le Hangeul. On apprend <em>ㅎ, ㅐ et ㅛ</em> !',
+        '정말 잘해요 ! Six leçons — plus que la moitié ! Prochaine étape : <em>ㅊ, ㅋ et ㅠ</em> avec 치즈 (fromage) !',
+        '너무 멋있어요 ! Sept leçons ! Tu connais plus de 40 caractères. <em>ㅌ, ㅍ et ㅑ</em> — et le mot 파티 (fête) !',
+        '정말 대단해요 ! Huit leçons ! Les voyelles doubles arrivent — <em>ㅘ, ㅝ et ㅕ</em> — tu vas dire 봐요 (regarde !) !',
+        '거의 다 왔어요 ! Neuf leçons ! Plus qu\'une — les consonnes tendues <em>ㄲ, ㄸ, ㅃ, ㅆ, ㅉ</em>. Finish strong !',
+        _h4m && localStorage.getItem('ks_h5')==='done'
+          ? '완벽해요 ! Hangeul + 5 histoires ! Tu es au niveau A1+ ! <em>지하철에서</em> arrive bientôt — on prend le métro ensemble !'
+          : _h4m
+          ? '대단해요 ! Hangeul + 4 histoires ! Maintenant <em>편의점에서</em> — Mina et Joon t\'attendent à l\'épicerie !'
+          : _h3m
+            ? '대단해요 ! Hangeul + 3 histoires ! Maintenant <em>카페에서</em> — Mina et Joon t\'attendent au café !'
+            : _h2m
+              ? '대단해요 ! Hangeul + 2 histoires ! Maintenant <em>식당에서</em> — Mina et Joon t\'attendent au restaurant !'
+              : _h1m
+                ? '대단해요 ! Hangeul maîtrisé et Histoire 1 lue ! Maintenant <em>시장에서</em> — Mina et Joon t\'attendent au marché !'
+                : '축하해요 ! Tu as maîtrisé les 62 caractères du Hangeul ! <em>L\'Histoire 1 t\'attend.</em> Lis ton premier dialogue coréen avec Mina !'
+      ];
+      minaMsg.innerHTML = minaLines[Math.min(doneCount, 10)];
+    }
+
+    // Vocabulaire progress
+    const VOC_IDS_BASE = ['gomo','nado','banana','subak','iri','nara','jogi','jigu','ga','na','hae','haru','chijeu','yuri','pati','yachae','bwayo','yeogi','bballi','tto'];
+    const VOC_IDS_H2   = ['sijang','joahaeyo','eolma','bissayo','masisseoyo','gachi','sayo'];
+    const VOC_IDS_H3   = ['baegopayo','sikdang','menyu','jumun','mawoyo','jogeum','mul','ddo'];
+    const VOC_IDS_H4   = ['kape','keopi','aiseu','juseyo','tteugeowo','darayo','gidareoyo','kadeu'];
+    const VOC_IDS_H5   = ['pyeonuijeom','baegopayo_h5','keupramyeon','isseoyo','eolmayeyo','won','jigap','eopseoyo','kadeu_h5','masisseoyo_h5'];
+    const VOC_IDS = H5_DONE_APP ? [...VOC_IDS_BASE, ...VOC_IDS_H2, ...VOC_IDS_H3, ...VOC_IDS_H4, ...VOC_IDS_H5] : H4_DONE_APP ? [...VOC_IDS_BASE, ...VOC_IDS_H2, ...VOC_IDS_H3, ...VOC_IDS_H4] : H3_DONE_APP ? [...VOC_IDS_BASE, ...VOC_IDS_H2, ...VOC_IDS_H3] : H2_DONE_APP ? [...VOC_IDS_BASE, ...VOC_IDS_H2] : VOC_IDS_BASE;
+    const vocMastered = VOC_IDS.filter(id => { try{ return parseInt(localStorage.getItem('ks_voc_'+id)||'0')>=2; }catch(e){ return false; } }).length;
+    const vocPct2 = TOTAL_WORDS > 0 ? Math.round(vocMastered / TOTAL_WORDS * 100) : 0;
+    const vf = document.getElementById('vocFill');
+    const vp = document.getElementById('vocPct');
+    if(vf) setTimeout(()=>{vf.style.width=vocPct2+'%';},300);
+    if(vp) vp.textContent = vocPct2+' %';
+    // Révision progress (basé sur XP quiz = mots vus)
+    const revSeenWords = Math.min(TOTAL_WORDS, Math.floor((parseInt(localStorage.getItem('ks_xp')||'0') - doneCount * 50) / 5));
+    const revPct2 = TOTAL_WORDS > 0 ? Math.max(0, Math.round(revSeenWords / TOTAL_WORDS * 100)) : 0;
+    const rf = document.getElementById('revFill');
+    const rp = document.getElementById('revPct');
+    if(rf) setTimeout(()=>{rf.style.width=revPct2+'%';},400);
+    if(rp) rp.textContent = revPct2+' %';
+
+    return { doneCount, lecPct };
+  }
+
+  // Animate bars on load
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const { doneCount, lecPct } = renderLecons();
+      const cp = document.getElementById('cprogFill');
+      if(cp) cp.style.width = (doneCount / LECONS.length * 100)+'%';
+      // Section label contextuel
+      const leconsSeclbl = document.getElementById('leconsSeclbl');
+      if(leconsSeclbl) {
+        const _h1sl = localStorage.getItem('ks_h1')==='done';
+        const _h2sl = localStorage.getItem('ks_h2')==='done';
+        const _h3sl = localStorage.getItem('ks_h3')==='done';
+        const _h4sl = localStorage.getItem('ks_h4')==='done';
+        const _h5sl = localStorage.getItem('ks_h5')==='done';
+        const _h6sl = localStorage.getItem('ks_h6')==='done';
+        const _h7sl = localStorage.getItem('ks_h7')==='done';
+        const _h8sl = localStorage.getItem('ks_h8')==='done';
+        const _h9sl = localStorage.getItem('ks_h9')==='done';
+        const _h10sl = localStorage.getItem('ks_h10')==='done';
+        const _h11sl = localStorage.getItem('ks_h11')==='done';
+        if(_h11sl)          leconsSeclbl.textContent = 'Mon parcours complet ✓ — 11 histoires lues !';
+        else if(_h10sl)     leconsSeclbl.textContent = 'Presque ! — 10 histoires sur 11 !';
+        else if(_h9sl)      leconsSeclbl.textContent = 'Presque ! — 9 histoires sur 10 !';
+        else if(_h8sl)      leconsSeclbl.textContent = 'Presque ! — 8 histoires sur 9 !';
+        else if(_h7sl)      leconsSeclbl.textContent = 'Presque ! — 7 histoires sur 9 !';
+        else if(_h6sl)      leconsSeclbl.textContent = 'Mon parcours — Histoire 7 disponible';
+        else if(_h5sl)      leconsSeclbl.textContent = 'Mon parcours — Histoire 6 disponible';
+        else if(_h4sl)      leconsSeclbl.textContent = 'Mon parcours — Histoire 5 disponible';
+        else if(_h3sl)      leconsSeclbl.textContent = 'Mon parcours — Histoire 4 disponible';
+        else if(_h2sl)      leconsSeclbl.textContent = 'Mon parcours — Histoire 3 disponible';
+        else if(_h1sl)      leconsSeclbl.textContent = 'Mon parcours — Histoire 2 disponible';
+        else if(doneCount >= LECONS.length) leconsSeclbl.textContent = 'Mon parcours — Histoires débloquées';
+        else if(doneCount > 0) leconsSeclbl.textContent = 'Mes leçons — ' + doneCount + ' / 10 complètes';
+      }
+      // Mise à jour texte progress
+      const cpTop = document.querySelector('.cprog-lbl');
+      const cpPct = document.querySelector('.cprog-pct');
+      if(cpTop) cpTop.textContent = doneCount > 0 ? `Leçon${doneCount>1?'s':''} ${doneCount}/${LECONS.length} complète${doneCount>1?'s':''}` : '0 leçon complète';
+      if(cpPct) cpPct.textContent = doneCount+' / '+LECONS.length;
+      // Hangeul section card — dynamic
+      const hPct = Math.round(doneCount / LECONS.length * 100);
+      const hFill = document.getElementById('hangeulFill');
+      const hPctEl = document.getElementById('hangeulPct');
+      const hBadge = document.getElementById('hangeulBadge');
+      if(hFill) setTimeout(()=>{ hFill.style.width = hPct+'%'; }, 250);
+      if(hPctEl) hPctEl.textContent = hPct+' %';
+      if(hBadge) {
+        if(hPct >= 100) { hBadge.textContent = '✓ Maîtrisé'; hBadge.style.background='rgba(34,197,94,.12)'; hBadge.style.color='#15803d'; }
+        else if(hPct > 0) { hBadge.textContent = 'En cours'; hBadge.style.background='rgba(201,169,110,.14)'; hBadge.style.color='#A87830'; }
+        else { hBadge.textContent = 'Débutant'; hBadge.style.background='rgba(138,155,176,.12)'; hBadge.style.color='var(--gray)'; }
+      }
+
+      // Add Histoires link to sidenav when unlocked
+      if(doneCount >= LECONS.length) {
+        const snRev = document.querySelector('.sidenav a[href="revision.html"]');
+        if(snRev && !document.getElementById('snStories')) {
+          const _h1s = localStorage.getItem('ks_h1') === 'done';
+          const _h2s = localStorage.getItem('ks_h2') === 'done';
+          const _h3s = localStorage.getItem('ks_h3') === 'done';
+          const _h4s = localStorage.getItem('ks_h4') === 'done';
+          const snStory = document.createElement('a');
+          snStory.id = 'snStories';
+          snStory.href = 'histoires.html';
+          snStory.className = 'sn-item';
+          const _h5s = localStorage.getItem('ks_h5') === 'done';
+          const _h6s = localStorage.getItem('ks_h6') === 'done';
+          const _h7s = localStorage.getItem('ks_h7') === 'done';
+          const _h8s = localStorage.getItem('ks_h8') === 'done';
+          const _h9s = localStorage.getItem('ks_h9') === 'done';
+          const _h10s = localStorage.getItem('ks_h10') === 'done';
+          const _h11s = localStorage.getItem('ks_h11') === 'done';
+          const snBadge = (_h1s && _h2s && _h3s && _h4s && _h5s && _h6s && _h7s && _h8s && _h9s && _h10s && _h11s)
+            ? '<span style="font-size:10px;background:rgba(34,197,94,.15);color:#15803d;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">11 / 11 ✓</span>'
+            : (_h1s && _h2s && _h3s && _h4s && _h5s && _h6s && _h7s && _h8s && _h9s && _h10s)
+            ? '<span style="font-size:10px;background:rgba(245,158,11,.2);color:#F59E0B;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">H11 dispo !</span>'
+            : (_h1s && _h2s && _h3s && _h4s && _h5s && _h6s && _h7s && _h8s && _h9s)
+            ? '<span style="font-size:10px;background:rgba(245,158,11,.2);color:#F59E0B;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">H10 dispo !</span>'
+            : (_h1s && _h2s && _h3s && _h4s && _h5s)
+            ? '<span style="font-size:10px;background:rgba(245,158,11,.2);color:#F59E0B;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">H6 dispo !</span>'
+            : (_h1s && _h2s && _h3s && _h4s)
+            ? '<span style="font-size:10px;background:rgba(245,158,11,.2);color:#F59E0B;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">H5 dispo !</span>'
+            : (_h1s && _h2s && _h3s)
+              ? '<span style="font-size:10px;background:rgba(245,158,11,.2);color:#F59E0B;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">H4 dispo !</span>'
+              : (_h1s && _h2s)
+                ? '<span style="font-size:10px;background:rgba(167,139,250,.2);color:#A78BFA;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">H3 dispo !</span>'
+                : _h1s
+                  ? '<span style="font-size:10px;background:rgba(91,168,245,.2);color:#5BA8F5;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">Nouveau !</span>'
+                  : '<span style="font-size:10px;background:rgba(91,168,245,.2);color:#5BA8F5;border-radius:100px;padding:2px 7px;margin-left:4px;font-weight:700">Débloqué !</span>';
+          snStory.innerHTML = '<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg>Histoires ' + snBadge;
+          snRev.insertAdjacentElement('afterend', snStory);
+        }
+      }
+
+      // Unlock Stories card when Hangeul is mastered
+      const storiesCard = document.getElementById('storiesCard');
+      const storiesLock = document.getElementById('storiesLock');
+      const storiesPct  = document.getElementById('storiesPct');
+      const storiesFill = document.getElementById('storiesFill');
+      if(storiesCard && doneCount >= LECONS.length) {
+        const h1Done = localStorage.getItem('ks_h1') === 'done';
+        const h2Done = localStorage.getItem('ks_h2') === 'done';
+        const h3Done = localStorage.getItem('ks_h3') === 'done';
+        const h4Done = localStorage.getItem('ks_h4') === 'done';
+        const h5Done = localStorage.getItem('ks_h5') === 'done';
+        const h6Done = localStorage.getItem('ks_h6') === 'done';
+        const h7Done = localStorage.getItem('ks_h7') === 'done';
+        const h8Done = localStorage.getItem('ks_h8') === 'done';
+        const h9Done = localStorage.getItem('ks_h9') === 'done';
+        const h10Done = localStorage.getItem('ks_h10') === 'done';
+        const h11Done = localStorage.getItem('ks_h11') === 'done';
+        const storiesDone = (h1Done?1:0)+(h2Done?1:0)+(h3Done?1:0)+(h4Done?1:0)+(h5Done?1:0)+(h6Done?1:0)+(h7Done?1:0)+(h8Done?1:0)+(h9Done?1:0)+(h10Done?1:0)+(h11Done?1:0);
+        storiesCard.href = 'histoires.html';
+        storiesCard.classList.remove('locked');
+        storiesCard.title = h11Done ? '11 histoires lues !' : h10Done ? 'Histoire 11 disponible' : h8Done ? 'Histoire 9 disponible' : h7Done ? 'Histoire 8 disponible' : h6Done ? 'Histoire 7 disponible' : h5Done ? 'Histoire 6 disponible' : h4Done ? 'Histoire 5 disponible' : h3Done ? 'Histoire 4 disponible' : h2Done ? 'Histoire 3 disponible' : h1Done ? 'Histoire 2 disponible' : 'Histoires débloquées !';
+        if(storiesLock) storiesLock.remove();
+        if(storiesDone >= 11) {
+          if(storiesPct) { storiesPct.textContent = '11 / 11'; storiesPct.style.color = '#15803d'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='100%'; storiesFill.style.background='#22c55e'; }},300);
+        } else if(storiesDone === 10) {
+          if(storiesPct) { storiesPct.textContent = '10 / 11'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='91%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 9) {
+          if(storiesPct) { storiesPct.textContent = '9 / 11'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='82%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 8) {
+          if(storiesPct) { storiesPct.textContent = '8 / 11'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='73%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 7) {
+          if(storiesPct) { storiesPct.textContent = '7 / 11'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='64%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 6) {
+          if(storiesPct) { storiesPct.textContent = '6 / 11'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='55%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 5) {
+          if(storiesPct) { storiesPct.textContent = '5 / 10'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='63%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 4) {
+          if(storiesPct) { storiesPct.textContent = '4 / 10'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='50%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 3) {
+          if(storiesPct) { storiesPct.textContent = '3 / 10'; storiesPct.style.color = '#F59E0B'; }
+          setTimeout(()=>{ if(storiesFill){ storiesFill.style.width='38%'; storiesFill.style.background='#F59E0B'; }},300);
+        } else if(storiesDone === 2) {
+          if(storiesPct) { storiesPct.textContent = '2 / 10'; storiesPct.style.color = '#A78BFA'; }
+          setTimeout(()=>{ if(storiesFill) storiesFill.style.width='29%'; },300);
+        } else if(storiesDone === 1) {
+          if(storiesPct) { storiesPct.textContent = '1 / 10'; storiesPct.style.color = '#5BA8F5'; }
+          setTimeout(()=>{ if(storiesFill) storiesFill.style.width='14%'; },300);
+        } else {
+          if(storiesPct) { storiesPct.textContent = 'Nouveau !'; storiesPct.style.color = '#5BA8F5'; }
+          setTimeout(()=>{ if(storiesFill) storiesFill.style.width='10%'; },300);
+        }
+      } else if(storiesCard) {
+        // Show progress toward unlock
+        const pct = Math.round(doneCount / LECONS.length * 100);
+        if(storiesPct) storiesPct.textContent = pct+'% Hangeul';
+        setTimeout(()=>{ if(storiesFill) storiesFill.style.width=pct+'%'; },400);
+      }
+    }, 200);
+  });
+
+  // Desktop side nav
+  if(window.innerWidth >= 900) {
+    const sn = document.getElementById('sidenav');
+    if(sn) sn.style.display = 'flex';
+  }
+  window.addEventListener('resize', () => {
+    const sn = document.getElementById('sidenav');
+    if(sn) sn.style.display = window.innerWidth >= 900 ? 'flex' : 'none';
+  });
+
+  // Sidenav: dynamic user info + active lesson link
+  (function(){
+    try {
+      const xp2 = parseInt(localStorage.getItem('ks_xp')||'0');
+      const done2 = LECONS.filter(l => { try{ return localStorage.getItem(l.key)==='done'; }catch(e){ return false; } }).length;
+      const niveaux = [
+        [10, 'Hangeul maîtrisé'],
+        [7,  'Avancé'],
+        [4,  'En progression'],
+        [1,  'Débutant'],
+        [0,  'Nouveau'],
+      ];
+      const niv = (niveaux.find(n => done2 >= n[0]) || niveaux[niveaux.length-1])[1];
+      const ulvl = document.getElementById('snUlvl');
+      if(ulvl) ulvl.textContent = niv + ' · ' + xp2 + ' XP';
+
+      // Point the Leçons links at the active (first incomplete) lesson
+      const activeLec2 = LECONS.find(l => { try{ return localStorage.getItem(l.key)!=='done'; }catch(e){ return true; } }) || LECONS[LECONS.length-1];
+      const snLec = document.getElementById('snLecons');
+      if(snLec) snLec.href = activeLec2.href;
+      const bnLec = document.getElementById('bnLecon');
+      if(bnLec) bnLec.href = activeLec2.href;
+
+      // Dori tip — dynamic streak message
+      const doriMsg = document.getElementById('doriMsg');
+      if(doriMsg) {
+        const sk = parseInt(localStorage.getItem('ks_streak')||'0');
+        const today3 = new Date().toISOString().slice(0,10);
+        const playedToday = localStorage.getItem('ks_lastplay') === today3;
+        if(playedToday) {
+          doriMsg.innerHTML = sk >= 7
+            ? '★ <strong>' + sk + ' jours de suite !</strong> Tu es une légende. Reviens demain pour continuer ta série !'
+            : ' Tu as pratiqué aujourd\'hui — <strong>Jour ' + sk + '</strong>. Bravo, reviens demain !';
+        } else if(sk >= 6) {
+          doriMsg.innerHTML = '<strong>Ne casse pas ta série de ' + sk + ' jours !</strong> Une courte leçon suffit pour garder ton streak. 화이팅 !';
+        } else if(sk >= 1) {
+          const daysToWeek = 7 - sk;
+          doriMsg.innerHTML = '<strong>+50 XP</strong> si tu termines ta leçon aujourd\'hui&thinsp;!<br/>Tu es à <strong>Jour ' + sk + '</strong> — encore ' + daysToWeek + ' jour' + (daysToWeek>1?'s':'') + ' pour décrocher le badge <strong>Semaine de feu</strong>.';
+        } else {
+          doriMsg.innerHTML = '<strong>+50 XP</strong> si tu termines ta leçon aujourd\'hui&thinsp;!<br/>Commence ta série — chaque jour compte pour gagner les badges streak !';
+        }
+      }
+
+      // ── Leaderboard dynamique ──
+      (function(){
+        // Welcome card for new users
+        const wc = document.getElementById('welcomeCard');
+        if(wc && xp2 === 0) wc.style.display = 'block';
+
+        const lbBody = document.getElementById('lbBody');
+        const lbMe   = document.getElementById('lbMe');
+        if(!lbBody) return;
+
+        // Weekly seed → scores stables toute la semaine, relatifs au niveau du joueur
+        const weekSeed = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
+        function sr(seed, lo, hi){ let x=Math.sin(seed+7)*99999; x=x-Math.floor(x); return lo+Math.floor(x*(hi-lo+1)); }
+
+        // Base minimum pour que les scores aient du sens même si xp2=0
+        const base  = Math.max(xp2, 80);
+        const gap1  = sr(weekSeed*3+1, 45, 90);
+        const gap2  = sr(weekSeed*3+2, 18, 40);
+        const gap3  = sr(weekSeed*3+3, 4,  14);
+
+        const AVATARS = [
+          `<svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="19" r="14" fill="#FFDCEA"/><ellipse cx="18" cy="8" rx="9" ry="6" fill="#3D2B1F"/><circle cx="18" cy="17" r="11" fill="#F2C4A2"/><circle cx="14" cy="16" r="2" fill="#1a1228"/><circle cx="22" cy="16" r="2" fill="#1a1228"/><circle cx="13.2" cy="15.2" r=".75" fill="white"/><circle cx="21.2" cy="15.2" r=".75" fill="white"/><ellipse cx="11.5" cy="19" rx="2.5" ry="1.5" fill="#FF8EA8" opacity=".3"/><ellipse cx="24.5" cy="19" rx="2.5" ry="1.5" fill="#FF8EA8" opacity=".3"/><path d="M15 21.5 Q18 23.5 21 21.5" stroke="#C07880" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>`,
+          `<svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="19" r="14" fill="#DBEAFE"/><ellipse cx="18" cy="8.5" rx="10" ry="6.5" fill="#1a2f4a"/><ellipse cx="6.5" cy="14" rx="3.5" ry="6" fill="#1a2f4a"/><ellipse cx="29.5" cy="14" rx="3.5" ry="6" fill="#1a2f4a"/><circle cx="18" cy="19" r="11" fill="#E8C49A"/><circle cx="14" cy="18" r="2" fill="#1a1228"/><circle cx="22" cy="18" r="2" fill="#1a1228"/><circle cx="13.2" cy="17.2" r=".75" fill="white"/><circle cx="21.2" cy="17.2" r=".75" fill="white"/><path d="M15 23 Q18 25 21 23" stroke="#A06050" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>`,
+          `<svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="19" r="14" fill="#FCE7F3"/><ellipse cx="18" cy="23" rx="13" ry="9" fill="#C9A96E"/><circle cx="18" cy="17" r="11" fill="#F5D5C0"/><ellipse cx="18" cy="7.5" rx="10" ry="6.5" fill="#C9A96E"/><ellipse cx="5.5" cy="18" rx="3.5" ry="8" fill="#C9A96E"/><ellipse cx="30.5" cy="18" rx="3.5" ry="8" fill="#C9A96E"/><circle cx="14" cy="16.5" r="2" fill="#1a1228"/><circle cx="22" cy="16.5" r="2" fill="#1a1228"/><circle cx="13.2" cy="15.7" r=".75" fill="white"/><circle cx="21.2" cy="15.7" r=".75" fill="white"/><ellipse cx="11.5" cy="19.5" rx="2.5" ry="1.5" fill="#FF8EA8" opacity=".28"/><ellipse cx="24.5" cy="19.5" rx="2.5" ry="1.5" fill="#FF8EA8" opacity=".28"/><path d="M15 21 Q18 23.5 21 21" stroke="#C07880" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>`
+        ];
+
+        const comps = [
+          { name:'Clara',  city:'Paris',    xp: base+gap1, av:AVATARS[0] },
+          { name:'Maxime', city:'Lyon',     xp: base+gap2, av:AVATARS[1] },
+          { name:'Amélie', city:'Bordeaux', xp: base+gap3, av:AVATARS[2] },
+        ];
+        const maxXP = comps[0].xp;
+
+        lbBody.innerHTML = comps.map((c,i) => {
+          const barW = Math.round(c.xp / maxXP * 100);
+          return `<div class="lbrow" style="animation:lbIn .35s ease ${i*.08}s both">
+            <span class="lbpos">${i===0?'①':i===1?'②':'③'}</span>
+            <div class="lbav">${c.av}</div>
+            <div class="lbinfo" style="min-width:0">
+              <div class="lbname">${c.name}</div>
+              <div class="lb-prog"><div class="lb-prog-fill" style="width:0%" data-w="${barW}"></div></div>
+            </div>
+            <span class="lbxp">${c.xp.toLocaleString('fr-FR')} XP</span>
+          </div>`;
+        }).join('');
+
+        // Animate progress bars
+        setTimeout(() => {
+          lbBody.querySelectorAll('.lb-prog-fill').forEach(el => { el.style.width = el.dataset.w + '%'; });
+        }, 120);
+
+        // "Toi" row — position relative
+        const diff3 = comps[2].xp - xp2;
+        let msg = '';
+        if(xp2 === 0)    msg = 'Lance-toi — ta première leçon t\'attend !';
+        else if(diff3 <= 0) msg = '★ Tu dépasses Amélie — continue ta lancée !';
+        else if(diff3 <= 10) msg = `Plus que <strong style="color:var(--gold)">${diff3} XP</strong> pour dépasser Amélie !`;
+        else               msg = `Continue — <strong style="color:var(--gold)">${diff3} XP</strong> pour rattraper Amélie`;
+        if(lbMe) lbMe.innerHTML = `<span style="opacity:.5">Toi · </span><strong style="color:var(--gold)">${xp2.toLocaleString('fr-FR')} XP</strong><span style="margin-left:6px;font-size:11px;opacity:.55"> — ${msg}</span>`;
+      })();
+    } catch(e) {}
+  })();
+
+  // ── DÉFI DU JOUR ──
+  (function(){
+    try {
+      const ALL_DEFI = [
+        // ── Hangeul & bases ──
+        {kr:'나',       rom:'na',              fr:'Je / Moi',            ex:'나는 학생이에요.',           exFr:'Je suis étudiant(e).'},
+        {kr:'너',       rom:'neo',             fr:'Tu / Toi',             ex:'너는 누구야?',               exFr:'Toi, tu es qui ?'},
+        {kr:'우리',     rom:'u-ri',            fr:'Nous',                 ex:'우리 같이 가요.',            exFr:'Allons-y ensemble.'},
+        {kr:'이것',     rom:'i-geot',          fr:'Ceci',                 ex:'이것은 뭐예요?',             exFr:'Qu\'est-ce que c\'est ?'},
+        {kr:'네',       rom:'ne',              fr:'Oui',                  ex:'네, 맞아요.',                exFr:'Oui, c\'est exact.'},
+        {kr:'아니요',   rom:'a-ni-yo',         fr:'Non',                  ex:'아니요, 괜찮아요.',          exFr:'Non, ça va.'},
+        {kr:'감사합니다',rom:'gam-sa-ham-ni-da',fr:'Merci',               ex:'도와줘서 감사합니다.',        exFr:'Merci de m\'avoir aidé(e).'},
+        {kr:'안녕하세요',rom:'an-nyeong-ha-se-yo',fr:'Bonjour',           ex:'안녕하세요, 처음 뵙겠습니다.',exFr:'Bonjour, enchanté(e).'},
+        {kr:'이름',     rom:'i-reum',          fr:'Prénom / Nom',         ex:'제 이름은 미나예요.',         exFr:'Mon prénom est Mina.'},
+        // ── Leçons 1–3 ──
+        {kr:'가다',     rom:'ga-da',           fr:'Aller',                ex:'학교에 가요.',               exFr:'Je vais à l\'école.'},
+        {kr:'오다',     rom:'o-da',            fr:'Venir',                ex:'집에 와요.',                  exFr:'Je viens à la maison.'},
+        {kr:'보다',     rom:'bo-da',           fr:'Voir / Regarder',      ex:'영화를 봐요.',               exFr:'Je regarde un film.'},
+        {kr:'바나나',   rom:'ba-na-na',        fr:'Banane',               ex:'바나나 한 개 주세요.',        exFr:'Une banane, s\'il vous plaît.'},
+        {kr:'나도',     rom:'na-do',           fr:'Moi aussi',            ex:'나도 가고 싶어요.',           exFr:'Moi aussi je veux y aller.'},
+        {kr:'고모',     rom:'go-mo',           fr:'Tante (côté père)',    ex:'고모가 서울에 살아요.',       exFr:'Ma tante habite à Séoul.'},
+        {kr:'수박',     rom:'su-bak',          fr:'Pastèque',             ex:'수박이 맛있어요.',            exFr:'La pastèque est délicieuse.'},
+        {kr:'하루',     rom:'ha-ru',           fr:'Un jour / Journée',    ex:'하루가 너무 짧아요.',         exFr:'La journée est trop courte.'},
+        // ── Leçons 4–6 ──
+        {kr:'저기',     rom:'jeo-gi',          fr:'Là-bas',               ex:'저기 앉아요.',               exFr:'Asseyons-nous là-bas.'},
+        {kr:'여기',     rom:'yeo-gi',          fr:'Ici',                  ex:'여기 앉으세요.',              exFr:'Asseyez-vous ici.'},
+        {kr:'이리',     rom:'i-ri',            fr:'Par ici',              ex:'이리 오세요.',               exFr:'Venez par ici.'},
+        {kr:'나라',     rom:'na-ra',           fr:'Pays',                 ex:'어느 나라 사람이에요?',       exFr:'Vous êtes de quel pays ?'},
+        {kr:'지구',     rom:'ji-gu',           fr:'Terre / Globe',        ex:'지구는 동그래요.',            exFr:'La Terre est ronde.'},
+        {kr:'빨리',     rom:'ppal-li',         fr:'Vite !',               ex:'빨리 와요!',                  exFr:'Viens vite !'},
+        {kr:'천천히',   rom:'cheon-cheon-hi',  fr:'Doucement / Lentement',ex:'천천히 말해 주세요.',         exFr:'Parlez lentement, s\'il vous plaît.'},
+        {kr:'크다',     rom:'keu-da',          fr:'Grand / Gros',         ex:'이 가방은 너무 커요.',        exFr:'Ce sac est trop grand.'},
+        {kr:'작다',     rom:'jak-da',          fr:'Petit(e)',             ex:'이 방은 좀 작아요.',          exFr:'Cette chambre est un peu petite.'},
+        // ── Leçons 7–10 ──
+        {kr:'맛있어요', rom:'mat-i-sseo-yo',   fr:'Délicieux',            ex:'이 라면 정말 맛있어요.',      exFr:'Ce ramyeon est vraiment délicieux.'},
+        {kr:'맛없어요', rom:'mas-eop-seo-yo',  fr:'Pas bon',              ex:'이건 좀 맛없어요.',           exFr:'Ça n\'est pas très bon.'},
+        {kr:'비싸요',   rom:'bi-ssa-yo',       fr:'C\'est cher',           ex:'이 옷은 너무 비싸요.',        exFr:'Ce vêtement est trop cher.'},
+        {kr:'싸요',     rom:'ssa-yo',          fr:'Bon marché',           ex:'여기 음식은 싸고 맛있어요.',  exFr:'C\'est bon marché et délicieux.'},
+        {kr:'같이',     rom:'ga-chi',          fr:'Ensemble',             ex:'같이 공부해요.',              exFr:'Étudions ensemble.'},
+        {kr:'혼자',     rom:'hon-ja',          fr:'Seul(e)',              ex:'혼자 여행해요.',              exFr:'Je voyage seul(e).'},
+        {kr:'좋아해요', rom:'jo-a-hae-yo',     fr:'J\'aime / J\'adore',    ex:'저는 한국어를 좋아해요.',     exFr:'J\'aime le coréen.'},
+        {kr:'싫어해요', rom:'si-reo-hae-yo',   fr:'Je n\'aime pas',       ex:'매운 음식을 싫어해요.',       exFr:'Je n\'aime pas la nourriture épicée.'},
+        // ── Histoire 1 : Marché ──
+        {kr:'시장',     rom:'si-jang',         fr:'Marché',               ex:'시장에서 사요.',              exFr:'J\'achète au marché.'},
+        {kr:'얼마',     rom:'eol-ma',          fr:'Combien ?',            ex:'이거 얼마예요?',              exFr:'C\'est combien, ça ?'},
+        {kr:'주세요',   rom:'ju-se-yo',        fr:'S\'il vous plaît',     ex:'물 한 잔 주세요.',            exFr:'Un verre d\'eau, s\'il vous plaît.'},
+        {kr:'영수증',   rom:'yeong-su-jeung',  fr:'Reçu',                 ex:'영수증 주세요.',              exFr:'Le reçu, s\'il vous plaît.'},
+        {kr:'깎아주세요',rom:'kka-kka-ju-se-yo',fr:'Faites-moi un prix',  ex:'좀 깎아주세요.',              exFr:'Faites-moi un petit rabais.'},
+        // ── Histoire 2 : Séoul ──
+        {kr:'서울',     rom:'seo-ul',          fr:'Séoul',                ex:'서울은 정말 커요.',           exFr:'Séoul est vraiment grande.'},
+        {kr:'지하철',   rom:'ji-ha-cheol',     fr:'Métro',                ex:'지하철로 가요.',              exFr:'J\'y vais en métro.'},
+        {kr:'버스',     rom:'beo-seu',         fr:'Bus',                  ex:'버스가 늦어요.',              exFr:'Le bus est en retard.'},
+        {kr:'택시',     rom:'taek-si',         fr:'Taxi',                 ex:'택시를 타요.',               exFr:'Je prends un taxi.'},
+        {kr:'역',       rom:'yeok',            fr:'Gare / Station',       ex:'다음 역에서 내려요.',         exFr:'Je descends à la prochaine station.'},
+        {kr:'길',       rom:'gil',             fr:'Rue / Chemin',         ex:'이 길이 맞아요?',             exFr:'C\'est bien ce chemin ?'},
+        // ── Histoire 3 : Restaurant ──
+        {kr:'식당',     rom:'sik-dang',        fr:'Restaurant',           ex:'저기 식당 어때요?',           exFr:'Ce restaurant là, qu\'en pensez-vous ?'},
+        {kr:'메뉴',     rom:'me-nyu',          fr:'Menu',                 ex:'메뉴 보여 주세요.',           exFr:'Montrez-moi le menu.'},
+        {kr:'배고파요', rom:'bae-go-pa-yo',    fr:'J\'ai faim',           ex:'배고파요, 빨리 먹어요.',      exFr:'J\'ai faim, mangeons vite.'},
+        {kr:'매워요',   rom:'mae-wo-yo',       fr:'C\'est épicé',         ex:'이 김치는 너무 매워요.',      exFr:'Ce kimchi est trop épicé.'},
+        {kr:'물',       rom:'mul',             fr:'Eau',                  ex:'물 한 잔 더 주세요.',         exFr:'Encore un verre d\'eau.'},
+        {kr:'조금',     rom:'jo-geum',         fr:'Un peu',               ex:'조금만 먹어요.',              exFr:'Je mange juste un peu.'},
+        {kr:'많이',     rom:'ma-ni',           fr:'Beaucoup',             ex:'많이 먹어요!',                exFr:'Mangez bien !'},
+        {kr:'계산',     rom:'gye-san',         fr:'Addition / Payer',     ex:'계산해 주세요.',              exFr:'L\'addition, s\'il vous plaît.'},
+        // ── Histoire 4 : Café ──
+        {kr:'카페',     rom:'ka-pe',           fr:'Café (lieu)',           ex:'카페에서 공부해요.',          exFr:'J\'étudie dans un café.'},
+        {kr:'커피',     rom:'keo-pi',          fr:'Café (boisson)',        ex:'커피 한 잔 마셔요.',          exFr:'Je bois une tasse de café.'},
+        {kr:'아이스',   rom:'a-i-seu',         fr:'Glacé',                ex:'아이스 아메리카노 주세요.',    exFr:'Un americano glacé, s\'il vous plaît.'},
+        {kr:'달아요',   rom:'da-ra-yo',        fr:'C\'est sucré',          ex:'이 케이크 너무 달아요.',      exFr:'Ce gâteau est trop sucré.'},
+        {kr:'기다려요', rom:'gi-da-ryeo-yo',   fr:'Attendez !',            ex:'잠깐 기다려요.',              exFr:'Attendez un instant.'},
+        {kr:'카드',     rom:'ka-deu',          fr:'Carte bancaire',        ex:'카드로 계산할게요.',          exFr:'Je paie par carte.'},
+        {kr:'현금',     rom:'hyeon-geum',      fr:'Espèces',              ex:'현금이 없어요.',              exFr:'Je n\'ai pas d\'espèces.'},
+        // ── Expressions clés ──
+        {kr:'괜찮아요', rom:'gwaen-cha-na-yo', fr:'Ça va / D\'accord',    ex:'괜찮아요, 걱정 마세요.',      exFr:'Ça va, ne vous inquiétez pas.'},
+        {kr:'모르겠어요',rom:'mo-reu-ge-sseo-yo',fr:'Je ne sais pas',    ex:'잘 모르겠어요.',              exFr:'Je ne sais vraiment pas.'},
+        {kr:'알겠어요', rom:'al-ge-sseo-yo',   fr:'Je comprends / OK',    ex:'네, 알겠어요.',               exFr:'Oui, je comprends.'},
+        {kr:'없어요',   rom:'eop-seo-yo',      fr:'Il n\'y a pas',        ex:'시간이 없어요.',              exFr:'Je n\'ai pas le temps.'},
+        {kr:'있어요',   rom:'it-seo-yo',       fr:'Il y a / J\'ai',       ex:'질문이 있어요.',              exFr:'J\'ai une question.'},
+        {kr:'어디',     rom:'eo-di',           fr:'Où ?',                 ex:'화장실이 어디예요?',          exFr:'Où sont les toilettes ?'},
+        {kr:'언제',     rom:'eon-je',          fr:'Quand ?',              ex:'언제 와요?',                  exFr:'Quand venez-vous ?'},
+        {kr:'왜',       rom:'wae',             fr:'Pourquoi ?',           ex:'왜 울어요?',                  exFr:'Pourquoi pleurez-vous ?'},
+        {kr:'어떻게',   rom:'eo-tteo-ke',      fr:'Comment ?',            ex:'어떻게 가요?',                exFr:'Comment y aller ?'},
+        {kr:'무슨',     rom:'mu-seun',         fr:'Quel / Quelle ?',      ex:'무슨 음식을 좋아해요?',       exFr:'Quel type de nourriture aimez-vous ?'},
+        {kr:'다음',     rom:'da-eum',          fr:'Prochain / Suivant',   ex:'다음 주에 만나요.',           exFr:'On se retrouve la semaine prochaine.'},
+        {kr:'지금',     rom:'ji-geum',         fr:'Maintenant',           ex:'지금 어디예요?',              exFr:'Vous êtes où maintenant ?'},
+        {kr:'오늘',     rom:'o-neul',          fr:'Aujourd\'hui',         ex:'오늘 날씨가 좋아요.',         exFr:'Il fait beau aujourd\'hui.'},
+        {kr:'내일',     rom:'nae-il',          fr:'Demain',               ex:'내일 봐요!',                  exFr:'À demain !'},
+        {kr:'어제',     rom:'eo-je',           fr:'Hier',                 ex:'어제 뭐 했어요?',             exFr:'Qu\'avez-vous fait hier ?'},
+      ];
+
+      // Date seed → mot du jour stable toute la journée
+      const t = new Date();
+      const seed = t.getFullYear()*10000 + (t.getMonth()+1)*100 + t.getDate();
+      const idx = seed % ALL_DEFI.length;
+      const word = ALL_DEFI[idx];
+
+      const dateKey = 'ks_defi_' + t.getFullYear() + '-' + String(t.getMonth()+1).padStart(2,'0') + '-' + String(t.getDate()).padStart(2,'0');
+      const doneToday = localStorage.getItem(dateKey) === 'done';
+
+      document.getElementById('defiKr').textContent = word.kr;
+      document.getElementById('defiRom').textContent = word.rom;
+
+      // Choices: 1 correct + 3 aléatoires
+      const wrong = ALL_DEFI.filter((_,i) => i !== idx).slice();
+      for(let i = wrong.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [wrong[i],wrong[j]]=[wrong[j],wrong[i]]; }
+      const choices = [word.fr, wrong[0].fr, wrong[1].fr, wrong[2].fr];
+      for(let i = choices.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [choices[i],choices[j]]=[choices[j],choices[i]]; }
+
+      const choicesEl = document.getElementById('defiChoices');
+      if(choicesEl) {
+        choicesEl.innerHTML = choices.map(c => {
+          const esc = c.replace(/'/g,"\\'");
+          const wesc = word.fr.replace(/'/g,"\\'");
+          return `<button class="defi-choice${doneToday?' disabled':''}" onclick="answerDefi(this,'${esc}','${wesc}','${dateKey}')">${c}</button>`;
+        }).join('');
+      }
+
+      // Phrase d'exemple après réponse
+      function showExample() {
+        if(!word.ex) return;
+        const exEl = document.getElementById('defiExample');
+        if(!exEl) return;
+        exEl.innerHTML = '<em>' + word.ex + '</em> — ' + word.exFr;
+        exEl.style.display = 'block';
+      }
+
+      if(doneToday) {
+        const dm = document.getElementById('defiDoneMsg');
+        const ch = document.getElementById('defiChoices');
+        const tg = document.getElementById('defiTag');
+        if(dm){
+          dm.innerHTML = '✓ Défi complété aujourd\'hui' + (word.ex ? ' · <em style=\"font-style:normal;color:rgba(247,248,250,.5)\">' + word.ex + '</em>' : '') + '<br><span style=\"font-size:11px;opacity:.6\">Reviens demain pour un nouveau mot !</span>';
+          dm.style.display = 'block';
+        }
+        if(ch) ch.style.display = 'none';
+        if(tg){ tg.innerHTML = '✓ Défi complété <span class=\"defi-xp\">+15 XP</span>'; tg.classList.add('defi-tag-done'); }
+        const xpB = document.getElementById('defiXpBadge');
+        if(xpB) xpB.style.display = 'none';
+      }
+
+      window.speakDefi = function(){
+        const a = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(word.kr)+'&tl=ko&client=tw-ob');
+        a.play().catch(()=>{});
+      };
+
+      window.answerDefi = function(btn, chosen, correct, key){
+        document.querySelectorAll('.defi-choice').forEach(b => b.classList.add('disabled'));
+        const res = document.getElementById('defiResult');
+        const tg  = document.getElementById('defiTag');
+        if(chosen === correct){
+          btn.classList.add('correct');
+          try{
+            localStorage.setItem('ks_xp', parseInt(localStorage.getItem('ks_xp')||'0') + 15);
+            localStorage.setItem(key, 'done');
+          }catch(e){}
+          if(res){ res.classList.add('show'); }
+          if(tg){ tg.innerHTML = '✓ Défi complété <span class=\"defi-xp\">+15 XP</span>'; tg.classList.add('defi-tag-done'); }
+          showExample();
+          try{ const xv=document.getElementById('xpVal'); if(xv) xv.textContent = parseInt(localStorage.getItem('ks_xp')||'0').toLocaleString('fr-FR')+' XP'; }catch(e){}
+        } else {
+          btn.classList.add('wrong');
+          document.querySelectorAll('.defi-choice').forEach(b=>{ if(b.textContent.trim()===correct) b.classList.add('correct'); });
+          if(res){
+            res.classList.add('show');
+            res.style.cssText='display:flex;flex-direction:column;background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);color:#f87171';
+            const rt = document.getElementById('defiResultTxt');
+            if(rt) rt.textContent = 'Pas tout à fait — bonne réponse : ' + correct;
+          }
+          showExample();
+        }
+      };
+    } catch(e){}
+  })();
+
+  // ── Compteur défis complétés + streak ──
+  (function(){
+    try {
+      const keys = Object.keys(localStorage).filter(k => /^ks_defi_\d{4}-\d{2}-\d{2}$/.test(k) && localStorage.getItem(k)==='done');
+      const total = keys.length;
+
+      // Badge total
+      const badge = document.getElementById('defiCountBadge');
+      if(badge && total > 0) {
+        badge.textContent = total + ' complété' + (total > 1 ? 's' : '');
+        badge.style.display = 'inline-block';
+      }
+
+      // Calcul du streak : jours consécutifs terminés jusqu'à aujourd'hui
+      const today = new Date();
+      let streak = 0;
+      for(let d = 0; d < 365; d++){
+        const dd = new Date(today); dd.setDate(today.getDate() - d);
+        const k = 'ks_defi_' + dd.getFullYear() + '-' + String(dd.getMonth()+1).padStart(2,'0') + '-' + String(dd.getDate()).padStart(2,'0');
+        if(localStorage.getItem(k) === 'done') streak++;
+        else break;
+      }
+      const streakBadge = document.getElementById('defiStreakBadge');
+      if(streakBadge && streak > 1){
+        streakBadge.textContent = '🔥 ' + streak + ' jours';
+        streakBadge.style.display = 'inline-flex';
+      }
+    } catch(e){}
+  })();
+
+</script>
+
+  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Histoire 6 — 지하철에서 · Korean Stories</title>
+  <meta name="description" content="Sixième histoire en coréen. Mina et Joon prennent le métro de Séoul — écoute, lis, teste-toi !"/>
+  <meta property="og:title" content="Histoire 6 — 지하철에서 · Korean Stories"/>
+  <meta property="og:description" content="Mina et Joon foncent vers le métro pour ne pas rater un concert à Hongdae. Lis le dialogue, clique les mots, teste-toi."/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+      --green:#22c55e;--red:#ef4444;
+      --indigo:#4F46E5;--indigop:rgba(79,70,229,0.12);
+    }
+
+    /* ── TOP BAR ── */
+    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    .quit{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
+    .quit:hover{border-color:#818CF8;color:#818CF8}
+    .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .tb-title{font-family:'Playfair Display',serif;font-size:14px;color:white;font-style:italic}
+    .xp-pill{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.2);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:700;color:#F59E0B}
+
+    /* ── HERO ── */
+    .hero{background:var(--navy);padding:28px 20px 32px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.09) 0%,transparent 70%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(79,70,229,.12);border:1px solid rgba(79,70,229,.28);border-radius:100px;padding:4px 14px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#818CF8}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,6vw,36px);color:white;line-height:1.2;margin-bottom:8px}
+    .hero-title em{color:#818CF8;font-style:italic}
+    .hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.7;max-width:340px;margin:0 auto 22px}
+    .hero-chars{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+    .hchar{background:rgba(79,70,229,.10);border:1px solid rgba(79,70,229,.2);border-radius:10px;padding:6px 14px;font-size:20px;font-weight:300;color:#818CF8}
+
+    /* ── PROGRESS BAR ── */
+    .pbar-wrap{background:var(--navy);padding:0 20px 20px}
+    .pbar-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px}
+    .ptrack{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+    .pfill{height:100%;border-radius:100px;background:linear-gradient(90deg,#4F46E5,#818CF8);transition:width .6s cubic-bezier(.4,0,.2,1);width:0%}
+    .pstep{font-size:11px;color:rgba(247,248,250,.35);font-weight:600;white-space:nowrap}
+
+    /* ── MAIN ── */
+    main{max-width:560px;margin:0 auto;padding:20px 16px}
+    .sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;display:block}
+
+    /* ── STORY PANEL ── */
+    .story-panel{background:var(--navy);border-radius:24px;padding:26px;margin-bottom:22px;position:relative;overflow:hidden}
+    .story-panel::after{content:'';position:absolute;bottom:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(79,70,229,.05);pointer-events:none}
+    .story-title{font-family:'Playfair Display',serif;font-size:18px;color:white;margin-bottom:4px}
+    .story-meta{font-size:11px;color:rgba(247,248,250,.3);margin-bottom:18px}
+
+    /* ── DIALOGUE ── */
+    .dialogue{display:flex;flex-direction:column;gap:16px}
+    .line{display:flex;gap:12px;align-items:flex-start}
+    .line.right{flex-direction:row-reverse}
+    .avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid rgba(255,255,255,.1)}
+    .bubble{max-width:calc(100% - 60px);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:18px;border-top-left-radius:4px;padding:12px 16px;cursor:pointer;transition:all .2s;position:relative}
+    .line.right .bubble{border-radius:18px;border-top-right-radius:4px;background:rgba(79,70,229,.08);border-color:rgba(79,70,229,.2)}
+    .bubble:hover{background:rgba(255,255,255,.1);transform:scale(1.01)}
+    .line.right .bubble:hover{background:rgba(79,70,229,.14)}
+    .bubble-kr{font-size:18px;font-weight:500;color:white;line-height:1.5;margin-bottom:4px;letter-spacing:.02em}
+    .bubble-rom{font-size:11px;color:rgba(247,248,250,.4);margin-bottom:3px;font-style:italic}
+    .bubble-fr{font-size:12px;color:rgba(247,248,250,.65)}
+    .bubble-audio{display:inline-flex;align-items:center;gap:5px;margin-top:8px;background:rgba(255,255,255,.06);border:none;border-radius:100px;padding:5px 12px;cursor:pointer;transition:all .2s;color:rgba(247,248,250,.45);font-size:11px;font-weight:600}
+    .bubble-audio:hover,.bubble-audio.playing{background:rgba(79,70,229,.2);color:#818CF8}
+    .bubble-audio svg{width:12px;height:12px;fill:currentColor}
+
+    /* ── CULTURE TIP ── */
+    .culture-tip{background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(79,70,229,.04));border:1.5px solid rgba(79,70,229,.18);border-radius:18px;padding:16px 18px;margin-bottom:22px}
+    .culture-tip-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .culture-tip-ico{width:32px;height:32px;border-radius:9px;background:rgba(79,70,229,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .culture-tip-ico svg{width:16px;height:16px;stroke:#818CF8;fill:none;stroke-width:2;stroke-linecap:round}
+    .culture-tip-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#818CF8}
+    .culture-tip-text{font-size:13px;color:var(--gray);line-height:1.7}
+    .culture-tip-text strong{color:var(--navy);font-weight:700}
+
+    /* Word highlights */
+    .kw{background:rgba(79,70,229,.14);border:1px solid rgba(79,70,229,.28);border-radius:6px;padding:1px 6px;cursor:pointer;transition:all .15s;color:#818CF8;font-weight:700}
+    .kw:hover,.kw.pop{background:rgba(79,70,229,.26);border-color:rgba(79,70,229,.5)}
+
+    /* Word tooltip */
+    .tooltip{position:fixed;z-index:200;background:var(--navy);border:1.5px solid rgba(79,70,229,.3);border-radius:14px;padding:12px 16px;box-shadow:0 12px 40px rgba(0,0,0,.3);max-width:220px;pointer-events:none;opacity:0;transform:translateY(8px);transition:all .2s}
+    .tooltip.show{opacity:1;transform:translateY(0)}
+    .tooltip-kr{font-size:22px;font-weight:500;color:#818CF8;margin-bottom:2px}
+    .tooltip-rom{font-size:11px;color:rgba(247,248,250,.4);font-style:italic;margin-bottom:4px}
+    .tooltip-fr{font-size:13px;color:white;font-weight:600}
+    .tooltip-tip{font-size:11px;color:rgba(247,248,250,.35);margin-top:6px;line-height:1.5}
+
+    /* ── VOCAB RECAP ── */
+    .recap{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:20px;margin-bottom:22px}
+    .recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .recap-item{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
+    .recap-item:hover{border-color:rgba(79,70,229,.4);background:rgba(79,70,229,.04);transform:translateY(-1px)}
+    .recap-item.played{border-color:rgba(79,70,229,.3);background:rgba(79,70,229,.04)}
+    .recap-kr{font-size:20px;font-weight:300;color:var(--navy);flex-shrink:0;min-width:36px;text-align:center}
+    .recap-info{flex:1;min-width:0}
+    .recap-fr{font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .recap-rom{font-size:10px;color:var(--gray);font-style:italic}
+
+    /* ── QUIZ ── */
+    .quiz-wrap{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:22px}
+    .quiz-q{font-family:'Playfair Display',serif;font-size:18px;color:white;margin-bottom:6px;text-align:center}
+    .quiz-hint{font-size:12px;color:rgba(247,248,250,.35);text-align:center;margin-bottom:18px}
+    .quiz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .qchoice{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;font-size:14px;font-weight:600;color:rgba(247,248,250,.7);text-align:center}
+    .qchoice:hover:not(:disabled){border-color:#818CF8;background:rgba(79,70,229,.1);color:#818CF8}
+    .qchoice.ok{border-color:var(--green)!important;background:rgba(34,197,94,.12)!important;color:#16a34a!important}
+    .qchoice.ko{border-color:var(--red)!important;background:rgba(239,68,68,.08)!important;color:var(--red)!important}
+    .quiz-fb{text-align:center;min-height:22px;font-size:13px;font-weight:600;color:var(--gray);margin-bottom:12px}
+    .quiz-fb.ok{color:var(--green)}.quiz-fb.ko{color:var(--red)}
+    .quiz-next{display:block;width:100%;padding:14px;border-radius:14px;border:none;cursor:pointer;background:#4F46E5;color:white;font-weight:700;font-size:14px;transition:all .2s;font-family:'Inter',sans-serif}
+    .quiz-next:hover{background:#4338CA;transform:translateY(-1px)}
+    .quiz-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+    /* ── RESULT ── */
+    .result-wrap{background:var(--navy);border-radius:24px;padding:28px 24px;text-align:center;display:none}
+    .result-wrap.show{display:block}
+    .res-emoji{font-size:48px;margin-bottom:12px;display:block}
+    .res-title{font-family:'Playfair Display',serif;font-size:24px;color:white;margin-bottom:6px}
+    .res-sub{font-size:13px;color:rgba(247,248,250,.45);margin-bottom:22px;line-height:1.7}
+    .res-xp{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--goldp);border:1px solid var(--gold);border-radius:14px;padding:14px;margin-bottom:20px;font-size:14px;font-weight:700;color:var(--navy)}
+    .res-xp span{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold)}
+    .res-btns{display:flex;flex-direction:column;gap:10px}
+    .res-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;cursor:pointer;border:none;font-family:'Inter',sans-serif}
+    .res-btn.primary{background:var(--gold);color:var(--navy)}
+    .res-btn.primary:hover{background:var(--gold2);transform:translateY(-1px)}
+    .res-btn.secondary{background:rgba(255,255,255,.06);color:rgba(247,248,250,.65);border:1.5px solid rgba(255,255,255,.1)}
+    .res-btn.secondary:hover{border-color:#818CF8;color:#818CF8}
+
+    /* ── CHARACTER INTRO ── */
+    .chars-intro{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:20px;margin-bottom:22px}
+    .char-row{display:flex;align-items:center;gap:14px;padding:10px 0}
+    .char-row+.char-row{border-top:1px solid var(--border)}
+    .char-ava{width:46px;height:46px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .char-name{font-size:14px;font-weight:700;color:var(--navy)}
+    .char-desc{font-size:12px;color:var(--gray);margin-top:2px;line-height:1.5}
+
+    /* ── BOTTOM NAV ── */
+    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:90;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
+    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
+    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+    .bni.act,.bni:hover{color:var(--navy)}
+    .bni.act svg{stroke:#4F46E5}
+
+    /* ═══════════════════════════════════════════════════════════
+       DARK MODE
+    ═══════════════════════════════════════════════════════════ */
+    [data-theme="dark"]{--pure:#1e3352;--white:#162844;--border:rgba(255,255,255,.13);--gray:#7a9ab8;color-scheme:dark}
+    [data-theme="dark"] body{background:#0f1e32!important;color:#d8e8f5}
+    [data-theme="dark"] .bnav{background:#0a1628!important;border-top-color:rgba(255,255,255,.10)!important}
+    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni.act{color:#818CF8!important}
+    [data-theme="dark"] .bni.act svg{stroke:#818CF8!important}
+    [data-theme="dark"] .chars-intro,[data-theme="dark"] .recap,[data-theme="dark"] .culture-tip{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .char-name,[data-theme="dark"] .recap-fr{color:#d8e8f5!important}
+    [data-theme="dark"] .recap-item{background:#162844!important;border-color:rgba(255,255,255,.10)!important}
+    [data-theme="dark"] .recap-item:hover{background:rgba(79,70,229,.08)!important;border-color:rgba(79,70,229,.3)!important}
+    [data-theme="dark"] .recap-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .qchoice{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.12)!important;color:rgba(200,220,240,.7)!important}
+    [data-theme="dark"] .qchoice.ok{border-color:#4ade80!important;background:rgba(34,197,94,.12)!important;color:#4ade80!important}
+    [data-theme="dark"] .qchoice.ko{border-color:#f87171!important;background:rgba(239,68,68,.1)!important;color:#f87171!important}
+    [data-theme="dark"] .culture-tip-text{color:rgba(200,220,240,.7)!important}
+    [data-theme="dark"] .culture-tip-text strong{color:#d8e8f5!important}
+    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+
+    /* ── CHARACTER AVATARS ── */
+    .ava-init{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-weight:700;font-size:inherit;line-height:1}
+    .ava-mina{background:linear-gradient(135deg,#FFDCEA,#FFC0DA);color:#9d274e;border:none}
+    .ava-joon{background:linear-gradient(135deg,#BFDBFE,#93C5FD);color:#1d4ed8;border:none}
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="app.html" class="quit">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Accueil
+  </a>
+  <span class="tb-title">Histoire 6</span>
+  <div class="xp-pill">
+    <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    +30 XP
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="pbar-wrap">
+  <div class="pbar-inner">
+    <div class="ptrack"><div class="pfill" id="pfill"></div></div>
+    <span class="pstep" id="pstep">0 / 5</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Histoire 6 — Niveau A1+</div>
+  <h1 class="hero-title">지하철에서<br/><em>Dans le métro</em></h1>
+  <p class="hero-sub">Mina et Joon sont en retard pour un concert à Hongdae. Ils courent, ils cherchent la ligne, ils trouvent un siège — le métro de Séoul dans toute sa splendeur. Clique les mots surlignés pour tout apprendre !</p>
+  <div class="hero-chars">
+    <div class="hchar">미나</div>
+    <div style="font-size:18px;color:rgba(247,248,250,.25)">×</div>
+    <div class="hchar">준</div>
+  </div>
+</div>
+
+<!-- WORD TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-kr" id="tKr"></div>
+  <div class="tooltip-rom" id="tRom"></div>
+  <div class="tooltip-fr" id="tFr"></div>
+  <div class="tooltip-tip" id="tTip"></div>
+</div>
+
+<main>
+
+  <!-- PERSONNAGES -->
+  <span class="sec-lbl">Les personnages</span>
+  <div class="chars-intro">
+    <div class="char-row">
+      <div class="char-ava" style="background:#FFF0F6;border-color:#FFDCEA;font-size:28px"><div class="ava-init ava-mina">M</div></div>
+      <div>
+        <div class="char-name">미나 Mina</div>
+        <div class="char-desc">Mina connaît le plan du métro de Séoul par cœur. Elle sait exactement où se placer pour être face aux portes à la sortie — une vraie Séoulite.</div>
+      </div>
+    </div>
+    <div class="char-row">
+      <div class="char-ava" style="background:#EFF6FF;border-color:#BFDBFE;font-size:28px"><div class="ava-init ava-joon">J</div></div>
+      <div>
+        <div class="char-name">준 Joon</div>
+        <div class="char-desc">Joon a oublié que le concert commençait à 19h30. Il est 19h22. Ligne 2, direction Hongdae — il n'y a pas de temps à perdre.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CULTURE TIP -->
+  <div class="culture-tip">
+    <div class="culture-tip-hd">
+      <div class="culture-tip-ico">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <span class="culture-tip-lbl">Culture coréenne</span>
+    </div>
+    <p class="culture-tip-text">Le <strong>지하철</strong> (métro) de Séoul est l'un des meilleurs au monde — 9 lignes principales, propre, ponctuel, avec du Wi-Fi partout. On paye avec la <strong>교통카드</strong> (T-money), une carte rechargeable aussi valable dans les bus et les taxis. Les annonces dans le métro sont en coréen, anglais, chinois et japonais. Et les sièges bleus ? Ce sont les places réservées aux personnes âgées — on ne s'y assoit pas !</p>
+  </div>
+
+  <!-- DIALOGUE -->
+  <span class="sec-lbl">Le dialogue</span>
+  <div class="story-panel">
+    <div class="story-title">지하철에서 — Dans le métro</div>
+    <div class="story-meta">Séoul · Direction Hongdae-Ipgu, 19h22</div>
+    <div class="dialogue" id="dialogue">
+
+      <!-- Line 1: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="ppalli">빨리</span> <span class="kw" data-id="ppalli">빨리</span>! <span class="kw" data-id="neutseosseoyo">늦었어요</span>!</div>
+          <div class="bubble-rom">Ppal-li ppal-li ! Neu-jeo-sseo-yo !</div>
+          <div class="bubble-fr">Vite vite ! On est en retard !</div>
+          <button class="bubble-audio" onclick="speak('빨리 빨리 늦었어요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 2: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="arayo">알아요</span> <span class="kw" data-id="arayo">알아요</span>... <span class="kw" data-id="jihacheol">지하철</span> 어디예요?</div>
+          <div class="bubble-rom">A-ra-yo a-ra-yo... ji-ha-cheol eo-di-ye-yo ?</div>
+          <div class="bubble-fr">Je sais, je sais... Où est le métro ?</div>
+          <button class="bubble-audio" onclick="speak('알아요 알아요 지하철 어디예요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 3: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">저기요! 2호선 <span class="kw" data-id="jihacheol">지하철</span>이에요.</div>
+          <div class="bubble-rom">Jeo-gi-yo ! I-ho-seon ji-ha-cheol-i-e-yo.</div>
+          <div class="bubble-fr">Là-bas ! C'est la ligne 2 du métro.</div>
+          <button class="bubble-audio" onclick="speak('저기요 2호선 지하철이에요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 4: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="pyo">표</span> 있어요?</div>
+          <div class="bubble-rom">Pyo it-seo-yo ?</div>
+          <div class="bubble-fr">Tu as un ticket ?</div>
+          <button class="bubble-audio" onclick="speak('표 있어요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 5: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">네, <span class="kw" data-id="gyotonggadeu">교통카드</span> 있어요!</div>
+          <div class="bubble-rom">Ne, kyo-tong-ka-deu it-seo-yo !</div>
+          <div class="bubble-fr">Oui, j'ai ma carte T-money !</div>
+          <button class="bubble-audio" onclick="speak('네 교통카드 있어요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 6: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="yeok">몇 역</span>이에요?</div>
+          <div class="bubble-rom">Myeot yeok-i-e-yo ?</div>
+          <div class="bubble-fr">C'est combien de stations ?</div>
+          <button class="bubble-audio" onclick="speak('몇 역이에요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 7: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">세 <span class="kw" data-id="yeok">역</span>이에요. 홍대입구<span class="kw" data-id="yeok">역</span>이에요!</div>
+          <div class="bubble-rom">Se yeok-i-e-yo. Hong-dae-ip-gu yeok-i-e-yo !</div>
+          <div class="bubble-fr">Trois stations. C'est la station Hongdae-Ipgu !</div>
+          <button class="bubble-audio" onclick="speak('세 역이에요 홍대입구역이에요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 8: Mina (in the train) -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">자리 있어요! <span class="kw" data-id="anjayo">앉아요</span>!</div>
+          <div class="bubble-rom">Ja-ri it-seo-yo ! An-ja-yo !</div>
+          <div class="bubble-fr">Il y a des places ! Assieds-toi !</div>
+          <button class="bubble-audio" onclick="speak('자리 있어요 앉아요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 9: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="gwaenchanayo">괜찮아요</span>~ 거의 다 왔어요!</div>
+          <div class="bubble-rom">Gwaen-cha-na-yo ~ Geo-ui da wa-sseo-yo !</div>
+          <div class="bubble-fr">C'est bon ~ On est presque arrivés !</div>
+          <button class="bubble-audio" onclick="speak('괜찮아요 거의 다 왔어요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 10: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="daeum">다음</span> <span class="kw" data-id="yeok">역</span>이에요! <span class="kw" data-id="naeryeoyo">내려요</span>!</div>
+          <div class="bubble-rom">Da-eum yeok-i-e-yo ! Nae-ryeo-yo !</div>
+          <div class="bubble-fr">C'est la prochaine station ! On descend !</div>
+          <button class="bubble-audio" onclick="speak('다음 역이에요 내려요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 11: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="daebak">대박이에요</span>! 콘서트 가요!</div>
+          <div class="bubble-rom">Dae-ba-gi-e-yo ! Kon-seo-teu ga-yo !</div>
+          <div class="bubble-fr">Génial ! On va au concert !</div>
+          <button class="bubble-audio" onclick="speak('대박이에요 콘서트 가요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 12: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="ppalli">빨리</span> <span class="kw" data-id="ppalli">빨리</span>~!</div>
+          <div class="bubble-rom">Ppal-li ppal-li ~ !</div>
+          <div class="bubble-fr">Vite vite ~ !</div>
+          <button class="bubble-audio" onclick="speak('빨리 빨리',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /dialogue -->
+  </div>
+
+  <!-- VOCAB RECAP -->
+  <span class="sec-lbl">Mots de l'histoire</span>
+  <div class="recap">
+    <p style="font-size:12px;color:var(--gray);margin-bottom:2px">Clique pour écouter la prononciation</p>
+    <div class="recap-grid" id="vocabGrid"></div>
+  </div>
+
+  <!-- MINI QUIZ -->
+  <span class="sec-lbl">Mini quiz — 5 questions</span>
+  <div class="quiz-wrap" id="quizWrap">
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-hint" id="quizHint">Choisis la bonne réponse</div>
+    <div class="quiz-choices" id="quizChoices"></div>
+    <div class="quiz-fb" id="quizFb"></div>
+    <button class="quiz-next" id="quizNext" disabled>Continuer →</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-wrap" id="resultWrap">
+    <span class="res-emoji" id="resEmoji"></span>
+    <div class="res-title" id="resTitle">Histoire terminée !</div>
+    <div class="res-sub" id="resSub"></div>
+    <div class="res-xp" id="resXp">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:var(--gold)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span id="resXpVal">0</span> XP gagnés
+    </div>
+    <div class="res-btns" id="resBtns">
+      <a href="exercice.html" class="res-btn primary">
+        Pratiquer ces mots — Exercices
+      </a>
+      <a href="histoire5.html" class="res-btn secondary">
+        ← Relire l'Histoire 5
+      </a>
+      <a href="histoires.html" class="res-btn secondary">
+        Toutes les histoires
+      </a>
+      <a href="app.html" class="res-btn secondary">
+        Retour à l'accueil →
+      </a>
+    </div>
+    <!-- Teaser H7 -->
+    <div style="margin-top:22px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.1);border-radius:16px;padding:16px;text-align:left">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,248,250,.3);margin-bottom:8px">Prochainement</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(236,72,153,.08);border:1px solid rgba(236,72,153,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#EC4899">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:white">Histoire 7 — 친구 집에서</div>
+          <div style="font-size:12px;color:rgba(247,248,250,.35);margin-top:2px">Chez un ami · Hospitalité coréenne</div>
+        </div>
+        <div style="margin-left:auto;font-size:11px;font-weight:700;color:#EC4899;background:rgba(236,72,153,.1);border-radius:100px;padding:4px 10px;white-space:nowrap">Bientôt</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="vocabulaire.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Vocab</span>
+  </a>
+  <a href="histoires.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+    <span>Histoire</span>
+  </a>
+  <a href="exercice.html" class="bni">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
+    <span>Exercices</span>
+  </a>
+  <a href="revision.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    <span>Révision</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<script>
+  // ── Words data ──
+  const STORY_WORDS = [
+    {id:'ppalli',        kr:'빨리',      rom:'ppal-li',         fr:'Vite !',                  audio:'빨리',       tip:'빨리 = vite, rapidement. 빨리 빨리 (ppal-li ppal-li) est même une expression culturelle coréenne qui décrit le rythme de vie effréné des Coréens — toujours pressés, toujours efficaces !'},
+    {id:'neutseosseoyo', kr:'늦었어요',  rom:'neu-jeo-sseo-yo', fr:'On est en retard',        audio:'늦었어요',   tip:'늦었어요 = on est en retard / j\'arrive trop tard. 늦다 = être en retard. Le 었 marque le passé en coréen. 학교에 늦었어요 = je suis en retard pour l\'école !'},
+    {id:'arayo',         kr:'알아요',    rom:'a-ra-yo',         fr:'Je sais / Je comprends',  audio:'알아요',     tip:'알아요 vient de 알다 = savoir, comprendre. 알아요 = je sais. 몰라요 (mol-la-yo) = je ne sais pas. Ces deux mots sont essentiels dans toute conversation !'},
+    {id:'jihacheol',     kr:'지하철',    rom:'ji-ha-cheol',     fr:'Métro / Subway',          audio:'지하철',     tip:'지하철 = métro. 지하 = sous terre, 철 = fer/acier. Littéralement "chemin de fer souterrain". Le métro de Séoul a 9 lignes et 300+ stations — l\'une des meilleures infrastructure du monde !'},
+    {id:'pyo',           kr:'표',        rom:'pyo',             fr:'Ticket / Billet',         audio:'표',         tip:'표 = ticket, billet. 지하철 표 = ticket de métro. 영화 표 = ticket de cinéma. 표 있어요 ? = Tu as un ticket ? Aujourd\'hui en Corée, on utilise surtout la 교통카드 !'},
+    {id:'gyotonggadeu',  kr:'교통카드',  rom:'kyo-tong-ka-deu', fr:'Carte T-money (transports)', audio:'교통카드', tip:'교통카드 = carte de transport (T-money). 교통 = transports, 카드 = carte. Valable dans le métro, les bus et les taxis. On la recharge dans les stations ou les 편의점. Plus rapide que d\'acheter un ticket !'},
+    {id:'yeok',          kr:'역',        rom:'yeok',            fr:'Station (de métro)',       audio:'역',         tip:'역 = station de train ou de métro. 다음 역 = prochaine station. 서울역 = Gare / station Seoul. 홍대입구역 = station Hongdae-Ipgu, le quartier branché de Séoul avec concerts, cafés et street food !'},
+    {id:'anjayo',        kr:'앉아요',    rom:'an-ja-yo',        fr:'Asseyez-vous / On s\'assoit', audio:'앉아요',  tip:'앉아요 vient de 앉다 = s\'asseoir. 앉아요 ! = Asseyez-vous ! / Assieds-toi ! Note : dans le métro coréen, les sièges bleus sont réservés aux personnes âgées et aux femmes enceintes. On ne s\'y assoit pas !'},
+    {id:'gwaenchanayo',  kr:'괜찮아요',  rom:'gwaen-cha-na-yo', fr:'C\'est ok / Ça va',        audio:'괜찮아요',   tip:'괜찮아요 = ça va, c\'est ok, pas de problème. Une des expressions les plus utiles du coréen ! 괜찮아요 ? = Ça va ? Tu vas bien ? 네, 괜찮아요 = Oui, ça va. On l\'entend des dizaines de fois par jour en Corée.'},
+    {id:'daeum',         kr:'다음',      rom:'da-eum',          fr:'Prochain(e)',               audio:'다음',       tip:'다음 = prochain, suivant. 다음 역 = prochaine station. 다음 주 = la semaine prochaine. 다음에 봐요 = on se voit la prochaine fois. Mot essentiel pour se repérer dans les transports !'},
+    {id:'naeryeoyo',     kr:'내려요',    rom:'nae-ryeo-yo',     fr:'On descend',                audio:'내려요',    tip:'내려요 vient de 내리다 = descendre (d\'un véhicule). 내려요 ! = On descend ! / Descendez ! Dans le métro, on entend aussi 내리세요 (forme plus formelle). 올라요 = on monte.'},
+    {id:'daebak',        kr:'대박이에요', rom:'dae-ba-gi-e-yo',  fr:'Super ! Génial !',          audio:'대박이에요', tip:'대박이에요 = super, génial, incroyable ! 대박 est l\'une des exclamations les plus populaires du coréen moderne — comme "jackpot" ou "incroyable". On l\'entend partout en Corée, dans les émissions, les rues, les concerts !'},
+    {id:'geouida',       kr:'거의',      rom:'geo-ui',          fr:'Presque',                   audio:'거의',       tip:'거의 = presque, quasiment. 거의 다 왔어요 = on est presque arrivés. 거의 끝났어요 = c\'est presque fini. Simple mais très utile pour exprimer une approximation !'},
+  ];
+
+  const WORD_DEFS = {};
+  STORY_WORDS.forEach(w => { WORD_DEFS[w.id] = w; });
+
+  // ── Audio ──
+  function speak(text, btn) {
+    try {
+      speechSynthesis.cancel();
+      document.querySelectorAll('.bubble-audio.playing,.recap-item.playing').forEach(e=>e.classList.remove('playing'));
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
+      if(btn) { btn.classList.add('playing'); u.onend = ()=>btn.classList.remove('playing'); }
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+
+  // ── Tooltip ──
+  const tooltip = document.getElementById('tooltip');
+  function showTooltip(el, wordId) {
+    const w = WORD_DEFS[wordId];
+    if(!w) return;
+    document.getElementById('tKr').textContent = w.kr;
+    document.getElementById('tRom').textContent = w.rom;
+    document.getElementById('tFr').textContent = w.fr;
+    document.getElementById('tTip').textContent = w.tip || '';
+    const r = el.getBoundingClientRect();
+    tooltip.style.left = Math.min(r.left, window.innerWidth - 240) + 'px';
+    const top = r.bottom + 8;
+    tooltip.style.top = (top + 200 > window.innerHeight ? r.top - 8 - 160 : top) + 'px';
+    tooltip.classList.add('show');
+  }
+  function hideTooltip() { tooltip.classList.remove('show'); }
+
+  document.querySelectorAll('.kw').forEach(el => {
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      el.classList.add('pop');
+      showTooltip(el, el.dataset.id);
+      setTimeout(() => el.classList.remove('pop'), 300);
+    });
+  });
+  document.addEventListener('click', hideTooltip);
+
+  // ── Vocab Recap ──
+  const RECAP_IDS = ['jihacheol','ppalli','neutseosseoyo','arayo','pyo','gyotonggadeu','yeok','anjayo','gwaenchanayo','daeum','naeryeoyo','daebak'];
+  const recapWords = RECAP_IDS.map(id => STORY_WORDS.find(w => w.id === id)).filter(Boolean);
+  const grid = document.getElementById('vocabGrid');
+  if(grid) {
+    grid.innerHTML = recapWords.map(w => `
+      <div class="recap-item" onclick="speak('${w.audio}',this)">
+        <div class="recap-kr">${w.kr}</div>
+        <div class="recap-info">
+          <div class="recap-fr">${w.fr}</div>
+          <div class="recap-rom">${w.rom}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  // ── Quiz ──
+  const QUIZ = [
+    { q:'Que signifie 지하철 ?',          correct:'Métro / Subway',       wrong:['Avion','Bus','Taxi'] },
+    { q:'Que signifie 늦었어요 ?',         correct:'On est en retard',     wrong:['On est arrivés','On est fatigués','On est perdus'] },
+    { q:'Que signifie 다음 역 ?',          correct:'Prochaine station',    wrong:['Dernière station','Première station','Station fermée'] },
+    { q:'Que signifie 괜찮아요 ?',         correct:'C\'est ok / Ça va',    wrong:['C\'est délicieux','C\'est loin','J\'ai faim'] },
+    { q:'Que signifie 대박이에요 ?',        correct:'Super ! Génial !',     wrong:['C\'est cher','Je suis en retard','Où est le métro ?'] },
+  ];
+
+  let qIdx = 0, score = 0;
+  const quizQ = document.getElementById('quizQ');
+  const quizHint = document.getElementById('quizHint');
+  const quizChoices = document.getElementById('quizChoices');
+  const quizFb = document.getElementById('quizFb');
+  const quizNext = document.getElementById('quizNext');
+  const pfill = document.getElementById('pfill');
+  const pstep = document.getElementById('pstep');
+  const totalQ = QUIZ.length;
+
+  function shuffle(arr) { return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]); }
+
+  function loadQuestion() {
+    if(qIdx >= totalQ) { showResult(); return; }
+    const q = QUIZ[qIdx];
+    quizQ.textContent = q.q;
+    quizHint.textContent = 'Choisis la bonne réponse';
+    quizFb.textContent = '';
+    quizFb.className = 'quiz-fb';
+    quizNext.disabled = true;
+    if(pfill) pfill.style.width = (qIdx / totalQ * 100) + '%';
+    if(pstep) pstep.textContent = qIdx + ' / ' + totalQ;
+    const options = shuffle([q.correct, ...q.wrong.slice(0,3)]);
+    quizChoices.innerHTML = options.map(opt => `<button class="qchoice" onclick="answer(this,'${opt.replace(/'/g,"\\'")}','${q.correct.replace(/'/g,"\\'")}')">${opt}</button>`).join('');
+  }
+
+  function answer(btn, chosen, correct) {
+    document.querySelectorAll('.qchoice').forEach(b => b.disabled = true);
+    if(chosen === correct) {
+      btn.classList.add('ok');
+      quizFb.textContent = '정답이에요 ! Excellent !';
+      quizFb.className = 'quiz-fb ok';
+      score++;
+    } else {
+      btn.classList.add('ko');
+      document.querySelectorAll('.qchoice').forEach(b => { if(b.textContent === correct) b.classList.add('ok'); });
+      quizFb.textContent = 'Pas tout à fait — la bonne réponse : ' + correct;
+      quizFb.className = 'quiz-fb ko';
+    }
+    quizNext.disabled = false;
+  }
+
+  quizNext.addEventListener('click', () => {
+    qIdx++;
+    if(qIdx < totalQ) loadQuestion();
+    else showResult();
+  });
+
+  function showResult() {
+    if(pfill) pfill.style.width = '100%';
+    if(pstep) pstep.textContent = totalQ + ' / ' + totalQ;
+    const quizWrap = document.getElementById('quizWrap');
+    const resultWrap = document.getElementById('resultWrap');
+    if(quizWrap) quizWrap.style.display = 'none';
+    if(resultWrap) resultWrap.classList.add('show');
+
+    const pct = Math.round(score / totalQ * 100);
+    const xpEarned = pct >= 80 ? 30 : pct >= 60 ? 20 : 10;
+    const emoji = pct >= 80 ? '✦' : pct >= 60 ? '★' : '↑';
+    document.getElementById('resEmoji').textContent = emoji;
+    document.getElementById('resTitle').textContent = pct >= 80 ? 'Parfait !' : pct >= 60 ? 'Bien joué !' : 'Continue !';
+    document.getElementById('resSub').textContent = score + ' bonne' + (score > 1 ? 's' : '') + ' réponse' + (score > 1 ? 's' : '') + ' sur ' + totalQ + ' — ' + pct + ' %';
+    document.getElementById('resXpVal').textContent = xpEarned;
+
+    // Save progress
+    const already = localStorage.getItem('ks_h6') === 'done';
+    if(!already) {
+      localStorage.setItem('ks_h6', 'done');
+      try {
+        const xpNow = parseInt(localStorage.getItem('ks_xp') || '0');
+        localStorage.setItem('ks_xp', String(xpNow + xpEarned));
+      } catch(e){}
+    }
+  }
+
+  loadQuestion();
+</script>
+
+<!-- DARK MODE FAB -->
+<button id="darkFab" onclick="toggleDarkGlobal()" style="position:fixed;bottom:76px;right:14px;z-index:200;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:var(--pure);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.1);transition:all .2s"></button>
+<script>
+(function(){
+  var SVG_SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  var SVG_MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:16px;height:16px"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  function sync(){var b=document.getElementById('darkFab');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.innerHTML=d?SVG_SUN:SVG_MOON;b.style.opacity=d?'1':'.7';}
+  window.toggleDarkGlobal=function(){var d=document.documentElement.getAttribute('data-theme')==='dark';var t=d?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('ks_theme',t);}catch(e){}sync();};
+  sync();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Histoire 1 — 안녕하세요 ! · Korean Stories</title>
+  <meta name="description" content="Ta première histoire en coréen. Lis un dialogue entre Mina et Joon avec les mots que tu as appris."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+      --green:#22c55e;--red:#ef4444;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar{
+      position:sticky;top:0;z-index:100;height:56px;padding:0 16px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:var(--navy);
+    }
+    .quit{
+      display:flex;align-items:center;gap:6px;padding:7px 14px;
+      border-radius:100px;border:1.5px solid rgba(255,255,255,.12);
+      background:none;cursor:pointer;text-decoration:none;
+      font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s;
+    }
+    .quit:hover{border-color:var(--gold);color:var(--gold)}
+    .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .tb-title{font-family:'Playfair Display',serif;font-size:14px;color:white;font-style:italic}
+    .xp-pill{
+      display:flex;align-items:center;gap:5px;
+      background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);
+      border-radius:100px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--gold);
+    }
+
+    /* ── HERO ── */
+    .hero{
+      background:var(--navy);padding:28px 20px 32px;
+      text-align:center;position:relative;overflow:hidden;
+    }
+    .hero::before{
+      content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+      width:340px;height:340px;border-radius:50%;
+      background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);
+      pointer-events:none;
+    }
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(91,168,245,.12);border:1px solid rgba(91,168,245,.25);
+      border-radius:100px;padding:4px 14px;margin-bottom:14px;
+      font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5BA8F5;
+    }
+    .hero-title{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(26px,6vw,36px);color:white;line-height:1.2;margin-bottom:8px;
+    }
+    .hero-title em{color:var(--gold);font-style:italic}
+    .hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.7;max-width:340px;margin:0 auto 22px}
+    .hero-chars{
+      display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+    }
+    .hchar{
+      background:rgba(201,169,110,.10);border:1px solid rgba(201,169,110,.18);
+      border-radius:10px;padding:6px 14px;font-size:20px;font-weight:300;color:var(--gold);
+    }
+
+    /* ── PROGRESS BAR ── */
+    .pbar-wrap{background:var(--navy);padding:0 20px 20px}
+    .pbar-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px}
+    .ptrack{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+    .pfill{height:100%;border-radius:100px;background:linear-gradient(90deg,#5BA8F5,var(--gold));transition:width .6s cubic-bezier(.4,0,.2,1);width:0%}
+    .pstep{font-size:11px;color:rgba(247,248,250,.35);font-weight:600;white-space:nowrap}
+
+    /* ── MAIN ── */
+    main{max-width:560px;margin:0 auto;padding:20px 16px}
+    .sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;display:block}
+
+    /* ── STORY PANEL ── */
+    .story-panel{
+      background:var(--navy);border-radius:24px;padding:26px;
+      margin-bottom:22px;position:relative;overflow:hidden;
+    }
+    .story-panel::after{
+      content:'';position:absolute;bottom:-50px;right:-50px;
+      width:160px;height:160px;border-radius:50%;
+      background:rgba(91,168,245,.04);pointer-events:none;
+    }
+    .story-title{
+      font-family:'Playfair Display',serif;
+      font-size:18px;color:white;margin-bottom:4px;
+    }
+    .story-meta{font-size:11px;color:rgba(247,248,250,.3);margin-bottom:18px}
+
+    /* ── DIALOGUE LINES ── */
+    .dialogue{display:flex;flex-direction:column;gap:16px}
+    .line{display:flex;gap:12px;align-items:flex-start}
+    .line.right{flex-direction:row-reverse}
+    .avatar{
+      width:38px;height:38px;border-radius:50%;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;font-size:18px;
+      border:2px solid rgba(255,255,255,.1);
+    }
+    .bubble{
+      max-width:calc(100% - 60px);
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;border-top-left-radius:4px;
+      padding:12px 16px;cursor:pointer;transition:all .2s;
+      position:relative;
+    }
+    .line.right .bubble{
+      border-radius:18px;border-top-right-radius:4px;
+      background:rgba(201,169,110,.1);border-color:rgba(201,169,110,.18);
+    }
+    .bubble:hover{background:rgba(255,255,255,.1);transform:scale(1.01)}
+    .line.right .bubble:hover{background:rgba(201,169,110,.16)}
+    .bubble-kr{
+      font-size:18px;font-weight:500;color:white;line-height:1.5;margin-bottom:4px;
+      letter-spacing:.02em;
+    }
+    .bubble-rom{font-size:11px;color:rgba(247,248,250,.4);margin-bottom:3px;font-style:italic}
+    .bubble-fr{font-size:12px;color:rgba(247,248,250,.65)}
+    .bubble-audio{
+      display:inline-flex;align-items:center;gap:5px;margin-top:8px;
+      background:rgba(255,255,255,.06);border:none;border-radius:100px;
+      padding:5px 12px;cursor:pointer;transition:all .2s;color:rgba(247,248,250,.45);font-size:11px;font-weight:600;
+    }
+    .bubble-audio:hover,.bubble-audio.playing{background:rgba(201,169,110,.2);color:var(--gold)}
+    .bubble-audio svg{width:12px;height:12px;fill:currentColor}
+
+    /* Word highlights */
+    .kw{
+      background:rgba(201,169,110,.18);border:1px solid rgba(201,169,110,.3);
+      border-radius:6px;padding:1px 6px;cursor:pointer;transition:all .15s;
+      color:var(--gold);font-weight:700;
+    }
+    .kw:hover,.kw.pop{background:rgba(201,169,110,.35);border-color:rgba(201,169,110,.6)}
+
+    /* Word tooltip */
+    .tooltip{
+      position:fixed;z-index:200;
+      background:var(--navy);border:1.5px solid rgba(201,169,110,.3);
+      border-radius:14px;padding:12px 16px;box-shadow:0 12px 40px rgba(0,0,0,.3);
+      max-width:220px;pointer-events:none;
+      opacity:0;transform:translateY(8px);transition:all .2s;
+    }
+    .tooltip.show{opacity:1;transform:translateY(0)}
+    .tooltip-kr{font-size:22px;font-weight:500;color:var(--gold);margin-bottom:2px}
+    .tooltip-rom{font-size:11px;color:rgba(247,248,250,.4);font-style:italic;margin-bottom:4px}
+    .tooltip-fr{font-size:13px;color:white;font-weight:600}
+    .tooltip-tip{font-size:11px;color:rgba(247,248,250,.35);margin-top:6px;line-height:1.5}
+
+    /* ── VOCAB RECAP ── */
+    .recap{
+      background:var(--pure);border:1.5px solid var(--border);
+      border-radius:22px;padding:20px;margin-bottom:22px;
+    }
+    .recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .recap-item{
+      background:var(--white);border:1.5px solid var(--border);
+      border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;
+      cursor:pointer;transition:all .2s;
+    }
+    .recap-item:hover{border-color:var(--gold);background:var(--goldp);transform:translateY(-1px)}
+    .recap-item.played{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.05)}
+    .recap-kr{font-size:20px;font-weight:300;color:var(--navy);flex-shrink:0;min-width:36px;text-align:center}
+    .recap-info{flex:1;min-width:0}
+    .recap-fr{font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .recap-rom{font-size:10px;color:var(--gray);font-style:italic}
+
+    /* ── QUIZ SECTION ── */
+    .quiz-wrap{
+      background:var(--navy);border-radius:24px;padding:24px;margin-bottom:22px;
+    }
+    .quiz-q{
+      font-family:'Playfair Display',serif;
+      font-size:18px;color:white;margin-bottom:6px;text-align:center;
+    }
+    .quiz-hint{font-size:12px;color:rgba(247,248,250,.35);text-align:center;margin-bottom:18px}
+    .quiz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .qchoice{
+      background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);
+      border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;
+      font-size:14px;font-weight:600;color:rgba(247,248,250,.7);text-align:center;
+    }
+    .qchoice:hover:not(:disabled){border-color:var(--gold);background:rgba(201,169,110,.1);color:var(--gold)}
+    .qchoice.ok{border-color:var(--green)!important;background:rgba(34,197,94,.12)!important;color:#16a34a!important}
+    .qchoice.ko{border-color:var(--red)!important;background:rgba(239,68,68,.08)!important;color:var(--red)!important}
+    .quiz-fb{text-align:center;min-height:22px;font-size:13px;font-weight:600;color:var(--gray);margin-bottom:12px}
+    .quiz-fb.ok{color:var(--green)}.quiz-fb.ko{color:var(--red)}
+    .quiz-next{
+      display:block;width:100%;padding:14px;border-radius:14px;border:none;cursor:pointer;
+      background:var(--gold);color:var(--navy);font-weight:700;font-size:14px;transition:all .2s;
+      font-family:'Inter',sans-serif;
+    }
+    .quiz-next:hover{background:var(--gold2);transform:translateY(-1px)}
+    .quiz-next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+    /* ── RESULT ── */
+    .result-wrap{
+      background:var(--navy);border-radius:24px;padding:28px 24px;
+      text-align:center;display:none;
+    }
+    .result-wrap.show{display:block}
+    .res-emoji{font-size:48px;margin-bottom:12px;display:block}
+    .res-title{
+      font-family:'Playfair Display',serif;font-size:24px;color:white;
+      margin-bottom:6px;
+    }
+    .res-sub{font-size:13px;color:rgba(247,248,250,.45);margin-bottom:22px;line-height:1.7}
+    .res-xp{
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      background:var(--goldp);border:1px solid var(--gold);border-radius:14px;
+      padding:14px;margin-bottom:20px;font-size:14px;font-weight:700;color:var(--navy);
+    }
+    .res-xp span{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold)}
+    .res-btns{display:flex;flex-direction:column;gap:10px}
+    .res-btn{
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      padding:14px 20px;border-radius:14px;font-size:14px;font-weight:700;
+      text-decoration:none;transition:all .2s;cursor:pointer;border:none;
+      font-family:'Inter',sans-serif;
+    }
+    .res-btn.primary{background:var(--gold);color:var(--navy)}
+    .res-btn.primary:hover{background:var(--gold2);transform:translateY(-1px)}
+    .res-btn.secondary{background:rgba(255,255,255,.06);color:rgba(247,248,250,.65);border:1.5px solid rgba(255,255,255,.1)}
+    .res-btn.secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* ── BOTTOM NAV ── */
+    .bnav{
+      position:fixed;bottom:0;left:0;right:0;z-index:90;
+      height:64px;background:var(--pure);
+      border-top:1px solid var(--border);
+      display:flex;align-items:stretch;
+    }
+    .bni{
+      flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+      text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;
+      text-transform:uppercase;transition:color .15s;padding:6px 0;
+    }
+    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
+    .bni.act,.bni:hover{color:var(--navy)}
+    .bni.act svg{stroke:var(--gold)}
+
+    /* ── CHARACTER INTRO ── */
+    .chars-intro{
+      background:var(--pure);border:1.5px solid var(--border);
+      border-radius:22px;padding:20px;margin-bottom:22px;
+    }
+    .char-row{display:flex;align-items:center;gap:14px;padding:10px 0}
+    .char-row+.char-row{border-top:1px solid var(--border)}
+    .char-ava{width:46px;height:46px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .char-name{font-size:14px;font-weight:700;color:var(--navy)}
+    .char-desc{font-size:12px;color:var(--gray);margin-top:2px;line-height:1.5}
+  
+    
+  
+    /* ═══════════════════════════════════════════════════════════
+       DARK MODE — GLOBAL SYSTEM
+       Tous les composants adaptatifs pour le mode sombre
+    ═══════════════════════════════════════════════════════════ */
+    [data-theme="dark"]{
+      --pure:#1e3352;
+      --white:#162844;
+      --border:rgba(255,255,255,.13);
+      --gray:#7a9ab8;
+      color-scheme:dark;
+    }
+    [data-theme="dark"] body{
+      background:#0f1e32!important;
+      color:#d8e8f5;
+    }
+    /* ── navigation ── */
+    [data-theme="dark"] .bnav,
+    [data-theme="dark"] .bnav-wrap{
+      background:#0a1628!important;
+      border-top-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni.act{color:#C9A96E!important}
+    [data-theme="dark"] .bni.act svg{stroke:#C9A96E!important}
+    [data-theme="dark"] .bni span{color:inherit!important}
+    /* ── cards génériques ── */
+    [data-theme="dark"] .scard,
+    [data-theme="dark"] .card,
+    [data-theme="dark"] .ex-card,
+    [data-theme="dark"] .qz-card,
+    [data-theme="dark"] .quiz-card,
+    [data-theme="dark"] .result-card,
+    [data-theme="dark"] .vocab-prev,
+    [data-theme="dark"] .flip-front{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .scard-name,
+    [data-theme="dark"] .scard-kr,
+    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .scard-pct{color:rgba(200,220,240,.45)!important}
+    /* ── leçon — choice buttons ── */
+    [data-theme="dark"] .ch{
+      background:#1e3352!important;
+      border:1.5px solid rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .ch:hover:not(:disabled){
+      border-color:#C9A96E!important;
+      background:rgba(201,169,110,.12)!important;
+    }
+    [data-theme="dark"] .ch.ok{
+      border-color:#4ade80!important;
+      background:rgba(34,197,94,.12)!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .ch.ko{
+      border-color:#f87171!important;
+      background:rgba(239,68,68,.12)!important;
+      color:#f87171!important;
+    }
+    /* ── leçon — keyboard keys ── */
+    [data-theme="dark"] .kbkey{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .kbkey .kk{color:#d8e8f5!important}
+    [data-theme="dark"] .kbkey .kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .kbrow{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .kb-target{
+      background:#162844!important;
+      border-color:rgba(255,255,255,.14)!important;
+    }
+    [data-theme="dark"] .tw-blank{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    /* ── leçon — UI text ── */
+    [data-theme="dark"] .q-prompt{color:#d8e8f5!important}
+    [data-theme="dark"] .q-big{
+      color:#d8e8f5!important;
+      border-color:rgba(255,255,255,.12)!important;
+      background:#1e3352!important;
+    }
+    [data-theme="dark"] .q-cnt{color:rgba(200,220,240,.4)!important}
+    [data-theme="dark"] .q-hint{color:rgba(200,220,240,.35)!important}
+    [data-theme="dark"] .fb{color:rgba(200,220,240,.55)}
+    [data-theme="dark"] .fb.ok{color:#4ade80!important}
+    [data-theme="dark"] .fb.ko{color:#f87171!important}
+    [data-theme="dark"] .wrap{background:#0f1e32!important}
+    [data-theme="dark"] .mhdr{background:#0a1628!important}
+    [data-theme="dark"] .tbar{
+      background:#0a1628!important;
+      border-color:rgba(255,255,255,.08)!important;
+    }
+    [data-theme="dark"] .ptrack{background:rgba(255,255,255,.1)!important}
+    [data-theme="dark"] .mnm{color:rgba(215,232,248,.9)!important}
+    [data-theme="dark"] .msay{color:rgba(200,220,240,.6)!important}
+    [data-theme="dark"] .res-msg{color:#d8e8f5!important}
+    [data-theme="dark"] .res-sec{
+      border-color:rgba(255,255,255,.15)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    /* ── exercice.html ── */
+    [data-theme="dark"] .mtab{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.15)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    [data-theme="dark"] .mtab.act{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .word-token{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .word-token.placed{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .wb-target{
+      background:rgba(255,255,255,.03)!important;
+      border-color:rgba(255,255,255,.14)!important;
+    }
+    [data-theme="dark"] .pair-token{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .pair-token.selected{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .lc-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .sc-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .sc-score-n{color:#d8e8f5!important}
+    [data-theme="dark"] .sc-start-title{color:#d8e8f5!important}
+    [data-theme="dark"] .sc-start-sub{color:rgba(200,220,240,.5)!important}
+    [data-theme="dark"] .fb-strip.ok{
+      background:rgba(34,197,94,.1)!important;
+      border-color:rgba(34,197,94,.25)!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .fb-strip.ko{
+      background:rgba(239,68,68,.08)!important;
+      border-color:rgba(239,68,68,.2)!important;
+      color:#f87171!important;
+    }
+    [data-theme="dark"] .next-btn{
+      background:#1e3352!important;
+      border:1.5px solid rgba(255,255,255,.15)!important;
+      color:#d8e8f5!important;
+    }
+    /* ── révision ── */
+    [data-theme="dark"] .ans-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .ans-btn.correct{
+      background:rgba(34,197,94,.1)!important;
+      border-color:#4ade80!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .ans-btn.wrong{
+      background:rgba(239,68,68,.1)!important;
+      border-color:#f87171!important;
+      color:#f87171!important;
+    }
+    [data-theme="dark"] .qz-card,
+    [data-theme="dark"] .qz-card-inner{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .qz-feedback.ok{color:#4ade80!important}
+    [data-theme="dark"] .qz-feedback.ko{color:#f87171!important}
+    /* ── vocabulaire ── */
+    [data-theme="dark"] .flip-front{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .filters{
+      background:#0f1e32!important;
+      border-color:rgba(255,255,255,.08)!important;
+    }
+    [data-theme="dark"] .fchip{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.13)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    [data-theme="dark"] .fchip.act{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    /* ── histoires ── */
+    [data-theme="dark"] .node-title{color:#d8e8f5!important}
+    [data-theme="dark"] .node-num{color:rgba(200,220,240,.35)!important}
+    [data-theme="dark"] .node-kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .node-bubble.state-locked{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.15)!important;
+    }
+    [data-theme="dark"] .node-bubble.state-soon{
+      background:#1e3352!important;
+      border-color:rgba(167,139,250,.2)!important;
+    }
+    [data-theme="dark"] .done-mini{
+      background:#1e3352!important;
+      border-color:rgba(34,197,94,.2)!important;
+    }
+    [data-theme="dark"] .done-mini-title{color:#d8e8f5!important}
+    [data-theme="dark"] .done-mini-sub{color:rgba(200,220,240,.4)!important}
+    [data-theme="dark"] .locked-hint{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+      color:rgba(200,220,240,.45)!important;
+    }
+    [data-theme="dark"] .locked-section{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .locked-section h3{color:#d8e8f5!important}
+    [data-theme="dark"] .locked-section p{color:rgba(200,220,240,.55)!important}
+    [data-theme="dark"] .connector.locked{
+      background:repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 6px,
+        transparent 6px,transparent 12px
+      )!important;
+    }
+    /* ── app.html ── */
+    [data-theme="dark"] .dori-tip{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .welcome-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .lbrow{background:rgba(255,255,255,.04)!important}
+    [data-theme="dark"] .lbl-name{color:#d8e8f5!important}
+    /* ── profil ── */
+    [data-theme="dark"] .stat-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .settings-list{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .setting-name{color:#d8e8f5!important}
+    [data-theme="dark"] .setting-sub{color:rgba(200,220,240,.45)!important}
+    /* ── sections labels ── */
+    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)!important}
+    /* ── histoire pages ── */
+    [data-theme="dark"] .dial-box{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .dial-text{color:#d8e8f5!important}
+    [data-theme="dark"] .dial-who{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .voc-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .voc-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .voc-fr{color:rgba(200,220,240,.55)!important}
+    /* ── hangeul page ── */
+    [data-theme="dark"] .char-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .char-glyph{color:#d8e8f5!important}
+    [data-theme="dark"] .char-rom{color:rgba(200,220,240,.55)!important}
+    /* ── generic inputs ── */
+    [data-theme="dark"] input:not([type="range"]),
+    [data-theme="dark"] textarea,
+    [data-theme="dark"] select{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+
+    /* ── CHARACTER AVATARS (SVG initials) ── */
+    .ava-init{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-weight:700;font-size:inherit;line-height:1}
+    .ava-mina{background:linear-gradient(135deg,#FFDCEA,#FFC0DA);color:#9d274e;border:none}
+    .ava-joon{background:linear-gradient(135deg,#BFDBFE,#93C5FD);color:#1d4ed8;border:none}
+
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="app.html" class="quit">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    Accueil
+  </a>
+  <span class="tb-title">Histoire 1</span>
+  <div class="xp-pill">
+    <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    +30 XP
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="pbar-wrap">
+  <div class="pbar-inner">
+    <div class="ptrack"><div class="pfill" id="pfill"></div></div>
+    <span class="pstep" id="pstep">0 / 5</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Histoire 1 — Niveau Hangeul</div>
+  <h1 class="hero-title">안녕하세요&thinsp;!<br/><em>Bonjour !</em></h1>
+  <p class="hero-sub">Mina rencontre Joon dans la rue. Lis leur conversation — clique sur les mots surlignés pour voir leur signification.</p>
+  <div class="hero-chars">
+    <div class="hchar">미나</div>
+    <div style="font-size:18px;color:rgba(247,248,250,.25)">×</div>
+    <div class="hchar">준</div>
+  </div>
+</div>
+
+<!-- WORD TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="tooltip-kr" id="tKr"></div>
+  <div class="tooltip-rom" id="tRom"></div>
+  <div class="tooltip-fr" id="tFr"></div>
+  <div class="tooltip-tip" id="tTip"></div>
+</div>
+
+<main>
+
+  <!-- PERSONNAGES -->
+  <span class="sec-lbl">Les personnages</span>
+  <div class="chars-intro">
+    <div class="char-row">
+      <div class="char-ava" style="background:#FFF0F6;border-color:#FFDCEA;font-size:28px"><div class="ava-init ava-mina">M</div></div>
+      <div>
+        <div class="char-name">미나 Mina</div>
+        <div class="char-desc">Étudiante curieuse, passionnée de K-pop. Elle apprend le français — comme toi tu apprends le coréen !</div>
+      </div>
+    </div>
+    <div class="char-row">
+      <div class="char-ava" style="background:#EFF6FF;border-color:#BFDBFE;font-size:28px"><div class="ava-init ava-joon">J</div></div>
+      <div>
+        <div class="char-name">준 Joon</div>
+        <div class="char-desc">Le cousin de Mina. Il est calme et sympa. Il lit beaucoup et voyage partout dans le 나라 (monde).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIALOGUE -->
+  <span class="sec-lbl">Le dialogue</span>
+  <div class="story-panel">
+    <div class="story-title">만남 — La rencontre</div>
+    <div class="story-meta">Séoul · Un matin ensoleillé</div>
+    <div class="dialogue" id="dialogue">
+
+      <!-- Line 1: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">안녕하세요, <span class="kw" data-id="joon">준</span>씨&thinsp;!</div>
+          <div class="bubble-rom">An-nyeong-ha-se-yo, Jun-ssi !</div>
+          <div class="bubble-fr">Bonjour Joon ! (forme polie)</div>
+          <button class="bubble-audio" onclick="speak('안녕하세요 준씨',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 2: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">안녕하세요, <span class="kw" data-id="mina">미나</span>씨&thinsp;! 잘 지내요&thinsp;?</div>
+          <div class="bubble-rom">An-nyeong-ha-se-yo, Mi-na-ssi ! Jal ji-nae-yo ?</div>
+          <div class="bubble-fr">Bonjour Mina ! Comment ça va ?</div>
+          <button class="bubble-audio" onclick="speak('안녕하세요 미나씨 잘 지내요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 3: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">네, 잘 지내요 ! 오늘 날씨 좋아요. <span class="kw" data-id="hae">해</span>가 너무 예뻐요&thinsp;!</div>
+          <div class="bubble-rom">Ne, jal ji-nae-yo ! O-neul nal-ssi jo-a-yo. Hae-ga neo-mu ye-ppeo-yo !</div>
+          <div class="bubble-fr">Oui, ça va bien ! Le temps est beau aujourd'hui. Le soleil est tellement beau !</div>
+          <button class="bubble-audio" onclick="speak('네 잘 지내요 오늘 날씨 좋아요 해가 너무 예뻐요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 4: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">맞아요&thinsp;! 저기 봐요 — <span class="kw" data-id="haru">하루</span>가 참 좋네요.</div>
+          <div class="bubble-rom">Ma-ja-yo ! Jeo-gi bwa-yo — ha-ru-ga cham jo-ne-yo.</div>
+          <div class="bubble-fr">Exactement ! Regarde là-bas — c'est vraiment une belle journée.</div>
+          <button class="bubble-audio" onclick="speak('맞아요 저기 봐요 하루가 참 좋네요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 5: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="nado">나도</span>&thinsp;! 준씨는 <span class="kw" data-id="jogi">저기</span> 가요&thinsp;?</div>
+          <div class="bubble-rom">Na-do ! Jun-ssi-neun jeo-gi ga-yo ?</div>
+          <div class="bubble-fr">Moi aussi ! Tu vas là-bas Joon ?</div>
+          <button class="bubble-audio" onclick="speak('나도 준씨는 저기 가요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 6: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">네&thinsp;! 시장 가요. <span class="kw" data-id="subak">수박</span> 사러 가요&thinsp;~</div>
+          <div class="bubble-rom">Ne ! Si-jang ga-yo. Su-bak sa-reo ga-yo ~</div>
+          <div class="bubble-fr">Oui ! Je vais au marché. Je vais acheter de la pastèque ~</div>
+          <button class="bubble-audio" onclick="speak('네 시장 가요 수박 사러 가요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 7: Mina -->
+      <div class="line">
+        <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">오&thinsp;! <span class="kw" data-id="nado">나도</span> 가요&thinsp;! <span class="kw" data-id="bballi">빨리</span> 가요 우리&thinsp;!</div>
+          <div class="bubble-rom">O ! Na-do ga-yo ! Bbal-li ga-yo u-ri !</div>
+          <div class="bubble-fr">Oh ! Je viens aussi ! Allons-y vite tous les deux !</div>
+          <button class="bubble-audio" onclick="speak('오 나도 가요 빨리 가요 우리',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 8: Joon -->
+      <div class="line right">
+        <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
+        <div class="bubble">
+          <div class="bubble-kr">좋아요&thinsp;! 같이 가요. <span class="kw" data-id="tto">또</span> 같이 먹어요&thinsp;!</div>
+          <div class="bubble-rom">Jo-a-yo ! Ga-chi ga-yo. Tto ga-chi meo-geo-yo !</div>
+          <div class="bubble-fr">Super ! On y va ensemble. On mange ensemble encore une fois !</div>
+          <button class="bubble-audio" onclick="speak('좋아요 같이 가요 또 같이 먹어요',this)">
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Écouter
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /dialogue -->
+  </div>
+
+  <!-- VOCAB RECAP -->
+  <span class="sec-lbl">Mots de l'histoire</span>
+  <div class="recap">
+    <p style="font-size:12px;color:var(--gray);margin-bottom:2px">Clique pour écouter la prononciation</p>
+    <div class="recap-grid" id="vocabGrid"></div>
+  </div>
+
+  <!-- MINI QUIZ -->
+  <span class="sec-lbl">Mini quiz — 5 questions</span>
+  <div class="quiz-wrap" id="quizWrap">
+    <div class="quiz-q" id="quizQ">Que signifie <span style="color:var(--gold)">해</span> ?</div>
+    <div class="quiz-hint" id="quizHint">Choisis la bonne réponse</div>
+    <div class="quiz-choices" id="quizChoices"></div>
+    <div class="quiz-fb" id="quizFb"></div>
+    <button class="quiz-next" id="quizNext" disabled>Continuer →</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-wrap" id="resultWrap">
+    <span class="res-emoji" id="resEmoji"></span>
+    <div class="res-title" id="resTitle">Histoire terminée !</div>
+    <div class="res-sub" id="resSub">Tu as lu ton premier dialogue coréen. 대단해요 !</div>
+    <div class="res-xp" id="resXp">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:var(--gold)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span id="resXpVal">0</span> XP gagnés
+    </div>
+    <div class="res-btns">
+      <a href="exercice.html" class="res-btn primary">
+        Pratiquer ces mots — Exercices
+      </a>
+      <a href="vocabulaire.html" class="res-btn secondary">
+        Réviser le vocabulaire
+      </a>
+      <a href="app.html" class="res-btn secondary">
+        ← Retour à l'accueil
+      </a>
+    </div>
+    <!-- H2 link — now live ! -->
+    <a href="histoire2.html" style="display:block;margin-top:22px;background:rgba(34,197,94,.06);border:1.5px solid rgba(34,197,94,.2);border-radius:16px;padding:16px;text-align:left;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(34,197,94,.12)'" onmouseout="this.style.background='rgba(34,197,94,.06)'">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(34,197,94,.6);margin-bottom:8px">Disponible maintenant !</div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#16a34a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:white">Histoire 2 — 시장에서</div>
+          <div style="font-size:12px;color:rgba(247,248,250,.35);margin-top:2px">Au marché · Mina et Joon font leurs courses</div>
+        </div>
+        <div style="margin-left:auto;font-size:11px;font-weight:700;color:#22c55e;background:rgba(34,197,94,.12);border-radius:100px;padding:4px 10px;white-space:nowrap">Lire →</div>
+      </div>
+    </a>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="vocabulaire.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Vocab</span>
+  </a>
+  <a href="histoires.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/></svg>
+    <span>Histoire</span>
+  </a>
+  <a href="exercice.html" class="bni">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
+    <span>Exercices</span>
+  </a>
+  <a href="revision.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    <span>Révision</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<script>
+  // ── Words data ──
+  const STORY_WORDS = [
+    {id:'hae',    kr:'해',    rom:'hae',    fr:'Soleil',        audio:'해',    tip:'해 = soleil. Aussi 해 = mer dans certains contextes !'},
+    {id:'haru',   kr:'하루',  rom:'ha-ru',  fr:'Un jour',       audio:'하루',   tip:'하루 = un jour (durée). 오늘 하루 = "ce jour aujourd\'hui"'},
+    {id:'nado',   kr:'나도',  rom:'na-do',  fr:'Moi aussi',     audio:'나도',   tip:'나 = moi + 도 = aussi. 도 est une particule très utile !'},
+    {id:'jogi',   kr:'저기',  rom:'jeo-gi', fr:'Là-bas',        audio:'저기',   tip:'저기 = là-bas (loin). 여기 = ici. 거기 = là (à mi-chemin)'},
+    {id:'subak',  kr:'수박',  rom:'su-bak', fr:'Pastèque',      audio:'수박',   tip:'수박 est très populaire en Corée en été !'},
+    {id:'bballi', kr:'빨리',  rom:'bbal-li',fr:'Vite !',        audio:'빨리',   tip:'빨리빨리 est une expression coréenne : "vite vite" — l\'esprit coréen du dynamisme !'},
+    {id:'tto',    kr:'또',    rom:'tto',    fr:'Encore / Aussi',audio:'또',     tip:'또 만나요 = "On se revoit encore" = À bientôt !'},
+  ];
+
+  // Word defs for tooltip
+  const WORD_DEFS = {};
+  STORY_WORDS.forEach(w => { WORD_DEFS[w.id] = w; });
+  WORD_DEFS['joon'] = {kr:'준', rom:'Jun', fr:'Prénom : Joon', audio:'준', tip:'준 vient de 준수 (beau, noble). Un prénom coréen courant.'};
+  WORD_DEFS['mina'] = {kr:'미나', rom:'Mi-na', fr:'Prénom : Mina', audio:'미나', tip:'미나 = nom coréen populaire chez les filles. 미 = beauté.'};
+
+  // ── Audio ──
+  function speak(text, btn) {
+    try {
+      speechSynthesis.cancel();
+      document.querySelectorAll('.bubble-audio.playing,.recap-item.playing').forEach(e=>e.classList.remove('playing'));
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
+      if(btn) { btn.classList.add('playing'); u.onend = ()=>btn.classList.remove('playing'); }
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+
+  // ── Tooltip ──
+  const tooltip = document.getElementById('tooltip');
+  function showTooltip(el, wordId) {
+    const w = WORD_DEFS[wordId];
+    if(!w) return;
+    document.getElementById('tKr').textContent = w.kr;
+    document.getElementById('tRom').textContent = w.rom;
+    document.getElementById('tFr').textContent = w.fr;
+    document.getElementById('tTip').textContent = w.tip || '';
+    el.classList.add('pop');
+    // Position tooltip
+    const rect = el.getBoundingClientRect();
+    const tW = 220;
+    let left = rect.left + rect.width/2 - tW/2;
+    if(left < 8) left = 8;
+    if(left + tW > window.innerWidth - 8) left = window.innerWidth - tW - 8;
+    let top = rect.bottom + 8;
+    if(top + 150 > window.innerHeight) top = rect.top - 130;
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+    tooltip.classList.add('show');
+    // Auto-speak
+    speak(w.audio || w.kr, null);
+  }
+  function hideTooltip() {
+    tooltip.classList.remove('show');
+    document.querySelectorAll('.kw.pop').forEach(e=>e.classList.remove('pop'));
+  }
+  document.querySelectorAll('.kw').forEach(el => {
+    el.addEventListener('click', e => {
+      e.stopPropagation();
+      showTooltip(el, el.dataset.id);
+    });
+  });
+  document.addEventListener('click', hideTooltip);
+
+  // ── Vocab grid ──
+  const grid = document.getElementById('vocabGrid');
+  if(grid) {
+    grid.innerHTML = STORY_WORDS.map(w => `
+      <div class="recap-item" id="ri-${w.id}" onclick="playRecap('${w.id}','${w.audio}')">
+        <div class="recap-kr">${w.kr}</div>
+        <div class="recap-info">
+          <div class="recap-fr">${w.fr}</div>
+          <div class="recap-rom">${w.rom}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+  function playRecap(id, audio) {
+    const item = document.getElementById('ri-'+id);
+    if(item) {
+      document.querySelectorAll('.recap-item').forEach(i=>i.classList.remove('played'));
+      item.classList.add('played');
+    }
+    speak(audio, null);
+  }
+
+  // ── Quiz ──
+  const QUIZ = [
+    { q:'Que signifie', word:'해', wordId:'hae',    correct:'Soleil',     choices:['Soleil','Moi aussi','Pastèque','Vite !'] },
+    { q:'Que signifie', word:'나도', wordId:'nado',   correct:'Moi aussi',  choices:['Un jour','Moi aussi','Là-bas','Encore'] },
+    { q:'Que signifie', word:'수박', wordId:'subak',  correct:'Pastèque',   choices:['Fromage','Fête','Pastèque','Légumes'] },
+    { q:'Comment dit-on "Vite !" en coréen ?', word:'빨리', wordId:'bballi', correct:'빨리', choices:['또','빨리','하루','저기'] },
+    { q:'Que signifie', word:'또', wordId:'tto',     correct:'Encore',     choices:['Ici','Encore','Un jour','Beau'] },
+  ];
+
+  let qIdx = 0, qScore = 0, qAnswered = false;
+  const TOTAL_Q = QUIZ.length;
+
+  function renderQuiz() {
+    const q = QUIZ[qIdx];
+    if(!q) { finishQuiz(); return; }
+    const qEl = document.getElementById('quizQ');
+    const hEl = document.getElementById('quizHint');
+    const cEl = document.getElementById('quizChoices');
+    const fbEl = document.getElementById('quizFb');
+    const nxtEl = document.getElementById('quizNext');
+    qAnswered = false;
+    if(qEl) qEl.innerHTML = q.q + (q.q.length < 20 ? ' <span style="color:var(--gold)">' + q.word + '</span> ?' : ' ?');
+    if(hEl) hEl.textContent = 'Question ' + (qIdx+1) + ' sur ' + TOTAL_Q;
+    if(fbEl) { fbEl.textContent=''; fbEl.className='quiz-fb'; }
+    if(nxtEl) { nxtEl.disabled=true; nxtEl.textContent='Continuer →'; }
+    // Shuffle choices
+    const shuffled = [...q.choices].sort(()=>Math.random()-.5);
+    if(cEl) cEl.innerHTML = shuffled.map(c =>
+      `<button class="qchoice" onclick="answerQ('${c.replace(/'/g,"\\'")}','${q.correct.replace(/'/g,"\\'")}')">${c}</button>`
+    ).join('');
+    // Progress
+    updateProgress();
+  }
+
+  function answerQ(choice, correct) {
+    if(qAnswered) return;
+    qAnswered = true;
+    const isOk = choice === correct;
+    if(isOk) qScore++;
+    const fbEl = document.getElementById('quizFb');
+    const nxtEl = document.getElementById('quizNext');
+    document.querySelectorAll('.qchoice').forEach(btn => {
+      btn.disabled = true;
+      if(btn.textContent === correct) btn.classList.add('ok');
+      else if(btn.textContent === choice && !isOk) btn.classList.add('ko');
+    });
+    if(fbEl) {
+      fbEl.textContent = isOk ? 'Correct ! 맞아요 ✓' : 'La bonne réponse : ' + correct;
+      fbEl.className = 'quiz-fb ' + (isOk ? 'ok' : 'ko');
+    }
+    if(nxtEl) nxtEl.disabled = false;
+    updateProgress();
+  }
+
+  document.getElementById('quizNext').addEventListener('click', () => {
+    qIdx++;
+    if(qIdx >= TOTAL_Q) finishQuiz();
+    else renderQuiz();
+  });
+
+  function updateProgress() {
+    const pct = Math.round(qIdx / TOTAL_Q * 100);
+    const fill = document.getElementById('pfill');
+    const step = document.getElementById('pstep');
+    if(fill) fill.style.width = pct + '%';
+    if(step) step.textContent = qIdx + ' / ' + TOTAL_Q;
+  }
+
+  
+// ─────────────────────────────────────────────
+//  CONFETTI
+// ─────────────────────────────────────────────
+function launchConfetti(duration) {
+  try {
+    const cvs = document.createElement('canvas');
+    cvs.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+    document.body.appendChild(cvs);
+    const ctx = cvs.getContext('2d');
+    cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+    const colors = ['#C9A96E','#FFD800','#22c55e','#A78BFA','#F59E0B','#ffffff','#FF8EA8'];
+    const parts = Array.from({length:90}, () => ({
+      x: Math.random()*cvs.width, y: Math.random()*-cvs.height*0.4,
+      w: Math.random()*9+3, h: Math.random()*5+2,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      vx: Math.random()*4-2, vy: Math.random()*3+1.5,
+      rot: Math.random()*360, rotV: Math.random()*7-3
+    }));
+    const end = Date.now() + (duration||2200);
+    function frame() {
+      ctx.clearRect(0,0,cvs.width,cvs.height);
+      const rem = end - Date.now();
+      if(rem <= 0){ cvs.remove(); return; }
+      parts.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.rot+=p.rotV;
+        ctx.save(); ctx.globalAlpha = Math.min(1, rem/400);
+        ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+        ctx.restore();
+      });
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  } catch(e) {}
+}
+function finishQuiz() {
+    const qWrap = document.getElementById('quizWrap');
+    const rWrap = document.getElementById('resultWrap');
+    const pfill = document.getElementById('pfill');
+    const pstep = document.getElementById('pstep');
+    if(qWrap) qWrap.style.display = 'none';
+    if(rWrap) rWrap.classList.add('show');
+    if(pfill) pfill.style.width = '100%';
+    if(pstep) pstep.textContent = TOTAL_Q + ' / ' + TOTAL_Q;
+
+    const pct = Math.round(qScore / TOTAL_Q * 100);
+    //  Confetti
+    try { setTimeout(() => launchConfetti(pct >= 80 ? 3000 : 2000), 400); } catch(e) {}
+    const earnedXP = pct >= 80 ? 30 : pct >= 60 ? 20 : 10;
+
+    const emoji = document.getElementById('resEmoji');
+    const title = document.getElementById('resTitle');
+    const sub   = document.getElementById('resSub');
+    const xpVal = document.getElementById('resXpVal');
+
+    if(pct === 100) {
+      if(emoji) emoji.textContent = '';
+      if(title) title.textContent = 'Parfait ! 완벽해요 !';
+      if(sub)   sub.innerHTML = 'Score : <strong>' + qScore + '/' + TOTAL_Q + '</strong> — Tu as tout compris ! Tu es prêt pour la prochaine histoire.';
+    } else if(pct >= 60) {
+      if(emoji) emoji.textContent = '';
+      if(title) title.textContent = 'Histoire terminée !';
+      if(sub)   sub.innerHTML = 'Score : <strong>' + qScore + '/' + TOTAL_Q + '</strong> — Bien joué ! Continue à pratiquer pour tout mémoriser.';
+    } else {
+      if(emoji) emoji.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M6.5 6.5l11 11"/><path d="M21 3a2.5 2.5 0 00-3.5 0l-1 1-1-1A2.5 2.5 0 0012 6.5l1 1-6 6-1-1A2.5 2.5 0 002.5 16 2.5 2.5 0 005 18.5l1 1-1 1a2.5 2.5 0 003.5 3.5l1-1 1 1A2.5 2.5 0 0015 20.5l-1-1 6-6 1 1A2.5 2.5 0 0024 12a2.5 2.5 0 00-2.5-2.5L20.5 8.5l1-1A2.5 2.5 0 0021 3z"/></svg>';
+      if(title) title.textContent = 'Continue comme ça !';
+      if(sub)   sub.innerHTML = 'Score : <strong>' + qScore + '/' + TOTAL_Q + '</strong> — Relis le dialogue et retente le quiz !';
+    }
+
+    // Award XP
+    try {
+      const prevXP = parseInt(localStorage.getItem('ks_xp')||'0');
+      const alreadyDone = localStorage.getItem('ks_h1') === 'done';
+      const finalXP = alreadyDone ? Math.min(10, earnedXP) : earnedXP;
+      localStorage.setItem('ks_xp', String(prevXP + finalXP));
+      if(!alreadyDone) localStorage.setItem('ks_h1', 'done');
+      if(xpVal) xpVal.textContent = finalXP;
+      // Daily goal
+      const today = new Date().toISOString().slice(0,10);
+      const daily = JSON.parse(localStorage.getItem('ks_daily')||'{}');
+      if(daily.date !== today) localStorage.setItem('ks_daily', JSON.stringify({date:today,start:prevXP}));
+      // Streak
+      const t=today,l=localStorage.getItem('ks_lastplay'),s=parseInt(localStorage.getItem('ks_streak')||'0');
+      if(l!==t){localStorage.setItem('ks_streak',String(l&&(new Date(t)-new Date(l))/86400000===1?s+1:1));localStorage.setItem('ks_lastplay',t);}
+    } catch(e){}
+
+    // Streak badge
+    try{
+      const _sk=parseInt(localStorage.getItem('ks_streak')||'0');
+      if(_sk>=1){const _xd=document.querySelector('.res-xp');if(_xd&&!document.getElementById('streakBadge')){const _sb=document.createElement('div');_sb.id='streakBadge';_sb.style.cssText='display:inline-flex;align-items:center;gap:5px;background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.2);border-radius:100px;padding:5px 14px;margin-top:8px;font-size:12px;font-weight:700;color:#FF6B35';_sb.innerHTML=_sk+' jour'+(_sk>1?'s':'')+' de suite !';_xd.insertAdjacentElement('afterend',_sb);}}
+    }catch(e){}
+  }
+
+  // Init
+  renderQuiz();
+</script>
+
+  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Histoire 8 — 노래방에서 · Korean Stories</title>
+  <meta name="description" content="Huitième histoire en coréen. Mina et Joon au norebang — chansons, micro, scores et fous rires à Séoul !"/>
+  <meta property="og:title" content="Histoire 8 — 노래방에서 · Korean Stories"/>
+  <meta property="og:description" content="Une soirée norebang avec Mina et Joon. Micro en main, chansons à fond — c'est le top ! Lis, écoute, teste-toi."/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+      --green:#22c55e;--red:#ef4444;
+      --sky:#38BDF8;--skyp:rgba(56,189,248,0.12);
+    }
+    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    .quit{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
+    .quit:hover{border-color:#7DD3FC;color:#7DD3FC}
+    .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .tb-title{font-family:'Playfair Display',serif;font-size:14px;color:white;font-style:italic}
+    .xp-pill{display:flex;align-items:center;gap:5px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.2);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:700;color:#F59E0B}
+    .hero{background:var(--navy);padding:28px 20px 32px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.09) 0%,transparent 70%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.28);border-radius:100px;padding:4px 14px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7DD3FC}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,6vw,36px);color:white;line-height:1.2;margin-bottom:8px}
+    .hero-title em{color:#7DD3FC;font-style:italic}
+    .hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.7;max-width:340px;margin:0 auto 22px}
+    .hero-chars{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+    .hchar{background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.2);border-radius:10px;padding:6px 14px;font-size:20px;font-weight:300;color:#7DD3FC}
+    .pbar-wrap{background:var(--navy);padding:0 20px 20px}
+    .pbar-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:10px}
+    .ptrack{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+    .pfill{height:100%;border-radius:100px;background:linear-gradient(90deg,#38BDF8,#7DD3FC);transition:width .6s cubic-bezier(.4,0,.2,1);width:0%}
+    .pstep{font-size:11px;color:rgba(247,248,250,.35);font-weight:600;white-space:nowrap}
+    main{max-width:560px;margin:0 auto;padding:20px 16px}
+    .sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:14px;display:block}
+    .story-panel{background:var(--navy);border-radius:24px;padding:26px;margin-bottom:22px;position:relative;overflow:hidden}
+    .story-panel::after{content:'';position:absolute;bottom:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(56,189,248,.05);pointer-events:none}
+    .story-title{font-family:'Playfair Display',serif;font-size:18px;color:white;margin-bottom:4px}
+    .story-meta{font-size:11px;color:rgba(247,248,250,.3);margin-bottom:18px}
+    .dialogue{display:flex;flex-direction:column;gap:16px}
+    .line{display:flex;gap:12px;align-items:flex-start}
+    .line.right{flex-direction:row-reverse}
+    .avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;margin-top:2px}
+    .avatar.mina{background:rgba(56,189,248,.18);color:#7DD3FC}
+    .avatar.joon{background:rgba(201,169,110,.18);color:var(--gold)}
+    .bubble-wrap{flex:1;max-width:calc(100% - 44px)}
+    .speaker{font-size:10px;font-weight:700;color:rgba(247,248,250,.3);margin-bottom:4px;letter-spacing:.06em;text-transform:uppercase}
+    .bubble{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 14px}
+    .line.right .bubble{background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.15)}
+    .bubble-kr{font-size:18px;font-weight:600;color:white;line-height:1.5;margin-bottom:4px}
+    .bubble-fr{font-size:12px;color:rgba(247,248,250,.38);line-height:1.5}
+    .kw{color:#7DD3FC;cursor:pointer;border-bottom:1px dashed rgba(125,211,252,.35);transition:all .18s;position:relative}
+    .kw:hover,.kw.pop{color:white;border-bottom-color:#38BDF8;background:rgba(56,189,248,.12);border-radius:4px;padding:0 2px}
+    .bubble-audio{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 10px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.15);border-radius:100px;color:#7DD3FC;font-size:11px;font-weight:600;cursor:pointer;transition:all .18s;border:none}
+    .bubble-audio.playing{background:rgba(56,189,248,.18)}
+    .bubble-audio svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+    /* Tooltip */
+    .tooltip{position:fixed;z-index:200;background:var(--navy2);border:1px solid rgba(56,189,248,.25);border-radius:16px;padding:14px 16px;max-width:230px;box-shadow:0 8px 32px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .18s}
+    .tooltip.show{opacity:1;pointer-events:auto}
+    .t-kr{font-family:'Playfair Display',serif;font-size:22px;color:#7DD3FC;margin-bottom:2px}
+    .t-rom{font-size:11px;color:rgba(247,248,250,.38);margin-bottom:6px}
+    .t-fr{font-size:13px;font-weight:600;color:white;margin-bottom:6px}
+    .t-tip{font-size:11px;color:rgba(247,248,250,.45);line-height:1.55}
+
+    /* Culture card */
+    .culture-card{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:20px;margin-bottom:22px}
+    .cc-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .cc-icon{width:36px;height:36px;background:rgba(56,189,248,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .cc-title{font-size:14px;font-weight:700;color:var(--navy)}
+    .cc-sub{font-size:11px;color:var(--gray);margin-top:1px}
+    .cc-body{font-size:13px;color:#3a4a5c;line-height:1.7}
+    .cc-body strong{color:var(--navy)}
+    .cc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+    .cc-tag{font-size:11px;font-weight:600;background:rgba(56,189,248,.08);color:#0284c7;border-radius:100px;padding:3px 10px}
+
+    /* Vocab recap */
+    .vocab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+    .recap-item{background:var(--pure);border:1.5px solid var(--border);border-radius:14px;padding:10px 8px;text-align:center;cursor:pointer;transition:all .18s;position:relative}
+    .recap-item:hover,.recap-item.playing{background:rgba(56,189,248,.05);border-color:#7DD3FC}
+    .recap-kr{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:2px}
+    .recap-rom{font-size:9px;color:var(--gray);margin-bottom:3px}
+    .recap-fr{font-size:10px;color:#0284c7;font-weight:600}
+    .recap-audio-dot{width:6px;height:6px;border-radius:50%;background:#38BDF8;position:absolute;top:7px;right:7px;opacity:0}
+    .recap-item.playing .recap-audio-dot{opacity:1;animation:pulse .8s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
+
+    /* Quiz */
+    .quiz-wrap{background:var(--pure);border:1.5px solid var(--border);border-radius:24px;overflow:hidden;margin-bottom:22px}
+    .quiz-header{background:var(--navy);padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+    .qh-title{font-family:'Playfair Display',serif;font-size:16px;color:white}
+    .qh-prog{font-size:12px;color:rgba(247,248,250,.4);font-weight:600}
+    .qprog-bar{height:3px;background:rgba(255,255,255,.08)}
+    .qprog-fill{height:100%;background:#38BDF8;transition:width .4s}
+    .quiz-body{padding:20px}
+    .q-prompt-lbl{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+    .q-word{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:6px;line-height:1.1}
+    .q-rom{font-size:12px;color:var(--gray);text-align:center;margin-bottom:20px}
+    .q-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .q-choice{padding:14px 10px;background:var(--white);border:2px solid var(--border);border-radius:14px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .18s;text-align:center;-webkit-tap-highlight-color:transparent}
+    .q-choice:hover{border-color:#38BDF8;background:rgba(56,189,248,.05)}
+    .q-choice.correct{border-color:var(--green);background:rgba(34,197,94,.08);color:#15803d}
+    .q-choice.wrong{border-color:var(--red);background:rgba(239,68,68,.08);color:#b91c1c}
+    .quiz-result{padding:24px 20px;text-align:center;display:none}
+    .qr-stars{font-size:32px;margin-bottom:10px;letter-spacing:4px}
+    .qr-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:4px}
+    .qr-sub{font-size:13px;color:var(--gray);margin-bottom:16px}
+    .qr-xp{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:100px;padding:7px 16px;font-size:13px;font-weight:700;color:#b45309;margin-bottom:16px}
+    .qr-btn{display:block;width:100%;padding:14px;background:var(--navy);color:var(--gold2);font-family:'Inter',sans-serif;font-size:14px;font-weight:700;border:none;border-radius:14px;cursor:pointer;text-decoration:none;text-align:center;transition:opacity .18s}
+    .qr-btn:hover{opacity:.88}
+
+    /* Teaser next */
+    .teaser{background:var(--navy);border-radius:20px;padding:20px;margin-bottom:22px;display:flex;align-items:center;gap:14px;text-decoration:none}
+    .teaser-ico{width:44px;height:44px;border-radius:12px;background:rgba(167,139,250,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .teaser-title{font-size:13px;font-weight:700;color:white;margin-bottom:2px}
+    .teaser-sub{font-size:11px;color:rgba(247,248,250,.38)}
+    .teaser-arr{font-size:18px;color:rgba(167,139,250,.6);margin-left:auto;flex-shrink:0}
+
+    /* Bottom nav */
+    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
+    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
+    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+    .bni.act,.bni:hover{color:var(--navy)}
+    .bni.act svg{stroke:#38BDF8}
+
+    /* Dark mode FAB */
+    .dm-fab{position:fixed;bottom:76px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--navy);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:99;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+    .dm-fab svg{width:16px;height:16px;stroke:rgba(247,248,250,.5);fill:none;stroke-width:2;stroke-linecap:round}
+    .dm-fab:hover{border-color:rgba(56,189,248,.4)}
+    [data-theme="dark"] body{background:#0d1520;color:#e8edf3}
+    [data-theme="dark"] .culture-card,[data-theme="dark"] .quiz-wrap,[data-theme="dark"] .recap-item{background:#1a2535;border-color:#243045}
+    [data-theme="dark"] .cc-body,[data-theme="dark"] .q-word{color:#e8edf3}
+    [data-theme="dark"] .q-choice{background:#1a2535;border-color:#243045;color:#e8edf3}
+    [data-theme="dark"] .q-choice:hover{border-color:#38BDF8;background:rgba(56,189,248,.08)}
+    [data-theme="dark"] .recap-item:hover,[data-theme="dark"] .recap-item.playing{background:rgba(56,189,248,.06);border-color:#38BDF8}
+    [data-theme="dark"] .recap-kr{color:#e8edf3}
+    [data-theme="dark"] .bnav{background:#0d1520;border-color:#1a2535}
+    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni.act{color:#38BDF8!important}
+    [data-theme="dark"] .bni.act svg{stroke:#38BDF8!important}
+    [data-theme="dark"] .dm-fab{background:#1a2535;border-color:#243045}
+    [data-theme="dark"] .cc-tag{background:rgba(56,189,248,.1);color:#38BDF8}
+    [data-theme="dark"] .quiz-result{background:#1a2535}
+    [data-theme="dark"] .qr-btn{background:#243045}
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a href="histoires.html" class="quit">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Histoires
+  </a>
+  <span class="tb-title">노래방에서</span>
+  <div class="xp-pill">
+    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    +30 XP
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    Histoire 8 · A2
+  </div>
+  <h1 class="hero-title">Au <em>norebang</em></h1>
+  <p class="hero-sub">Mina et Joon lâchent tout pour une soirée karaoké. Micro, scores et fous rires — une vraie soirée coréenne. Clique les mots surlignés pour tout apprendre !</p>
+  <div class="hero-chars">
+    <span class="hchar">노래방</span>
+    <span class="hchar">신나요</span>
+    <span class="hchar">최고예요</span>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="pbar-wrap">
+  <div class="pbar-inner">
+    <div class="ptrack"><div class="pfill" id="pFill"></div></div>
+    <span class="pstep" id="pStep">0 / 12</span>
+  </div>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="t-kr" id="tKr"></div>
+  <div class="t-rom" id="tRom"></div>
+  <div class="t-fr" id="tFr"></div>
+  <div class="t-tip" id="tTip"></div>
+</div>
+
+<main>
+
+<!-- CHARACTERS -->
+<span class="sec-lbl">Personnages</span>
+<div style="display:flex;gap:10px;margin-bottom:22px">
+  <div style="flex:1;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:36px;height:36px;border-radius:50%;background:rgba(56,189,248,.12);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#38BDF8;flex-shrink:0">M</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy)">Mina</div>
+      <div class="char-desc" style="font-size:11px;color:var(--gray);margin-top:2px">Fan de K-pop qui chante à tue-tête même quand elle est fausse. Surtout quand elle est fausse.</div>
+    </div>
+  </div>
+  <div style="flex:1;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+    <div style="width:36px;height:36px;border-radius:50%;background:var(--goldp);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--gold);flex-shrink:0">J</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy)">Joon</div>
+      <div class="char-desc" style="font-size:11px;color:var(--gray);margin-top:2px">Étonnamment doué au norebang. Il ne le dira jamais, mais il s'entraîne en secret.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DIALOGUE -->
+<span class="sec-lbl">Dialogue</span>
+<div class="story-panel" id="storyPanel">
+  <div class="story-title">노래방에서</div>
+  <div class="story-meta">Norebang · Hongdae · Séoul</div>
+  <div class="dialogue">
+
+    <!-- Line 1 -->
+    <div class="line" data-line="1">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="noraebang">노래방</span>에 가요!</div>
+          <div class="bubble-fr">On va au norebang !</div>
+          <button class="bubble-audio" onclick="speak('노래방에 가요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 2 -->
+    <div class="line right" data-line="2">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker" style="text-align:right">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="sinnayo">신나요</span>! <span class="kw" data-id="eotteon">어떤</span> <span class="kw" data-id="norae">노래</span> <span class="kw" data-id="bulreoyo">불러요</span>?</div>
+          <div class="bubble-fr">C'est trop fun ! Quelle chanson on chante ?</div>
+          <button class="bubble-audio" onclick="speak('신나요! 어떤 노래 불러요?',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 3 -->
+    <div class="line" data-line="3">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr">저는 이 <span class="kw" data-id="norae">노래</span> <span class="kw" data-id="joayo">좋아요</span>!</div>
+          <div class="bubble-fr">J'aime cette chanson !</div>
+          <button class="bubble-audio" onclick="speak('저는 이 노래 좋아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 4 -->
+    <div class="line right" data-line="4">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker" style="text-align:right">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="maikheu">마이크</span> 받아요~</div>
+          <div class="bubble-fr">Prends le micro !</div>
+          <button class="bubble-audio" onclick="speak('마이크 받아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 5 -->
+    <div class="line" data-line="5">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="sori">소리</span>가 커요!</div>
+          <div class="bubble-fr">C'est fort !</div>
+          <button class="bubble-audio" onclick="speak('소리가 커요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 6 -->
+    <div class="line right" data-line="6">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker" style="text-align:right">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="motaeyo">못해요</span>... <span class="kw" data-id="dasi">다시</span> 해요?</div>
+          <div class="bubble-fr">Je suis nulle... On recommence ?</div>
+          <button class="bubble-audio" onclick="speak('못해요, 다시 해요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 7 -->
+    <div class="line" data-line="7">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr">아니요, <span class="kw" data-id="jalhaeyo">잘해요</span>!</div>
+          <div class="bubble-fr">Mais non, tu chantes très bien !</div>
+          <button class="bubble-audio" onclick="speak('아니요, 잘해요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 8 -->
+    <div class="line right" data-line="8">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker" style="text-align:right">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="jeomsu">점수</span>가 낮아요...</div>
+          <div class="bubble-fr">Mon score est bas...</div>
+          <button class="bubble-audio" onclick="speak('점수가 낮아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 9 -->
+    <div class="line" data-line="9">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="jinjjayo">진짜요</span>? <span class="kw" data-id="joayo">좋아요</span>~</div>
+          <div class="bubble-fr">Vraiment ? Super !</div>
+          <button class="bubble-audio" onclick="speak('진짜요? 좋아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 10 -->
+    <div class="line right" data-line="10">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker" style="text-align:right">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">와! <span class="kw" data-id="baksu">박수</span>!</div>
+          <div class="bubble-fr">Waou ! Applaudissements !</div>
+          <button class="bubble-audio" onclick="speak('와! 박수!',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 11 -->
+    <div class="line" data-line="11">
+      <div class="avatar joon">J</div>
+      <div class="bubble-wrap">
+        <div class="speaker">Joon</div>
+        <div class="bubble">
+          <div class="bubble-kr"><span class="kw" data-id="choegoyeyo">최고예요</span>!</div>
+          <div class="bubble-fr">C'est le top !</div>
+          <button class="bubble-audio" onclick="speak('최고예요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Line 12 -->
+    <div class="line right" data-line="12">
+      <div class="avatar mina">M</div>
+      <div class="bubble-wrap">
+        <div class="speaker" style="text-align:right">Mina</div>
+        <div class="bubble">
+          <div class="bubble-kr">또 <span class="kw" data-id="nolayo">놀아요</span>!</div>
+          <div class="bubble-fr">On s'amuse encore !</div>
+          <button class="bubble-audio" onclick="speak('또 놀아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Écouter</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CULTURE NOTE -->
+<span class="sec-lbl">Note culturelle</span>
+<div class="culture-card">
+  <div class="cc-header">
+    <div class="cc-icon">
+      <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#38BDF8;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </div>
+    <div>
+      <div class="cc-title">노래방 — Le karaoké coréen</div>
+      <div class="cc-sub">Une institution nationale</div>
+    </div>
+  </div>
+  <p class="cc-body">Le <strong>노래방 (norebang)</strong> n'est pas un bar karaoké comme en Europe — c'est une <strong>salle privée</strong> que tu loues à l'heure avec tes amis. On y va après les cours, le travail ou même en famille ! Le système attribue un <strong>점수 (score)</strong> à chaque chanson selon la justesse de ta voix. À <strong>Hongdae</strong> et <strong>Sinchon</strong>, les norebangs sont ouverts jusqu'à l'aube. Chanter <strong>잘해요 (bien)</strong> ou <strong>못해요 (mal)</strong>, peu importe — c'est le <strong>박수 (applaudissements)</strong> qui comptent !</p>
+  <div class="cc-tags">
+    <span class="cc-tag">salle privée</span>
+    <span class="cc-tag">ouvert 24h/24</span>
+    <span class="cc-tag">système de score</span>
+    <span class="cc-tag">culture K-pop</span>
+  </div>
+</div>
+
+<!-- VOCAB RECAP -->
+<span class="sec-lbl">Vocabulaire de l'histoire</span>
+<div class="vocab-grid" id="vocabGrid"></div>
+
+<!-- QUIZ -->
+<span class="sec-lbl">Mini-quiz</span>
+<div class="quiz-wrap" id="quizWrap">
+  <div class="quiz-header">
+    <span class="qh-title">Teste-toi !</span>
+    <span class="qh-prog" id="qProg">1 / 5</span>
+  </div>
+  <div class="qprog-bar"><div class="qprog-fill" id="qProgFill" style="width:20%"></div></div>
+  <div class="quiz-body" id="quizBody">
+    <div class="q-prompt-lbl">Que signifie ce mot ?</div>
+    <div class="q-word" id="qWord">—</div>
+    <div class="q-rom" id="qRom"></div>
+    <div class="q-choices" id="qChoices"></div>
+  </div>
+  <div class="quiz-result" id="quizResult">
+    <div class="qr-stars" id="qrStars">✦ ✦ ✦</div>
+    <div class="qr-title" id="qrTitle">Parfait !</div>
+    <div class="qr-sub" id="qrSub">Tu maîtrises le vocabulaire du norebang !</div>
+    <div class="qr-xp">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span id="qrXP">+30 XP gagnés !</span>
+    </div>
+    <a href="histoires.html" class="qr-btn" id="qrBtn">Retour aux histoires →</a>
+  </div>
+</div>
+
+<!-- TEASER H9 -->
+<a href="histoire9.html" class="teaser">
+  <div class="teaser-ico">
+    <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#A78BFA;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+  </div>
+  <div style="flex:1">
+    <div class="teaser-title">Histoire 9 — 병원에서</div>
+    <div class="teaser-sub">À la clinique · Disponible maintenant !</div>
+  </div>
+  <div class="teaser-arr">
+    <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:rgba(167,139,250,.6);fill:none;stroke-width:2;stroke-linecap:round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+  </div>
+</a>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="vocabulaire.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Vocab</span>
+  </a>
+  <a href="histoires.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="exercice.html" class="bni">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
+    <span>Exercices</span>
+  </a>
+  <a href="revision.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    <span>Révision</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<!-- DARK MODE FAB -->
+<button class="dm-fab" id="dmFab" title="Thème sombre" onclick="toggleDark()">
+  <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+
+<script>
+  const STORY_WORDS = [
+    {id:'noraebang',  kr:'노래방',   rom:'no-rae-bang',     fr:'Karaoké / Norebang',    audio:'노래방',   tip:'노래방 = norebang, le karaoké coréen en salle privée. 노래 = chanson, 방 = pièce. On loue une salle à l\'heure avec des amis. C\'est une institution en Corée — après les exams, au bureau, en famille. Rien à voir avec les bars karaoké européens !'},
+    {id:'norae',      kr:'노래',     rom:'no-rae',           fr:'Chanson',               audio:'노래',     tip:'노래 = chanson. 노래해요 = je chante. 노래방 = salle de chanson (norebang). 좋아하는 노래가 뭐예요 ? = c\'est quoi ta chanson préférée ? La K-pop a rendu les Coréens fans de musique depuis l\'enfance !'},
+    {id:'sinnayo',    kr:'신나요',   rom:'sin-na-yo',        fr:'C\'est fun ! / Excitant !', audio:'신나요', tip:'신나요 vient de 신나다 = être excité, s\'amuser, être emballé. 신나요 ! = c\'est trop fun ! C\'est l\'expression parfaite pour une soirée norebang, un concert ou un match. 신나는 음악 = musique entraînante.'},
+    {id:'bulreoyo',   kr:'불러요',   rom:'bul-leo-yo',       fr:'On chante',             audio:'불러요',   tip:'불러요 vient de 부르다 = chanter, appeler. 노래 불러요 = on chante une chanson. 이름을 불러요 = j\'appelle ton prénom. C\'est le verbe principal pour chanter en coréen. 같이 불러요 ! = on chante ensemble !'},
+    {id:'eotteon',    kr:'어떤',     rom:'eo-tteon',         fr:'Quel(le) / Lequel',     audio:'어떤',     tip:'어떤 = quel, quelle, lequel, laquelle. 어떤 노래 = quelle chanson. 어떤 사람 = quel genre de personne. 어떤 게 좋아요 ? = lequel tu préfères ? Un mot interrogatif très utile pour poser des choix !'},
+    {id:'joayo',      kr:'좋아요',   rom:'jo-a-yo',          fr:'J\'aime / C\'est bien', audio:'좋아요',   tip:'좋아요 vient de 좋다 = être bien, aimer. 좋아요 ! = c\'est bien ! / j\'aime ça ! 저는 K-pop 좋아요 = j\'aime la K-pop. 너 좋아해 = je t\'aime bien (informel). Un des mots les plus utilisés en coréen quotidien !'},
+    {id:'maikheu',    kr:'마이크',   rom:'ma-i-keu',         fr:'Micro',                 audio:'마이크',   tip:'마이크 = micro, microphone. Mot emprunté à l\'anglais "microphone" adapté en coréen. 마이크 잡아요 = je prends le micro. Au norebang, tenir le 마이크 est une responsabilité sérieuse — certains ne le lâchent plus !'},
+    {id:'motaeyo',    kr:'못해요',   rom:'mot-hae-yo',       fr:'Je suis nul(le) / Je ne peux pas', audio:'못해요', tip:'못해요 vient de 못 (ne pas pouvoir) + 하다 (faire). 노래 못해요 = je ne sais pas chanter. 못 = adverbe de négabilité pour les capacités. Son contraire : 잘해요 = je fais bien. 저는 운동 못해요 = je suis nul en sport.'},
+    {id:'jalhaeyo',   kr:'잘해요',   rom:'jal-hae-yo',       fr:'Tu es doué(e) / Tu chantes bien', audio:'잘해요', tip:'잘해요 vient de 잘 (bien) + 하다 (faire). 잘해요 ! = tu fais bien ! / tu es doué ! 잘 = bien, correctement. 잘 자요 = dors bien. 잘 먹겠습니다 = je vais bien manger (avant un repas). Un adverbe universel !'},
+    {id:'jeomsu',     kr:'점수',     rom:'jeom-su',          fr:'Score / Points',        audio:'점수',     tip:'점수 = score, points, note. Au norebang, chaque chanson reçoit un 점수 de 0 à 100. 점수가 높아요 = le score est élevé. 점수가 낮아요 = le score est bas. À l\'école : 점수가 좋아요 = j\'ai eu une bonne note. Très polyvalent !'},
+    {id:'dasi',       kr:'다시',     rom:'da-si',            fr:'Encore / De nouveau',   audio:'다시',     tip:'다시 = encore, de nouveau, à nouveau. 다시 해요 = on recommence. 다시 말해요 = répétez s\'il vous plaît. 다시 봐요 = on se revoit. Très utile en classe de langue ou au norebang quand on rate la note haute !'},
+    {id:'jinjjayo',   kr:'진짜요',   rom:'jin-jja-yo',       fr:'Vraiment ? / C\'est vrai !', audio:'진짜요', tip:'진짜요 = vraiment ? c\'est vrai ? 진짜 = vrai, réel. 진짜요 ! (affirmation) = c\'est vraiment ! 진짜요 ? (question) = vraiment ? Tu peux l\'utiliser pour exprimer la surprise, l\'incrédulité ou la confirmation. Équivalent de "Sérieux ?!"'},
+    {id:'choegoyeyo', kr:'최고예요', rom:'choe-go-ye-yo',    fr:'C\'est le top ! / Le meilleur !', audio:'최고예요', tip:'최고예요 = c\'est le top, le meilleur ! 최고 = le plus haut, le meilleur. 최고 점수 = le score maximum. 니가 최고야 = t\'es le meilleur (informel). Une expression très forte pour féliciter ou exprimer l\'enthousiasme total !'},
+    {id:'baksu',      kr:'박수',     rom:'bak-su',           fr:'Applaudissements',      audio:'박수',     tip:'박수 = applaudissements. 박수 쳐요 ! = applaudissez ! Littéralement : 박 (battre) + 수 (mains). Au norebang, même si quelqu\'un chante faux, on crie 박수 ! pour encourager. C\'est l\'esprit coréen du soutien collectif !'},
+    {id:'nolayo',     kr:'놀아요',   rom:'no-la-yo',         fr:'On s\'amuse / On joue', audio:'놀아요',   tip:'놀아요 vient de 놀다 = jouer, s\'amuser, se détendre. 같이 놀아요 = on s\'amuse ensemble. 오늘 놀아요 ? = tu es libre aujourd\'hui ? (litt. tu vas t\'amuser ?) Très utilisé entre amis pour proposer de passer du temps ensemble.'},
+    {id:'sori',       kr:'소리',     rom:'so-ri',            fr:'Son / Voix / Bruit',    audio:'소리',     tip:'소리 = son, voix, bruit. 소리가 커요 = c\'est fort / il y a du bruit. 소리가 작아요 = c\'est faible. 목소리 = voix (mok = gorge + sori). 소리 질러요 = je crie. Au norebang, les murs sont insonorisés pour que le 소리 ne dérange pas les voisins !'},
+  ];
+
+  const WORD_DEFS = {};
+  STORY_WORDS.forEach(w => { WORD_DEFS[w.id] = w; });
+
+  function speak(text, btn) {
+    try {
+      speechSynthesis.cancel();
+      document.querySelectorAll('.bubble-audio.playing,.recap-item.playing').forEach(e=>e.classList.remove('playing'));
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
+      if(btn) { btn.classList.add('playing'); u.onend = ()=>btn.classList.remove('playing'); }
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+
+  const tooltip = document.getElementById('tooltip');
+  function showTooltip(el, wordId) {
+    const w = WORD_DEFS[wordId];
+    if(!w) return;
+    document.getElementById('tKr').textContent = w.kr;
+    document.getElementById('tRom').textContent = w.rom;
+    document.getElementById('tFr').textContent = w.fr;
+    document.getElementById('tTip').textContent = w.tip || '';
+    const r = el.getBoundingClientRect();
+    tooltip.style.left = Math.min(r.left, window.innerWidth - 240) + 'px';
+    const top = r.bottom + 8;
+    tooltip.style.top = (top + 200 > window.innerHeight ? r.top - 8 - 160 : top) + 'px';
+    tooltip.classList.add('show');
+  }
+  document.querySelectorAll('.kw').forEach(el => {
+    el.addEventListener('click', e => { e.stopPropagation(); el.classList.add('pop'); showTooltip(el, el.dataset.id); setTimeout(()=>el.classList.remove('pop'),300); });
+  });
+  document.addEventListener('click', () => tooltip.classList.remove('show'));
+
+  const RECAP_IDS = ['noraebang','norae','sinnayo','bulreoyo','joayo','maikheu','motaeyo','jalhaeyo','jeomsu','dasi','choegoyeyo','baksu'];
+  const grid = document.getElementById('vocabGrid');
+  if(grid) {
+    grid.innerHTML = RECAP_IDS.map(id => STORY_WORDS.find(w=>w.id===id)).filter(Boolean).map(w=>`
+      <div class="recap-item" onclick="speak('${w.audio}',this)">
+        <div class="recap-audio-dot"></div>
+        <div class="recap-kr">${w.kr}</div>
+        <div class="recap-rom">${w.rom}</div>
+        <div class="recap-fr">${w.fr.split(' / ')[0]}</div>
+      </div>`).join('');
+  }
+
+  // Progress bar — count lines seen
+  const lines = document.querySelectorAll('.line[data-line]');
+  const pFill = document.getElementById('pFill');
+  const pStep = document.getElementById('pStep');
+  let maxSeen = 0;
+  function updateProgress() {
+    lines.forEach(l => {
+      const n = parseInt(l.dataset.line);
+      const rect = l.getBoundingClientRect();
+      if(rect.top < window.innerHeight * .85 && n > maxSeen) maxSeen = n;
+    });
+    const pct = Math.round(maxSeen / lines.length * 100);
+    if(pFill) pFill.style.width = pct + '%';
+    if(pStep) pStep.textContent = maxSeen + ' / ' + lines.length;
+  }
+  window.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+
+  // Quiz
+  const QUIZ_Q = [
+    {word:'noraebang', choices:['Karaoké / Norebang','Chanson','Micro','Score']},
+    {word:'sinnayo',   choices:['C\'est fun !','On recommence','Vraiment ?','Applaudissements']},
+    {word:'motaeyo',   choices:['Je suis nul(le)','Tu chantes bien','On s\'amuse','C\'est le top !']},
+    {word:'dasi',      choices:['Encore / De nouveau','Son / Bruit','Quel(le)','Score']},
+    {word:'choegoyeyo',choices:['C\'est le top !','J\'aime','Excitant','On chante']},
+  ];
+  let qIdx = 0, score = 0, answered = false;
+
+  function renderQ() {
+    const q = QUIZ_Q[qIdx];
+    const w = STORY_WORDS.find(x=>x.id===q.word);
+    document.getElementById('qWord').textContent = w.kr;
+    document.getElementById('qRom').textContent = w.rom;
+    document.getElementById('qProg').textContent = (qIdx+1)+' / '+QUIZ_Q.length;
+    document.getElementById('qProgFill').style.width = ((qIdx+1)/QUIZ_Q.length*100)+'%';
+    const correct = q.choices[0];
+    const shuffled = [...q.choices].sort(()=>Math.random()-.5);
+    document.getElementById('qChoices').innerHTML = shuffled.map(c=>`<button class="q-choice" onclick="checkAns(this,'${c.replace(/'/g,"\\'")}','${correct.replace(/'/g,"\\'")}')"> ${c}</button>`).join('');
+    answered = false;
+  }
+
+  function checkAns(btn, chosen, correct) {
+    if(answered) return;
+    answered = true;
+    const all = document.querySelectorAll('.q-choice');
+    all.forEach(b => {
+      if(b.textContent === correct) b.classList.add('correct');
+      else if(b === btn) b.classList.add('wrong');
+      b.disabled = true;
+    });
+    if(chosen === correct) score++;
+    setTimeout(() => {
+      qIdx++;
+      if(qIdx < QUIZ_Q.length) renderQ();
+      else showResult();
+    }, 900);
+  }
+
+  function showResult() {
+    document.getElementById('quizBody').style.display = 'none';
+    const res = document.getElementById('quizResult');
+    res.style.display = 'block';
+    const stars = score >= 5 ? '✦ ✦ ✦' : score >= 3 ? '✦ ✦ ✧' : '✦ ✧ ✧';
+    const title = score >= 5 ? 'Parfait !' : score >= 3 ? 'Bien joué !' : 'Continue !';
+    const sub = score >= 5 ? 'Tu maîtrises le vocab du norebang !' : score >= 3 ? score+'/5 — encore un peu de pratique !' : 'Relis le dialogue et réessaie !';
+    document.getElementById('qrStars').textContent = stars;
+    document.getElementById('qrTitle').textContent = title;
+    document.getElementById('qrSub').textContent = sub;
+    const xp = score * 6;
+    document.getElementById('qrXP').innerHTML = `<svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>+${xp} XP gagnés !`;
+    // Save completion
+    try {
+      const prev = parseInt(localStorage.getItem('ks_xp')||'0');
+      localStorage.setItem('ks_xp', prev + xp);
+      if(score >= 3) localStorage.setItem('ks_h8','done');
+    } catch(e){}
+  }
+
+  renderQ();
+
+  // Dark mode
+  function toggleDark() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    try { localStorage.setItem('ks_theme', isDark ? 'light' : 'dark'); } catch(e){}
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Korean Stories — Apprends le coréen par les histoires</title>
+  <meta name="description" content="La méthode la plus naturelle pour apprendre le coréen. Histoires immersives, Hangeul pas à pas, audio natif. Commence gratuitement."/>
+  <meta property="og:title" content="Korean Stories — Apprends le coréen par les histoires"/>
+  <meta property="og:description" content="La méthode la plus naturelle pour apprendre le coréen. Histoires immersives, Hangeul pas à pas, audio natif. Commence gratuitement."/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.09);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+    }
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      height:66px;padding:0 36px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(247,248,250,0.97);backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);transition:box-shadow .3s;
+    }
+    nav.s{box-shadow:0 2px 28px rgba(15,27,45,0.07)}
+    .nl img{height:32px;display:block}
+    .nm{display:flex;gap:26px}
+    .nm a{font-size:13px;font-weight:500;color:var(--gray);text-decoration:none;transition:color .2s}
+    .nm a:hover{color:var(--navy)}
+    .ncta{background:var(--navy);color:var(--white);border:none;padding:9px 22px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;transition:all .2s;letter-spacing:.01em}
+    .ncta:hover{background:var(--navy2);transform:scale(1.02)}
+    
+
+    /* ── HERO ── */
+    .hero{
+      min-height:100svh;background:var(--navy);
+      display:flex;align-items:center;padding:88px 36px 60px;
+      position:relative;overflow:hidden;
+    }
+    /* Floating Korean letters bg */
+    .hbg{
+      position:absolute;inset:0;pointer-events:none;overflow:hidden;
+    }
+    .hbg span{
+      position:absolute;font-family:'Playfair Display',serif;
+      color:rgba(201,169,110,0.04);line-height:1;user-select:none;
+    }
+    .hero-wrap{max-width:1140px;width:100%;margin:0 auto;display:grid;grid-template-columns:1fr 420px;align-items:center;gap:40px;position:relative;z-index:1}
+    @media(max-width:880px){.hero-wrap{grid-template-columns:1fr}.hv{display:none!important}}
+    .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.22);color:var(--gold);padding:5px 14px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:26px}
+    .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.25}}
+    .hero h1{font-size:clamp(38px,5.5vw,68px);line-height:1.07;color:var(--white);margin-bottom:22px;letter-spacing:-.025em}
+    .hero h1 em{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold)}
+    .hsub{font-size:clamp(15px,1.7vw,17px);color:rgba(247,248,250,0.55);line-height:1.8;max-width:460px;margin-bottom:38px}
+    .hbtns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:52px}
+    .bg{background:var(--gold);color:var(--navy);border:none;padding:15px 30px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;transition:all .25s;box-shadow:0 8px 28px rgba(201,169,110,0.3);letter-spacing:.01em}
+    .bg:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 14px 42px rgba(201,169,110,0.44)}
+    .bo{background:transparent;color:rgba(247,248,250,0.6);border:1.5px solid rgba(247,248,250,0.14);padding:14px 26px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:500;font-size:14px;cursor:pointer;text-decoration:none;transition:all .2s}
+    .bo:hover{border-color:rgba(247,248,250,0.4);color:var(--white)}
+    .hstats{display:flex;gap:28px;flex-wrap:wrap}
+    .hs{display:flex;flex-direction:column;gap:3px}
+    .hs-n{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);line-height:1}
+    .hs-l{font-size:11px;color:rgba(247,248,250,0.3);text-transform:uppercase;letter-spacing:.08em}
+    .hs-sep{width:1px;height:34px;background:rgba(247,248,250,0.07);align-self:center}
+
+    /* Hero visual */
+    .hv{position:relative;height:480px}
+    .hv-mina{position:absolute;bottom:0;right:10px;height:430px;filter:drop-shadow(0 24px 44px rgba(0,0,0,0.3));animation:lev 5s ease-in-out infinite}
+    .hv-dori{position:absolute;top:10px;right:-5px;height:150px;filter:drop-shadow(0 10px 24px rgba(0,0,0,0.2));animation:dorf 6s ease-in-out infinite}
+    @keyframes lev{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @keyframes dorf{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-10px) rotate(6deg)}}
+
+    /* ── QUOTE ── */
+    .qband{background:var(--gold);padding:22px 36px;text-align:center}
+    .qband p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(14px,2.2vw,17px);color:var(--navy);max-width:700px;margin:0 auto;line-height:1.6}
+
+    /* ── COMMONS ── */
+    section{padding:88px 36px}
+    .lbl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:12px}
+    .h2{font-size:clamp(28px,4.5vw,44px);line-height:1.14;color:var(--navy)}
+    .h2 em{font-family:'Playfair Display',serif;font-style:italic}
+    .h2w{color:var(--white)}
+    .sub{margin-top:14px;font-size:15px;color:var(--gray);line-height:1.8}
+    .fw{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
+    .fw.v{opacity:1;transform:none}
+    .fw:nth-child(2){transition-delay:.08s}
+    .fw:nth-child(3){transition-delay:.16s}
+    .fw:nth-child(4){transition-delay:.24s}
+
+    /* ── APPROACH ── */
+    .approach{background:var(--white)}
+    .app-inner{max-width:1080px;margin:0 auto}
+    .app-hd{text-align:center;margin-bottom:56px}
+    .app-hd .sub{max-width:480px;margin-left:auto;margin-right:auto}
+    .pillars{display:grid;gap:20px;grid-template-columns:1fr}
+    @media(min-width:620px){.pillars{grid-template-columns:1fr 1fr}}
+    @media(min-width:920px){.pillars{grid-template-columns:1fr 1fr 1fr}}
+    .pillar{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:34px 30px;transition:all .3s}
+    .pillar:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(15,27,45,0.07);border-color:var(--gold2)}
+    .p-n{font-family:'Playfair Display',serif;font-size:52px;color:var(--gold2);line-height:1;margin-bottom:16px}
+    .pillar h3{font-family:'Playfair Display',serif;font-size:19px;color:var(--navy);margin-bottom:10px}
+    .pillar p{font-size:14px;color:var(--gray);line-height:1.8}
+
+    /* ── HOW IT WORKS ── */
+    .how{background:var(--navy)}
+    .how-inner{max-width:1000px;margin:0 auto}
+    .how-hd{text-align:center;margin-bottom:64px}
+    .how-hd .sub{color:rgba(247,248,250,0.45);max-width:440px;margin:auto}
+    .steps{display:grid;gap:0;grid-template-columns:1fr}
+    @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr);gap:0}}
+    .step{position:relative;padding:0 32px;text-align:center}
+    .step:not(:last-child)::after{
+      content:'';position:absolute;top:36px;right:-2px;
+      width:4px;height:4px;background:var(--gold);border-radius:50%;
+    }
+    @media(min-width:760px){
+      .step:not(:last-child)::before{
+        content:'';position:absolute;top:38px;left:calc(50% + 44px);right:calc(-50% + 44px);
+        height:1px;background:rgba(201,169,110,0.25);
+      }
+      .step:not(:last-child)::after{display:none}
+    }
+    .step-num{
+      width:72px;height:72px;border-radius:50%;
+      background:rgba(201,169,110,0.1);border:1.5px solid rgba(201,169,110,0.25);
+      display:flex;align-items:center;justify-content:center;
+      margin:0 auto 24px;
+    }
+    .step-num span{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold)}
+    .step h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--white);margin-bottom:10px}
+    .step p{font-size:14px;color:rgba(247,248,250,0.45);line-height:1.75}
+
+    /* ── CAST ── */
+    .cast{background:var(--white)}
+    .cast-inner{max-width:1140px;margin:0 auto}
+    .cast-hd{text-align:center;margin-bottom:56px}
+    .cast-hd .sub{max-width:480px;margin:auto}
+    /* Card grid */
+    .cast-grid{display:grid;gap:18px;grid-template-columns:repeat(2,1fr)}
+    @media(min-width:900px){.cast-grid{grid-template-columns:repeat(4,1fr)}}
+    .cc{
+      background:var(--pure);border:1.5px solid var(--border);
+      border-radius:24px;overflow:hidden;
+      transition:all .35s;
+    }
+    .cc:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 28px 60px rgba(15,27,45,0.12);border-color:var(--gold)}
+    .cc-visual{
+      height:310px;display:flex;align-items:flex-end;justify-content:center;
+      padding-bottom:0;position:relative;overflow:hidden;
+    }
+    .cc-v-mina{background:linear-gradient(175deg,#FFF0F6 0%,#FFDCEA 60%,#FFC8DE 100%);padding-bottom:0}
+    .cc-v-joon{background:linear-gradient(175deg,#EDF4FF 0%,#D6E8FA 60%,#BDDAF5 100%)}
+    .cc-v-hana{background:linear-gradient(175deg,#FBF6EE 0%,#F5EADA 60%,#EDD9C0 100%)}
+    .cc-v-dori{background:linear-gradient(175deg,#FFFCE8 0%,#FFF5C0 60%,#FFE87A 100%);align-items:center;justify-content:center;padding:12px 0}
+    .cc-img{height:280px;width:auto;max-width:100%;object-fit:contain;object-position:bottom center;filter:drop-shadow(0 12px 32px rgba(0,0,0,0.10))}
+    .cc-dori-img{height:220px;margin-bottom:0}
+    .cc-body{padding:20px 22px 22px}
+    .cc-name{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);margin-bottom:2px}
+    .cc-hangul{font-size:13px;color:var(--gold);margin-left:6px;letter-spacing:.04em}
+    .cc-role{font-size:13px;color:var(--gray);line-height:1.6}
+    .cc-phrase{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-style:italic;font-size:12px;color:var(--gray);line-height:1.55}
+    /* Decorative circles in cast cards */
+    .cc-visual::after{
+      content:'';position:absolute;width:180px;height:180px;border-radius:50%;
+      background:rgba(255,255,255,0.22);bottom:-60px;right:-40px;pointer-events:none;
+    }
+    .cc-visual::before{
+      content:'';position:absolute;width:100px;height:100px;border-radius:50%;
+      background:rgba(255,255,255,0.14);top:10px;left:-20px;pointer-events:none;
+    }
+    /* Name tag improvement */
+    .cc-role{font-size:11px;color:var(--gray);line-height:1.6;letter-spacing:.02em}
+
+    /* ── COMPARATIF ── */
+    .compare{background:var(--navy)}
+    .cmp-inner{max-width:900px;margin:0 auto}
+    .cmp-hd{text-align:center;margin-bottom:48px}
+    .cmp-hd .sub{color:rgba(247,248,250,0.45)}
+    .tbl-wrap{overflow-x:auto;border-radius:20px;border:1.5px solid rgba(247,248,250,0.08)}
+    table{width:100%;border-collapse:collapse;min-width:560px}
+    thead th{padding:16px 20px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,248,250,0.4);text-align:center;border-bottom:1px solid rgba(247,248,250,0.07)}
+    thead th:first-child{text-align:left}
+    thead th.ks{color:var(--gold)}
+    tbody tr{border-bottom:1px solid rgba(247,248,250,0.05)}
+    tbody tr:last-child{border-bottom:none}
+    tbody td{padding:14px 20px;font-size:13px;color:rgba(247,248,250,0.55);text-align:center;vertical-align:middle}
+    tbody td:first-child{text-align:left;font-weight:500;color:rgba(247,248,250,0.75)}
+    tbody td.ks{color:var(--white);font-weight:600}
+    .ok{color:#4ADE80;font-weight:700;font-size:15px}
+    .no{color:rgba(247,248,250,0.2);font-size:13px}
+    .part{color:var(--gold);font-size:13px}
+    .ks-col{background:rgba(201,169,110,0.06)}
+    .price-row td{padding-top:18px;padding-bottom:18px}
+    .price-ks{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold)}
+
+    /* ── LESSON ── */
+    .lesson{background:var(--white)}
+    .ls-inner{max-width:780px;margin:0 auto}
+    .ls-hd{text-align:center;margin-bottom:48px}
+    .ls-hd .sub{max-width:480px;margin:auto}
+    .lcard{background:var(--pure);border:1.5px solid var(--border);border-radius:28px;overflow:hidden;box-shadow:0 8px 48px rgba(15,27,45,0.07)}
+    .lpbar{height:4px;background:var(--border)}
+    .lpfill{height:100%;background:var(--gold);border-radius:0 4px 4px 0;transition:width .5s ease}
+    .lhdr{background:var(--navy);padding:18px 28px;display:flex;align-items:center;gap:16px}
+    .lmina{width:62px;height:62px;border-radius:50%;overflow:hidden;flex-shrink:0;background:rgba(255,255,255,0.04)}
+    .lmina img{width:170%;height:170%;object-fit:cover;object-position:top center;margin-top:-12px;margin-left:-16px}
+    .lmina-nm{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+    .lmina-say{font-size:14px;color:rgba(247,248,250,0.7);line-height:1.55}
+    .lbody{padding:36px 32px}
+    .lstep{display:none}
+    .lstep.act{display:block}
+    .qcnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:18px}
+    .qchar{font-size:92px;text-align:center;color:var(--navy);line-height:1;margin:8px 0 26px;font-weight:300;letter-spacing:-.02em}
+    .qword{font-size:54px;text-align:center;color:var(--navy);line-height:1;margin:8px 0 26px;font-weight:300}
+    .qtxt{font-size:17px;font-weight:500;color:var(--navy);text-align:center;margin-bottom:24px;line-height:1.5}
+    .qchoices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+    .qbtn{padding:15px 14px;border-radius:14px;border:1.5px solid var(--border);background:var(--white);color:var(--navy);font-family:'Inter',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .18s;text-align:center}
+    .qbtn:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .qbtn.ok{border-color:#22c55e;background:rgba(34,197,94,0.07);color:#15803d}
+    .qbtn.ko{border-color:#ef4444;background:rgba(239,68,68,0.07);color:#b91c1c}
+    .qbtn:disabled{cursor:default}
+    .qfb{min-height:38px;text-align:center;font-size:14px;color:var(--gray);padding:6px 0;transition:all .3s}
+    .qfb.g{color:#15803d;font-weight:600}
+    .qfb.b{color:#b91c1c;font-weight:500}
+    .lres{display:none;text-align:center;padding:8px 0 12px}
+    .rmina{height:110px;margin-bottom:16px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.1))}
+    .rscore{font-family:'Playfair Display',serif;font-size:72px;color:var(--gold);line-height:1}
+    .rof{font-size:13px;color:var(--gray);margin-bottom:18px}
+    .rmsg{font-size:16px;color:var(--navy);line-height:1.7;margin-bottom:28px;max-width:360px;margin-left:auto;margin-right:auto}
+    .retry{background:var(--navy);color:var(--white);border:none;padding:14px 32px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:background .2s}
+    .retry:hover{background:var(--navy2)}
+
+    /* ── FEATURES ── */
+    .features{background:var(--navy)}
+    .ft-inner{max-width:1080px;margin:0 auto}
+    .ft-hd{text-align:center;margin-bottom:52px}
+    .ft-hd .sub{color:rgba(247,248,250,0.4)}
+    .fg{display:grid;gap:16px;grid-template-columns:1fr}
+    @media(min-width:520px){.fg{grid-template-columns:1fr 1fr}}
+    @media(min-width:920px){.fg{grid-template-columns:repeat(3,1fr)}}
+    .fi{display:flex;gap:18px;align-items:flex-start;padding:24px;background:rgba(255,255,255,0.03);border:1.5px solid rgba(255,255,255,0.06);border-radius:18px;transition:all .2s}
+    .fi:hover{border-color:rgba(201,169,110,0.22);background:rgba(201,169,110,0.04)}
+    .fic{width:40px;height:40px;border-radius:12px;background:rgba(201,169,110,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .fic svg{width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .fi h4{font-size:14px;font-weight:600;color:var(--white);margin-bottom:5px}
+    .fi p{font-size:13px;color:rgba(247,248,250,0.42);line-height:1.7}
+
+    /* ── PRICING ── */
+    .pricing{background:var(--white)}
+    .pr-inner{max-width:980px;margin:0 auto}
+    .pr-hd{text-align:center;margin-bottom:52px}
+    .plans{display:grid;gap:16px;grid-template-columns:1fr;max-width:860px;margin:0 auto}
+    @media(min-width:760px){.plans{grid-template-columns:repeat(3,1fr)}}
+    .plan{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:28px 24px;transition:all .3s;display:flex;flex-direction:column}
+    .plan:hover:not(.pf){border-color:var(--gold2);box-shadow:0 12px 36px rgba(15,27,45,0.07)}
+    .pf{background:var(--navy);border-color:var(--navy);box-shadow:0 16px 48px rgba(15,27,45,0.15)}
+    @media(min-width:760px){.pf{transform:scale(1.03);z-index:1}}
+    .pbadge{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--gold);color:var(--navy);padding:3px 10px;border-radius:100px;margin-bottom:16px}
+    .pbadge.hi{visibility:hidden}
+    .pname{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
+    .pf .pname{color:rgba(247,248,250,0.4)}
+    .pprice{font-family:'Playfair Display',serif;font-size:38px;color:var(--navy);line-height:1;margin-bottom:2px}
+    .pf .pprice{color:var(--white)}
+    .pper{font-size:12px;color:var(--gray);margin-bottom:22px}
+    .pf .pper{color:rgba(247,248,250,0.35)}
+    .pln{height:1px;background:var(--border);margin-bottom:20px}
+    .pf .pln{background:rgba(247,248,250,0.1)}
+    .pfl{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .pfl li{font-size:13px;color:var(--gray);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+    .pf .pfl li{color:rgba(247,248,250,0.6)}
+    .pfl li::before{content:'';display:block;width:16px;height:16px;flex-shrink:0;margin-top:1px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7.5' fill='rgba(201,169,110,0.12)'/%3E%3Cpath stroke='%23C9A96E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none' d='M4.5 8l2.5 2.5 5-5'/%3E%3C/svg%3E") no-repeat center}
+    .pcta{display:block;width:100%;margin-top:auto;padding-top:24px;padding:24px 0 0}
+    .pcta a{display:block;text-align:center;padding:13px 20px;border-radius:100px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;text-decoration:none;transition:all .22s;border:1.5px solid var(--border);color:var(--gray)}
+    .pcta a:hover{border-color:var(--gold);color:var(--navy)}
+    .pf .pcta a{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+    .pf .pcta a:hover{background:var(--gold2);transform:translateY(-1px)}
+    .cert{margin-top:40px;padding:18px 24px;background:rgba(138,155,176,0.07);border:1px solid var(--border);border-radius:14px;font-size:12px;color:var(--gray);line-height:1.7;text-align:center;max-width:860px;margin-left:auto;margin-right:auto}
+    .cert strong{color:var(--navy)}
+
+    /* ── WAITLIST ── */
+    .wl{background:var(--navy);text-align:center}
+    .wl-in{max-width:560px;margin:0 auto}
+    .wl .h2{color:var(--white);margin-bottom:16px}
+    .wl .sub{color:rgba(247,248,250,0.48);margin-bottom:40px}
+    .wlf{display:flex;flex-direction:column;gap:12px}
+    .wlrow{display:flex;gap:10px;flex-direction:column}
+    @media(min-width:460px){.wlrow{flex-direction:row}}
+    .wli{flex:1;padding:14px 20px;border-radius:100px;border:1.5px solid rgba(247,248,250,0.1);background:rgba(247,248,250,0.06);color:var(--white);font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+    .wli::placeholder{color:rgba(247,248,250,0.3)}
+    .wli:focus{border-color:var(--gold)}
+    .wlsub{background:var(--gold);color:var(--navy);border:none;padding:14px 28px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .25s;box-shadow:0 8px 28px rgba(201,169,110,0.22)}
+    .wlsub:hover{background:var(--gold2);transform:translateY(-1px)}
+    .wlnote{font-size:12px;color:rgba(247,248,250,0.25)}
+    .wlok{display:none;background:rgba(201,169,110,0.08);border:1.5px solid rgba(201,169,110,0.22);border-radius:22px;padding:32px 28px}
+    .wlok.show{display:block}
+    .wlok-t{font-family:'Playfair Display',serif;font-style:italic;font-size:24px;color:var(--gold);margin-bottom:10px}
+    .wlok p{font-size:14px;color:rgba(247,248,250,0.55);line-height:1.7}
+
+    /* ── FOOTER ── */
+    footer{background:#06101c;padding:48px 36px 36px;text-align:center;border-top:1px solid rgba(255,255,255,0.04)}
+    .flogo{display:flex;justify-content:center;margin-bottom:10px}
+    .flogo img{height:28px}
+    .ftag{font-size:12px;color:rgba(247,248,250,0.2);margin-bottom:26px;letter-spacing:.04em}
+    .flinks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+    .flinks a{font-size:13px;color:rgba(247,248,250,0.35);text-decoration:none;transition:color .2s}
+    .flinks a:hover{color:var(--gold)}
+    .fcopy{font-size:11px;color:rgba(247,248,250,0.15);line-height:1.9}
+
+    /* ═══════════════════════════════════════════════════════
+       HAMBURGER MENU
+    ═══════════════════════════════════════════════════════ */
+    .mbtn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;margin-left:4px}
+    .mbtn span{display:block;width:22px;height:2px;background:var(--navy);border-radius:2px;transition:all .28s cubic-bezier(.4,0,.2,1)}
+    .mbtn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .mbtn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .mbtn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    /* ═══════════════════════════════════════════════════════
+       TABLETTE — 641 à 880px
+    ═══════════════════════════════════════════════════════ */
+    @media(max-width:880px){
+      section{padding:72px 28px}
+      nav{padding:0 28px}
+      .hero{padding:86px 28px 52px}
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MOBILE — jusqu'à 640px
+    ═══════════════════════════════════════════════════════ */
+    @media(max-width:640px){
+
+      /* Nav */
+      nav{padding:0 20px;height:60px}
+      .ncta{padding:8px 16px;font-size:12px}
+      .mbtn{display:flex}
+
+      /* Menu mobile déroulant */
+      .nm{
+        display:none;position:fixed;top:60px;left:0;right:0;z-index:99;
+        flex-direction:column;gap:0;
+        background:rgba(247,248,250,0.98);backdrop-filter:blur(20px);
+        border-bottom:1px solid var(--border);
+        box-shadow:0 8px 32px rgba(15,27,45,0.1);
+        padding:8px 0 12px;
+      }
+      .nm.open{display:flex!important}
+      .nm a{padding:14px 24px;font-size:15px;font-weight:500;border-bottom:1px solid var(--border)}
+      .nm a:last-child{border-bottom:none}
+
+      /* Hero */
+      .hero{padding:76px 20px 0;min-height:100svh;align-items:flex-start;padding-top:90px}
+      .hero-wrap{grid-template-columns:1fr;gap:0}
+      .hero h1{font-size:clamp(32px,9vw,42px);margin-bottom:16px}
+      .hsub{font-size:15px;line-height:1.7;margin-bottom:24px;max-width:100%}
+      .hbtns{flex-direction:column;gap:10px;margin-bottom:28px}
+      .bg,.bo{text-align:center;width:100%;padding:15px 20px;border-radius:14px}
+      .hstats{gap:16px;margin-bottom:0}
+      .hs-n{font-size:20px}
+      .hs-sep{height:22px}
+      .hs-l{font-size:10px}
+
+      /* Mina visible sur mobile — en bas du hero */
+      .hv{
+        display:block!important;
+        height:220px;
+        position:relative;
+        margin-top:24px;
+        overflow:visible;
+      }
+      .hv-mina{
+        height:220px;
+        right:0;bottom:0;
+        position:absolute;
+        animation:lev 5s ease-in-out infinite;
+        filter:drop-shadow(0 16px 32px rgba(0,0,0,0.3));
+      }
+      .hv-dori{
+        height:72px;
+        top:4px;left:8px;
+        position:absolute;
+        animation:dorf 6s ease-in-out infinite;
+      }
+
+      /* Quote */
+      .qband{padding:16px 20px}
+
+      /* Toutes les sections */
+      section{padding:56px 20px}
+
+      /* Approach */
+      .app-hd{margin-bottom:32px}
+      .pillar{padding:26px 22px}
+      .p-n{font-size:42px}
+
+      /* Steps */
+      .steps{gap:40px}
+      .step{padding:0}
+      .step:not(:last-child)::after{display:none}
+
+      /* Cast */
+      .cast-grid{grid-template-columns:1fr 1fr;gap:10px}
+      .cc-visual{height:190px}
+      .cc-img{height:160px}
+      .cc-dori-img{height:150px}
+      .cc-body{padding:12px 14px 14px}
+      .cc-name{font-size:16px}
+      .cc-role{font-size:12px}
+      .cc-phrase{display:none}
+
+      /* Comparatif — hint de scroll */
+      .tbl-hint{
+        display:flex;align-items:center;justify-content:center;gap:6px;
+        font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+        color:rgba(247,248,250,0.35);padding:0 0 14px;
+      }
+      .tbl-hint svg{opacity:.5}
+
+      /* Mini-leçon */
+      .lhdr{padding:14px 18px}
+      .lbody{padding:22px 18px}
+      .qchar{font-size:72px}
+      .qword{font-size:40px}
+      .qtxt{font-size:15px}
+      .qbtn{padding:13px 10px;font-size:14px;border-radius:12px}
+      .lmina{width:52px;height:52px}
+
+      /* Tarifs — 1 colonne sur mobile */
+      .plans{grid-template-columns:1fr}
+      .pf{transform:none!important}
+      .plan{padding:22px 20px}
+
+      /* Waitlist */
+      .wl{padding:56px 20px}
+      .wlrow{flex-direction:column}
+      .wlsub{width:100%}
+      .wl-in{padding:0}
+
+      /* Footer */
+      footer{padding:40px 20px 28px}
+      .flinks{gap:14px}
+      .flinks a{font-size:12px}
+    }
+
+    /* Très petit mobile — 380px et moins */
+    @media(max-width:380px){
+      .hero h1{font-size:30px}
+      .cast-grid{grid-template-columns:1fr 1fr}
+      .cc-visual{height:150px}
+      .cc-img{height:138px}
+      .cc-dori-img{height:115px}
+    }
+
+    /* ── TÉMOIGNAGES ── */
+    .testi{background:var(--navy)}
+    .testi-inner{max-width:1080px;margin:0 auto}
+    .testi-hd{text-align:center;margin-bottom:52px}
+    .testi-hd .sub{color:rgba(247,248,250,0.45);max-width:440px;margin:auto}
+    .tcards{display:grid;gap:20px;grid-template-columns:1fr}
+    @media(min-width:720px){.tcards{grid-template-columns:repeat(3,1fr)}}
+    .tcard{background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.08);border-radius:22px;padding:30px 26px;display:flex;flex-direction:column;gap:22px;transition:all .3s}
+    .tcard:hover{border-color:rgba(201,169,110,0.3);background:rgba(201,169,110,0.04)}
+    .tq{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:rgba(247,248,250,0.85);line-height:1.75;flex:1;position:relative;padding-top:8px}
+    .tq::before{content:'“';font-size:52px;color:var(--gold);line-height:0;position:absolute;top:4px;left:-4px;opacity:.6;font-style:normal}
+    .tauthor{display:flex;align-items:center;gap:14px;padding-top:4px;border-top:1px solid rgba(255,255,255,0.07)}
+    .tavatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--navy);flex-shrink:0}
+    .tname{font-size:13px;font-weight:600;color:rgba(247,248,250,0.9)}
+    .tloc{font-size:11px;color:rgba(247,248,250,0.38);margin-top:3px;line-height:1.4}
+    .tstars{color:var(--gold);font-size:12px;letter-spacing:2px;margin-bottom:2px}
+
+    /* ── APP PREVIEW ── */
+    .prev-sec{background:var(--white)}
+    .prev-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 360px;gap:60px;align-items:center}
+    @media(max-width:820px){.prev-inner{grid-template-columns:1fr}.prev-phone{display:none}}
+    .prev-list{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:12px}
+    .prev-list li{font-size:14px;color:var(--gray);display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+    .prev-list li::before{content:'';width:18px;height:18px;flex-shrink:0;margin-top:1px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Ccircle cx='9' cy='9' r='8.5' fill='rgba(201,169,110,0.12)'/%3E%3Cpath stroke='%23C9A96E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none' d='M5 9l2.5 2.5 5.5-5'/%3E%3C/svg%3E") no-repeat center}
+    .prev-cta{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap}
+    /* Phone frame */
+    .prev-phone{display:flex;justify-content:center}
+    .phone{width:270px;background:#0A1628;border-radius:40px;padding:12px;box-shadow:0 40px 80px rgba(15,27,45,0.35),0 0 0 1px rgba(255,255,255,0.05)}
+    .phone-inner{background:#F0F4FA;border-radius:30px;overflow:hidden;min-height:520px;display:flex;flex-direction:column;transition:opacity .3s}
+    .tavatar{overflow:hidden;background:none!important;padding:0!important}
+    .p-bar{height:4px;background:#E2E8F0}
+    .p-fill{height:100%;width:40%;background:var(--gold);border-radius:0 3px 3px 0}
+    .p-hdr{background:var(--navy);padding:14px 18px;display:flex;align-items:center;gap:12px}
+    .p-av{width:44px;height:44px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,0.06);flex-shrink:0}
+    .p-av img{width:150%;height:150%;object-fit:cover;object-position:top center;margin-left:-12px;margin-top:-8px}
+    .p-nm{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:3px}
+    .p-say{font-size:12px;color:rgba(247,248,250,0.7);line-height:1.4}
+    .p-body{padding:24px 18px;flex:1;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .p-cnt{font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--gray);text-transform:uppercase;align-self:flex-start}
+    .p-char{font-size:72px;color:var(--navy);line-height:1;font-weight:300;letter-spacing:-.02em;text-align:center;margin:8px 0}
+    .p-q{font-size:14px;font-weight:500;color:var(--navy);text-align:center;line-height:1.5;margin-bottom:8px}
+    .p-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+    .p-btn{padding:12px 8px;border-radius:12px;border:1.5px solid var(--border);background:white;color:var(--navy);font-size:13px;font-weight:500;text-align:center}
+    .p-btn.ok{border-color:#22c55e;background:rgba(34,197,94,.08);color:#15803d}
+    .p-foot{background:var(--navy);padding:10px 18px;display:flex;align-items:center;justify-content:space-between}
+    .p-xp{font-size:11px;color:var(--gold);font-weight:600}
+    .p-streak{font-size:11px;color:rgba(247,248,250,0.5)}
+
+    /* ── PRICING EB (early bird) ── */
+    .eb-banner{text-align:center;margin-bottom:28px;padding:14px 20px;background:rgba(201,169,110,0.08);border:1px solid rgba(201,169,110,0.2);border-radius:14px}
+    .eb-banner p{font-size:13px;color:var(--navy);line-height:1.6}
+    .eb-banner strong{color:var(--gold)}
+    .plan-free .pprice{color:var(--navy)}
+
+    @media(max-width:640px){
+      .tcards{grid-template-columns:1fr}
+      .tcard{padding:22px 20px}
+      .prev-inner{grid-template-columns:1fr}
+      .prev-phone{display:none}
+    }
+
+    /* ── SCROLL PROGRESS BAR ── */
+    .sbar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),#FFD800);z-index:300;width:0%;transition:width .08s linear;border-radius:0 2px 2px 0;pointer-events:none}
+
+    /* ── FAQ ── */
+    .faq{background:var(--navy)}
+    .faq-inner{max-width:760px;margin:0 auto}
+    .faq-hd{text-align:center;margin-bottom:48px}
+    .faq-list{display:flex;flex-direction:column}
+    .fitem{border-bottom:1px solid rgba(247,248,250,.07)}
+    .fitem:first-child{border-top:1px solid rgba(247,248,250,.07)}
+    .fq{width:100%;background:none;border:none;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;cursor:pointer;text-align:left;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:rgba(247,248,250,.80);transition:color .2s}
+    .fq:hover{color:var(--gold)}
+    .fq-ico{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(247,248,250,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;color:rgba(247,248,250,.45)}
+    .fitem.open .fq{color:var(--gold)}
+    .fitem.open .fq-ico{background:var(--gold);border-color:var(--gold);color:var(--navy);transform:rotate(45deg)}
+    .fa{max-height:0;overflow:hidden;transition:max-height .38s cubic-bezier(.4,0,.2,1)}
+    .fitem.open .fa{max-height:200px}
+    .fa p{padding:0 0 22px;font-size:14px;color:rgba(247,248,250,.48);line-height:1.85;max-width:640px}
+    @media(max-width:640px){.fq{font-size:14px;padding:18px 0}.fa p{font-size:13px}}
+
+    /* ── FOOTER SOCIAL ── */
+    .fsocial{display:flex;gap:12px;justify-content:center;margin-bottom:22px}
+    .fsocial a{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;transition:all .22s;color:rgba(247,248,250,.28);text-decoration:none}
+    .fsocial a:hover{border-color:var(--gold);background:rgba(201,169,110,.1);color:var(--gold)}
+    .fsocial svg{width:15px;height:15px}
+    </style>
+</head>
+<body>
+<div class="sbar" id="sbar"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nl"><img id="logo" alt="Korean Stories"/></div>
+  <div class="nm" id="nm">
+    <a href="#approach" class="nm-link">Concept</a>
+    <a href="#cast" class="nm-link">Personnages</a>
+    <a href="#lesson" class="nm-link">Mini-leçon</a>
+    <a href="#pricing" class="nm-link">Tarifs</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a href="app.html" class="ncta">Commencer gratuitement &rarr;</a>
+    <button class="mbtn" id="mbtn" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hbg" id="hbg"></div>
+  <div class="hero-wrap">
+    <div>
+      <div class="tag"><span class="dot"></span>Disponible maintenant — 10 leçons + 4 Histoires</div>
+      <h1>Apprends le coréen<br/>en <em>vivant</em> des histoires</h1>
+      <p class="hsub">Cafés de Hongdae, métro de Séoul, marchés de Busan. Chaque leçon est une scène de vie. On ne mémorise pas des règles — on les ressent.</p>
+      <div class="hbtns">
+        <a href="app.html" class="bg">Commencer gratuitement</a>
+        <a href="#lesson" class="bo">Essaie une mini-leçon &darr;</a>
+      </div>
+      <p style="font-size:10px;color:rgba(247,248,250,0.22);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;font-weight:600">Korean Stories — déjà disponible</p>
+      <div class="hstats">
+        <div class="hs"><span class="hs-n">10</span><span class="hs-l">leçons Hangeul</span></div>
+        <div class="hs-sep"></div>
+        <div class="hs"><span class="hs-n">43</span><span class="hs-l">mots & expressions</span></div>
+        <div class="hs-sep"></div>
+        <div class="hs"><span class="hs-n">8</span><span class="hs-l">histoires coréennes</span></div>
+      </div>
+    </div>
+    <div class="hv">
+      <img id="hMina" class="hv-mina" alt="Mina"/>
+      <img id="hDori" class="hv-dori" alt="Dori"/>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="qband">
+  <p>« Les meilleurs apprenants ne mémorisent pas des règles. Ils <em>vivent</em> des histoires. »</p>
+</div>
+
+<!-- APPROACH -->
+<section class="approach" id="approach">
+  <div class="app-inner">
+    <div class="app-hd fw">
+      <span class="lbl">Notre approche</span>
+      <h2 class="h2">Pas une méthode.<br/><em>Une invitation dans une culture.</em></h2>
+      <p class="sub">Les applis existantes sont trop académiques ou trop superficielles. Korean Stories comble ce vide — sans compromis.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar fw"><div class="p-n">01</div><h3>Immersion Culturelle</h3><p>Cafés de Hongdae, métro de Séoul, marchés de Busan. Chaque leçon est ancrée dans une scène de vie coréenne authentique.</p></div>
+      <div class="pillar fw"><div class="p-n">02</div><h3>Apprendre en Jouant</h3><p>Quiz, jeux, vies, classements, streaks. La progression devient addictive et naturelle — jamais une obligation.</p></div>
+      <div class="pillar fw"><div class="p-n">03</div><h3>Présences Humaines</h3><p>Mina, Joon, Hana et Dori t'accompagnent à chaque étape. Tu n'apprends pas seul·e — tu vis des histoires.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="how-inner">
+    <div class="how-hd fw">
+      <span class="lbl">Comment ça marche</span>
+      <h2 class="h2 h2w">Trois étapes pour<br/><em>parler coréen pour de vrai</em></h2>
+      <p class="sub">Un parcours pensé pour aller du Hangeul aux dramas sans aide.</p>
+    </div>
+    <div class="steps">
+      <div class="step fw">
+        <div class="step-num"><span>1</span></div>
+        <h3>Tu apprends l'alphabet</h3>
+        <p>Le Hangeul en 10 leçons, 3 caractères à la fois. Mina t'explique chaque son, Joon le prononce. Le clavier coréen intégré te force à écrire — pas juste à reconnaître.</p>
+      </div>
+      <div class="step fw">
+        <div class="step-num"><span>2</span></div>
+        <h3>Tu vis des histoires</h3>
+        <p>Chaque leçon est une scène : café, métro, restaurant, rendez-vous. Hana fait les erreurs à ta place, Joon te montre comment parler naturellement.</p>
+      </div>
+      <div class="step fw">
+        <div class="step-num"><span>3</span></div>
+        <h3>Tu progresses sans t'en rendre compte</h3>
+        <p>Streaks, classements, vies et récompenses par Dori. La régularité devient un plaisir. Les examens TOPIK ? Un bonus, pas une fin en soi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CURRICULUM -->
+<section style="padding:80px 36px;background:var(--white)">
+  <div style="max-width:1080px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:48px">
+      <span class="lbl">Le curriculum</span>
+      <h2 class="h2">10 leçons — <em>l'alphabet complet</em></h2>
+      <p class="sub">De tes premiers sons à l'écriture complète du Hangeul. Chaque leçon = 3 caractères + 2 mots du quotidien + clavier coréen interactif.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px">
+      <a href="lecon.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 1</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㄱ ㄴ ㅏ</span>
+        <span style="font-size:11px;color:var(--gray)">나가 · 나 (moi)</span>
+      </a>
+      <a href="lecon2.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 2</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㄷ ㅁ ㅗ</span>
+        <span style="font-size:11px;color:var(--gray)">고모 · 나도</span>
+      </a>
+      <a href="lecon3.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 3</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㅂ ㅅ ㅜ</span>
+        <span style="font-size:11px;color:var(--gray)">수박 · 바나나</span>
+      </a>
+      <a href="lecon4.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 4</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㄹ ㅣ ㅓ</span>
+        <span style="font-size:11px;color:var(--gray)">이리 · 나라</span>
+      </a>
+      <a href="lecon5.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 5</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㅈ ㅡ ㅔ</span>
+        <span style="font-size:11px;color:var(--gray)">저기 · 지구</span>
+      </a>
+      <a href="lecon6.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 6</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㅎ ㅐ ㅛ</span>
+        <span style="font-size:11px;color:var(--gray)">해 · 하루</span>
+      </a>
+      <a href="lecon7.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 7</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㅊ ㅋ ㅠ</span>
+        <span style="font-size:11px;color:var(--gray)">치즈 · 유리</span>
+      </a>
+      <a href="lecon8.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 8</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㅌ ㅍ ㅑ</span>
+        <span style="font-size:11px;color:var(--gray)">파티 · 야채</span>
+      </a>
+      <a href="lecon9.html" style="text-decoration:none;background:var(--pure);border:1.5px solid var(--border);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 9</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㅘ ㅝ ㅕ</span>
+        <span style="font-size:11px;color:var(--gray)">봐요 · 여기</span>
+      </a>
+      <a href="lecon10.html" style="text-decoration:none;background:linear-gradient(135deg,rgba(201,169,110,0.12),rgba(201,169,110,0.05));border:1.5px solid rgba(201,169,110,0.35);border-radius:18px;padding:18px 16px;transition:all .25s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.borderColor='var(--gold)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(201,169,110,0.35)';this.style.transform='none'">
+        <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Leçon 10 ★</span>
+        <span style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy)">ㄲ ㄸ ㅃ ㅆ ㅉ</span>
+        <span style="font-size:11px;color:var(--gray)">빨리 · 또</span>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <a href="app.html" class="bg">Commencer la Leçon 1 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- APP PREVIEW -->
+<section class="prev-sec" id="preview">
+  <div class="prev-inner">
+    <div class="fw">
+      <span class="lbl">L'expérience</span>
+      <h2 class="h2">10 minutes par jour.<br/><em>Des progrès qui se voient.</em></h2>
+      <p class="sub">Chaque session est une scène de vie à Séoul. Mina t'explique, Joon te fait entendre, Hana fait les erreurs — et Dori te récompense.</p>
+      <ul class="prev-list">
+        <li>Leçons de 10 min adaptées à ton emploi du temps</li>
+        <li>100 % en français pour les débutants, coréen progressif</li>
+        <li>Mobile first — dans le métro, dans le lit, partout</li>
+        <li>Progression visible dès la première semaine</li>
+      </ul>
+      <div class="prev-cta">
+        <a href="#lesson" class="bg" style="font-size:13px;padding:12px 24px">Essaie la mini-leçon →</a>
+        <a href="app.html" class="bo" style="font-size:13px;padding:11px 22px;color:var(--navy);border-color:var(--border)">Voir les leçons →</a>
+      </div>
+    </div>
+    <div class="prev-phone fw">
+      <div class="phone">
+        <div class="phone-inner" id="phoneDemo">
+          <div class="p-bar"><div class="p-fill" id="pFill" style="width:30%"></div></div>
+          <div class="p-hdr">
+            <div class="p-av"><img id="prevMina" alt="Mina"/></div>
+            <div>
+              <div class="p-nm">Mina — 미나</div>
+              <div class="p-say" id="pSay">Tu sais déjà dire bonjour !</div>
+            </div>
+          </div>
+          <div class="p-body" id="pBody"></div>
+          <div class="p-foot">
+            <div class="p-xp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:3px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>120 XP</div>
+            <div class="p-streak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:3px"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>7 jours d'affilée</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAST -->
+<section class="cast" id="cast">
+  <div class="cast-inner">
+    <div class="cast-hd fw">
+      <span class="lbl">Le Cast</span>
+      <h2 class="h2">Quatre personnages<br/><em>qui rendent tout vivant</em></h2>
+      <p class="sub">Conçus pour guider, accompagner et rendre chaque leçon mémorable.</p>
+    </div>
+    <div class="cast-grid">
+
+      <!-- MINA -->
+      <div class="cc fw">
+        <div class="cc-visual cc-v-mina">
+          <img src="à trier/Personnages_mina_pose_féliciter.png" class="cc-img" alt="Mina"/>
+        </div>
+        <div class="cc-body">
+          <div class="cc-name">Mina <span class="cc-hangul">미나</span></div>
+          <div class="cc-role">Guide principale &middot; Ton ancrage émotionnel</div>
+          <div class="cc-phrase">같이 공부해요 !<br/><span style="font-size:11px;opacity:0.6">Étudions ensemble !</span></div>
+        </div>
+      </div>
+
+      <!-- JOON -->
+      <div class="cc fw">
+        <div class="cc-visual cc-v-joon">
+          <img src="à trier/Personnages_joon_pose_expliquer.png" class="cc-img" alt="Joon"/>
+        </div>
+        <div class="cc-body">
+          <div class="cc-name">Joon <span class="cc-hangul">준</span></div>
+          <div class="cc-role">Narrateur &middot; La vie à Séoul</div>
+          <div class="cc-phrase">할 수 있어 ! 화이팅 !<br/><span style="font-size:11px;opacity:0.6">Tu peux le faire !</span></div>
+        </div>
+      </div>
+
+      <!-- HANA -->
+      <div class="cc fw">
+        <div class="cc-visual cc-v-hana">
+          <img src="à trier/Personnages_Hana_pose_accompagner.png" class="cc-img" alt="Hana"/>
+        </div>
+        <div class="cc-body">
+          <div class="cc-name">Hana <span class="cc-hangul">하나</span></div>
+          <div class="cc-role">Miroir apprenant &middot; Toi dans l'histoire</div>
+          <div class="cc-phrase">천천히 해도 괜찮아<br/><span style="font-size:11px;opacity:0.6">Prends ton temps.</span></div>
+        </div>
+      </div>
+
+      <!-- DORI -->
+      <div class="cc fw">
+        <div class="cc-visual cc-v-dori">
+          <img src="Personnage/UI/dori_ui.svg" class="cc-img cc-dori-img" alt="Dori"/>
+        </div>
+        <div class="cc-body">
+          <div class="cc-name">Dori <span class="cc-hangul">도리</span></div>
+          <div class="cc-role">Mascotte &middot; Gamification</div>
+          <div class="cc-phrase">XP &middot; Streaks &middot; Vies<br/><span style="font-size:11px;opacity:0.6">Toujours là pour t'encourager.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- TÉMOIGNAGES -->
+<section class="testi" id="testimonials">
+  <div class="testi-inner">
+    <div class="testi-hd fw">
+      <span class="lbl">Premiers retours</span>
+      <h2 class="h2 h2w">Ce qu'ils disent<br/><em>de la bêta privée</em></h2>
+      <p class="sub">Quelques retours de nos premiers testeurs — leurs mots, pas les nôtres.</p>
+    </div>
+    <div class="tcards">
+
+      <div class="tcard fw">
+        <div class="tstars">★★★★★</div>
+        <div class="tq">La mini-leçon m'a accrochée en 30 secondes. Ça fait 2 ans que je cherche quelque chose comme ça — entre Duolingo qui m'ennuie et YouTube qui me noie.</div>
+        <div class="tauthor">
+          <div class="tavatar"><svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg"><circle cx="21" cy="22" r="16" fill="#3D2B1F"/><circle cx="21" cy="20" r="13" fill="#F2C4A2"/><ellipse cx="21" cy="9" rx="11" ry="7" fill="#3D2B1F"/><circle cx="17" cy="19.5" r="2.2" fill="#1a1228"/><circle cx="25" cy="19.5" r="2.2" fill="#1a1228"/><circle cx="16.2" cy="18.7" r="0.8" fill="white"/><circle cx="24.2" cy="18.7" r="0.8" fill="white"/><ellipse cx="13.5" cy="22" rx="2.8" ry="1.8" fill="#FF8EA8" opacity=".35"/><ellipse cx="28.5" cy="22" rx="2.8" ry="1.8" fill="#FF8EA8" opacity=".35"/><path d="M18 25.5 Q21 28 24 25.5" stroke="#C07880" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+          <div>
+            <div class="tname">Sophie, 23 ans</div>
+            <div class="tloc">Toulouse · Fan de K-dramas depuis 4 ans</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard fw">
+        <div class="tstars">★★★★★</div>
+        <div class="tq">Ce qui me plaît c'est que les leçons se passent dans des endroits réels à Séoul. Je pars en Corée cet été et j'ai enfin l'impression d'apprendre quelque chose d'utile.</div>
+        <div class="tauthor">
+          <div class="tavatar"><svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg"><ellipse cx="21" cy="9.5" rx="12" ry="7.5" fill="#1a2f4a"/><ellipse cx="7.5" cy="16" rx="4" ry="7" fill="#1a2f4a"/><ellipse cx="34.5" cy="16" rx="4" ry="7" fill="#1a2f4a"/><circle cx="21" cy="22" r="13" fill="#E8C49A"/><circle cx="17" cy="21" r="2.2" fill="#1a1228"/><circle cx="25" cy="21" r="2.2" fill="#1a1228"/><circle cx="16.2" cy="20.2" r="0.8" fill="white"/><circle cx="24.2" cy="20.2" r="0.8" fill="white"/><path d="M17.5 17.5 Q19.5 16.2 21.5 17.5" stroke="#1a2f4a" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M22 17.5 Q24 16.2 26 17.5" stroke="#1a2f4a" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M18 26 Q21 28.5 24 26" stroke="#A06050" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+          <div>
+            <div class="tname">Lucas, 28 ans</div>
+            <div class="tloc">Lyon · Voyage prévu en juillet</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcard fw">
+        <div class="tstars">★★★★★</div>
+        <div class="tq">Mina et les personnages changent tout — on n'apprend pas seule. Et les explications en français pour les débutants, c'est un vrai soulagement comparé aux autres apps.</div>
+        <div class="tauthor">
+          <div class="tavatar"><svg width="42" height="42" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg"><ellipse cx="21" cy="28" rx="15" ry="10" fill="#C9A96E"/><circle cx="21" cy="19" r="12" fill="#F5D5C0"/><ellipse cx="21" cy="8.5" rx="11" ry="7" fill="#C9A96E"/><ellipse cx="7.5" cy="21" rx="4" ry="9" fill="#C9A96E"/><ellipse cx="34.5" cy="21" rx="4" ry="9" fill="#C9A96E"/><circle cx="17" cy="18.5" r="2.2" fill="#1a1228"/><circle cx="25" cy="18.5" r="2.2" fill="#1a1228"/><circle cx="16.2" cy="17.7" r="0.8" fill="white"/><circle cx="24.2" cy="17.7" r="0.8" fill="white"/><ellipse cx="14" cy="21.5" rx="2.8" ry="1.8" fill="#FF8EA8" opacity=".3"/><ellipse cx="28" cy="21.5" rx="2.8" ry="1.8" fill="#FF8EA8" opacity=".3"/><path d="M18 23.5 Q21 26 24 23.5" stroke="#C07880" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+          <div>
+            <div class="tname">Emma, 21 ans</div>
+            <div class="tloc">Paris · Étudiante en langues</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIF -->
+<section class="compare" id="compare">
+  <div class="cmp-inner">
+    <div class="cmp-hd fw">
+      <span class="lbl">Comparatif</span>
+      <h2 class="h2 h2w">Korean Stories occupe<br/><em>un territoire unique</em></h2>
+      <p class="sub">Aucun concurrent ne combine ces six dimensions. C'est notre avantage.</p>
+    </div>
+    <div class="tbl-hint" aria-hidden="true">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Glisse pour voir
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </div>
+    <div class="tbl-wrap fw">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Duolingo</th>
+            <th>TTMIK</th>
+            <th>Pimsleur</th>
+            <th class="ks">Korean Stories</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>100 % coréen</td>
+            <td><span class="ok">&#10003;</span></td>
+            <td><span class="ok">&#10003;</span></td>
+            <td><span class="ok">&#10003;</span></td>
+            <td class="ks-col"><span class="ok">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Ancrage culturel</td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="part">&#8764;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td class="ks-col"><span class="ok">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Narration continue</td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td class="ks-col"><span class="ok">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Gamification complète</td>
+            <td><span class="ok">&#10003;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td class="ks-col"><span class="ok">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Oral noté A/B/C</td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td class="ks-col"><span class="ok">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td>Personnages récurrents</td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+            <td class="ks-col"><span class="ok">&#10003;</span></td>
+          </tr>
+          <tr class="price-row">
+            <td>Prix / mois</td>
+            <td>7&thinsp;&euro;</td>
+            <td>15&ndash;25&thinsp;$</td>
+            <td>15&ndash;20&thinsp;$</td>
+            <td class="ks-col"><span class="price-ks">0&ndash;7,90&thinsp;&euro;</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- MINI LECON -->
+<section class="lesson" id="lesson">
+  <div class="ls-inner">
+    <div class="ls-hd fw">
+      <span class="lbl">Mini-leçon</span>
+      <h2 class="h2">Essaie maintenant —<br/><em>aucune inscription requise</em></h2>
+      <p class="sub">Un avant-goût du Hangeul. Mina t'accompagne. Six questions pour commencer.</p>
+    </div>
+    <div class="lcard fw">
+      <div class="lpbar"><div class="lpfill" id="lpf" style="width:0%"></div></div>
+      <div class="lhdr">
+        <div class="lmina"><img id="lMina" alt="Mina"/></div>
+        <div>
+          <div class="lmina-nm">Mina — 미나</div>
+          <div class="lmina-say" id="lTxt">같이 공부해요&thinsp;! Commençons par l'alphabet coréen — le Hangeul.</div>
+        </div>
+      </div>
+      <div class="lbody">
+        <div class="lstep act" data-i="0">
+          <div class="qcnt">Question 1 / 6 — Reconnaissance</div>
+          <div class="qchar">가</div>
+          <div class="qtxt">Quel son fait ce caractère&thinsp;?</div>
+          <div class="qchoices">
+            <button class="qbtn" data-a="na">na</button>
+            <button class="qbtn" data-a="ga" data-ok>ga</button>
+            <button class="qbtn" data-a="da">da</button>
+            <button class="qbtn" data-a="ma">ma</button>
+          </div>
+          <div class="qfb"></div>
+        </div>
+        <div class="lstep" data-i="1">
+          <div class="qcnt">Question 2 / 6 — Reconnaissance</div>
+          <div class="qchar">나</div>
+          <div class="qtxt">Quel son fait ce caractère&thinsp;?</div>
+          <div class="qchoices">
+            <button class="qbtn" data-a="ga">ga</button>
+            <button class="qbtn" data-a="ra">ra</button>
+            <button class="qbtn" data-a="na" data-ok>na</button>
+            <button class="qbtn" data-a="ba">ba</button>
+          </div>
+          <div class="qfb"></div>
+        </div>
+        <div class="lstep" data-i="2">
+          <div class="qcnt">Question 3 / 6 — Expression</div>
+          <div class="qword">안녕하세요</div>
+          <div class="qtxt">Que signifie cette expression&thinsp;?</div>
+          <div class="qchoices">
+            <button class="qbtn" data-a="m">Merci</button>
+            <button class="qbtn" data-a="b" data-ok>Bonjour</button>
+            <button class="qbtn" data-a="ar">Au revoir</button>
+            <button class="qbtn" data-a="p">Pardon</button>
+          </div>
+          <div class="qfb"></div>
+        </div>
+        <div class="lstep" data-i="3">
+          <div class="qcnt">Question 4 / 6 — Vocabulaire</div>
+          <div class="qword">커피</div>
+          <div class="qtxt">Quel est ce mot en français&thinsp;?</div>
+          <div class="qchoices">
+            <button class="qbtn" data-a="th">Thé</button>
+            <button class="qbtn" data-a="ca" data-ok>Café</button>
+            <button class="qbtn" data-a="ea">Eau</button>
+            <button class="qbtn" data-a="pa">Pain</button>
+          </div>
+          <div class="qfb"></div>
+        </div>
+        <div class="lstep" data-i="4">
+          <div class="qcnt">Question 5 / 6 — Reconnaissance</div>
+          <div class="qchar">다</div>
+          <div class="qtxt">Quel son fait ce caractère&thinsp;?</div>
+          <div class="qchoices">
+            <button class="qbtn" data-a="sa">sa</button>
+            <button class="qbtn" data-a="ga">ga</button>
+            <button class="qbtn" data-a="na">na</button>
+            <button class="qbtn" data-a="da" data-ok>da</button>
+          </div>
+          <div class="qfb"></div>
+        </div>
+        <div class="lstep" data-i="5">
+          <div class="qcnt">Question 6 / 6 — Histoire</div>
+          <div class="qword" style="font-size:32px;letter-spacing:2px">나도 가요 !</div>
+          <div class="qtxt">Mina dit ça dans l'Histoire 1. Que signifie-t-il&thinsp;?</div>
+          <div class="qchoices">
+            <button class="qbtn" data-a="jv" data-ok>Je viens aussi !</button>
+            <button class="qbtn" data-a="ap">Allons-y !</button>
+            <button class="qbtn" data-a="jp">Je pars seul.</button>
+            <button class="qbtn" data-a="ad">À demain !</button>
+          </div>
+          <div class="qfb"></div>
+        </div>
+        <div class="lres" id="lres">
+          <img id="lresMina" class="rmina" alt="Mina"/>
+          <div class="rscore" id="rscore"></div>
+          <div class="rof">bonnes réponses sur 6</div>
+          <div class="rmsg" id="rmsg"></div>
+          <a id="lresCTA" href="app.html" style="display:inline-block;margin-bottom:14px;background:var(--gold);color:var(--navy);font-weight:700;font-size:15px;padding:13px 28px;border-radius:100px;text-decoration:none;box-shadow:0 4px 18px rgba(201,169,110,.35);transition:transform .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">Commencer les vraies leçons →</a>
+          <br/>
+          <button class="retry" id="retryBtn">Recommencer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="ft-inner">
+    <div class="ft-hd fw">
+      <span class="lbl">Fonctionnalités</span>
+      <h2 class="h2 h2w">Tout pour <em>vraiment progresser</em></h2>
+      <p class="sub">Un écosystème complet — bien plus que des flashcards.</p>
+    </div>
+    <div class="fg">
+      <div class="fi fw" style="border:1.5px solid rgba(201,169,110,.25);background:rgba(201,169,110,.04)"><div class="fic" style="background:rgba(201,169,110,.15)"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div><h4>Mini-histoires narratives <span style="font-size:10px;font-weight:700;background:rgba(34,197,94,.15);color:#15803d;border-radius:100px;padding:2px 8px;margin-left:6px;vertical-align:middle">11 histoires live !</span></h4><p>Mina et Joon vivent des aventures à Séoul. Lis les dialogues, clique les mots pour voir leur sens, et teste-toi avec un mini quiz.</p></div></div>
+      <div class="fi fw" style="border:1.5px solid rgba(167,139,250,.22);background:rgba(167,139,250,.04)"><div class="fic" style="background:rgba(167,139,250,.15)"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg></div><div><h4>Exercices interactifs <span style="font-size:10px;font-weight:700;background:rgba(167,139,250,.15);color:#7c3aed;border-radius:100px;padding:2px 8px;margin-left:6px;vertical-align:middle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:10px;display:inline-block;vertical-align:middle;margin-right:2px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Speed Challenge !</span></h4><p>4 modes de pratique : construis des phrases, associe les paires, écoute et réponds, et affronte le chrono en 60 secondes.</p></div></div>
+      <div class="fi fw"><div class="fic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div><div><h4>Oral noté A / B / C</h4><p>Enregistre ta voix, reçois une évaluation détaillée sur ta prononciation. Aucun concurrent ne propose ça.</p></div></div>
+      <div class="fi fw"><div class="fic"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><h4>Classement hebdomadaire</h4><p>XP, streaks, médailles et titres en coréen. Remise à zéro le lundi. La compétition saine qui motive.</p></div></div>
+      <div class="fi fw"><div class="fic"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div><h4>Clavier coréen virtuel</h4><p>Apprends à taper en coréen directement dans les leçons, sans aucune installation.</p></div></div>
+      <div class="fi fw"><div class="fic"><svg viewBox="0 0 24 24"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg></div><div><h4>Correction de phrases</h4><p>Écris librement en coréen. Chaque phrase est corrigée, expliquée et reformulée par Mina.</p></div></div>
+      <div class="fi fw"><div class="fic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div><h4>PDF de grammaire</h4><p>Fiches complètes à télécharger et imprimer pour chaque section. Un vrai support physique.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pr-inner">
+    <div class="pr-hd fw">
+      <span class="lbl">Tarifs</span>
+      <h2 class="h2">Commence <em>gratuitement</em>,<br/>progresse à ton rythme</h2>
+      <p class="sub">Pas d'abonnement forcé. Le plan gratuit est déjà généreux.</p>
+    </div>
+    <div class="eb-banner fw">
+      <p><strong>Korean Stories est disponible !</strong> — Commence gratuitement dès maintenant. Le plan Premium est proposé au tarif de lancement tant que les places sont disponibles.</p>
+    </div>
+    <div class="plans">
+      <div class="plan plan-free fw"><div class="pbadge hi">—</div><div class="pname">Gratuit</div><div class="pprice">0 &euro;</div><div class="pper">pour toujours</div><div class="pln"></div><ul class="pfl"><li>5 vies par jour</li><li>Hangeul complet — 10 leçons</li><li>43 mots & expressions</li><li>Exercices interactifs Speed</li><li>Histoire 1 — 안녕하세요 ! </li><li>Histoire 2 — 시장에서 </li><li>Histoire 3 — 식당에서</li><li>Défi du jour quotidien</li></ul><div class="pcta"><a href="app.html">Commencer maintenant</a></div></div>
+      <div class="plan pf fw"><div class="pbadge">Lancement — <s style="opacity:.6">7,90&thinsp;&euro;</s></div><div class="pname">Premium</div><div class="pprice">5,90 &euro;</div><div class="pper">par mois · prix de lancement</div><div class="pln"></div><ul class="pfl"><li>Vies illimitées</li><li>Tous les chapitres</li><li>Audio natif complet</li><li>Oral noté A/B/C</li><li>PDF de grammaire</li></ul><div class="pcta"><a href="mailto:contact@koreanstories.fr">Accéder au Premium</a></div></div>
+      <div class="plan fw"><div class="pbadge" style="background:rgba(201,169,110,0.12);color:var(--gold)">Offre unique</div><div class="pname">À Vie</div><div class="pprice">59 &euro;</div><div class="pper">une seule fois · <s style="opacity:.5">89&thinsp;&euro;</s></div><div class="pln"></div><ul class="pfl"><li>Accès permanent</li><li>Tout Premium inclus</li><li>Grammaire avancée</li><li>Mises à jour à vie</li></ul><div class="pcta"><a href="mailto:contact@koreanstories.fr">Obtenir l'accès à vie</a></div></div>
+    </div>
+    <div class="cert fw"><strong>Note importante :</strong> Les badges et attestations de niveau Korean Stories (A1, A2, B1, B2) sont des certifications internes à la plateforme. Ils ne remplacent pas des examens officiels tels que le TOPIK ou le DELF et ne sont pas reconnus par les autorités éducatives.</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="faq-hd fw">
+      <span class="lbl">FAQ</span>
+      <h2 class="h2 h2w">Tout ce que tu veux<br/><em>savoir avant de commencer</em></h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="fitem fw">
+        <button class="fq">C'est vraiment gratuit ?<span class="fq-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="0" x2="5" y2="10"/><line x1="0" y1="5" x2="10" y2="5"/></svg></span></button>
+        <div class="fa"><p>Oui — le plan gratuit est permanent, sans carte bancaire ni période d'essai. Tu accèdes aux 10 leçons Hangeul complètes, aux 20 mots essentiels et au clavier coréen intégré pour toujours. Le plan Premium (5,90&thinsp;€/mois au tarif de lancement) débloque tous les chapitres, l'audio natif et l'oral noté A/B/C.</p></div>
+      </div>
+
+      <div class="fitem fw">
+        <button class="fq">Korean Stories est fait pour quel niveau ?<span class="fq-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="0" x2="5" y2="10"/><line x1="0" y1="5" x2="10" y2="5"/></svg></span></button>
+        <div class="fa"><p>Le parcours commence à zéro absolu — même l'alphabet coréen (Hangeul) est appris étape par étape avec Mina. Il accompagne jusqu'au niveau B1. Que tu sois grand débutant·e ou que tu aies quelques bases, Korean Stories s'adapte à toi.</p></div>
+      </div>
+
+      <div class="fitem fw">
+        <button class="fq">Qu'est-ce qui est disponible maintenant ?<span class="fq-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="0" x2="5" y2="10"/><line x1="0" y1="5" x2="10" y2="5"/></svg></span></button>
+        <div class="fa"><p>Dès aujourd'hui, gratuitement et sans inscription : les 10 leçons Hangeul complètes (62 caractères), le clavier coréen intégré, 145 mots essentiels, la révision quotidienne, <strong>Histoire 1</strong> (안녕하세요 !), <strong>Histoire 2</strong> (시장에서), <strong>Histoire 3</strong> (식당에서), <strong>Histoire 4</strong> (카페에서) et <strong>Histoire 5</strong> (편의점에서), <strong>Histoire 6</strong> (지하철에서) et <strong>Histoire 7</strong> (친구 집에서) et <strong>Histoire 8</strong> (노래방에서) et <strong>Histoire 9</strong> (병원에서) et <strong>Histoire 10</strong> (쇼핑몰에서) et <strong>Histoire 11</strong> (집들이에서) — onze dialogues complets de la vie à Séoul. La suite (grammaire, oral) arrive prochainement.</p></div>
+      </div>
+
+      <div class="fitem fw">
+        <button class="fq">Ça remplace Duolingo ?<span class="fq-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="0" x2="5" y2="10"/><line x1="0" y1="5" x2="10" y2="5"/></svg></span></button>
+        <div class="fa"><p>C'est une approche fondamentalement différente. Duolingo est excellent pour créer une habitude quotidienne. Korean Stories est conçu pour comprendre la culture et vraiment parler — pas juste cocher des cases. Les deux peuvent coexister, mais Korean Stories va bien plus loin sur la compréhension réelle.</p></div>
+      </div>
+
+      <div class="fitem fw">
+        <button class="fq">L'app fonctionne sur iPhone et Android ?<span class="fq-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="0" x2="5" y2="10"/><line x1="0" y1="5" x2="10" y2="5"/></svg></span></button>
+        <div class="fa"><p>La version web fonctionne sur tous les appareils dès maintenant — mobile, tablette, ordinateur. Korean Stories est conçu mobile-first, donc l'expérience est optimale sur téléphone. Les applications natives iOS et Android sont en préparation.</p></div>
+      </div>
+
+      <div class="fitem fw">
+        <button class="fq">Je suis débutant·e absolu·e — c'est vraiment pour moi ?<span class="fq-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="0" x2="5" y2="10"/><line x1="0" y1="5" x2="10" y2="5"/></svg></span></button>
+        <div class="fa"><p>Absolument. Le Hangeul s'apprend en quelques heures avec Mina — c'est plus simple que l'alphabet arabe ou chinois. Avec Korean Stories, Mina explique tout en français, Joon fait entendre les sons, et Hana normalise les erreurs. Tu n'es jamais seul·e, même sans prof humain.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY / NEWSLETTER -->
+<section class="wl" id="community">
+  <div class="wl-in">
+    <span class="lbl" style="color:var(--gold)">Communauté</span>
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.2);border-radius:100px;padding:5px 14px;margin-bottom:18px">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block;animation:blink 2s infinite"></span>
+      <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)">Disponible maintenant — commence dès aujourd'hui</span>
+    </div>
+    <h2 class="h2" style="color:var(--white);margin-bottom:16px">Prêt·e à lire<br/><em>ton premier mot coréen ?</em></h2>
+    <p class="sub">10 leçons Hangeul, un clavier coréen intégré, Mina comme guide. Tout est gratuit, aucune inscription requise pour commencer.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:32px">
+      <a href="app.html" class="bg" style="font-size:15px;padding:16px 36px">Commencer maintenant — c'est gratuit</a>
+    </div>
+    <p style="margin-top:20px;font-size:12px;color:rgba(247,248,250,0.35);text-align:center">Ou écris-nous à <a href="mailto:contact@koreanstories.fr" style="color:var(--gold);text-decoration:none">contact@koreanstories.fr</a> pour le plan Premium</p>
+    <div style="display:flex;justify-content:center;gap:32px;margin-top:44px;flex-wrap:wrap">
+      <div style="text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);line-height:1">10</div>
+        <div style="font-size:11px;color:rgba(247,248,250,0.35);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">leçons disponibles</div>
+      </div>
+      <div style="width:1px;background:rgba(247,248,250,0.07);align-self:center;height:32px"></div>
+      <div style="text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);line-height:1">62</div>
+        <div style="font-size:11px;color:rgba(247,248,250,0.35);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">caractères à maîtriser</div>
+      </div>
+      <div style="width:1px;background:rgba(247,248,250,0.07);align-self:center;height:32px"></div>
+      <div style="text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);line-height:1">0&thinsp;€</div>
+        <div style="font-size:11px;color:rgba(247,248,250,0.35);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">pour commencer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="flogo"><img id="fLogo" alt="Korean Stories"/></div>
+  <div class="ftag">한국어 이야기 &middot; Apprends le coréen à travers des histoires</div>
+  <div class="fsocial">
+    <a href="https://instagram.com/koreanstories.fr" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://tiktok.com/@koreanstories.fr" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.95a8.28 8.28 0 004.84 1.55V7.06a4.85 4.85 0 01-1.87-.37z"/></svg>
+    </a>
+    <a href="https://youtube.com/@koreanstories" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="15" rx="4"/><polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none"/></svg>
+    </a>
+  </div>
+  <div class="flinks">
+    <a href="#approach">Concept</a><a href="#how">Parcours</a>
+    <a href="#cast">Personnages</a><a href="#lesson">Mini-leçon</a>
+    <a href="#compare">Comparatif</a><a href="#pricing">Tarifs</a>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:contact@koreanstories.fr">Contact</a>
+  </div>
+  <div class="fcopy">
+    &copy; 2026 Korean Stories &middot; Justine Tilleul &middot; contact@koreanstories.fr<br/>
+    Les certifications Korean Stories sont des attestations internes, non reconnues officiellement.
+  </div>
+</footer>
+
+<script>
+  // ── Asset paths ──
+  const A = {
+    // Logos
+    logo:   "Logo/Logo - KoreanStories_logo_2x4_sansfond_tagline.png",
+    logoW:  "Logo/Logo - KoreanStories_logo_2x4_blanc_tagline.png",
+    // Héro & Cast — nouvelles illustrations SVG UI
+    mina:   "Personnage/Mina/PNG/Utilisation dans l'app/mina_utilisationapp_accueil.png",
+    doriH:  "Personnage/UI/dori_ui.svg",
+    // Mini-leçon Mina — expressions dynamiques PNG
+    minaE:  "\u00e0 trier/Personnages_mina_pose_expliquer.png",
+    minaA:  "Personnage/Mina/PNG/Utilisation dans l\u2019app/mina_utilisationapp_astuce.png",
+    minaB:  "Personnage/Mina/PNG/Utilisation dans l\u2019app/mina_utilisationapp_bravo.png",
+  };
+  const si = (id, src) => { const e = document.getElementById(id); if(e) e.src = src; };
+  si('logo',   A.logo);
+  si('fLogo',  A.logoW);
+  si('hMina',    A.mina);
+  si('prevMina', A.minaE);
+  si('hDori',    A.doriH);
+  si('rMina',    A.minaE);
+  si('lMina',    A.minaE);
+  si('lresMina', A.minaE);
+
+  // ── Hero bg letters ──
+  const chars = ['한','국','어','이','야','기','사','랑','서','울','가','나','다'];
+  const bg = document.getElementById('hbg');
+  chars.forEach((c, i) => {
+    const s = document.createElement('span');
+    s.textContent = c;
+    const sz = 80 + Math.random() * 180;
+    s.style.cssText = `font-size:${sz}px;top:${Math.random()*90}%;left:${Math.random()*95}%;opacity:${0.02+Math.random()*0.04}`;
+    bg.appendChild(s);
+  });
+
+  // ── Nav scroll ──
+  addEventListener('scroll', () => document.getElementById('nav').classList.toggle('s', scrollY > 10));
+
+  // ── Scroll fade ──
+  new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('v'); }), {threshold:.1})
+    .observe || null;
+  const iobs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('v'); }), {threshold:.1});
+  document.querySelectorAll('.fw').forEach(e => iobs.observe(e));
+
+
+
+  // ── Mini-leçon ──
+  const steps = document.querySelectorAll('.lstep');
+  const TOTAL = steps.length;
+  let cur = 0, score = 0;
+  const MSGS = [
+    "같이 공부해요\u00a0! Commençons par les sons de base du Hangeul.",
+    "Bien\u00a0! Continue — tu verras, c'est très logique.",
+    "Tu progresses\u00a0! Maintenant du vrai vocabulaire coréen.",
+    "커피\u00a0? Tu connais peut-être déjà ce mot sans le savoir...",
+    "Presque\u00a0! Une dernière — un extrait de l'Histoire 1\u00a0!",
+    "나도 가요\u00a0! Dans l'Histoire 1, Mina dit ça à Joon 🌸"
+  ];
+
+  function goTo(i) {
+    steps.forEach(s => s.classList.remove('act'));
+    document.getElementById('lpf').style.width = ((i/TOTAL)*100)+'%';
+    if (i < TOTAL) {
+      steps[i].classList.add('act');
+      document.getElementById('lTxt').textContent = MSGS[i];
+      si('lMina', i % 2 === 0 ? A.minaE : A.minaA);
+    } else {
+      document.getElementById('lres').style.display = 'block';
+      document.getElementById('lpf').style.width = '100%';
+      document.getElementById('rscore').textContent = score;
+      let msg, img;
+      if (score === 6) { msg = "Incroyable — 6/6\u00a0! 완벽해요\u00a0!\nMina est impressionnée. Tu es fait·e pour le coréen."; img = A.minaB; document.getElementById('lTxt').textContent = "완벽해요\u00a0! Parfait\u00a0!"; }
+      else if (score === 5) { msg = "5/6 — presque parfait\u00a0! Tu as de belles bases.\nAvec Korean Stories tu vas progresser vite."; img = A.minaB; document.getElementById('lTxt').textContent = "잘했어요\u00a0! Bien joué\u00a0!"; }
+      else if (score >= 3) { msg = "Bon score\u00a0! Tu as déjà de belles bases.\nContinue avec les vraies leçons — Mina t'attend\u00a0!"; img = A.mina; document.getElementById('lTxt').textContent = "잘했어요\u00a0! On continue ensemble\u00a0?"; }
+      else { msg = "Ne t'inquiète pas, tout le monde commence ici.\nKorean Stories te guidera pas à pas avec Mina."; img = A.minaA; document.getElementById('lTxt').textContent = "괜찮아요\u00a0! C'est normal au début."; }
+      document.getElementById('rmsg').textContent = msg;
+      si('lresMina', img); si('lMina', img);
+    }
+  }
+
+  document.querySelectorAll('.qbtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const step = this.closest('.lstep');
+      step.querySelectorAll('.qbtn').forEach(b => b.disabled = true);
+      const fb = step.querySelector('.qfb');
+      const correct = step.querySelector('[data-ok]');
+      if (this.hasAttribute('data-ok')) {
+        this.classList.add('ok'); score++;
+        fb.textContent = ['Excellent !','Parfait !','Bravo !','Très bien !','C\'est ça !','나도 가요 = Je viens aussi\u00a0!'][cur];
+        fb.className = 'qfb g'; si('lMina', A.minaB);
+      } else {
+        this.classList.add('ko');
+        if (correct) correct.classList.add('ok');
+        fb.textContent = 'Pas tout à fait. La bonne réponse : «\u00a0' + (correct ? (correct.textContent || correct.dataset.a) : '') + '\u00a0»';
+        fb.className = 'qfb b'; si('lMina', A.minaA);
+      }
+      const next = ++cur;
+      setTimeout(() => goTo(next), 1700);
+    });
+  });
+
+  document.getElementById('retryBtn').addEventListener('click', () => {
+    cur = 0; score = 0;
+    document.getElementById('lres').style.display = 'none';
+    document.querySelectorAll('.qbtn').forEach(b => { b.disabled = false; b.className = 'qbtn'; });
+    document.querySelectorAll('.qfb').forEach(f => { f.textContent = ''; f.className = 'qfb'; });
+    goTo(0); si('lMina', A.minaE);
+  });
+  goTo(0);
+
+  // ── Waitlist ──
+  const _wlf = document.getElementById('wlf');
+  if(_wlf) _wlf.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const wlname = document.getElementById('wlname');
+    if(wlname) wlname.textContent = this.querySelector('[name="prenom"]').value.trim();
+    this.style.display = 'none';
+    const ok = document.getElementById('wlok');
+    if(ok) { ok.classList.add('show'); ok.scrollIntoView({ behavior:'smooth', block:'center' }); }
+  });
+
+  // ── Scroll progress bar ──
+  (function() {
+    const bar = document.getElementById('sbar');
+    if (!bar) return;
+    function update() {
+      const doc = document.documentElement;
+      const top = doc.scrollTop || document.body.scrollTop;
+      const h = doc.scrollHeight - doc.clientHeight;
+      bar.style.width = (h > 0 ? (top / h * 100) : 0) + '%';
+    }
+    addEventListener('scroll', update, {passive:true});
+  })();
+
+  // ── Hero stats count-up ──
+  (function() {
+    const s1 = document.getElementById('hStat1');
+    const s2 = document.getElementById('hStat2');
+    if (!s1 || !s2) return;
+    let done = false;
+    function countUp(el, to, pre, suf) {
+      let n = 0, step = Math.ceil(to / 55);
+      const t = setInterval(function() {
+        n = Math.min(n + step, to);
+        el.textContent = pre + n + suf;
+        if (n >= to) clearInterval(t);
+      }, 22);
+    }
+    new IntersectionObserver(function(es) {
+      if (es[0].isIntersecting && !done) {
+        done = true;
+        countUp(s1, 40, '+', 'M');
+        setTimeout(function() { countUp(s2, 35, '+', '\u2009%'); }, 250);
+      }
+    }, {threshold:.6}).observe(s1);
+  })();
+
+  // ── FAQ accordion ──
+  document.querySelectorAll('.fq').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const item = this.closest('.fitem');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.fitem.open').forEach(function(o) { o.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ── Phone demo animation ──
+  (function() {
+    const S = [
+      { fill:'30%', say:"Tu sais déjà dire bonjour ! On continue ?",
+        cnt:"Question 1 / 5 · Vocabulaire", main:"커피", sz:"72px",
+        q:"Quel est ce mot en français ?",
+        btns:["Thé","Café","Eau","Pain"], ok:-1, fb:"" },
+      { fill:'30%', say:"커피 = café ! 완벽해요 ✓ Parfait !",
+        cnt:"Question 1 / 5 · Vocabulaire", main:"커피", sz:"72px",
+        q:"Quel est ce mot en français ?",
+        btns:["Thé","Café","Eau","Pain"], ok:1, fb:"커피 = café +10 XP !" },
+      { fill:'50%', say:"Super ! Tu avances vite. Encore une.",
+        cnt:"Question 2 / 5 · Hangeul", main:"가", sz:"80px",
+        q:"Quel son fait ce caractère ?",
+        btns:["na","da","ma","ga"], ok:-1, fb:"" },
+      { fill:'50%', say:"가 = «ga» ! 잘했어요 — Bien joué !",
+        cnt:"Question 2 / 5 · Hangeul", main:"가", sz:"80px",
+        q:"Quel son fait ce caractère ?",
+        btns:["na","da","ma","ga"], ok:3, fb:"가 = \"ga\" — premier son du Hangeul !" },
+      { fill:'70%', say:"안녕하세요 — tu connais peut-être déjà !",
+        cnt:"Question 3 / 5 · Expression", main:"안녕하세요", sz:"36px",
+        q:"Que signifie cette expression ?",
+        btns:["Merci","Bonjour","Au revoir","Pardon"], ok:-1, fb:"" },
+      { fill:'70%', say:"안녕하세요 = Bonjour ! 훌륭해요 !",
+        cnt:"Question 3 / 5 · Expression", main:"안녕하세요", sz:"36px",
+        q:"Que signifie cette expression ?",
+        btns:["Merci","Bonjour","Au revoir","Pardon"], ok:1, fb:"안녕하세요 = Bonjour ! +10 XP" },
+      { fill:'85%', say:"Voici une ligne de l'Histoire 1 — lis avec Mina !",
+        cnt:"Histoire 1 · Dialogue", main:"나도 가요 !", sz:"42px",
+        q:"Qu'est-ce que dit Mina ?",
+        btns:["Je pars !","Je viens aussi !","À demain !","Où vas-tu ?"], ok:-1, fb:"" },
+      { fill:'85%', say:"나도 = moi aussi, 가요 = aller ! 완벽해요 !",
+        cnt:"Histoire 1 · Dialogue", main:"나도 가요 !", sz:"42px",
+        q:"Qu'est-ce que dit Mina ?",
+        btns:["Je pars !","Je viens aussi !","À demain !","Où vas-tu ?"], ok:1, fb:"나도 가요 = \"Je viens aussi !\" +10 XP" },
+      { fill:'90%', say:"Histoire 2 : au marché ! Que signifie 비싸요 ?",
+        cnt:"Histoire 2 · 시장에서", main:"비싸요 !", sz:"42px",
+        q:"Que signifie 비싸요 ?",
+        btns:["C'est délicieux !","C'est cher !","C'est beau !","C'est grand !"], ok:-1, fb:"" },
+      { fill:'95%', say:"비싸요 = c'est cher ! 싸요 = c'est bon marché. 완벽해요",
+        cnt:"Histoire 2 · 시장에서", main:"비싸요 !", sz:"42px",
+        q:"Que signifie 비싸요 ?",
+        btns:["C'est délicieux !","C'est cher !","C'est beau !","C'est grand !"], ok:1, fb:"비싸요 = \"C'est cher !\" +10 XP" },
+      { fill:'96%', say:"Histoire 3 : au restaurant ! Joon goûte le bibimbap…",
+        cnt:"Histoire 3 · 식당에서", main:"매워요 ?", sz:"42px",
+        q:"Que signifie 매워요 ?",
+        btns:["C'est épicé !","C'est froid !","C'est sucré !","C'est mauvais !"], ok:-1, fb:"" },
+      { fill:'98%', say:"매워요 = c'est épicé ! 조금 = un peu. 맛있어요",
+        cnt:"Histoire 3 · 식당에서", main:"매워요 ?", sz:"42px",
+        q:"Que signifie 매워요 ?",
+        btns:["C'est épicé !","C'est froid !","C'est sucré !","C'est mauvais !"], ok:1, fb:"매워요 = \"C'est épicé !\" +10 XP" },
+      { fill:'99%', say:"Histoire 4 : au café ! Mina commande un café glacé",
+        cnt:"Histoire 4 · 카페에서", main:"달아요 ?", sz:"42px",
+        q:"Que signifie 달아요 ?",
+        btns:["C'est sucré !","C'est amer !","C'est froid !","C'est fort !"], ok:-1, fb:"" },
+      { fill:'100%', say:"달아요 = c'est sucré ! 카드로 해요 = on paie par carte",
+        cnt:"Histoire 4 · 카페에서", main:"달아요 !", sz:"42px",
+        q:"Que signifie 달아요 ?",
+        btns:["C'est sucré !","C'est amer !","C'est froid !","C'est fort !"], ok:1, fb:"달아요 = \"C'est sucré !\" +10 XP" },
+      { fill:'100%', say:"Histoire 5 : 편의점 = l'épicerie coréenne ! Mina et Joon ont faim",
+        cnt:"Histoire 5 · 편의점에서", main:"얼마예요 ?", sz:"36px",
+        q:"Que signifie 얼마예요 ?",
+        btns:["C'est combien ?","Où est-ce ?","C'est délicieux !","Pardon ?"], ok:1, fb:"얼마예요 = \"C'est combien ?\" +10 XP" },
+      { fill:'100%', say:"Histoire 6 : 지하철 = le métro ! Mina et Joon sont en retard",
+        cnt:"Histoire 6 · 지하철에서", main:"괜찮아요 ?", sz:"38px",
+        q:"Que signifie 괜찮아요 ?",
+        btns:["C'est ok / Ça va","On est en retard","On descend","Vite vite !"], ok:1, fb:"괜찮아요 = \"C'est ok !\" +10 XP" },
+    ];
+    const pD = document.getElementById('phoneDemo');
+    const pF = document.getElementById('pFill');
+    const pSy = document.getElementById('pSay');
+    const pBd = document.getElementById('pBody');
+    if (!pD || !pBd) return;
+    let idx = 0;
+    function render(s) {
+      pF.style.width = s.fill;
+      pSy.textContent = s.say;
+      const choices = s.btns.map((t,i) =>
+        '<div class="p-btn' + (i===s.ok?' ok':'') + '">' + t + '</div>'
+      ).join('');
+      const fb = s.fb ? '<div style="font-size:11px;color:#22c55e;font-weight:700;margin-top:7px;text-align:center">' + s.fb + '</div>' : '';
+      pBd.innerHTML = '<div class="p-cnt">' + s.cnt + '</div><div class="p-char" style="font-size:' + s.sz + '">' + s.main + '</div><div class="p-q">' + s.q + '</div><div class="p-choices">' + choices + '</div>' + fb;
+    }
+    render(S[0]);
+    setInterval(function() {
+      pD.style.opacity = '0';
+      setTimeout(function() {
+        idx = (idx + 1) % S.length;
+        render(S[idx]);
+        pD.style.opacity = '1';
+      }, 310);
+    }, 2800);
+  })();
+
+  // ── Counter animation (legacy — no-op si l'élément n'existe pas) ──
+  (function() {
+    const el = document.getElementById('ctrNum');
+    if (!el) return;
+    const target = 847;
+    let started = false;
+    const obs = new IntersectionObserver(function(es) {
+      if (es[0].isIntersecting && !started) {
+        started = true;
+        let n = 0, step = Math.ceil(target / 60);
+        const t = setInterval(function() {
+          n = Math.min(n + step, target);
+          el.textContent = n + ' personnes déjà inscrites';
+          if (n >= target) clearInterval(t);
+        }, 18);
+      }
+    }, {threshold:.5});
+    obs.observe(el);
+  })();
+
+  // ── Menu hamburger mobile ──
+  const mbtn = document.getElementById('mbtn');
+  const nmenu = document.getElementById('nm');
+  if (mbtn && nmenu) {
+    mbtn.addEventListener('click', () => {
+      const open = mbtn.classList.toggle('open');
+      nmenu.classList.toggle('open', open);
+      mbtn.setAttribute('aria-expanded', open);
+    });
+    document.querySelectorAll('.nm-link').forEach(l => {
+      l.addEventListener('click', () => {
+        mbtn.classList.remove('open');
+        nmenu.classList.remove('open');
+        mbtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+    // Fermer si clic en dehors
+    document.addEventListener('click', e => {
+      if (!nav.contains(e.target)) {
+        mbtn.classList.remove('open');
+        nmenu.classList.remove('open');
+        mbtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+</script>
+
+  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+</body>
+</html>

@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Korean Stories — Révision 복습</title>
+  <meta name="description" content="Quiz de révision Korean Stories — teste ton coréen avec des flashcards, des QCM et du son."/>
+  <meta property="og:title" content="Korean Stories — Révision 복습"/>
+  <meta property="og:type" content="website"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
+    :root{
+      --navy:#0F1B2D;--navy2:#1a2f4a;
+      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,.10);
+      --white:#F7F8FA;--pure:#FFFFFF;
+      --gray:#8A9BB0;--border:#E2E8F0;
+      --green:#22c55e;--red:#ef4444;
+    }
+
+    /* ── TOP NAV ── */
+    .tnav{position:sticky;top:0;z-index:100;height:60px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    .tnav-logo img{height:26px;display:block}
+    .tnav-back{display:flex;align-items:center;gap:8px;color:var(--gold2);font-size:13px;font-weight:600;text-decoration:none;opacity:.85}
+    .tnav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5}
+
+    /* ── HERO ── */
+    .hero{background:var(--navy);padding:28px 20px 32px}
+    .hero-inner{max-width:480px;margin:0 auto;text-align:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--goldp);border:1px solid var(--gold);border-radius:100px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#F7F8FA;line-height:1.2;margin-bottom:8px}
+    .hero-title em{color:var(--gold);font-style:italic}
+    .hero-sub{font-size:14px;color:rgba(247,248,250,.55);line-height:1.6}
+
+    /* ── BOTTOM NAV ── */
+    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
+    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:600;color:var(--gray);text-decoration:none;transition:color .15s;cursor:pointer;border:none;background:none;padding:0}
+    .bni.act{color:var(--navy)}
+    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+    .bni.act svg{stroke:var(--navy)}
+
+    /* ── CONTAINER ── */
+    .wrap{max-width:480px;margin:0 auto;padding:24px 16px}
+
+    /* ══ START SCREEN ══ */
+    #screenStart{}
+    .mode-section{margin-bottom:28px}
+    .section-label{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+    .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .mode-card{background:var(--pure);border:2px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent}
+    .mode-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+    .mode-card.sel{border-color:var(--navy);background:var(--navy)}
+    .mode-card.sel .mc-label,.mode-card.sel .mc-sub{color:#F7F8FA}
+    .mode-card.sel .mc-ico{filter:invert(1)}
+    .mc-ico{font-size:28px;margin-bottom:8px;line-height:1}
+    .mc-label{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+    .mc-sub{font-size:11px;color:var(--gray)}
+    .count-grid{display:flex;gap:8px}
+    .count-pill{flex:1;padding:10px 6px;border:2px solid var(--border);border-radius:100px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;color:var(--gray);transition:all .18s;background:var(--pure)}
+    .count-pill.sel{border-color:var(--navy);background:var(--navy);color:#F7F8FA}
+    .info-box{background:var(--goldp);border:1px solid var(--gold2);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--navy);line-height:1.6;margin-bottom:24px}
+    .info-box strong{color:var(--gold);font-weight:700}
+    .start-btn{width:100%;padding:16px;background:var(--navy);color:var(--gold2);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;border:none;border-radius:14px;cursor:pointer;transition:opacity .15s;letter-spacing:.02em}
+    .start-btn:hover{opacity:.85}
+    .start-btn:disabled{opacity:.4;cursor:not-allowed}
+
+    /* ══ QUIZ SCREEN ══ */
+    #screenQuiz{display:none}
+    .qz-topbar{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+    .qz-prog-wrap{flex:1;height:8px;background:var(--border);border-radius:100px;overflow:hidden}
+    .qz-prog-fill{height:100%;background:var(--gold);border-radius:100px;transition:width .4s ease}
+    .qz-count{font-size:12px;font-weight:700;color:var(--gray);white-space:nowrap}
+    .qz-streak{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--gray);white-space:nowrap;min-width:40px;justify-content:flex-end}
+    .qz-streak.on{color:#f59e0b}
+
+    .qz-card{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:22px;transition:border-color .25s,background .25s}
+    .qz-card.correct{border-color:var(--green);background:#f0fdf4}
+    .qz-card.wrong{border-color:var(--red);background:#fef2f2}
+    .qz-prompt-label{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+    .qz-main{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:var(--navy);line-height:1;margin-bottom:10px;transition:transform .2s}
+    .qz-roman{font-size:15px;color:var(--gray);font-style:italic;min-height:22px}
+    .qz-audio-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;background:var(--goldp);border:1px solid var(--gold2);border-radius:100px;color:var(--navy);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;border:none}
+    .qz-audio-btn svg{width:14px;height:14px;fill:var(--gold)}
+    .qz-audio-btn:hover{background:var(--gold2)}
+
+    .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+    .ans-btn{padding:18px 10px;background:var(--pure);border:2px solid var(--border);border-radius:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .18s;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent}
+    .ans-btn:hover:not(:disabled){border-color:var(--gold);transform:translateY(-1px);box-shadow:0 3px 10px rgba(201,169,110,.15)}
+    .ans-btn.correct{border-color:var(--green)!important;background:#dcfce7!important;color:#166534!important}
+    .ans-btn.wrong{border-color:var(--red)!important;background:#fee2e2!important;color:#991b1b!important}
+    .ans-btn:disabled{cursor:default}
+    .ans-btn .ans-kr{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;display:block;margin-bottom:3px}
+
+    .qz-feedback{text-align:center;min-height:28px;font-size:13px;font-weight:600;color:var(--gray);margin-bottom:8px}
+    .qz-feedback.ok{color:var(--green)}
+    .qz-feedback.ko{color:var(--red)}
+    .qz-next{width:100%;padding:14px;background:var(--navy);color:var(--gold2);font-family:'Inter',sans-serif;font-size:14px;font-weight:700;border:none;border-radius:12px;cursor:pointer;display:none;transition:opacity .15s}
+    .qz-next:hover{opacity:.85}
+
+    /* ══ RESULT SCREEN ══ */
+    #screenResult{display:none;text-align:center}
+    .res-emoji{font-size:64px;margin-bottom:12px}
+    .res-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);margin-bottom:6px}
+    .res-sub{font-size:14px;color:var(--gray);margin-bottom:28px}
+    .res-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px}
+    .res-stat{background:var(--pure);border:1.5px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center}
+    .res-stat-n{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);line-height:1}
+    .res-stat-l{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+    .res-xp{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--goldp);border:1px solid var(--gold);border-radius:12px;padding:14px;margin-bottom:24px;font-size:14px;font-weight:700;color:var(--navy)}
+    .res-xp span{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+    .res-btns{display:flex;flex-direction:column;gap:10px}
+    .res-prim{width:100%;padding:16px;background:var(--navy);color:var(--gold2);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;border:none;border-radius:14px;cursor:pointer;text-decoration:none;display:block;transition:opacity .15s}
+    .res-prim:hover{opacity:.85}
+    .res-sec{width:100%;padding:14px;background:var(--pure);color:var(--navy);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:1.5px solid var(--border);border-radius:14px;cursor:pointer;text-decoration:none;display:block;transition:all .15s}
+    .res-sec:hover{border-color:var(--navy)}
+
+    /* ── Locked warning ── */
+    .lock-msg{background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:24px;text-align:center;color:var(--gray)}
+    .lock-msg h3{color:var(--navy);margin-bottom:8px;font-size:16px}
+    .lock-msg p{font-size:13px;line-height:1.6;margin-bottom:16px}
+    .lock-link{display:inline-block;padding:12px 24px;background:var(--navy);color:var(--gold2);font-size:13px;font-weight:700;border-radius:100px;text-decoration:none}
+  
+    
+  
+    /* ═══════════════════════════════════════════════════════════
+       DARK MODE — GLOBAL SYSTEM
+       Tous les composants adaptatifs pour le mode sombre
+    ═══════════════════════════════════════════════════════════ */
+    [data-theme="dark"]{
+      --pure:#1e3352;
+      --white:#162844;
+      --border:rgba(255,255,255,.13);
+      --gray:#7a9ab8;
+      color-scheme:dark;
+    }
+    [data-theme="dark"] body{
+      background:#0f1e32!important;
+      color:#d8e8f5;
+    }
+    /* ── navigation ── */
+    [data-theme="dark"] .bnav,
+    [data-theme="dark"] .bnav-wrap{
+      background:#0a1628!important;
+      border-top-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .bni.act{color:#C9A96E!important}
+    [data-theme="dark"] .bni.act svg{stroke:#C9A96E!important}
+    [data-theme="dark"] .bni span{color:inherit!important}
+    /* ── cards génériques ── */
+    [data-theme="dark"] .scard,
+    [data-theme="dark"] .card,
+    [data-theme="dark"] .ex-card,
+    [data-theme="dark"] .qz-card,
+    [data-theme="dark"] .quiz-card,
+    [data-theme="dark"] .result-card,
+    [data-theme="dark"] .vocab-prev,
+    [data-theme="dark"] .flip-front{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .scard-name,
+    [data-theme="dark"] .scard-kr,
+    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .scard-pct{color:rgba(200,220,240,.45)!important}
+    /* ── leçon — choice buttons ── */
+    [data-theme="dark"] .ch{
+      background:#1e3352!important;
+      border:1.5px solid rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .ch:hover:not(:disabled){
+      border-color:#C9A96E!important;
+      background:rgba(201,169,110,.12)!important;
+    }
+    [data-theme="dark"] .ch.ok{
+      border-color:#4ade80!important;
+      background:rgba(34,197,94,.12)!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .ch.ko{
+      border-color:#f87171!important;
+      background:rgba(239,68,68,.12)!important;
+      color:#f87171!important;
+    }
+    /* ── leçon — keyboard keys ── */
+    [data-theme="dark"] .kbkey{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .kbkey .kk{color:#d8e8f5!important}
+    [data-theme="dark"] .kbkey .kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .kbrow{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .kb-target{
+      background:#162844!important;
+      border-color:rgba(255,255,255,.14)!important;
+    }
+    [data-theme="dark"] .tw-blank{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    /* ── leçon — UI text ── */
+    [data-theme="dark"] .q-prompt{color:#d8e8f5!important}
+    [data-theme="dark"] .q-big{
+      color:#d8e8f5!important;
+      border-color:rgba(255,255,255,.12)!important;
+      background:#1e3352!important;
+    }
+    [data-theme="dark"] .q-cnt{color:rgba(200,220,240,.4)!important}
+    [data-theme="dark"] .q-hint{color:rgba(200,220,240,.35)!important}
+    [data-theme="dark"] .fb{color:rgba(200,220,240,.55)}
+    [data-theme="dark"] .fb.ok{color:#4ade80!important}
+    [data-theme="dark"] .fb.ko{color:#f87171!important}
+    [data-theme="dark"] .wrap{background:#0f1e32!important}
+    [data-theme="dark"] .mhdr{background:#0a1628!important}
+    [data-theme="dark"] .tbar{
+      background:#0a1628!important;
+      border-color:rgba(255,255,255,.08)!important;
+    }
+    [data-theme="dark"] .ptrack{background:rgba(255,255,255,.1)!important}
+    [data-theme="dark"] .mnm{color:rgba(215,232,248,.9)!important}
+    [data-theme="dark"] .msay{color:rgba(200,220,240,.6)!important}
+    [data-theme="dark"] .res-msg{color:#d8e8f5!important}
+    [data-theme="dark"] .res-sec{
+      border-color:rgba(255,255,255,.15)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    /* ── exercice.html ── */
+    [data-theme="dark"] .mtab{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.15)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    [data-theme="dark"] .mtab.act{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .word-token{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .word-token.placed{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .wb-target{
+      background:rgba(255,255,255,.03)!important;
+      border-color:rgba(255,255,255,.14)!important;
+    }
+    [data-theme="dark"] .pair-token{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .pair-token.selected{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    [data-theme="dark"] .lc-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .sc-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .sc-score-n{color:#d8e8f5!important}
+    [data-theme="dark"] .sc-start-title{color:#d8e8f5!important}
+    [data-theme="dark"] .sc-start-sub{color:rgba(200,220,240,.5)!important}
+    [data-theme="dark"] .fb-strip.ok{
+      background:rgba(34,197,94,.1)!important;
+      border-color:rgba(34,197,94,.25)!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .fb-strip.ko{
+      background:rgba(239,68,68,.08)!important;
+      border-color:rgba(239,68,68,.2)!important;
+      color:#f87171!important;
+    }
+    [data-theme="dark"] .next-btn{
+      background:#1e3352!important;
+      border:1.5px solid rgba(255,255,255,.15)!important;
+      color:#d8e8f5!important;
+    }
+    /* ── révision ── */
+    [data-theme="dark"] .ans-btn{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+    [data-theme="dark"] .ans-btn.correct{
+      background:rgba(34,197,94,.1)!important;
+      border-color:#4ade80!important;
+      color:#4ade80!important;
+    }
+    [data-theme="dark"] .ans-btn.wrong{
+      background:rgba(239,68,68,.1)!important;
+      border-color:#f87171!important;
+      color:#f87171!important;
+    }
+    [data-theme="dark"] .qz-card,
+    [data-theme="dark"] .qz-card-inner{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .qz-feedback.ok{color:#4ade80!important}
+    [data-theme="dark"] .qz-feedback.ko{color:#f87171!important}
+    /* ── vocabulaire ── */
+    [data-theme="dark"] .flip-front{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .filters{
+      background:#0f1e32!important;
+      border-color:rgba(255,255,255,.08)!important;
+    }
+    [data-theme="dark"] .fchip{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.13)!important;
+      color:rgba(200,220,240,.65)!important;
+    }
+    [data-theme="dark"] .fchip.act{
+      background:#C9A96E!important;
+      border-color:#C9A96E!important;
+      color:#0f1e32!important;
+    }
+    /* ── histoires ── */
+    [data-theme="dark"] .node-title{color:#d8e8f5!important}
+    [data-theme="dark"] .node-num{color:rgba(200,220,240,.35)!important}
+    [data-theme="dark"] .node-kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .node-bubble.state-locked{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.15)!important;
+    }
+    [data-theme="dark"] .node-bubble.state-soon{
+      background:#1e3352!important;
+      border-color:rgba(167,139,250,.2)!important;
+    }
+    [data-theme="dark"] .done-mini{
+      background:#1e3352!important;
+      border-color:rgba(34,197,94,.2)!important;
+    }
+    [data-theme="dark"] .done-mini-title{color:#d8e8f5!important}
+    [data-theme="dark"] .done-mini-sub{color:rgba(200,220,240,.4)!important}
+    [data-theme="dark"] .locked-hint{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+      color:rgba(200,220,240,.45)!important;
+    }
+    [data-theme="dark"] .locked-section{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .locked-section h3{color:#d8e8f5!important}
+    [data-theme="dark"] .locked-section p{color:rgba(200,220,240,.55)!important}
+    [data-theme="dark"] .connector.locked{
+      background:repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 6px,
+        transparent 6px,transparent 12px
+      )!important;
+    }
+    /* ── app.html ── */
+    [data-theme="dark"] .dori-tip{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .welcome-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .lbrow{background:rgba(255,255,255,.04)!important}
+    [data-theme="dark"] .lbl-name{color:#d8e8f5!important}
+    /* ── profil ── */
+    [data-theme="dark"] .stat-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .settings-list{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .setting-name{color:#d8e8f5!important}
+    [data-theme="dark"] .setting-sub{color:rgba(200,220,240,.45)!important}
+    /* ── sections labels ── */
+    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)!important}
+    /* ── histoire pages ── */
+    [data-theme="dark"] .dial-box{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.10)!important;
+    }
+    [data-theme="dark"] .dial-text{color:#d8e8f5!important}
+    [data-theme="dark"] .dial-who{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .voc-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .voc-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .voc-fr{color:rgba(200,220,240,.55)!important}
+    /* ── hangeul page ── */
+    [data-theme="dark"] .char-card{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.12)!important;
+    }
+    [data-theme="dark"] .char-glyph{color:#d8e8f5!important}
+    [data-theme="dark"] .char-rom{color:rgba(200,220,240,.55)!important}
+    /* ── generic inputs ── */
+    [data-theme="dark"] input:not([type="range"]),
+    [data-theme="dark"] textarea,
+    [data-theme="dark"] select{
+      background:#1e3352!important;
+      border-color:rgba(255,255,255,.18)!important;
+      color:#d8e8f5!important;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="tnav">
+  <a href="app.html" class="tnav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Accueil
+  </a>
+  <div style="font-size:13px;font-weight:700;color:var(--gold)">복습</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Quiz de révision</div>
+    <h1 class="hero-title">Teste ton <em>coréen</em></h1>
+    <p class="hero-sub">Mots de tes leçons · QCM · Audio · XP</p>
+  </div>
+</div>
+
+<!-- WRAP -->
+<div class="wrap">
+
+  <!-- ══ START SCREEN ══ -->
+  <div id="screenStart">
+    <div id="lockMsg"></div>
+
+    <div class="mode-section" id="modeSection" style="display:none">
+      <div class="section-label">Mode</div>
+      <div class="mode-grid">
+        <div class="mode-card sel" data-mode="ko-fr" onclick="selectMode('ko-fr')">
+          <div class="mc-ico">🇰🇷</div>
+          <div class="mc-label">Coréen → Français</div>
+          <div class="mc-sub">Lis et traduis</div>
+        </div>
+        <div class="mode-card" data-mode="fr-ko" onclick="selectMode('fr-ko')">
+          <div class="mc-ico">🇫🇷</div>
+          <div class="mc-label">Français → Coréen</div>
+          <div class="mc-sub">Reconnais l'écriture</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mode-section" id="countSection" style="display:none">
+      <div class="section-label">Nombre de questions</div>
+      <div class="count-grid">
+        <div class="count-pill sel" data-n="5" onclick="selectCount(5)">5</div>
+        <div class="count-pill" data-n="10" onclick="selectCount(10)">10</div>
+        <div class="count-pill" id="countAll" data-n="all" onclick="selectCount('all')">Tous</div>
+      </div>
+    </div>
+
+    <div id="infoBox" class="info-box" style="display:none">
+      <strong id="infoCount">0</strong> mots disponibles dans tes leçons terminées.
+      <br/>Chaque bonne réponse = <strong>5 XP</strong>
+    </div>
+
+    <button class="start-btn" id="startBtn" onclick="startQuiz()" disabled style="display:none">
+      Commencer →
+    </button>
+  </div>
+
+  <!-- ══ QUIZ SCREEN ══ -->
+  <div id="screenQuiz">
+    <div class="qz-topbar">
+      <div class="qz-prog-wrap"><div class="qz-prog-fill" id="qzProgFill" style="width:0%"></div></div>
+      <div class="qz-count" id="qzCount">1 / 10</div>
+      <div class="qz-streak" id="qzStreak">0 j.</div>
+    </div>
+
+    <div class="qz-card" id="qzCard">
+      <div class="qz-prompt-label" id="qzLabel">Que signifie ce mot ?</div>
+      <div class="qz-main" id="qzMain">가</div>
+      <div class="qz-roman" id="qzRoman"></div>
+      <button class="qz-audio-btn" id="qzAudioBtn" onclick="playQ()">
+        <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+        Écouter
+      </button>
+    </div>
+
+    <div class="ans-grid" id="ansGrid"></div>
+    <div class="qz-feedback" id="qzFeedback"></div>
+    <button class="qz-next" id="qzNextBtn" onclick="nextQuestion()">Question suivante →</button>
+  </div>
+
+  <!-- ══ RESULT SCREEN ══ -->
+  <div id="screenResult">
+    <div class="res-emoji" id="resEmoji"></div>
+    <div class="res-title" id="resTitle">Bravo !</div>
+    <div class="res-sub" id="resSub">Résultats de ta révision</div>
+    <div class="res-stats">
+      <div class="res-stat">
+        <div class="res-stat-n" id="resScore">0</div>
+        <div class="res-stat-l">Bonnes rép.</div>
+      </div>
+      <div class="res-stat">
+        <div class="res-stat-n" id="resTotal">0</div>
+        <div class="res-stat-l">Questions</div>
+      </div>
+      <div class="res-stat">
+        <div class="res-stat-n" id-"resPct">0%</div>
+        <div class="res-stat-l">Réussite</div>
+      </div>
+    </div>
+    <div class="res-xp" id="resXpBox">
+      <span>+<span id="resXp">0</span> XP</span> gagnés
+    </div>
+    <div class="res-btns">
+      <button class="res-prim" onclick="restartQuiz()">Recommencer </button>
+      <a href="vocabulaire.html" class="res-sec">Vocabulaire</a>
+      <a href="app.html" class="res-sec">Accueil </a>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="vocabulaire.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Vocab</span>
+  </a>
+  <a href="histoires.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="exercice.html" class="bni">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
+    <span>Exercices</span>
+  </a>
+  <a href="revision.html" class="bni act">
+    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+    <span>Révision</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<script>
+// ── Data ──
+const WORDS = [
+  {id:'ga',     kr:'가',   rom:'ga',      fr:'Aller (racine)',     audio:'가',    lec:1},
+  {id:'na',     kr:'나',   rom:'na',      fr:'Moi / Je',           audio:'나',    lec:1},
+  {id:'gomo',   kr:'고모', rom:'go-mo',   fr:'Tante (côté père)',  audio:'고모',  lec:2},
+  {id:'nado',   kr:'나도', rom:'na-do',   fr:'Moi aussi',          audio:'나도',  lec:2},
+  {id:'banana', kr:'바나나',rom:'ba-na-na',fr:'Banane',             audio:'바나나', lec:3},
+  {id:'subak',  kr:'수박', rom:'su-bak',  fr:'Pastèque',           audio:'수박',  lec:3},
+  {id:'iri',    kr:'이리', rom:'i-ri',    fr:'Par ici',            audio:'이리',  lec:4},
+  {id:'nara',   kr:'나라', rom:'na-ra',   fr:'Pays',               audio:'나라',  lec:4},
+  {id:'jogi',   kr:'저기', rom:'jeo-gi',  fr:'Là-bas',             audio:'저기',  lec:5},
+  {id:'jigu',   kr:'지구', rom:'ji-gu',   fr:'La Terre',           audio:'지구',  lec:5},
+  {id:'hae',    kr:'해',   rom:'hae',     fr:'Soleil / Mer',       audio:'해',    lec:6},
+  {id:'haru',   kr:'하루', rom:'ha-ru',   fr:'Un jour',            audio:'하루',  lec:6},
+  {id:'chijeu', kr:'치즈', rom:'chi-jeu', fr:'Fromage',            audio:'치즈',  lec:7},
+  {id:'yuri',   kr:'유리', rom:'yu-ri',   fr:'Verre / Vitre',      audio:'유리',  lec:7},
+  {id:'pati',   kr:'파티', rom:'pa-ti',   fr:'Fête / Party',       audio:'파티',  lec:8},
+  {id:'yachae', kr:'야채', rom:'ya-chae', fr:'Légumes',            audio:'야채',  lec:8},
+  {id:'bwayo',  kr:'봐요', rom:'bwa-yo',  fr:'Regarde ! (poli)',   audio:'봐요',  lec:9},
+  {id:'yeogi',  kr:'여기', rom:'yeo-gi',  fr:'Ici',                audio:'여기',  lec:9},
+  {id:'bballi', kr:'빨리', rom:'bbal-li', fr:'Vite !',             audio:'빨리',  lec:10},
+  {id:'tto',    kr:'또',   rom:'tto',     fr:'Encore / Aussi',     audio:'또',    lec:10},
+  // ── Histoire 2 words (débloqués après ks_h2) ──
+  {id:'sijang',     kr:'시장',    rom:'si-jang',      fr:'Marché',           audio:'시장',     lec:'h2'},
+  {id:'joahaeyo',   kr:'좋아해요', rom:'jo-a-hae-yo',  fr:"J'aime / J'adore", audio:'좋아해요', lec:'h2'},
+  {id:'eolma',      kr:'얼마',    rom:'eol-ma',       fr:'Combien',          audio:'얼마',     lec:'h2'},
+  {id:'bissayo',    kr:'비싸요',  rom:'bi-ssa-yo',    fr:"C'est cher",       audio:'비싸요',   lec:'h2'},
+  {id:'masisseoyo', kr:'맛있어요', rom:'ma-si-sseo-yo', fr:"C'est délicieux",  audio:'맛있어요', lec:'h2'},
+  {id:'gachi',      kr:'같이',    rom:'ga-chi',       fr:'Ensemble',         audio:'같이',     lec:'h2'},
+  {id:'sayo',       kr:'사요',    rom:'sa-yo',        fr:'On achète',        audio:'사요',     lec:'h2'},
+  // ── Histoire 3 words (débloqués après ks_h3) ──
+  {id:'baegopayo',  kr:'배고파요', rom:'bae-go-pa-yo',  fr:"J'ai faim",        audio:'배고파요', lec:'h3'},
+  {id:'sikdang',    kr:'식당',    rom:'sik-dang',      fr:'Restaurant',       audio:'식당',     lec:'h3'},
+  {id:'menyu',      kr:'메뉴',    rom:'me-nyu',        fr:'Menu',             audio:'메뉴',     lec:'h3'},
+  {id:'jumun',      kr:'주문',    rom:'ju-mun',        fr:'Commande',         audio:'주문',     lec:'h3'},
+  {id:'mawoyo',     kr:'매워요',  rom:'mae-wo-yo',     fr:"C'est épicé",      audio:'매워요',   lec:'h3'},
+  {id:'jogeum',     kr:'조금',    rom:'jo-geum',       fr:'Un peu',           audio:'조금',     lec:'h3'},
+  {id:'mul',        kr:'물',      rom:'mul',           fr:'Eau',              audio:'물',       lec:'h3'},
+  {id:'ddo',        kr:'또',      rom:'ddo',           fr:'Encore / De nouveau',audio:'또',     lec:'h3'},
+  // ── Histoire 4 words (débloqués après ks_h4) ──
+  {id:'kape',       kr:'카페',    rom:'ka-pe',         fr:'Café (lieu)',       audio:'카페',     lec:'h4'},
+  {id:'keopi',      kr:'커피',    rom:'keo-pi',        fr:'Café (boisson)',    audio:'커피',     lec:'h4'},
+  {id:'aiseu',      kr:'아이스',  rom:'a-i-seu',       fr:'Glacé / Ice',       audio:'아이스',   lec:'h4'},
+  {id:'juseyo',     kr:'주세요',  rom:'ju-se-yo',      fr:"S'il vous plaît",  audio:'주세요',   lec:'h4'},
+  {id:'tteugeowo',  kr:'뜨거워요', rom:'tteu-geo-wo-yo',fr:"C'est chaud",      audio:'뜨거워요', lec:'h4'},
+  {id:'darayo',     kr:'달아요',  rom:'da-ra-yo',      fr:"C'est sucré",      audio:'달아요',   lec:'h4'},
+  {id:'gidareoyo',  kr:'기다려요', rom:'gi-da-ryeo-yo', fr:'Attendez !',        audio:'기다려요', lec:'h4'},
+  {id:'kadeu',      kr:'카드',    rom:'ka-deu',        fr:'Carte (bancaire)', audio:'카드',     lec:'h4'},
+  // ── Histoire 5 — 편의점에서 ──
+  {id:'pyonijeom',  kr:'편의점',   rom:'pyon-i-jeom',   fr:'Épicerie coréenne', audio:'편의점',   lec:'h5'},
+  {id:'baegopayo',  kr:'배고파요', rom:'bae-go-pa-yo',  fr:"J'ai faim",         audio:'배고파요', lec:'h5'},
+  {id:'gayo',       kr:'가요',     rom:'ga-yo',         fr:'On y va',           audio:'가요',     lec:'h5'},
+  {id:'keomramyeon',kr:'컵라면',   rom:'keop-ra-myeon', fr:'Cup nouilles',      audio:'컵라면',   lec:'h5'},
+  {id:'itsoyo',     kr:'있어요',   rom:'it-seo-yo',     fr:"Il y a / J'ai",     audio:'있어요',   lec:'h5'},
+  {id:'eolma',      kr:'얼마예요', rom:'eol-ma-ye-yo',  fr:"C'est combien ?",   audio:'얼마예요', lec:'h5'},
+  {id:'won',        kr:'원',       rom:'won',           fr:'Won (monnaie)',      audio:'원',       lec:'h5'},
+  {id:'jigabjj',    kr:'지갑',     rom:'ji-gap',        fr:'Portefeuille',      audio:'지갑',     lec:'h5'},
+  {id:'eopseoyo',   kr:'없어요',   rom:'eop-seo-yo',    fr:"Il n'y a pas",      audio:'없어요',   lec:'h5'},
+  {id:'haejulgeyo', kr:'해줄게요', rom:'hae-jul-ge-yo', fr:'Je le fais pour toi', audio:'해줄게요', lec:'h5'},
+  {id:'masitsoyo',  kr:'맛있어요', rom:'mat-i-sseo-yo', fr:"C'est délicieux",   audio:'맛있어요', lec:'h5'},
+  {id:'tto_h5',     kr:'또',       rom:'tto',           fr:'Encore / De nouveau', audio:'또',     lec:'h5'},
+  {id:'naeil',      kr:'내일',     rom:'nae-il',        fr:'Demain',            audio:'내일',     lec:'h5'},
+  // ── Histoire 6 — 지하철에서 ──
+  {id:'ppalli_h6',    kr:'빨리',     rom:'ppal-li',         fr:'Vite !',          audio:'빨리',      lec:'h6'},
+  {id:'neutseosseoyo',kr:'늦었어요',  rom:'neu-jeo-sseo-yo', fr:'On est en retard',audio:'늦었어요',  lec:'h6'},
+  {id:'arayo',        kr:'알아요',   rom:'a-ra-yo',         fr:'Je sais',          audio:'알아요',    lec:'h6'},
+  {id:'jihacheol',    kr:'지하철',   rom:'ji-ha-cheol',     fr:'Métro',            audio:'지하철',    lec:'h6'},
+  {id:'pyo',          kr:'표',       rom:'pyo',             fr:'Ticket',           audio:'표',        lec:'h6'},
+  {id:'gyotonggadeu', kr:'교통카드', rom:'kyo-tong-ka-deu', fr:'Carte T-money',    audio:'교통카드',  lec:'h6'},
+  {id:'yeok',         kr:'역',       rom:'yeok',            fr:'Station de métro', audio:'역',        lec:'h6'},
+  {id:'anjayo',       kr:'앉아요',   rom:'an-ja-yo',        fr:'Asseyez-vous',     audio:'앉아요',    lec:'h6'},
+  {id:'gwaenchanayo', kr:'괜찮아요', rom:'gwaen-cha-na-yo', fr:"C'est ok",       audio:'괜찮아요',  lec:'h6'},
+  {id:'daeum',        kr:'다음',     rom:'da-eum',          fr:'Prochain(e)',       audio:'다음',      lec:'h6'},
+  {id:'naeryeoyo',    kr:'내려요',   rom:'nae-ryeo-yo',     fr:'On descend',       audio:'내려요',    lec:'h6'},
+  {id:'daebak',       kr:'대박이에요',rom:'dae-ba-gi-e-yo', fr:'Super !',          audio:'대박이에요',lec:'h6'},
+  {id:'geouida',      kr:'거의',     rom:'geo-ui',          fr:'Presque',          audio:'거의',      lec:'h6'},
+  {id:'jip',          kr:'집',        rom:'jip',             fr:'Maison / Chez soi',audio:'집',        lec:'h7'},
+  {id:'eoseooseyo',   kr:'어서 오세요',rom:'eo-seo o-se-yo',  fr:'Bienvenue !',      audio:'어서 오세요',lec:'h7'},
+  {id:'sinbal',       kr:'신발',       rom:'sin-bal',         fr:'Chaussures',       audio:'신발',       lec:'h7'},
+  {id:'beoseoyo',     kr:'벗어요',     rom:'beo-seo-yo',      fr:'On enlève',        audio:'벗어요',     lec:'h7'},
+  {id:'yeppeoyo',     kr:'예뻐요',     rom:'yep-peo-yo',      fr:'C\'est joli',      audio:'예뻐요',     lec:'h7'},
+  {id:'mwo',          kr:'뭐',         rom:'mwo',             fr:'Quoi / Qu\'est-ce',audio:'뭐',         lec:'h7'},
+  {id:'meogeullaeyo', kr:'먹을래요',   rom:'meo-geul-lae-yo', fr:'Tu veux manger ?', audio:'먹을래요',   lec:'h7'},
+  {id:'ramyeon',      kr:'라면',       rom:'ra-myeon',        fr:'Ramyeon',          audio:'라면',       lec:'h7'},
+  {id:'gachi',        kr:'같이',       rom:'ga-chi',          fr:'Ensemble',         audio:'같이',       lec:'h7'},
+  {id:'meogeoyo',     kr:'먹어요',     rom:'meo-geo-yo',      fr:'On mange',         audio:'먹어요',     lec:'h7'},
+  {id:'jaemiisseoyo', kr:'재미있어요', rom:'jae-mi-it-seo-yo',fr:'C\'est amusant',   audio:'재미있어요', lec:'h7'},
+  {id:'gongbu',       kr:'공부',       rom:'gong-bu',         fr:'Étude',            audio:'공부',       lec:'h7'},
+  {id:'pigonhaeyo',   kr:'피곤해요',   rom:'pi-gon-hae-yo',   fr:'Je suis fatigué',  audio:'피곤해요',   lec:'h7'},
+  {id:'jayo',         kr:'자요',       rom:'ja-yo',           fr:'On dort',          audio:'자요',       lec:'h7'},
+  {id:'mianhaeyo',    kr:'미안해요',   rom:'mi-an-hae-yo',    fr:'Désolé(e)',        audio:'미안해요',   lec:'h7'},
+  {id:'ireonayo',     kr:'일어나요',   rom:'i-reo-na-yo',     fr:'On se lève',       audio:'일어나요',   lec:'h7'},
+  {id:'noraebang', kr:'노래방',   rom:'no-rae-bang',     fr:'Karaoké / Norebang',       audio:'노래방',   lec:'h8'},
+  {id:'norae',      kr:'노래',     rom:'no-rae',           fr:'Chanson',                  audio:'노래',     lec:'h8'},
+  {id:'sinnayo',    kr:'신나요',   rom:'sin-na-yo',        fr:'C\'est fun ! Excitant !',  audio:'신나요',   lec:'h8'},
+  {id:'bulreoyo',   kr:'불러요',   rom:'bul-leo-yo',       fr:'On chante',                audio:'불러요',   lec:'h8'},
+  {id:'eotteon',    kr:'어떤',     rom:'eo-tteon',         fr:'Quel(le) / Lequel',        audio:'어떤',     lec:'h8'},
+  {id:'joayo',      kr:'좋아요',   rom:'jo-a-yo',          fr:'J\'aime / C\'est bien',    audio:'좋아요',   lec:'h8'},
+  {id:'maikheu',    kr:'마이크',   rom:'ma-i-keu',         fr:'Micro',                    audio:'마이크',   lec:'h8'},
+  {id:'motaeyo',    kr:'못해요',   rom:'mot-hae-yo',       fr:'Je suis nul(le)',          audio:'못해요',   lec:'h8'},
+  {id:'jalhaeyo',   kr:'잘해요',   rom:'jal-hae-yo',       fr:'Tu chantes bien',          audio:'잘해요',   lec:'h8'},
+  {id:'jeomsu',     kr:'점수',     rom:'jeom-su',          fr:'Score / Points',           audio:'점수',     lec:'h8'},
+  {id:'dasi',       kr:'다시',     rom:'da-si',            fr:'Encore / De nouveau',      audio:'다시',     lec:'h8'},
+  {id:'jinjjayo',   kr:'진짜요',   rom:'jin-jja-yo',       fr:'Vraiment ?',               audio:'진짜요',   lec:'h8'},
+  {id:'choegoyeyo', kr:'최고예요', rom:'choe-go-ye-yo',    fr:'C\'est le top !',          audio:'최고예요', lec:'h8'},
+  {id:'baksu',      kr:'박수',     rom:'bak-su',           fr:'Applaudissements',         audio:'박수',     lec:'h8'},
+  {id:'nolayo',     kr:'놀아요',   rom:'no-la-yo',         fr:'On s\'amuse / On joue',    audio:'놀아요',   lec:'h8'},
+  {id:'sori',       kr:'소리',     rom:'so-ri',            fr:'Son / Voix / Bruit',       audio:'소리',     lec:'h8'},
+  {id:'byeongwon',  kr:'병원',    rom:'byeong-won',   fr:'Hôpital / Clinique',       audio:'병원',    lec:'h9'},
+  {id:'apayo',      kr:'아파요',  rom:'a-pa-yo',       fr:'J\'ai mal / Malade',         audio:'아파요',  lec:'h9'},
+  {id:'eodiga',     kr:'어디가',  rom:'eo-di-ga',      fr:'Où / Quelle partie',         audio:'어디가',  lec:'h9'},
+  {id:'meori',      kr:'머리',    rom:'meo-ri',        fr:'Tête',                       audio:'머리',    lec:'h9'},
+  {id:'gichim',     kr:'기침',    rom:'gi-chim',       fr:'Toux',                       audio:'기침',    lec:'h9'},
+  {id:'eonje',      kr:'언제',    rom:'eon-je',        fr:'Quand',                      audio:'언제',    lec:'h9'},
+  {id:'eoje',       kr:'어제',    rom:'eo-je',         fr:'Hier',                       audio:'어제',    lec:'h9'},
+  {id:'yeol',       kr:'열',      rom:'yeol',          fr:'Fièvre',                     audio:'열',      lec:'h9'},
+  {id:'do',         kr:'도',      rom:'do',            fr:'Degré / Aussi',              audio:'도',      lec:'h9'},
+  {id:'geomsa',     kr:'검사',    rom:'geom-sa',       fr:'Examen médical',             audio:'검사',    lec:'h9'},
+  {id:'jom',        kr:'좀',      rom:'jom',           fr:'Un peu',                     audio:'좀',      lec:'h9'},
+  {id:'gamgi',      kr:'감기',    rom:'gam-gi',        fr:'Rhume / Grippe',             audio:'감기',    lec:'h9'},
+  {id:'yak',        kr:'약',      rom:'yak',           fr:'Médicament',                 audio:'약',      lec:'h9'},
+  {id:'deurilgeyo', kr:'드릴게요',rom:'deu-ril-ge-yo', fr:'Je vais vous donner',        audio:'드릴게요', lec:'h9'},
+  {id:'naayo',      kr:'나아요',  rom:'na-a-yo',       fr:'Ça va mieux',                audio:'나아요',  lec:'h9'},
+  {id:'swiseyo',    kr:'쉬세요',  rom:'swi-se-yo',     fr:'Reposez-vous !',             audio:'쉬세요',  lec:'h9'},
+  {id:'algesseoyo', kr:'알겠어요',rom:'al-get-seo-yo', fr:'J\'ai compris',              audio:'알겠어요', lec:'h9'},
+  {id:'syopingmol', kr:'쇼핑몰',   rom:'syo-ping-mol',   fr:'Centre commercial',     audio:'쇼핑몰',   lec:'h10'},
+  {id:'seil',       kr:'세일',     rom:'se-il',           fr:'Soldes',                audio:'세일',     lec:'h10'},
+  {id:'ot',         kr:'옷',       rom:'ot',              fr:'Vêtement',              audio:'옷',       lec:'h10'},
+  {id:'ibeobwayo',  kr:'입어봐요', rom:'i-beo-bwa-yo',    fr:'Essayez / J\'essaie',   audio:'입어봐요', lec:'h10'},
+  {id:'saijeu',     kr:'사이즈',   rom:'sa-i-jeu',        fr:'Taille',                audio:'사이즈',   lec:'h10'},
+  {id:'eoullyeoyo', kr:'어울려요', rom:'eo-ul-lyeo-yo',   fr:'Ça vous va bien',       audio:'어울려요', lec:'h10'},
+  {id:'neomu',      kr:'너무',     rom:'neo-mu',          fr:'Trop / Vraiment',       audio:'너무',     lec:'h10'},
+  {id:'salgeyo',    kr:'살게요',   rom:'sal-ge-yo',       fr:'Je vais l\'acheter',    audio:'살게요',   lec:'h10'},
+  {id:'saekgal',    kr:'색깔',     rom:'saek-gal',        fr:'Couleur',               audio:'색깔',     lec:'h10'},
+  {id:'dareun',     kr:'다른',     rom:'da-reun',         fr:'Autre / Différent',     audio:'다른',     lec:'h10'},
+  {id:'gyesan',     kr:'계산',     rom:'gye-san',         fr:'Paiement / Caisse',     audio:'계산',     lec:'h10'},
+  {id:'hyeongeum',  kr:'현금',     rom:'hyeon-geum',      fr:'Espèces / Cash',        audio:'현금',     lec:'h10'},
+  {id:'yeongsujeung',kr:'영수증',  rom:'yeong-su-jeung',  fr:'Reçu',                  audio:'영수증',   lec:'h10'},
+  {id:'hwanbul',    kr:'환불',     rom:'hwan-bul',        fr:'Remboursement',         audio:'환불',     lec:'h10'},
+  {id:'gyohwan',    kr:'교환',     rom:'gyo-hwan',        fr:'Échange',               audio:'교환',     lec:'h10'},
+  {id:'gyeonghaeyo',kr:'구경해요', rom:'gu-gyeong-hae-yo',fr:'Je regarde',            audio:'구경해요', lec:'h10'},
+  // H11 — 집들이에서
+  {id:'jipduri',    kr:'집들이',       rom:'jip-deu-ri',         fr:'Pendaison de crémaillère',   audio:'집들이',       lec:'h11'},
+  {id:'eoseo',      kr:'어서 와요',    rom:'eo-seo-wa-yo',       fr:'Bienvenue / Entrez !',       audio:'어서 와요',    lec:'h11'},
+  {id:'saejip',     kr:'새집',         rom:'sae-jip',            fr:'Nouvelle maison',            audio:'새집',         lec:'h11'},
+  {id:'yeppeoyo',   kr:'예뻐요',       rom:'yep-peo-yo',         fr:"C'est beau / Joli",          audio:'예뻐요',       lec:'h11'},
+  {id:'seonmul',    kr:'선물',         rom:'seon-mul',           fr:'Cadeau',                     audio:'선물',         lec:'h11'},
+  {id:'gamsahaeyo', kr:'감사해요',     rom:'gam-sa-hae-yo',      fr:'Merci / Je vous remercie',   audio:'감사해요',     lec:'h11'},
+  {id:'neolbeoyo',  kr:'넓어요',       rom:'neol-beo-yo',        fr:"C'est grand / Spacieux",     audio:'넓어요',       lec:'h11'},
+  {id:'maeumei',    kr:'마음에 들어요',rom:'ma-eum-e-deu-leo-yo', fr:"J'adore / Ça me plaît",     audio:'마음에 들어요',lec:'h11'},
+  {id:'hamkke',     kr:'같이',         rom:'ga-chi',             fr:'Ensemble / Avec',            audio:'같이',         lec:'h11'},
+  {id:'masitge',    kr:'맛있게 드세요',rom:'ma-sit-ge-deu-se-yo', fr:'Bon appétit !',             audio:'맛있게 드세요',lec:'h11'},
+  {id:'baebulleo',  kr:'배불러요',     rom:'bae-bul-leo-yo',     fr:"Je suis rassasié(e)",        audio:'배불러요',     lec:'h11'},
+  {id:'chukhahaeyo',kr:'축하해요',     rom:'chu-ka-hae-yo',      fr:'Félicitations !',            audio:'축하해요',     lec:'h11'},
+  {id:'haengbok',   kr:'행복하세요',   rom:'haeng-bok-ha-se-yo', fr:'Soyez heureux(se) !',        audio:'행복하세요',   lec:'h11'},
+  {id:'orae',       kr:'오래오래',     rom:'o-rae-o-rae',        fr:'Longtemps / Durablement',    audio:'오래오래',     lec:'h11'},
+  {id:'deo',        kr:'더 먹어요',    rom:'deo-meo-geo-yo',     fr:'Mangez encore / Reprenez !', audio:'더 먹어요',    lec:'h11'},
+  {id:'ttoolgeyyo', kr:'또 올게요',    rom:'tto-ol-ge-yo',       fr:'Je reviendrai !',            audio:'또 올게요',    lec:'h11'},
+];
+
+// ── localStorage helpers ──
+function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+function getAvailableWords() {
+  const done = {};
+  for(let i=1;i<=10;i++) done[i] = ls('ks_l'+i)==='done';
+  const h2Done = ls('ks_h2') === 'done';
+  const h3Done = ls('ks_h3') === 'done';
+  const h4Done = ls('ks_h4') === 'done';
+  const h5Done = ls('ks_h5') === 'done';
+  const h6Done = ls('ks_h6') === 'done';
+  const h7Done = ls('ks_h7') === 'done';
+  const h8Done = ls('ks_h8') === 'done';
+  const h9Done = ls('ks_h9') === 'done';
+  const h10Done = ls('ks_h10') === 'done';
+  const h11Done = ls('ks_h11') === 'done';
+  return WORDS.filter(w => {
+    if(w.lec === 'h7') return h7Done;
+    if(w.lec === 'h8') return h8Done;
+    if(w.lec === 'h9') return h9Done;
+    if(w.lec === 'h10') return h10Done;
+    if(w.lec === 'h11') return h11Done;
+    if(w.lec === 'h6') return h6Done;
+    if(w.lec === 'h5') return h5Done;
+    if(w.lec === 'h4') return h4Done;
+    if(w.lec === 'h3') return h3Done;
+    if(w.lec === 'h2') return h2Done;
+    return done[w.lec];
+  });
+}
+
+// ── State ──
+let mode = 'ko-fr';
+let qCount = 5;
+let questions = [];
+let qIndex = 0;
+let score = 0;
+let streak = 0;
+let bestStreak = 0;
+let answered = false;
+let earnedXP = 0;
+
+// ── Init ──
+const available = getAvailableWords();
+const lockMsg = document.getElementById('lockMsg');
+const modeSection = document.getElementById('modeSection');
+const countSection = document.getElementById('countSection');
+const infoBox = document.getElementById('infoBox');
+const startBtn = document.getElementById('startBtn');
+const countAll = document.getElementById('countAll');
+
+if(available.length < 2) {
+  lockMsg.innerHTML = `<div class="lock-msg">
+    <h3> Aucun mot disponible</h3>
+    <p>Termine au moins une leçon pour débloquer la révision !</p>
+    <a href="lecon.html" class="lock-link">Commencer la leçon 1 →</a>
+  </div>`;
+} else {
+  modeSection.style.display = '';
+  countSection.style.display = '';
+  infoBox.style.display = '';
+  startBtn.style.display = '';
+  document.getElementById('infoCount').textContent = available.length;
+  countAll.textContent = 'Tous (' + available.length + ')';
+  updateStartBtn();
+}
+
+function selectMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('sel'));
+  document.querySelector('[data-mode="'+m+'"]').classList.add('sel');
+}
+
+function selectCount(n) {
+  qCount = n;
+  document.querySelectorAll('.count-pill').forEach(c => c.classList.remove('sel'));
+  document.querySelector('[data-n="'+n+'"]').classList.add('sel');
+  updateStartBtn();
+}
+
+function updateStartBtn() {
+  const n = qCount === 'all' ? available.length : qCount;
+  startBtn.disabled = available.length < 2;
+  startBtn.textContent = 'Commencer ' + Math.min(n, available.length) + ' questions →';
+}
+
+// ── Build quiz ──
+function shuffle(a) {
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function startQuiz() {
+  const pool = shuffle([...available]);
+  const n = qCount === 'all' ? pool.length : Math.min(qCount, pool.length);
+  questions = pool.slice(0, n);
+  qIndex = 0; score = 0; streak = 0; bestStreak = 0; earnedXP = 0; answered = false;
+  document.getElementById('screenStart').style.display = 'none';
+  document.getElementById('screenQuiz').style.display = '';
+  renderQuestion();
+}
+
+// ── Render question ──
+function renderQuestion() {
+  answered = false;
+  const q = questions[qIndex];
+  const total = questions.length;
+
+  // Progress
+  document.getElementById('qzProgFill').style.width = (qIndex / total * 100) + '%';
+  document.getElementById('qzCount').textContent = (qIndex + 1) + ' / ' + total;
+  updateStreak();
+
+  // Card
+  const card = document.getElementById('qzCard');
+  card.classList.remove('correct','wrong');
+
+  if(mode === 'ko-fr') {
+    document.getElementById('qzLabel').textContent = 'Que signifie ce mot ?';
+    document.getElementById('qzMain').textContent = q.kr;
+    document.getElementById('qzRoman').textContent = q.rom;
+    document.getElementById('qzAudioBtn').style.display = '';
+  } else {
+    document.getElementById('qzLabel').textContent = 'Comment dit-on en coréen ?';
+    document.getElementById('qzMain').style.fontFamily = "'Inter',sans-serif";
+    document.getElementById('qzMain').style.fontSize = '28px';
+    document.getElementById('qzMain').textContent = q.fr;
+    document.getElementById('qzRoman').textContent = '';
+    document.getElementById('qzAudioBtn').style.display = 'none';
+  }
+
+  // Choices
+  const wrong = shuffle(available.filter(w => w.id !== q.id)).slice(0, 3);
+  const choices = shuffle([q, ...wrong]);
+
+  const grid = document.getElementById('ansGrid');
+  grid.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'ans-btn';
+    if(mode === 'ko-fr') {
+      btn.textContent = c.fr;
+    } else {
+      btn.innerHTML = '<span class="ans-kr">'+c.kr+'</span>'+c.rom;
+    }
+    btn.onclick = () => checkAnswer(c, q, btn);
+    grid.appendChild(btn);
+  });
+
+  document.getElementById('qzFeedback').textContent = '';
+  document.getElementById('qzFeedback').className = 'qz-feedback';
+  document.getElementById('qzNextBtn').style.display = 'none';
+
+  // Auto-play audio for ko-fr
+  if(mode === 'ko-fr') setTimeout(() => playAudio(q.audio), 300);
+}
+
+
+// ── Audio feedback ──
+function ksBeep(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if(type === 'ok') {
+      [[523.25,0],[659.25,.08],[783.99,.16]].forEach(([f,d]) => {
+        const o=ctx.createOscillator(), g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.type='sine'; o.frequency.value=f;
+        const t=ctx.currentTime+d;
+        g.gain.setValueAtTime(0,t);
+        g.gain.linearRampToValueAtTime(0.14,t+.025);
+        g.gain.exponentialRampToValueAtTime(.001,t+.2);
+        o.start(t); o.stop(t+.2);
+      });
+    } else {
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type='sawtooth';
+      o.frequency.setValueAtTime(220,ctx.currentTime);
+      o.frequency.linearRampToValueAtTime(110,ctx.currentTime+.2);
+      g.gain.setValueAtTime(.10,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.22);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+.22);
+    }
+  } catch(e) {}
+}
+
+function checkAnswer(choice, correct, btn) {
+  if(answered) return;
+  answered = true;
+  const isRight = choice.id === correct.id;
+
+  // Visual feedback on card
+  const card = document.getElementById('qzCard');
+  const grid = document.getElementById('ansGrid');
+  const feedback = document.getElementById('qzFeedback');
+
+  // Disable all buttons
+  grid.querySelectorAll('.ans-btn').forEach(b => b.disabled = true);
+
+  if(isRight) {
+    btn.classList.add('correct');
+    ksBeep('ok');
+    card.classList.add('correct');
+    feedback.textContent = 'Correct ! ✓';
+    feedback.className = 'qz-feedback ok';
+    score++;
+    streak++;
+    if(streak > bestStreak) bestStreak = streak;
+    earnedXP += 5;
+    // Update vocab mastery for this word
+    try {
+      const vocKey = 'ks_voc_' + correct.id;
+      const cur = parseInt(localStorage.getItem(vocKey)||'0');
+      if(cur < 3) localStorage.setItem(vocKey, String(cur + 1));
+    } catch(e) {}
+    // Play audio on correct
+    setTimeout(() => playAudio(correct.audio), 100);
+  } else {
+    btn.classList.add('wrong');
+    ksBeep('ko');
+    card.classList.add('wrong');
+    streak = 0;
+    feedback.textContent = 'La bonne réponse : ' + (mode==='ko-fr' ? correct.fr : correct.kr + ' (' + correct.rom + ')');
+    feedback.className = 'qz-feedback ko';
+    // Highlight correct answer
+    grid.querySelectorAll('.ans-btn').forEach(b => {
+      const bText = b.textContent.trim();
+      const cText = mode==='ko-fr' ? correct.fr : correct.kr;
+      if(bText.includes(cText) || bText === cText) b.classList.add('correct');
+    });
+    setTimeout(() => playAudio(correct.audio), 200);
+  }
+
+  updateStreak();
+
+  // Auto-advance or show next button
+  if(qIndex < questions.length - 1) {
+    const nextBtn = document.getElementById('qzNextBtn');
+    nextBtn.style.display = '';
+    setTimeout(() => {
+      if(answered) nextQuestion();
+    }, 1800);
+  } else {
+    setTimeout(() => showResult(), 1800);
+  }
+}
+
+function nextQuestion() {
+  qIndex++;
+  if(qIndex >= questions.length) { showResult(); return; }
+  renderQuestion();
+}
+
+function updateStreak() {
+  const el = document.getElementById('qzStreak');
+  if(streak >= 2) {
+    el.textContent = streak + ' j.';
+    el.className = 'qz-streak on';
+  } else {
+    el.textContent = streak + ' j.';
+    el.className = 'qz-streak';
+  }
+}
+
+// ── Audio ──
+let _curAudio = null;
+function _stopAll(){ if(_curAudio){ _curAudio.pause(); _curAudio=null; } if(window.speechSynthesis) window.speechSynthesis.cancel(); }
+
+function playAudio(text) {
+  _stopAll();
+  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ko&client=tw-ob`;
+  const a = new Audio(url);
+  _curAudio = a;
+  a.onended = () => { _curAudio=null; };
+  a.onerror = () => { _curAudio=null; _wsSpeak(text); };
+  a.play().catch(() => { _curAudio=null; _wsSpeak(text); });
+}
+function playQ() { const q=questions[qIndex]; if(q) playAudio(q.audio); }
+
+function _wsSpeak(text) {
+  if(!window.speechSynthesis) return;
+  const voices = window.speechSynthesis.getVoices();
+  const kr = voices.find(v => v.lang.startsWith('ko'));
+  if(!kr) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='ko-KR'; u.rate=0.8; u.voice=kr;
+  window.speechSynthesis.speak(u);
+}
+
+// ── Results ──
+// ─────────────────────────────────────────────
+// 🎉 CONFETTI
+// ─────────────────────────────────────────────
+function launchConfetti(duration) {
+  try {
+    const cvs = document.createElement('canvas');
+    cvs.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+    document.body.appendChild(cvs);
+    const ctx = cvs.getContext('2d');
+    cvs.width = window.innerWidth; cvs.height = window.innerHeight;
+    const colors = ['#C9A96E','#FFD800','#22c55e','#A78BFA','#F59E0B','#ffffff','#FF8EA8'];
+    const parts = Array.from({length:90}, () => ({
+      x: Math.random()*cvs.width, y: Math.random()*-cvs.height*0.4,
+      w: Math.random()*9+3, h: Math.random()*5+2,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      vx: Math.random()*4-2, vy: Math.random()*3+1.5,
+      rot: Math.random()*360, rotV: Math.random()*7-3
+    }));
+    const end = Date.now() + (duration||2200);
+    function frame() {
+      ctx.clearRect(0,0,cvs.width,cvs.height);
+      const rem = end - Date.now();
+      if(rem <= 0){ cvs.remove(); return; }
+      parts.forEach(p => {
+        p.x+=p.vx; p.y+=p.vy; p.vy+=0.08; p.rot+=p.rotV;
+        ctx.save(); ctx.globalAlpha = Math.min(1, rem/400);
+        ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+        ctx.restore();
+      });
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  } catch(e) {}
+}
+
+function showResult() {
+  document.getElementById('screenQuiz').style.display = 'none';
+  document.getElementById('screenResult').style.display = '';
+
+  const total = questions.length;
+  const pct = Math.round(score / total * 100);
+  // 🎉 Confetti on good score
+  try { if(pct >= 70) setTimeout(() => launchConfetti(pct >= 90 ? 3000 : 2000), 400); } catch(e) {}
+
+  // Emoji & title based on score
+  let emoji = '—', title = 'Pas mal…';
+  if(pct >= 90) { emoji='✦'; title='Excellent !'; }
+  else if(pct >= 70) { emoji='★'; title='Très bien !'; }
+  else if(pct >= 50) { emoji='↑'; title='Bien joué !'; }
+
+  document.getElementById('resEmoji').textContent = emoji;
+  document.getElementById('resTitle').textContent = title;
+  document.getElementById('resSub').textContent = pct+'% de bonnes réponses · Meilleure série: '+bestStreak;
+  document.getElementById('resScore').textContent = score;
+  document.getElementById('resTotal').textContent = total;
+  document.querySelector('#screenResult .res-stat:nth-child(3) .res-stat-n').textContent = pct+'%';
+  document.getElementById('resXp').textContent = earnedXP;
+
+  // Save XP to localStorage
+  const prevXP = parseInt(ls('ks_xp')||'0');
+  lsSet('ks_xp', String(prevXP + earnedXP));
+  // Update daily goal tracker
+  try{
+    const today=new Date().toISOString().slice(0,10);
+    const daily=JSON.parse(ls('ks_daily')||'{}');
+    if(daily.date!==today){lsSet('ks_daily',JSON.stringify({date:today,start:prevXP}));}
+  }catch(e){}
+  // Streak
+  try{const t=new Date().toISOString().slice(0,10),l=ls('ks_lastplay'),s=parseInt(ls('ks_streak')||'0');if(l!==t){lsSet('ks_streak',String(l&&(new Date(t)-new Date(l))/86400000===1?s+1:1));lsSet('ks_lastplay',t);}}catch(e){}
+}
+
+function restartQuiz() {
+  document.getElementById('screenResult').style.display = 'none';
+  document.getElementById('screenStart').style.display = '';
+}
+
+// ── Raccourcis clavier révision ──
+document.addEventListener('keydown', function(e) {
+  if(e.key >= '1' && e.key <= '4') {
+    const btns = document.querySelectorAll('.ans-btn:not([disabled])');
+    const idx = parseInt(e.key) - 1;
+    if(btns[idx]) btns[idx].click();
+  }
+  if(e.key === 'Enter') {
+    const nxt = document.getElementById('qzNextBtn');
+    if(nxt && nxt.style.display !== 'none') nxt.click();
+  }
+});
+</script>
+
+  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+
+<!-- DARK MODE FAB -->
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--pure);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+</body>
+</html>
