@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+  <script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Korean Stories — Bienvenue</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0F1B2D;--navy2:#152638;--gold:#C9A96E;--gold2:#D5BA8A;--bd:rgba(255,255,255,.1)}
+    body{font-family:'Inter',sans-serif;background:var(--navy);color:#fff;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow-x:hidden}
+
+    /* Background */
+    .bg-kr{position:fixed;inset:0;font-family:'Playfair Display',serif;font-size:clamp(160px,30vw,320px);color:rgba(201,169,110,.04);display:flex;align-items:center;justify-content:center;user-select:none;pointer-events:none;z-index:0}
+    .bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+    .bg-orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:-200px;right:-200px}
+    .bg-orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(79,142,247,.05) 0%,transparent 70%);bottom:-100px;left:-100px}
+
+    .wrap{position:relative;z-index:1;width:100%;max-width:420px;animation:fadeUp .5s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+    /* Logo */
+    .logo{text-align:center;margin-bottom:36px}
+    .logo-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--gold),#E8C97E);border-radius:16px;display:inline-flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:var(--navy);margin-bottom:12px;box-shadow:0 8px 24px rgba(201,169,110,.25)}
+    .logo-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff}
+    .logo-name em{color:var(--gold);font-style:italic}
+    .logo-sub{font-size:13px;color:rgba(247,248,250,.38);margin-top:4px}
+
+    /* Greeting */
+    .greeting{text-align:center;margin-bottom:32px}
+    .greeting h1{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,30px);font-weight:700;color:#fff;margin-bottom:8px}
+    .greeting p{font-size:14px;color:rgba(247,248,250,.45);line-height:1.6}
+
+    /* Cards */
+    .cards{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+
+    .card-btn{
+      display:flex;align-items:center;gap:16px;
+      width:100%;padding:18px 20px;
+      background:rgba(255,255,255,.04);
+      border:1.5px solid rgba(255,255,255,.09);
+      border-radius:16px;cursor:pointer;
+      text-align:left;font-family:'Inter',sans-serif;
+      transition:all .2s;text-decoration:none;color:inherit;
+    }
+    .card-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);transform:translateY(-1px)}
+
+    .card-btn.primary{
+      background:linear-gradient(135deg,rgba(201,169,110,.18),rgba(201,169,110,.08));
+      border-color:rgba(201,169,110,.35);
+    }
+    .card-btn.primary:hover{background:linear-gradient(135deg,rgba(201,169,110,.28),rgba(201,169,110,.14));border-color:rgba(201,169,110,.55)}
+
+    .card-icon{
+      width:42px;height:42px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .card-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .card-btn.primary .card-icon{background:rgba(201,169,110,.2);color:var(--gold)}
+    .card-btn:not(.primary) .card-icon{background:rgba(255,255,255,.07);color:rgba(247,248,250,.6)}
+
+    .card-text{flex:1}
+    .card-label{font-size:15px;font-weight:700;color:#fff;margin-bottom:2px}
+    .card-desc{font-size:12px;color:rgba(247,248,250,.4);line-height:1.4}
+    .card-btn.primary .card-label{color:var(--gold)}
+
+    .card-arrow{color:rgba(247,248,250,.3);flex-shrink:0}
+    .card-arrow svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+    /* Divider */
+    .divider{display:flex;align-items:center;gap:12px;margin:4px 0}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
+    .divider span{font-size:11px;color:rgba(247,248,250,.25);white-space:nowrap}
+
+    /* Guest subtle link */
+    .guest-row{text-align:center}
+    .guest-btn{
+      background:none;border:none;cursor:pointer;
+      font-family:'Inter',sans-serif;font-size:13px;
+      color:rgba(247,248,250,.35);padding:8px 16px;
+      transition:color .2s;border-radius:8px;
+    }
+    .guest-btn:hover{color:rgba(247,248,250,.65)}
+  </style>
+</head>
+<body>
+
+<div class="bg-kr">한</div>
+<div class="bg-orb bg-orb1"></div>
+<div class="bg-orb bg-orb2"></div>
+
+<div class="wrap">
+
+  <div class="logo">
+    <div class="logo-icon">韓</div>
+    <div class="logo-name">Korean <em>Stories</em></div>
+    <div class="logo-sub">Apprends le coréen à travers de vraies histoires</div>
+  </div>
+
+  <div class="greeting">
+    <h1>Bienvenue ! 반가워요</h1>
+    <p>Choisis comment tu veux accéder à ton espace d'apprentissage.</p>
+  </div>
+
+  <div class="cards">
+    <!-- Se connecter -->
+    <a href="login.html" class="card-btn primary">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      </div>
+      <div class="card-text">
+        <div class="card-label">Se connecter</div>
+        <div class="card-desc">J'ai déjà un compte — retrouver ma progression</div>
+      </div>
+      <div class="card-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+
+    <!-- Créer un compte -->
+    <a href="signup.html" class="card-btn">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      </div>
+      <div class="card-text">
+        <div class="card-label">Créer un compte</div>
+        <div class="card-desc">Nouveau ? Inscris-toi gratuitement en 1 minute</div>
+      </div>
+      <div class="card-arrow"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+  </div>
+
+  <div class="divider"><span>ou</span></div>
+
+  <div class="guest-row">
+    <button class="guest-btn" onclick="continueAsGuest()">
+      Continuer en tant qu'invité →
+    </button>
+  </div>
+
+</div>
+
+<script>
+  /* If already logged in, skip this page */
+  (function(){
+    try{
+      const u = JSON.parse(localStorage.getItem('ks_user')||'null');
+      if(u && u.email && !u.guest){ window.location.href='app.html'; }
+    }catch(e){}
+  })();
+
+  function continueAsGuest(){
+    try{ localStorage.setItem('ks_user', JSON.stringify({name:null,guest:true})); }catch(e){}
+    window.location.href = 'app.html';
+  }
+</script>
+</body>
+</html>

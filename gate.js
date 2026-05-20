@@ -68,60 +68,26 @@
         'min-height:18px;transition:opacity .2s;opacity:0}',
       '#ks-gate-err.show{opacity:1}',
 
-      /* Name step */
-      '#ks-name-step{display:none}',
-      '#ks-name-step.show{display:block}',
-      '#ks-pass-step.hide{display:none}',
-
-      /* Name input — larger, no letter-spacing */
-      '#ks-name-input{letter-spacing:0;text-align:left}',
-      '#ks-name-input::placeholder{letter-spacing:0}',
-
-      /* Guest link */
-      '#ks-guest-btn{',
-        'display:block;width:100%;margin-top:12px;',
-        'background:none;border:1.5px solid rgba(255,255,255,.12);',
-        'border-radius:12px;padding:11px;',
-        'color:rgba(247,248,250,.45);font-family:inherit;font-size:13px;',
-        'cursor:pointer;transition:border-color .2s,color .2s}',
-      '#ks-guest-btn:hover{border-color:rgba(255,255,255,.28);color:rgba(247,248,250,.7)}'
+      ''
     ].join('');
     document.head.appendChild(s);
 
-    /* ── HTML ── */
+    /* ── HTML — password step only ── */
     var gate = document.createElement('div');
     gate.id = 'ks-gate';
     gate.innerHTML =
       '<div id="ks-gate-box">' +
         '<div id="ks-gate-logo">Korean <em>Stories</em></div>' +
-
-        /* Step 1 — password */
-        '<div id="ks-pass-step">' +
-          '<div id="ks-gate-sub">Site en accès privé · Entrez le mot de passe</div>' +
-          '<input id="ks-gate-input" class="ks-g-input" type="password" placeholder="Mot de passe" autocomplete="off" autocorrect="off" spellcheck="false"/>' +
-          '<button id="ks-gate-btn" class="ks-g-btn">Accéder →</button>' +
-          '<div id="ks-gate-err">Mot de passe incorrect</div>' +
-        '</div>' +
-
-        /* Step 2 — name / guest (hidden until password ok) */
-        '<div id="ks-name-step">' +
-          '<div id="ks-gate-sub" style="margin-bottom:20px">Comment t\'appelles-tu ?</div>' +
-          '<input id="ks-name-input" class="ks-g-input" type="text" placeholder="Ton prénom" autocomplete="given-name" maxlength="30"/>' +
-          '<button id="ks-name-btn" class="ks-g-btn">Commencer →</button>' +
-          '<button id="ks-guest-btn">Continuer en tant qu\'invité</button>' +
-        '</div>' +
+        '<div id="ks-gate-sub">Site en accès privé · Entrez le mot de passe</div>' +
+        '<input id="ks-gate-input" class="ks-g-input" type="password" placeholder="Mot de passe" autocomplete="off" autocorrect="off" spellcheck="false"/>' +
+        '<button id="ks-gate-btn" class="ks-g-btn">Accéder →</button>' +
+        '<div id="ks-gate-err">Mot de passe incorrect</div>' +
       '</div>';
     document.body.prepend(gate);
 
-    /* ── Step 1 logic ── */
     var passInput = document.getElementById('ks-gate-input');
     var passBtn   = document.getElementById('ks-gate-btn');
     var passErr   = document.getElementById('ks-gate-err');
-    var passStep  = document.getElementById('ks-pass-step');
-    var nameStep  = document.getElementById('ks-name-step');
-    var nameInput = document.getElementById('ks-name-input');
-    var nameBtn   = document.getElementById('ks-name-btn');
-    var guestBtn  = document.getElementById('ks-guest-btn');
 
     passInput.focus();
 
@@ -140,13 +106,13 @@
         try { existing = JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch (e) {}
 
         if (existing) {
-          /* Already has a profile — just close */
+          /* Already has a profile — just close the gate */
           closeGate();
         } else {
-          /* Show name step */
-          passStep.classList.add('hide');
-          nameStep.classList.add('show');
-          setTimeout(function () { nameInput.focus(); }, 50);
+          /* No profile yet — redirect to welcome/choice page */
+          gate.style.transition = 'opacity .25s';
+          gate.style.opacity = '0';
+          setTimeout(function () { window.location.href = 'bienvenue.html'; }, 250);
         }
       } else {
         passErr.classList.add('show');
@@ -160,33 +126,9 @@
       }
     }
 
-    /* ── Step 2 logic ── */
-    function saveName() {
-      var raw  = nameInput.value.trim();
-      var name = raw.charAt(0).toUpperCase() + raw.slice(1); /* capitalize */
-      if (!name) { nameInput.focus(); return; }
-      try {
-        localStorage.setItem(USER_KEY, JSON.stringify({ name: name, guest: false }));
-      } catch (e) {}
-      closeGate();
-    }
-
-    function saveGuest() {
-      try {
-        localStorage.setItem(USER_KEY, JSON.stringify({ name: null, guest: true }));
-      } catch (e) {}
-      closeGate();
-    }
-
     passBtn.addEventListener('click', tryUnlock);
     passInput.addEventListener('keydown', function (e) {
       if (e.key === 'Enter') tryUnlock();
     });
-
-    nameBtn.addEventListener('click', saveName);
-    nameInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') saveName();
-    });
-    guestBtn.addEventListener('click', saveGuest);
   });
 })();
