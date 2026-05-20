@@ -394,20 +394,9 @@ function renderConj(step){
 function renderStory(step){
   return `<div class="story"><span class="story-tag">${step.tag}</span><p class="story-txt">${step.txt}</p><div class="story-scene">${step.scene}</div></div><button class="next-btn" onclick="advance()">Commencer la leçon →</button>`;
 }
-function renderMcq(step){
-  const chs=step.choices.map(c=>`<button class="ch" onclick="checkMcq(this,'${c.replace(/'/g,"\\'")}','${step.answer.replace(/'/g,"\\'")}','${(step.fb_ok||'').replace(/'/g,"\\'")}','${(step.fb_ko||'').replace(/'/g,"\\'")}','${(step.mina_ok||'').replace(/'/g,"\\'")}','${(step.mina_ko||'').replace(/'/g,"\\'")}',this.closest('.mcq'))">${c}</button>`).join('');
-  return `<div class="mcq"><span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span><p class="q-prompt">${step.prompt}</p><div class="q-big" onclick="speak('${step.main}')">${step.main}</div><div class="choices">${chs}</div><div class="fb-strip" id="fb" style="display:none"></div><button class="next-btn" id="nextQ" style="display:none" onclick="advance()">Continuer →</button></div>`;
-}
-function checkMcq(btn,chosen,answer,fok,fko,mok,mko,wrap){
-  if(answered)return;answered=true;
-  wrap.querySelectorAll('.ch').forEach(b=>b.disabled=true);
-  const ok=chosen===answer;
-  if(ok){score++;btn.classList.add('ok');ksBeep('ok');setMina(mok,A.b);}
-  else{btn.classList.add('ko');wrap.querySelectorAll('.ch').forEach(b=>{if(b.textContent===answer)b.classList.add('ok');});ksBeep('ko');setMina(mko,A.a);}
-  const fb=document.getElementById('fb');
-  fb.textContent=ok?fok:fko;fb.className='fb-strip '+(ok?'ok':'ko');fb.style.display='block';
-  document.getElementById('nextQ').style.display='block';
-}
+var _mcqStep=null;
+function renderMcq(s){_mcqStep=s;const chs=s.choices.map((c,i)=>`<button class="ch" onclick="checkMcq(this,${i})">${c}</button>`).join('');return`<div class="mcq"><span class="q-cnt">Question ${s.qn} / ${TOTAL_Q}</span><p class="q-prompt">${s.prompt}</p><div class="q-big" onclick="speak('${s.main}')">${s.main}</div><div class="choices">${chs}</div><div class="fb-strip" id="fb" style="display:none"></div><button class="next-btn" id="nextQ" style="display:none" onclick="advance()">Continuer →</button></div>`;}
+function checkMcq(btn,chosenIdx){if(!_mcqStep||answered)return;answered=true;const s=_mcqStep;const chosen=s.choices[chosenIdx];const ok=chosen===s.answer;const wrap=btn.closest('.mcq');wrap.querySelectorAll('.ch').forEach(b=>b.disabled=true);if(ok){score++;btn.classList.add('ok');ksBeep('ok');setMina(s.mina_ok||'',A.b);}else{btn.classList.add('ko');wrap.querySelectorAll('.ch').forEach(b=>{if(b.textContent===s.answer)b.classList.add('ok');});ksBeep('ko');setMina(s.mina_ko||'',A.a);}const fb=document.getElementById('fb');fb.textContent=ok?s.fb_ok:s.fb_ko;fb.className='fb-strip '+(ok?'ok':'ko');fb.style.display='block';document.getElementById('nextQ').style.display='block';}
 
 function renderStep(){
   const s=STEPS[cur];const lc=document.getElementById('lc');

@@ -272,10 +272,11 @@ function showRevealItem() {
   document.getElementById('bigKr').textContent = item.kr;
   document.getElementById('revealInfo').className = 'reveal-info';
   document.getElementById('revealRoman').textContent = item.rom;
-  document.getElementById('revealMeaning').textContent = item.meaning;
+  document.getElementById('revealMeaning').innerHTML = item.meaning;
   document.getElementById('revealExample').textContent = item.example;
   document.getElementById('revealBtn').style.display = 'inline-flex';
   document.getElementById('revealBtn').textContent = ' Révéler';
+  document.getElementById('revealBtn').onclick = revealCurrent;
   document.getElementById('nextLevelBtn').style.display = 'none';
 }
 
