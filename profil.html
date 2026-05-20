@@ -297,8 +297,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <div class="hero-name" onclick="openEdit()" id="heroNameEl">Apprenant
     <svg class="edit-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
   </div>
-  <div class="hero-rank" id="heroRankEl">초보자 · Débutante</div>
-  <div class="hero-sub" id="heroSubEl">Apprenante coréen · Niveau A1</div>
+  <div class="hero-rank" id="heroRankEl">초보자 · Débutant·e</div>
+  <div class="hero-sub" id="heroSubEl">Apprenant·e coréen · Niveau A1</div>
   <div class="hero-bio" onclick="openEdit()" id="heroBioEl">✨ En route vers la Corée !</div>
   <div class="hero-streak">🔥 <span id="streakVal">7</span> jours de suite</div>
   <button onclick="switchProfile()" style="margin-top:10px;background:none;border:1.5px solid rgba(255,255,255,.18);border-radius:20px;color:rgba(255,255,255,.5);font-size:12px;padding:5px 14px;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.borderColor='rgba(255,255,255,.18)';this.style.color='rgba(255,255,255,.5)'">Changer de profil</button>
@@ -1069,8 +1069,11 @@ function init(){
   /* Show guest banner if no real account */
   const isGuest=!_ksUser||_ksUser.guest===true||(!_ksUser.email&&!_ksUser.uid);
   const gb=document.getElementById('guestBanner');if(gb)gb.style.display=isGuest?'block':'none';
-  const dispName=p.name||'Apprenant';
+  const dispName=p.name||(_ksUser&&_ksUser.email?_ksUser.email.split('@')[0]:'Apprenant');
   const nn=document.getElementById('heroNameEl');nn.childNodes[0].textContent=dispName+' ';
+  /* Update sub-text with email if available */
+  const heroSub=document.getElementById('heroSubEl');
+  if(heroSub&&_ksUser&&_ksUser.email&&!_ksUser.guest)heroSub.textContent=_ksUser.email+' · Niveau A1';
   if(p.bio)document.getElementById('heroBioEl').textContent=p.bio;
   const xp=parseInt(localStorage.getItem('ks_xp'))||0;
   const streak=parseInt(localStorage.getItem('ks_streak'))||7;
