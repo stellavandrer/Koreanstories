@@ -3,7 +3,7 @@
    Password is checked once per session (browser tab).
 ─────────────────────────────────────────────────────────────────── */
 (function () {
-  var PASS = 'Timo';
+  var PASS = ['Timo', 'Institut'];
   var KEY  = 'ks_access';
 
   try { if (sessionStorage.getItem(KEY) === 'ok') return; } catch (e) {}
@@ -85,7 +85,7 @@
     input.focus();
 
     function tryUnlock() {
-      if (input.value === PASS) {
+      if (PASS.indexOf(input.value) !== -1) {
         try { sessionStorage.setItem(KEY, 'ok'); } catch (e) {}
         gate.style.transition = 'opacity .3s';
         gate.style.opacity = '0';
