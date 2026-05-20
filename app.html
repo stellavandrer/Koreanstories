@@ -992,7 +992,7 @@
     <div class="greeting-inner">
       <div class="greeting-text">
         <div class="g-badge" id="greetBadge">Jour 1 — bienvenue&thinsp;!</div>
-        <h1 class="g-name" id="greetTitle">Bonjour, <em>Justine</em>&thinsp;!</h1>
+        <h1 class="g-name" id="greetTitle">Bonjour&thinsp;!</h1>
         <p class="g-sub" id="greetSub">같이 공부해요&thinsp;! Commençons&thinsp;!</p>
       </div>
       <div class="g-icon-wrap">
@@ -1241,7 +1241,7 @@
       <div class="welcome-card">
         <div style="text-align:center;margin-bottom:18px">
           <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:center"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg></div>
-          <div style="font-family:'Playfair Display',serif;font-size:20px;color:white;margin-bottom:5px">Bienvenue, Justine&thinsp;!</div>
+          <div style="font-family:'Playfair Display',serif;font-size:20px;color:white;margin-bottom:5px" id="welcomeName">Bienvenue&thinsp;!</div>
           <div style="font-size:12px;color:rgba(247,248,250,.42)">Commence en 3 étapes — ça prend 5 min</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
@@ -1426,7 +1426,11 @@
     const h     = new Date().getHours();
     const salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
     const title = document.getElementById('greetTitle');
-    if(title) title.innerHTML = salut+', <em>Justine</em>&thinsp;!';
+    var _ksU = null; try { _ksU = JSON.parse(localStorage.getItem('ks_user')||'null'); } catch(e){}
+    var _firstName = _ksU && _ksU.name ? _ksU.name.split(' ')[0] : null;
+    if(title) title.innerHTML = _firstName ? salut+', <em>'+_firstName+'</em> !' : salut+' !';
+    var _wn = document.getElementById('welcomeName');
+    if(_wn) _wn.textContent = _firstName ? 'Bienvenue, '+_firstName+' !' : 'Bienvenue !';
     if(badge){
       if(streak === 0)      badge.textContent = 'Premier jour — bienvenue !';
       else if(streak === 1) badge.textContent = 'Jour 1 — c\'est parti !';
@@ -2750,19 +2754,24 @@ document.addEventListener('click', function(e){
   let auth;
 
   function applyUser(name, email, photoURL) {
-    // Greeting
+    const first = name ? name.split(' ')[0] : (email ? email.split('@')[0] : null);
+    // Greeting title
     const gt = document.getElementById('greetTitle');
     if(gt) {
-      const first = name ? name.split(' ')[0] : (email ? email.split('@')[0] : 'là');
-      gt.innerHTML = 'Bonjour,&thinsp;<em>' + first + '</em>&thinsp;!';
+      const h2 = new Date().getHours();
+      const sal = h2 < 12 ? 'Bonjour' : h2 < 18 ? 'Bon après-midi' : 'Bonsoir';
+      gt.innerHTML = first ? sal+', <em>'+first+'</em>&thinsp;!' : sal+'&thinsp;!';
     }
+    // Welcome card name
+    const wn = document.getElementById('welcomeName');
+    if(wn) wn.textContent = first ? 'Bienvenue, '+first+' !' : 'Bienvenue !';
     // Sidenav name
     const snu = document.querySelector('.sn-uname');
-    if(snu) snu.textContent = name || (email ? email.split('@')[0] : 'Apprenant');
+    if(snu) snu.textContent = first || 'Invité';
     // Sidenav avatar initial
     const snav = document.querySelector('.sn-av');
     if(snav) {
-      const initial = (name || email || 'A')[0].toUpperCase();
+      const initial = (first || 'I')[0].toUpperCase();
       if(photoURL) {
         snav.style.backgroundImage = 'url(' + photoURL + ')';
         snav.style.backgroundSize = 'cover';
@@ -2799,11 +2808,12 @@ document.addEventListener('click', function(e){
       };
     } catch(e) { console.warn('Firebase auth init:', e.message); }
   } else {
-    // Demo mode: read from localStorage
+    // Demo mode: read from localStorage (name can be null for guests)
     try {
       const demo = JSON.parse(localStorage.getItem('ks_user') || 'null');
-      if(demo) applyUser(demo.name, demo.email, null);
-    } catch(e) {}
+      if(demo) applyUser(demo.name || null, demo.email || null, null);
+      else applyUser(null, null, null);
+    } catch(e) { applyUser(null, null, null); }
     window._ksLogout = function() {
       try { localStorage.removeItem('ks_user'); } catch(e) {}
       window.location.href = 'login.html';

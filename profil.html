@@ -294,13 +294,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <div class="av-ring"><div class="av-inner" id="heroAvatar"></div></div>
     <div class="av-edit"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
   </div>
-  <div class="hero-name" onclick="openEdit()" id="heroNameEl">Justine
+  <div class="hero-name" onclick="openEdit()" id="heroNameEl">Apprenant
     <svg class="edit-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
   </div>
   <div class="hero-rank" id="heroRankEl">초보자 · Débutante</div>
   <div class="hero-sub" id="heroSubEl">Apprenante coréen · Niveau A1</div>
   <div class="hero-bio" onclick="openEdit()" id="heroBioEl">✨ En route vers la Corée !</div>
   <div class="hero-streak">🔥 <span id="streakVal">7</span> jours de suite</div>
+  <button onclick="switchProfile()" style="margin-top:10px;background:none;border:1.5px solid rgba(255,255,255,.18);border-radius:20px;color:rgba(255,255,255,.5);font-size:12px;padding:5px 14px;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.borderColor='rgba(255,255,255,.18)';this.style.color='rgba(255,255,255,.5)'">Changer de profil</button>
 </div>
 
 <div class="pcont">
@@ -868,9 +869,11 @@ function openEdit(){
 function closeEdit(){document.getElementById('editOverlay').classList.remove('open');document.body.style.overflow='';}
 function editBgClose(e){if(e.target===document.getElementById('editOverlay'))closeEdit();}
 function saveEdit(){
-  const name=document.getElementById('editName').value.trim()||'Justine';
+  const name=document.getElementById('editName').value.trim()||'Apprenant';
   const bio=document.getElementById('editBio').value.trim()||'✨ En route vers la Corée !';
   setPD({name,bio});
+  /* Also sync name into ks_user so app.html greeting updates */
+  try{const u=JSON.parse(localStorage.getItem('ks_user')||'{}');u.name=name;localStorage.setItem('ks_user',JSON.stringify(u));}catch(e){}
   const nn=document.getElementById('heroNameEl');
   nn.childNodes[0].textContent=name+' ';
   document.getElementById('heroBioEl').textContent=bio;
@@ -1017,7 +1020,8 @@ function drawCard(){
   img.onload=()=>{
     ctx.drawImage(img,30,76,158,198);URL.revokeObjectURL(url);
     const p=getPD();
-    const name=p.name||'Justine';
+    const _ku=(() => {try{return JSON.parse(localStorage.getItem('ks_user')||'null');}catch(e){return null;}})();
+    const name=p.name||(_ku&&_ku.name)||'Apprenant';
     const bio=p.bio||'✨ En route vers la Corée !';
     const xp=parseInt(document.getElementById('statXP').textContent)||0;
     const lessons=parseInt(document.getElementById('statLecons').textContent)||0;
@@ -1046,7 +1050,10 @@ function init(){
   loadAV();renderHA();
   const g=parseInt(localStorage.getItem('ks_goal'))||10;setGoal(g);
   const p=getPD();
-  if(p.name){const nn=document.getElementById('heroNameEl');nn.childNodes[0].textContent=p.name+' ';}
+  /* Fallback: use name from ks_user (set at gate) if ks_profile has none */
+  if(!p.name){try{const u=JSON.parse(localStorage.getItem('ks_user')||'null');if(u&&u.name)p.name=u.name;}catch(e){}}
+  const dispName=p.name||'Apprenant';
+  const nn=document.getElementById('heroNameEl');nn.childNodes[0].textContent=dispName+' ';
   if(p.bio)document.getElementById('heroBioEl').textContent=p.bio;
   const xp=parseInt(localStorage.getItem('ks_xp'))||0;
   const streak=parseInt(localStorage.getItem('ks_streak'))||7;
@@ -1063,6 +1070,12 @@ function init(){
   sb('pfA1','pctA1',Math.min(100,lessons*2));
   sb('pfVocab','pctVocab',Math.min(100,Math.round(xp/10)));
   drawXP();drawHeatmap();drawBadges(xp,streak);
+}
+function switchProfile(){
+  if(!confirm('Changer de profil effacera le profil actuel sur cet appareil. Continuer ?')) return;
+  try{localStorage.removeItem('ks_user');localStorage.removeItem('ks_profile');}catch(e){}
+  try{sessionStorage.removeItem('ks_access');}catch(e){}
+  window.location.reload();
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
