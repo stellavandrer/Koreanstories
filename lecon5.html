@@ -590,25 +590,6 @@ const A = {
 const si = (id,s) => { const e=document.getElementById(id); if(e) e.src=s; };
 si('minaHdr', A.e);
 
-  const audio=new Audio(url);
-  _currentAudio=audio;
-  audio.onended=()=>{if(btn)btn.classList.remove('playing');speaking=false;_currentAudio=null;};
-  audio.onerror=()=>{
-    _currentAudio=null;speaking=false;
-    if(btn)btn.classList.remove('playing');
-    // Retry once with a slight delay
-    setTimeout(()=>{
-      const a2=new Audio(url);
-      _currentAudio=a2;
-      if(btn)btn.classList.add('playing');
-      a2.onended=()=>{if(btn)btn.classList.remove('playing');_currentAudio=null;};
-      a2.onerror=()=>{if(btn)btn.classList.remove('playing');_currentAudio=null;};
-      a2.play().catch(()=>{if(btn)btn.classList.remove('playing');_currentAudio=null;});
-    },400);
-  };
-  audio.play().catch(()=>{_currentAudio=null;speaking=false;if(btn)btn.classList.remove('playing');});
-}const voices=window.speechSynthesis.getVoices();const krVoice=voices.find(v=>v.lang.startsWith('ko'));if(!krVoice){if(btn)btn.classList.remove('playing');speaking=false;return;}const u=new SpeechSynthesisUtterance(text);u.lang='ko-KR';u.rate=0.75;u.pitch=1.05;u.voice=krVoice;if(btn){btn.classList.add('playing');u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}speaking=true;window.speechSynthesis.speak(u);}
-
 // ── Leçon 5 : ㅈ(j) ㅡ(eu) ㅔ(e) → 자·으·에 + mots 저기·지구 ──
 const STEPS = [
 
