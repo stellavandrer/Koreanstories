@@ -230,8 +230,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="err-banner" id="errBanner"></div>
       <div class="ok-banner" id="okBanner"></div>
 
-      <!-- Google -->
-      <button class="btn-google" id="btnGoogle" onclick="signInGoogle()">
+      <!-- Google (requires Firebase — hidden for now) -->
+      <button class="btn-google" id="btnGoogle" onclick="signInGoogle()" style="display:none">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -241,7 +241,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         Continuer avec Google
       </button>
 
-      <div class="divider"><span>ou avec ton email</span></div>
+      <div class="divider" id="divider" style="display:none"><span>ou avec ton email</span></div>
 
       <!-- Form -->
       <form id="loginForm" onsubmit="return false">
@@ -272,99 +272,62 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   </div>
 </div>
 
-<!-- Firebase v10 -->
-<script type="module">
-  import { initializeApp }        from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
-  import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged }
-    from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+<script>
+  /* ── Korean Stories · Auth localStorage ── */
 
-  // ══════════════════════════════════════════════════════
-  //  CONFIGURATION FIREBASE
-  // Remplace ces valeurs par celles de ta Firebase Console :
-  // console.firebase.google.com → ton projet → Paramètres → Appli Web
-  // ══════════════════════════════════════════════════════
-  const firebaseConfig = {
-    apiKey:            "REMPLACE_PAR_TON_API_KEY",
-    authDomain:        "REMPLACE_PAR_TON_AUTH_DOMAIN",
-    projectId:         "REMPLACE_PAR_TON_PROJECT_ID",
-    storageBucket:     "REMPLACE_PAR_TON_STORAGE_BUCKET",
-    messagingSenderId: "REMPLACE_PAR_TON_MESSAGING_SENDER_ID",
-    appId:             "REMPLACE_PAR_TON_APP_ID"
-  };
-  // ══════════════════════════════════════════════════════
-
-  let app, auth, provider;
-  const FIREBASE_READY = !firebaseConfig.apiKey.includes('REMPLACE');
-
-  if(FIREBASE_READY) {
-    try {
-      app      = initializeApp(firebaseConfig);
-      auth     = getAuth(app);
-      provider = new GoogleAuthProvider();
-
-      // Auto-redirect si déjà connecté
-      onAuthStateChanged(auth, user => {
-        if(user) { window.location.href = 'app.html'; }
-      });
-    } catch(e) { console.warn('Firebase init failed:', e.message); }
-  } else {
-    showDemoMode();
+  /* Simple hash (not cryptographic — fine for a private learning site) */
+  function hashPw(pw) {
+    let h = 5381;
+    for (let i = 0; i < pw.length; i++) { h = ((h << 5) + h) ^ pw.charCodeAt(i); h >>>= 0; }
+    return h.toString(36) + pw.length.toString(36);
   }
 
-  // ── Sign in Email ──
-  window.signInEmail = async function() {
-    if(!FIREBASE_READY) { demoLogin(); return; }
-    const email = document.getElementById('email').value.trim();
+  function getAccounts() {
+    try { return JSON.parse(localStorage.getItem('ks_accounts') || '{}'); } catch(e) { return {}; }
+  }
+
+  /* Auto-redirect if already logged in */
+  (function() {
+    try {
+      const u = JSON.parse(localStorage.getItem('ks_user') || 'null');
+      if (u && u.email && !u.guest) { window.location.href = 'app.html'; }
+    } catch(e) {}
+  })();
+
+  window.signInEmail = function() {
+    const email = document.getElementById('email').value.trim().toLowerCase();
     const pw    = document.getElementById('pw').value;
-    if(!email || !pw) { showErr('Remplis tous les champs.'); return; }
-    setLoading(true);
-    try {
-      await signInWithEmailAndPassword(auth, email, pw);
-      // onAuthStateChanged s'occupe de la redirection
-    } catch(e) {
-      setLoading(false);
-      const msgs = {
-        'auth/invalid-credential':  'Email ou mot de passe incorrect.',
-        'auth/user-not-found':      'Aucun compte avec cet email. <a href="signup.html">Créer un compte</a>',
-        'auth/wrong-password':      'Mot de passe incorrect.',
-        'auth/too-many-requests':   'Trop de tentatives. Réessaie dans quelques minutes.',
-        'auth/invalid-email':       'Adresse email invalide.',
-      };
-      showErr(msgs[e.code] || 'Erreur : ' + e.message);
+    if (!email) { showErr('Entre ton adresse email.'); return; }
+    if (!pw)    { showErr('Entre ton mot de passe.'); return; }
+
+    const accounts = getAccounts();
+    const account  = accounts[email];
+
+    if (!account) {
+      showErr('Aucun compte avec cet email. <a href="signup.html" style="color:inherit;font-weight:700">Créer un compte →</a>');
+      return;
     }
+    if (account.hash !== hashPw(pw)) {
+      showErr('Mot de passe incorrect.');
+      return;
+    }
+
+    try {
+      localStorage.setItem('ks_user', JSON.stringify({
+        email:  email,
+        name:   account.name,
+        uid:    account.uid,
+        guest:  false
+      }));
+    } catch(e) {}
+
+    showOk('Connexion réussie ! Bienvenue ' + account.name + ' 👋');
+    setTimeout(() => { window.location.href = 'app.html'; }, 900);
   };
 
-  // ── Sign in Google ──
-  window.signInGoogle = async function() {
-    if(!FIREBASE_READY) { demoLogin(); return; }
-    setLoading(true);
-    try {
-      await signInWithPopup(auth, provider);
-    } catch(e) {
-      setLoading(false);
-      if(e.code !== 'auth/popup-closed-by-user') showErr('Erreur Google : ' + e.message);
-    }
+  window.signInGoogle = function() {
+    showErr('La connexion Google nécessite Firebase. <a href="signup.html" style="color:inherit;font-weight:700">Créer un compte email →</a>');
   };
-
-  // ── Demo mode (Firebase non configuré) ──
-  function showDemoMode() {
-    document.getElementById('errBanner').innerHTML =
-      ' <strong>Mode démo</strong> — Firebase pas encore configuré. ' +
-      'La connexion est simulée avec localStorage. ' +
-      '<a href="https://console.firebase.google.com" target="_blank" style="color:inherit;font-weight:700">Configurer Firebase →</a>';
-    document.getElementById('errBanner').classList.add('show');
-    document.getElementById('errBanner').style.background = 'rgba(79,142,247,.08)';
-    document.getElementById('errBanner').style.borderColor = 'rgba(79,142,247,.25)';
-    document.getElementById('errBanner').style.color = '#1d4ed8';
-  }
-
-  function demoLogin() {
-    const email = document.getElementById('email').value.trim() || 'demo@koreanstories.app';
-    try { localStorage.setItem('ks_user', JSON.stringify({ email, name: email.split('@')[0], demo: true })); } catch(e) {}
-    showOk('Connexion démo réussie ! Redirection…');
-    setTimeout(() => { window.location.href = 'app.html'; }, 1000);
-  }
-
 </script>
 
 <script>
@@ -378,8 +341,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   }
   function setLoading(on) {
     const btn = document.getElementById('btnSubmit');
-    const g   = document.getElementById('btnGoogle');
-    btn.disabled = on; g.disabled = on;
+    btn.disabled = on;
     btn.classList.toggle('loading', on);
   }
   function togglePw(inputId, btnId) {
