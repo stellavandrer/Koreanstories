@@ -186,7 +186,7 @@ function updateConsonant() {
   document.getElementById('exRom').textContent = c.exRom;
   document.getElementById('stepLabel').textContent = `Consonne ${currentStep+1} / 8`;
   document.getElementById('progBar').style.width = ((currentStep+1)/8*100)+'%';
-  document.getElementById('nextBtn').textContent = currentStep < 7 ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J\'ai compris → Suivant' : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J\'ai tout compris → Quiz !';
+  document.getElementById('nextBtn').innerHTML = currentStep < 7 ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J\'ai compris → Suivant' : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J\'ai tout compris → Quiz !';
 }
 
 function nextConsonant() {

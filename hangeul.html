@@ -851,7 +851,7 @@ function updateSectionBadges() {
     const tab = document.getElementById(tabId);
     if(el) {
       if(done===0) { el.textContent=''; }
-      else if(done===total) { el.textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> tout appris !'; el.style.color='#22c55e'; }
+      else if(done===total) { el.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> tout appris !'; el.style.color='#22c55e'; }
       else { el.textContent=done+'/'+total+' appris'; el.style.color='var(--gray)'; }
     }
     if(tab) {

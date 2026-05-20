@@ -343,7 +343,7 @@ function endGame() {
   document.getElementById('end-best').textContent = best;
 
   const isNew = score > getBest() - (score === best ? 0 : 1);
-  document.getElementById('end-emoji').textContent = score >= 15 ? '' : score >= 10 ? '<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>' : '';
+  document.getElementById('end-emoji').innerHTML = score >= 15 ? '' : score >= 10 ? '<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>' : '';
   document.getElementById('end-title').textContent = score >= 15 ? 'Incroyable !' : score >= 10 ? 'Bien joué !' : 'Continue tes efforts !';
   document.getElementById('end-sub').textContent = `${score} bonne${score>1?'s':''} réponse${score>1?'s':''} sur ${total} tentative${total>1?'s':''}`;
   document.getElementById('xp-earned').textContent = score > 0 ? `+${Math.min(score,12)} XP gagnés !` : 'Essaie encore !';

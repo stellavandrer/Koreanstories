@@ -507,7 +507,7 @@
     document.getElementById('resultWrap').classList.add('show');
     const pct=Math.round(score/totalQ*100);
     const xpEarned=pct>=80?30:pct>=60?20:10;
-    document.getElementById('resEmoji').textContent=pct>=80?'·':pct>=60?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>':'↑';
+    document.getElementById('resEmoji').innerHTML=pct>=80?'·':pct>=60?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>':'↑';
     document.getElementById('resTitle').textContent=pct>=80?'Parfait !':pct>=60?'Bien joué !':'Continue !';
     document.getElementById('resSub').textContent=score+' bonne'+(score>1?'s':'')+' réponse'+(score>1?'s':'')+' sur '+totalQ+' — '+pct+' %';
     document.getElementById('resXpVal').textContent=xpEarned;

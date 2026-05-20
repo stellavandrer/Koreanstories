@@ -469,7 +469,7 @@ function showQuestion(){
   document.getElementById('qTotal').textContent=questions.length;
   document.getElementById('progFill').style.width=pct+'%';
   document.getElementById('qNumLabel').textContent='Question '+(qIdx+1)+' / '+questions.length;
-  document.getElementById('scoreLabel').textContent=score>0?score+' <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>':'';
+  document.getElementById('scoreLabel').innerHTML=score>0?score+' <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>':'';
   // Korean display
   currentKr='';
   const krWrap=document.getElementById('qKrWrap');
@@ -552,7 +552,7 @@ function showResult(){
   document.getElementById('xpPill').textContent='+'+xp+' XP gagné !';
   if(pct>=80){
     document.getElementById('badgeCard').style.display='flex';
-    document.getElementById('badgeIcon').textContent=data.badge||'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    document.getElementById('badgeIcon').innerHTML=data.badge||'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
     document.getElementById('badgeName').textContent=data.badgeName||'Badge '+data.name;
   }
   document.getElementById('resultScreen').classList.add('show');

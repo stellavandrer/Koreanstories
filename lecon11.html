@@ -341,7 +341,7 @@ let current = 0, score = 0;
 function renderQ() {
   if (current >= questions.length) {
     document.getElementById('score-num').textContent = score + '/5';
-    document.getElementById('score-msg').textContent = score >= 4 ? ' Excellent ! Tu maîtrises les particules !' : score >= 3 ? ' Bien ! Relis les règles pour consolider.' : '<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Continue à pratiquer !';
+    document.getElementById('score-msg').innerHTML = score >= 4 ? ' Excellent ! Tu maîtrises les particules !' : score >= 3 ? ' Bien ! Relis les règles pour consolider.' : '<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Continue à pratiquer !';
     document.getElementById('score-box').classList.add('show');
     document.getElementById('quiz-area').innerHTML = '';
     if (score >= 3) {

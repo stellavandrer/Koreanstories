@@ -232,7 +232,7 @@ function showScore(){
   box.style.display='block';
   box.scrollIntoView({behavior:'smooth'});
   const b=document.getElementById('doneBtn');
-  if(b){b.textContent='Score enregistré <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+  if(b){b.innerHTML='Score enregistré <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
   setTimeout(()=>window.location.href='cours.html',3000);
 }
 try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}

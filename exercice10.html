@@ -285,7 +285,7 @@ function ans(idx,btn,result){
   card.querySelectorAll('.opt').forEach(o=>o.disabled=true);
   const fb=document.getElementById('fb'+idx);
   fb.className='feedback show '+(result==='ok'?'ok':'ko');
-  if(result==='ko'){fb.textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  La réponse correcte est surlignée en vert.';}
+  if(result==='ko'){fb.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  La réponse correcte est surlignée en vert.';}
   document.getElementById('nb'+idx).classList.add('show');
 }
 function next(n){
@@ -304,7 +304,7 @@ function showScore(){
   document.getElementById('scoreBig').textContent=score+'/'+TOTAL;
   const pct=score/TOTAL;
   if(pct===1){
-    document.getElementById('scoreMsg').textContent='완벽해요 ! Score parfait ! <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>';
+    document.getElementById('scoreMsg').innerHTML='완벽해요 ! Score parfait ! <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>';
     document.getElementById('scoreSub').textContent='Vous maîtrisez parfaitement les expressions A2 !';
   }else if(pct>=.7){
     document.getElementById('scoreMsg').textContent='잘했어요 ! Très bon résultat ! ';
@@ -318,7 +318,7 @@ function completeLesson(){
   if(typeof ksAddXP==='function')ksAddXP(10);
   if(typeof ksMarkDone==='function')ksMarkDone('ks_b29');
   const b=document.getElementById('doneBtn');
-  if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+  if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
   setTimeout(()=>window.location.href='cours.html',1200);
 }
 </script>

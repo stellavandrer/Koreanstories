@@ -106,7 +106,7 @@
     if(typeof ksAddXP==='function')ksAddXP(12);
     if(typeof ksMarkDone==='function')ksMarkDone('ks_b15');
     const b=document.getElementById('doneBtn');
-    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
     setTimeout(()=>window.location.href='cours.html',1200);
   }
   </script>
@@ -213,7 +213,7 @@ function filterCat(cat,btn){
 function renderCard(){
   if(!filtered.length)return;
   const c=filtered[cur%filtered.length];
-  document.getElementById('fcCat').textContent={verbes:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#2563eb"/></svg> Verbe',noms:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#ea580c"/></svg> Nom',adj:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#7c3aed"/></svg> Adjectif',expr:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#f59e0b"/></svg> Expression'}[c.cat]||c.cat;
+  document.getElementById('fcCat').innerHTML={verbes:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#2563eb"/></svg> Verbe',noms:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#ea580c"/></svg> Nom',adj:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#7c3aed"/></svg> Adjectif',expr:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#f59e0b"/></svg> Expression'}[c.cat]||c.cat;
   document.getElementById('fcKo').textContent=c.ko;
   document.getElementById('fcFr').textContent=c.fr;
   document.getElementById('fcEx').textContent=c.ex||'';

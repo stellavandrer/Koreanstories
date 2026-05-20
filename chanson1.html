@@ -218,7 +218,7 @@ function renderKara(){
   const d = karaData[karaIdx];
   const ph = document.getElementById('karaPhrase');
   ph.innerHTML = d.syls.map((s,i)=>`<span class="syl${i===sylIdx?' active':''}">${s}</span>`).join('');
-  document.getElementById('karaRom').textContent = sylIdx>=0 ? d.rom : '↑ Clique "<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Suivant" pour commencer';
+  document.getElementById('karaRom').innerHTML = sylIdx>=0 ? d.rom : '↑ Clique "<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Suivant" pour commencer';
   document.getElementById('karaFr').textContent = sylIdx>=0 ? d.fr : '';
   document.getElementById('karaCounter').textContent = `${karaIdx+1} / ${karaData.length}`;
 }

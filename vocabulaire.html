@@ -1102,11 +1102,11 @@ function loadQuizQ() {
       speak(w.audio,null);
       if(this.dataset.c===correctVal){
         this.classList.add('ok');qz.score++;
-        fb.textContent=`<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> ${w.kr} = ${w.fr} (${w.rom})`;fb.className='quiz-fb ok';
+        fb.innerHTML=`<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> ${w.kr} = ${w.fr} (${w.rom})`;fb.className='quiz-fb ok';
         addMastery(w.id);
       } else {
         this.classList.add('ko');if(correct)correct.classList.add('ok');
-        fb.textContent=`<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${w.kr} = ${w.fr}. ${w.break}`;fb.className='quiz-fb ko';
+        fb.innerHTML=`<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ${w.kr} = ${w.fr}. ${w.break}`;fb.className='quiz-fb ko';
       }
       document.getElementById('quizNext').classList.add('show');
     });
@@ -1115,7 +1115,7 @@ function loadQuizQ() {
 
 function endQuiz() {
   const total=qz.words.length;
-  document.getElementById('quizQ').textContent = qz.score===total ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Parfait !' : `${qz.score}/${total} !`;
+  document.getElementById('quizQ').innerHTML = qz.score===total ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Parfait !' : `${qz.score}/${total} !`;
   document.getElementById('quizChoices').innerHTML='';
   document.getElementById('quizFb').textContent='';
   document.getElementById('quizScore').textContent = `Score final : ${qz.score} / ${total}`;
@@ -1256,7 +1256,7 @@ function stopPlayAll(finished) {
   if(btn) {
     btn.classList.remove('playing');
     if(finished) {
-      btn.lastChild.textContent = ' Terminé <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
+      btn.lastChild.innerHTML = ' Terminé <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
       setTimeout(() => { btn.lastChild.textContent = ' Tout écouter'; }, 2000);
     } else {
       btn.lastChild.textContent = ' Tout écouter';

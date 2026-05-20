@@ -805,7 +805,7 @@
       else if(b === btn && !isOk) b.classList.add('ko');
     });
     if(fbEl) {
-      fbEl.textContent = isOk ? 'Correct ! 맞아요 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>' : 'La bonne réponse : ' + correct;
+      fbEl.innerHTML = isOk ? 'Correct ! 맞아요 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>' : 'La bonne réponse : ' + correct;
       fbEl.className = 'quiz-fb ' + (isOk ? 'ok' : 'ko');
     }
     if(nxtEl) nxtEl.disabled = false;

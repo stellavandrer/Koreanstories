@@ -845,7 +845,7 @@ function renderSRSPanel() {
     infoEl.style.display = 'none';
     document.getElementById('srsEmptyMsg').style.display = '';
     document.getElementById('srsStartBtn').disabled = true;
-    document.getElementById('srsStartBtn').textContent = 'Tout révisé aujourd\'hui <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
+    document.getElementById('srsStartBtn').innerHTML = 'Tout révisé aujourd\'hui <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
   } else {
     infoEl.style.display = '';
     document.getElementById('srsEmptyMsg').style.display = 'none';
@@ -1057,7 +1057,7 @@ function checkAnswer(choice, correct, btn) {
     btn.classList.add('correct');
     ksBeep('ok');
     card.classList.add('correct');
-    feedback.textContent = 'Correct ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
+    feedback.innerHTML = 'Correct ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
     feedback.className = 'qz-feedback ok';
     score++;
     streak++;

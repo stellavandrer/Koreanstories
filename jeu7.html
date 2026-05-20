@@ -93,7 +93,7 @@
     if(typeof ksAddXP==='function')ksAddXP(12);
     if(typeof ksMarkDone==='function')ksMarkDone('ks_b08');
     const b=document.getElementById('doneBtn');
-    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
     setTimeout(()=>window.location.href='cours.html',1200);
   }
   </script>
@@ -162,9 +162,9 @@ function showResult() {
   const res=document.getElementById('result');
   res.style.display='block';
   const pct=score/QUESTIONS.length;
-  if(pct>=0.8){document.getElementById('trophy').textContent='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>';document.getElementById('resultTitle').textContent='Excellent ! Maître de la grammaire !';}
-  else if(pct>=0.5){document.getElementById('trophy').textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';document.getElementById('resultTitle').textContent='Bien joué !';}
-  else{document.getElementById('trophy').textContent='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>';document.getElementById('resultTitle').textContent='Continue à pratiquer !';}
+  if(pct>=0.8){document.getElementById('trophy').innerHTML='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>';document.getElementById('resultTitle').innerHTML='Excellent ! Maître de la grammaire !';}
+  else if(pct>=0.5){document.getElementById('trophy').innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';document.getElementById('resultTitle').innerHTML='Bien joué !';}
+  else{document.getElementById('trophy').innerHTML='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>';document.getElementById('resultTitle').innerHTML='Continue à pratiquer !';}
   document.getElementById('resultMsg').textContent=`Score : ${score}/${QUESTIONS.length} bonnes réponses.`;
 }
 

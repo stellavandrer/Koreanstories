@@ -332,12 +332,12 @@ function answerQ(qi, chosen, btn) {
 
   const fbk = document.getElementById('fbk-' + qi);
   fbk.className = 'feedback show ' + (correct ? 'ok' : 'ko');
-  fbk.textContent = correct ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Exactement ! ' + (qi===0?'ㄱ ressemble bien à la forme de la gorge.':qi===1?'ㄴ imite la langue appuyée sur le palais.':'ㅁ est un carré = bouche fermée !') : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> C\'était : ' + q.correct;
+  fbk.innerHTML = correct ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Exactement ! ' + (qi===0?'ㄱ ressemble bien à la forme de la gorge.':qi===1?'ㄴ imite la langue appuyée sur le palais.':'ㅁ est un carré = bouche fermée !') : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> C\'était : ' + q.correct;
 
   if(answered.every(a => a)) {
     setTimeout(() => {
       document.getElementById('quiz-done').style.display = 'block';
-      document.getElementById('quiz-score-text').textContent = `Score : ${correctCount}/3 ${correctCount===3?'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>':correctCount>=2?'':''}`;
+      document.getElementById('quiz-score-text').innerHTML = `Score : ${correctCount}/3 ${correctCount===3?'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>':correctCount>=2?'':''}`;
       try { localStorage.setItem('ks_h05','done'); } catch(e) {}
       setTimeout(() => {
         document.getElementById('success-screen').classList.add('show');
