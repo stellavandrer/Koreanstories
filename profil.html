@@ -306,6 +306,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
 <div class="pcont">
 
+  <!-- Guest banner — shown only when no account -->
+  <div id="guestBanner" style="display:none;background:linear-gradient(135deg,rgba(201,169,110,.13),rgba(201,169,110,.05));border:1.5px solid rgba(201,169,110,.3);border-radius:16px;padding:18px 18px 16px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;flex-shrink:0;fill:none;stroke:#C9A96E;stroke-width:2;stroke-linecap:round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span style="font-size:13px;font-weight:700;color:#C9A96E">Mode invité</span>
+    </div>
+    <p style="font-size:12px;color:rgba(247,248,250,.55);margin:0 0 14px;line-height:1.6">Ta progression est sauvegardée uniquement sur cet appareil. Crée un compte pour ne jamais la perdre et y accéder partout.</p>
+    <div style="display:flex;gap:8px">
+      <a href="signup.html" style="flex:1;display:block;text-align:center;padding:10px 0;background:#C9A96E;color:#0a1220;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;transition:.2s">Créer un compte</a>
+      <a href="login.html" style="flex:1;display:block;text-align:center;padding:10px 0;background:none;border:1.5px solid rgba(255,255,255,.18);color:rgba(247,248,250,.7);border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:.2s">Se connecter</a>
+    </div>
+  </div>
+
   <div class="stats-grid">
     <div class="stat-card"><div class="stat-n" id="statXP">0</div><div class="stat-l">XP gagnés</div></div>
     <div class="stat-card"><div class="stat-n" id="statLecons">0</div><div class="stat-l">Leçons</div></div>
@@ -1051,7 +1064,11 @@ function init(){
   const g=parseInt(localStorage.getItem('ks_goal'))||10;setGoal(g);
   const p=getPD();
   /* Fallback: use name from ks_user (set at gate) if ks_profile has none */
-  if(!p.name){try{const u=JSON.parse(localStorage.getItem('ks_user')||'null');if(u&&u.name)p.name=u.name;}catch(e){}}
+  let _ksUser=null;try{_ksUser=JSON.parse(localStorage.getItem('ks_user')||'null');}catch(e){}
+  if(!p.name&&_ksUser&&_ksUser.name)p.name=_ksUser.name;
+  /* Show guest banner if no real account */
+  const isGuest=!_ksUser||_ksUser.guest===true||(!_ksUser.email&&!_ksUser.uid);
+  const gb=document.getElementById('guestBanner');if(gb)gb.style.display=isGuest?'block':'none';
   const dispName=p.name||'Apprenant';
   const nn=document.getElementById('heroNameEl');nn.childNodes[0].textContent=dispName+' ';
   if(p.bio)document.getElementById('heroBioEl').textContent=p.bio;
