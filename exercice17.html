@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Compréhension orale — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .podcast-player{background:linear-gradient(135deg,rgba(219,39,119,.1),rgba(219,39,119,.04));border:2px solid rgba(219,39,119,.2);border-radius:16px;padding:1.2rem;margin:.8rem 0;text-align:center}
+    .podcast-icon{font-size:2.5rem;margin-bottom:.4rem}
+    .podcast-title{font-weight:800;font-size:1rem;color:var(--tx);margin-bottom:.2rem}
+    .podcast-sub{font-size:.82rem;color:var(--tx-muted)}
+    .podcast-link{display:inline-block;margin-top:.7rem;padding:.5rem 1.2rem;background:#DB2777;color:#fff;border-radius:20px;font-size:.82rem;font-weight:700;text-decoration:none}
+    .transcript-box{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.6rem 0}
+    .transcript-label{font-size:.72rem;font-weight:700;color:#DB2777;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}
+    .transcript-text{font-size:.88rem;line-height:1.8;color:var(--tx)}
+    .transcript-text .kw{background:rgba(219,39,119,.12);color:#DB2777;border-radius:4px;padding:.05rem .2rem;font-weight:700}
+    .strategy-item{display:flex;gap:.7rem;padding:.5rem 0;border-bottom:1px solid var(--bd);font-size:.88rem;align-items:flex-start}
+    .strategy-item:last-child{border-bottom:none}
+    .strategy-num{min-width:1.6rem;height:1.6rem;background:#DB2777;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+    .progress-bar{height:6px;background:var(--bd);border-radius:3px;margin:.6rem 0}
+    .progress-fill{height:100%;background:#DB2777;border-radius:3px}
+    .score-box{background:var(--surf);border:2px solid #DB2777;border-radius:12px;padding:1rem;text-align:center;margin:1rem 0;display:none}
+    .score-num{font-size:2.2rem;font-weight:900;color:#DB2777}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Compréhension orale</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg> Écoute authentique — sans sous-titres</h2>
+  <span class="pill">B2 · 듣기</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Simule une écoute de podcast coréen réel — entraîne-toi à comprendre sans aide visuelle.</p>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Ressources audio recommandées</h3>
+  <div class="podcast-player">
+    <div class="podcast-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+    <div class="podcast-title">TTMIK (Talk To Me In Korean)</div>
+    <div class="podcast-sub">Niveau intermédiaire-avancé · Gratuit · Disponible sur YouTube & Podcast</div>
+    <a class="podcast-link" href="https://talktomeinkorean.com" target="_blank">Écouter TTMIK →</a>
+  </div>
+  <div class="podcast-player">
+    <div class="podcast-icon"></div>
+    <div class="podcast-title">KBS World Radio 한민족방송</div>
+    <div class="podcast-sub">Radio officielle · Actualités · Programmes culturels</div>
+    <a class="podcast-link" href="https://world.kbs.co.kr" target="_blank">KBS World →</a>
+  </div>
+
+  <h3> Stratégies d'écoute avancées B2</h3>
+  <div class="card">
+    <div class="strategy-item"><span class="strategy-num">1</span><div><strong>Écoute globale d'abord</strong> — Repère le thème général, le ton, le registre. Ne cherche pas à tout comprendre.</div></div>
+    <div class="strategy-item"><span class="strategy-num">2</span><div><strong>Mots-clés</strong> — Identifie 3-5 mots récurrents. Ce sont les sujets principaux.</div></div>
+    <div class="strategy-item"><span class="strategy-num">3</span><div><strong>Repères structurels</strong> — 첫째 (premièrement), 그래서 (donc), 반면에 (en revanche) → signalent la structure du discours.</div></div>
+    <div class="strategy-item"><span class="strategy-num">4</span><div><strong>Inférence contextuelle</strong> — Déduis le sens des mots inconnus par contexte (ton, exemples, co-texte).</div></div>
+    <div class="strategy-item"><span class="strategy-num">5</span><div><strong>2ème écoute ciblée</strong> — Concentre-toi sur ce que tu n'as pas compris la 1ère fois.</div></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Transcript simulé — Podcast éducatif</h3>
+  <p style="font-size:.85rem;color:var(--tx-muted);margin:.3rem 0">Lis ce transcript comme si tu venais de l'entendre. Les mots-clés sont surlignés.</p>
+  <div class="transcript-box">
+    <div class="transcript-label"> Extrait : Discussion sur le travail en Corée</div>
+    <div class="transcript-text">
+      안녕하세요, 오늘은 한국의 <span class="kw">워라밸</span>, 즉 <span class="kw">일과 생활의 균형</span>에 대해 이야기해 볼게요.<br><br>
+      최근 한국에서는 <span class="kw">주 52시간 근무제</span>가 도입되면서 직장인들의 삶에 많은 변화가 생겼어요. 예전에는 야근이 당연하게 여겨졌지만, 요즘은 <span class="kw">칼퇴근</span>, 즉 정시에 퇴근하는 것이 점점 더 일반화되고 있습니다.<br><br>
+      하지만 여전히 과제가 남아 있어요. 일부 회사에서는 <span class="kw">눈치</span> 문화, 즉 상사보다 먼저 퇴근하기 어려운 분위기가 남아 있거든요.<br><br>
+      여러분은 어떻게 생각하세요? 진정한 워라밸을 위해 무엇이 바뀌어야 할까요?
+    </div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Questions de compréhension</h3>
+  <div class="card mq" id="q1"><p style="font-weight:600">Quel est le sujet principal du podcast ?</p>
+    <div class="opt" onclick="a(this,'ko')">Le système éducatif coréen</div>
+    <div class="opt" onclick="a(this,'ok')">L'équilibre vie professionnelle / vie personnelle en Corée</div>
+    <div class="opt" onclick="a(this,'ko')">Les habitudes alimentaires coréennes</div>
+  </div>
+  <div class="card mq" id="q2"><p style="font-weight:600">칼퇴근 signifie ici :</p>
+    <div class="opt" onclick="a(this,'ko')">Faire des heures supplémentaires</div>
+    <div class="opt" onclick="a(this,'ok')">Partir exactement à l'heure du travail</div>
+    <div class="opt" onclick="a(this,'ko')">Travailler depuis chez soi</div>
+  </div>
+  <div class="card mq" id="q3"><p style="font-weight:600">Quel problème culturel persiste malgré la nouvelle loi ?</p>
+    <div class="opt" onclick="a(this,'ko')">Le manque de vacances</div>
+    <div class="opt" onclick="a(this,'ok')">La pression de rester au bureau tant que le supérieur est là (눈치 문화)</div>
+    <div class="opt" onclick="a(this,'ko')">L'impossibilité de télétravailler</div>
+  </div>
+  <div class="card mq" id="q4"><p style="font-weight:600">주 52시간 근무제 désigne :</p>
+    <div class="opt" onclick="a(this,'ko')">Une loi sur les congés payés</div>
+    <div class="opt" onclick="a(this,'ok')">La réglementation limitant le travail à 52h par semaine</div>
+    <div class="opt" onclick="a(this,'ko')">Un programme de formation professionnelle</div>
+  </div>
+
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Vocabulaire audio clé : <span class="ko">워라밸</span> (work-life balance) · <span class="ko">야근</span> (heures supplémentaires) · <span class="ko">칼퇴근</span> (partir pile à l'heure) · <span class="ko">눈치</span> (sens de la situation / pression sociale) · <span class="ko">균형</span> (équilibre)</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Exercice terminé — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_d10');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

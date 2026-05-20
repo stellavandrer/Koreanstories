@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Directions & Positions · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .hero-meta{display:flex;justify-content:center;gap:16px;margin-top:18px}
+    .hero-meta span{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(237,242,250,.45)}
+    .hero-meta svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .card-title svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+    .section-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:20px 0 10px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{background:var(--s3);color:var(--t2);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;text-align:left}
+    td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--t)}
+    .kr{font-size:20px;color:var(--gold);font-weight:700}
+    tr:hover td{background:var(--s2)}
+    .vocab-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+    .vocab-kr{font-size:22px;color:var(--gold);font-weight:700;min-width:80px}
+    .vocab-rom{font-size:12px;color:var(--t3);font-weight:600}
+    .vocab-fr{font-size:14px;color:var(--t);font-weight:500}
+    .example{background:var(--s2);border-left:3px solid var(--gold);padding:12px 16px;border-radius:0 10px 10px 0;margin:10px 0;font-size:13px}
+    .example .kr-ex{font-size:15px;color:var(--t);font-weight:600;margin-bottom:4px}
+    .example .rom-ex{font-size:11px;color:var(--t3);margin-bottom:2px}
+    .example .fr-ex{font-size:12px;color:var(--t2)}
+    .tip{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;color:var(--t)}
+    .tip strong{color:var(--gold)}
+    .tag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;margin:2px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .btn-row{display:flex;gap:12px;margin-top:20px;justify-content:center;flex-wrap:wrap}
+    .success-box{background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:24px;text-align:center;margin-top:20px}
+    .success-box .icon{font-size:48px;margin-bottom:10px}
+    .success-box h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--t);margin-bottom:6px}
+    .success-box p{font-size:13px;color:var(--t2)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .gram-box{background:var(--s2);border-radius:12px;padding:14px 16px;margin:10px 0}
+    .gram-box .particle{font-size:18px;color:var(--gold);font-weight:800;margin-bottom:6px}
+    .gram-box .def{font-size:12px;color:var(--t2);margin-bottom:6px}
+    .gram-box .ex{font-size:13px;color:var(--t)}
+    .dialogue-line{padding:10px 0;border-bottom:1px solid var(--bd)}
+    .dialogue-line:last-child{border-bottom:none}
+    .dialogue-speaker{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+    .dialogue-kr{font-size:15px;color:var(--t);font-weight:600;margin-bottom:2px}
+    .dialogue-rom{font-size:11px;color:var(--t3);margin-bottom:2px}
+    .dialogue-fr{font-size:12px;color:var(--t2);margin-bottom:3px}
+    .dialogue-note{font-size:11px;color:var(--t3);font-style:italic}
+    /* Quiz */
+    .quiz-progress{display:flex;gap:6px;margin-bottom:16px}
+    .quiz-dot{width:28px;height:6px;border-radius:3px;background:var(--bd2);transition:background .3s}
+    .quiz-dot.done{background:var(--gold)}
+    .quiz-q{font-size:15px;font-weight:700;color:var(--t);margin-bottom:14px;line-height:1.4}
+    .quiz-opts{display:flex;flex-direction:column;gap:8px}
+    .quiz-opt{background:var(--s2);border:1.5px solid var(--bd);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--t);font-weight:500;cursor:pointer;transition:all .2s;text-align:left}
+    .quiz-opt:hover{border-color:var(--gold);background:var(--goldbg)}
+    .quiz-opt.correct{border-color:var(--green);background:rgba(22,163,74,.08);color:var(--green)}
+    .quiz-opt.wrong{border-color:var(--red);background:rgba(220,38,38,.06);color:var(--red)}
+    .quiz-feedback{margin-top:10px;font-size:13px;font-weight:600;padding:8px 12px;border-radius:8px}
+    .quiz-feedback.ok{background:rgba(22,163,74,.1);color:var(--green)}
+    .quiz-feedback.ko{background:rgba(220,38,38,.08);color:var(--red)}
+    .quiz-next{margin-top:12px;padding:10px 20px;background:var(--gold);color:#fff;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:none;display:none}
+    .quiz-result{text-align:center;padding:16px;display:none}
+    .quiz-score{font-size:36px;font-weight:800;color:var(--gold);margin-bottom:6px}
+    .quiz-score-label{font-size:14px;color:var(--t2)}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+  <div class="xp-pill">+15 XP</div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">Leçon A1</div>
+  <h1 class="hero-title">Directions & Positions</h1>
+  <p class="hero-sub">Apprenez à vous orienter et à demander votre chemin en coréen.</p>
+  <div class="hero-meta">
+    <span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/><polyline points="6,3 6,6 8,8"/></svg> ~12 min</span>
+    <span><svg viewBox="0 0 12 12"><path d="M6 2l1.5 3 3.5.5-2.5 2.5.6 3.5L6 10l-3.1 1.5.6-3.5L1 5.5l3.5-.5z"/></svg> 6 sections</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- CARD 1 — Les 8 directions -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><line x1="8" y1="2" x2="8" y2="14"/><line x1="2" y1="8" x2="14" y2="8"/></svg>
+      Les 8 directions de base
+    </div>
+    <table>
+      <thead><tr><th>Coréen</th><th>Romanisation</th><th>Français</th><th>Exemple</th></tr></thead>
+      <tbody>
+        <tr><td class="kr">앞</td><td>ap</td><td>devant</td><td>앞에 가세요</td></tr>
+        <tr><td class="kr">뒤</td><td>dwi</td><td>derrière</td><td>뒤로 가세요</td></tr>
+        <tr><td class="kr">왼쪽</td><td>oenjjok</td><td>gauche</td><td>왼쪽으로 가세요</td></tr>
+        <tr><td class="kr">오른쪽</td><td>oreunjjok</td><td>droite</td><td>오른쪽으로 가세요</td></tr>
+        <tr><td class="kr">위</td><td>wi</td><td>haut / dessus</td><td>위에 있어요</td></tr>
+        <tr><td class="kr">아래</td><td>arae</td><td>bas / dessous</td><td>아래에 있어요</td></tr>
+        <tr><td class="kr">옆</td><td>yeop</td><td>côté</td><td>옆에 앉아요</td></tr>
+        <tr><td class="kr">근처</td><td>geuncheo</td><td>près de</td><td>여기 근처에요</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CARD 2 — Verbes de déplacement -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M3 8h10M8 4l5 4-5 4"/></svg>
+      Verbes de déplacement
+    </div>
+    <table>
+      <thead><tr><th>Coréen</th><th>Romanisation</th><th>Français</th></tr></thead>
+      <tbody>
+        <tr><td class="kr">가다</td><td>ga-da</td><td>aller</td></tr>
+        <tr><td class="kr">오다</td><td>o-da</td><td>venir</td></tr>
+        <tr><td class="kr">돌다</td><td>dol-da</td><td>tourner</td></tr>
+        <tr><td class="kr">건너다</td><td>geon-neo-da</td><td>traverser</td></tr>
+        <tr><td class="kr">지나다</td><td>ji-na-da</td><td>passer par</td></tr>
+        <tr><td class="kr">올라가다</td><td>ol-la-ga-da</td><td>monter</td></tr>
+        <tr><td class="kr">내려가다</td><td>nae-ryeo-ga-da</td><td>descendre</td></tr>
+        <tr><td class="kr">직진하다</td><td>jik-jin-ha-da</td><td>aller tout droit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CARD 3 — Expressions de trajet -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M2 12 L6 4 L10 9 L14 4"/></svg>
+      Expressions de trajet
+    </div>
+    <div class="example">
+      <div class="kr-ex">여기서 왼쪽으로 가세요</div>
+      <div class="rom-ex">yeogiseo oenjjogeuro gaseyo</div>
+      <div class="fr-ex">Tournez à gauche ici</div>
+    </div>
+    <div class="example">
+      <div class="kr-ex">지하철역이 어디예요?</div>
+      <div class="rom-ex">jihacheolyeogi eodiyeyo?</div>
+      <div class="fr-ex">Où est la station de métro ?</div>
+    </div>
+    <div class="example">
+      <div class="kr-ex">똑바로 가세요</div>
+      <div class="rom-ex">ttokbaro gaseyo</div>
+      <div class="fr-ex">Allez tout droit</div>
+    </div>
+    <div class="example">
+      <div class="kr-ex">앞에 편의점이 있어요</div>
+      <div class="rom-ex">ape pyeonuijeomi isseoyo</div>
+      <div class="fr-ex">Il y a une supérette devant</div>
+    </div>
+    <div class="example">
+      <div class="kr-ex">여기서 멀어요?</div>
+      <div class="rom-ex">yeogiseo meoreoyo?</div>
+      <div class="fr-ex">C'est loin d'ici ?</div>
+    </div>
+    <div class="example">
+      <div class="kr-ex">가깝네요!</div>
+      <div class="rom-ex">gakkapmneyo!</div>
+      <div class="fr-ex">C'est proche !</div>
+    </div>
+  </div>
+
+  <!-- CARD 4 — Particules de lieu -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><line x1="6" y1="2" x2="6" y2="14"/></svg>
+      Structure grammaticale : les particules de lieu
+    </div>
+    <div class="gram-box">
+      <div class="particle">에서 (eseo)</div>
+      <div class="def">depuis / à partir de</div>
+      <div class="ex">여기에서 가세요 → Allez depuis ici</div>
+    </div>
+    <div class="gram-box">
+      <div class="particle">으로 / 로 (euro / ro)</div>
+      <div class="def">vers / en direction de</div>
+      <div class="ex">왼쪽으로 가세요 → Allez vers la gauche</div>
+    </div>
+    <div class="gram-box">
+      <div class="particle">까지 (kkaji)</div>
+      <div class="def">jusqu'à</div>
+      <div class="ex">역까지 걸어가세요 → Marchez jusqu'à la station</div>
+    </div>
+    <div class="tip">
+      <strong>Astuce :</strong> 에서 indique le <em>point de départ</em>, 으로/로 indique la <em>direction</em>, et 까지 indique le <em>point d'arrivée</em>. Ces trois particules se combinent souvent dans une même phrase !
+    </div>
+  </div>
+
+  <!-- CARD 5 — Dialogue -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M2 3h12a1 1 0 011 1v6a1 1 0 01-1 1H9l-3 3v-3H3a1 1 0 01-1-1V4a1 1 0 011-1z"/></svg>
+      Dialogue : Trouver une boulangerie
+    </div>
+    <div class="tip" style="margin-bottom:14px">
+      <strong>Situation :</strong> Un touriste demande son chemin dans la rue de Séoul.
+    </div>
+    <div class="dialogue-line">
+      <div class="dialogue-speaker">A (touriste)</div>
+      <div class="dialogue-kr">실례합니다, 빵집이 어디예요?</div>
+      <div class="dialogue-rom">Sillyehamida, ppangjip-i eodiyeyo?</div>
+      <div class="dialogue-fr">Excusez-moi, où est la boulangerie ?</div>
+      <div class="dialogue-note">실례합니다 = formule de politesse pour interpeller quelqu'un · 빵집 = boulangerie · 어디예요 = où est ?</div>
+    </div>
+    <div class="dialogue-line">
+      <div class="dialogue-speaker">B (passant)</div>
+      <div class="dialogue-kr">저기서 오른쪽으로 가세요. 은행 옆에 있어요.</div>
+      <div class="dialogue-rom">Jeogiseo oreunjjogeuro gaseyo. Eunhaeng yeope isseoyo.</div>
+      <div class="dialogue-fr">Allez à droite là-bas. C'est à côté de la banque.</div>
+      <div class="dialogue-note">저기서 = depuis là-bas · 으로 = vers (direction) · 은행 = banque · 옆에 있어요 = il y a / c'est à côté</div>
+    </div>
+    <div class="dialogue-line">
+      <div class="dialogue-speaker">A (touriste)</div>
+      <div class="dialogue-kr">감사합니다! 멀어요?</div>
+      <div class="dialogue-rom">Gamsahamnida! Meoreoyo?</div>
+      <div class="dialogue-fr">Merci ! C'est loin ?</div>
+      <div class="dialogue-note">감사합니다 = merci (formel) · 멀어요 = c'est loin ?</div>
+    </div>
+    <div class="dialogue-line">
+      <div class="dialogue-speaker">B (passant)</div>
+      <div class="dialogue-kr">아니요, 가까워요. 5분이에요.</div>
+      <div class="dialogue-rom">Aniyo, gakkawoyo. O bun-ieyo.</div>
+      <div class="dialogue-fr">Non, c'est proche. C'est à 5 minutes.</div>
+      <div class="dialogue-note">아니요 = non · 가까워요 = c'est proche · 분 = minute · 이에요 = c'est</div>
+    </div>
+  </div>
+
+  <!-- CARD 6 — Mini quiz -->
+  <div class="card" id="quizCard">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v4M8 11v.5"/></svg>
+      Mini quiz — Directions
+    </div>
+    <div class="quiz-progress">
+      <div class="quiz-dot" id="qd0"></div>
+      <div class="quiz-dot" id="qd1"></div>
+      <div class="quiz-dot" id="qd2"></div>
+    </div>
+    <div id="quizArea"></div>
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-score" id="quizScore"></div>
+      <div class="quiz-score-label" id="quizScoreLabel"></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="completeLesson()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Leçon terminée</button>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    q: "Que signifie 오른쪽 ?",
+    opts: ["Droite", "Gauche", "Devant", "Derrière"],
+    correct: 0
+  },
+  {
+    q: "Comment dit-on 'aller tout droit' en coréen ?",
+    opts: ["직진하다", "돌다", "가다", "건너다"],
+    correct: 0
+  },
+  {
+    q: "Quelle particule utilise-t-on pour exprimer 'vers' (direction) ?",
+    opts: ["으로", "에서", "이/가", "을/를"],
+    correct: 0
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function renderQuestion() {
+  const q = questions[current];
+  const area = document.getElementById('quizArea');
+  area.innerHTML = `
+    <div class="quiz-q">${current + 1}. ${q.q}</div>
+    <div class="quiz-opts" id="opts">
+      ${q.opts.map((o, i) => `<button class="quiz-opt" onclick="answer(${i})">${o}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="fb" style="display:none"></div>
+    <button class="quiz-next" id="nextBtn" onclick="nextQ()">→ Question suivante</button>
+  `;
+  answered = false;
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('fb');
+  const nextBtn = document.getElementById('nextBtn');
+  opts[q.correct].classList.add('correct');
+  if (idx === q.correct) {
+    score++;
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct !';
+    fb.className = 'quiz-feedback ok';
+  } else {
+    opts[idx].classList.add('wrong');
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Incorrect. La bonne réponse est surlignée en vert.';
+    fb.className = 'quiz-feedback ko';
+  }
+  fb.style.display = 'block';
+  document.getElementById('qd' + current).classList.add('done');
+  nextBtn.style.display = 'inline-block';
+  if (current === questions.length - 1) nextBtn.textContent = '→ Voir le résultat';
+}
+
+function nextQ() {
+  current++;
+  if (current >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quizArea').style.display = 'none';
+  const res = document.getElementById('quizResult');
+  res.style.display = 'block';
+  document.getElementById('quizScore').textContent = score + '/' + questions.length;
+  const labels = ['Continuez à pratiquer !', 'Presque ! Révisez les particules.', 'Parfait ! Vous maîtrisez les directions.'];
+  document.getElementById('quizScoreLabel').textContent = labels[score] || 'Excellent travail !';
+}
+
+function completeLesson() {
+  try { localStorage.setItem('ks_a19', 'done'); } catch(e) {}
+  window.location.href = 'cours.html';
+}
+
+renderQuestion();
+</script>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

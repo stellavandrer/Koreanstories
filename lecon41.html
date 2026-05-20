@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <title>Korean Stories — Leçon A1 : 20 Verbes essentiels & Conjugaison</title>
+  <meta name="description" content="Apprends les 20 verbes coréens les plus utilisés et conjugue-les au présent, passé et futur."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit:hover{border-color:var(--gold);background:var(--goldp)}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1;transition:opacity .3s}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .gram-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .2s;flex-shrink:0}
+    .gram-btn:hover{border-color:var(--gold);color:var(--navy)}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s cubic-bezier(.4,0,.2,1);flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    /* Story */
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Verb table card */
+    .vtable{background:var(--navy);border-radius:24px;padding:20px;margin-bottom:20px}
+    .vtable-title{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .vrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+    .vrow:last-child{border-bottom:none}
+    .vkor{font-size:20px;color:white;font-weight:300;min-width:90px}
+    .vrom{font-size:12px;color:var(--gold);font-weight:700;min-width:80px}
+    .vmean{font-size:13px;color:rgba(247,248,250,.65)}
+    .vplay{background:rgba(255,255,255,.08);border:none;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .2s;margin-left:auto}
+    .vplay:hover{background:var(--gold)}
+    .vplay svg{width:11px;height:11px;fill:white;stroke:none}
+    /* Conjugation table */
+    .conj-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:20px}
+    .conj-head{background:var(--navy);padding:14px 18px;display:flex;align-items:center;gap:10px}
+    .conj-verb{font-size:22px;color:white;font-weight:300}
+    .conj-mean{font-size:13px;color:rgba(247,248,250,.6)}
+    .conj-rows{padding:0 18px}
+    .cr{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}
+    .cr:last-child{border-bottom:none}
+    .cr-lbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);min-width:60px}
+    .cr-kor{font-size:18px;color:var(--t);font-weight:400}
+    .cr-rom{font-size:11px;color:var(--gold);font-weight:600;margin-left:6px}
+    .cr-play{background:none;border:none;cursor:pointer;padding:2px;color:var(--gold);flex-shrink:0;margin-left:auto}
+    .cr-play svg{width:14px;height:14px;fill:var(--gold)}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(36px,10vw,54px);color:var(--t);line-height:1.2;font-weight:300;margin:0 0 8px;cursor:pointer;transition:transform .15s;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px}
+    .q-big:active{transform:scale(.95)}
+    .q-rom{font-size:13px;color:var(--gold);font-weight:600;margin-bottom:20px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s}
+    .next-btn:hover{opacity:.88}
+    /* Results */
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px;box-shadow:var(--sh)}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;transition:opacity .15s}
+    .res-prim:hover{opacity:.88}
+    .res-prim svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .2s;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+    /* dark */
+    [data-theme=dark] .q-prompt{color:var(--t)}
+    [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
+    [data-theme=dark] .conj-card{border-color:var(--bd)}
+    .gram-overlay{position:fixed;inset:0;background:rgba(15,27,45,.6);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+    .gram-overlay.open{display:flex}
+    .gram-modal{background:var(--surf);border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:78vh;overflow-y:auto;padding:24px 24px 32px;animation:slideUp .3s cubic-bezier(.4,0,.2,1)}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+    .gram-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .gram-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t)}
+    .gram-close{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);background:none;font-size:20px;color:var(--gray);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .gram-close:hover{border-color:var(--navy);color:var(--navy)}
+    .gram-rule{padding:12px 0;border-bottom:1px solid var(--bd)}
+    .gram-rule:last-of-type{border-bottom:none}
+    .gram-head{font-size:14px;font-weight:800;color:var(--gold);margin-bottom:6px}
+    .gram-exp{font-size:13px;color:var(--t2);line-height:1.6}
+    .gram-exp em{color:var(--t);font-style:normal;font-weight:700}
+    .gram-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+    .gram-table th{background:var(--s2);padding:8px;text-align:left;font-weight:700;color:var(--t2);border:1px solid var(--bd)}
+    .gram-table td{padding:8px;border:1px solid var(--bd);color:var(--t)}
+    .gram-table .kor{font-size:16px;font-weight:400}
+    .gram-tip{margin-top:14px;background:var(--goldp);border:1px solid rgba(201,169,110,.2);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--t);line-height:1.7}
+    [data-theme=dark] .gram-modal{background:#1a2f4a}
+    [data-theme=dark] .gram-title{color:var(--t)}
+    [data-theme=dark] .gram-exp{color:rgba(200,220,240,.6)}
+    [data-theme=dark] .gram-exp em{color:var(--t)}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+
+<!-- GRAMMAR MODAL -->
+<div id="gramOverlay" class="gram-overlay">
+  <div class="gram-modal">
+    <div class="gram-hd">
+      <span class="gram-title">Conjugaison coréenne — Les 3 temps</span>
+      <button class="gram-close" onclick="closeGram()">×</button>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">Présent — -아요 / -어요</div>
+      <div class="gram-exp">Terminaison : dernière voyelle de la racine = ㅏ/ㅗ → <em>-아요</em>, sinon → <em>-어요</em><br>Ex. 가다 → 가<em>아요</em> = <em>가요</em> · 먹다 → 먹<em>어요</em></div>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">Passé — -았어요 / -었어요</div>
+      <div class="gram-exp">Même règle vocale + 았/었 + 어요<br>Ex. 가다 → <em>갔어요</em> · 먹다 → <em>먹었어요</em> · 하다 → <em>했어요</em></div>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">Futur — -(으)ㄹ 거예요</div>
+      <div class="gram-exp">Racine + ㄹ/을 거예요. Si racine finit par voyelle → <em>-ㄹ 거예요</em>, sinon → <em>-을 거예요</em><br>Ex. 가다 → <em>갈 거예요</em> · 먹다 → <em>먹을 거예요</em></div>
+    </div>
+    <div class="gram-tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> <strong>하다 verbes</strong> (공부하다, 일하다…) : présent <em>해요</em>, passé <em>했어요</em>, futur <em>할 거예요</em> — toujours!</div>
+  </div>
+</div>
+
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpEl">0</span> XP
+    </a>
+  </div>
+</div>
+
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <button class="gram-btn" onclick="openGram()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Grammaire</button>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">안녕하세요 ! Les verbes coréens — maîtrise les 3 temps !</div></div>
+</div>
+
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span class="res-star" id="star1"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span class="res-star" id="star2"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span class="res-star" id="star3"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">Verbes A1 maîtrisés !</div>
+      <div class="res-subtitle">완료 — 잘 했어요 !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n" id="resXP">+18</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg" id="resMsg">Tu maîtrises les 20 verbes essentiels et les 3 temps. Tu peux maintenant parler du passé, présent et futur en coréen !</div>
+      <div class="res-btns" id="resBtns">
+        <button class="res-prim" id="nextLecBtn" onclick="window.location.href='lecon13.html'">
+          Leçon suivante — La négation <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>Recommencer</button>
+          <a href="cours.html" class="res-sec"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+
+function speak(text,btn){
+  try{
+    window.speechSynthesis.cancel();
+    document.querySelectorAll('.speak-btn.playing,.vplay.playing,.cr-play.playing').forEach(b=>b.classList.remove('playing'));
+    if(btn)btn.classList.add('playing');
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='ko-KR';u.rate=0.82;u.pitch=1;
+    if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}
+    window.speechSynthesis.speak(u);
+  }catch(e){if(btn)btn.classList.remove('playing');}
+}
+function openGram(){document.getElementById('gramOverlay').classList.add('open')}
+function closeGram(){document.getElementById('gramOverlay').classList.remove('open')}
+document.getElementById('gramOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeGram()});
+
+const STEPS=[
+  {type:'story',tag:'Leçon A1 · 20 Verbes essentiels',
+   txt:'"Ji-ho regarde le ciel et dit à Emma : 나는 매일 커피를 마셔요. (Je bois du café chaque jour.) Emma répond : 저는 오늘 도서관에서 공부할 거예요. (Aujourd\'hui je vais étudier à la bibliothèque.) Ji-ho : 어제 뭐 먹었어요? (Qu\'est-ce que tu as mangé hier?)"',
+   scene:'Café de Hongdae, Séoul — mardi matin',
+   mina:'Bienvenue ! Les verbes + les 3 temps = tu peux tout dire en coréen. On commence par les 10 verbes les plus utilisés, puis on conjugue — présent, passé, futur !'
+  },
+  {type:'vtable',
+   title:'Les 10 premiers verbes essentiels',
+   verbs:[
+     {kor:'가다',rom:'gada',mean:'aller'},
+     {kor:'오다',rom:'oda',mean:'venir'},
+     {kor:'먹다',rom:'meokda',mean:'manger'},
+     {kor:'마시다',rom:'masida',mean:'boire'},
+     {kor:'보다',rom:'boda',mean:'voir / regarder'},
+     {kor:'자다',rom:'jada',mean:'dormir'},
+     {kor:'살다',rom:'salda',mean:'vivre / habiter'},
+     {kor:'만나다',rom:'mannada',mean:'rencontrer'},
+     {kor:'공부하다',rom:'gongbu hada',mean:'étudier'},
+     {kor:'일하다',rom:'il hada',mean:'travailler'},
+   ]
+  },
+  {type:'conj',
+   verb:'먹다', mean:'manger',
+   rows:[
+     {lbl:'Présent',kor:'먹어요',rom:'meo-geo-yo',note:'ㅓ → -어요'},
+     {lbl:'Passé',  kor:'먹었어요',rom:'meo-geo-sseo-yo',note:'ㅓ → -었어요'},
+     {lbl:'Futur',  kor:'먹을 거예요',rom:'meo-geul geo-ye-yo',note:'-을 거예요 (consonne finale)'},
+     {lbl:'Négatif',kor:'안 먹어요',rom:'an meo-geo-yo',note:'안 + forme présente'},
+   ],
+   mina:'먹다 = manger. 먹어요 (je mange), 먹었어요 (j\'ai mangé), 먹을 거예요 (je vais manger). 3 temps, 3 formes — c\'est tout !'
+  },
+  {type:'conj',
+   verb:'가다', mean:'aller',
+   rows:[
+     {lbl:'Présent',kor:'가요',rom:'ga-yo',note:'가 + 아요 → 가요 (fusion)'},
+     {lbl:'Passé',  kor:'갔어요',rom:'ga-sseo-yo',note:'가 + 았 + 어요 → 갔어요'},
+     {lbl:'Futur',  kor:'갈 거예요',rom:'gal geo-ye-yo',note:'-ㄹ 거예요 (voyelle finale)'},
+     {lbl:'Négatif',kor:'안 가요',rom:'an ga-yo',note:'안 + 가요'},
+   ],
+   mina:'가다 = aller. La voyelle ㅏ + 아요 fusionne ! 가아요 → 가요. Le passé aussi : 가았어요 → 갔어요. C\'est normal !'
+  },
+  {type:'mcq',qn:1,
+   prompt:'Comment dit-on "Je mange" en coréen ?',
+   main:'먹다 → ?',
+   answer:'먹어요',choices:['먹어요','먹아요','먹이요','먹을게요'],
+   fb_ok:'먹어요 — parfait ! ㅓ (dernière voyelle de 먹) → on ajoute -어요.',
+   fb_ko:'먹어요. La voyelle ㅓ dans 먹 → on ajoute -어요. Pas -아요 (réservé à ㅏ/ㅗ).',
+   mina_ok:'완벽해요 ! 먹어요 = je mange (ou tu manges, il mange — pas de conjugaison selon le sujet) !',
+   mina_ko:'먹어요. Rappel : ㅏ/ㅗ → -아요 ; autres voyelles → -어요 !'
+  },
+  {type:'mcq',qn:2,
+   prompt:'Quel est le passé de "가다" (aller) ?',
+   main:'가다 → 과거',
+   answer:'갔어요',choices:['갔어요','가었어요','갈 거예요','가요'],
+   fb_ok:'갔어요 — excellent ! 가 + 았어요 se contracte en 갔어요.',
+   fb_ko:'갔어요. 가 + 았어요 → contraction → 갔어요. Les deux voyelles ㅏ fusionnent !',
+   mina_ok:'훌륭해요 ! 갔어요 = je suis allé(e). La contraction ㅏ+ㅏ → ㅏ est normale !',
+   mina_ko:'갔어요 = suis allé. 가 + 았어요 se contracte — en coréen les voyelles similaires fusionnent souvent !'
+  },
+  {type:'vtable2',
+   title:'10 verbes supplémentaires essentiels',
+   verbs:[
+     {kor:'말하다',rom:'malhada',mean:'parler / dire'},
+     {kor:'듣다',rom:'deutda',mean:'écouter'},
+     {kor:'읽다',rom:'ikda',mean:'lire'},
+     {kor:'쓰다',rom:'sseuda',mean:'écrire'},
+     {kor:'사다',rom:'sada',mean:'acheter'},
+     {kor:'팔다',rom:'palda',mean:'vendre'},
+     {kor:'주다',rom:'juda',mean:'donner'},
+     {kor:'받다',rom:'batda',mean:'recevoir'},
+     {kor:'알다',rom:'alda',mean:'savoir / connaître'},
+     {kor:'모르다',rom:'moreuda',mean:'ne pas savoir'},
+   ]
+  },
+  {type:'mcq',qn:3,
+   prompt:'Comment dit-on "J\'ai étudié hier" ?',
+   main:'공부하다 → 과거',
+   answer:'공부했어요',choices:['공부했어요','공부해요','공부할 거예요','공부하었어요'],
+   fb_ok:'공부했어요 — parfait ! 하다 verbes : passé → 했어요 (contraction de 하 + 았어요).',
+   fb_ko:'공부했어요. Tous les 하다 verbes → passé = 했어요. 하 + 았어요 → 했어요 (contraction).',
+   mina_ok:'완벽해요 ! 공부했어요. Tous les -하다 verbes suivent la même règle : 했어요 au passé !',
+   mina_ko:'공부했어요. Astuce : tous les verbes en -하다 → passé = -했어요, futur = -할 거예요 !'
+  },
+  {type:'mcq',qn:4,
+   prompt:'Comment dit-on "Je vais boire du café demain" ?',
+   main:'마시다 → 미래',
+   answer:'커피를 마실 거예요',choices:['커피를 마실 거예요','커피를 마셔요','커피를 마셨어요','커피를 마시어요'],
+   fb_ok:'커피를 마실 거예요 — excellent ! 마시다 (voyelle finale) → -ㄹ 거예요.',
+   fb_ko:'커피를 마실 거예요. Futur : racine finit par voyelle → -ㄹ 거예요 · consonne → -을 거예요.',
+   mina_ok:'훌륭해요 ! 마실 거예요 = je vais boire. 마시 + ㄹ 거예요 ← voyelle finale !',
+   mina_ko:'마실 거예요. La racine 마시 finit par voyelle → on ajoute -ㄹ 거예요 directement !'
+  },
+  {type:'mcq',qn:5,
+   prompt:'Que signifie "어제 뭐 먹었어요?" ?',
+   main:'어제 뭐 먹었어요?',
+   answer:"Qu'est-ce que tu as mangé hier ?",choices:["Qu'est-ce que tu as mangé hier ?",'Qu\'est-ce que tu manges aujourd\'hui ?','Qu\'est-ce que tu vas manger ?','Tu aimes quoi manger ?'],
+   fb_ok:'Parfait ! 어제 = hier · 뭐 = quoi · 먹었어요 = as mangé (passé). Une question naturelle !',
+   fb_ko:'어제 = hier · 뭐 = quoi · 먹었어요 = as mangé (passé de 먹다). = "Qu\'est-ce que tu as mangé hier ?"',
+   mina_ok:'완벽해요 ! Tu analyses une vraie phrase coréenne ! 어제(hier) 뭐(quoi) 먹었어요(as mangé) ?',
+   mina_ko:'어제 뭐 먹었어요 = qu\'est-ce que tu as mangé hier ? Mémorise cette phrase — elle est très naturelle !'
+  },
+  {type:'mcq',qn:6,
+   prompt:'Comment dit-on "Je lis un livre" en coréen ?',
+   main:'읽다 → 현재',
+   answer:'책을 읽어요',choices:['책을 읽어요','책이 읽어요','책을 읽아요','책에 읽어요'],
+   fb_ok:'책을 읽어요 — parfait ! 책 (livre) + 을 (particule objet) + 읽어요 (je lis). Structure SOV !',
+   fb_ko:'책을 읽어요. 책 = livre + 을 = particule objet + 읽어요 = je lis. Ordre Sujet-Objet-Verbe !',
+   mina_ok:'훌륭해요 ! 책을 읽어요. La particule 을 marque l\'objet (ce qu\'on lit, mange, voit…) !',
+   mina_ko:'책을 읽어요. N\'oublie pas la particule objet 을/를 avant le verbe !'
+  },
+];
+
+const TOTAL_Q=STEPS.filter(s=>s.type==='mcq').length;
+let cur=0,score=0,answered=false;
+
+function ksBeep(type){
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    if(type==='ok'){
+      [[523.25,0],[659.25,.08],[783.99,.16]].forEach(([f,d])=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;
+        const t=ctx.currentTime+d;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.14,t+.025);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.start(t);o.stop(t+.2);
+      });
+    }else{
+      const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sawtooth';o.frequency.setValueAtTime(220,ctx.currentTime);o.frequency.linearRampToValueAtTime(110,ctx.currentTime+.2);g.gain.setValueAtTime(.10,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.22);o.start(ctx.currentTime);o.stop(ctx.currentTime+.22);
+    }
+  }catch(e){}
+}
+function setMina(txt,img){document.getElementById('msay').textContent=txt;si('minaHdr',img||A.e);}
+function initDots(){
+  const el=document.getElementById('stepDots');if(!el)return;
+  const colors={story:'#C9A96E',vtable:'#2563EB',vtable2:'#2563EB',conj:'#7C3AED',mcq:'#F59E0B'};
+  el.innerHTML=STEPS.map((s,i)=>`<div class="sdot" id="dot${i}" style="background:${colors[s.type]||'#C9A96E'};opacity:.25"></div>`).join('');
+}
+function updateDots(){
+  STEPS.forEach((_,i)=>{
+    const d=document.getElementById('dot'+i);if(!d)return;
+    if(i<cur){d.style.opacity='1';d.classList.remove('current');d.classList.add('done');}
+    else if(i===cur){d.style.opacity='1';d.classList.add('current');d.classList.remove('done');}
+    else{d.style.opacity='.25';d.classList.remove('current','done');}
+  });
+}
+function updateProgress(){
+  const pct=Math.round((cur/STEPS.length)*100);
+  document.getElementById('pbar').style.width=pct+'%';
+}
+
+function renderVTable(step,id){
+  const rows=step.verbs.map(v=>`<div class="vrow"><span class="vkor" onclick="speak('${v.kor}')">${v.kor}</span><span class="vrom">${v.rom}</span><span class="vmean">${v.mean}</span><button class="vplay" onclick="speak('${v.kor}',this)"><svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');
+  return `<div class="vtable"><div class="vtable-title">${step.title||'Verbes'}</div>${rows}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;
+}
+function renderConj(step){
+  const rows=step.rows.map(r=>`<div class="cr"><span class="cr-lbl">${r.lbl}</span><div style="flex:1"><span class="cr-kor" onclick="speak('${r.kor}')">${r.kor}</span><span class="cr-rom">${r.rom}</span></div><button class="cr-play" onclick="speak('${r.kor}',this)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');
+  return `<div class="conj-card"><div class="conj-head"><span class="conj-verb" onclick="speak('${step.verb}')">${step.verb}</span><span class="conj-mean">— ${step.mean}</span></div><div class="conj-rows">${rows}</div></div><button class="next-btn" onclick="advance()">${cur<STEPS.length-1?'Continuer →':'Terminer !'}</button>`;
+}
+function renderStory(step){
+  return `<div class="story"><span class="story-tag">${step.tag}</span><p class="story-txt">${step.txt}</p><div class="story-scene">${step.scene}</div></div><button class="next-btn" onclick="advance()">Commencer la leçon →</button>`;
+}
+function renderMcq(step){
+  const chs=step.choices.map(c=>`<button class="ch" onclick="checkMcq(this,'${c.replace(/'/g,"\\'")}','${step.answer.replace(/'/g,"\\'")}','${(step.fb_ok||'').replace(/'/g,"\\'")}','${(step.fb_ko||'').replace(/'/g,"\\'")}','${(step.mina_ok||'').replace(/'/g,"\\'")}','${(step.mina_ko||'').replace(/'/g,"\\'")}',this.closest('.mcq'))">${c}</button>`).join('');
+  return `<div class="mcq"><span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span><p class="q-prompt">${step.prompt}</p><div class="q-big" onclick="speak('${step.main}')">${step.main}</div><div class="choices">${chs}</div><div class="fb-strip" id="fb" style="display:none"></div><button class="next-btn" id="nextQ" style="display:none" onclick="advance()">Continuer →</button></div>`;
+}
+function checkMcq(btn,chosen,answer,fok,fko,mok,mko,wrap){
+  if(answered)return;answered=true;
+  wrap.querySelectorAll('.ch').forEach(b=>b.disabled=true);
+  const ok=chosen===answer;
+  if(ok){score++;btn.classList.add('ok');ksBeep('ok');setMina(mok,A.b);}
+  else{btn.classList.add('ko');wrap.querySelectorAll('.ch').forEach(b=>{if(b.textContent===answer)b.classList.add('ok');});ksBeep('ko');setMina(mko,A.a);}
+  const fb=document.getElementById('fb');
+  fb.textContent=ok?fok:fko;fb.className='fb-strip '+(ok?'ok':'ko');fb.style.display='block';
+  document.getElementById('nextQ').style.display='block';
+}
+
+function renderStep(){
+  const s=STEPS[cur];const lc=document.getElementById('lc');
+  answered=false;
+  if(s.type==='story')lc.innerHTML=renderStory(s);
+  else if(s.type==='vtable'||s.type==='vtable2')lc.innerHTML=renderVTable(s,s.type);
+  else if(s.type==='conj')lc.innerHTML=renderConj(s);
+  else if(s.type==='mcq')lc.innerHTML=renderMcq(s);
+  setMina(s.mina||'',A.e);
+  lc.scrollIntoView({behavior:'smooth',block:'start'});
+  updateDots();updateProgress();
+}
+function advance(){
+  cur++;
+  if(cur>=STEPS.length){showResults();return;}
+  renderStep();
+}
+function showResults(){
+  document.getElementById('lc').style.display='none';
+  document.getElementById('results').style.display='block';
+  document.getElementById('resScore').textContent=score;
+  document.getElementById('resOf').textContent='/ '+TOTAL_Q+' bonnes rép.';
+  document.getElementById('resXP').textContent='+18';
+  
+  try{localStorage.setItem('ks_a22','done');}catch(e){}
+  document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;document.getElementById('lc').style.display='';document.getElementById('results').style.display='none';renderStep();};
+}
+
+initDots();renderStep();
+</script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TOPIK II — Section 1 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .progress-bar{height:6px;background:var(--bd);border-radius:3px;margin:.8rem 0}
+    .progress-fill{height:100%;background:#DB2777;border-radius:3px;transition:width .4s}
+    .q-num{font-size:.78rem;font-weight:700;color:#DB2777;margin-bottom:.3rem}
+    .mq .opt{padding:.6rem .9rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.88rem;background:var(--bg);display:flex;gap:.5rem;align-items:center}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .opt-letter{font-weight:800;color:#DB2777;min-width:1.2rem}
+    .topik-box{background:rgba(219,39,119,.04);border:1.5px solid rgba(219,39,119,.2);border-radius:12px;padding:.9rem;margin:.5rem 0}
+    .topik-text{font-size:.9rem;line-height:1.8;color:var(--tx)}
+    .score-box{background:linear-gradient(135deg,rgba(219,39,119,.1),rgba(219,39,119,.04));border:2px solid #DB2777;border-radius:16px;padding:1.5rem;text-align:center;margin:1rem 0;display:none}
+    .score-pct{font-size:3rem;font-weight:900;color:#DB2777}
+    .score-msg{font-size:.95rem;font-weight:700;margin:.5rem 0}
+    .score-sub{font-size:.82rem;color:var(--tx-muted)}
+    .topik-badge{font-size:.72rem;background:#DB2777;color:#fff;border-radius:6px;padding:.15rem .5rem;font-weight:700;display:inline-block;margin-bottom:.4rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Simulation TOPIK II — 1</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2> Simulation TOPIK II — Section 1</h2>
+  <span class="pill">B2 · TOPIK 5-6</span> <span class="xp-badge">+12 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Compréhension écrite style TOPIK II · 12 questions · Format officiel</p>
+
+  <div class="progress-bar"><div class="progress-fill" id="pf" style="width:0%"></div></div>
+  <div id="scoreBox" class="score-box"></div>
+
+  <!-- Q1 -->
+  <div class="card mq" id="q1">
+    <span class="topik-badge">TOPIK II 읽기</span>
+    <div class="q-num">Question 1 / 12</div>
+    <div class="topik-box">
+      <div class="topik-text">다음 빈칸에 가장 알맞은 것을 고르십시오.<br><br>
+      경제가 어려울수록 소비자들은 가격에 더욱 민감해진다. _____ 같은 품질이라면 더 저렴한 제품을 선택하는 경향이 높아진다.</div>
+    </div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">빈칸에 들어갈 가장 알맞은 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>그러나</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>따라서</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>반면에</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>왜냐하면</div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="card mq" id="q2">
+    <span class="topik-badge">TOPIK II 읽기</span>
+    <div class="q-num">Question 2 / 12</div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">다음 중 밑줄 친 부분과 바꿔 쓸 수 있는 것을 고르십시오.<br><span class="ko">그는 약속을 <u>어기지 않는 것으로 알려져</u> 있다.</span></p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>약속을 잘 지키는 것이 유명하다</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>약속을 잘 지킨다고 알려져 있다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>약속을 어길 것 같다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>약속을 어긴 것이 밝혀졌다</div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="card mq" id="q3">
+    <span class="topik-badge">TOPIK II 읽기</span>
+    <div class="q-num">Question 3 / 12</div>
+    <div class="topik-box">
+      <div class="topik-text">청소년들의 스마트폰 사용 시간이 하루 평균 5시간을 넘어섰다. 이로 인해 수면 부족, 학업 집중력 저하, 그리고 대인 관계 약화 등의 문제가 나타나고 있다. 전문가들은 부모의 적극적인 개입과 학교의 미디어 교육이 ( ) 한다고 강조한다.</div>
+    </div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">( )에 알맞은 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>감소해야</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>강화되어야</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>중단되어야</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>금지되어야</div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="card mq" id="q4">
+    <span class="topik-badge">TOPIK II 어휘</span>
+    <div class="q-num">Question 4 / 12</div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">다음 중 단어의 뜻이 바르게 연결된 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>열풍 — 차가운 바람</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">②</span>강화 — 약하게 하다</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">③</span>확산 — 퍼져 나가다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>감소 — 늘어나다</div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="card mq" id="q5">
+    <span class="topik-badge">TOPIK II 읽기</span>
+    <div class="q-num">Question 5 / 12</div>
+    <div class="topik-box">
+      <div class="topik-text">최근 들어 친환경 제품에 대한 관심이 높아지면서, 기업들도 이에 발맞춰 제품 생산 방식을 바꾸고 있다. 소비자들이 환경을 고려한 구매 결정을 내리는 비율이 높아짐에 따라, 친환경 인증을 받은 제품의 판매량이 크게 증가하고 있다.</div>
+    </div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">이 글의 주제로 가장 알맞은 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>환경 오염의 심각성</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">②</span>기업의 이윤 추구 전략</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">③</span>친환경 소비 트렌드와 기업의 대응</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>제품 인증 제도의 문제점</div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="card mq" id="q6">
+    <span class="topik-badge">TOPIK II 문법</span>
+    <div class="q-num">Question 6 / 12</div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">다음 중 문법적으로 틀린 것을 고르십시오.</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>비가 올 것 같아요</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">②</span>힘들 텐데 쉬세요</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">③</span>넘어진 뻔했어요 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>더 공부할걸 그랬어요</div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="card mq" id="q7">
+    <span class="topik-badge">TOPIK II 읽기</span>
+    <div class="q-num">Question 7 / 12</div>
+    <div class="topik-box">
+      <div class="topik-text">인공지능 기술이 빠르게 발전하면서, 일부 직업들이 자동화될 것이라는 우려가 커지고 있다. 그러나 전문가들은 새로운 기술이 새로운 직업을 만들어 낼 것이라고 주장하며, 중요한 것은 변화에 적응하는 능력이라고 강조한다.</div>
+    </div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">전문가들의 견해와 가장 일치하는 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>AI로 인해 모든 직업이 사라질 것이다</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>기술 변화에 적응하는 것이 핵심이다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>자동화는 경제에 부정적인 영향만 준다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>AI 기술 발전을 막아야 한다</div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="card mq" id="q8">
+    <span class="topik-badge">TOPIK II 어휘</span>
+    <div class="q-num">Question 8 / 12</div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">다음 중 <span class="ko">경신하다</span>의 의미로 맞는 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>새로 만들다</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>기록을 깨다 / 갱신하다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>조심하다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>줄이다</div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="card mq" id="q9">
+    <span class="topik-badge">TOPIK II 문법</span>
+    <div class="q-num">Question 9 / 12</div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0"><span class="ko">어디 가든 행복하세요</span> — -든 의 의미는?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>~할 때 (when)</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>~이든 상관없이 (regardless of)</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>~하기 때문에 (because)</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>~하지 말고 (instead of)</div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="card mq" id="q10">
+    <span class="topik-badge">TOPIK II 읽기</span>
+    <div class="q-num">Question 10 / 12</div>
+    <div class="topik-box">
+      <div class="topik-text">한국의 출산율이 세계 최저 수준으로 떨어지면서 인구 감소가 심각한 사회 문제로 대두되고 있다. 정부는 육아 지원, 보육 시설 확충, 출산 장려금 등 다양한 대책을 내놓고 있지만, 아직 뚜렷한 효과가 나타나지 않고 있다.</div>
+    </div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">이 글에서 알 수 있는 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>한국의 출산율이 세계 최고이다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">②</span>정부의 대책이 큰 성과를 거두고 있다</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">③</span>정부 대책에도 불구하고 출산율 개선이 어렵다</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>보육 시설이 이미 충분히 갖춰져 있다</div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="card mq" id="q11">
+    <span class="topik-badge">TOPIK II 문법</span>
+    <div class="q-num">Question 11 / 12</div>
+    <p style="font-size:.88rem;font-weight:600;margin:.5rem 0">다음 중 <span class="ko">-ㄹ 텐데</span>를 올바르게 사용한 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>어제 갈 텐데 안 갔어요</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>힘들 텐데 잘 하고 있네요</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>밥을 먹을 텐데 배고파요</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>학교에 갔을 텐데 집에 있어요</div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="card mq" id="q12">
+    <span class="topik-badge">TOPIK II 어휘</span>
+    <div class="q-num">Question 12 / 12</div>
+    <p style="font-size:.88sm;font-weight:600;margin:.5rem 0">다음 중 <span class="ko">논란</span>과 의미가 가장 비슷한 것은?</p>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">①</span>칭찬</div>
+    <div class="opt" onclick="ans(this,'ok')"><span class="opt-letter">②</span>논쟁 / 시비</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">③</span>성과</div>
+    <div class="opt" onclick="ans(this,'ko')"><span class="opt-letter">④</span>소문</div>
+  </div>
+
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> TOPIK II — Score requis : Niveau 5 = 190/300 · Niveau 6 = 230/300. La section 읽기 (lecture) demande une bonne maîtrise des connecteurs logiques.</div>
+
+  <button class="btn-done" id="doneBtn" onclick="showScore()">Voir mon score — +12 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+let correct=0,total=12,answered=0;
+function ans(btn,r){
+  const p=btn.closest('.mq');
+  if(p.querySelector('.ok,.ko'))return;
+  btn.classList.add(r);
+  if(r==='ok')correct++;
+  answered++;
+  document.getElementById('pf').style.width=(answered/total*100)+'%';
+}
+function showScore(){
+  if(typeof ksAddXP==='function')ksAddXP(12);
+  if(typeof ksMarkDone==='function')ksMarkDone('ks_d15');
+  const pct=Math.round(correct/total*100);
+  let msg='',sub='';
+  if(pct>=83){msg='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg> Excellent ! Niveau TOPIK 5 visé !';sub='Tu maîtrises bien la lecture TOPIK II !';}
+  else if(pct>=67){msg=' Bon score ! Continue comme ça';sub='Travaille les connecteurs pour progresser.';}
+  else{msg='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Continue d\'étudier !';sub='Revois les structures et vocabulaire B2.';}
+  const box=document.getElementById('scoreBox');
+  box.innerHTML=`<div class="score-pct">${pct}%</div><div class="score-msg">${msg}</div><div class="score-sub">${correct}/${total} correctes · ${sub}</div>`;
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth'});
+  const b=document.getElementById('doneBtn');
+  if(b){b.textContent='Score enregistré <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+  setTimeout(()=>window.location.href='cours.html',3000);
+}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

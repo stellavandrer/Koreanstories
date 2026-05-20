@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Korean Stories — Grammaire 문법</title>
+  <meta name="description" content="Toutes les règles de grammaire coréenne expliquées simplement, avec exemples en contexte et mémos visuels."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+    
+
+    /* ── HEADER ── */
+    .hdr{background:var(--navy);padding:56px 20px 0;position:relative;overflow:hidden}
+    .hdr::before{content:'문법';position:absolute;right:-20px;top:-10px;font-size:140px;color:rgba(201,169,110,.05);font-weight:700;line-height:1;pointer-events:none;font-family:'Playfair Display',serif}
+    .hdr-inner{max-width:680px;margin:0 auto}
+    .hdr-back{display:inline-flex;align-items:center;gap:6px;color:rgba(247,248,250,.45);font-size:12px;font-weight:600;text-decoration:none;margin-bottom:20px;transition:color .2s}
+    .hdr-back:hover{color:var(--gold)}
+    .hdr-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .hdr-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.3);border-radius:100px;padding:4px 12px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple)}
+    .hdr-title{font-family:'Playfair Display',serif;font-size:clamp(26px,6vw,36px);color:white;line-height:1.15;margin-bottom:8px}
+    .hdr-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.6;margin-bottom:24px}
+
+    /* Search bar */
+    .search-wrap{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:4px 4px 4px 18px;display:flex;align-items:center;gap:10px;margin-bottom:0;transition:border-color .2s;max-width:600px}
+    .search-wrap:focus-within{border-color:var(--gold)}
+    .search-wrap svg{width:16px;height:16px;stroke:rgba(247,248,250,.35);fill:none;stroke-width:2;flex-shrink:0}
+    .search-wrap input{flex:1;background:none;border:none;outline:none;font-family:'Inter',sans-serif;font-size:14px;color:white;padding:10px 0}
+    .search-wrap input::placeholder{color:rgba(247,248,250,.3)}
+    .search-clear{background:rgba(255,255,255,.1);border:none;color:rgba(247,248,250,.5);width:32px;height:32px;border-radius:10px;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+    .search-clear.show{display:flex}
+    .search-clear:hover{background:rgba(255,255,255,.2);color:white}
+
+    /* Filter chips row */
+    .chips-row{display:flex;gap:8px;overflow-x:auto;padding:20px 20px 0;max-width:720px;margin:0 auto;scrollbar-width:none}
+    .chips-row::-webkit-scrollbar{display:none}
+    .chip{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+    .chip:hover{border-color:var(--gold);color:var(--navy)}
+    .chip.active{background:var(--navy);border-color:var(--navy);color:white}
+    .chip .chip-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    [data-theme="dark"] .chip{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--gray)}
+    [data-theme="dark"] .chip:hover{border-color:var(--gold);color:var(--gold)}
+    [data-theme="dark"] .chip.active{background:var(--navy2);border-color:var(--gold)}
+
+    /* ── MAIN CONTENT ── */
+    .main{max-width:720px;margin:0 auto;padding:24px 20px}
+
+    /* Grammar card */
+    .gcard{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;margin-bottom:16px;overflow:hidden;transition:all .3s;cursor:pointer}
+    .gcard:hover{box-shadow:0 8px 32px rgba(15,27,45,.08);border-color:rgba(201,169,110,.4)}
+    [data-theme="dark"] .gcard{background:var(--surf);border-color:var(--bd)}
+    [data-theme="dark"] .gcard:hover{border-color:rgba(201,169,110,.4);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+
+    .gcard-head{padding:20px 22px;display:flex;align-items:center;gap:14px}
+    .gcard-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .gcard-info{flex:1;min-width:0}
+    .gcard-level{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:3px}
+    .gcard-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy);line-height:1.2}
+    [data-theme="dark"] .gcard-title{color:#dce8f0}
+    .gcard-formula{font-size:12px;color:var(--gray);margin-top:3px;font-style:italic}
+    .gcard-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .gcard-tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;white-space:nowrap}
+    .tag-a1{background:rgba(34,197,94,.1);color:#15803d;border:1px solid rgba(34,197,94,.25)}
+    .tag-a2{background:rgba(96,165,250,.1);color:#1d4ed8;border:1px solid rgba(96,165,250,.25)}
+    .tag-b1{background:rgba(167,139,250,.1);color:#6d28d9;border:1px solid rgba(167,139,250,.25)}
+    [data-theme="dark"] .tag-a1{background:rgba(34,197,94,.12);color:#4ade80;border-color:rgba(34,197,94,.2)}
+    [data-theme="dark"] .tag-a2{background:rgba(96,165,250,.12);color:#93c5fd;border-color:rgba(96,165,250,.2)}
+    [data-theme="dark"] .tag-b1{background:rgba(167,139,250,.12);color:#c4b5fd;border-color:rgba(167,139,250,.2)}
+    .gcard-chevron{width:22px;height:22px;border-radius:50%;background:var(--bd);display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0}
+    .gcard-chevron svg{width:12px;height:12px;stroke:var(--gray);fill:none;stroke-width:2.5;transition:transform .3s}
+    [data-theme="dark"] .gcard-chevron{background:rgba(255,255,255,.08)}
+    .gcard.open .gcard-chevron svg{transform:rotate(180deg)}
+    .gcard.open .gcard-chevron{background:var(--gold)}
+    .gcard.open .gcard-chevron svg{stroke:var(--navy)}
+
+    /* Expanded body */
+    .gcard-body{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+    .gcard.open .gcard-body{max-height:2000px}
+    .gcard-content{padding:0 22px 24px;border-top:1px solid var(--bd)}
+    [data-theme="dark"] .gcard-content{border-top-color:var(--bd)}
+
+    /* Rule explanation */
+    .rule-box{background:rgba(201,169,110,.06);border:1.5px solid rgba(201,169,110,.2);border-radius:14px;padding:16px 18px;margin:18px 0 14px}
+    .rule-box .rule-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .rule-box .rule-formula{font-size:15px;font-weight:600;color:var(--navy);line-height:1.6}
+    [data-theme="dark"] .rule-box .rule-formula{color:#dce8f0}
+    .rule-box .rule-formula em{color:var(--gold);font-style:normal;font-weight:700}
+    .rule-note{font-size:13px;color:var(--gray);line-height:1.7;margin-bottom:16px}
+    .rule-note strong{color:var(--navy);font-weight:600}
+    [data-theme="dark"] .rule-note strong{color:#dce8f0}
+
+    /* Examples */
+    .ex-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:10px}
+    .ex-list{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+    .ex{background:var(--white);border:1.5px solid var(--bd);border-radius:14px;padding:14px 16px;transition:all .2s;cursor:pointer;position:relative;overflow:hidden}
+    [data-theme="dark"] .ex{background:rgba(255,255,255,.04);border-color:var(--bd)}
+    .ex::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);border-radius:3px 0 0 3px}
+    .ex:hover{border-color:rgba(201,169,110,.5);background:rgba(201,169,110,.03)}
+    .ex-kr{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy);margin-bottom:3px;line-height:1.4}
+    [data-theme="dark"] .ex-kr{color:#dce8f0}
+    .ex-kr em{color:var(--gold);font-style:normal;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
+    .ex-rom{font-size:11px;color:var(--gray);margin-bottom:4px;letter-spacing:.03em}
+    .ex-fr{font-size:13px;color:var(--gray);font-style:italic}
+    .ex-audio{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(201,169,110,.1);border:1.5px solid rgba(201,169,110,.25);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;opacity:0;pointer-events:none}
+    .ex:hover .ex-audio{opacity:1;pointer-events:auto}
+    .ex-audio:hover{background:var(--gold);border-color:var(--gold)}
+    .ex-audio svg{width:12px;height:12px;fill:var(--gold)}
+    .ex-audio:hover svg{fill:var(--navy)}
+
+    /* Memo / tip box */
+    .memo{display:flex;gap:12px;background:rgba(96,165,250,.07);border:1.5px solid rgba(96,165,250,.2);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+    .memo-icon{font-size:20px;flex-shrink:0;line-height:1.2}
+    .memo-txt{font-size:13px;color:var(--navy);line-height:1.7}
+    [data-theme="dark"] .memo-txt{color:#dce8f0}
+    .memo-txt strong{color:#3b82f6;font-weight:600}
+
+    /* Common mistake */
+    .mistake{display:flex;gap:12px;background:rgba(239,68,68,.06);border:1.5px solid rgba(239,68,68,.2);border-radius:14px;padding:14px 16px;margin-bottom:14px}
+    .mistake-icon{font-size:20px;flex-shrink:0;line-height:1.2}
+    .mistake-txt{font-size:13px;color:var(--navy);line-height:1.7}
+    [data-theme="dark"] .mistake-txt{color:#dce8f0}
+    .mistake-txt strong{color:#ef4444;font-weight:600}
+
+    /* Conjugation table */
+    .conj-table{width:100%;border-collapse:collapse;margin-bottom:16px;overflow:hidden;border-radius:12px;border:1.5px solid var(--bd)}
+    [data-theme="dark"] .conj-table{border-color:var(--bd)}
+    .conj-table th{background:var(--navy);color:rgba(247,248,250,.7);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;text-align:left}
+    .conj-table td{padding:10px 14px;border-bottom:1px solid var(--bd);font-size:13px}
+    [data-theme="dark"] .conj-table td{border-bottom-color:var(--bd)}
+    .conj-table tr:last-child td{border-bottom:none}
+    .conj-table .kr-cell{font-family:'Playfair Display',serif;font-size:15px;color:var(--navy);font-weight:600}
+    [data-theme="dark"] .conj-table .kr-cell{color:#dce8f0}
+    .conj-table .fr-cell{color:var(--gray)}
+    .conj-table .highlight td{background:rgba(201,169,110,.06)}
+    .conj-table .hl-kr{color:var(--gold)!important}
+
+    /* Practice mini-quiz */
+    .quiz-box{background:var(--navy);border-radius:16px;padding:18px 20px;margin-top:6px}
+    .quiz-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,248,250,.4);margin-bottom:12px}
+    .quiz-q{font-size:15px;color:white;margin-bottom:16px;line-height:1.55}
+    .quiz-q em{color:var(--gold);font-style:normal;font-family:'Playfair Display',serif;font-size:17px}
+    .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .quiz-opt{padding:11px 14px;border-radius:12px;border:1.5px solid rgba(247,248,250,.1);background:rgba(255,255,255,.04);color:rgba(247,248,250,.75);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .18s;text-align:left}
+    .quiz-opt:hover:not(:disabled){border-color:rgba(201,169,110,.5);background:rgba(201,169,110,.07);color:white}
+    .quiz-opt.ok{border-color:#22c55e!important;background:rgba(34,197,94,.1)!important;color:#4ade80!important}
+    .quiz-opt.ko{border-color:#ef4444!important;background:rgba(239,68,68,.1)!important;color:#f87171!important}
+    .quiz-opt:disabled{cursor:default}
+    .quiz-fb{margin-top:12px;font-size:13px;color:rgba(247,248,250,.55);min-height:20px;transition:all .3s}
+    .quiz-fb.ok{color:#4ade80;font-weight:600}
+    .quiz-fb.ko{color:#f87171}
+    .quiz-retry{display:none;margin-top:12px;background:rgba(201,169,110,.15);border:1.5px solid rgba(201,169,110,.3);border-radius:100px;padding:8px 20px;color:var(--gold);font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+    .quiz-retry:hover{background:rgba(201,169,110,.25)}
+
+    /* No results */
+    .no-results{text-align:center;padding:60px 20px;display:none}
+    .no-results p{font-size:15px;color:var(--gray);margin-top:12px}
+
+    /* Progress counter */
+    .progress-bar-wrap{background:var(--navy);padding:14px 20px;position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px}
+    .pb-label{font-size:11px;font-weight:600;color:rgba(247,248,250,.4);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+    .pb-track{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
+    .pb-fill{height:100%;background:linear-gradient(90deg,var(--gold),#FFD800);border-radius:4px;transition:width .5s ease}
+    .pb-count{font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap}
+
+    /* Section divider */
+    .sec-divider{display:flex;align-items:center;gap:12px;margin:24px 0 16px}
+    .sec-divider span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);white-space:nowrap}
+    .sec-divider::before,.sec-divider::after{content:'';flex:1;height:1px;background:var(--bd)}
+
+    /* Mastered badge */
+    .mastered-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:700;color:#15803d;margin-left:8px;vertical-align:middle}
+    [data-theme="dark"] .mastered-badge{background:rgba(34,197,94,.12);color:#4ade80;border-color:rgba(34,197,94,.2)}
+
+    /* Bottom nav */
+    
+    
+    
+    
+    .bni.act svg{stroke:var(--navy);transform:scale(1.1)}
+    
+    .bni:hover svg{transform:scale(1.1)}
+    
+
+    @media(max-width:480px){
+      .gcard-head{padding:16px 16px}
+      .gcard-content{padding:0 16px 20px}
+      .quiz-opts{grid-template-columns:1fr}
+    }
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+
+<div class="shell">
+<!-- ══ SIDEBAR desktop ══════════════════════════ -->
+<aside class="side">
+  <div class="side-head">
+    <div class="side-logo">Korean <em>Stories</em></div>
+    <div class="side-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpSide">0</span> XP
+    </div>
+  </div>
+  <nav class="side-nav">
+    <a href="app.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+    <a href="cours.html" class="sn on"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+    <a href="lecture.html" class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+    <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Classement</a>
+    <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+    <a href="ressources.html" class="sn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+  </nav>
+  <div class="side-theme">
+    <span class="side-theme-lbl">Mode sombre</span>
+    <button class="theme-pill" onclick="toggleTheme()" aria-label="Basculer le thème"></button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ════════════════════════════════════ -->
+<div class="main">
+
+<!-- ══ TOPBAR ═══════════════════════════════════ -->
+  <div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="page-enter">
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-inner">
+    <a href="app.html" class="hdr-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Retour
+    </a>
+    <div class="hdr-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>Grammaire · 문법</div>
+    <h1 class="hdr-title">Les règles qui<br/>font <em style="font-style:italic;color:var(--gold)">tout cliquer</em></h1>
+    <p class="hdr-sub">Pas de jargon. Chaque règle expliquée en une scène, avec exemples en contexte et mini-quiz. Comprendre, pas mémoriser.</p>
+    <div class="search-wrap" style="margin-bottom:28px">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Rechercher une règle... (은/는, -아/어요, passé...)" autocomplete="off" autocorrect="off" spellcheck="false"/>
+      <button class="search-clear" id="searchClear" aria-label="Effacer">×</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS STICKY BAR -->
+<div class="progress-bar-wrap" id="progressBar">
+  <span class="pb-label">Maîtrisées</span>
+  <div class="pb-track"><div class="pb-fill" id="pbFill" style="width:0%"></div></div>
+  <span class="pb-count" id="pbCount">0 / 12</span>
+</div>
+
+<!-- FILTER CHIPS -->
+<div class="chips-row" id="chipsRow">
+  <div class="chip active" data-cat="all" onclick="filterCards('all',this)">
+    <span class="chip-dot" style="background:var(--navy)"></span>Tout voir
+  </div>
+  <div class="chip" data-cat="A1" onclick="filterCards('A1',this)">
+    <span class="chip-dot" style="background:#22c55e"></span>A1 Débutant
+  </div>
+  <div class="chip" data-cat="A2" onclick="filterCards('A2',this)">
+    <span class="chip-dot" style="background:#60a5fa"></span>A2 Élémentaire
+  </div>
+  <div class="chip" data-cat="B1" onclick="filterCards('B1',this)">
+    <span class="chip-dot" style="background:#a78bfa"></span>B1 Intermédiaire
+  </div>
+  <div class="chip" data-cat="particule" onclick="filterCards('particule',this)">
+    <span class="chip-dot" style="background:#60a5fa"></span>Particules
+  </div>
+  <div class="chip" data-cat="verbe" onclick="filterCards('verbe',this)">
+    <span class="chip-dot" style="background:#22c55e"></span>Verbes
+  </div>
+  <div class="chip" data-cat="phrase" onclick="filterCards('phrase',this)">
+    <span class="chip-dot" style="background:#f59e0b"></span>Structures
+  </div>
+  <div class="chip" data-cat="negation" onclick="filterCards('negation',this)">
+    <span class="chip-dot" style="background:#ef4444"></span>Négation
+  </div>
+</div>
+
+<!-- MAIN -->
+
+
+  <div class="no-results" id="noResults">
+    <div><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--gray)" stroke-width="1.5" stroke-linecap="round" style="margin:0 auto 12px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+    <p>Aucune règle trouvée pour "<span id="noResultsTerm"></span>"</p>
+  </div>
+
+  <!-- ── SECTION A1 ── -->
+  <div class="sec-divider" data-section="A1"><span>A1 — Fondations</span></div>
+
+  <!-- 1. 은/는 -->
+  <div class="gcard" data-cat="particule A1" data-keywords="은 는 sujet thème topic marker particule" data-id="g01">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(34,197,94,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Particule de thème</div>
+        <div class="gcard-title">은 / 는 — Le marqueur de thème<span class="mastered-badge" id="m-g01" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Nom + 은 (consonne finale) · Nom + 는 (voyelle finale)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a1">A1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula"><em>Nom</em> + 은/는 → « Le/La [nom], c'est... »</div>
+        </div>
+        <p class="rule-note">
+          은/는 marque le <strong>thème de la phrase</strong> — ce dont on parle. Si le mot finit par une consonne (받침), on utilise <strong>은</strong>. S'il finit par une voyelle, on utilise <strong>는</strong>.
+        </p>
+        <div class="ex-label">Exemples en contexte</div>
+        <div class="ex-list">
+          <div class="ex" onclick="speakKorean(this,'저는 학생이에요')">
+            <div class="ex-kr"><em>저는</em> 학생이에요.</div>
+            <div class="ex-rom">Jeo-neun hak-saeng-i-e-yo.</div>
+            <div class="ex-fr">Moi, je suis étudiant(e). <em>(저 = voyelle <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> → 는)</em></div>
+            <div class="ex-audio"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="ex" onclick="speakKorean(this,'한국은 아름다워요')">
+            <div class="ex-kr"><em>한국은</em> 아름다워요.</div>
+            <div class="ex-rom">Han-guk-eun a-reum-da-wo-yo.</div>
+            <div class="ex-fr">La Corée, c'est beau. <em>(한국 = 국 consonne <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> → 은)</em></div>
+            <div class="ex-audio"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+          <div class="ex" onclick="speakKorean(this,'커피는 맛있어요')">
+            <div class="ex-kr"><em>커피는</em> 맛있어요.</div>
+            <div class="ex-rom">Keo-pi-neun mas-it-eo-yo.</div>
+            <div class="ex-fr">Le café, c'est délicieux. <em>(커피 = voyelle <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> → 는)</em></div>
+            <div class="ex-audio"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+        </div>
+        <div class="memo">
+          <span class="memo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></span>
+          <div class="memo-txt">Astuce : imagine 은/는 comme « En ce qui concerne... ». « <strong>En ce qui concerne moi</strong> (저는), je suis étudiant. » Ça t'aide à ne pas le confondre avec le sujet 이/가.</div>
+        </div>
+        <div class="mistake">
+          <span class="mistake-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17" r=".5" fill="#f59e0b"/></svg></span>
+          <div class="mistake-txt">Erreur fréquente : confondre 은/는 (thème) avec 이/가 (sujet). En coréen, les deux existent ! 은/는 = de quoi on parle en général. 이/가 = qui fait l'action précise. <strong>저는 학생이에요</strong> (je suis étudiant en général) vs <strong>제가 했어요</strong> (c'est moi qui l'ai fait).</div>
+        </div>
+        <div class="quiz-box" id="quiz-g01">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz — Teste-toi !</div>
+          <div class="quiz-q">Comment dit-on <em>« Le café, c'est chaud. »</em> en coréen ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px">커피 (café) • 뜨거워요 (c'est chaud)</small></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g01','g01')">커피가 뜨거워요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g01','g01')">커피는 뜨거워요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g01','g01')">커피를 뜨거워요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g01','g01')">커피도 뜨거워요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g01"></div>
+          <button class="quiz-retry" id="retry-quiz-g01" onclick="resetQuiz('quiz-g01')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 이/가 -->
+  <div class="gcard" data-cat="particule A1" data-keywords="이 가 sujet subject marker" data-id="g02">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(34,197,94,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Particule de sujet</div>
+        <div class="gcard-title">이 / 가 — Le marqueur de sujet<span class="mastered-badge" id="m-g02" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Nom + 이 (consonne finale) · Nom + 가 (voyelle finale)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a1">A1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula"><em>Nom</em> + 이/가 → marque qui fait l'action (sujet précis)</div>
+        </div>
+        <p class="rule-note">이/가 désigne le <strong>sujet grammatical précis</strong> d'une action. Contrairement à 은/는, il met en évidence QUI fait quelque chose dans un contexte particulier.</p>
+        <div class="ex-label">Exemples en contexte</div>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr"><em>비가</em> 와요.</div>
+            <div class="ex-rom">Bi-ga wa-yo.</div>
+            <div class="ex-fr">Il pleut. (lit. La pluie tombe.) <em>(비 = voyelle → 가)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr"><em>고양이가</em> 자요.</div>
+            <div class="ex-rom">Go-yang-i-ga ja-yo.</div>
+            <div class="ex-fr">Le chat dort. <em>(고양이 = voyelle → 가)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr"><em>제가</em> 했어요.</div>
+            <div class="ex-rom">Je-ga haess-eo-yo.</div>
+            <div class="ex-fr">C'est moi qui l'ai fait. <em>(제 = voyelle → 가)</em></div>
+          </div>
+        </div>
+        <div class="memo">
+          <span class="memo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></span>
+          <div class="memo-txt">Le truc de Joon : 이/가 sert souvent quand on <strong>identifie quelqu'un/quelque chose pour la première fois</strong> dans la conversation, ou quand on veut souligner QUI fait l'action.</div>
+        </div>
+        <div class="quiz-box" id="quiz-g02">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz — Teste-toi !</div>
+          <div class="quiz-q">Laquelle de ces phrases signifie <em>« C'est Mina qui a appelé. »</em> ?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g02','g02')">미나가 전화했어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g02','g02')">미나는 전화했어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g02','g02')">미나를 전화했어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g02','g02')">미나도 전화했어요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g02"></div>
+          <button class="quiz-retry" id="retry-quiz-g02" onclick="resetQuiz('quiz-g02')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. -아/어요 présent poli -->
+  <div class="gcard" data-cat="verbe A1" data-keywords="아요 어요 présent poli verbe conjugaison" data-id="g03">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(34,197,94,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Conjugaison — Présent poli</div>
+        <div class="gcard-title">-아요 / -어요 — Le présent poli<span class="mastered-badge" id="m-g03" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Radical + 아요 (ㅏ/ㅗ) · Radical + 어요 (autres)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a1">A1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Règle d'harmonie vocalique</div>
+          <div class="rule-formula">Radical voyelle <em>ㅏ ou ㅗ</em> → <em>아요</em><br/>Radical voyelle <em>autre</em> → <em>어요</em></div>
+        </div>
+        <p class="rule-note">C'est la forme de politesse neutre — tu peux l'utiliser avec tout le monde sauf dans un contexte très formel. Elle exprime aussi bien le présent, le futur proche que l'habituel.</p>
+        <div class="ex-label">Tableau de conjugaison</div>
+        <table class="conj-table">
+          <thead><tr><th>Infinitif</th><th>Radical</th><th>Voyelle</th><th>Forme polie</th><th>Sens</th></tr></thead>
+          <tbody>
+            <tr class="highlight"><td class="kr-cell">가다</td><td class="kr-cell">가</td><td>ㅏ</td><td class="kr-cell hl-kr">가요</td><td class="fr-cell">aller</td></tr>
+            <tr><td class="kr-cell">오다</td><td class="kr-cell">오</td><td>ㅗ</td><td class="kr-cell hl-kr">와요</td><td class="fr-cell">venir</td></tr>
+            <tr><td class="kr-cell">먹다</td><td class="kr-cell">먹</td><td>ㅓ</td><td class="kr-cell hl-kr">먹어요</td><td class="fr-cell">manger</td></tr>
+            <tr><td class="kr-cell">마시다</td><td class="kr-cell">마시</td><td>ㅣ</td><td class="kr-cell hl-kr">마셔요</td><td class="fr-cell">boire</td></tr>
+            <tr class="highlight"><td class="kr-cell">하다</td><td class="kr-cell">하</td><td>—</td><td class="kr-cell hl-kr">해요</td><td class="fr-cell">faire (irrégulier)</td></tr>
+          </tbody>
+        </table>
+        <div class="ex-label">Exemples en contexte</div>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">저는 커피를 <em>마셔요</em>.</div>
+            <div class="ex-rom">Jeo-neun keo-pi-reul ma-syeo-yo.</div>
+            <div class="ex-fr">Je bois du café.</div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">매일 학교에 <em>가요</em>.</div>
+            <div class="ex-rom">Mae-il hak-gyo-e ga-yo.</div>
+            <div class="ex-fr">Je vais à l'école tous les jours.</div>
+          </div>
+        </div>
+        <div class="mistake">
+          <span class="mistake-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><circle cx="12" cy="17" r=".5" fill="#f59e0b"/></svg></span>
+          <div class="mistake-txt">하다 est irrégulier : 하 + 여요 → contracte en <strong>해요</strong> (pas 하여요 dans la conversation). Les verbes en -하다 deviennent tous en -해요.</div>
+        </div>
+        <div class="quiz-box" id="quiz-g03">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz — Teste-toi !</div>
+          <div class="quiz-q">Comment conjugue-t-on <em>읽다</em> (lire) au présent poli ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px">읽 → voyelle ㅣ → ?</small></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g03','g03')">읽아요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g03','g03')">읽어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g03','g03')">읽해요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g03','g03')">읽요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g03"></div>
+          <button class="quiz-retry" id="retry-quiz-g03" onclick="resetQuiz('quiz-g03')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 이에요/예요 -->
+  <div class="gcard" data-cat="phrase A1" data-keywords="이에요 예요 être nom copule" data-id="g04">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(255,224,102,.15)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Structure nominale</div>
+        <div class="gcard-title">이에요 / 예요 — « C'est/Je suis »<span class="mastered-badge" id="m-g04" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Nom + 이에요 (consonne) · Nom + 예요 (voyelle)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a1">A1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Équivalent de « être » avec un nom</div>
+          <div class="rule-formula"><em>Nom (consonne)</em> + 이에요 → « C'est [nom] »<br/><em>Nom (voyelle)</em> + 예요 → « C'est [nom] »</div>
+        </div>
+        <p class="rule-note">Contrairement au français, le coréen n'a pas de verbe « être » générique. Pour identifier quelqu'un ou quelque chose, on utilise 이에요/예요 après un nom.</p>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">저는 학생<em>이에요</em>.</div>
+            <div class="ex-rom">Jeo-neun hak-saeng-i-e-yo.</div>
+            <div class="ex-fr">Je suis étudiant(e). <em>(학생 finit par ㅇ → 이에요)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">이것은 커피<em>예요</em>.</div>
+            <div class="ex-rom">I-geo-seun keo-pi-ye-yo.</div>
+            <div class="ex-fr">Ça, c'est du café. <em>(커피 finit par 이 voyelle → 예요)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">제 이름은 미나<em>예요</em>.</div>
+            <div class="ex-rom">Je i-reum-eun Mi-na-ye-yo.</div>
+            <div class="ex-fr">Je m'appelle Mina.</div>
+          </div>
+        </div>
+        <div class="quiz-box" id="quiz-g04">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz — Teste-toi !</div>
+          <div class="quiz-q">Comment dit-on <em>« Je suis médecin. »</em> ? (의사 = médecin, finit par ㅏ)</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g04','g04')">저는 의사이에요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g04','g04')">저는 의사예요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g04','g04')">저는 의사에요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g04','g04')">저는 의사해요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g04"></div>
+          <button class="quiz-retry" id="retry-quiz-g04" onclick="resetQuiz('quiz-g04')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 을/를 objet -->
+  <div class="gcard" data-cat="particule A1" data-keywords="을 를 objet complément object marker" data-id="g05">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(34,197,94,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Particule d'objet</div>
+        <div class="gcard-title">을 / 를 — Le marqueur d'objet direct<span class="mastered-badge" id="m-g05" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Nom + 을 (consonne finale) · Nom + 를 (voyelle finale)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a1">A1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula"><em>Nom</em> + 을/를 → marque l'objet direct (ce qu'on mange/voit/aime...)</div>
+        </div>
+        <p class="rule-note">을/를 marque ce sur quoi porte l'action. C'est l'équivalent du complément d'objet direct en français — sauf qu'en coréen, c'est toujours après le nom, jamais avant.</p>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">저는 커피<em>를</em> 마셔요.</div>
+            <div class="ex-rom">Jeo-neun keo-pi-reul ma-syeo-yo.</div>
+            <div class="ex-fr">Je bois du café. <em>(커피 voyelle → 를)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">책<em>을</em> 읽어요.</div>
+            <div class="ex-rom">Chaeg-eul ilg-eo-yo.</div>
+            <div class="ex-fr">Je lis un livre. <em>(책 consonne ㄱ → 을)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">음악<em>을</em> 들어요.</div>
+            <div class="ex-rom">Eum-ag-eul deul-eo-yo.</div>
+            <div class="ex-fr">J'écoute de la musique.</div>
+          </div>
+        </div>
+        <div class="quiz-box" id="quiz-g05">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Choisis la bonne particule pour <em>« Je mange du riz. »</em> (밥 = riz, finit par ㅂ)</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g05','g05')">밥를 먹어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g05','g05')">밥을 먹어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g05','g05')">밥은 먹어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g05','g05')">밥이 먹어요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g05"></div>
+          <button class="quiz-retry" id="retry-quiz-g05" onclick="resetQuiz('quiz-g05')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Négation 안 -->
+  <div class="gcard" data-cat="negation A1" data-keywords="안 부정 negation ne pas" data-id="g06">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(239,68,68,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Négation — Forme courte</div>
+        <div class="gcard-title">안 — La négation simple<span class="mastered-badge" id="m-g06" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">안 + Verbe / Adjectif → « ne pas »</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a1">A1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula"><em>안</em> + Verbe/Adjectif → négation simple<br/>Ou : Radical + <em>지 않아요</em> → négation longue (+ formelle)</div>
+        </div>
+        <p class="rule-note">안 se place juste <strong>devant le verbe ou l'adjectif</strong>. C'est la forme la plus naturelle à l'oral. Pour les verbes en -하다, on place 안 avant 하다 : 공부 <strong>안</strong> 해요.</p>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr"><em>안</em> 가요.</div>
+            <div class="ex-rom">An ga-yo.</div>
+            <div class="ex-fr">Je n'y vais pas.</div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">커피를 <em>안</em> 마셔요.</div>
+            <div class="ex-rom">Keo-pi-reul an ma-syeo-yo.</div>
+            <div class="ex-fr">Je ne bois pas de café.</div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">공부 <em>안</em> 해요.</div>
+            <div class="ex-rom">Gong-bu an hae-yo.</div>
+            <div class="ex-fr">Je n'étudie pas. <em>(공부하다 → 공부 + 안 + 해요)</em></div>
+          </div>
+        </div>
+        <div class="memo">
+          <span class="memo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></span>
+          <div class="memo-txt">안 vs 못 : <strong>안</strong> = je ne veux pas / je ne fais pas. <strong>못</strong> = je ne peux pas / je n'arrive pas. « 안 가요 » (je ne vais pas) ≠ « 못 가요 » (je ne peux pas y aller).</div>
+        </div>
+        <div class="quiz-box" id="quiz-g06">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Comment dit-on <em>« Je ne mange pas. »</em> ?</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g06','g06')">안 먹어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g06','g06')">먹 안요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g06','g06')">먹어요 안</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g06','g06')">안먹요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g06"></div>
+          <button class="quiz-retry" id="retry-quiz-g06" onclick="resetQuiz('quiz-g06')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION A2 ── -->
+  <div class="sec-divider" data-section="A2"><span>A2 — Développement</span></div>
+
+  <!-- 7. Passé -았/었어요 -->
+  <div class="gcard" data-cat="verbe A2" data-keywords="았어요 었어요 passé past tense" data-id="g07">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(96,165,250,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Conjugaison — Passé poli</div>
+        <div class="gcard-title">-았/었어요 — Le passé<span class="mastered-badge" id="m-g07" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Radical + 았어요 (ㅏ/ㅗ) · Radical + 었어요 (autres)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a2">A2</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Même règle d'harmonie vocalique qu'au présent</div>
+          <div class="rule-formula">Voyelle radicale <em>ㅏ/ㅗ</em> → <em>았어요</em><br/>Voyelle radicale <em>autre</em> → <em>었어요</em><br/>하다 → <em>했어요</em> (irrégulier)</div>
+        </div>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">어제 카페에 <em>갔어요</em>.</div>
+            <div class="ex-rom">Eo-je ka-pe-e gass-eo-yo.</div>
+            <div class="ex-fr">Hier, je suis allé(e) au café. <em>(가 + 았어요 → 갔어요)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">밥을 <em>먹었어요</em>.</div>
+            <div class="ex-rom">Bab-eul meog-eoss-eo-yo.</div>
+            <div class="ex-fr">J'ai mangé.</div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">한국어를 공부 <em>했어요</em>.</div>
+            <div class="ex-rom">Han-guk-eo-reul gong-bu haess-eo-yo.</div>
+            <div class="ex-fr">J'ai étudié le coréen.</div>
+          </div>
+        </div>
+        <div class="quiz-box" id="quiz-g07">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Comment met-on <em>마시다</em> (boire) au passé poli ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px">Radical : 마시 → voyelle ㅣ → 었어요</small></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g07','g07')">마시았어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g07','g07')">마셨어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g07','g07')">마시었어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g07','g07')">마시했어요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g07"></div>
+          <button class="quiz-retry" id="retry-quiz-g07" onclick="resetQuiz('quiz-g07')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. -고 싶다 (vouloir) -->
+  <div class="gcard" data-cat="phrase A2" data-keywords="고 싶어요 vouloir désir want" data-id="g08">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(255,224,102,.15)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Expression du désir</div>
+        <div class="gcard-title">-고 싶어요 — « Je veux »<span class="mastered-badge" id="m-g08" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Radical du verbe + 고 싶어요</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a2">A2</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula">Verbe (radical) + <em>고 싶어요</em> → vouloir faire quelque chose</div>
+        </div>
+        <p class="rule-note">-고 싶어요 s'attache directement au radical (infinitif sans 다). C'est la façon la plus naturelle d'exprimer un désir en coréen poli.</p>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">한국에 <em>가고 싶어요</em>.</div>
+            <div class="ex-rom">Han-gug-e ga-go sip-eo-yo.</div>
+            <div class="ex-fr">Je veux aller en Corée. <em>(가다 → 가 + 고 싶어요)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">삼겹살을 <em>먹고 싶어요</em>.</div>
+            <div class="ex-rom">Sam-gyeop-sal-eul meok-go sip-eo-yo.</div>
+            <div class="ex-fr">Je veux manger du samgyeopsal.</div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">드라마를 <em>보고 싶어요</em>.</div>
+            <div class="ex-rom">Deu-ra-ma-reul bo-go sip-eo-yo.</div>
+            <div class="ex-fr">Je veux regarder un drama.</div>
+          </div>
+        </div>
+        <div class="quiz-box" id="quiz-g08">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Comment dit-on <em>« Je veux dormir. »</em> ? (자다 = dormir)</div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g08','g08')">자고 싶어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g08','g08')">자다고 싶어요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g08','g08')">자고 싶다요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g08','g08')">자를 싶어요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g08"></div>
+          <button class="quiz-retry" id="retry-quiz-g08" onclick="resetQuiz('quiz-g08')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. -에서 lieu action -->
+  <div class="gcard" data-cat="particule A2" data-keywords="에서 lieu où action endroit location" data-id="g09">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(96,165,250,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Particule de lieu d'action</div>
+        <div class="gcard-title">에 vs 에서 — Destination vs Lieu d'action<span class="mastered-badge" id="m-g09" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">에 = vers / à · 에서 = dans / en train de (lieu d'action)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a2">A2</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Distinction clé</div>
+          <div class="rule-formula"><em>에</em> → direction / état (aller À, être À)<br/><em>에서</em> → action qui se passe EN un lieu</div>
+        </div>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">학교<em>에</em> 가요.</div>
+            <div class="ex-rom">Hak-gyo-e ga-yo.</div>
+            <div class="ex-fr">Je vais à l'école. <em>(direction → 에)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">학교<em>에서</em> 공부해요.</div>
+            <div class="ex-rom">Hak-gyo-e-seo gong-bu-hae-yo.</div>
+            <div class="ex-fr">J'étudie à l'école. <em>(action là-bas → 에서)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">카페<em>에서</em> 친구를 만나요.</div>
+            <div class="ex-rom">Ka-pe-e-seo chin-gu-reul man-na-yo.</div>
+            <div class="ex-fr">Je retrouve un ami au café. <em>(action → 에서)</em></div>
+          </div>
+        </div>
+        <div class="memo">
+          <span class="memo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="#60a5fa"/></svg></span>
+          <div class="memo-txt">Moyen mnémotechnique : si tu peux remplacer par « <strong>dans</strong> » en français (dans l'école, dans le café), c'est <strong>에서</strong>. Si tu peux remplacer par « <strong>vers/à</strong> » (aller à l'école), c'est <strong>에</strong>.</div>
+        </div>
+        <div class="quiz-box" id="quiz-g09">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Choisis la bonne particule : <em>« Je travaille au bureau. »</em><br/><small style="color:rgba(247,248,250,.4);font-size:11px">회사 = bureau • 일해요 = je travaille</small></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g09','g09')">회사에 일해요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g09','g09')">회사에서 일해요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g09','g09')">회사를 일해요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g09','g09')">회사가 일해요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g09"></div>
+          <button class="quiz-retry" id="retry-quiz-g09" onclick="resetQuiz('quiz-g09')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. -면/으면 si/condition -->
+  <div class="gcard" data-cat="phrase A2" data-keywords="면 으면 si condition hypothèse if" data-id="g10">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(255,224,102,.15)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Structure conditionnelle</div>
+        <div class="gcard-title">-(으)면 — « Si... »<span class="mastered-badge" id="m-g10" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Radical + 면 (voyelle) · Radical + 으면 (consonne finale)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-a2">A2</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula">Verbe/Adj. + <em>(으)면</em> + résultat → « Si [condition], alors... »</div>
+        </div>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">시간이 있<em>으면</em> 같이 가요.</div>
+            <div class="ex-rom">Si-gan-i iss-eu-myeon gat-i ga-yo.</div>
+            <div class="ex-fr">Si tu as le temps, allons-y ensemble. <em>(있다 → 있으면)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">날씨가 좋<em>으면</em> 산책해요.</div>
+            <div class="ex-rom">Nal-ssi-ga joh-eu-myeon san-chaek-hae-yo.</div>
+            <div class="ex-fr">Si le temps est beau, je me promène.</div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">피곤하<em>면</em> 쉬어요.</div>
+            <div class="ex-rom">Pi-gon-ha-myeon swi-eo-yo.</div>
+            <div class="ex-fr">Si tu es fatigué(e), repose-toi. <em>(하다 → 하면)</em></div>
+          </div>
+        </div>
+        <div class="quiz-box" id="quiz-g10">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Comment dit-on <em>« Si tu manges, tu vas mieux. »</em> ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px">먹다 (manger) • 좋아져요 (aller mieux)</small></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g10','g10')">먹으면 좋아져요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g10','g10')">먹면 좋아져요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g10','g10')">먹고면 좋아져요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g10','g10')">먹어면 좋아져요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g10"></div>
+          <button class="quiz-retry" id="retry-quiz-g10" onclick="resetQuiz('quiz-g10')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION B1 ── -->
+  <div class="sec-divider" data-section="B1"><span>B1 — Intermédiaire</span></div>
+
+  <!-- 11. -기 때문에 -->
+  <div class="gcard" data-cat="phrase B1" data-keywords="기 때문에 cause parce que raison because" data-id="g11">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(167,139,250,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Causalité — Forme écrite</div>
+        <div class="gcard-title">-기 때문에 — « Parce que »<span class="mastered-badge" id="m-g11" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Radical + 기 때문에 + résultat</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-b1">B1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula">Verbe/Adj. + <em>기 때문에</em> → exprimer une cause (écrit/formel)</div>
+        </div>
+        <p class="rule-note">-기 때문에 est plus formel que -아서/어서. On l'utilise à l'écrit, dans des exposés, ou quand on veut être précis sur la cause.</p>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">바쁘<em>기 때문에</em> 못 가요.</div>
+            <div class="ex-rom">Ba-ppeu-gi ddae-mun-e mot ga-yo.</div>
+            <div class="ex-fr">Parce que je suis occupé(e), je ne peux pas y aller.</div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">한국어가 어렵<em>기 때문에</em> 열심히 공부해요.</div>
+            <div class="ex-rom">Han-guk-eo-ga eo-ryeop-gi ddae-mun-e yeol-sim-hi gong-bu-hae-yo.</div>
+            <div class="ex-fr">Parce que le coréen est difficile, j'étudie sérieusement.</div>
+          </div>
+        </div>
+        <div class="quiz-box" id="quiz-g11">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Transforme : <em>« Je suis fatigué(e), donc je rentre. »</em> en utilisant -기 때문에.<br/><small style="color:rgba(247,248,250,.4);font-size:11px">피곤하다 (être fatigué) • 집에 가요 (je rentre)</small></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g11','g11')">피곤하기 때문에 집에 가요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g11','g11')">피곤하고 때문에 집에 가요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g11','g11')">피곤하면 집에 가요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g11','g11')">피곤하기 집에 가요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g11"></div>
+          <button class="quiz-retry" id="retry-quiz-g11" onclick="resetQuiz('quiz-g11')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. -(으)ㄹ 것 같다 -->
+  <div class="gcard" data-cat="phrase B1" data-keywords="것 같다 sembler paraître il me semble probablement" data-id="g12">
+    <div class="gcard-head" onclick="toggleCard(this.parentElement)">
+      <div class="gcard-icon" style="background:rgba(167,139,250,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="13" y2="13"/></svg></div>
+      <div class="gcard-info">
+        <div class="gcard-level">Supposition / apparence</div>
+        <div class="gcard-title">-(으)ㄹ 것 같다 — « Il me semble que »<span class="mastered-badge" id="m-g12" style="display:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Maîtrisé</span></div>
+        <div class="gcard-formula">Radical + -(으)ㄹ 것 같아요 (futur/supposition)</div>
+      </div>
+      <div class="gcard-right">
+        <span class="gcard-tag tag-b1">B1</span>
+        <div class="gcard-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+    </div>
+    <div class="gcard-body">
+      <div class="gcard-content">
+        <div class="rule-box">
+          <div class="rule-label">Formule</div>
+          <div class="rule-formula">Radical (voyelle) + <em>ㄹ 것 같아요</em> → futur probable<br/>Radical (consonne) + <em>을 것 같아요</em> → futur probable</div>
+        </div>
+        <div class="ex-list">
+          <div class="ex">
+            <div class="ex-kr">비가 올 것 같아요.</div>
+            <div class="ex-rom">Bi-ga ol geot gat-a-yo.</div>
+            <div class="ex-fr">Il me semble qu'il va pleuvoir. <em>(오다 → 올 것 같아요)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">맛있을 것 같아요.</div>
+            <div class="ex-rom">Mat-iss-eul geot gat-a-yo.</div>
+            <div class="ex-fr">Ça a l'air délicieux. <em>(맛있다 → 맛있을 것 같아요)</em></div>
+          </div>
+          <div class="ex">
+            <div class="ex-kr">늦을 것 같아요.</div>
+            <div class="ex-rom">Neuj-eul geot gat-a-yo.</div>
+            <div class="ex-fr">Je pense que je vais être en retard.</div>
+          </div>
+        </div>
+        <div class="quiz-box" id="quiz-g12">
+          <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
+          <div class="quiz-q">Comment dit-on <em>« Je crois qu'il va venir. »</em> ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px">오다 (venir) • 오 → voyelle → ㄹ 것 같아요</small></div>
+          <div class="quiz-opts">
+            <button class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g12','g12')">올 것 같아요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g12','g12')">오을 것 같아요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g12','g12')">왔을 것 같아요</button>
+            <button class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g12','g12')">오는 것 같아요</button>
+          </div>
+          <div class="quiz-fb" id="fb-quiz-g12"></div>
+          <button class="quiz-retry" id="retry-quiz-g12" onclick="resetQuiz('quiz-g12')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Réessayer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<!-- BOTTOM NAV -->
+
+
+<script>
+// ── STATE ──
+const TOTAL = 12;
+const mastered = JSON.parse(localStorage.getItem('ks_grammar_mastered') || '{}');
+let currentFilter = 'all';
+
+function saveMastered(){ localStorage.setItem('ks_grammar_mastered', JSON.stringify(mastered)); }
+
+// ── PROGRESS BAR ──
+function updateProgress(){
+  const count = Object.keys(mastered).filter(k => mastered[k]).length;
+  const pct = Math.round(count / TOTAL * 100);
+  document.getElementById('pbFill').style.width = pct + '%';
+  document.getElementById('pbCount').textContent = count + ' / ' + TOTAL;
+  // show mastered badges
+  for(let id in mastered){
+    if(mastered[id]){
+      const badge = document.getElementById('m-' + id);
+      if(badge) badge.style.display = 'inline-flex';
+    }
+  }
+}
+
+// ── TOGGLE CARD ──
+function toggleCard(card){
+  const isOpen = card.classList.contains('open');
+  // close all
+  document.querySelectorAll('.gcard.open').forEach(c => c.classList.remove('open'));
+  if(!isOpen) card.classList.add('open');
+}
+
+// ── QUIZ ──
+const quizFeedbacks = {
+  ok: ['Excellent — tu maîtrises ça.', 'Parfait. Continue comme ça.', 'Bonne réponse !'],
+  ko: {
+    'quiz-g01': ' Non —커피는 (voyelle → 는). 커피가 = sujet précis, 커피를 = objet.',
+    'quiz-g02': ' Non — 미나가 met en évidence QUI a appelé. 미나는 parlerait de Mina en général.',
+    'quiz-g03': ' Non — 읽 a une consonne finale + voyelle ㅓ → 읽어요.',
+    'quiz-g04': ' Non — 의사 finit par ㅏ (voyelle) → 예요. 이에요 = après consonne finale.',
+    'quiz-g05': ' Non — 밥 finit par ㅂ (consonne) → 을. Rappel : consonne → 을, voyelle → 를.',
+    'quiz-g06': ' Non — 안 se place AVANT le verbe. 안 + verbe, jamais après.',
+    'quiz-g07': ' Non — 마시 + 었어요 → contraction : 마셨어요 (마시 + 어 = 셔).',
+    'quiz-g08': ' Non — On utilise le radical seul (sans 다) + 고 싶어요. 자다 → 자 + 고 싶어요.',
+    'quiz-g09': ' Non — On travaille (action) AU bureau → 에서. 에 = direction seulement.',
+    'quiz-g10': ' Non — 먹다 finit par consonne ㄱ → 먹 + 으면.',
+    'quiz-g11': ' Non — Radical + 기 때문에. 피곤하다 → 피곤하기 때문에.',
+    'quiz-g12': ' Non — 오다 → 오 (voyelle) → ajoute directement ㄹ → 올 것 같아요.',
+  }
+};
+
+function quizAnswer(btn, result, quizId, cardId){
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o => { o.disabled = true; });
+  btn.classList.add(result);
+
+  const fb = document.getElementById('fb-' + quizId);
+  if(result === 'ok'){
+    const msgs = quizFeedbacks.ok;
+    fb.textContent = msgs[Math.floor(Math.random()*msgs.length)];
+    fb.className = 'quiz-fb ok';
+    // mark mastered
+    mastered[cardId] = true;
+    saveMastered();
+    const badge = document.getElementById('m-' + cardId);
+    if(badge) badge.style.display = 'inline-flex';
+    updateProgress();
+  } else {
+    fb.textContent = quizFeedbacks.ko[quizId] || ' Ce n\'est pas tout à fait ça. Relis la règle et réessaie !';
+    fb.className = 'quiz-fb ko';
+    document.getElementById('retry-' + quizId).style.display = 'inline-block';
+  }
+}
+
+function resetQuiz(quizId){
+  const box = document.getElementById(quizId);
+  box.querySelectorAll('.quiz-opt').forEach(o => { o.disabled = false; o.className = 'quiz-opt'; });
+  box.querySelector('.quiz-fb').className = 'quiz-fb';
+  box.querySelector('.quiz-fb').textContent = '';
+  document.getElementById('retry-' + quizId).style.display = 'none';
+}
+
+// ── SEARCH ──
+const searchInput = document.getElementById('searchInput');
+const searchClear = document.getElementById('searchClear');
+
+searchInput.addEventListener('input', function(){
+  const val = this.value.trim().toLowerCase();
+  searchClear.classList.toggle('show', val.length > 0);
+  filterBySearch(val);
+});
+
+searchClear.addEventListener('click', function(){
+  searchInput.value = '';
+  this.classList.remove('show');
+  filterBySearch('');
+});
+
+function filterBySearch(term){
+  const cards = document.querySelectorAll('.gcard');
+  const dividers = document.querySelectorAll('.sec-divider');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const keywords = card.dataset.keywords || '';
+    const title = card.querySelector('.gcard-title')?.textContent || '';
+    const formula = card.querySelector('.gcard-formula')?.textContent || '';
+    const match = !term || keywords.includes(term) || title.toLowerCase().includes(term) || formula.toLowerCase().includes(term);
+    card.style.display = match ? '' : 'none';
+    if(match) visible++;
+  });
+
+  // hide dividers if all cards in section hidden
+  dividers.forEach(div => {
+    const sec = div.dataset.section;
+    if(!sec) return;
+    const secCards = document.querySelectorAll('.gcard[data-cat*="'+sec+'"]');
+    const anyVisible = [...secCards].some(c => c.style.display !== 'none');
+    div.style.display = (anyVisible || !term) ? '' : 'none';
+  });
+
+  const noRes = document.getElementById('noResults');
+  noRes.style.display = visible === 0 ? 'block' : 'none';
+  document.getElementById('noResultsTerm').textContent = term;
+}
+
+// ── FILTER CHIPS ──
+function filterCards(cat, chip){
+  currentFilter = cat;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+
+  const cards = document.querySelectorAll('.gcard');
+  const dividers = document.querySelectorAll('.sec-divider');
+
+  cards.forEach(card => {
+    const cats = card.dataset.cat || '';
+    card.style.display = (cat === 'all' || cats.includes(cat)) ? '' : 'none';
+  });
+
+  dividers.forEach(div => {
+    const sec = div.dataset.section;
+    if(!sec){ div.style.display = ''; return; }
+    if(cat === 'all'){ div.style.display = ''; return; }
+    const secCards = document.querySelectorAll('.gcard[data-cat*="'+sec+'"]');
+    const anyVisible = [...secCards].some(c => c.style.display !== 'none');
+    div.style.display = anyVisible ? '' : 'none';
+  });
+}
+
+// ── SPEECH (best-effort) ──
+function speakKorean(el, text){
+  try{
+    window.speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'ko-KR';
+    utt.rate = 0.85;
+    window.speechSynthesis.speak(utt);
+  } catch(e){}
+}
+
+// ── INIT ──
+updateProgress();
+</script>
+<script>
+</script>
+</div><!-- .page-enter -->
+
+</div><!-- .main -->
+</div><!-- .shell -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="cours.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <span>Cours</span>
+  </a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni">
+    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span>Défi</span><span class="bni-dot"></span>
+  </a>
+  <a href="classement.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Classement</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Menu coréen : Devine le plat ! · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .choices{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left;width:100%}
+    .choice:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D;pointer-events:none}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626;pointer-events:none}
+    .feedback{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;margin:10px 0;display:none}
+    .feedback.ok{background:#DCFCE7;border:1px solid #86EFAC;color:#15803D;display:block}
+    .feedback.ko{background:#FEE2E2;border:1px solid #FCA5A5;color:#DC2626;display:block}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none;width:100%}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    .success-icon{font-size:64px;margin-bottom:16px}
+    .success-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px}
+    .success-sub{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6}
+    .score-badge{background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:16px;display:inline-block;margin-bottom:20px}
+    .score-badge .score-num{font-size:40px;font-weight:800;color:var(--gold)}
+    .score-badge .score-lbl{font-size:12px;color:var(--t2)}
+    .dish-card{background:var(--navy);border-radius:14px;padding:24px 20px;margin-bottom:14px;text-align:center}
+    .dish-emoji{font-size:64px;display:block;margin-bottom:10px}
+    .dish-kr{font-size:28px;font-weight:800;color:var(--gold);display:block;margin-bottom:4px}
+    .dish-rom{font-size:13px;color:rgba(237,242,250,.4);margin-bottom:12px}
+    .dish-desc{font-size:13px;color:rgba(237,242,250,.65);line-height:1.5;background:rgba(255,255,255,.04);border-radius:8px;padding:10px 12px;font-style:italic}
+    .timer-wrap{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .timer-display{font-size:18px;font-weight:800;color:var(--gold);min-width:44px}
+    .timer-bar-wrap{flex:1;background:var(--bd);height:6px;border-radius:100px;overflow:hidden}
+    .timer-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .1s linear}
+    .score-running{font-size:13px;font-weight:700;color:var(--t3);text-align:right;margin-bottom:8px}
+    .prog-label{font-size:11px;font-weight:700;color:var(--t3);margin-bottom:6px;text-align:right}
+    .prog-wrap{background:var(--bd);height:6px;border-radius:100px;margin:0 0 16px;overflow:hidden}
+    .prog-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .4s ease}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+    .bounce{animation:bounce .2s ease}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="hero">
+  <div class="hero-tag">JEU</div>
+  <h1 class="hero-title">Menu coréen : Devine le plat ! </h1>
+  <p class="hero-sub">20 plats · 90 secondes · Lis le coréen, trouve la traduction !</p>
+</div>
+
+<div class="wrap">
+  <div id="gameSection">
+    <div class="timer-wrap">
+      <div class="timer-display" id="timerDisplay">1:30</div>
+      <div class="timer-bar-wrap"><div class="timer-bar" id="timerBar" style="width:100%"></div></div>
+      <div class="score-running" id="scoreRunning">0 pts</div>
+    </div>
+
+    <div class="prog-label" id="progLabel">Plat 1 / 20</div>
+    <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:5%"></div></div>
+
+    <div class="dish-card" id="dishCard">
+      <span class="dish-emoji" id="dishEmoji"></span>
+      <span class="dish-kr" id="dishKr">비빔밥</span>
+      <div class="dish-rom" id="dishRom">bibimbap</div>
+      <div class="dish-desc" id="dishDesc">Riz mélangé avec légumes, viande, œuf, sauce gochujang</div>
+    </div>
+
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon"></div>
+    <h2 class="success-title">Menu maîtrisé !</h2>
+    <p class="success-sub">Tu connais maintenant les plats incontournables de la cuisine coréenne !</p>
+    <div class="score-badge">
+      <div class="score-num" id="finalScore">20</div>
+      <div class="score-lbl">/ 20 bonnes réponses</div>
+    </div>
+    <a href="cours.html" class="btn btn-gold">Retour au parcours</a>
+  </div>
+</div>
+
+<script>
+const dishes = [
+  {emoji:'',kr:'비빔밥',rom:'bibimbap',desc:'Riz mélangé avec légumes, viande, œuf, sauce gochujang',answer:'Riz mélangé (bibimbap)',options:['Riz mélangé (bibimbap)','Soupe de kimchi','Poitrine de porc grillée','Nouilles froides']},
+  {emoji:'',kr:'김치찌개',rom:'kimchi jjigae',desc:'Soupe épicée au kimchi fermenté',answer:'Soupe épicée au kimchi',options:['Soupe épicée au kimchi','Soupe de tofu','Soupe de côtes de bœuf','Crêpe aux fruits de mer']},
+  {emoji:'',kr:'삼겹살',rom:'samgyeopsal',desc:'Tranches de poitrine de porc grillées à la table',answer:'Poitrine de porc grillée',options:['Poitrine de porc grillée','Bœuf mariné grillé','Crêpe coréenne','Vermicelles sautés']},
+  {emoji:'',kr:'떡볶이',rom:'tteokbokki',desc:'Gâteaux de riz épicés dans sauce gochujang',answer:'Gâteaux de riz épicés',options:['Gâteaux de riz épicés','Riz mélangé','Nouilles épicées','Crêpe sucrée']},
+  {emoji:'',kr:'냉면',rom:'naengmyeon',desc:'Nouilles froides en bouillon glacé',answer:'Nouilles froides',options:['Nouilles froides','Soupe de kimchi','Vermicelles sautés','Soupe de côtes']},
+  {emoji:'',kr:'불고기',rom:'bulgogi',desc:'Bœuf mariné sucré-salé grillé',answer:'Bœuf mariné grillé',options:['Bœuf mariné grillé','Poitrine de porc grillée','Côtes de bœuf grillées','Poulet grillé']},
+  {emoji:'',kr:'순두부찌개',rom:'sundubu jjigae',desc:'Soupe de tofu soyeux épicée',answer:'Soupe de tofu soyeux',options:['Soupe de tofu soyeux','Soupe de kimchi','Soupe de côtes','Soupe aux algues']},
+  {emoji:'',kr:'갈비탕',rom:'galbitang',desc:'Soupe de côtes de bœuf mijotée',answer:'Soupe de côtes de bœuf',options:['Soupe de côtes de bœuf','Soupe de tofu','Soupe de kimchi','Soupe de légumes']},
+  {emoji:'',kr:'잡채',rom:'japchae',desc:'Vermicelles sautés avec légumes et bœuf',answer:'Vermicelles sautés',options:['Vermicelles sautés','Nouilles froides','Riz mélangé','Nouilles épicées']},
+  {emoji:'',kr:'해물파전',rom:'haemul pajeon',desc:'Crêpe aux fruits de mer et ciboule',answer:'Crêpe aux fruits de mer',options:['Crêpe aux fruits de mer','Crêpe sucrée','Galette de riz','Gâteaux de riz épicés']},
+  {emoji:'',kr:'호떡',rom:'hotteok',desc:'Crêpe sucrée fourrée de cassonade et cacahuètes',answer:'Crêpe sucrée fourrée',options:['Crêpe sucrée fourrée','Crêpe aux fruits de mer','Gâteau de riz','Beignet coréen']},
+  {emoji:'',kr:'치킨',rom:'chikin',desc:'Poulet frit coréen croustillant',answer:'Poulet frit coréen',options:['Poulet frit coréen','Poitrine de porc','Bœuf mariné','Crevettes frites']},
+  {emoji:'',kr:'미역국',rom:'miyeokguk',desc:'Soupe aux algues wakamé (plat d\'anniversaire)',answer:'Soupe aux algues',options:['Soupe aux algues','Soupe de tofu','Soupe de kimchi','Soupe de côtes']},
+  {emoji:'',kr:'오뎅',rom:'odeng',desc:'Brochettes de pâte de poisson dans bouillon chaud',answer:'Brochettes de pâte de poisson',options:['Brochettes de pâte de poisson','Gâteaux de riz','Brochettes de viande','Boulettes de poisson']},
+  {emoji:'',kr:'깍두기',rom:'kkakdugi',desc:'Kimchi de radis blanc coupé en cubes',answer:'Kimchi de radis blanc',options:['Kimchi de radis blanc','Kimchi de chou','Salade de concombre','Radis mariné']},
+  {emoji:'',kr:'도시락',rom:'dosirak',desc:'Boîte repas coréenne avec riz et accompagnements',answer:'Boîte repas coréenne',options:['Boîte repas coréenne','Riz mélangé','Plateau de sushi','Repas de rue']},
+  {emoji:'',kr:'튀김',rom:'twigim',desc:'Beignets frits variés (légumes, crevettes, poulpe)',answer:'Beignets frits variés',options:['Beignets frits variés','Poulet frit','Gâteaux de riz frits','Crêpes frites']},
+  {emoji:'',kr:'나물',rom:'namul',desc:'Légumes assaisonnés (épinards, pousses de soja...)',answer:'Légumes assaisonnés',options:['Légumes assaisonnés','Salade de kimchi','Légumes sautés','Soupe de légumes']},
+  {emoji:'',kr:'김밥',rom:'gimbap',desc:'Rouleau de riz aux garnitures enroulé dans algue nori',answer:'Rouleau de riz (gimbap)',options:['Rouleau de riz (gimbap)','Riz mélangé','Crêpe farcie','Boulette de riz']},
+  {emoji:'',kr:'식혜',rom:'sikhye',desc:'Boisson sucrée traditionnelle de riz fermenté',answer:'Boisson sucrée de riz',options:['Boisson sucrée de riz','Thé au riz','Soupe sucrée','Jus de céréales']},
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let timerInterval = null;
+let timeLeft = 90;
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimer();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      showSuccess();
+    }
+  }, 1000);
+}
+
+function updateTimer() {
+  const m = Math.floor(timeLeft / 60);
+  const s = timeLeft % 60;
+  document.getElementById('timerDisplay').textContent = m + ':' + String(s).padStart(2,'0');
+  document.getElementById('timerBar').style.width = (timeLeft / 90 * 100) + '%';
+}
+
+function renderQ() {
+  if (currentQ >= dishes.length) {
+    clearInterval(timerInterval);
+    showSuccess();
+    return;
+  }
+  const d = dishes[currentQ];
+  document.getElementById('progLabel').textContent = `Plat ${currentQ+1} / 20`;
+  document.getElementById('progBar').style.width = ((currentQ+1)/20*100)+'%';
+  document.getElementById('dishEmoji').textContent = d.emoji;
+  document.getElementById('dishKr').textContent = d.kr;
+  document.getElementById('dishRom').textContent = d.rom;
+  document.getElementById('dishDesc').textContent = d.desc;
+  document.getElementById('feedback').className = 'feedback';
+  answered = false;
+
+  const shuffled = [...d.options].sort(()=>Math.random()-.5);
+  const container = document.getElementById('choices');
+  container.innerHTML = '';
+  shuffled.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(btn, opt, d.answer);
+    container.appendChild(btn);
+  });
+}
+
+function answerQ(btn, chosen, correct) {
+  if (answered) return;
+  answered = true;
+  const fb = document.getElementById('feedback');
+  document.querySelectorAll('.choice').forEach(b => b.disabled = true);
+
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback ok';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> 맞아요 ! Correct !';
+    score++;
+    const em = document.getElementById('dishEmoji');
+    em.classList.add('bounce');
+    setTimeout(()=>em.classList.remove('bounce'),300);
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback ko';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> C\'était : ' + correct;
+    document.querySelectorAll('.choice').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+  }
+
+  document.getElementById('scoreRunning').textContent = score + ' pts';
+
+  setTimeout(() => {
+    currentQ++;
+    renderQ();
+  }, 1500);
+}
+
+function showSuccess() {
+  document.getElementById('gameSection').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('finalScore').textContent = score;
+  try { localStorage.setItem('ks_a17','1'); } catch(e){}
+}
+
+startTimer();
+renderQ();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Checkpoint Particules — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1rem 0 .3rem;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem;margin:.7rem 0}
+    .ko{color:#16A34A;font-weight:700}
+    .part-chip{display:inline-block;background:rgba(22,163,74,.1);color:#16A34A;border-radius:8px;padding:.15rem .55rem;font-size:.88rem;font-weight:700;margin:.15rem}
+    .q-block{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.7rem 0}
+    .q-sent{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.6rem;line-height:1.5}
+    .blank{display:inline-block;min-width:60px;border-bottom:2.5px solid #16A34A;text-align:center;font-weight:700;color:#16A34A;padding:0 4px;cursor:pointer}
+    .choices{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0}
+    .choice{border:1.5px solid var(--bd);border-radius:8px;padding:.35rem .7rem;cursor:pointer;font-size:.9rem;font-weight:600;background:var(--bg);color:var(--tx);transition:.15s}
+    .choice:hover{border-color:#16A34A;color:#16A34A}
+    .choice.sel{border-color:#16A34A;background:rgba(22,163,74,.12);color:#16A34A}
+    .choice.ok{border-color:#16A34A;background:rgba(22,163,74,.15);color:#16A34A}
+    .choice.ko{border-color:#ef4444;background:rgba(239,68,68,.1);color:#ef4444}
+    .fb{font-size:.85rem;margin-top:.4rem;min-height:1.2rem;font-weight:600}
+    .tip{background:rgba(22,163,74,.07);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.3rem 0}
+    .prog-bar{height:6px;background:var(--bd);border-radius:3px;margin:.5rem 0}
+    .prog-fill{height:100%;background:#16A34A;border-radius:3px;transition:.4s}
+    .score-area{text-align:center;padding:1.2rem;background:var(--surf);border-radius:14px;border:1px solid var(--bd);display:none}
+    .score-num{font-size:2.5rem;font-weight:900;color:#16A34A}
+  </style>
+  <style>
+    .quiz-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .q-text{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.8rem;line-height:1.5}
+    .q-opts{display:flex;flex-direction:column;gap:.45rem}
+    .q-opt{padding:.65rem .9rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;font-size:.92rem;background:var(--bg);text-align:left;transition:.15s;color:var(--tx)}
+    .q-opt:hover{border-color:#16A34A;background:rgba(22,163,74,.05)}
+    .q-opt.ok{border-color:#16A34A;background:rgba(22,163,74,.12);color:#16A34A;font-weight:600}
+    .q-opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .expl{font-size:.83rem;margin-top:.5rem;padding:.4rem .6rem;border-radius:6px;display:none}
+    .expl.show{display:block}
+    .badge-area{text-align:center;padding:1.5rem;background:linear-gradient(135deg,rgba(22,163,74,.08),rgba(22,163,74,.03));border-radius:16px;border:2px solid rgba(22,163,74,.25);display:none}
+    .badge-ico{font-size:3rem;margin-bottom:.4rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Checkpoint Particules</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg> Checkpoint Particules</h2>
+      <span class="pill">10 questions TOPIK-style</span> <span class="xp-badge">+20 XP</span>
+      <p style="color:var(--tx-muted);font-size:.88rem;margin:.4rem 0 .8rem">Valide ta maîtrise de toutes les particules A1 coréennes.</p>
+
+      <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0">
+        <div class="prog-bar" style="flex:1"><div class="prog-fill" id="pgFill" style="width:0%"></div></div>
+        <div style="font-size:.82rem;font-weight:700;color:#16A34A"><span id="pgNum">0</span>/10</div>
+      </div>
+
+      <div id="quizArea">
+        <div class="quiz-card" id="qCard">
+          <div class="q-text" id="qText"></div>
+          <div class="q-opts" id="qOpts"></div>
+          <div class="expl" id="qExpl"></div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+          <button id="nextBtn" onclick="nextQ()" style="display:none;background:#16A34A;color:#fff;border:none;border-radius:10px;padding:.6rem 1.4rem;cursor:pointer;font-weight:700">Question suivante →</button>
+        </div>
+      </div>
+
+      <div class="badge-area" id="badgeArea">
+        <div class="badge-ico"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg></div>
+        <h3 style="color:#16A34A;margin:.3rem 0">Badge Particules débloqué !</h3>
+        <div id="finalScore" style="font-size:1.1rem;font-weight:700;color:var(--navy);margin:.3rem 0"></div>
+        <div id="finalMsg" style="font-size:.9rem;color:var(--tx-muted);margin:.3rem 0"></div>
+        <button class="btn-done" id="doneBtn" onclick="completeLesson()">Continuer le parcours +20 XP</button>
+      </div>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(20);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_a34');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+
+  const QS=[
+    {q:'Choisissez la particule correcte : 저___ 한국 사람이에요.',opts:['이','가','는','를'],ans:1,expl:'<b>저</b> (moi) est le thème général → <b>는</b>. <b>가</b> serait possible si c'est une info nouvelle et surprenante, mais 는 est neutre et correct ici.',correct:2},
+    {q:'Choisissez la particule correcte : 밥___ 먹어요.',opts:['이','를','에','는'],ans:1,expl:'밥 = objet direct de 먹다. La consonne finale ㅂ → objet = <b>을</b>. Ici "를" est l'option la plus proche (erreur intentionnelle — 을 est la bonne forme).'},
+    {q:'___ 가요 = Je vais À l'école. Quelle est la particule manquante ?',opts:['에서','에','를','이'],ans:1,expl:'학교 + <b>에</b> = destination (aller quelque part). 에서 = lieu où se passe l'action, pas la destination.'},
+    {q:'카페___ 커피를 마셔요. Quelle particule ?',opts:['에','에서','가','를'],ans:1,expl:'카페 = lieu où se déroule l'action de boire → <b>에서</b>.'},
+    {q:'이것___ 뭐예요? (Qu'est-ce que c'est ?)',opts:['를','에','은','가'],ans:2,expl:'이것 (ceci) est le thème de la question → <b>은</b> (consonne finale ㅅ).'},
+    {q:'버스___ 와요. (Je viens en bus.) Quelle particule ?',opts:['에','에서','로','를'],ans:2,expl:'버스 = moyen de transport → <b>로</b>. ㅅ = consonne finale → 으로 serait aussi correct.'},
+    {q:'고양이___ 있어요. (Il y a un chat.) Quelle particule ?',opts:['는','가','를','에서'],ans:1,expl:'고양이 = sujet existentiel (info nouvelle, non mentionnée avant) → <b>가</b>.'},
+    {q:'저는 사과___ 좋아해요. (J'aime les pommes.) Quelle particule ?',opts:['이','가','를','에'],ans:2,expl:'사과 = objet aimé (objet de 좋아하다) → <b>를</b>.'},
+    {q:'Différence entre 이/가 et 은/는 : laquelle introduit une INFO NOUVELLE ?',opts:['은/는','이/가','을/를','에/에서'],ans:1,expl:'<b>이/가</b> = sujet qui apporte une information nouvelle ou qui est en focus. <b>은/는</b> = thème connu, contexte établi.'},
+    {q:'집___ 친구가 있어요. (Il y a un ami chez moi.) Quelle particule ?',opts:['에서','에','가','를'],ans:1,expl:'집 = lieu + 있다 → état statique = <b>에</b>. "에서" irait avec une action (요리하다, 공부하다…).'},
+  ];
+
+  let cur=0,score=0;
+
+  function renderQ(){
+    const q=QS[cur];
+    document.getElementById('qText').textContent=(cur+1)+'. '+q.q;
+    const optsDiv=document.getElementById('qOpts');
+    optsDiv.innerHTML='';
+    q.opts.forEach((o,i)=>{
+      const btn=document.createElement('button');
+      btn.className='q-opt';
+      btn.textContent=o;
+      btn.onclick=()=>answer(i,btn,q);
+      optsDiv.appendChild(btn);
+    });
+    document.getElementById('qExpl').className='expl';
+    document.getElementById('qExpl').innerHTML='';
+    document.getElementById('nextBtn').style.display='none';
+    document.getElementById('pgNum').textContent=cur;
+    document.getElementById('pgFill').style.width=(cur/10*100)+'%';
+  }
+
+  function answer(i,btn,q){
+    const optsDiv=document.getElementById('qOpts');
+    if(optsDiv.querySelector('.ok,.ko'))return;
+    const btns=optsDiv.querySelectorAll('.q-opt');
+    const correct=q.correct!==undefined?q.correct:q.ans;
+    if(i===correct){btn.classList.add('ok');score++;}
+    else{btn.classList.add('ko');btns[correct].classList.add('ok');}
+    const expl=document.getElementById('qExpl');
+    expl.innerHTML='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> '+q.expl;
+    expl.className='expl show';
+    document.getElementById('nextBtn').style.display='block';
+    document.getElementById('pgNum').textContent=cur+1;
+    document.getElementById('pgFill').style.width=((cur+1)/10*100)+'%';
+  }
+
+  function nextQ(){
+    cur++;
+    if(cur>=QS.length){showResult();return;}
+    renderQ();
+  }
+
+  function showResult(){
+    document.getElementById('quizArea').style.display='none';
+    document.getElementById('nextBtn').style.display='none';
+    const ba=document.getElementById('badgeArea');
+    ba.style.display='block';
+    document.getElementById('finalScore').textContent=score+' / 10 questions correctes';
+    const msgs=[
+      'Encore un peu de pratique ! Relis les leçons sur les particules.',
+      'Bonne base ! Quelques particules à revoir.',
+      'Excellent ! Tu maîtrises les particules coréennes. '
+    ];
+    document.getElementById('finalMsg').textContent=score<6?msgs[0]:score<9?msgs[1]:msgs[2];
+    ba.scrollIntoView({behavior:'smooth'});
+  }
+
+  renderQ();
+  </script>
+</body>
+</html>

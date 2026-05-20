@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Négociation — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .scenario{background:linear-gradient(135deg,rgba(219,39,119,.07),rgba(219,39,119,.02));border:2px solid rgba(219,39,119,.2);border-radius:14px;padding:1rem;margin:.7rem 0}
+    .scenario-label{font-size:.72rem;font-weight:700;color:#DB2777;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+    .dialogue-ex{background:var(--surf);border-radius:10px;padding:.8rem;margin:.5rem 0}
+    .d-line{display:flex;gap:.6rem;margin:.35rem 0;font-size:.88rem;align-items:flex-start}
+    .d-spk{font-weight:700;color:#DB2777;min-width:2rem;font-size:.78rem;margin-top:.1rem;flex-shrink:0}
+    .expr-list{margin:.5rem 0}
+    .expr-item{padding:.4rem 0;border-bottom:1px solid var(--bd);font-size:.88rem;display:flex;gap:.5rem}
+    .expr-item:last-child{border-bottom:none}
+    .expr-ko{font-weight:700;color:#DB2777;min-width:9rem}
+    .expr-fr{color:var(--tx-muted)}
+    .score-box{text-align:center;padding:1rem;background:var(--surf);border:2px solid #DB2777;border-radius:12px;margin:1rem 0;display:none}
+    .score-num{font-size:2rem;font-weight:900;color:#DB2777}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Négociation en coréen</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2> Négociation en coréen</h2>
+  <span class="pill">B2 · Business</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Techniques de négociation, réponses polies mais fermes, concessions et persuasion en contexte coréen.</p>
+
+  <h3> Scénario : Négociation de contrat</h3>
+  <div class="scenario">
+    <div class="scenario-label"> Contexte</div>
+    <p style="font-size:.88rem;margin:.3rem 0">Tu représentes une entreprise française qui souhaite établir un partenariat avec une société coréenne. Tu négocies le prix et les conditions de livraison.</p>
+  </div>
+
+  <div class="dialogue-ex">
+    <div class="d-line"><span class="d-spk">KR</span><div><span class="ko">저희 측의 제안은 단가를 개당 5만 원으로 하는 것입니다.</span><br><small style="color:var(--tx-muted)">Notre proposition est de fixer le prix unitaire à 50 000 won.</small></div></div>
+    <div class="d-line"><span class="d-spk">FR</span><div><span class="ko">감사합니다. 좋은 제안이시지만, 초기 주문량이 많은 만큼 <strong style="color:#DB2777">가격 조정이 가능할지 여쭤봐도 될까요</strong>?</span><br><small style="color:var(--tx-muted)">Merci. C'est une bonne proposition, mais vu le volume initial de commandes, puis-je me permettre de demander si un ajustement de prix serait possible ?</small></div></div>
+    <div class="d-line"><span class="d-spk">KR</span><div><span class="ko"><strong style="color:#DB2777">검토해 보겠습니다만</strong>, 품질 기준을 고려하면 쉽지 않을 것 같습니다.</span><br><small style="color:var(--tx-muted)">Nous allons examiner cela, mais en tenant compte des normes de qualité, ce ne sera pas facile.</small></div></div>
+    <div class="d-line"><span class="d-spk">FR</span><div><span class="ko">물론입니다. <strong style="color:#DB2777">품질은 타협할 수 없는 부분이죠.</strong> 그렇다면 납기일을 조금 더 여유 있게 조정하는 방향은 어떨까요?</span><br><small style="color:var(--tx-muted)">Bien sûr. La qualité n'est pas négociable, c'est entendu. Dans ce cas, que pensez-vous d'ajuster les délais de livraison ?</small></div></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Expressions de négociation clés</h3>
+  <div class="card">
+    <div class="expr-list">
+      <div class="expr-item"><span class="expr-ko">검토해 보겠습니다</span><span class="expr-fr">Nous allons examiner cela (réponse dilatoire polie)</span></div>
+      <div class="expr-item"><span class="expr-ko">협의가 필요합니다</span><span class="expr-fr">Une concertation est nécessaire</span></div>
+      <div class="expr-item"><span class="expr-ko">가능한 한 빨리 회신 드리겠습니다</span><span class="expr-fr">Je vous répondrai le plus vite possible</span></div>
+      <div class="expr-item"><span class="expr-ko">조건을 재검토해 주시겠어요?</span><span class="expr-fr">Pourriez-vous revoir les conditions ?</span></div>
+      <div class="expr-item"><span class="expr-ko">상호 이익이 되는 방향으로</span><span class="expr-fr">Dans une direction mutuellement bénéfique</span></div>
+      <div class="expr-item"><span class="expr-ko">이 부분은 양보하기 어렵습니다</span><span class="expr-fr">Il nous est difficile de céder sur ce point</span></div>
+      <div class="expr-item"><span class="expr-ko">절충안을 찾아보겠습니다</span><span class="expr-fr">Nous allons chercher un compromis</span></div>
+      <div class="expr-item"><span class="expr-ko">합의점을 찾을 수 있을 것 같습니다</span><span class="expr-fr">Je pense qu'on peut trouver un accord</span></div>
+    </div>
+  </div>
+
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> En Corée, la négociation directe "à l'occidentale" est perçue comme agressive. Il faut toujours laisser une porte de sortie à l'interlocuteur et ne jamais le mettre en position d'échec public (눈치). Une bonne négociation protège la "face" (체면) des deux parties.</div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Questions de compréhension</h3>
+
+  <div class="card mq" id="q1"><p style="font-weight:600">Comment demander poliment un ajustement de prix ?</p>
+    <div class="opt" onclick="a(this,'ko')">가격 내려요!</div>
+    <div class="opt" onclick="a(this,'ok')">가격 조정이 가능할지 여쭤봐도 될까요?</div>
+    <div class="opt" onclick="a(this,'ko')">왜 이렇게 비싸요?</div>
+  </div>
+  <div class="card mq" id="q2"><p style="font-weight:600">검토해 보겠습니다 en contexte de négociation signifie souvent :</p>
+    <div class="opt" onclick="a(this,'ko')">Oui, c'est accepté</div>
+    <div class="opt" onclick="a(this,'ok')">Nous allons examiner (réponse polie pour gagner du temps)</div>
+    <div class="opt" onclick="a(this,'ko')">Non, c'est impossible</div>
+  </div>
+  <div class="card mq" id="q3"><p style="font-weight:600">체면 dans le contexte business coréen désigne :</p>
+    <div class="opt" onclick="a(this,'ko')">Le salaire</div>
+    <div class="opt" onclick="a(this,'ok')">La face / l'honneur social (à préserver dans toute interaction)</div>
+    <div class="opt" onclick="a(this,'ko')">Le contrat</div>
+  </div>
+  <div class="card mq" id="q4"><p style="font-weight:600">"Il nous est difficile de céder sur ce point" en coréen poli ?</p>
+    <div class="opt" onclick="a(this,'ko')">싫어요</div>
+    <div class="opt" onclick="a(this,'ok')">이 부분은 양보하기 어렵습니다</div>
+    <div class="opt" onclick="a(this,'ko')">그건 안 돼요</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Exercice terminé — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_d13');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

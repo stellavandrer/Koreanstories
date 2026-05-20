@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Écriture des consonnes · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .prog-wrap{background:var(--bd);height:8px;border-radius:100px;margin:0 0 20px;overflow:hidden}
+    .prog-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .4s ease}
+    .prog-label{font-size:11px;font-weight:700;color:var(--t3);margin-bottom:6px;text-align:right}
+    .choices{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left;width:100%}
+    .choice:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D;pointer-events:none}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626;pointer-events:none}
+    .choice:disabled{pointer-events:none}
+    .feedback{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;margin:10px 0;display:none}
+    .feedback.ok{background:#DCFCE7;border:1px solid #86EFAC;color:#15803D;display:block}
+    .feedback.ko{background:#FEE2E2;border:1px solid #FCA5A5;color:#DC2626;display:block}
+    .kr-big{font-size:64px;text-align:center;color:var(--gold);font-weight:700;display:block;margin:12px 0;line-height:1.2}
+    .kr-med{font-size:32px;color:var(--gold);font-weight:700}
+    .tip{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;color:var(--t)}
+    .tip strong{color:var(--gold)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none;width:100%}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .btn-outline{background:none;border:2px solid var(--bd2);color:var(--t2);margin-top:10px}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    .success-icon{font-size:64px;margin-bottom:16px}
+    .success-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px}
+    .success-sub{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6}
+    .score-badge{background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:16px;display:inline-block;margin-bottom:20px}
+    .score-badge .score-num{font-size:40px;font-weight:800;color:var(--gold)}
+    .score-badge .score-lbl{font-size:12px;color:var(--t2)}
+    .consonant-card{text-align:center;padding:24px 20px}
+    .roman{font-size:16px;font-weight:700;color:var(--t2);margin-bottom:4px}
+    .sound-desc{font-size:13px;color:var(--t3);margin-bottom:16px}
+    .stroke-order{background:var(--s3);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;color:var(--t);text-align:left}
+    .stroke-order h4{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+    .stroke-steps{line-height:2;color:var(--t)}
+    .example-word{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0;text-align:center}
+    .example-kr{font-size:24px;font-weight:700;color:var(--gold);display:block;margin-bottom:4px}
+    .example-rom{font-size:13px;color:var(--t2)}
+    .step-indicator{font-size:12px;font-weight:700;color:var(--t3);text-align:center;margin-bottom:8px}
+    .quiz-section{display:none}
+    .quiz-section.active{display:block}
+    .main-section{display:block}
+    .main-section.hidden{display:none}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    .pop{animation:pop .25s ease}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="hero">
+  <div class="hero-tag">EXERCICE</div>
+  <h1 class="hero-title">Écriture des consonnes</h1>
+  <p class="hero-sub">Apprends l'ordre des traits pour écrire 8 consonnes coréennes de base</p>
+</div>
+
+<div class="wrap">
+  <!-- Main learning section -->
+  <div class="main-section" id="mainSection">
+    <div class="prog-label" id="stepLabel">Consonne 1 / 8</div>
+    <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:12.5%"></div></div>
+
+    <div class="card consonant-card" id="consonantCard">
+      <span class="kr-big" id="charDisplay">ㄱ</span>
+      <div class="roman" id="romanDisplay">g/k</div>
+      <div class="sound-desc" id="soundDesc">Comme un crochet à droite</div>
+      <div class="stroke-order">
+        <h4><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Ordre des traits</h4>
+        <div class="stroke-steps" id="strokeSteps">① Trait horizontal → ② Trait vertical descendant à droite</div>
+      </div>
+      <div class="example-word">
+        <span class="example-kr" id="exKr">고양이</span>
+        <div class="example-rom" id="exRom">goyangyi · chat </div>
+      </div>
+    </div>
+
+    <button class="btn btn-gold" id="nextBtn" onclick="nextConsonant()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J'ai compris → Suivant</button>
+  </div>
+
+  <!-- Quiz section -->
+  <div class="quiz-section" id="quizSection">
+    <div class="prog-label" id="quizLabel">Question 1 / 5</div>
+    <div class="prog-wrap"><div class="prog-bar" id="quizProgBar" style="width:20%"></div></div>
+
+    <div class="card">
+      <div class="card-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Mini Quiz — Quel son pour cette consonne ?</div>
+      <span class="kr-big" id="quizChar">ㄱ</span>
+      <div class="choices" id="quizChoices"></div>
+      <div class="feedback" id="quizFeedback"></div>
+    </div>
+  </div>
+
+  <!-- Success screen -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon"></div>
+    <h2 class="success-title">Excellent travail !</h2>
+    <p class="success-sub">Tu as appris les 8 consonnes de base et complété le mini-quiz !</p>
+    <div class="score-badge">
+      <div class="score-num" id="finalScore">5</div>
+      <div class="score-lbl">/ 5 bonnes réponses</div>
+    </div>
+    <a href="cours.html" class="btn btn-gold">Retour au parcours</a>
+  </div>
+</div>
+
+<script>
+const consonants = [
+  {char:'ㄱ',roman:'g/k',desc:'Comme un crochet à droite',strokes:'① Trait horizontal → ② Trait vertical descendant à droite',exKr:'고양이',exRom:'goyangyi · chat '},
+  {char:'ㄴ',roman:'n',desc:'Comme un L inversé',strokes:'① Trait vertical ↓ → ② Trait horizontal →',exKr:'나라',exRom:'nara · pays <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>'},
+  {char:'ㄷ',roman:'d/t',desc:'Comme un carré ouvert en bas',strokes:'① Trait horizontal haut → ② Trait vertical gauche ↓ → ③ Trait horizontal bas →',exKr:'도시',exRom:'dosi · ville '},
+  {char:'ㄹ',roman:'r/l',desc:'Comme un zigzag stylisé',strokes:'① Crochet haut → ② Descente → ③ Horizontale ← → ④ Descente → ⑤ Horizontale →',exKr:'라면',exRom:'ramyeon · ramen '},
+  {char:'ㅁ',roman:'m',desc:'Comme un carré / bouche fermée',strokes:'① Trait gauche ↓ → ② Trait haut → → ③ Trait droite ↓ → ④ Trait bas →',exKr:'마음',exRom:'maeum · cœur <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'},
+  {char:'ㅂ',roman:'b/p',desc:'Deux traits verticaux + toit',strokes:'① Trait gauche ↓ → ② Trait droite ↓ → ③ Trait horizontal haut → → ④ Trait bas →',exKr:'밥',exRom:'bap · riz cuit '},
+  {char:'ㅅ',roman:'s',desc:'Comme un V ou des dents',strokes:'① Diagonale gauche ↙ → ② Diagonale droite ↘',exKr:'사랑',exRom:'sarang · amour <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'},
+  {char:'ㅇ',roman:'ng / muet initial',desc:'Un cercle parfait',strokes:'① Tracé circulaire dans le sens des aiguilles d\'une montre ○',exKr:'아이',exRom:'ai · enfant '},
+];
+
+const quizData = [
+  {char:'ㄱ',answer:'g/k',options:['g/k','n','m','s']},
+  {char:'ㄴ',answer:'n',options:['r/l','n','b/p','ng']},
+  {char:'ㄷ',answer:'d/t',options:['d/t','s','m','g/k']},
+  {char:'ㅅ',answer:'s',options:['n','b/p','s','r/l']},
+  {char:'ㅇ',answer:'ng / muet initial',options:['g/k','m','d/t','ng / muet initial']},
+];
+
+let currentStep = 0;
+let quizStep = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+function updateConsonant() {
+  const c = consonants[currentStep];
+  document.getElementById('charDisplay').textContent = c.char;
+  document.getElementById('romanDisplay').textContent = c.roman;
+  document.getElementById('soundDesc').textContent = c.desc;
+  document.getElementById('strokeSteps').textContent = c.strokes;
+  document.getElementById('exKr').textContent = c.exKr;
+  document.getElementById('exRom').textContent = c.exRom;
+  document.getElementById('stepLabel').textContent = `Consonne ${currentStep+1} / 8`;
+  document.getElementById('progBar').style.width = ((currentStep+1)/8*100)+'%';
+  document.getElementById('nextBtn').textContent = currentStep < 7 ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J\'ai compris → Suivant' : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J\'ai tout compris → Quiz !';
+}
+
+function nextConsonant() {
+  if (currentStep < 7) {
+    currentStep++;
+    updateConsonant();
+    const card = document.getElementById('consonantCard');
+    card.classList.add('pop');
+    setTimeout(()=>card.classList.remove('pop'),300);
+  } else {
+    startQuiz();
+  }
+}
+
+function startQuiz() {
+  document.getElementById('mainSection').classList.add('hidden');
+  document.getElementById('quizSection').classList.add('active');
+  showQuizQuestion();
+}
+
+function showQuizQuestion() {
+  const q = quizData[quizStep];
+  document.getElementById('quizChar').textContent = q.char;
+  document.getElementById('quizLabel').textContent = `Question ${quizStep+1} / 5`;
+  document.getElementById('quizProgBar').style.width = ((quizStep+1)/5*100)+'%';
+  document.getElementById('quizFeedback').className = 'feedback';
+  quizAnswered = false;
+
+  const shuffled = [...q.options].sort(()=>Math.random()-.5);
+  const container = document.getElementById('quizChoices');
+  container.innerHTML = '';
+  shuffled.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(btn, opt, q.answer);
+    container.appendChild(btn);
+  });
+}
+
+function answerQuiz(btn, chosen, correct) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const fb = document.getElementById('quizFeedback');
+  document.querySelectorAll('.choice').forEach(b => b.disabled = true);
+
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback ok';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct ! ' + correct;
+    quizScore++;
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback ko';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> La bonne réponse est : ' + correct;
+    document.querySelectorAll('.choice').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+  }
+
+  setTimeout(() => {
+    quizStep++;
+    if (quizStep < quizData.length) {
+      showQuizQuestion();
+    } else {
+      showSuccess();
+    }
+  }, 1500);
+}
+
+function showSuccess() {
+  document.getElementById('quizSection').classList.remove('active');
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('finalScore').textContent = quizScore;
+  try { localStorage.setItem('ks_h06','done'); } catch(e){}
+}
+
+updateConsonant();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Korean Stories — Leçon A2 : La voix passive -이/히/리/기</title>
+  <meta name="description" content="La voix passive en coréen : -이히리기 et -되다. 닫히다, 먹히다, 팔리다 — quand l'action se passe sans agent."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .gram-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .2s;flex-shrink:0}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Comparison active vs passive */
+    .compare-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:20px}
+    .compare-head{background:var(--navy);padding:14px 18px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--gold)}
+    .compare-row{display:grid;grid-template-columns:1fr 1px 1fr;gap:0;align-items:stretch}
+    .compare-side{padding:14px 16px;text-align:center}
+    .compare-divider{background:var(--bd);width:1px}
+    .compare-label{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:8px;display:block}
+    .compare-kor{font-size:20px;color:var(--t);font-weight:300;margin-bottom:4px;cursor:pointer}
+    .compare-rom{font-size:10px;color:var(--gold);font-weight:700;margin-bottom:3px}
+    .compare-mean{font-size:11px;color:var(--t2);line-height:1.4}
+    /* Suffix table */
+    .suffix-table{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:20px}
+    .suffix-title{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px}
+    .srow{display:grid;grid-template-columns:60px 1fr 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd);align-items:center}
+    .srow:last-child{border-bottom:none}
+    .srow-sfx{font-size:22px;color:var(--gold);font-weight:700;text-align:center}
+    .srow-act{font-size:14px;color:var(--t2)}
+    .srow-pas{font-size:14px;color:var(--t);font-weight:600;cursor:pointer}
+    /* Examples */
+    .ex-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .ex-item{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px 16px;cursor:pointer;transition:all .2s}
+    .ex-item:hover{border-color:var(--gold)}
+    .ex-kor{font-size:18px;color:var(--t);margin-bottom:4px}
+    .ex-rom{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:3px}
+    .ex-mean{font-size:13px;color:var(--t2)}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(26px,7vw,36px);color:var(--t);font-weight:300;margin:0 0 8px;cursor:pointer;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px;line-height:1.3}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+    .next-btn:hover{opacity:.88}
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+    [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
+    [data-theme=dark] .q-prompt{color:var(--t)}
+    .gram-overlay{position:fixed;inset:0;background:rgba(15,27,45,.6);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+    .gram-overlay.open{display:flex}
+    .gram-modal{background:var(--surf);border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:78vh;overflow-y:auto;padding:24px 24px 32px;animation:slideUp .3s cubic-bezier(.4,0,.2,1)}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+    .gram-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .gram-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t)}
+    .gram-close{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);background:none;font-size:20px;color:var(--gray);cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .gram-rule{padding:10px 0;border-bottom:1px solid var(--bd)}
+    .gram-rule:last-of-type{border-bottom:none}
+    .gram-head{font-size:13px;font-weight:800;color:var(--gold);margin-bottom:5px}
+    .gram-exp{font-size:13px;color:var(--t2);line-height:1.6}
+    .gram-exp em{color:var(--t);font-style:normal;font-weight:700}
+    .gram-tip{margin-top:12px;background:var(--goldp);border:1px solid rgba(201,169,110,.2);border-radius:12px;padding:12px;font-size:13px;color:var(--t);line-height:1.7}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+<div id="gramOverlay" class="gram-overlay">
+  <div class="gram-modal">
+    <div class="gram-hd">
+      <span class="gram-title">La voix passive en coréen</span>
+      <button class="gram-close" onclick="closeGram()">×</button>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">Les 4 suffixes passifs : -이 -히 -리 -기</div>
+      <div class="gram-exp">Ils s'ajoutent à la racine verbale pour former le passif :<br><em>-이</em> : 보다→보이다, 쓰다→쓰이다, 놓다→놓이다<br><em>-히</em> : 닫다→닫히다, 먹다→먹히다, 읽다→읽히다<br><em>-리</em> : 팔다→팔리다, 걸다→걸리다, 풀다→풀리다<br><em>-기</em> : 끊다→끊기다, 쫓다→쫓기다, 안다→안기다</div>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">-되다 : passive avec des noms verbaux</div>
+      <div class="gram-exp">Les verbes en 하다 → passif avec <em>-되다</em> :<br>연구하다(chercher) → <em>연구되다</em>(être recherché)<br>사용하다(utiliser) → <em>사용되다</em>(être utilisé)<br>발견하다(découvrir) → <em>발견되다</em>(être découvert)</div>
+    </div>
+    <div class="gram-tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> <strong>-아/어지다</strong> : une 3e façon de former le passif (plus naturel à l'oral) : 문이 닫아졌어요 = la porte s'est fermée.</div>
+  </div>
+</div>
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span> XP</a>
+  </div>
+</div>
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <button class="gram-btn" onclick="openGram()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Grammaire</button>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">La voix passive — quand la porte se ferme toute seule !</div></div>
+</div>
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">Passif A2 maîtrisé !</div>
+      <div class="res-subtitle">완료 — 잘 했어요 !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n">+15</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg">Tu maîtrises les 4 suffixes passifs (-이히리기) et -되다. Ces formes apparaissent constamment dans les textes coréens !</div>
+      <div class="res-btns">
+        <button class="res-prim" onclick="window.location.href='lecon46.html'">Leçon suivante — L'expérience <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn">Recommencer</button>
+          <a href="cours.html" class="res-sec">Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+function openGram(){document.getElementById('gramOverlay').classList.add('open')}
+function closeGram(){document.getElementById('gramOverlay').classList.remove('open')}
+document.getElementById('gramOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeGram()});
+
+const STEPS=[
+  {type:'story',tag:'Leçon A2 · La voix passive',
+   txt:'"Ji-woo cherche ses clés : 어디 있지? 열쇠가 어디에 놓였어요? (Où sont posées les clés?) Emma dit : 테이블 위에 놓여 있어요. (Elles sont posées sur la table.) Ji-woo : 아, 맞아 ! 그리고 문이 닫혔어요. (Ah oui ! Et la porte est fermée.)"',
+   scene:'Appartement à Mapo, Séoul — dimanche matin',
+   mina:'La voix passive = "X est fait" (sans dire qui l\'a fait). En coréen : 4 suffixes magiques -이/히/리/기 + une forme avec -되다. Très différent du français !'
+  },
+  {type:'compare',
+   head:'Actif vs Passif — 능동 vs 피동',
+   pairs:[
+     {act:{kor:'닫아요',rom:'da-da-yo',mean:'Je ferme'},pas:{kor:'닫혀요',rom:'da-chyeo-yo',mean:'(C\'est) fermé / ça se ferme'}},
+     {act:{kor:'팔아요',rom:'pa-ra-yo',mean:'Je vends'},pas:{kor:'팔려요',rom:'pal-lyeo-yo',mean:'(C\'est) vendu / ça se vend'}},
+     {act:{kor:'들어요',rom:'deu-reo-yo',mean:'J\'entends'},pas:{kor:'들려요',rom:'deul-lyeo-yo',mean:'(C\'est) entendu / ça s\'entend'}},
+   ],
+   mina:'En coréen passif, le sujet grammatical est ce qui REÇOIT l\'action. 문이 닫혀요 = la porte se ferme (est fermée). On ne dit pas "qui" ferme !'
+  },
+  {type:'suffixtable',
+   title:'Les 4 suffixes passifs — règles + exemples',
+   rows:[
+     {sfx:'-이',act:'보다 (voir)',pas:'보이다 → 보여요'},
+     {sfx:'-이',act:'쓰다 (écrire)',pas:'쓰이다 → 쓰여요'},
+     {sfx:'-히',act:'먹다 (manger)',pas:'먹히다 → 먹혀요'},
+     {sfx:'-히',act:'닫다 (fermer)',pas:'닫히다 → 닫혀요'},
+     {sfx:'-리',act:'팔다 (vendre)',pas:'팔리다 → 팔려요'},
+     {sfx:'-리',act:'들다 (entendre)',pas:'들리다 → 들려요'},
+     {sfx:'-기',act:'끊다 (couper)',pas:'끊기다 → 끊겨요'},
+   ],
+   mina:'Il n\'y a pas de règle absolue pour savoir quel suffixe utiliser — il faut mémoriser. Mais avec de la pratique, tu vas le sentir naturellement !'
+  },
+  {type:'examples',
+   title:'Phrases passives en contexte',
+   items:[
+     {kor:'한국어가 잘 들려요',rom:'han-gu-geo-ga jal deul-lyeo-yo',mean:'On entend bien le coréen (le coréen est bien entendu)'},
+     {kor:'이 책은 많이 읽혀요',rom:'i chaeg-eun ma-ni il-kyeo-yo',mean:'Ce livre est beaucoup lu'},
+     {kor:'창문이 바람에 열렸어요',rom:'chang-mu-ni ba-ra-me yeol-lyeo-sseo-yo',mean:'La fenêtre s\'est ouverte à cause du vent'},
+     {kor:'이 제품은 한국에서 만들어졌어요',rom:'i je-pu-meun han-gu-ge-seo man-deu-reo-jyeo-sseo-yo',mean:'Ce produit a été fabriqué en Corée'},
+     {kor:'시험 결과가 발표됐어요',rom:'si-heom gyeol-gwa-ga bal-pyo-dwaess-eo-yo',mean:'Les résultats de l\'examen ont été annoncés'},
+   ],
+   mina:'Tu vois ? Le passif en coréen est très naturel ! 보이다 (être vu), 들리다 (être entendu) sont souvent utilisés dans la vie quotidienne !'
+  },
+  {type:'mcq',qn:1,
+   prompt:'Quelle est la forme passive de "먹다" (manger) ?',
+   main:'먹다 → passif',
+   answer:'먹히다',choices:['먹히다','먹이다','먹리다','먹기다'],
+   fb_ok:'먹히다 — parfait ! 먹다 + -히 = 먹히다 (être mangé). Le suffixe passif de 먹다 est -히.',
+   fb_ko:'먹히다. 먹다 + suffixe -히 = 먹히다 (être mangé/bouffé). Certaines racines prennent -히 (자음 ㄱ, ㄷ, ㅈ…).',
+   mina_ok:'완벽해요 ! 먹히다 = être mangé. Ex: 음식이 다 먹혔어요 = la nourriture a toute été mangée !',
+   mina_ko:'먹히다 = être mangé. Suffixe -히. Ex: 아이가 모기에 먹혔어요 = l\'enfant s\'est fait piquer par un moustique !'
+  },
+  {type:'mcq',qn:2,
+   prompt:'Que signifie "문이 닫혔어요" ?',
+   main:'문이 닫혔어요',
+   answer:'La porte s\'est fermée / est fermée',choices:['La porte s\'est fermée / est fermée','J\'ai fermé la porte','La porte est ouverte','On ne peut pas fermer la porte'],
+   fb_ok:'La porte s\'est fermée — parfait ! 문 = porte · 이 = sujet · 닫혔어요 = (s\'est) fermé(e). Passif de 닫다 !',
+   fb_ko:'문이 닫혔어요 = la porte est fermée. 닫다(fermer) → 닫히다(être fermé) → 닫혔어요(a été fermé). Passif au passé !',
+   mina_ok:'훌륭해요 ! 문이 닫혔어요 = la porte est fermée. On ne sait pas qui l\'a fermée — c\'est l\'essence du passif !',
+   mina_ko:'문이 닫혔어요 = la porte est fermée. 닫다(fermer) → 닫히다(se fermer) → 닫혔어요(s\'est fermée).'
+  },
+  {type:'mcq',qn:3,
+   prompt:'Comment rendre passif un verbe en -하다 ?',
+   main:'연구하다 → passif',
+   answer:'연구되다',choices:['연구되다','연구히다','연구리다','연구이다'],
+   fb_ok:'연구되다 — excellent ! Pour les verbes 하다 : remplacer 하다 par -되다. 연구하다 → 연구되다 (être étudié/recherché).',
+   fb_ko:'연구되다. Pour les verbes en -하다 → passif avec -되다 : 연구하다 → 연구되다 · 사용하다 → 사용되다.',
+   mina_ok:'완벽해요 ! -하다 → -되다. 사용되다 = être utilisé · 발견되다 = être découvert · 연구되다 = être étudié !',
+   mina_ko:'-하다 → -되다 pour le passif. Mémorise : 사용되다(utilisé), 발견되다(découvert), 포함되다(inclus), 연결되다(connecté) !'
+  },
+  {type:'mcq',qn:4,
+   prompt:'Que signifie "한국어가 잘 들려요" ?',
+   main:'한국어가 잘 들려요',
+   answer:'On entend bien le coréen',choices:['On entend bien le coréen','J\'écoute le coréen','Le coréen m\'écoute','Je comprends le coréen'],
+   fb_ok:'On entend bien le coréen — parfait ! 들다(entendre) → 들리다(être entendu) → 들려요. Passif de perception !',
+   fb_ko:'한국어가 잘 들려요 = on entend bien le coréen. 들다 → 들리다(être entendu) → 들려요. Passif sensoriel très courant !',
+   mina_ok:'훌륭해요 ! 들려요 = on l\'entend / ça s\'entend. Aussi : 보여요(on le voit), 느껴져요(on le ressent) !',
+   mina_ko:'들려요 = on entend (passif de 듣다). 보여요 = on voit (passif de 보다). Ces deux formes sont très communes !'
+  },
+];
+
+const TOTAL_Q=STEPS.filter(s=>s.type==='mcq').length;
+let cur=0,score=0,answered=false;
+
+function ksBeep(t){try{const c=new(window.AudioContext||window.webkitAudioContext)();if(t==='ok'){[[523.25,0],[659.25,.08],[783.99,.16]].forEach(([f,d])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;const tt=c.currentTime+d;g.gain.setValueAtTime(0,tt);g.gain.linearRampToValueAtTime(.14,tt+.025);g.gain.exponentialRampToValueAtTime(.001,tt+.2);o.start(tt);o.stop(tt+.2);});}else{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.setValueAtTime(220,c.currentTime);o.frequency.linearRampToValueAtTime(110,c.currentTime+.2);g.gain.setValueAtTime(.10,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.22);o.start(c.currentTime);o.stop(c.currentTime+.22);}}catch(e){}}
+function setMina(t,img){document.getElementById('msay').textContent=t;si('minaHdr',img||A.e);}
+function initDots(){const el=document.getElementById('stepDots');if(!el)return;const col={story:'#C9A96E',compare:'#4F46E5',suffixtable:'#7C3AED',examples:'#16A34A',mcq:'#F59E0B'};el.innerHTML=STEPS.map((s,i)=>`<div class="sdot" id="dot${i}" style="background:${col[s.type]||'#C9A96E'};opacity:.25"></div>`).join('');}
+function updateDots(){STEPS.forEach((_,i)=>{const d=document.getElementById('dot'+i);if(!d)return;if(i<cur){d.style.opacity='1';d.classList.add('done');d.classList.remove('current');}else if(i===cur){d.style.opacity='1';d.classList.add('current');d.classList.remove('done');}else{d.style.opacity='.25';d.classList.remove('current','done');}});}
+function updateProgress(){document.getElementById('pbar').style.width=Math.round((cur/STEPS.length)*100)+'%';}
+
+function renderStory(s){return`<div class="story"><span class="story-tag">${s.tag}</span><p class="story-txt">${s.txt}</p><div class="story-scene">${s.scene}</div></div><button class="next-btn" onclick="advance()">Commencer →</button>`;}
+function renderCompare(s){const rows=s.pairs.map(p=>`<div class="compare-row"><div class="compare-side"><span class="compare-label">Actif</span><div class="compare-kor" onclick="speak('${p.act.kor}')">${p.act.kor}</div><div class="compare-rom">${p.act.rom}</div><div class="compare-mean">${p.act.mean}</div></div><div class="compare-divider"></div><div class="compare-side" style="background:var(--goldp)"><span class="compare-label">Passif</span><div class="compare-kor" onclick="speak('${p.pas.kor}')">${p.pas.kor}</div><div class="compare-rom">${p.pas.rom}</div><div class="compare-mean">${p.pas.mean}</div></div></div>`).join('<div style="height:1px;background:var(--bd)"></div>');return`<div class="compare-card"><div class="compare-head">${s.head}</div>${rows}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderSuffixTable(s){const rows=s.rows.map(r=>`<div class="srow"><div class="srow-sfx">${r.sfx}</div><div class="srow-act">${r.act}</div><div class="srow-pas" onclick="speak(this.textContent)">${r.pas}</div></div>`).join('');return`<div class="suffix-table"><div class="suffix-title">${s.title}</div>${rows}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderExamples(s){const items=s.items.map(it=>`<div class="ex-item" onclick="speak('${it.kor}')"><div class="ex-kor">${it.kor}</div><div class="ex-rom">${it.rom}</div><div class="ex-mean">${it.mean}</div></div>`).join('');return`<div style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px">${s.title}</div><div class="ex-list">${items}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderMcq(s){const chs=s.choices.map(c=>`<button class="ch" onclick="checkMcq(this,'${c.replace(/'/g,"\\'")}','${s.answer.replace(/'/g,"\\'")}','${(s.fb_ok||'').replace(/'/g,"\\'")}','${(s.fb_ko||'').replace(/'/g,"\\'")}','${(s.mina_ok||'').replace(/'/g,"\\'")}','${(s.mina_ko||'').replace(/'/g,"\\'")}',this.closest('.mcq'))">${c}</button>`).join('');return`<div class="mcq"><span class="q-cnt">Question ${s.qn} / ${TOTAL_Q}</span><p class="q-prompt">${s.prompt}</p><div class="q-big" onclick="speak('${s.main}')">${s.main}</div><div class="choices">${chs}</div><div class="fb-strip" id="fb" style="display:none"></div><button class="next-btn" id="nextQ" style="display:none" onclick="advance()">Continuer →</button></div>`;}
+function checkMcq(btn,chosen,answer,fok,fko,mok,mko,wrap){if(answered)return;answered=true;wrap.querySelectorAll('.ch').forEach(b=>b.disabled=true);const ok=chosen===answer;if(ok){score++;btn.classList.add('ok');ksBeep('ok');setMina(mok,A.b);}else{btn.classList.add('ko');wrap.querySelectorAll('.ch').forEach(b=>{if(b.textContent===answer)b.classList.add('ok');});ksBeep('ko');setMina(mko,A.a);}const fb=document.getElementById('fb');fb.textContent=ok?fok:fko;fb.className='fb-strip '+(ok?'ok':'ko');fb.style.display='block';document.getElementById('nextQ').style.display='block';}
+
+function renderStep(){const s=STEPS[cur];const lc=document.getElementById('lc');answered=false;
+  if(s.type==='story')lc.innerHTML=renderStory(s);
+  else if(s.type==='compare')lc.innerHTML=renderCompare(s);
+  else if(s.type==='suffixtable')lc.innerHTML=renderSuffixTable(s);
+  else if(s.type==='examples')lc.innerHTML=renderExamples(s);
+  else if(s.type==='mcq')lc.innerHTML=renderMcq(s);
+  if(s.mina)setMina(s.mina,A.e);
+  lc.scrollIntoView({behavior:'smooth',block:'start'});
+  updateDots();updateProgress();
+}
+function advance(){cur++;if(cur>=STEPS.length){showResults();return;}renderStep();}
+function showResults(){document.getElementById('lc').style.display='none';document.getElementById('results').style.display='block';document.getElementById('resScore').textContent=score;document.getElementById('resOf').textContent='/ '+TOTAL_Q+' bonnes rép.';try{localStorage.setItem('ks_b04b','done');}catch(e){}document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;document.getElementById('lc').style.display='';document.getElementById('results').style.display='none';renderStep();};}
+
+initDots();renderStep();
+</script>
+</body>
+</html>

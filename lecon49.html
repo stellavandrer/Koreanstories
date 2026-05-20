@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Korean Stories — Leçon B1 : Nominalisation -기 & -음</title>
+  <meta name="description" content="Maîtrisez la nominalisation coréenne : -기 (activités, expressions figées) et -음/-ㅁ (faits accomplis, formels). Niveau B1 / TOPIK 3-4."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Nom block */
+    .nom-block{border-radius:20px;padding:18px;margin-bottom:14px;border:2px solid var(--bd)}
+    .nom-block.ki{border-color:rgba(201,169,110,.5);background:rgba(201,169,110,.05)}
+    .nom-block.um{border-color:rgba(99,102,241,.35);background:rgba(99,102,241,.04)}
+    .nom-badge{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+    .ki .nom-badge{background:rgba(201,169,110,.2);color:#92400E}
+    .um .nom-badge{background:rgba(99,102,241,.15);color:#3730A3}
+    .nom-suffix{font-size:24px;color:var(--t);font-weight:300;margin-bottom:4px}
+    .nom-meaning{font-size:13px;color:var(--t2);margin-bottom:8px}
+    .nom-rule{font-size:12px;color:var(--t3);background:var(--bg);border-radius:10px;padding:8px 10px;margin-bottom:10px;line-height:1.6}
+    .nom-ex{padding:7px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+    .nom-ex:last-child{border-bottom:none}
+    .nom-ex-kor{font-size:15px;color:var(--t);font-weight:300}
+    .nom-ex-rom{font-size:10px;color:var(--gold);font-weight:700;margin:2px 0}
+    .nom-ex-mean{font-size:12px;color:var(--t2)}
+    /* Fixed expressions */
+    .fixed-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+    .fixed-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:12px;text-align:center;cursor:pointer;transition:all .2s}
+    .fixed-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+    .fixed-kor{font-size:15px;color:var(--t);margin-bottom:4px}
+    .fixed-mean{font-size:11px;color:var(--t2)}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(17px,5vw,26px);color:var(--t);line-height:1.4;font-weight:400;margin:0 0 8px;cursor:pointer;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center;line-height:1.4}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+    .next-btn:hover{opacity:.88}
+    /* Results */
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span> XP</a>
+  </div>
+</div>
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">한국어 배우기가 재미있어요 ! Apprendre le coréen, c'est amusant !</div></div>
+</div>
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">Nominalisation maîtrisée !</div>
+      <div class="res-subtitle">명사화 완료 — 대단해요 !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n">+18</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg">Excellent ! Tu maîtrises -기 et -음/-ㅁ. Ces formes nominalisées sont très fréquentes dans les textes écrits et au TOPIK. Ton niveau monte en flèche !</div>
+      <div class="res-btns">
+        <button class="res-prim" onclick="window.location.href='lecon50.html'">Leçon suivante — -게 되다 & -기로 하다 <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn">Recommencer</button>
+          <a href="cours.html" class="res-sec">Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+function beep(ok){try{const ac=new AudioContext();const o=ac.createOscillator();const g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=ok?880:200;g.gain.setValueAtTime(.4,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.4);o.start();o.stop(ac.currentTime+.4);}catch(e){}}
+
+const FIXED_KI=[
+  {kor:'좋아하기',mean:'le fait d\'aimer'},
+  {kor:'바라기',mean:'espérer que'},
+  {kor:'-기 전에',mean:'avant de faire'},
+  {kor:'-기 때문에',mean:'parce que'},
+  {kor:'-기 위해서',mean:'pour / afin de'},
+  {kor:'-기로 하다',mean:'décider de faire'},
+  {kor:'-기 쉽다/어렵다',mean:'facile/difficile à'},
+  {kor:'-기 싫다',mean:'ne pas vouloir'},
+];
+
+const MCQ=[
+  {q:'Quelle forme pour "J\'aime voyager" (activité en cours / préférence) ?',big:'여행하다 + nominalisation',choices:['여행하기를 좋아해요','여행함을 좋아해요','여행하음을 좋아해요','여행의 좋아해요'],ans:0,fb:'여행하기를 좋아해요 ! -기 s\'utilise avec les expressions de goût/préférence comme 좋아하다, 싫어하다.'},
+  {q:'"Il est difficile de lire des kanji." Quelle nominalisation ?',big:'한자 읽다 + difficile',choices:['한자 읽기 어려워요','한자 읽음이 어려워요','한자 읽는 어려워요','한자 읽기를 어렵어요'],ans:0,fb:'한자 읽기 어려워요 ! -기 + 어렵다 = difficile à faire. -기 s\'utilise avec les adjectifs d\'évaluation.'},
+  {q:'Dans un texte formel, comment nominaliser "il a pleuré" pour en faire le sujet de la phrase ?',big:'울다 → fait de pleurer',choices:['울음이 들렸어요','울기가 들렸어요','우는 것이 들렸어요','울음을 들렸어요'],ans:0,fb:'울음이 들렸어요 ! -음 (de 울다 → 울음) est formel et exprime un fait accompli ou un état résultant. On entendait des pleurs.'},
+  {q:'Avant de manger, on se lave les mains. Quelle structure ?',big:'먹다 + avant de',choices:['먹기 전에 손을 씻어요','먹음 전에 손을 씻어요','먹는 전에 손을 씻어요','먹어서 전에 손을 씻어요'],ans:0,fb:'먹기 전에 손을 씻어요 ! -기 전에 = avant de faire. Expression figée très courante avec -기.'},
+];
+
+const STEPS=[
+  {type:'story'},
+  {type:'ki'},{type:'um'},{type:'fixed'},{type:'contrast'},
+  {type:'mcq',idx:0},{type:'mcq',idx:1},{type:'mcq',idx:2},{type:'mcq',idx:3},
+];
+
+let cur=0,score=0,total=0;
+const lc=document.getElementById('lc');
+const pb=document.getElementById('pbar');
+const dots=document.getElementById('stepDots');
+
+function buildDots(){dots.innerHTML='';STEPS.forEach((_,i)=>{const d=document.createElement('span');d.className='sdot'+(i===0?' current':'');dots.appendChild(d);});}
+function updateDots(i){dots.querySelectorAll('.sdot').forEach((d,j)=>{d.className='sdot'+(j<i?' done':j===i?' current':'');});}
+function updatePB(){pb.style.width=((cur/STEPS.length)*100)+'%';}
+function advance(){cur++;render();}
+
+function render(){
+  if(cur>=STEPS.length){showResults();return;}
+  updateDots(cur);updatePB();
+  const s=STEPS[cur];
+  lc.innerHTML='';
+  lc.style.animation='none';requestAnimationFrame(()=>{lc.style.animation='fadeUp .35s ease both';});
+  if(s.type==='story') renderStory();
+  else if(s.type==='ki') renderKi();
+  else if(s.type==='um') renderUm();
+  else if(s.type==='fixed') renderFixed();
+  else if(s.type==='contrast') renderContrast();
+  else if(s.type==='mcq') renderMCQ(s.idx);
+}
+
+function renderStory(){
+  
+  document.getElementById('msay').textContent='한국어 배우기가 재미있어요 ! Apprendre le coréen, c\'est amusant !';
+  lc.innerHTML=`
+    <div class="story">
+      <span class="story-tag">Leçon B1 · Nominalisation -기 & -음/-ㅁ</span>
+      <div class="story-txt">"Emma lit un article en coréen. Elle tombe sur la phrase : 한국어 배우기가 생각보다 어렵다. (Apprendre le coréen est plus difficile qu\'on ne le pense.) Elle comprend : 배우다 + 기 = l\'action d\'apprendre ! Mina : 맞아요 ! 이렇게 동사가 명사가 돼요 — verbe → nom !"</div>
+      <div class="story-scene"> Café de Hongdae, Séoul — étude du coréen</div>
+    </div>
+    <div style="background:rgba(201,169,110,.1);border:1.5px solid var(--gold);border-radius:18px;padding:14px 16px;margin-bottom:20px">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Qu'est-ce que la nominalisation ?</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.9">
+        En coréen, un verbe peut devenir un nom grâce à des suffixes :<br>
+        <svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#f59e0b"/></svg> <strong>-기</strong> : activités, goûts, expressions figées (courant à l'oral)<br>
+        <svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#2563eb"/></svg> <strong>-음/-ㅁ</strong> : faits accomplis, formel, écrit (TOPIK !)
+      </div>
+    </div>
+    <button class="next-btn" onclick="advance()">Commencer →</button>`;
+}
+
+function renderKi(){
+  document.getElementById('msay').textContent='-기 : transformer un verbe en nom d\'activité !';
+  lc.innerHTML=`
+    <div class="nom-block ki">
+      <div class="nom-badge"><svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#f59e0b"/></svg> -기 — Activité / Infinitif nominal</div>
+      <div class="nom-suffix">Verbe + 기</div>
+      <div class="nom-meaning">Nominalise une action → "le fait de faire", "faire X"</div>
+      <div class="nom-rule"> Formation : radical + 기 (toujours, sans exception !)<br>
+        먹다 → 먹기 · 가다 → 가기 · 공부하다 → 공부하기 · 읽다 → 읽기</div>
+      <div class="nom-ex" onclick="speak('한국어 배우기가 재미있어요',null)">
+        <div class="nom-ex-kor">한국어 배우기가 재미있어요.</div>
+        <div class="nom-ex-rom">han-gu-geo bae-u-gi-ga jae-mi-i-sseo-yo.</div>
+        <div class="nom-ex-mean">Apprendre le coréen, c'est amusant.</div>
+      </div>
+      <div class="nom-ex" onclick="speak('매일 운동하기가 어려워요',null)">
+        <div class="nom-ex-kor">매일 운동하기가 어려워요.</div>
+        <div class="nom-ex-rom">mae-il un-dong-ha-gi-ga eo-ryeo-wo-yo.</div>
+        <div class="nom-ex-mean">Faire du sport tous les jours, c'est difficile.</div>
+      </div>
+      <div class="nom-ex" onclick="speak('저는 음악 듣기를 좋아해요',null)">
+        <div class="nom-ex-kor">저는 음악 듣기를 좋아해요.</div>
+        <div class="nom-ex-rom">jeo-neun eu-mak deut-gi-reul jo-a-hae-yo.</div>
+        <div class="nom-ex-mean">J'aime écouter de la musique.</div>
+      </div>
+    </div>
+    <button class="next-btn" onclick="advance()">-음/-ㅁ →</button>`;
+}
+
+function renderUm(){
+  document.getElementById('msay').textContent='-음/-ㅁ : formel, faits accomplis, textes écrits !';
+  lc.innerHTML=`
+    <div class="nom-block um">
+      <div class="nom-badge"><svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#2563eb"/></svg> -음/-ㅁ — Fait / Résultat (formel)</div>
+      <div class="nom-suffix">Verbe + 음 / ㅁ</div>
+      <div class="nom-meaning">Exprime un fait accompli, un état résultant. Très utilisé à l'écrit et au TOPIK.</div>
+      <div class="nom-rule"> Formation :<br>
+        • Radical finit par voyelle → + ㅁ : 가다→감, 오다→옴, 알다→앎<br>
+        • Radical finit par consonne → + 음 : 먹다→먹음, 읽다→읽음, 울다→울음<br>
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Verbes irréguliers : 살다→삶 (vie), 놀다→놂</div>
+      <div class="nom-ex" onclick="speak('그의 죽음이 슬퍼요',null)">
+        <div class="nom-ex-kor">그의 죽음이 슬퍼요.</div>
+        <div class="nom-ex-rom">geu-eui ju-geu-mi seul-peo-yo.</div>
+        <div class="nom-ex-mean">Sa mort est triste. (죽다 → 죽음)</div>
+      </div>
+      <div class="nom-ex" onclick="speak('삶이 아름다워요',null)">
+        <div class="nom-ex-kor">삶이 아름다워요.</div>
+        <div class="nom-ex-rom">sal-mi a-reum-da-wo-yo.</div>
+        <div class="nom-ex-mean">La vie est belle. (살다 → 삶)</div>
+      </div>
+      <div class="nom-ex" onclick="speak('그것을 알았음에도 말하지 않았어요',null)">
+        <div class="nom-ex-kor">알았음에도 말하지 않았어요.</div>
+        <div class="nom-ex-rom">a-ra-sseum-e-do mal-ha-ji a-na-sseo-yo.</div>
+        <div class="nom-ex-mean">Même en sachant cela, il n'a pas parlé. (알다 → 알았음)</div>
+      </div>
+    </div>
+    <button class="next-btn" onclick="advance()">Expressions figées →</button>`;
+}
+
+function renderFixed(){
+  document.getElementById('msay').textContent='-기 dans des expressions figées essentielles !';
+  let html=`
+    <div style="font-size:13px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Expressions figées avec -기</div>
+    <div class="fixed-grid">`;
+  FIXED_KI.forEach(f=>{
+    html+=`<div class="fixed-card" onclick="speak('${f.kor}',null)">
+      <div class="fixed-kor">${f.kor}</div>
+      <div class="fixed-mean">${f.mean}</div>
+    </div>`;
+  });
+  html+=`</div><button class="next-btn" onclick="advance()">Comparaison -기 vs -음 →</button>`;
+  lc.innerHTML=html;
+}
+
+function renderContrast(){
+  document.getElementById('msay').textContent='-기 vs -음 : quand utiliser lequel ?';
+  lc.innerHTML=`
+    <div style="background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:18px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px">-기 vs -음 : le guide pratique</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="background:rgba(201,169,110,.08);border-radius:12px;padding:12px">
+          <div style="font-size:12px;font-weight:800;color:var(--gold);margin-bottom:6px">-기 (oral, courant)</div>
+          <div style="font-size:11px;color:var(--t2);line-height:1.7"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Goûts/préférences<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Évaluations (쉽다, 어렵다)<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Expressions figées<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Oral et semi-formel</div>
+        </div>
+        <div style="background:rgba(99,102,241,.05);border-radius:12px;padding:12px">
+          <div style="font-size:12px;font-weight:800;color:#6366F1;margin-bottom:6px">-음/-ㅁ (écrit, formel)</div>
+          <div style="font-size:11px;color:var(--t2);line-height:1.7"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Textes littéraires<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Articles, journaux<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> TOPIK (lecture)<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Faits accomplis</div>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(201,169,110,.1);border:1.5px solid var(--gold);border-radius:16px;padding:14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:800;color:var(--gold);margin-bottom:6px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Astuce</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7">Pour l'oral : choisissez -기 ou la structure -는 것이 (équivalente mais toujours correcte). Pour l'écrit formel et le TOPIK : reconnaissez -음/-ㅁ dans les textes !</div>
+    </div>
+    <button class="next-btn" onclick="advance()">Quiz →</button>`;
+}
+
+function renderMCQ(idx){
+  const q=MCQ[idx];total++;
+  
+  document.getElementById('msay').textContent='명사화 퀴즈 — Quiz nominalisation !';
+  lc.innerHTML=`
+    <div class="mcq">
+      <span class="q-cnt">Question ${idx+1} / ${MCQ.length}</span>
+      <div class="q-prompt">${q.q}</div>
+      <div class="q-big" onclick="speak('${q.big}',null)">${q.big}</div>
+      <div class="choices" id="chs">
+        ${q.choices.map((c,i)=>`<button class="ch" onclick="pick(${i},${idx})">${c}</button>`).join('')}
+      </div>
+      <div class="fb-strip" id="fb" style="display:none"></div>
+      <button class="next-btn" id="nxt" style="display:none" onclick="advance()">Suivant →</button>
+    </div>`;
+}
+
+function pick(i,idx){
+  const q=MCQ[idx];
+  const chs=document.querySelectorAll('.ch');
+  chs.forEach(b=>b.disabled=true);
+  const ok=i===q.ans;
+  if(ok){score++;chs[i].classList.add('ok');beep(true);}
+  else{chs[i].classList.add('ko');chs[q.ans].classList.add('ok');beep(false);}
+  const fb=document.getElementById('fb');fb.style.display='block';
+  fb.className='fb-strip '+(ok?'ok':'ko');fb.textContent=q.fb;
+  document.getElementById('nxt').style.display='block';
+}
+
+function showResults(){
+  document.getElementById('results').style.display='block';
+  lc.style.display='none';
+  document.getElementById('resScore').textContent=score;
+  document.getElementById('resOf').textContent='/ '+total+' bonnes rép.';
+  
+  try{localStorage.setItem('ks_c09b','1');}catch(e){}
+  document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;total=0;document.getElementById('results').style.display='none';lc.style.display='block';render();};
+}
+
+buildDots();render();
+try{const xp=parseInt(localStorage.getItem('ks_xp')||'0');document.getElementById('xpEl').textContent=xp;}catch(e){}
+</script>
+</body>
+</html>

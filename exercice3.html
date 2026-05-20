@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Décris ta famille en coréen · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .prog-wrap{background:var(--bd);height:8px;border-radius:100px;margin:0 0 20px;overflow:hidden}
+    .prog-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .4s ease}
+    .prog-label{font-size:11px;font-weight:700;color:var(--t3);margin-bottom:6px;text-align:right}
+    .choices{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left;width:100%}
+    .choice:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D;pointer-events:none}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626;pointer-events:none}
+    .feedback{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;margin:10px 0;display:none}
+    .feedback.ok{background:#DCFCE7;border:1px solid #86EFAC;color:#15803D;display:block}
+    .feedback.ko{background:#FEE2E2;border:1px solid #FCA5A5;color:#DC2626;display:block}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none;width:100%}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    .success-icon{font-size:64px;margin-bottom:16px}
+    .success-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px}
+    .success-sub{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6}
+    .score-badge{background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:16px;display:inline-block;margin-bottom:20px}
+    .score-badge .score-num{font-size:40px;font-weight:800;color:var(--gold)}
+    .score-badge .score-lbl{font-size:12px;color:var(--t2)}
+    .situation-prompt{background:var(--s3);border-radius:12px;padding:16px;margin-bottom:14px;font-size:15px;font-weight:600;color:var(--t);text-align:center;line-height:1.5}
+    .explain-box{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--t);margin-top:8px;line-height:1.5}
+    .explain-box strong{color:var(--gold)}
+    .score-running{font-size:13px;font-weight:700;color:var(--t3);text-align:right;margin-bottom:8px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    .pop{animation:pop .25s ease}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="hero">
+  <div class="hero-tag">EXERCICE</div>
+  <h1 class="hero-title">Décris ta famille en coréen</h1>
+  <p class="hero-sub">8 situations — choisis la bonne traduction</p>
+</div>
+
+<div class="wrap">
+  <div id="quizSection">
+    <div class="score-running" id="scoreRunning">Score : 0 / 0</div>
+    <div class="prog-label" id="progLabel">Question 1 / 8</div>
+    <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:12.5%"></div></div>
+
+    <div class="card">
+      <div class="situation-prompt" id="situationPrompt">Mon père s'appelle Jean</div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="explain-box" id="explainBox" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">‍‍‍</div>
+    <h2 class="success-title">Félicitations !</h2>
+    <p class="success-sub">Tu sais maintenant décrire ta famille en coréen !</p>
+    <div class="score-badge">
+      <div class="score-num" id="finalScore">8</div>
+      <div class="score-lbl">/ 8 bonnes réponses</div>
+    </div>
+    <a href="cours.html" class="btn btn-gold">Retour au parcours</a>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    situation:"Mon père s'appelle Jean",
+    options:['우리 아빠 이름은 장이에요','우리 엄마 이름은 장이에요','우리 오빠 이름은 장이에요'],
+    answer:'우리 아빠 이름은 장이에요',
+    explain:'<strong>아빠</strong> = papa (familier). <strong>이름은</strong> = le prénom est. <strong>엄마</strong> = maman, <strong>오빠</strong> = grand frère (pour une fille).'
+  },
+  {
+    situation:"J'ai une grande sœur (si on est un garçon)",
+    options:['저는 누나가 있어요','저는 언니가 있어요','저는 오빠가 있어요'],
+    answer:'저는 누나가 있어요',
+    explain:'<strong>누나</strong> = grande sœur (dit par un garçon). <strong>언니</strong> = grande sœur (dit par une fille). <strong>오빠</strong> = grand frère (dit par une fille).'
+  },
+  {
+    situation:"Je suis fils unique",
+    options:['저는 외동아들이에요','저는 외동딸이에요','저는 막내예요'],
+    answer:'저는 외동아들이에요',
+    explain:'<strong>외동아들</strong> = fils unique. <strong>외동딸</strong> = fille unique. <strong>막내</strong> = le/la plus jeune de la fratrie.'
+  },
+  {
+    situation:"Mon petit frère a 10 ans",
+    options:['남동생이 열 살이에요','오빠가 열 살이에요','동생이 십 살이에요'],
+    answer:'남동생이 열 살이에요',
+    explain:'<strong>남동생</strong> = petit frère. <strong>열</strong> = 10 en système natif coréen (utilisé pour les âges). <strong>살</strong> = an (pour les âges).'
+  },
+  {
+    situation:"Ma mère est médecin",
+    options:['어머니는 의사예요','아버지는 의사예요','언니는 의사예요'],
+    answer:'어머니는 의사예요',
+    explain:'<strong>어머니</strong> = mère (formel). <strong>의사</strong> = médecin. <strong>아버지</strong> = père (formel), <strong>언니</strong> = grande sœur.'
+  },
+  {
+    situation:"Nous sommes 4 dans ma famille",
+    options:['우리 가족은 네 명이에요','우리 가족은 사 명이에요','우리 집에 넷이에요'],
+    answer:'우리 가족은 네 명이에요',
+    explain:'<strong>가족</strong> = famille. <strong>네 명</strong> = 4 personnes (네 = 4 en système natif + 명 = compteur de personnes). On utilise le système natif + 명 pour compter des personnes.'
+  },
+  {
+    situation:"Mon grand-père est à Busan",
+    options:['할아버지는 부산에 계세요','할머니는 부산에 계세요','삼촌은 부산에 있어요'],
+    answer:'할아버지는 부산에 계세요',
+    explain:'<strong>할아버지</strong> = grand-père. <strong>계세요</strong> = forme honorifique de 있어요 (être/se trouver). On utilise 계세요 pour les personnes plus âgées/respectées.'
+  },
+  {
+    situation:"Je ressemble à ma mère",
+    options:['저는 엄마를 닮았어요','저는 아빠를 닮았어요','저는 언니를 닮았어요'],
+    answer:'저는 엄마를 닮았어요',
+    explain:'<strong>닮았어요</strong> = ressemble (passé de 닮다). <strong>엄마를</strong> = à maman (particule 를 après objet). <strong>아빠</strong> = papa, <strong>언니</strong> = grande sœur.'
+  },
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function renderQ() {
+  const q = questions[currentQ];
+  document.getElementById('progLabel').textContent = `Question ${currentQ+1} / 8`;
+  document.getElementById('progBar').style.width = ((currentQ+1)/8*100)+'%';
+  document.getElementById('scoreRunning').textContent = `Score : ${score} / ${currentQ}`;
+  document.getElementById('situationPrompt').textContent = q.situation;
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('explainBox').style.display = 'none';
+  answered = false;
+
+  const shuffled = [...q.options].sort(()=>Math.random()-.5);
+  const container = document.getElementById('choices');
+  container.innerHTML = '';
+  shuffled.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(btn, opt, q.answer, q.explain);
+    container.appendChild(btn);
+  });
+}
+
+function answerQ(btn, chosen, correct, explain) {
+  if (answered) return;
+  answered = true;
+  const fb = document.getElementById('feedback');
+  const eb = document.getElementById('explainBox');
+  document.querySelectorAll('.choice').forEach(b => b.disabled = true);
+
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback ok';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct !';
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback ko';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Pas tout à fait !';
+    document.querySelectorAll('.choice').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+  }
+
+  eb.innerHTML = explain;
+  eb.style.display = 'block';
+  document.getElementById('scoreRunning').textContent = `Score : ${score} / ${currentQ+1}`;
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < questions.length) {
+      renderQ();
+    } else {
+      showSuccess();
+    }
+  }, 2000);
+}
+
+function showSuccess() {
+  document.getElementById('quizSection').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('finalScore').textContent = score;
+  try { localStorage.setItem('ks_a11','1'); } catch(e){}
+}
+
+renderQ();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Checkpoint Hangeul · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .prog-wrap{background:var(--bd);height:8px;border-radius:100px;overflow:hidden;margin:12px 0}
+    .prog-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .4s ease}
+    .prog-label{text-align:right;font-size:11px;font-weight:700;color:var(--t3);margin-bottom:4px}
+    .choices{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left;width:100%}
+    .choice:hover:not(:disabled){border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D;pointer-events:none}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626;pointer-events:none}
+    .choice:disabled{pointer-events:none;opacity:.6}
+    .expl{padding:12px 14px;border-radius:10px;font-size:12px;margin-top:8px;display:none;line-height:1.5}
+    .expl.ok{background:#DCFCE7;color:#15803D;border:1px solid #86EFAC;display:block}
+    .expl.ko{background:#FEE2E2;color:#DC2626;border:1px solid #FCA5A5;display:block}
+    .q-korean{font-size:36px;color:var(--gold);font-weight:700;text-align:center;margin:16px 0;line-height:1.3}
+    .q-context{font-size:13px;color:var(--t2);text-align:center;margin-bottom:10px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35);width:100%}
+    .btn-gold:hover{transform:translateY(-1px)}
+    .btn-outline{background:none;border:2px solid var(--bd2);color:var(--t2);width:100%;margin-top:10px}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    .badge-box{background:var(--goldbg);border:2px solid var(--goldbd);border-radius:20px;padding:24px;margin-bottom:20px;display:inline-block;min-width:180px}
+    .badge-icon{font-size:56px;display:block;margin-bottom:8px}
+    .badge-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);font-weight:700}
+    .score-circle{width:100px;height:100px;border-radius:50%;background:var(--goldbg);border:3px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px}
+    .score-num{font-size:28px;font-weight:800;color:var(--gold);line-height:1}
+    .score-denom{font-size:12px;color:var(--t2)}
+    .stars{font-size:24px;margin:8px 0}
+    .live-score{font-size:12px;font-weight:700;color:var(--gold);margin-left:auto;white-space:nowrap}
+    .next-btn{margin-top:14px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+    .confetti-piece{position:fixed;top:-20px;width:10px;height:10px;border-radius:2px;animation:confettiFall linear forwards;pointer-events:none;z-index:999}
+    .q-num{font-size:12px;font-weight:700;color:var(--t3);text-align:center;margin-bottom:8px}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="hero">
+  <div class="hero-tag">QUIZ</div>
+  <h1 class="hero-title">Checkpoint Hangeul <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg></h1>
+  <p class="hero-sub">20 questions pour valider tes connaissances du Hangeul. Montre ce que tu sais !</p>
+</div>
+
+<div class="wrap" id="quizArea">
+  <div class="card" id="questionCard">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+      <span class="q-num" id="qNum">Question 1 / 20</span>
+      <span class="live-score" id="liveScore">0 / 0</span>
+    </div>
+    <div class="prog-label" id="progLabel">0%</div>
+    <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+    <div class="q-context" id="qText"></div>
+    <div class="q-korean" id="qKorean" style="display:none"></div>
+    <div class="choices" id="choices"></div>
+    <div class="expl" id="expl"></div>
+    <button class="btn btn-gold next-btn" id="nextBtn" style="display:none" onclick="nextQuestion()">Question suivante →</button>
+  </div>
+</div>
+
+<div class="wrap success-screen" id="successScreen">
+  <div id="badgeArea"></div>
+  <div class="score-circle">
+    <span class="score-num" id="finalScore">0</span>
+    <span class="score-denom">/ 20</span>
+  </div>
+  <div class="stars" id="starsDisplay"></div>
+  <p id="resultMsg" style="font-size:15px;font-weight:700;color:var(--t);margin-bottom:8px"></p>
+  <p id="resultSub" style="font-size:13px;color:var(--t2);margin-bottom:28px;line-height:1.6"></p>
+  <a href="cours.html" class="btn btn-gold">Retour au parcours</a>
+  <button class="btn btn-outline" onclick="restartQuiz()">Recommencer le quiz</button>
+</div>
+
+<script>
+const rawQuestions = [
+  {q:"Quel est le son de ㅏ ?", kr:false, ans:["a","ya","eo","o"], expl:"ㅏ se prononce 'a' comme dans 'papa'. C'est la voyelle la plus simple !"},
+  {q:"Comment écrit-on le son 'ya' ?", kr:true, ans:["ㅑ","ㅗ","ㅣ","ㅕ"], expl:"ㅑ = ya. Mémorise : ㅏ (a) + une petite branche = ㅑ (ya)."},
+  {q:"Quel caractère représente le son 'g/k' ?", kr:true, ans:["ㄱ","ㄴ","ㅁ","ㄷ"], expl:"ㄱ ressemble à la forme de la gorge quand on prononce ce son."},
+  {q:"Que signifie 받침 (batchim) ?", kr:false, ans:["Consonne finale","Voyelle finale","Accent tonique","Syllabe"], expl:"받침 est la consonne placée en bas d'une syllabe coréenne."},
+  {q:"ㄴ se prononce comment ?", kr:false, ans:["n","m","ng","l"], expl:"ㄴ = n, comme dans 'non'. Sa forme ressemble à la langue qui touche le palais."},
+  {q:"En quelle année le Hangeul a-t-il été créé ?", kr:false, ans:["1443","1243","1543","1643"], expl:"Sejong le Grand crée le Hangeul en 1443, présenté en 1446."},
+  {q:"Quel est le son de ㅣ ?", kr:false, ans:["i","u","eu","a"], expl:"ㅣ = i. Trait vertical = debout = 'i'. Simple !"},
+  {q:"Quel caractère représente le son 'b/p' ?", kr:true, ans:["ㅂ","ㅁ","ㅍ","ㅃ"], expl:"ㅂ ressemble à deux lèvres (ㅁ) avec un toit = b/p."},
+  {q:"ㄹ se prononce comment ?", kr:false, ans:["r/l","n","m","d"], expl:"ㄹ est entre r et l. En début de syllabe plutôt r, en fin plutôt l."},
+  {q:"Que signifie 아빠 ?", kr:false, ans:["Papa","Maman","Frère","Sœur"], expl:"아빠 (appa) = papa. Un des premiers mots qu'un enfant apprend !"},
+  {q:"Comment s'écrit le son 'o' ?", kr:true, ans:["ㅗ","ㅜ","ㅡ","ㅛ"], expl:"ㅗ = o. Le petit trait pointe vers le haut (vers le ciel, comme un 'o' ouvert)."},
+  {q:"ㅎ se prononce comment ?", kr:false, ans:["h","k","t","p"], expl:"ㅎ = h aspiré. Comme dans 'hello' en anglais."},
+  {q:"Quelle est la structure de base d'une syllabe ?", kr:false, ans:["C+V ou C+V+C","V+C","C+V+C uniquement","V+C+V"], expl:"Une syllabe coréenne = initiale (C) + noyau (V) ± batchim (C finale)."},
+  {q:"Quel jour célèbre-t-on le Hangeul ?", kr:false, ans:["9 octobre","9 avril","15 août","1er janvier"], expl:"한글날 (Hangeulnal) = Jour du Hangeul, le 9 octobre, jour férié en Corée."},
+  {q:"ㅡ se prononce comment ?", kr:false, ans:["eu","o","u","a"], expl:"ㅡ = eu, comme dans 'peur'. Trait horizontal = allongé."},
+  {q:"Combien de voyelles de base ?", kr:false, ans:["10","8","12","14"], expl:"Le Hangeul a 10 voyelles de base (ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ) + des composées."},
+  {q:"Quel caractère joue le rôle de 'son nul' en initiale ?", kr:true, ans:["ㅇ","ㅁ","ㄴ","ㄱ"], expl:"ㅇ en position initiale = muet. En finale = ng (comme dans 'song')."},
+  {q:"사랑 se romanise comment ?", kr:false, ans:["sa-rang","sa-lang","sa-ran","sa-ryang"], expl:"사랑 = sa-rang = amour. ㄹ entre voyelles = r."},
+  {q:"한글날 signifie ?", kr:false, ans:["Jour du Hangeul","Fête nationale","Fête du roi","Jour de l'unification"], expl:"한글 = Hangeul, 날 = jour. Simple !"},
+  {q:"Quel son fait ㅓ ?", kr:false, ans:["eo (comme 'euh')","o","a","u"], expl:"ㅓ = eo, un son entre 'eu' et 'o', comme 'euh' en français."}
+];
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function prepareQuestions() {
+  return rawQuestions.map(q => {
+    const correct = q.ans[0];
+    const shuffled = shuffle(q.ans);
+    return { ...q, correct, shuffledAns: shuffled };
+  });
+}
+
+let questions = prepareQuestions();
+let current = 0;
+let score = 0;
+let answered = 0;
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById('qNum').textContent = `Question ${current + 1} / 20`;
+  document.getElementById('liveScore').textContent = `${score} / ${answered}`;
+  const pct = Math.round((current / 20) * 100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = pct + '%';
+
+  if (q.kr) {
+    document.getElementById('qKorean').style.display = 'block';
+    document.getElementById('qKorean').textContent = q.q.replace(/Quel caractère représente le son |Comment écrit-on le son |Quel caractère joue le rôle de | \?.*$/g, '').trim();
+    document.getElementById('qText').textContent = q.q;
+    document.getElementById('qKorean').style.display = 'none';
+    document.getElementById('qText').textContent = q.q;
+  } else {
+    document.getElementById('qKorean').style.display = 'none';
+    document.getElementById('qText').textContent = q.q;
+  }
+
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  q.shuffledAns.forEach(ans => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = ans;
+    btn.onclick = () => selectAnswer(ans, btn, q);
+    choicesEl.appendChild(btn);
+  });
+
+  document.getElementById('expl').className = 'expl';
+  document.getElementById('expl').textContent = '';
+  document.getElementById('nextBtn').style.display = 'none';
+}
+
+function selectAnswer(ans, btn, q) {
+  answered++;
+  const allBtns = document.querySelectorAll('.choice');
+  allBtns.forEach(b => b.disabled = true);
+
+  if (ans === q.correct) {
+    btn.classList.add('correct');
+    score++;
+    const expl = document.getElementById('expl');
+    expl.className = 'expl ok';
+    expl.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> ' + q.expl;
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => { if (b.textContent === q.correct) b.classList.add('correct'); });
+    const expl = document.getElementById('expl');
+    expl.className = 'expl ko';
+    expl.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ' + q.expl;
+  }
+
+  document.getElementById('liveScore').textContent = `${score} / ${answered}`;
+  document.getElementById('nextBtn').style.display = 'flex';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= 20) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quizArea').style.display = 'none';
+  const screen = document.getElementById('successScreen');
+  screen.classList.add('show');
+  document.getElementById('finalScore').textContent = score;
+
+  try {
+    localStorage.setItem('ks_h13','done');
+    localStorage.setItem('ks_h13_score', score);
+  } catch(e) {}
+
+  let badgeHTML = '';
+  let msg = '';
+  let sub = '';
+  let stars = '';
+
+  if (score < 10) {
+    msg = "Continue à t'entraîner ";
+    sub = "Relis le cours Hangeul et reviens — tu vas y arriver !";
+    stars = "<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>";
+  } else if (score < 15) {
+    msg = "Bon travail ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>";
+    sub = `${score}/20 bonnes réponses — tu maîtrises les bases du Hangeul !`;
+    stars = "<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>";
+  } else {
+    msg = "Badge Hangeul <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg> débloqué !";
+    sub = `Excellent ! ${score}/20 — Tu maîtrises parfaitement le Hangeul !`;
+    stars = "<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>";
+    badgeHTML = `<div class="badge-box"><span class="badge-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg></span><div class="badge-title">Badge Hangeul</div></div>`;
+    launchConfetti();
+  }
+
+  document.getElementById('badgeArea').innerHTML = badgeHTML;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultSub').textContent = sub;
+  document.getElementById('starsDisplay').textContent = stars;
+}
+
+function launchConfetti() {
+  const colors = ['#B8924E','#FFD800','#22C55E','#3B82F6','#EF4444','#A855F7','#EC4899'];
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (8 + Math.random() * 8) + 'px';
+      el.style.height = (8 + Math.random() * 8) + 'px';
+      el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      el.style.animationDelay = (Math.random() * 0.5) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }, i * 50);
+  }
+}
+
+function restartQuiz() {
+  questions = prepareQuestions();
+  current = 0;
+  score = 0;
+  answered = 0;
+  document.getElementById('successScreen').classList.remove('show');
+  document.getElementById('quizArea').style.display = 'block';
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

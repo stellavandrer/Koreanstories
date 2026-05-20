@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio natif — A1 | Histoires Coréennes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0f1a 0%, #1a2a3f 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--bd);
+      gap: 12px;
+    }
+
+    .back-btn {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover {
+      background: rgba(201, 169, 110, 0.1);
+    }
+
+    .nav-title {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 0.5px;
+    }
+
+    .xp-badge {
+      background: linear-gradient(135deg, var(--gold), #d4a574);
+      color: var(--bg);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    /* Warning banner */
+    .warning-banner {
+      display: none;
+      background: rgba(201, 169, 110, 0.15);
+      border-left: 4px solid var(--gold);
+      padding: 12px 20px;
+      font-size: 13px;
+      color: var(--subtle);
+      text-align: center;
+    }
+
+    .warning-banner.show {
+      display: block;
+    }
+
+    /* Unit tabs */
+    .units-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--bd);
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .unit-tab {
+      flex-shrink: 0;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--subtle);
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .unit-tab:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .unit-tab.active {
+      background: var(--card-bg);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Main content area */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 20px;
+      overflow-y: auto;
+    }
+
+    /* Card display */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--bd);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), #d4a574);
+      border-radius: 20px 0 0 0;
+      transition: width 0.3s ease;
+    }
+
+    .korean-text {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 52px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      word-break: keep-all;
+    }
+
+    .korean-text.playing {
+      color: var(--gold);
+      animation: pulse 0.6s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .romanization-toggle {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      margin: 8px auto 12px;
+      display: block;
+      transition: all 0.2s ease;
+    }
+
+    .romanization-toggle:hover {
+      background: rgba(201, 169, 110, 0.1);
+    }
+
+    .romanization {
+      display: none;
+      font-size: 16px;
+      color: var(--subtle);
+      margin-bottom: 12px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .romanization.show {
+      display: block;
+    }
+
+    .french {
+      font-size: 16px;
+      color: var(--subtle);
+      font-style: italic;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .play-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .play-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #d4a574);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(201, 169, 110, 0.3);
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 24px rgba(201, 169, 110, 0.4);
+    }
+
+    .play-btn:active {
+      transform: scale(0.95);
+    }
+
+    .play-btn svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--bg);
+    }
+
+    .voice-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .voice-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--bd);
+      color: var(--subtle);
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .voice-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201, 169, 110, 0.1);
+    }
+
+    .voice-btn.active {
+      background: rgba(201, 169, 110, 0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .speed-control {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .speed-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--bd);
+      color: var(--subtle);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .speed-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .speed-btn.active {
+      background: rgba(201, 169, 110, 0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Auto-play toggle */
+    .toggle-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--card-bg);
+      border-radius: 8px;
+    }
+
+    .toggle-label {
+      font-size: 12px;
+      color: var(--subtle);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      border: 1px solid var(--bd);
+    }
+
+    .toggle-switch.active {
+      background: rgba(201, 169, 110, 0.3);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: var(--text);
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: left 0.3s ease;
+    }
+
+    .toggle-switch.active::after {
+      left: 19px;
+      background: var(--gold);
+    }
+
+    /* Navigation */
+    .nav-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--bd);
+    }
+
+    .nav-btn {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--bd);
+      color: var(--subtle);
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .card-counter {
+      flex: 0 0 auto;
+      font-size: 12px;
+      color: var(--subtle);
+      min-width: 50px;
+      text-align: center;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(201, 169, 110, 0.3);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(201, 169, 110, 0.5);
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        max-width: 100%;
+      }
+
+      .card {
+        padding: 24px 20px;
+      }
+
+      .korean-text {
+        font-size: 44px;
+      }
+    }
+  
+    /* ── BOTTOM NAV ── */
+    
+    
+    
+    
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    @media(min-width:640px){body{padding-bottom:0}}
+
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <link rel="stylesheet" href="design.css"/>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+  <div class="container">
+    <!-- Top Navigation -->
+    <div class="top-nav">
+      <button class="back-btn" onclick="goBack()">← Cours</button>
+      <div class="nav-title">Audio natif — A1</div>
+      <div class="xp-badge">+50 XP</div>
+    </div>
+
+    <!-- Warning Banner (hidden by default) -->
+    <div class="warning-banner" id="warningBanner">
+      Votre navigateur ne supporte pas la synthèse vocale. Essayez Chrome ou Safari.
+    </div>
+
+    <!-- Units Tabs -->
+    <div class="units-container" id="unitsContainer"></div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <!-- Card -->
+      <div class="card" id="card">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="korean-text" id="koreanText"></div>
+        <button class="romanization-toggle" onclick="toggleRomanization()">Voir romanisation</button>
+        <div class="romanization" id="romanization"></div>
+        <div class="french" id="french"></div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <!-- Play section -->
+        <div class="play-section">
+          <button class="play-btn" onclick="playCard()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+          <div style="text-align: center;">
+            <div style="font-size: 12px; color: var(--subtle); margin-bottom: 4px;">Vitesse</div>
+            <div class="speed-control">
+              <button class="speed-btn" onclick="setSpeed(0.5)">0.5x</button>
+              <button class="speed-btn" onclick="setSpeed(0.75)">0.75x</button>
+              <button class="speed-btn active" onclick="setSpeed(1)">1x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voice buttons -->
+        <div>
+          <div style="font-size: 12px; color: var(--subtle); margin-bottom: 8px; text-align: center;">Voix</div>
+          <div class="voice-buttons">
+            <button class="voice-btn active" onclick="setVoice(1)">Voix 1</button>
+            <button class="voice-btn" onclick="setVoice(2)">Voix 2</button>
+            <button class="voice-btn" onclick="setVoice(3)">Voix 3</button>
+            <button class="voice-btn" onclick="setVoice(4)">Voix 4</button>
+          </div>
+        </div>
+
+        <!-- Auto-play toggle -->
+        <div class="toggle-section">
+          <label class="toggle-label">Lecture auto</label>
+          <div class="toggle-switch" id="autoPlayToggle" onclick="toggleAutoPlay()"></div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-section">
+        <button class="nav-btn" onclick="previousCard()" id="prevBtn">← Précédent</button>
+        <div class="card-counter"><span id="cardCounter">1</span> / <span id="cardTotal">15</span></div>
+        <button class="nav-btn" onclick="nextCard()" id="nextBtn">Suivant →</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Units data
+    const UNITS = {
+      u_d1: { title:'Voyelles', subtitle:'ㅏ ㅓ ㅗ ㅜ ㅡ ㅣ', cards:[
+        {kr:'아', rom:'a', fr:'ah (voyelle ㅏ)'},
+        {kr:'어', rom:'eo', fr:'euh (voyelle ㅓ)'},
+        {kr:'오', rom:'o', fr:'o (voyelle ㅗ)'},
+        {kr:'우', rom:'u', fr:'ou (voyelle ㅜ)'},
+        {kr:'으', rom:'eu', fr:'eu (voyelle ㅡ)'},
+        {kr:'이', rom:'i', fr:'i (voyelle ㅣ)'},
+        {kr:'에/애', rom:'e/ae', fr:'é (ㅔ/ㅐ)'},
+        {kr:'아이', rom:'a-i', fr:'enfant'},
+        {kr:'우리', rom:'u-ri', fr:'nous'},
+        {kr:'어디', rom:'eo-di', fr:'où ?'},
+        {kr:'이야기', rom:'i-ya-gi', fr:'histoire'},
+        {kr:'오이', rom:'o-i', fr:'concombre'},
+        {kr:'아이스크림', rom:'a-i-seu-keu-rim', fr:'glace'},
+        {kr:'이미', rom:'i-mi', fr:'déjà'},
+        {kr:'아무', rom:'a-mu', fr:"n'importe quel"}
+      ]},
+      u_d2: { title:'Consonnes ①', subtitle:'ㄱ ㄴ ㄷ ㄹ ㅁ', cards:[
+        {kr:'가다', rom:'ga-da', fr:'aller'},
+        {kr:'나라', rom:'na-ra', fr:'pays'},
+        {kr:'다리', rom:'da-ri', fr:'jambe/pont'},
+        {kr:'마음', rom:'ma-eum', fr:'coeur'},
+        {kr:'고모', rom:'go-mo', fr:'tante (père)'},
+        {kr:'노래', rom:'no-rae', fr:'chanson'},
+        {kr:'도서관', rom:'do-seo-gwan', fr:'bibliothèque'},
+        {kr:'라디오', rom:'la-di-o', fr:'radio'},
+        {kr:'모자', rom:'mo-ja', fr:'chapeau'},
+        {kr:'나무', rom:'na-mu', fr:'arbre'},
+        {kr:'달', rom:'dal', fr:'lune'},
+        {kr:'물', rom:'mul', fr:'eau'},
+        {kr:'밥', rom:'bap', fr:'riz/repas'},
+        {kr:'눈', rom:'nun', fr:'neige/oeil'},
+        {kr:'라면', rom:'ra-myeon', fr:'ramyeon'}
+      ]},
+      u_d3: { title:'Consonnes ②', subtitle:'ㅂ ㅅ + voyelles ㅜ ㅣ ㅓ', cards:[
+        {kr:'수박', rom:'su-bak', fr:'pastèque'},
+        {kr:'바나나', rom:'ba-na-na', fr:'banane'},
+        {kr:'사람', rom:'sa-ram', fr:'personne'},
+        {kr:'비빔밥', rom:'bi-bim-bap', fr:'bibimbap'},
+        {kr:'바다', rom:'ba-da', fr:'mer'},
+        {kr:'서울', rom:'seo-ul', fr:'Séoul'},
+        {kr:'버스', rom:'beo-seu', fr:'bus'},
+        {kr:'사랑', rom:'sa-rang', fr:'amour'},
+        {kr:'배우', rom:'bae-u', fr:'acteur/actrice'},
+        {kr:'의사', rom:'ui-sa', fr:'médecin'},
+        {kr:'소파', rom:'so-pa', fr:'canapé'},
+        {kr:'비밀', rom:'bi-mil', fr:'secret'},
+        {kr:'부산', rom:'bu-san', fr:'Busan'},
+        {kr:'노래방', rom:'no-rae-bang', fr:'karaoké'},
+        {kr:'이리', rom:'i-ri', fr:'loup'}
+      ]},
+      u_d4: { title:'Sons aspirés', subtitle:'ㅊ ㅋ ㅌ ㅍ · ㄲ ㄸ ㅃ ㅆ', cards:[
+        {kr:'치즈', rom:'chi-jeu', fr:'fromage'},
+        {kr:'커피', rom:'keo-pi', fr:'café'},
+        {kr:'파티', rom:'pa-ti', fr:'fête'},
+        {kr:'기차', rom:'gi-cha', fr:'train'},
+        {kr:'포도', rom:'po-do', fr:'raisin'},
+        {kr:'허리', rom:'heo-ri', fr:'taille/dos'},
+        {kr:'초콜릿', rom:'cho-kol-rit', fr:'chocolat'},
+        {kr:'토마토', rom:'to-ma-to', fr:'tomate'},
+        {kr:'하늘', rom:'ha-neul', fr:'ciel'},
+        {kr:'빨리', rom:'ppal-li', fr:'vite'},
+        {kr:'또', rom:'tto', fr:'encore'},
+        {kr:'쌀', rom:'ssal', fr:'riz (cru)'},
+        {kr:'찌개', rom:'jji-gae', fr:'jjigae (soupe)'},
+        {kr:'까다', rom:'kka-da', fr:'éplucher'},
+        {kr:'짜다', rom:'jja-da', fr:'salé'}
+      ]},
+      u_d5: { title:'Batchim & Diphtongues', subtitle:'21 voyelles · consonnes finales', cards:[
+        {kr:'한국', rom:'han-guk', fr:'Corée'},
+        {kr:'학교', rom:'hak-gyo', fr:'école'},
+        {kr:'음악', rom:'eum-ak', fr:'musique'},
+        {kr:'봄', rom:'bom', fr:'printemps'},
+        {kr:'책', rom:'chaek', fr:'livre'},
+        {kr:'먹다', rom:'meok-da', fr:'manger'},
+        {kr:'있어요', rom:'is-seo-yo', fr:"il y a / j'ai"},
+        {kr:'없어요', rom:'eob-seo-yo', fr:"il n'y a pas"},
+        {kr:'봐요', rom:'bwa-yo', fr:'on regarde'},
+        {kr:'원', rom:'won', fr:'won (monnaie)'},
+        {kr:'괜찮아요', rom:'gwaen-cha-na-yo', fr:'ça va'},
+        {kr:'좋아요', rom:'jo-a-yo', fr:"c'est bien"},
+        {kr:'싫어요', rom:'si-reo-yo', fr:"je n'aime pas"},
+        {kr:'재미있어요', rom:'jae-mi-is-seo-yo', fr:"c'est amusant"},
+        {kr:'뭐예요?', rom:'mwo-ye-yo?', fr:"c'est quoi ?"}
+      ]},
+      u_a1_6: { title:'Salutations', subtitle:'안녕하세요 · 감사합니다', cards:[
+        {kr:'안녕하세요', rom:'an-nyeong-ha-se-yo', fr:'Bonjour (formel)'},
+        {kr:'안녕히 가세요', rom:'an-nyeong-hi ga-se-yo', fr:'Au revoir (à celui qui part)'},
+        {kr:'안녕히 계세요', rom:'an-nyeong-hi gye-se-yo', fr:'Au revoir (à celui qui reste)'},
+        {kr:'감사합니다', rom:'gam-sa-ham-ni-da', fr:'Merci beaucoup'},
+        {kr:'죄송합니다', rom:'joe-song-ham-ni-da', fr:'Je suis désolé(e)'},
+        {kr:'괜찮아요', rom:'gwaen-cha-na-yo', fr:"Ça va / C'est pas grave"},
+        {kr:'반갑습니다', rom:'ban-gap-seum-ni-da', fr:'Enchanté(e)'},
+        {kr:'처음 뵙겠습니다', rom:'cheo-eum boep-get-seum-ni-da', fr:'Enchanté (très formel)'},
+        {kr:'잘 지냈어요?', rom:'jal ji-naess-eo-yo?', fr:'Comment allez-vous ?'},
+        {kr:'네', rom:'ne', fr:'Oui'},
+        {kr:'아니요', rom:'a-ni-yo', fr:'Non'},
+        {kr:'실례합니다', rom:'sil-lye-ham-ni-da', fr:'Excusez-moi'},
+        {kr:'어서 오세요', rom:'eo-seo o-se-yo', fr:'Bienvenue !'},
+        {kr:'미안해요', rom:'mi-an-hae-yo', fr:'Désolé(e)'},
+        {kr:'고맙습니다', rom:'go-map-seum-ni-da', fr:'Merci'}
+      ]},
+      u_a1_7: { title:'Se présenter', subtitle:'저는 ___ 이에요 · 가족', cards:[
+        {kr:'저는 ___이에요', rom:'jeo-neun ___i-e-yo', fr:'Je suis ___ (fin consonne)'},
+        {kr:'이름이 뭐예요?', rom:'i-reum-i mwo-ye-yo?', fr:'Comment vous appelez-vous ?'},
+        {kr:'저는 프랑스 사람이에요', rom:'jeo-neun peu-rang-seu sa-ram-i-e-yo', fr:'Je suis français(e)'},
+        {kr:'몇 살이에요?', rom:'myeot sal-i-e-yo?', fr:'Quel âge avez-vous ?'},
+        {kr:'어디 사세요?', rom:'eo-di sa-se-yo?', fr:'Où habitez-vous ?'},
+        {kr:'엄마 / 어머니', rom:'eom-ma / eo-meo-ni', fr:'maman / mère (formel)'},
+        {kr:'아빠 / 아버지', rom:'a-ppa / a-beo-ji', fr:'papa / père (formel)'},
+        {kr:'형 / 오빠', rom:'hyeong / o-ppa', fr:'grand frère (homme/femme)'},
+        {kr:'누나 / 언니', rom:'nu-na / eon-ni', fr:'grande soeur (homme/femme)'},
+        {kr:'동생', rom:'dong-saeng', fr:'petit(e) frère/soeur'},
+        {kr:'선생님', rom:'seon-saeng-nim', fr:'professeur'},
+        {kr:'학생', rom:'hak-saeng', fr:'étudiant(e)'},
+        {kr:'회사원', rom:'hoe-sa-won', fr:'employé(e) de bureau'},
+        {kr:'좋아해요', rom:'jo-a-hae-yo', fr:"j'aime"},
+        {kr:'싫어해요', rom:'si-reo-hae-yo', fr:"je n'aime pas"}
+      ]},
+      u_a1_8: { title:'Nombres & Temps', subtitle:'일 이 삼 · 하나 둘 · 몇 시?', cards:[
+        {kr:'일 이 삼 사 오', rom:'il i sam sa o', fr:'1 2 3 4 5 (sino-coréen)'},
+        {kr:'육 칠 팔 구 십', rom:'yuk chil pal gu sip', fr:'6 7 8 9 10'},
+        {kr:'하나 둘 셋 넷 다섯', rom:'ha-na dul set net da-seot', fr:'1 2 3 4 5 (natif)'},
+        {kr:'몇 시예요?', rom:'myeot si-ye-yo?', fr:'Quelle heure est-il ?'},
+        {kr:'한 시예요', rom:'han si-ye-yo', fr:'Il est une heure'},
+        {kr:'오늘', rom:'o-neul', fr:"aujourd'hui"},
+        {kr:'내일', rom:'nae-il', fr:'demain'},
+        {kr:'어제', rom:'eo-je', fr:'hier'},
+        {kr:'월요일', rom:'wol-yo-il', fr:'lundi'},
+        {kr:'생일', rom:'saeng-il', fr:'anniversaire'},
+        {kr:'얼마예요?', rom:'eol-ma-ye-yo?', fr:'Combien ça coûte ?'},
+        {kr:'천 원', rom:'cheon won', fr:'1000 won'},
+        {kr:'몇 월이에요?', rom:'myeot wol-i-e-yo?', fr:'On est quel mois ?'},
+        {kr:'오전 / 오후', rom:'o-jeon / o-hu', fr:'matin / après-midi'},
+        {kr:'지금 몇 시예요?', rom:'ji-geum myeot si-ye-yo?', fr:'Quelle heure est-il maintenant ?'}
+      ]},
+      u_a1_9: { title:'Nourriture & Shopping', subtitle:'주세요 · 얼마예요? · 맛있어요', cards:[
+        {kr:'주세요', rom:'ju-se-yo', fr:"S'il vous plaît / Donnez-moi"},
+        {kr:'있어요?', rom:'is-seo-yo?', fr:'Est-ce que vous avez... ?'},
+        {kr:'없어요', rom:'eob-seo-yo', fr:"Il n'y en a pas"},
+        {kr:'맛있어요', rom:'ma-si-ss-eo-yo', fr:"C'est délicieux"},
+        {kr:'맵지 않아요?', rom:'maep-ji a-na-yo?', fr:"Ce n'est pas épicé ?"},
+        {kr:'얼마예요?', rom:'eol-ma-ye-yo?', fr:'Combien ça coûte ?'},
+        {kr:'비싸요', rom:'bi-ssa-yo', fr:"C'est cher"},
+        {kr:'싸요', rom:'ssa-yo', fr:"C'est pas cher"},
+        {kr:'계산서 주세요', rom:'gye-san-seo ju-se-yo', fr:"L'addition s'il vous plaît"},
+        {kr:'삼겹살', rom:'sam-gyeop-sal', fr:'poitrine de porc grillée'},
+        {kr:'김치', rom:'gim-chi', fr:'kimchi'},
+        {kr:'떡볶이', rom:'tteok-bo-kki', fr:'tteokbokki'},
+        {kr:'냉면', rom:'naeng-myeon', fr:'nouilles froides'},
+        {kr:'할인 있어요?', rom:'hal-in is-seo-yo?', fr:'Vous avez une réduction ?'},
+        {kr:'하나 주세요', rom:'ha-na ju-se-yo', fr:"Un, s'il vous plaît"}
+      ]},
+      u_a1_10: { title:'Se déplacer', subtitle:'지하철 · 버스 · 어디예요?', cards:[
+        {kr:'지하철', rom:'ji-ha-cheol', fr:'métro'},
+        {kr:'버스', rom:'beo-seu', fr:'bus'},
+        {kr:'택시', rom:'taek-si', fr:'taxi'},
+        {kr:'기차역', rom:'gi-cha-yeok', fr:'gare'},
+        {kr:'어디예요?', rom:'eo-di-ye-yo?', fr:'Où est... ?'},
+        {kr:'왼쪽', rom:'wen-jjok', fr:'gauche'},
+        {kr:'오른쪽', rom:'o-reun-jjok', fr:'droite'},
+        {kr:'직진', rom:'jik-jin', fr:'tout droit'},
+        {kr:'가깝다', rom:'ga-kkap-da', fr:"c'est proche"},
+        {kr:'멀다', rom:'meol-da', fr:"c'est loin"},
+        {kr:'내리다', rom:'nae-ri-da', fr:'descendre'},
+        {kr:'타다', rom:'ta-da', fr:'monter/prendre'},
+        {kr:'환승', rom:'hwan-seung', fr:'correspondance'},
+        {kr:'몇 번 버스예요?', rom:'myeot beon beo-seu-ye-yo?', fr:'Bus numéro combien ?'},
+        {kr:'얼마예요?', rom:'eol-ma-ye-yo?', fr:'Combien ça coûte ?'}
+      ]},
+      u_a1_11: { title:'Grammaire A1', subtitle:'SOV · Particules · Conjugaison', cards:[
+        {kr:'은/는', rom:'eun/neun', fr:'particule de thème'},
+        {kr:'이/가', rom:'i/ga', fr:'particule de sujet'},
+        {kr:'을/를', rom:'eul/reul', fr:"particule d'objet"},
+        {kr:'에', rom:'e', fr:'particule de lieu (existence)'},
+        {kr:'에서', rom:'e-seo', fr:"particule de lieu (action)"},
+        {kr:'저는 학생이에요', rom:'jeo-neun hak-saeng-i-e-yo', fr:'Je suis étudiant(e)'},
+        {kr:'한국어를 공부해요', rom:'han-gug-eo-reul gong-bu-hae-yo', fr:"J'étudie le coréen"},
+        {kr:'카페에서 공부해요', rom:'ka-pe-e-seo gong-bu-hae-yo', fr:"J'étudie au café"},
+        {kr:'안 먹어요', rom:'an meog-eo-yo', fr:'Je ne mange pas'},
+        {kr:'먹지 않아요', rom:'meok-ji a-na-yo', fr:'Je ne mange pas (long)'},
+        {kr:'없어요', rom:'eob-seo-yo', fr:"Il n'y a pas"},
+        {kr:'아니에요', rom:'a-ni-e-yo', fr:"Ce n'est pas..."},
+        {kr:'가요', rom:'ga-yo', fr:'je vais'},
+        {kr:'먹어요', rom:'meog-eo-yo', fr:'je mange'},
+        {kr:'공부해요', rom:'gong-bu-hae-yo', fr:"j'étudie"}
+      ]},
+      u_a1_12: { title:'Météo & Saisons', subtitle:'날씨가 어때요? · 비가 와요', cards:[
+        {kr:'날씨가 어때요?', rom:'nal-ssi-ga eo-ttae-yo?', fr:'Quel temps fait-il ?'},
+        {kr:'맑아요', rom:'mal-ga-yo', fr:'Il fait beau'},
+        {kr:'흐려요', rom:'heu-ryeo-yo', fr:'Il est nuageux'},
+        {kr:'비가 와요', rom:'bi-ga wa-yo', fr:'Il pleut'},
+        {kr:'눈이 와요', rom:'nun-i wa-yo', fr:'Il neige'},
+        {kr:'바람이 불어요', rom:'ba-ram-i bur-eo-yo', fr:'Il y a du vent'},
+        {kr:'더워요', rom:'deo-wo-yo', fr:'Il fait chaud'},
+        {kr:'추워요', rom:'chu-wo-yo', fr:'Il fait froid'},
+        {kr:'따뜻해요', rom:'tta-tteu-tae-yo', fr:'Il fait doux'},
+        {kr:'시원해요', rom:'si-won-hae-yo', fr:'Il fait frais'},
+        {kr:'봄', rom:'bom', fr:'printemps'},
+        {kr:'여름', rom:'yeo-reum', fr:'été'},
+        {kr:'가을', rom:'ga-eul', fr:'automne'},
+        {kr:'겨울', rom:'gyeo-ul', fr:'hiver'},
+        {kr:'오늘 날씨 좋아요', rom:'o-neul nal-ssi jo-a-yo', fr:"Beau temps aujourd'hui"}
+      ]},
+      u_a1_13: { title:'Positions & Lieux', subtitle:'안/밖/위/아래/앞/뒤/옆', cards:[
+        {kr:'안', rom:'an', fr:'dedans'},
+        {kr:'밖', rom:'bak', fr:'dehors'},
+        {kr:'위', rom:'wi', fr:'dessus/en haut'},
+        {kr:'아래', rom:'a-rae', fr:'dessous/en bas'},
+        {kr:'앞', rom:'ap', fr:'devant'},
+        {kr:'뒤', rom:'dwi', fr:'derrière'},
+        {kr:'옆', rom:'yeop', fr:'à côté'},
+        {kr:'사이', rom:'sa-i', fr:'entre'},
+        {kr:'책상 위에 있어요', rom:'chaek-sang wi-e is-seo-yo', fr:'Sur le bureau'},
+        {kr:'가방 안에 있어요', rom:'ga-bang an-e is-seo-yo', fr:'Dans le sac'},
+        {kr:'어디 있어요?', rom:'eo-di is-seo-yo?', fr:'Où est-ce ?'},
+        {kr:'화장실이 어디예요?', rom:'hwa-jang-sil-i eo-di-ye-yo?', fr:'Où sont les toilettes ?'},
+        {kr:'왼쪽으로 가세요', rom:'wen-jjok-eu-ro ga-se-yo', fr:'Tournez à gauche'},
+        {kr:'오른쪽으로 가세요', rom:'o-reun-jjok-eu-ro ga-se-yo', fr:'Tournez à droite'},
+        {kr:'직진하세요', rom:'jik-jin-ha-se-yo', fr:'Tout droit'}
+      ]},
+      u_a1_14: { title:'Maison & Quotidien', subtitle:'거실/침실/부엌 · Routine', cards:[
+        {kr:'거실', rom:'geo-sil', fr:'salon'},
+        {kr:'침실', rom:'chim-sil', fr:'chambre'},
+        {kr:'부엌', rom:'bu-eok', fr:'cuisine'},
+        {kr:'화장실', rom:'hwa-jang-sil', fr:'salle de bain'},
+        {kr:'소파', rom:'so-pa', fr:'canapé'},
+        {kr:'침대', rom:'chim-dae', fr:'lit'},
+        {kr:'냉장고', rom:'naeng-jang-go', fr:'réfrigérateur'},
+        {kr:'일어나다', rom:'i-reo-na-da', fr:'se lever'},
+        {kr:'씻다', rom:'ssit-da', fr:'se laver'},
+        {kr:'아침을 먹다', rom:'a-chim-eul meok-da', fr:'prendre le petit-déjeuner'},
+        {kr:'학교에 가다', rom:'hak-gyo-e ga-da', fr:"aller à l'école"},
+        {kr:'공부하다', rom:'gong-bu-ha-da', fr:'étudier'},
+        {kr:'집에 오다', rom:'jib-e o-da', fr:'rentrer à la maison'},
+        {kr:'저녁을 먹다', rom:'jeo-nyeok-eul meok-da', fr:'dîner'},
+        {kr:'자다', rom:'ja-da', fr:'dormir'}
+      ]},
+      u_a1_15: { title:'Émotions & Corps', subtitle:'기쁘다/슬프다 · 몸 · 건강', cards:[
+        {kr:'기쁘다', rom:'gi-ppeu-da', fr:'être heureux/heureuse'},
+        {kr:'슬프다', rom:'seul-peu-da', fr:'être triste'},
+        {kr:'화나다', rom:'hwa-na-da', fr:'être en colère'},
+        {kr:'피곤하다', rom:'pi-gon-ha-da', fr:'être fatigué(e)'},
+        {kr:'행복하다', rom:'haeng-bok-ha-da', fr:'être heureux (profond)'},
+        {kr:'머리', rom:'meo-ri', fr:'tête'},
+        {kr:'눈', rom:'nun', fr:'oeil/yeux'},
+        {kr:'코', rom:'ko', fr:'nez'},
+        {kr:'입', rom:'ip', fr:'bouche'},
+        {kr:'귀', rom:'gwi', fr:'oreille'},
+        {kr:'손', rom:'son', fr:'main'},
+        {kr:'발', rom:'bal', fr:'pied'},
+        {kr:'어디 아파요?', rom:'eo-di a-pa-yo?', fr:'Où avez-vous mal ?'},
+        {kr:'머리가 아파요', rom:'meo-ri-ga a-pa-yo', fr:"J'ai mal à la tête"},
+        {kr:'기분이 어때요?', rom:'gi-bun-i eo-ttae-yo?', fr:'Comment vous sentez-vous ?'}
+      ]}
+    };
+
+    // State
+    let currentUnitId = 'u_d1';
+    let currentCardIndex = 0;
+    let currentSpeed = 1;
+    let currentVoice = 1;
+    let autoPlay = false;
+    let showRomanization = false;
+
+    // Voice configs: [rate, pitch]
+    const voiceConfigs = {
+      1: { rate: 0.85, pitch: 1.0 },
+      2: { rate: 0.9, pitch: 0.85 },
+      3: { rate: 0.75, pitch: 1.1 },
+      4: { rate: 0.95, pitch: 0.95 }
+    };
+
+    // Check TTS support
+    const hasTTS = window.speechSynthesis !== undefined;
+
+    // Init
+    function init() {
+      if (!hasTTS) {
+        document.getElementById('warningBanner').classList.add('show');
+      }
+
+      // Check URL for unit param
+      const params = new URLSearchParams(window.location.search);
+      const unitParam = params.get('u');
+      if (unitParam && UNITS[unitParam]) {
+        currentUnitId = unitParam;
+      }
+
+      renderUnits();
+      updateCard();
+    }
+
+    // Render unit tabs
+    function renderUnits() {
+      const container = document.getElementById('unitsContainer');
+      container.innerHTML = '';
+      Object.entries(UNITS).forEach(([id, unit]) => {
+        const btn = document.createElement('button');
+        btn.className = 'unit-tab' + (id === currentUnitId ? ' active' : '');
+        btn.textContent = unit.title;
+        btn.onclick = () => switchUnit(id);
+        container.appendChild(btn);
+      });
+    }
+
+    // Switch unit
+    function switchUnit(unitId) {
+      currentUnitId = unitId;
+      currentCardIndex = 0;
+      showRomanization = false;
+      renderUnits();
+      updateCard();
+    }
+
+    // Update card display
+    function updateCard() {
+      const unit = UNITS[currentUnitId];
+      const card = unit.cards[currentCardIndex];
+
+      document.getElementById('koreanText').textContent = card.kr;
+      document.getElementById('romanization').textContent = card.rom;
+      document.getElementById('french').textContent = card.fr;
+      document.getElementById('cardCounter').textContent = currentCardIndex + 1;
+      document.getElementById('cardTotal').textContent = unit.cards.length;
+
+      // Update progress bar
+      const progress = ((currentCardIndex + 1) / unit.cards.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+
+      // Update nav buttons
+      document.getElementById('prevBtn').disabled = currentCardIndex === 0;
+      document.getElementById('nextBtn').disabled = currentCardIndex === unit.cards.length - 1;
+
+      // Hide romanization on card change
+      if (!showRomanization) {
+        document.getElementById('romanization').classList.remove('show');
+      }
+
+      // Update localStorage
+      const progress_data = JSON.parse(localStorage.getItem('ks_prem_audio') || '{}');
+      progress_data[currentUnitId] = currentCardIndex + 1;
+      localStorage.setItem('ks_prem_audio', JSON.stringify(progress_data));
+    }
+
+    // Play current card
+    function playCard() {
+      if (!hasTTS) return;
+
+      const unit = UNITS[currentUnitId];
+      const card = unit.cards[currentCardIndex];
+
+      const utt = new SpeechSynthesisUtterance(card.kr);
+      utt.lang = 'ko-KR';
+      const config = voiceConfigs[currentVoice];
+      utt.rate = currentSpeed * config.rate;
+      utt.pitch = config.pitch;
+
+      // Add pulse animation
+      const textEl = document.getElementById('koreanText');
+      textEl.classList.remove('playing');
+      void textEl.offsetWidth; // Trigger reflow
+      textEl.classList.add('playing');
+
+      utt.onend = () => {
+        textEl.classList.remove('playing');
+        if (autoPlay) {
+          setTimeout(() => {
+            if (currentCardIndex < unit.cards.length - 1) {
+              nextCard();
+            }
+          }, 500);
+        }
+      };
+
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utt);
+    }
+
+    // Navigation
+    function previousCard() {
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        showRomanization = false;
+        updateCard();
+      }
+    }
+
+    function nextCard() {
+      const unit = UNITS[currentUnitId];
+      if (currentCardIndex < unit.cards.length - 1) {
+        currentCardIndex++;
+        showRomanization = false;
+        updateCard();
+      }
+    }
+
+    // Controls
+    function setSpeed(speed) {
+      currentSpeed = speed;
+      document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    function setVoice(voice) {
+      currentVoice = voice;
+      document.querySelectorAll('.voice-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelectorAll('.voice-btn')[voice - 1].classList.add('active');
+    }
+
+    function toggleAutoPlay() {
+      autoPlay = !autoPlay;
+      document.getElementById('autoPlayToggle').classList.toggle('active');
+    }
+
+    function toggleRomanization() {
+      showRomanization = !showRomanization;
+      document.getElementById('romanization').classList.toggle('show');
+    }
+
+    // Back button
+    function goBack() {
+      if (window.parent && typeof window.parent.closeCPanel === 'function') {
+        window.parent.closeCPanel();
+      } else {
+        history.back();
+      }
+    }
+
+    // Start
+    init();
+  </script>
+
+<script>
+(function(){
+  var SVG_MOON='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  var SVG_SUN='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+  function sync(){var b=document.getElementById('darkFab');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.innerHTML=d?SVG_SUN:SVG_MOON;b.style.opacity=d?'1':'.7';}
+  window.toggleDarkGlobal=function(){var d=document.documentElement.getAttribute('data-theme')==='dark';var t=d?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('ks_theme',t);}catch(e){}sync();};
+  sync();
+})();
+</script>
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

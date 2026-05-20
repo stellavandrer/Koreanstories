@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Page introuvable — Korean Stories</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100svh;font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden}
+
+    .page{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;position:relative;overflow:hidden}
+
+    /* Animated background letters */
+    .bg-letters{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.04}
+    .bg-char{position:absolute;font-family:'Playfair Display',serif;font-size:clamp(60px,12vw,120px);color:var(--gold);animation:float 8s ease-in-out infinite;user-select:none}
+    .bg-char:nth-child(1){top:5%;left:8%;animation-delay:0s}
+    .bg-char:nth-child(2){top:15%;right:12%;animation-delay:1.2s;font-size:80px}
+    .bg-char:nth-child(3){bottom:20%;left:5%;animation-delay:2.4s;font-size:100px}
+    .bg-char:nth-child(4){bottom:10%;right:8%;animation-delay:0.8s;font-size:90px}
+    .bg-char:nth-child(5){top:45%;left:50%;transform:translateX(-50%);animation-delay:1.8s;opacity:.3}
+    @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(3deg)}}
+
+    /* 404 Number */
+    .n404{font-family:'Playfair Display',serif;font-size:clamp(80px,18vw,160px);line-height:1;color:transparent;background:linear-gradient(135deg,var(--gold),#FFD800,var(--gold));-webkit-background-clip:text;background-clip:text;margin-bottom:8px;animation:glow 3s ease-in-out infinite}
+    @keyframes glow{0%,100%{filter:drop-shadow(0 0 20px rgba(201,169,110,0))}50%{filter:drop-shadow(0 0 40px rgba(201,169,110,0.3))}}
+
+    /* Korean subtitle */
+    .kr-sub{font-size:clamp(16px,4vw,22px);color:var(--gold);font-weight:700;margin-bottom:6px;letter-spacing:.08em}
+    .rom{font-size:13px;color:rgba(247,248,250,.3);margin-bottom:28px;letter-spacing:.04em}
+
+    .title{font-family:'Playfair Display',serif;font-size:clamp(20px,4vw,30px);color:white;margin-bottom:12px}
+    .subtitle{font-size:15px;color:rgba(247,248,250,.45);line-height:1.7;max-width:420px;margin:0 auto 36px}
+
+    /* Mina illustration */
+    .mina-wrap{margin-bottom:28px;position:relative;display:inline-block}
+    .mina-bubble{position:absolute;top:-10px;right:-20px;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);border-radius:16px 16px 16px 4px;padding:8px 14px;font-size:13px;color:var(--gold);font-weight:600;white-space:nowrap;animation:bobble 2.5s ease-in-out infinite}
+    @keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+    /* Buttons */
+    .btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .btn-primary{background:var(--gold);color:var(--navy);border:none;padding:14px 28px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;transition:all .25s;box-shadow:0 8px 28px rgba(201,169,110,.25)}
+    .btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
+    .btn-ghost{background:transparent;color:rgba(247,248,250,.55);border:1.5px solid rgba(247,248,250,.15);padding:13px 24px;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;cursor:pointer;text-decoration:none;transition:all .2s}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* Quick links */
+    .quick-links{margin-top:40px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .ql{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);color:rgba(247,248,250,.5);font-size:12px;font-weight:600;text-decoration:none;transition:all .2s}
+    .ql svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+    .ql:hover{border-color:rgba(201,169,110,.3);color:var(--gold);background:rgba(201,169,110,.05)}
+
+    @media(max-width:480px){
+      .btn-primary,.btn-ghost{width:100%;text-align:center;padding:14px 20px}
+      .mina-bubble{font-size:11px;right:-10px}
+    }
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+<div class="page">
+  <!-- Floating Korean bg chars -->
+  <div class="bg-letters">
+    <div class="bg-char">길</div>
+    <div class="bg-char">없</div>
+    <div class="bg-char">어</div>
+    <div class="bg-char">요</div>
+    <div class="bg-char">?</div>
+  </div>
+
+  <!-- Mina illustration SVG -->
+  <div class="mina-wrap">
+    <svg width="100" height="120" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" style="animation:mfloat 5s ease-in-out infinite">
+      <style>@keyframes mfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}</style>
+      <!-- Body -->
+      <ellipse cx="50" cy="95" rx="22" ry="18" fill="#1a2f4a"/>
+      <!-- Arms -->
+      <ellipse cx="28" cy="80" rx="6" ry="14" fill="#F5C5A3" transform="rotate(-15 28 80)"/>
+      <ellipse cx="72" cy="80" rx="6" ry="14" fill="#F5C5A3" transform="rotate(25 72 80)"/>
+      <!-- Head -->
+      <circle cx="50" cy="52" r="26" fill="#F5C5A3"/>
+      <!-- Hair -->
+      <ellipse cx="50" cy="30" rx="26" ry="16" fill="#2C1810"/>
+      <ellipse cx="28" cy="48" rx="8" ry="16" fill="#2C1810" transform="rotate(-10 28 48)"/>
+      <ellipse cx="72" cy="48" rx="8" ry="16" fill="#2C1810" transform="rotate(10 72 48)"/>
+      <!-- Eyes (surprised look) -->
+      <circle cx="40" cy="52" r="5" fill="white"/>
+      <circle cx="60" cy="52" r="5" fill="white"/>
+      <circle cx="41" cy="53" r="3" fill="#1a1228"/>
+      <circle cx="61" cy="53" r="3" fill="#1a1228"/>
+      <circle cx="40" cy="51.5" r="1.2" fill="white"/>
+      <circle cx="60" cy="51.5" r="1.2" fill="white"/>
+      <!-- Eyebrows raised in surprise -->
+      <path d="M35 44 Q40 41 45 44" stroke="#2C1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M55 44 Q60 41 65 44" stroke="#2C1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Mouth (O shape - surprised) -->
+      <ellipse cx="50" cy="64" rx="5" ry="6" fill="#C07880"/>
+      <!-- Cheeks -->
+      <ellipse cx="35" cy="59" rx="6" ry="4" fill="#FF8EA8" opacity=".3"/>
+      <ellipse cx="65" cy="59" rx="6" ry="4" fill="#FF8EA8" opacity=".3"/>
+      <!-- Collar -->
+      <path d="M40 113 L50 100 L60 113" fill="#C9A96E" opacity=".8"/>
+    </svg>
+    <div class="mina-bubble">어디 가셨어요? <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+  </div>
+
+  <div class="n404">404</div>
+  <div class="kr-sub">이 페이지는 없어요</div>
+  <div class="rom">i pe-i-ji-neun eob-seo-yo · cette page n'existe pas</div>
+
+  <h1 class="title">Page introuvable</h1>
+  <p class="subtitle">Cette page n'existe pas ou a été déplacée. Mina est aussi perdue que toi ! Retourne sur le bon chemin <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></p>
+
+  <div class="btns">
+    <a href="app.html" class="btn-primary"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Retour à l'accueil</a>
+    <a href="cours.html" class="btn-ghost"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Voir le cours</a>
+  </div>
+
+  <div class="quick-links">
+    <a href="challenge.html" class="ql">
+      <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Défi du Jour
+    </a>
+    <a href="classement.html" class="ql">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Classement
+    </a>
+    <a href="vocabulaire.html" class="ql">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      Vocabulaire
+    </a>
+    <a href="grammaire.html" class="ql">
+      <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+      Grammaire
+    </a>
+    <a href="hangeul.html" class="ql">
+      <svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+      Hangeul
+    </a>
+  </div>
+</div>
+
+<script>
+(function(){
+  try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+})();
+</script>
+</body>
+</html>

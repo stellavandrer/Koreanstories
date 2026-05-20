@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dans un grand magasin — Korean Stories</title>
+
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .5rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:1rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+  </style>
+
+  <style>
+    .dia-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .speaker{font-size:.78rem;font-weight:700;color:#16A34A;margin-bottom:.2rem}
+    .ko-line{font-size:1.05rem;font-weight:600;color:var(--navy)}
+    .fr-line{font-size:.88rem;color:var(--tx-muted)}
+    .blank-line{border:none;border-bottom:2px solid #16A34A;width:120px;font-size:1rem;background:transparent;color:var(--navy);text-align:center}
+    .blank-line:focus{outline:none}
+    .check-btn{background:#16A34A;color:#fff;border:none;border-radius:8px;padding:.5rem 1.2rem;cursor:pointer;font-size:.9rem;margin-top:.7rem}
+    .result-msg{margin-top:.5rem;font-size:.9rem;font-weight:600}
+    .vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.8rem 0}
+    .vocab-item{background:rgba(22,163,74,.07);border-radius:8px;padding:.5rem .7rem;font-size:.88rem}
+    .ko{color:#16A34A;font-weight:700}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Dans un grand magasin</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2> Dans un grand magasin</h2>
+      <span class="pill">Jeu de rôle</span> <span class="xp-badge">+10 XP</span>
+      <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0 1rem">Vous magasinez en Corée. Complétez les dialogues manquants.</p>
+
+      <div class="card">
+        <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Vocabulaire essentiel</h3>
+        <div class="vocab-grid">
+          <div class="vocab-item"><span class="ko">어디 있어요?</span><br>Où est… ?</div>
+          <div class="vocab-item"><span class="ko">몇 층이에요?</span><br>C'est quel étage ?</div>
+          <div class="vocab-item"><span class="ko">입어 봐도 돼요?</span><br>Je peux l'essayer ?</div>
+          <div class="vocab-item"><span class="ko">사이즈가 있어요?</span><br>Vous avez la taille ?</div>
+          <div class="vocab-item"><span class="ko">영수증 주세요.</span><br>Un reçu, s.v.p.</div>
+          <div class="vocab-item"><span class="ko">교환할 수 있어요?</span><br>Je peux échanger ?</div>
+          <div class="vocab-item"><span class="ko">세일 중이에요?</span><br>C'est en soldes ?</div>
+          <div class="vocab-item"><span class="ko">1층 / 2층</span><br>RDC / 1er étage</div>
+        </div>
+      </div>
+
+      <h3> Dialogue 1 — Trouver un rayon</h3>
+      <div class="dia-card">
+        <div class="speaker">Vous</div>
+        <div class="ko-line">저기요, 신발 코너가 <input class="blank-line" id="b1" placeholder="???"> 있어요?</div>
+        <div class="fr-line">Excusez-moi, où se trouve le rayon chaussures ?</div>
+        <div style="margin:.6rem 0"></div>
+        <div class="speaker">Vendeur</div>
+        <div class="ko-line">신발은 4층에 있어요.</div>
+        <div class="fr-line">Les chaussures sont au 4ème étage.</div>
+        <div style="margin:.6rem 0"></div>
+        <div class="speaker">Vous</div>
+        <div class="ko-line">감사합니다. 엘리베이터는 <input class="blank-line" id="b2" placeholder="???">?</div>
+        <div class="fr-line">Merci. Où est l'ascenseur ?</div>
+        <button class="check-btn" onclick="checkD1()">Vérifier</button>
+        <div class="result-msg" id="r1"></div>
+        <div style="margin-top:.7rem;font-size:.85rem;color:var(--tx-muted)">Réponses : <b>어디에</b> · <b>어디에 있어요</b></div>
+      </div>
+
+      <h3> Dialogue 2 — Essayer un vêtement</h3>
+      <div class="dia-card">
+        <div class="speaker">Vous</div>
+        <div class="ko-line">이 재킷 <input class="blank-line" id="b3" placeholder="???"> 봐도 돼요?</div>
+        <div class="fr-line">Je peux essayer cette veste ?</div>
+        <div style="margin:.6rem 0"></div>
+        <div class="speaker">Vendeur</div>
+        <div class="ko-line">네, 탈의실은 저쪽이에요. 사이즈는요?</div>
+        <div class="fr-line">Oui, la cabine est là-bas. Quelle taille ?</div>
+        <div style="margin:.6rem 0"></div>
+        <div class="speaker">Vous</div>
+        <div class="ko-line">M 사이즈 <input class="blank-line" id="b4" placeholder="???"> ?</div>
+        <div class="fr-line">Vous avez du M ?</div>
+        <button class="check-btn" onclick="checkD2()">Vérifier</button>
+        <div class="result-msg" id="r2"></div>
+        <div style="margin-top:.7rem;font-size:.85rem;color:var(--tx-muted)">Réponses : <b>입어</b> · <b>있어요</b></div>
+      </div>
+
+      <h3> Dialogue 3 — Payer</h3>
+      <div class="dia-card">
+        <div class="speaker">Vendeur</div>
+        <div class="ko-line">모두 58,000원이에요.</div>
+        <div class="fr-line">Ça fait 58 000 wons en tout.</div>
+        <div style="margin:.6rem 0"></div>
+        <div class="speaker">Vous</div>
+        <div class="ko-line">카드 <input class="blank-line" id="b5" placeholder="???"> ?</div>
+        <div class="fr-line">Vous acceptez la carte ?</div>
+        <div style="margin:.6rem 0"></div>
+        <div class="speaker">Vendeur</div>
+        <div class="ko-line">네, 돼요. 영수증 드릴까요?</div>
+        <div class="fr-line">Oui. Vous voulez le reçu ?</div>
+        <div style="margin:.6rem 0"></div>
+        <div class="speaker">Vous</div>
+        <div class="ko-line"><input class="blank-line" id="b6" placeholder="???"> 주세요.</div>
+        <div class="fr-line">Oui, donnez-le moi s.v.p.</div>
+        <button class="check-btn" onclick="checkD3()">Vérifier</button>
+        <div class="result-msg" id="r3"></div>
+        <div style="margin-top:.7rem;font-size:.85rem;color:var(--tx-muted)">Réponses : <b>돼요</b> · <b>영수증</b></div>
+      </div>
+
+      <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer +10 XP</button>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(10);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_b14');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+  </script>
+<script>
+function checkD1(){
+  const ok1=document.getElementById('b1').value.trim().includes('어디');
+  const ok2=document.getElementById('b2').value.trim().includes('어디');
+  document.getElementById('r1').innerHTML=(ok1&&ok2)?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Parfait !':'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Regardez les réponses suggérées ci-dessous.';
+  document.getElementById('r1').style.color=(ok1&&ok2)?'#16A34A':'#d97706';
+}
+function checkD2(){
+  const ok1=document.getElementById('b3').value.trim().includes('입어');
+  const ok2=document.getElementById('b4').value.trim().includes('있');
+  document.getElementById('r2').innerHTML=(ok1&&ok2)?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Parfait !':'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Regardez les réponses suggérées.';
+  document.getElementById('r2').style.color=(ok1&&ok2)?'#16A34A':'#d97706';
+}
+function checkD3(){
+  const ok1=document.getElementById('b5').value.trim().includes('돼');
+  const ok2=document.getElementById('b6').value.trim().includes('영수증');
+  document.getElementById('r3').innerHTML=(ok1&&ok2)?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Parfait !':'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Regardez les réponses suggérées.';
+  document.getElementById('r3').style.color=(ok1&&ok2)?'#16A34A':'#d97706';
+}
+</script>
+</body>
+</html>

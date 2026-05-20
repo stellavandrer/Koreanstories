@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>L'astuce des formes · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .hero-meta{display:flex;justify-content:center;gap:16px;margin-top:18px}
+    .hero-meta span{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(237,242,250,.45)}
+    .hero-meta svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .card-title svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr)}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .btn-row{display:flex;gap:12px;margin-top:20px;justify-content:center;flex-wrap:wrap}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left}
+    .choice:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626}
+    .feedback{padding:14px 18px;border-radius:12px;font-size:13px;font-weight:600;margin:12px 0;display:none}
+    .feedback.ok{background:#DCFCE7;border:1px solid #86EFAC;color:#15803D}
+    .feedback.ko{background:#FEE2E2;border:1px solid #FCA5A5;color:#DC2626}
+    .feedback.show{display:block}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+    /* Mnemo cards */
+    .mnemo-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+    .mnemo-card{background:var(--s2);border:1.5px solid var(--bd);border-radius:14px;padding:16px 12px;text-align:center;transition:all var(--tr)}
+    .mnemo-card:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .mnemo-kr{font-size:40px;color:var(--gold);font-weight:700;display:block;margin-bottom:6px}
+    .mnemo-title{font-size:12px;font-weight:800;color:var(--t);margin-bottom:4px}
+    .mnemo-desc{font-size:11px;color:var(--t2);line-height:1.5}
+
+    /* Body parts quiz */
+    .body-q{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--bd)}
+    .body-q:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .body-q-char{font-size:48px;color:var(--gold);text-align:center;display:block;margin-bottom:12px}
+    .body-q-text{font-size:13px;font-weight:700;color:var(--t);margin-bottom:10px}
+    .body-choices{display:flex;gap:8px;flex-wrap:wrap}
+    .body-choice{padding:8px 16px;background:var(--s2);border:1.5px solid var(--bd);border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:all var(--tr)}
+    .body-choice:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .body-choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D}
+    .body-choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626}
+    .body-choice:disabled{cursor:default;opacity:.7}
+
+    /* Section reading */
+    .reading-p{font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:14px}
+    .highlight-box{background:var(--goldbg);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0;font-size:13px;color:var(--t2);line-height:1.7}
+    .section-divider{height:1px;background:var(--bd);margin:20px 0}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+  <div class="xp-pill">
+    <svg viewBox="0 0 10 10"><polygon points="5,1 6.5,4 10,4.5 7.5,7 8,10 5,8.5 2,10 2.5,7 0,4.5 3.5,4"/></svg>
+    +5 XP
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">Conseil</div>
+  <h1 class="hero-title">L'astuce des formes <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg></h1>
+  <p class="hero-sub">Comprends le Hangeul en 5 minutes grâce aux formes phonétiques</p>
+  <div class="hero-meta">
+    <span>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      ~5 min
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Débutant
+    </span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- Section 1: Principe général -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Le secret du Hangeul
+    </div>
+    <p class="reading-p">Le Hangeul est unique au monde : c'est un alphabet <strong>entièrement logique</strong>. Contrairement aux caractères chinois appris par mémorisation pure, chaque lettre coréenne a été <em>dessinée</em> pour ressembler à la position de la bouche, de la langue ou de la gorge quand on prononce le son.</p>
+    <p class="reading-p">Le roi Sejong, qui l'a inventé en 1443, voulait que n'importe qui puisse l'apprendre rapidement. Son pari était audacieux : "un homme sage peut l'apprendre en une matinée." Spoiler : c'est presque vrai !</p>
+    <div class="highlight-box">
+       <strong>Idée clé :</strong> Chaque forme = une position des organes phonatoires. Mémorise la forme → tu te souviens du son !
+    </div>
+  </div>
+
+  <!-- Section 2: Consonnes -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Les consonnes : imiter la gorge et la langue
+    </div>
+    <p class="reading-p">Les consonnes coréennes de base sont dérivées de <strong>5 formes mères</strong>, chacune imitant une partie du corps impliquée dans la phonation :</p>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin:14px 0">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:12px;border:1px solid var(--bd)">
+        <span style="font-size:36px;color:var(--gold);font-weight:700;min-width:48px;text-align:center">ㄱ</span>
+        <div><div style="font-size:13px;font-weight:700;color:var(--t)">Forme de la gorge (g/k)</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Ressemble au profil de la gorge vu de côté lorsqu'on bloque l'air pour faire "g"</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:12px;border:1px solid var(--bd)">
+        <span style="font-size:36px;color:var(--gold);font-weight:700;min-width:48px;text-align:center">ㄴ</span>
+        <div><div style="font-size:13px;font-weight:700;color:var(--t)">Forme de la langue (n)</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Ressemble à la langue appuyée contre le palais — le même geste pour prononcer "n"</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:12px;border:1px solid var(--bd)">
+        <span style="font-size:36px;color:var(--gold);font-weight:700;min-width:48px;text-align:center">ㅁ</span>
+        <div><div style="font-size:13px;font-weight:700;color:var(--t)">Forme des lèvres fermées (m)</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Le carré représente la bouche fermée — exactement ce qu'on fait pour "m"</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--s2);border-radius:12px;border:1px solid var(--bd)">
+        <span style="font-size:36px;color:var(--gold);font-weight:700;min-width:48px;text-align:center">ㅅ</span>
+        <div><div style="font-size:13px;font-weight:700;color:var(--t)">Forme des dents (s)</div><div style="font-size:12px;color:var(--t2);margin-top:2px">Les deux lignes pointues ressemblent aux incisives — l'air siffle entre elles pour "s"</div></div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+       Les autres consonnes sont créées en ajoutant des traits à ces 4 formes de base. Ex: ㄱ → ㅋ (ajout d'un trait = son plus aspiré "k")
+    </div>
+  </div>
+
+  <!-- Section 3: Voyelles -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
+      Les voyelles : vertical, horizontal, puis tout le reste
+    </div>
+    <p class="reading-p">Les voyelles reposent sur une philosophie cosmologique coréenne : <strong>Ciel (•), Terre (ㅡ), Homme (ㅣ)</strong>. Ces trois éléments suffisent à construire toutes les voyelles :</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0">
+      <div style="padding:14px;background:var(--s2);border-radius:12px;border:1px solid var(--bd);text-align:center">
+        <span style="font-size:40px;color:var(--gold);display:block;margin-bottom:6px">ㅣ</span>
+        <div style="font-size:12px;font-weight:700;color:var(--t)">Vertical = "i"</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:3px">L'homme debout — lèvres étirées</div>
+      </div>
+      <div style="padding:14px;background:var(--s2);border-radius:12px;border:1px solid var(--bd);text-align:center">
+        <span style="font-size:40px;color:var(--gold);display:block;margin-bottom:6px">ㅡ</span>
+        <div style="font-size:12px;font-weight:700;color:var(--t)">Horizontal = "eu"</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:3px">La terre plate — bouche à plat</div>
+      </div>
+    </div>
+    <p class="reading-p">Ajoute un petit trait à droite de ㅣ → ㅏ (a). Ajoute-en un au-dessus de ㅡ → ㅗ (o). Avec 2 traits → ㅑ (ya), ㅛ (yo). C'est <em>mathématique</em> !</p>
+  </div>
+
+  <!-- Section 4: Mémos -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Mémorisation par association
+    </div>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.6">6 astuces visuelles pour ne jamais oublier ces caractères :</p>
+
+    <div class="mnemo-grid">
+      <div class="mnemo-card">
+        <span class="mnemo-kr">ㄱ</span>
+        <div class="mnemo-title">Crochet = G</div>
+        <div class="mnemo-desc">Imagine un crochet qui attrape → "G" comme "grip" (saisir)</div>
+      </div>
+      <div class="mnemo-card">
+        <span class="mnemo-kr">ㄴ</span>
+        <div class="mnemo-title">Équerre = N</div>
+        <div class="mnemo-desc">L'angle droit ressemble à un "N" vu d'en dessous</div>
+      </div>
+      <div class="mnemo-card">
+        <span class="mnemo-kr">ㅁ</span>
+        <div class="mnemo-title">Boîte = M</div>
+        <div class="mnemo-desc">Un carré fermé = bouche fermée pour humm… M !</div>
+      </div>
+      <div class="mnemo-card">
+        <span class="mnemo-kr">ㅅ</span>
+        <div class="mnemo-title">Toit = S</div>
+        <div class="mnemo-desc">Comme un toit pointu — le vent siffle "sssss" dessus</div>
+      </div>
+      <div class="mnemo-card">
+        <span class="mnemo-kr">ㅏ</span>
+        <div class="mnemo-title">Debout = A</div>
+        <div class="mnemo-desc">Un trait vertical + un bras tendu = "Ahhh !" de surprise</div>
+      </div>
+      <div class="mnemo-card">
+        <span class="mnemo-kr">ㅗ</span>
+        <div class="mnemo-title">Antenne = O</div>
+        <div class="mnemo-desc">Ligne plate + antenne vers le haut = bouche en "O"</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <strong>Méthode chrono :</strong> Étudie 1 consonne avec son image mentale pendant 30 secondes → ferme les yeux → redessine-la. Tu la mémoriseras 5× plus vite qu'en répétant bêtement.
+    </div>
+  </div>
+
+  <!-- Test rapide -->
+  <div class="card" id="quiz-card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Test rapide — Quelle inspiration ?
+    </div>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:18px">Pour chaque caractère, identifie quelle partie du corps l'a inspiré.</p>
+
+    <div id="quiz-questions"></div>
+
+    <div id="quiz-done" style="display:none;text-align:center;padding:16px;background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;margin-top:16px">
+      <div style="font-size:24px;margin-bottom:6px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+      <div style="font-size:15px;font-weight:800;color:var(--gold)" id="quiz-score-text">Score : 3/3 !</div>
+      <div style="font-size:12px;color:var(--t2);margin-top:4px">Tu as assimilé la logique des formes !</div>
+    </div>
+  </div>
+
+  <!-- Success -->
+  <div class="success-screen" id="success-screen">
+    <div style="font-size:64px;margin-bottom:16px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg></div>
+    <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px">Astuce assimilée !</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:24px">Tu comprends maintenant pourquoi le Hangeul est considéré comme l'un des alphabets les plus logiques du monde.</div>
+    <div style="background:var(--goldbg);border:1px solid var(--goldbd);border-radius:14px;padding:20px;margin:20px 0">
+      <div style="font-size:32px;margin-bottom:6px"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div style="font-size:22px;font-weight:800;color:var(--gold)">+5 XP gagnés !</div>
+    </div>
+    <div class="btn-row">
+      <a href="cours.html" class="btn btn-gold">← Retour au parcours</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    char: 'ㄱ',
+    question: 'ㄱ (g) imite...',
+    correct: 'La gorge',
+    choices: ['La gorge','La langue','Les lèvres','Les dents']
+  },
+  {
+    char: 'ㄴ',
+    question: 'ㄴ (n) représente...',
+    correct: 'La langue',
+    choices: ['La gorge','La langue','Les lèvres','Les dents']
+  },
+  {
+    char: 'ㅁ',
+    question: 'ㅁ (m) montre...',
+    correct: 'Les lèvres',
+    choices: ['La gorge','La langue','Les lèvres','Les dents']
+  },
+];
+
+let answered = [false, false, false];
+let correctCount = 0;
+
+function renderQuestions() {
+  const container = document.getElementById('quiz-questions');
+  container.innerHTML = '';
+  questions.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'body-q';
+    div.id = 'bq-' + qi;
+
+    const shuffled = [...q.choices].sort(() => Math.random() - .5);
+
+    div.innerHTML = `
+      <span class="body-q-char">${q.char}</span>
+      <div class="body-q-text">${q.question}</div>
+      <div class="body-choices">
+        ${shuffled.map(c => `<button class="body-choice" onclick="answerQ(${qi},'${c}',this)">${c}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fbk-${qi}"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function answerQ(qi, chosen, btn) {
+  if(answered[qi]) return;
+  answered[qi] = true;
+  const q = questions[qi];
+  const correct = chosen === q.correct;
+  if(correct) correctCount++;
+
+  // Disable all buttons in this question
+  const allBtns = document.querySelectorAll(`#bq-${qi} .body-choice`);
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if(b.textContent === q.correct) b.classList.add('correct');
+    else if(b === btn && !correct) b.classList.add('wrong');
+  });
+
+  const fbk = document.getElementById('fbk-' + qi);
+  fbk.className = 'feedback show ' + (correct ? 'ok' : 'ko');
+  fbk.textContent = correct ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Exactement ! ' + (qi===0?'ㄱ ressemble bien à la forme de la gorge.':qi===1?'ㄴ imite la langue appuyée sur le palais.':'ㅁ est un carré = bouche fermée !') : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> C\'était : ' + q.correct;
+
+  if(answered.every(a => a)) {
+    setTimeout(() => {
+      document.getElementById('quiz-done').style.display = 'block';
+      document.getElementById('quiz-score-text').textContent = `Score : ${correctCount}/3 ${correctCount===3?'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>':correctCount>=2?'':''}`;
+      try { localStorage.setItem('ks_h05','done'); } catch(e) {}
+      setTimeout(() => {
+        document.getElementById('success-screen').classList.add('show');
+      }, 1000);
+    }, 500);
+  }
+}
+
+renderQuestions();
+</script>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

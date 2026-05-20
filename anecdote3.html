@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Oppa, Unnie, Sunbae… · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;border:none;cursor:pointer}
+
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+
+    .hero{background:var(--navy);padding:32px 20px 40px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-emoji{font-size:52px;display:block;margin-bottom:16px;position:relative;z-index:1}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:24px;color:#fff;margin-bottom:10px;line-height:1.3;position:relative;z-index:1}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto;position:relative;z-index:1}
+
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:14px;font-weight:800;color:var(--t);margin-bottom:14px}
+    .card p{font-size:14px;line-height:1.75;color:var(--t2);margin-bottom:12px}
+    .card p:last-child{margin-bottom:0}
+
+    .fun-fact{background:var(--goldbg);border:1.5px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:14px 0}
+    .fun-fact-title{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .fun-fact p{font-size:13px;color:var(--t);line-height:1.6}
+
+    .relation-table{width:100%;border-collapse:collapse;margin:12px 0}
+    .relation-table th{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);padding:8px 10px;border-bottom:2px solid var(--bd);text-align:left}
+    .relation-table td{font-size:13px;color:var(--t2);padding:10px;border-bottom:1px solid var(--bd);line-height:1.5;vertical-align:top}
+    .relation-table td:first-child{color:var(--gold);font-size:16px;font-weight:700;white-space:nowrap}
+    .relation-table td:nth-child(2){font-size:11px;color:var(--t3);font-style:italic}
+    .relation-table tr:last-child td{border-bottom:none}
+    .table-header{font-size:12px;font-weight:800;color:var(--t);background:var(--s3);border-radius:8px;padding:8px 10px;margin:14px 0 4px}
+
+    .flow-item{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--s2);border-radius:10px;margin:8px 0;border:1px solid var(--bd)}
+    .flow-cond{font-size:12px;font-weight:700;color:var(--t2);min-width:120px;flex-shrink:0}
+    .flow-ans{font-size:14px;color:var(--gold);font-weight:800}
+    .flow-note{font-size:11px;color:var(--t3);margin-top:2px}
+
+    .nim-box{background:var(--navy);border-radius:14px;padding:18px;margin:14px 0;color:#fff}
+    .nim-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:12px}
+    .nim-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .nim-row:last-child{border-bottom:none}
+    .nim-word{font-size:16px;font-weight:700;color:#fff}
+    .nim-mean{font-size:12px;color:rgba(237,242,250,.6)}
+
+    .choices{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left}
+    .choice:hover:not(.correct):not(.wrong){border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr)}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px)}
+    .btn-row{display:flex;gap:12px;margin-top:20px;justify-content:center}
+
+    .key-takeaway{background:var(--navy);border-radius:16px;padding:20px;margin:16px 0;color:#fff}
+    .key-takeaway h3{font-family:'Playfair Display',serif;font-size:16px;color:var(--gold);margin-bottom:12px}
+    .key-takeaway li{font-size:13px;color:rgba(237,242,250,.75);line-height:1.7;margin-bottom:6px;padding-left:16px;position:relative;list-style:none}
+    .key-takeaway li::before{content:'·';position:absolute;left:0;color:var(--gold);font-size:10px;top:2px}
+
+    .quiz-label{font-size:12px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .quiz-q{font-size:14px;font-weight:700;color:var(--t);margin-bottom:2px}
+    .quiz-fb{display:none;font-size:13px;padding:10px 12px;border-radius:10px;margin-top:8px;line-height:1.5}
+    .quiz-fb.show{display:block}
+    .quiz-fb.ok{background:#DCFCE7;color:#15803D}
+    .quiz-fb.ko{background:#FEE2E2;color:#DC2626}
+    .quiz-block{margin-bottom:24px}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .wrap{animation:fadeUp .3s ease both}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="hero">
+  <span class="hero-emoji">‍‍‍</span>
+  <div class="hero-tag">Anecdote</div>
+  <h1 class="hero-title">Oppa, Unnie, Sunbae…</h1>
+  <p class="hero-sub">La hiérarchie sociale coréenne — ne jamais dire le prénom</p>
+</div>
+
+<div class="wrap">
+
+  <!-- Intro -->
+  <div class="card">
+    <div class="card-title">Pourquoi on ne dit jamais le prénom</div>
+    <p>La société coréenne est profondément <strong>confucéenne</strong>. L'âge détermine absolument tout : qui parle en premier, qui ouvre la porte, qui commande au restaurant, qui verse à boire.</p>
+    <p>Dire le prénom d'une personne plus âgée directement est considéré comme rude — voire grossier. À la place, on utilise des termes de relation qui encodent précisément la hiérarchie.</p>
+  </div>
+
+  <!-- Termes par genre -->
+  <div class="card">
+    <div class="card-title">Les termes de relation — par âge et genre</div>
+
+    <div class="table-header"> Une femme s'adresse à…</div>
+    <table class="relation-table">
+      <tr><th>Terme</th><th>Romanisation</th><th>Signification</th></tr>
+      <tr><td>오빠</td><td>oppa</td><td>Homme plus âgé (frère aîné, boyfriend, ami plus vieux)</td></tr>
+      <tr><td>언니</td><td>eonni</td><td>Femme plus âgée (sœur aînée, amie plus vieille)</td></tr>
+      <tr><td>남동생</td><td>namdongsaeng</td><td>Frère cadet</td></tr>
+      <tr><td>여동생</td><td>yeodongsaeng</td><td>Sœur cadette</td></tr>
+    </table>
+
+    <div class="table-header"> Un homme s'adresse à…</div>
+    <table class="relation-table">
+      <tr><th>Terme</th><th>Romanisation</th><th>Signification</th></tr>
+      <tr><td>형</td><td>hyeong</td><td>Homme plus âgé (frère aîné, ami plus vieux)</td></tr>
+      <tr><td>누나</td><td>nuna</td><td>Femme plus âgée (sœur aînée, amie plus vieille)</td></tr>
+      <tr><td>남동생</td><td>namdongsaeng</td><td>Frère cadet</td></tr>
+      <tr><td>여동생</td><td>yeodongsaeng</td><td>Sœur cadette</td></tr>
+    </table>
+
+    <div class="table-header"> Dans le monde professionnel</div>
+    <table class="relation-table">
+      <tr><th>Terme</th><th>Romanisation</th><th>Signification</th></tr>
+      <tr><td>선배</td><td>seonbae</td><td>Senior (école ou travail)</td></tr>
+      <tr><td>후배</td><td>hubae</td><td>Junior (école ou travail)</td></tr>
+      <tr><td>선생님</td><td>seonsaengnim</td><td>Professeur (님 = suffixe honorifique)</td></tr>
+    </table>
+
+    <div class="fun-fact">
+      <div class="fun-fact-title">· K-pop fact</div>
+      <p>Même les K-pop fans utilisent <strong>오빠 (oppa)</strong> pour leurs idoles masculines ! C'est un terme d'affection autant que de hiérarchie — il exprime admiration, tendresse et proximité.</p>
+    </div>
+  </div>
+
+  <!-- Comment appeler quelqu'un -->
+  <div class="card">
+    <div class="card-title">Comment appeler quelqu'un ? — Guide rapide</div>
+
+    <div class="flow-item">
+      <div>
+        <div class="flow-cond">Même âge ou plus jeune</div>
+        <div class="flow-ans">Prénom + 아 / 야</div>
+        <div class="flow-note">야 après voyelle · 아 après consonne — ex: 민수야, 지은아</div>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div>
+        <div class="flow-cond">Plus âgé, même genre</div>
+        <div class="flow-ans">형 / 누나 (homme) · 오빠 / 언니 (femme)</div>
+        <div class="flow-note">Selon votre genre à vous, pas celui de la personne</div>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div>
+        <div class="flow-cond">Prof, médecin</div>
+        <div class="flow-ans">선생님</div>
+        <div class="flow-note">Aussi utilisé pour les conducteurs de bus par politesse</div>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div>
+        <div class="flow-cond">Patron / directeur</div>
+        <div class="flow-ans">사장님</div>
+        <div class="flow-note">사장 (patron) + 님 (suffixe honorifique)</div>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div>
+        <div class="flow-cond">Inconnu adulte</div>
+        <div class="flow-ans">저기요</div>
+        <div class="flow-note">"Excusez-moi" — la valeur sûre universelle</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Le 님 -->
+  <div class="card">
+    <div class="card-title">Le 님 — le super-suffixe honorifique</div>
+    <p>Ajoutez <strong style="color:var(--gold)">님</strong> à presque n'importe quel rôle social et vous exprimez le respect. C'est l'équivalent coréen de "Monsieur/Madame" mais bien plus puissant.</p>
+    <div class="nim-box">
+      <div class="nim-title">님 en action</div>
+      <div class="nim-row"><span class="nim-word">선생님</span><span class="nim-mean">Professeur (seonsaeng + nim)</span></div>
+      <div class="nim-row"><span class="nim-word">사장님</span><span class="nim-mean">Patron / Directeur</span></div>
+      <div class="nim-row"><span class="nim-word">고객님</span><span class="nim-mean">Client/vous (à la banque, en boutique)</span></div>
+      <div class="nim-row"><span class="nim-word">손님</span><span class="nim-mean">Invité / Client (restaurant)</span></div>
+      <div class="nim-row"><span class="nim-word">어머님</span><span class="nim-mean">Mère (forme respectueuse)</span></div>
+    </div>
+  </div>
+
+  <!-- Key takeaway -->
+  <div class="key-takeaway">
+    <h3>· À retenir absolument</h3>
+    <ul>
+      <li>Ne jamais appeler quelqu'un de plus âgé par son prénom seul — utiliser le terme de relation approprié</li>
+      <li>Le terme à utiliser dépend de votre genre ET du genre de la personne — oppa ≠ hyeong même situation</li>
+      <li>Ajouter 님 à un rôle = marque de grand respect, utilisable dans tous contextes formels</li>
+    </ul>
+  </div>
+
+  <!-- Quiz -->
+  <div class="card">
+    <div class="card-title">Mini Quiz <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+
+    <div class="quiz-block" id="q1">
+      <div class="quiz-label">Question 1 / 3</div>
+      <div class="quiz-q">Vous êtes une femme. Votre ami masculin a 3 ans de plus que vous. Comment l'appelez-vous ?</div>
+      <div class="choices">
+        <button class="choice" onclick="answer('q1',this,false)">형 (hyeong)</button>
+        <button class="choice" onclick="answer('q1',this,true)">오빠 (oppa)</button>
+        <button class="choice" onclick="answer('q1',this,false)">선배 (seonbae)</button>
+      </div>
+      <div class="quiz-fb" id="q1-fb"></div>
+    </div>
+
+    <div class="quiz-block" id="q2">
+      <div class="quiz-label">Question 2 / 3</div>
+      <div class="quiz-q">Dans un café, un inconnu adulte est assis à côté. Comment attirer son attention ?</div>
+      <div class="choices">
+        <button class="choice" onclick="answer('q2',this,false)">오빠 !</button>
+        <button class="choice" onclick="answer('q2',this,false)">선생님 !</button>
+        <button class="choice" onclick="answer('q2',this,true)">저기요 !</button>
+      </div>
+      <div class="quiz-fb" id="q2-fb"></div>
+    </div>
+
+    <div class="quiz-block" id="q3">
+      <div class="quiz-label">Question 3 / 3</div>
+      <div class="quiz-q">고객님 signifie :</div>
+      <div class="choices">
+        <button class="choice" onclick="answer('q3',this,false)">Professeur respecté</button>
+        <button class="choice" onclick="answer('q3',this,true)">Client / vous (forme respectueuse)</button>
+        <button class="choice" onclick="answer('q3',this,false)">Patron d'entreprise</button>
+      </div>
+      <div class="quiz-fb" id="q3-fb"></div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <a href="cours.html" class="btn btn-gold">Continuer le parcours →</a>
+  </div>
+
+</div>
+
+<script>
+const FB = {
+  q1:{ ok:"Parfait ! Une femme qui parle à un homme plus âgé utilise 오빠 (oppa).", ko:"Incorrect. 형 est utilisé par les hommes. Une femme utilise 오빠 pour un homme plus âgé." },
+  q2:{ ok:"Exact ! 저기요 est la formule universelle pour interpeller un inconnu poliment.", ko:"Pas tout à fait. 저기요 (excusez-moi) est la seule option sûre pour un inconnu adulte." },
+  q3:{ ok:"Bravo ! 고객 = client, + 님 = suffixe honorifique. Vous l'entendrez à la banque et en boutique.", ko:"Non. 고객님 = client (고객) + suffixe honorifique (님). C'est la façon polie de s'adresser aux clients." }
+};
+
+let answered = {};
+function answer(qid, btn, correct) {
+  if (answered[qid]) return;
+  answered[qid] = true;
+  const q = document.getElementById(qid);
+  q.querySelectorAll('.choice').forEach(c => c.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if (!correct) q.querySelectorAll('.choice').forEach(c => { if (c.onclick.toString().includes('true')) c.classList.add('correct'); });
+  const fb = document.getElementById(qid + '-fb');
+  fb.textContent = correct ? FB[qid].ok : FB[qid].ko;
+  fb.className = 'quiz-fb show ' + (correct ? 'ok' : 'ko');
+  if (qid === 'q3') markDone();
+}
+
+function markDone() {
+  try {
+    const key = 'ks_a10';
+    const d = JSON.parse(localStorage.getItem(key) || '{}');
+    d.done = true; d.ts = Date.now(); d.xp = 8;
+    localStorage.setItem(key, JSON.stringify(d));
+    localStorage.setItem('ks_xp', parseInt(localStorage.getItem('ks_xp') || '0') + 8);
+  } catch(e) {}
+}
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

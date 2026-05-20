@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Débat en coréen — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .table-wrap{overflow-x:auto;margin:.6rem 0}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th{background:rgba(219,39,119,.1);color:#DB2777;padding:.5rem .7rem;text-align:left;font-size:.8rem;font-weight:700}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .debate-topic{background:linear-gradient(135deg,rgba(219,39,119,.08),rgba(219,39,119,.02));border:2px solid rgba(219,39,119,.3);border-radius:16px;padding:1.2rem;margin:.8rem 0;text-align:center}
+    .debate-label{font-size:.75rem;font-weight:700;color:#DB2777;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+    .debate-q{font-size:1.1rem;font-weight:800;color:var(--tx);line-height:1.4}
+    .expr-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.6rem 0}
+    .expr-card{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.7rem;font-size:.82rem}
+    .expr-label{font-size:.7rem;font-weight:700;color:#DB2777;text-transform:uppercase;margin-bottom:.3rem}
+    .expr-ko{font-weight:700;color:var(--tx);margin:.15rem 0}
+    .expr-fr{color:var(--tx-muted);font-size:.78rem}
+    .score-box{background:var(--surf);border:2px solid #DB2777;border-radius:14px;padding:1rem;text-align:center;margin:1rem 0;display:none}
+    .score-num{font-size:2.4rem;font-weight:900;color:#DB2777}
+    .score-lbl{font-size:.85rem;color:var(--tx-muted);margin-top:.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Débat en coréen</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Débat en coréen</h2>
+  <span class="pill">B2 · Expression</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Apprends à défendre un point de vue, contre-argumenter et convaincre en coréen naturel.</p>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Expressions pour défendre une opinion</h3>
+  <div class="expr-grid">
+    <div class="expr-card">
+      <div class="expr-label">Affirmer</div>
+      <div class="expr-ko">제 생각에는…</div>
+      <div class="expr-fr">À mon avis…</div>
+    </div>
+    <div class="expr-card">
+      <div class="expr-label">Soutenir</div>
+      <div class="expr-ko">왜냐하면…</div>
+      <div class="expr-fr">Parce que…</div>
+    </div>
+    <div class="expr-card">
+      <div class="expr-label">Ajouter</div>
+      <div class="expr-ko">게다가…</div>
+      <div class="expr-fr">De plus…</div>
+    </div>
+    <div class="expr-card">
+      <div class="expr-label">Concéder</div>
+      <div class="expr-ko">물론…지만…</div>
+      <div class="expr-fr">Certes…mais…</div>
+    </div>
+    <div class="expr-card">
+      <div class="expr-label">Contrer</div>
+      <div class="expr-ko">하지만 사실…</div>
+      <div class="expr-fr">Mais en fait…</div>
+    </div>
+    <div class="expr-card">
+      <div class="expr-label">Conclure</div>
+      <div class="expr-ko">따라서…</div>
+      <div class="expr-fr">Par conséquent…</div>
+    </div>
+    <div class="expr-card">
+      <div class="expr-label">Nuancer</div>
+      <div class="expr-ko">꼭 그렇지는 않아요</div>
+      <div class="expr-fr">Pas forcément</div>
+    </div>
+    <div class="expr-card">
+      <div class="expr-label">Insister</div>
+      <div class="expr-ko">그럼에도 불구하고…</div>
+      <div class="expr-fr">Malgré tout…</div>
+    </div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg> Structures de débat avancées</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Objectif</th><th>Structure coréenne</th><th>Exemple</th></tr>
+      <tr><td>Opinion</td><td class="ko">-(으)ㄹ 것 같습니다</td><td class="ko">효과가 있을 것 같습니다</td></tr>
+      <tr><td>Preuves</td><td class="ko">연구에 따르면…</td><td class="ko">연구에 따르면 스트레스가 줄었습니다</td></tr>
+      <tr><td>Concession</td><td class="ko">-(으)ㄹ 수 있지만…</td><td class="ko">문제가 있을 수 있지만…</td></tr>
+      <tr><td>Contre-argument</td><td class="ko">반면에…</td><td class="ko">반면에 장점도 있습니다</td></tr>
+      <tr><td>Conclusion</td><td class="ko">결론적으로…</td><td class="ko">결론적으로 찬성합니다</td></tr>
+    </table></div>
+  </div>
+
+  <h3> Sujets de débat — Choisis la bonne expression</h3>
+
+  <div class="debate-topic">
+    <div class="debate-label">Sujet du débat</div>
+    <div class="debate-q">한국의 대학 입시 제도 — 장점인가 단점인가?<br><small style="font-size:.8rem;font-weight:400;color:var(--tx-muted)">Le système d'entrée à l'université coréen — avantage ou inconvénient ?</small></div>
+  </div>
+
+  <div class="card mq" id="q1"><p style="font-weight:600">Pour introduire une preuve dans un débat, quelle expression utiliser ?</p>
+    <div class="opt" onclick="a(this,'ko')">물론이지만</div>
+    <div class="opt" onclick="a(this,'ok')">연구에 따르면</div>
+    <div class="opt" onclick="a(this,'ko')">왜냐하면 아니라</div>
+  </div>
+
+  <div class="card mq" id="q2"><p style="font-weight:600">Pour concéder un point à l'adversaire mais maintenir ta position ?</p>
+    <div class="opt" onclick="a(this,'ko')">따라서 동의합니다</div>
+    <div class="opt" onclick="a(this,'ok')">물론 그런 면도 있지만, 제 생각에는…</div>
+    <div class="opt" onclick="a(this,'ko')">게다가 맞습니다</div>
+  </div>
+
+  <div class="card mq" id="q3"><p style="font-weight:600">"Malgré tout, je pense que c'est la meilleure solution" ?</p>
+    <div class="opt" onclick="a(this,'ko')">왜냐하면 최선의 방법 같습니다</div>
+    <div class="opt" onclick="a(this,'ok')">그럼에도 불구하고 최선의 방법이라고 생각합니다</div>
+    <div class="opt" onclick="a(this,'ko')">게다가 최선의 방법이 아닌 것 같습니다</div>
+  </div>
+
+  <div class="card mq" id="q4"><p style="font-weight:600">Comment conclure un débat formellement ?</p>
+    <div class="opt" onclick="a(this,'ko')">그리고 다 좋아요</div>
+    <div class="opt" onclick="a(this,'ko')">왜냐하면 끝났어요</div>
+    <div class="opt" onclick="a(this,'ok')">결론적으로, 이 제도가 개선되어야 한다고 생각합니다</div>
+  </div>
+
+  <div class="card mq" id="q5"><p style="font-weight:600">Pour dire "Pas forcément" et nuancer l'argument adverse ?</p>
+    <div class="opt" onclick="a(this,'ok')">꼭 그렇지는 않아요</div>
+    <div class="opt" onclick="a(this,'ko')">전혀 동의합니다</div>
+    <div class="opt" onclick="a(this,'ko')">왜냐하면 그래요</div>
+  </div>
+
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Modèle de réponse de débat parfaite : <span class="ko">제 생각에는 [position]이라고 생각합니다. 왜냐하면 [raison]기 때문입니다. 물론 [concession]이지만, 그럼에도 불구하고 [conclusion]입니다.</span></div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Vocabulaire clé du débat</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Français</th><th>Coréen</th></tr>
+      <tr><td>Argument</td><td class="ko">주장</td></tr>
+      <tr><td>Preuve / Exemple</td><td class="ko">근거 / 예시</td></tr>
+      <tr><td>Avantage</td><td class="ko">장점</td></tr>
+      <tr><td>Inconvénient</td><td class="ko">단점</td></tr>
+      <tr><td>Solution</td><td class="ko">해결책</td></tr>
+      <tr><td>Société</td><td class="ko">사회</td></tr>
+      <tr><td>Problème</td><td class="ko">문제점</td></tr>
+      <tr><td>Amélioration</td><td class="ko">개선</td></tr>
+    </table></div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Exercice terminé — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_d03');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Flashcards A2 — Korean Stories</title>
+
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .5rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:1rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+  </style>
+
+  <style>
+    .fc-wrap{perspective:800px;margin:1rem auto;max-width:360px}
+    .fc{width:100%;height:200px;position:relative;transform-style:preserve-3d;transition:.5s;cursor:pointer}
+    .fc.flipped{transform:rotateY(180deg)}
+    .fc-front,.fc-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem;box-sizing:border-box;border:2px solid var(--bd)}
+    .fc-front{background:var(--surf)}
+    .fc-back{background:rgba(22,163,74,.08);border-color:#16A34A;transform:rotateY(180deg)}
+    .fc-ko{font-size:2rem;font-weight:800;color:#16A34A}
+    .fc-fr{font-size:1.1rem;color:var(--navy);font-weight:600}
+    .fc-hint{font-size:.78rem;color:var(--tx-muted);margin-top:.3rem}
+    .fc-cat{font-size:.72rem;background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:10px;margin-bottom:.5rem;font-weight:700}
+    .fc-controls{display:flex;gap:.7rem;justify-content:center;margin:.8rem 0}
+    .fc-btn{padding:.6rem 1.3rem;border-radius:10px;border:1.5px solid var(--bd);background:var(--surf);color:var(--tx);cursor:pointer;font-size:.9rem}
+    .fc-btn:hover{background:var(--bg)}
+    .btn-know{border-color:#16A34A;color:#16A34A}
+    .btn-again{border-color:#ef4444;color:#ef4444}
+    .progress-info{text-align:center;font-size:.85rem;color:var(--tx-muted);margin:.3rem 0}
+    .filter-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:.5rem 0}
+    .ftab{padding:.3rem .7rem;border-radius:8px;border:1.5px solid var(--bd);background:var(--surf);font-size:.8rem;cursor:pointer}
+    .ftab.active{background:#16A34A;color:#fff;border-color:#16A34A}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Flashcards A2</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2> Flashcards A2</h2>
+      <span class="pill">80 mots essentiels</span> <span class="xp-badge">+12 XP</span>
+      <p style="color:var(--tx-muted);font-size:.88rem;margin:.3rem 0">Tapez la carte pour la retourner. Marquez ce que vous connaissez !</p>
+
+      <div class="filter-tabs">
+        <button class="ftab active" onclick="filterCat('all',this)">Tout</button>
+        <button class="ftab" onclick="filterCat('verbes',this)">Verbes</button>
+        <button class="ftab" onclick="filterCat('noms',this)">Noms</button>
+        <button class="ftab" onclick="filterCat('adj',this)">Adjectifs</button>
+        <button class="ftab" onclick="filterCat('expr',this)">Expressions</button>
+      </div>
+
+      <div class="progress-info"><span id="cardNum">1</span>/<span id="cardTotal">80</span> · <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  <span id="knownCount">0</span> maîtrisés</div>
+
+      <div class="fc-wrap">
+        <div class="fc" id="fc" onclick="flipCard()">
+          <div class="fc-front">
+            <div class="fc-cat" id="fcCat"></div>
+            <div class="fc-ko" id="fcKo"></div>
+            <div class="fc-hint" id="fcHint">Tapez pour voir la traduction</div>
+          </div>
+          <div class="fc-back">
+            <div class="fc-fr" id="fcFr"></div>
+            <div class="fc-hint" id="fcEx"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fc-controls">
+        <button class="fc-btn btn-again" onclick="markCard(false)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Encore</button>
+        <button class="fc-btn" onclick="prevCard()">← Préc.</button>
+        <button class="fc-btn" onclick="nextCard()">Suiv. →</button>
+        <button class="fc-btn btn-know" onclick="markCard(true)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Je sais</button>
+      </div>
+
+      <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer la session +12 XP</button>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(12);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_b15');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+  </script>
+<script>
+const CARDS = [
+  // Verbes
+  {ko:'가다',fr:'aller',cat:'verbes',ex:'학교에 가요. (Je vais à l'école.)'},
+  {ko:'오다',fr:'venir',cat:'verbes',ex:'집에 와요. (Je viens à la maison.)'},
+  {ko:'먹다',fr:'manger',cat:'verbes',ex:'밥을 먹어요. (Je mange du riz.)'},
+  {ko:'마시다',fr:'boire',cat:'verbes',ex:'물을 마셔요. (Je bois de l'eau.)'},
+  {ko:'자다',fr:'dormir',cat:'verbes',ex:'8시간 자요. (Je dors 8h.)'},
+  {ko:'일어나다',fr:'se lever',cat:'verbes',ex:'7시에 일어나요.'},
+  {ko:'공부하다',fr:'étudier',cat:'verbes',ex:'한국어를 공부해요.'},
+  {ko:'일하다',fr:'travailler',cat:'verbes',ex:'회사에서 일해요.'},
+  {ko:'보다',fr:'voir / regarder',cat:'verbes',ex:'TV를 봐요.'},
+  {ko:'듣다',fr:'écouter',cat:'verbes',ex:'음악을 들어요.'},
+  {ko:'읽다',fr:'lire',cat:'verbes',ex:'책을 읽어요.'},
+  {ko:'쓰다',fr:'écrire / utiliser',cat:'verbes',ex:'편지를 써요.'},
+  {ko:'사다',fr:'acheter',cat:'verbes',ex:'옷을 사요.'},
+  {ko:'팔다',fr:'vendre',cat:'verbes',ex:'물건을 팔아요.'},
+  {ko:'만들다',fr:'faire / créer',cat:'verbes',ex:'음식을 만들어요.'},
+  {ko:'만나다',fr:'rencontrer',cat:'verbes',ex:'친구를 만나요.'},
+  {ko:'이야기하다',fr:'parler / raconter',cat:'verbes',ex:'친구와 이야기해요.'},
+  {ko:'전화하다',fr:'téléphoner',cat:'verbes',ex:'엄마한테 전화해요.'},
+  {ko:'운동하다',fr:'faire du sport',cat:'verbes',ex:'매일 운동해요.'},
+  {ko:'여행하다',fr:'voyager',cat:'verbes',ex:'한국을 여행해요.'},
+  // Noms
+  {ko:'학교',fr:'école',cat:'noms',ex:'학교에 가요.'},
+  {ko:'집',fr:'maison',cat:'noms',ex:'집에 있어요.'},
+  {ko:'회사',fr:'entreprise / bureau',cat:'noms',ex:'회사에 다녀요.'},
+  {ko:'병원',fr:'hôpital',cat:'noms',ex:'병원에 가요.'},
+  {ko:'시장',fr:'marché',cat:'noms',ex:'시장에서 사요.'},
+  {ko:'식당',fr:'restaurant',cat:'noms',ex:'식당에서 먹어요.'},
+  {ko:'도서관',fr:'bibliothèque',cat:'noms',ex:'도서관에서 공부해요.'},
+  {ko:'카페',fr:'café',cat:'noms',ex:'카페에서 커피 마셔요.'},
+  {ko:'친구',fr:'ami(e)',cat:'noms',ex:'친구와 같이 가요.'},
+  {ko:'가족',fr:'famille',cat:'noms',ex:'가족이 좋아요.'},
+  {ko:'음식',fr:'nourriture',cat:'noms',ex:'한국 음식이 맛있어요.'},
+  {ko:'물',fr:'eau',cat:'noms',ex:'물을 주세요.'},
+  {ko:'시간',fr:'temps / heure',cat:'noms',ex:'시간이 없어요.'},
+  {ko:'날씨',fr:'météo / temps',cat:'noms',ex:'날씨가 좋아요.'},
+  {ko:'길',fr:'rue / chemin',cat:'noms',ex:'길이 막혀요.'},
+  {ko:'버스',fr:'bus',cat:'noms',ex:'버스를 타요.'},
+  {ko:'지하철',fr:'métro',cat:'noms',ex:'지하철이 빨라요.'},
+  {ko:'비행기',fr:'avion',cat:'noms',ex:'비행기로 가요.'},
+  {ko:'돈',fr:'argent',cat:'noms',ex:'돈이 없어요.'},
+  {ko:'핸드폰',fr:'téléphone portable',cat:'noms',ex:'핸드폰을 사요.'},
+  // Adjectifs
+  {ko:'크다',fr:'grand / gros',cat:'adj',ex:'방이 커요.'},
+  {ko:'작다',fr:'petit',cat:'adj',ex:'방이 작아요.'},
+  {ko:'많다',fr:'beaucoup / nombreux',cat:'adj',ex:'사람이 많아요.'},
+  {ko:'적다',fr:'peu nombreux',cat:'adj',ex:'시간이 적어요.'},
+  {ko:'빠르다',fr:'rapide',cat:'adj',ex:'지하철이 빨라요.'},
+  {ko:'느리다',fr:'lent',cat:'adj',ex:'버스가 느려요.'},
+  {ko:'비싸다',fr:'cher',cat:'adj',ex:'옷이 비싸요.'},
+  {ko:'싸다',fr:'bon marché',cat:'adj',ex:'시장이 싸요.'},
+  {ko:'맛있다',fr:'délicieux',cat:'adj',ex:'김치가 맛있어요.'},
+  {ko:'맛없다',fr:'pas bon',cat:'adj',ex:'이 음식은 맛없어요.'},
+  {ko:'재미있다',fr:'intéressant / amusant',cat:'adj',ex:'한국어가 재미있어요.'},
+  {ko:'심심하다',fr:'ennuyeux',cat:'adj',ex:'오늘 심심해요.'},
+  {ko:'피곤하다',fr:'fatigué',cat:'adj',ex:'오늘 피곤해요.'},
+  {ko:'배고프다',fr:'avoir faim',cat:'adj',ex:'배고파요.'},
+  {ko:'배부르다',fr:'être rassasié',cat:'adj',ex:'배불러요.'},
+  {ko:'덥다',fr:'chaud (temps)',cat:'adj',ex:'오늘 더워요.'},
+  {ko:'춥다',fr:'froid (temps)',cat:'adj',ex:'오늘 추워요.'},
+  {ko:'쉽다',fr:'facile',cat:'adj',ex:'한국어가 쉬워요?'},
+  {ko:'어렵다',fr:'difficile',cat:'adj',ex:'한자가 어려워요.'},
+  {ko:'가깝다',fr:'proche',cat:'adj',ex:'학교가 가까워요.'},
+  // Expressions
+  {ko:'괜찮아요',fr:'ça va / d'accord',cat:'expr',ex:'걱정 마세요, 괜찮아요.'},
+  {ko:'잠깐만요',fr:'un moment s.v.p.',cat:'expr',ex:'잠깐만요, 전화할게요.'},
+  {ko:'어떻게 해요?',fr:'comment on fait ?',cat:'expr',ex:'이걸 어떻게 해요?'},
+  {ko:'왜요?',fr:'pourquoi ?',cat:'expr',ex:'왜요? 설명해 주세요.'},
+  {ko:'그래서',fr:'donc / alors',cat:'expr',ex:'비가 와서 집에 있어요.'},
+  {ko:'그런데',fr:'mais / par contre',cat:'expr',ex:'좋은데 비싸요.'},
+  {ko:'그리고',fr:'et / et puis',cat:'expr',ex:'사과 그리고 바나나.'},
+  {ko:'아직',fr:'encore / pas encore',cat:'expr',ex:'아직 몰라요.'},
+  {ko:'이미',fr:'déjà',cat:'expr',ex:'이미 먹었어요.'},
+  {ko:'빨리',fr:'vite / rapidement',cat:'expr',ex:'빨리 와요!'},
+  {ko:'천천히',fr:'lentement',cat:'expr',ex:'천천히 말해 주세요.'},
+  {ko:'혼자',fr:'seul(e)',cat:'expr',ex:'혼자 가요.'},
+  {ko:'같이',fr:'ensemble',cat:'expr',ex:'같이 가요!'},
+  {ko:'물론이죠',fr:'bien sûr !',cat:'expr',ex:'물론이죠, 도와드릴게요.'},
+  {ko:'진짜요?',fr:'vraiment ?',cat:'expr',ex:'진짜요? 믿을 수 없어요!'},
+  {ko:'부탁드려요',fr:'s.v.p. / je vous en prie',cat:'expr',ex:'도와 주시면 부탁드려요.'},
+  {ko:'괜찮으세요?',fr:'ça va ? (formel)',cat:'expr',ex:'많이 다쳤어요? 괜찮으세요?'},
+  {ko:'잘 됐어요',fr:'tant mieux / super',cat:'expr',ex:'합격했어요! 잘 됐어요!'},
+  {ko:'별로예요',fr:'pas terrible',cat:'expr',ex:'그 영화 어때요? 별로예요.'},
+  {ko:'~고 싶어요',fr:'je veux (+ verbe)',cat:'expr',ex:'한국에 가고 싶어요.'},
+];
+
+let filtered=[...CARDS];
+let cur=0;
+let known=new Set();
+let flipped=false;
+
+function filterCat(cat,btn){
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filtered=cat==='all'?[...CARDS]:CARDS.filter(c=>c.cat===cat);
+  cur=0;known=new Set();renderCard();
+}
+
+function renderCard(){
+  if(!filtered.length)return;
+  const c=filtered[cur%filtered.length];
+  document.getElementById('fcCat').textContent={verbes:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#2563eb"/></svg> Verbe',noms:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#ea580c"/></svg> Nom',adj:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#7c3aed"/></svg> Adjectif',expr:'<svg viewBox="0 0 12 12" style="width:12px;height:12px;display:inline-block;vertical-align:middle"><circle cx="6" cy="6" r="5" fill="#f59e0b"/></svg> Expression'}[c.cat]||c.cat;
+  document.getElementById('fcKo').textContent=c.ko;
+  document.getElementById('fcFr').textContent=c.fr;
+  document.getElementById('fcEx').textContent=c.ex||'';
+  document.getElementById('cardNum').textContent=(cur%filtered.length)+1;
+  document.getElementById('cardTotal').textContent=filtered.length;
+  document.getElementById('knownCount').textContent=known.size;
+  flipped=false;
+  document.getElementById('fc').classList.remove('flipped');
+}
+
+function flipCard(){flipped=!flipped;document.getElementById('fc').classList.toggle('flipped',flipped);}
+function nextCard(){cur=(cur+1)%filtered.length;renderCard();}
+function prevCard(){cur=(cur-1+filtered.length)%filtered.length;renderCard();}
+function markCard(know){
+  if(know)known.add(cur%filtered.length);
+  else known.delete(cur%filtered.length);
+  document.getElementById('knownCount').textContent=known.size;
+  nextCard();
+}
+
+renderCard();
+</script>
+</body>
+</html>

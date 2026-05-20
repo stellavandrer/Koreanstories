@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
   <link rel="manifest" href="manifest.json"/>
@@ -11,584 +13,776 @@
   <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
   <title>Histoires · Korean Stories</title>
-  <meta name="description" content="Parcours d'histoires Korean Stories — Mina et Joon à Séoul. Lis, écoute, mémorise."/>
-  <meta property="og:title" content="Histoires · Korean Stories"/>
-  <meta property="og:description" content="Lis de vrais dialogues coréens avec Mina et Joon. Chaque histoire t'apporte de nouveaux mots et expressions."/>
-  <meta property="og:type" content="website"/>
+  <meta name="description" content="11 histoires en coréen avec Mina et Joon. Lis, écoute, mémorise — chaque lieu a sa couleur."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#F0F4F8;color:#0F1B2D;min-height:100svh;padding-bottom:88px;overflow-x:hidden}
-    :root{
-      --navy:#0F1B2D;--navy2:#1a2f4a;
-      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
-      --white:#F7F8FA;--pure:#FFFFFF;--bg:#F0F4F8;
-      --gray:#8A9BB0;--border:#E2E8F0;
-      --green:#22c55e;--red:#ef4444;
-      --purple:#A78BFA;--amber:#F59E0B;
-    }
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+
+    /* ── PAGE ENTER ── */
+    #pageWrap{animation:pageIn .38s ease both}
+    @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
     /* ── TOP BAR ── */
-    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
-    .back{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
+    
+    .back{
+      display:flex;align-items:center;gap:6px;
+      padding:7px 14px;border-radius:100px;
+      border:1.5px solid rgba(255,255,255,.12);background:none;
+      cursor:pointer;text-decoration:none;
+      font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s;
+    }
     .back:hover{border-color:var(--gold);color:var(--gold)}
     .back svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
     .tb-title{font-family:'Playfair Display',serif;font-size:15px;color:white;font-style:italic}
-    .xp-pill{display:flex;align-items:center;gap:5px;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--gold)}
-
-    /* ── HERO PROGRESS BAND ── */
-    .hero-band{background:var(--navy);padding:20px 20px 28px;position:relative;overflow:hidden}
-    .hero-band::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:28px;background:var(--bg);border-radius:28px 28px 0 0}
-    .hb-inner{max-width:560px;margin:0 auto}
-    .hb-title{font-family:'Playfair Display',serif;font-size:22px;color:white;margin-bottom:4px;line-height:1.2}
-    .hb-title em{color:var(--gold);font-style:italic}
-    .hb-sub{font-size:12px;color:rgba(247,248,250,.4);margin-bottom:16px}
-    .progress-track{background:rgba(255,255,255,.08);border-radius:100px;height:10px;overflow:hidden;margin-bottom:10px}
-    .progress-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#e8c97b);transition:width .8s cubic-bezier(.4,0,.2,1)}
-    .hb-stats{display:flex;gap:20px}
-    .hb-stat{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(247,248,250,.5)}
-    .hb-stat strong{color:white;font-size:13px}
-    .hb-stat-dot{width:8px;height:8px;border-radius:50%}
-
-    /* ── ROADMAP CONTAINER ── */
-    .roadmap{max-width:480px;margin:0 auto;padding:24px 20px 20px;position:relative}
-
-    /* ── PATH LINE ── */
-    .path-line{
-      position:absolute;
-      left:50%;
-      transform:translateX(-50%);
-      width:4px;
-      border-radius:2px;
-      top:24px;
-      z-index:0;
+    .tb-right{display:flex;align-items:center;gap:8px}
+    .xp-pill{
+      display:flex;align-items:center;gap:5px;
+      background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);
+      border-radius:100px;padding:5px 12px;
+      font-size:12px;font-weight:700;color:var(--gold);
     }
 
-    /* ── STORY NODE ── */
-    .snode{
-      position:relative;
-      z-index:1;
-      margin-bottom:0;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
+    /* ── HERO ── */
+    .hero{background:var(--navy);padding:24px 20px 36px;position:relative;overflow:hidden}
+    .hero::after{
+      content:'';position:absolute;bottom:-1px;left:0;right:0;
+      height:32px;background:var(--bg);border-radius:32px 32px 0 0;
     }
-
-    /* Connector between nodes */
-    .connector{
-      width:4px;
-      min-height:28px;
-      margin:0 auto;
-      border-radius:2px;
-      position:relative;
-      z-index:0;
+    .hero-inner{max-width:560px;margin:0 auto}
+    .hero-tag{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.25);
+      border-radius:100px;padding:4px 12px;margin-bottom:14px;
+      font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);
     }
-    .connector.done{background:var(--green)}
-    .connector.active{background:linear-gradient(to bottom,var(--green),rgba(201,169,110,.3))}
-    .connector.locked{background:var(--border);background:repeating-linear-gradient(to bottom,var(--border) 0,var(--border) 6px,transparent 6px,transparent 12px)}
+    .hero-h1{
+      font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,30px);
+      color:white;line-height:1.2;margin-bottom:6px;
+    }
+    .hero-h1 em{color:var(--gold);font-style:italic}
+    .hero-sub{font-size:13px;color:rgba(247,248,250,.42);line-height:1.6;margin-bottom:20px}
+    .hero-stats{display:flex;gap:16px;flex-wrap:wrap}
+    .hstat{
+      display:flex;align-items:center;gap:8px;
+      background:rgba(255,255,255,.06);border-radius:12px;padding:10px 14px;flex:1;min-width:90px;
+    }
+    .hstat-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .hstat-n{font-size:18px;font-weight:700;color:white;line-height:1}
+    .hstat-l{font-size:10px;color:rgba(247,248,250,.42);margin-top:2px}
+    .prog-track{
+      background:rgba(255,255,255,.1);border-radius:100px;height:6px;
+      overflow:hidden;margin-top:16px;margin-bottom:8px;
+    }
+    .prog-fill{
+      height:100%;border-radius:100px;
+      background:linear-gradient(90deg,var(--gold),#e8c97b);
+      transition:width .8s cubic-bezier(.4,0,.2,1);
+    }
+    .prog-lbl{font-size:11px;color:rgba(247,248,250,.35);text-align:right}
 
-    /* Node bubble */
-    .node-bubble{
-      width:80px;height:80px;border-radius:50%;
+    /* ── FILTERS ── */
+    .filters-wrap{
+      max-width:560px;margin:0 auto;
+      padding:20px 20px 0;
+      overflow-x:auto;-webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .filters-wrap::-webkit-scrollbar{display:none}
+    .filters{display:flex;gap:8px;padding-bottom:4px}
+    .fchip{
+      flex-shrink:0;padding:8px 16px;border-radius:100px;
+      border:1.5px solid var(--bd);background:var(--surf);
+      font-size:12px;font-weight:600;color:var(--gray);
+      cursor:pointer;transition:all .18s;white-space:nowrap;
+    }
+    .fchip.act{
+      background:var(--navy);border-color:var(--navy);color:white;
+    }
+    .fchip:hover:not(.act){border-color:var(--gold);color:var(--navy)}
+
+    /* ── STORIES GRID ── */
+    .stories-wrap{max-width:560px;margin:0 auto;padding:16px 16px 8px}
+    .stories-grid{display:flex;flex-direction:column;gap:14px}
+
+    /* ── GATE (locked) ── */
+    .gate{
+      max-width:560px;margin:24px auto;padding:0 20px;
+    }
+    .gate-card{
+      background:var(--surf);border:1.5px dashed var(--bd);
+      border-radius:24px;padding:32px 24px;text-align:center;
+    }
+    .gate-icon{
+      width:64px;height:64px;border-radius:20px;
+      background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.2);
       display:flex;align-items:center;justify-content:center;
-      font-size:32px;cursor:pointer;
-      position:relative;transition:transform .2s;
-      text-decoration:none;
-      flex-shrink:0;
+      margin:0 auto 20px;
     }
-    .node-bubble.state-done{
-      background:linear-gradient(135deg,#16a34a,#15803d);
-      border:3px solid rgba(34,197,94,.5);
-      box-shadow:0 6px 20px rgba(34,197,94,.3);
-      color:#fff;
+    .gate-icon svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round}
+    .gate-h{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);margin-bottom:8px}
+    .gate-p{font-size:13px;color:var(--gray);line-height:1.65;margin-bottom:20px}
+    .gate-prog{
+      background:var(--white);border:1px solid var(--bd);
+      border-radius:100px;overflow:hidden;height:8px;
+      margin:0 auto 16px;max-width:260px;
     }
-    .node-bubble.state-done::after{
-      content:'✓';
-      position:absolute;bottom:-4px;right:-4px;
-      width:22px;height:22px;border-radius:50%;
-      background:#16a34a;border:2px solid white;
-      font-size:11px;color:white;font-weight:700;
-      display:flex;align-items:center;justify-content:center;
-      line-height:1;
+    .gate-prog-fill{height:100%;border-radius:100px;background:var(--gold);transition:width .6s}
+    .gate-lbl{font-size:12px;color:var(--gray);margin-bottom:20px}
+    .gate-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--navy);color:white;
+      border-radius:100px;padding:11px 24px;
+      font-size:13px;font-weight:700;text-decoration:none;transition:all .2s;
     }
-    .node-bubble.state-active{
-      background:linear-gradient(135deg,#d4a754,var(--gold));
-      border:3px solid rgba(201,169,110,.6);
-      box-shadow:0 6px 28px rgba(201,169,110,.45);
-      animation:pulseNode 2.5s ease-in-out infinite;
-      color:#fff;
-    }
-    .node-bubble.state-locked{
-      background:var(--pure);
-      border:2.5px dashed var(--border);
-      opacity:.55;
-      cursor:default;
-      filter:grayscale(.6);
-    }
-    .node-bubble.state-soon{
-      background:var(--pure);
-      border:2px dashed var(--border);
-      opacity:.4;
-      cursor:default;
-    }
-    .node-bubble:not(.state-locked):not(.state-soon):hover{transform:scale(1.08)}
+    .gate-btn:hover{background:var(--navy2);transform:translateY(-1px)}
 
-    @keyframes pulseNode{
-      0%,100%{box-shadow:0 6px 28px rgba(201,169,110,.45)}
-      50%{box-shadow:0 6px 36px rgba(201,169,110,.7),0 0 0 8px rgba(201,169,110,.1)}
+    /* ── STORY CARD ── */
+    .scard{
+      border-radius:20px;overflow:hidden;
+      transition:transform .2s,box-shadow .2s;
+      text-decoration:none;display:block;position:relative;
+      border:1.5px solid transparent;
     }
+    .scard:not(.locked):hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(15,27,45,.15)}
+    .scard.locked{cursor:default;opacity:.52}
 
-    /* Node label */
-    .node-label{
-      margin-top:10px;text-align:center;
-      max-width:200px;margin-bottom:6px;
+    .scard-banner{
+      height:80px;position:relative;
+      display:flex;align-items:flex-end;
+      padding:12px 16px;
+      overflow:hidden;
     }
-    .node-num{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:2px}
-    .node-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:2px;line-height:1.2}
-    .node-kr{font-size:12px;color:var(--gray)}
-    .node-status-badge{
-      display:inline-flex;align-items:center;gap:4px;
-      border-radius:100px;padding:3px 10px;font-size:10px;font-weight:700;
-      margin-top:4px;
+    .scard-banner-bg{
+      position:absolute;inset:0;
+      opacity:.18;
     }
-    .node-status-badge.done{background:rgba(34,197,94,.1);color:#15803d}
-    .node-status-badge.active{background:rgba(201,169,110,.15);color:#92691e}
-    .node-status-badge.locked{background:var(--border);color:var(--gray)}
-    .node-status-badge.soon{background:rgba(167,139,250,.1);color:#7c3aed}
-
-    /* Active CTA card */
-    .active-cta{
-      width:100%;max-width:320px;
-      background:var(--navy);border-radius:20px;
-      padding:16px 18px;margin-top:12px;margin-bottom:4px;
-      text-decoration:none;display:block;transition:transform .2s,box-shadow .2s;
-      border:1.5px solid rgba(201,169,110,.2);
+    .scard-loc{
+      position:relative;z-index:1;
+      font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+      color:white;opacity:.85;
     }
-    .active-cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(15,27,45,.2)}
-    .active-cta-setting{font-size:11px;color:rgba(247,248,250,.4);margin-bottom:8px}
-    .active-cta-words{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-    .active-word{background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);border-radius:8px;padding:3px 8px;font-size:11px;color:var(--gold2)}
-    .active-cta-btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--gold);color:var(--navy);border-radius:12px;padding:12px;font-size:14px;font-weight:700}
-    .active-cta-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
-
-    /* Done card (mini) */
-    .done-mini{
-      width:100%;max-width:320px;
-      background:var(--pure);border:1.5px solid rgba(34,197,94,.2);
-      border-radius:16px;padding:12px 16px;margin-top:10px;margin-bottom:4px;
-      text-decoration:none;display:flex;align-items:center;gap:12px;
+    .scard-num{
+      position:absolute;top:12px;right:14px;z-index:1;
+      font-family:'Playfair Display',serif;font-size:28px;font-weight:700;
+      color:white;opacity:.25;line-height:1;
+    }
+    .scard-body{
+      background:var(--bg);padding:14px 16px;
+    }
+    .scard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .scard-titles{flex:1;min-width:0}
+    .scard-kr{
+      font-family:'Playfair Display',serif;font-size:17px;font-weight:700;
+      color:var(--navy);margin-bottom:2px;line-height:1.2;
+    }
+    .scard-fr{font-size:12px;color:var(--gray);font-weight:500}
+    .scard-badges{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px}
+    .badge-level{
+      display:inline-flex;align-items:center;gap:3px;
+      border-radius:6px;padding:3px 8px;
+      font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+    }
+    .badge-status{
+      display:inline-flex;align-items:center;gap:3px;
+      border-radius:100px;padding:3px 9px;
+      font-size:10px;font-weight:700;
+    }
+    .scard-meta{
+      display:flex;align-items:center;gap:12px;
+      font-size:11px;color:var(--gray);margin-bottom:12px;
+    }
+    .scard-meta svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+    .scard-words{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+    .scard-word{
+      background:var(--white);border:1px solid var(--bd);
+      border-radius:7px;padding:3px 8px;
+      font-size:11px;font-weight:600;color:var(--navy);
+      cursor:pointer;transition:all .15s;
+    }
+    .scard-word:hover{border-color:var(--gold);background:rgba(201,169,110,.07)}
+    .scard-word.played{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.05);color:#15803d}
+    .scard-btn{
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      border-radius:12px;padding:11px;
+      font-size:13px;font-weight:700;
       transition:all .2s;
     }
-    .done-mini:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.12)}
-    .done-mini-info{flex:1}
-    .done-mini-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
-    .done-mini-sub{font-size:11px;color:var(--gray)}
-    .done-mini-arr{color:var(--green)}
-    .done-mini-arr svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .scard-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
 
-    /* Locked hint */
-    .locked-hint{
-      width:100%;max-width:320px;
-      background:var(--pure);border:1.5px dashed var(--border);
-      border-radius:14px;padding:10px 14px;margin-top:8px;margin-bottom:4px;
-      font-size:11px;color:var(--gray);text-align:center;opacity:.65;
+    /* Active state CTA icon */
+    .scard-cta-icon{
+      width:40px;height:40px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;
     }
+    .scard-cta-icon svg{width:20px;height:20px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round}
 
-    /* Soon card */
-    .soon-card{
-      width:100%;max-width:320px;
-      background:rgba(167,139,250,.05);border:1.5px dashed rgba(167,139,250,.3);
-      border-radius:16px;padding:12px 16px;margin-top:10px;margin-bottom:4px;text-align:center;
+    /* ── SECTION LABEL ── */
+    .sec-lbl{
+      display:flex;align-items:center;gap:10px;
+      font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--gray);margin-bottom:12px;padding:0 4px;
     }
-    .soon-card-t{font-size:13px;font-weight:700;color:var(--purple);margin-bottom:4px}
-    .soon-card-s{font-size:11px;color:var(--gray)}
-
-    /* ── VOCAB SECTION ── */
-    .section{max-width:480px;margin:0 auto;padding:0 20px 20px}
-    .sec-lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-    .sec-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
-    .vocab-prev{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:16px}
-    .vocab-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .vpill{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;transition:all .2s}
-    .vpill:hover{border-color:var(--gold);background:var(--goldp);transform:translateY(-1px)}
-    .vpill.played{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.05)}
-    .vpill-kr{font-size:17px;font-weight:300;color:var(--navy);margin-bottom:2px}
-    .vpill-fr{font-size:10px;color:var(--gray);font-weight:600}
-
-    /* ── LOCKED SECTION ── */
-    .locked-section{background:var(--pure);border:1.5px dashed var(--border);border-radius:20px;padding:24px;text-align:center;margin-bottom:24px}
-    .locked-section h3{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
-    .locked-section p{font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:16px}
-    .locked-section a{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:var(--gold);border-radius:100px;padding:10px 22px;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s}
-    .locked-section a:hover{background:var(--navy2)}
+    .sec-lbl::after{content:'';flex:1;height:1px;background:var(--bd)}
 
     /* ── BOTTOM NAV ── */
-    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:90;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
-    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
-    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
-    .bni.act,.bni:hover{color:var(--navy)}
-    .bni.act svg{stroke:var(--gold)}
-  
     
-  
-    /* ═══════════════════════════════════════════════════════════
-       DARK MODE — GLOBAL SYSTEM
-       Tous les composants adaptatifs pour le mode sombre
-    ═══════════════════════════════════════════════════════════ */
-    [data-theme="dark"]{
-      --pure:#1e3352;
-      --white:#162844;
-      --border:rgba(255,255,255,.13);
-      --gray:#7a9ab8;
-      color-scheme:dark;
+    
+    
+    .bni.act,
+    .bni.act svg{stroke:var(--gold)}
+
+    /* ── LEVEL SECTION HEADER ── */
+    .lvl-header{
+      padding:20px 20px 8px;
+      max-width:560px;margin:0 auto;
     }
-    [data-theme="dark"] body{
-      background:#0f1e32!important;
-      color:#d8e8f5;
+    .lvl-title{
+      display:flex;align-items:center;gap:10px;
+      font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--navy);margin-bottom:4px;
     }
-    /* ── navigation ── */
-    [data-theme="dark"] .bnav,
-    [data-theme="dark"] .bnav-wrap{
-      background:#0a1628!important;
-      border-top-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni.act{color:#C9A96E!important}
-    [data-theme="dark"] .bni.act svg{stroke:#C9A96E!important}
-    [data-theme="dark"] .bni span{color:inherit!important}
-    /* ── cards génériques ── */
-    [data-theme="dark"] .scard,
-    [data-theme="dark"] .card,
-    [data-theme="dark"] .ex-card,
-    [data-theme="dark"] .qz-card,
-    [data-theme="dark"] .quiz-card,
-    [data-theme="dark"] .result-card,
-    [data-theme="dark"] .vocab-prev,
-    [data-theme="dark"] .flip-front{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .scard-name,
-    [data-theme="dark"] .scard-kr,
-    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .scard-pct{color:rgba(200,220,240,.45)!important}
-    /* ── leçon — choice buttons ── */
-    [data-theme="dark"] .ch{
-      background:#1e3352!important;
-      border:1.5px solid rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .ch:hover:not(:disabled){
-      border-color:#C9A96E!important;
-      background:rgba(201,169,110,.12)!important;
-    }
-    [data-theme="dark"] .ch.ok{
-      border-color:#4ade80!important;
-      background:rgba(34,197,94,.12)!important;
-      color:#4ade80!important;
-    }
-    [data-theme="dark"] .ch.ko{
-      border-color:#f87171!important;
-      background:rgba(239,68,68,.12)!important;
-      color:#f87171!important;
-    }
-    /* ── leçon — keyboard keys ── */
-    [data-theme="dark"] .kbkey{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .kbkey .kk{color:#d8e8f5!important}
-    [data-theme="dark"] .kbkey .kr{color:rgba(200,220,240,.45)!important}
-    [data-theme="dark"] .kbrow{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .kb-target{
-      background:#162844!important;
-      border-color:rgba(255,255,255,.14)!important;
-    }
-    [data-theme="dark"] .tw-blank{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    /* ── leçon — UI text ── */
-    [data-theme="dark"] .q-prompt{color:#d8e8f5!important}
-    [data-theme="dark"] .q-big{
-      color:#d8e8f5!important;
-      border-color:rgba(255,255,255,.12)!important;
-      background:#1e3352!important;
-    }
-    [data-theme="dark"] .q-cnt{color:rgba(200,220,240,.4)!important}
-    [data-theme="dark"] .q-hint{color:rgba(200,220,240,.35)!important}
-    [data-theme="dark"] .fb{color:rgba(200,220,240,.55)}
-    [data-theme="dark"] .fb.ok{color:#4ade80!important}
-    [data-theme="dark"] .fb.ko{color:#f87171!important}
-    [data-theme="dark"] .wrap{background:#0f1e32!important}
-    [data-theme="dark"] .mhdr{background:#0a1628!important}
-    [data-theme="dark"] .tbar{
-      background:#0a1628!important;
-      border-color:rgba(255,255,255,.08)!important;
-    }
-    [data-theme="dark"] .ptrack{background:rgba(255,255,255,.1)!important}
-    [data-theme="dark"] .mnm{color:rgba(215,232,248,.9)!important}
-    [data-theme="dark"] .msay{color:rgba(200,220,240,.6)!important}
-    [data-theme="dark"] .res-msg{color:#d8e8f5!important}
-    [data-theme="dark"] .res-sec{
-      border-color:rgba(255,255,255,.15)!important;
-      color:rgba(200,220,240,.65)!important;
-    }
-    /* ── exercice.html ── */
-    [data-theme="dark"] .mtab{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.15)!important;
-      color:rgba(200,220,240,.65)!important;
-    }
-    [data-theme="dark"] .mtab.act{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    [data-theme="dark"] .word-token{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .word-token.placed{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    [data-theme="dark"] .wb-target{
-      background:rgba(255,255,255,.03)!important;
-      border-color:rgba(255,255,255,.14)!important;
-    }
-    [data-theme="dark"] .pair-token{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .pair-token.selected{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    [data-theme="dark"] .lc-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .sc-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .sc-score-n{color:#d8e8f5!important}
-    [data-theme="dark"] .sc-start-title{color:#d8e8f5!important}
-    [data-theme="dark"] .sc-start-sub{color:rgba(200,220,240,.5)!important}
-    [data-theme="dark"] .fb-strip.ok{
-      background:rgba(34,197,94,.1)!important;
-      border-color:rgba(34,197,94,.25)!important;
-      color:#4ade80!important;
-    }
-    [data-theme="dark"] .fb-strip.ko{
-      background:rgba(239,68,68,.08)!important;
-      border-color:rgba(239,68,68,.2)!important;
-      color:#f87171!important;
-    }
-    [data-theme="dark"] .next-btn{
-      background:#1e3352!important;
-      border:1.5px solid rgba(255,255,255,.15)!important;
-      color:#d8e8f5!important;
-    }
-    /* ── révision ── */
-    [data-theme="dark"] .ans-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .ans-btn.correct{
-      background:rgba(34,197,94,.1)!important;
-      border-color:#4ade80!important;
-      color:#4ade80!important;
-    }
-    [data-theme="dark"] .ans-btn.wrong{
-      background:rgba(239,68,68,.1)!important;
-      border-color:#f87171!important;
-      color:#f87171!important;
-    }
-    [data-theme="dark"] .qz-card,
-    [data-theme="dark"] .qz-card-inner{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .qz-feedback.ok{color:#4ade80!important}
-    [data-theme="dark"] .qz-feedback.ko{color:#f87171!important}
-    /* ── vocabulaire ── */
-    [data-theme="dark"] .flip-front{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
-    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .filters{
-      background:#0f1e32!important;
-      border-color:rgba(255,255,255,.08)!important;
-    }
-    [data-theme="dark"] .fchip{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.13)!important;
-      color:rgba(200,220,240,.65)!important;
-    }
-    [data-theme="dark"] .fchip.act{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    /* ── histoires ── */
-    [data-theme="dark"] .node-title{color:#d8e8f5!important}
-    [data-theme="dark"] .node-num{color:rgba(200,220,240,.35)!important}
-    [data-theme="dark"] .node-kr{color:rgba(200,220,240,.45)!important}
-    [data-theme="dark"] .node-bubble.state-locked{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.15)!important;
-    }
-    [data-theme="dark"] .node-bubble.state-soon{
-      background:#1e3352!important;
-      border-color:rgba(167,139,250,.2)!important;
-    }
-    [data-theme="dark"] .done-mini{
-      background:#1e3352!important;
-      border-color:rgba(34,197,94,.2)!important;
-    }
-    [data-theme="dark"] .done-mini-title{color:#d8e8f5!important}
-    [data-theme="dark"] .done-mini-sub{color:rgba(200,220,240,.4)!important}
-    [data-theme="dark"] .locked-hint{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-      color:rgba(200,220,240,.45)!important;
-    }
-    [data-theme="dark"] .locked-section{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .locked-section h3{color:#d8e8f5!important}
-    [data-theme="dark"] .locked-section p{color:rgba(200,220,240,.55)!important}
-    [data-theme="dark"] .connector.locked{
-      background:repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 6px,
-        transparent 6px,transparent 12px
-      )!important;
-    }
-    /* ── app.html ── */
-    [data-theme="dark"] .dori-tip{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .welcome-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .lbrow{background:rgba(255,255,255,.04)!important}
-    [data-theme="dark"] .lbl-name{color:#d8e8f5!important}
-    /* ── profil ── */
-    [data-theme="dark"] .stat-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .settings-list{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .setting-name{color:#d8e8f5!important}
-    [data-theme="dark"] .setting-sub{color:rgba(200,220,240,.45)!important}
-    /* ── sections labels ── */
-    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)!important}
-    /* ── histoire pages ── */
-    [data-theme="dark"] .dial-box{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .dial-text{color:#d8e8f5!important}
-    [data-theme="dark"] .dial-who{color:rgba(200,220,240,.45)!important}
-    [data-theme="dark"] .voc-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .voc-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .voc-fr{color:rgba(200,220,240,.55)!important}
-    /* ── hangeul page ── */
-    [data-theme="dark"] .char-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .char-glyph{color:#d8e8f5!important}
-    [data-theme="dark"] .char-rom{color:rgba(200,220,240,.55)!important}
-    /* ── generic inputs ── */
-    [data-theme="dark"] input:not([type="range"]),
-    [data-theme="dark"] textarea,
-    [data-theme="dark"] select{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+    .lvl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .lvl-sub{font-size:11px;color:var(--gray);margin-left:18px}
+
+    /* ── EMPTY STATE ── */
+    .empty{
+      text-align:center;padding:40px 20px;
+      color:var(--gray);font-size:13px;
     }
 
-  </style>
+    /* ═══════════════════════════════════════════════════
+       DARK MODE
+    ═══════════════════════════════════════════════════ */
+
+    
+    [data-theme="dark"] .fchip{background:var(--surf);border-color:var(--bd);color:var(--t2)}
+    [data-theme="dark"] .fchip.act{background:var(--goldbg);border-color:var(--goldbd);color:var(--gold)}
+    [data-theme="dark"] .scard-body{background:var(--surf)}
+    [data-theme="dark"] .scard-kr{color:#d8e8f5}
+    [data-theme="dark"] .scard-fr{color:rgba(200,220,240,.5)}
+    [data-theme="dark"] .scard-word{background:var(--s2);border-color:rgba(255,255,255,.12);color:#d8e8f5}
+    [data-theme="dark"] .gate-card{background:var(--surf);border-color:rgba(255,255,255,.10)}
+    [data-theme="dark"] .gate-h{color:#d8e8f5}
+    [data-theme="dark"] .gate-prog{background:var(--s2);border-color:rgba(255,255,255,.10)}
+    [data-theme="dark"] .lvl-title{color:#d8e8f5}
+    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)}
+    [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)}
+    [data-theme="dark"] .scard-meta{color:rgba(200,220,240,.45)}
+  
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <a href="app.html" class="back">
-    <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-    Accueil
-  </a>
-  <span class="tb-title">Histoires</span>
-  <div class="xp-pill" id="xpPill">
-    <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    <span id="xpVal">— XP</span>
-  </div>
-</div>
-
-<!-- HERO PROGRESS BAND -->
-<div class="hero-band">
-  <div class="hb-inner">
-    <div class="hb-title">Mon <em>parcours</em></div>
-    <div class="hb-sub" id="hbSub">Lis les histoires dans l'ordre pour débloquer la suite</div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    </div>
-    <div class="hb-stats">
-      <div class="hb-stat">
-        <div class="hb-stat-dot" style="background:var(--green)"></div>
-        <span><strong id="statDone">0</strong> lue(s)</span>
-      </div>
-      <div class="hb-stat">
-        <div class="hb-stat-dot" style="background:var(--gold)"></div>
-        <span><strong id="statTotal">4</strong> histoires</span>
-      </div>
-      <div class="hb-stat">
-        <div class="hb-stat-dot" style="background:var(--amber)"></div>
-        <span><strong id="statXP">0</strong> XP gagnés</span>
-      </div>
+<div class="shell">
+<!-- ══ SIDEBAR desktop ══════════════════════════ -->
+<aside class="side">
+  <div class="side-head">
+    <div class="side-logo">Korean <em>Stories</em></div>
+    <div class="side-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpSide">0</span> XP
     </div>
   </div>
-</div>
-
-<!-- ROADMAP -->
-<div class="roadmap" id="roadmap"></div>
-
-<!-- VOCAB SECTION -->
-<div class="section" id="vocabSection" style="display:none">
-  <div class="sec-lbl">Mots des histoires lues</div>
-  <div class="vocab-prev">
-    <p style="font-size:12px;color:var(--gray)">Appuie pour écouter · Audio natif</p>
-    <div class="vocab-pills" id="vocabPills"></div>
+  <nav class="side-nav">
+    <a href="app.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+    <a href="cours.html" class="sn on"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+    <a href="lecture.html" class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+    <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Classement</a>
+    <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+    <a href="ressources.html" class="sn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+  </nav>
+  <div class="side-theme">
+    <span class="side-theme-lbl">Mode sombre</span>
+    <button class="theme-pill" onclick="toggleTheme()" aria-label="Basculer le thème"></button>
   </div>
-</div>
+</aside>
+
+<!-- ══ MAIN ════════════════════════════════════ -->
+<div class="main">
+
+<!-- ══ TOPBAR ═══════════════════════════════════ -->
+  <div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="page-enter">
+<div id="pageWrap">
+
+  <!-- TOP BAR -->
+  
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">
+        <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:var(--gold)"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        Korean Stories
+      </div>
+      <h1 class="hero-h1">Lis, écoute,<br/><em>mémorise.</em></h1>
+      <p class="hero-sub">11 histoires avec Mina et Joon à Séoul.<br/>Chaque lieu, une ambiance. Chaque dialogue, de vrais mots.</p>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-icon" style="background:rgba(34,197,94,.15)">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#22c55e;fill:none;stroke-width:2;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div>
+            <div class="hstat-n" id="heroLues">0</div>
+            <div class="hstat-l">Histoires lues</div>
+          </div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-icon" style="background:rgba(201,169,110,.15)">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div>
+            <div class="hstat-n" id="heroXP">0</div>
+            <div class="hstat-l">XP gagnés</div>
+          </div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-icon" style="background:rgba(139,92,246,.15)">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#8b5cf6;fill:none;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="hstat-n" id="heroMots">0</div>
+            <div class="hstat-l">Mots découverts</div>
+          </div>
+        </div>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="heroProgFill" style="width:0%"></div>
+      </div>
+      <div class="prog-lbl" id="heroProgLbl">0 / 11 histoires</div>
+    </div>
+  </section>
+
+  <!-- FILTER CHIPS -->
+  <div class="filters-wrap">
+    <div class="filters">
+      <button class="fchip act" data-filter="all" onclick="setFilter('all')">Tout</button>
+      <button class="fchip" data-filter="debutant" onclick="setFilter('debutant')">Débutant</button>
+      <button class="fchip" data-filter="a1" onclick="setFilter('a1')">A1</button>
+      <button class="fchip" data-filter="a1plus" onclick="setFilter('a1plus')">A1+</button>
+      <button class="fchip" data-filter="a2" onclick="setFilter('a2')">A2</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="storiesMain">
+    <!-- injected by JS -->
+  </main>
+
+</div><!-- /pageWrap -->
+
+<!-- BOTTOM NAV -->
+
+
+<script>
+// ─────────────────────────────────────
+// DATA
+// ─────────────────────────────────────
+const ls = k => localStorage.getItem(k);
+
+const STORIES = [
+  {
+    id:'h1', key:'ks_h1', href:'histoire1.html', num:1, storyN:'1',
+    level:'debutant', levelLabel:'Débutant',
+    title:'안녕하세요 !', titleFr:'Bonjour !',
+    loc:'Rencontre dans la rue · Séoul',
+    locShort:'Rue · Séoul',
+    color:'#C9A96E', colorBg:'rgba(201,169,110,',
+    words: ['해','나도','저기','수박','빨리','하루','또'],
+    wordsCount: 7, xp: 30, reqKey: null,
+    desc:'Mina croise Joon dans la rue. Premiers mots, premiers sourires. Le coréen commence ici.',
+  },
+  {
+    id:'h2', key:'ks_h2', href:'histoire2.html', num:2,
+    level:'debutant', levelLabel:'Débutant',
+    title:'시장에서', titleFr:'Au marché',
+    loc:'Marché traditionnel · Namdaemun',
+    locShort:'Marché · Namdaemun',
+    color:'#16a34a', colorBg:'rgba(22,163,74,',
+    words: ['여기','시장','좋아해요','얼마','비싸요','맛있어요','같이','사요'],
+    wordsCount: 8, xp: 30, reqKey: 'ks_h1',
+    desc:'Mina emmène Joon faire les courses. Fruits, légumes, et un vendeur qui parle vite vite vite.',
+  },
+  {
+    id:'h3', key:'ks_h3', href:'histoire3.html', num:3,
+    level:'a1', levelLabel:'A1',
+    title:'식당에서', titleFr:'Au restaurant',
+    loc:'Restaurant coréen · Hongdae',
+    locShort:'Restaurant · Hongdae',
+    color:'#dc2626', colorBg:'rgba(220,38,38,',
+    words: ['배고파요','식당','메뉴','주문','매워요','조금','물','또'],
+    wordsCount: 8, xp: 30, reqKey: 'ks_h2',
+    desc:'Bibimbap, kimchi, piment. Joon découvre la cuisine coréenne… et sa bouche est en feu.',
+  },
+  {
+    id:'h4', key:'ks_h4', href:'histoire4.html', num:4,
+    level:'a1', levelLabel:'A1',
+    title:'카페에서', titleFr:'Au café',
+    loc:'Café branché · Sinchon',
+    locShort:'Café · Sinchon',
+    color:'#d97706', colorBg:'rgba(217,119,6,',
+    words: ['카페','커피','아이스','주세요','뜨거워요','달아요','기다려요','카드'],
+    wordsCount: 8, xp: 30, reqKey: 'ks_h3',
+    desc:'Rendez-vous au café pour parler de tout et de rien. Mina veut un latte, Joon hésite.',
+  },
+  {
+    id:'h5', key:'ks_h5', href:'histoire5.html', num:5,
+    level:'a1', levelLabel:'A1',
+    title:'편의점에서', titleFr:'À l\'épicerie coréenne',
+    loc:'CU / GS25 · Mapo-gu',
+    locShort:'Épicerie · Mapo-gu',
+    color:'#0891b2', colorBg:'rgba(8,145,178,',
+    words: ['편의점','컵라면','있어요','얼마예요','원','지갑','없어요','카드'],
+    wordsCount: 10, xp: 30, reqKey: 'ks_h4',
+    desc:'11h du soir, une faim de loup. Mina et Joon à la convenience store pour du ramyeon.',
+  },
+  {
+    id:'h6', key:'ks_h6', href:'histoire6.html', num:6,
+    level:'a1plus', levelLabel:'A1+',
+    title:'지하철에서', titleFr:'Dans le métro',
+    loc:'Ligne 2 · Hongik University',
+    locShort:'Métro · Ligne 2',
+    color:'#2563eb', colorBg:'rgba(37,99,235,',
+    words: ['지하철','빨리','늦었어요','교통카드','역','앉아요','괜찮아요','내려요','대박이에요'],
+    wordsCount: 11, xp: 30, reqKey: 'ks_h5',
+    desc:'Ça se bouscule dans le métro de Séoul. Joon rate la porte et Mina court pour l\'attraper.',
+  },
+  {
+    id:'h7', key:'ks_h7', href:'histoire7.html', num:7,
+    level:'a1plus', levelLabel:'A1+',
+    title:'친구 집에서', titleFr:'Chez un ami',
+    loc:'Appartement · Hongdae',
+    locShort:'Appart · Hongdae',
+    color:'#7c3aed', colorBg:'rgba(124,58,237,',
+    words: ['집','어서 오세요','신발','벗어요','라면','같이','재미있어요','피곤해요','미안해요'],
+    wordsCount: 10, xp: 30, reqKey: 'ks_h6',
+    desc:'Mina invite tout le monde chez elle. On enlève les chaussures, on prépare le ramyeon.',
+  },
+  {
+    id:'h8', key:'ks_h8', href:'histoire8.html', num:8,
+    level:'a1plus', levelLabel:'A1+',
+    title:'노래방에서', titleFr:'Au norebang',
+    loc:'Norebang · Itaewon',
+    locShort:'Norebang · Itaewon',
+    color:'#db2777', colorBg:'rgba(219,39,119,',
+    words: ['노래방','노래','신나요','불러요','마이크','잘해요','점수','최고예요'],
+    wordsCount: 16, xp: 30, reqKey: 'ks_h7',
+    desc:'Le karaoké coréen, ça se prend au sérieux ! Joon découvre qu\'il a (un peu) de talent.',
+  },
+  {
+    id:'h9', key:'ks_h9', href:'histoire9.html', num:9,
+    level:'a2', levelLabel:'A2',
+    title:'병원에서', titleFr:'À l\'hôpital',
+    loc:'Clinique · Mapo-gu',
+    locShort:'Clinique · Mapo-gu',
+    color:'#0369a1', colorBg:'rgba(3,105,161,',
+    words: ['병원','아파요','기침','열','감기','약','드릴게요','쉬세요'],
+    wordsCount: 17, xp: 30, reqKey: 'ks_h8',
+    desc:'Joon est malade. Visite chez le médecin avec Mina qui traduit. Vocabulaire médical de base.',
+  },
+  {
+    id:'h10', key:'ks_h10', href:'histoire10.html', num:10,
+    level:'a2', levelLabel:'A2',
+    title:'쇼핑몰에서', titleFr:'Au centre commercial',
+    loc:'Shopping · Myeongdong',
+    locShort:'Shopping · Myeongdong',
+    color:'#ca8a04', colorBg:'rgba(202,138,4,',
+    words: ['쇼핑몰','세일','옷','사이즈','어울려요','살게요','계산','환불'],
+    wordsCount: 16, xp: 30, reqKey: 'ks_h9',
+    desc:'Myeongdong, les soldes, et Mina qui ne sait pas quoi choisir. Joon joue les stylistes.',
+  },
+  {
+    id:'h11', key:'ks_h11', href:'histoire11.html', num:11,
+    level:'a2', levelLabel:'A2',
+    title:'집들이에서', titleFr:'Pendaison de crémaillère',
+    loc:'Nouvel appartement · Séoul',
+    locShort:'Appart · Séoul',
+    color:'#b45309', colorBg:'rgba(180,83,9,',
+    words: ['집들이','새집','선물','감사해요','넓어요','마음에 들어요','축하해요','행복하세요'],
+    wordsCount: 16, xp: 30, reqKey: 'ks_h10',
+    desc:'Joon a un nouvel appartement ! Tout le monde apporte des cadeaux et on fête ça ensemble.',
+  },
+];
+
+// Level colors
+const LEVEL_COLORS = {
+  debutant: { bg:'rgba(34,197,94,.12)', color:'#15803d', dot:'#22c55e', label:'Débutant' },
+  a1:       { bg:'rgba(59,130,246,.12)', color:'#1d4ed8', dot:'#3b82f6', label:'A1' },
+  a1plus:   { bg:'rgba(139,92,246,.12)', color:'#6d28d9', dot:'#8b5cf6', label:'A1+' },
+  a2:       { bg:'rgba(245,158,11,.12)', color:'#b45309', dot:'#f59e0b', label:'A2' },
+};
+
+// Lesson check
+const allLecsDone = [1,2,3,4,5,6,7,8,9,10].every(n => ls('ks_l'+n)==='done');
+
+// ─────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────
+function speak(t) {
+  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='ko-KR'; u.rate=0.82; speechSynthesis.speak(u); }catch(e){}
+}
+
+function getState(s) {
+  if(ls(s.key)==='done') return 'done';
+  if(!s.reqKey && allLecsDone) return 'active';
+  if(s.reqKey && ls(s.reqKey)==='done' && allLecsDone) return 'active';
+  return 'locked';
+}
+
+// ─────────────────────────────────────
+// STATS
+// ─────────────────────────────────────
+function updateStats() {
+  const done = STORIES.filter(s => ls(s.key)==='done');
+  const lues = done.length;
+  const xp = lues * 30;
+  const mots = done.reduce((acc,s)=>acc+s.wordsCount,0);
+  document.getElementById('heroLues').textContent = lues;
+  document.getElementById('heroXP').textContent = xp;
+  document.getElementById('heroMots').textContent = mots;
+  const pct = Math.round(lues/STORIES.length*100);
+  document.getElementById('heroProgFill').style.width = pct+'%';
+  document.getElementById('heroProgLbl').textContent = lues + ' / ' + STORIES.length + ' histoires';
+  document.getElementById('xpVal').textContent = parseInt(ls('ks_xp')||'0');
+}
+
+// ─────────────────────────────────────
+// RENDER CARD
+// ─────────────────────────────────────
+function renderCard(s) {
+  const state = getState(s);
+  const lvl = LEVEL_COLORS[s.level];
+  const isDone = state==='done';
+  const isActive = state==='active';
+  const isLocked = state==='locked';
+
+  const tag = isLocked || isActive ? 'div' : 'a';
+  const href = !isLocked ? `href="${s.href}"` : '';
+
+  let statusBadge='', statusBtn='';
+  if(isDone){
+    statusBadge = `<span class="badge-status" style="background:rgba(34,197,94,.1);color:#15803d">
+      <svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:#15803d;fill:none;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>
+      Lue
+    </span>`;
+    statusBtn = `<div class="scard-btn" style="background:rgba(34,197,94,.08);border:1.5px solid rgba(34,197,94,.2);color:#15803d">
+      Relire
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+    </div>`;
+  } else if(isActive){
+    statusBadge = `<span class="badge-status" style="background:${s.colorBg}0.12);color:${s.color}">
+      Disponible
+    </span>`;
+    statusBtn = `<div class="scard-btn" style="background:${s.color};color:white">
+      Lire l'histoire
+      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+    </div>`;
+  } else {
+    const prev = STORIES.find(st=>st.key===s.reqKey);
+    statusBadge = `<span class="badge-status" style="background:var(--bd);color:var(--gray)">
+      <svg viewBox="0 0 24 24" style="width:9px;height:9px;stroke:var(--gray);fill:none;stroke-width:2;stroke-linecap:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Verrouillée
+    </span>`;
+    statusBtn = `<div class="scard-btn" style="background:var(--white);border:1.5px solid var(--bd);color:var(--gray);font-size:11px">
+      ${!allLecsDone ? 'Termine les leçons d\'abord' : 'Lis ' + (prev ? prev.titleFr : 'l\'histoire précédente') + ' d\'abord'}
+    </div>`;
+  }
+
+  // Words preview (show first 5 for active/done)
+  let wordsPills = '';
+  if(!isLocked) {
+    const words = s.words.slice(0,5);
+    wordsPills = `<div class="scard-words">
+      ${words.map(w=>`<span class="scard-word" onclick="event.preventDefault();event.stopPropagation();speak('${w}')">${w}</span>`).join('')}
+      ${s.wordsCount>5?`<span class="scard-word" style="color:var(--gray);font-size:10px">+${s.wordsCount-5}</span>`:''}
+    </div>`;
+  }
+
+  return `
+    <${tag} ${href} class="scard${isLocked?' locked':''}" id="card-${s.id}" style="border-color:${s.colorBg}0.15)">
+      <div class="scard-banner" style="background:${s.color}">
+        <div class="scard-banner-bg" style="background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 80%22><text x=%225%22 y=%2260%22 font-size=%2260%22 opacity=%22.2%22 fill=%22white%22 font-family=%22serif%22>${encodeURIComponent(s.title.charAt(0))}</text></svg>') no-repeat right center/auto 90%"></div>
+        <span class="scard-num">${s.num}</span>
+        <span class="scard-loc">${s.locShort}</span>
+      </div>
+      <div class="scard-body">
+        <div class="scard-top">
+          <div class="scard-titles">
+            <div class="scard-kr">${s.title}</div>
+            <div class="scard-fr">${s.titleFr}</div>
+            <div class="scard-badges">
+              <span class="badge-level" style="background:${lvl.bg};color:${lvl.color}">${lvl.label}</span>
+              ${statusBadge}
+            </div>
+          </div>
+          <div class="scard-cta-icon" style="background:${s.colorBg}0.15);border:1.5px solid ${s.colorBg}0.25)">
+            <svg viewBox="0 0 24 24" style="stroke:${s.color}">
+              <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="scard-meta">
+          <span style="display:flex;align-items:center;gap:4px">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            ${s.loc}
+          </span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            ${s.wordsCount} mots
+          </span>
+          <span style="display:flex;align-items:center;gap:4px;font-weight:700;color:var(--gold)">
+            <svg viewBox="0 0 24 24" style="stroke:var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            +${s.xp} XP
+          </span>
+        </div>
+        ${wordsPills}
+        ${statusBtn}
+      </div>
+    </${tag}>`;
+}
+
+// ─────────────────────────────────────
+// FILTER
+// ─────────────────────────────────────
+let currentFilter = 'all';
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.fchip').forEach(c => {
+    c.classList.toggle('act', c.dataset.filter === f);
+  });
+  renderStories();
+}
+
+// ─────────────────────────────────────
+// MAIN RENDER
+// ─────────────────────────────────────
+function renderStories() {
+  const main = document.getElementById('storiesMain');
+
+  if(!allLecsDone) {
+    // Gate screen
+    const lecsDone = [1,2,3,4,5,6,7,8,9,10].filter(n=>ls('ks_l'+n)==='done').length;
+    const pct = Math.round(lecsDone/10*100);
+    main.innerHTML = `
+      <div class="gate">
+        <div class="gate-card">
+          <div class="gate-icon">
+            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          </div>
+          <h2 class="gate-h">Les histoires t'attendent !</h2>
+          <p class="gate-p">Termine les 10 leçons Hangeul pour débloquer Mina, Joon et leurs aventures à Séoul.<br/>Tu y es presque — <strong>${lecsDone} / 10</strong> leçons.</p>
+          <div class="gate-prog">
+            <div class="gate-prog-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="gate-lbl">${pct}% — encore ${10-lecsDone} leçon${10-lecsDone>1?'s':''}</div>
+          <a href="lecon.html" class="gate-btn">
+            Continuer les leçons
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- Teaser cards -->
+        <div style="margin-top:28px">
+          <div class="sec-lbl">Ce qui t'attend</div>
+          <div class="stories-grid">
+            ${STORIES.slice(0,3).map(s=>{
+              const lvl = LEVEL_COLORS[s.level];
+              return `<div class="scard locked" style="border-color:rgba(0,0,0,.06);opacity:.45">
+                <div class="scard-banner" style="background:${s.color}">
+                  <span class="scard-num">${s.num}</span>
+                  <span class="scard-loc">${s.locShort}</span>
+                </div>
+                <div class="scard-body">
+                  <div class="scard-kr">${s.title}</div>
+                  <div class="scard-fr">${s.titleFr}</div>
+                  <div style="margin-top:6px"><span class="badge-level" style="background:${lvl.bg};color:${lvl.color}">${lvl.label}</span></div>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // All stories visible — group by level
+  const levels = [
+    { key:'debutant', stories: STORIES.filter(s=>s.level==='debutant') },
+    { key:'a1',       stories: STORIES.filter(s=>s.level==='a1') },
+    { key:'a1plus',   stories: STORIES.filter(s=>s.level==='a1plus') },
+    { key:'a2',       stories: STORIES.filter(s=>s.level==='a2') },
+  ];
+
+  const filteredLevels = levels.map(l => ({
+    ...l,
+    stories: currentFilter === 'all' ? l.stories : (l.key===currentFilter ? l.stories : [])
+  })).filter(l=>l.stories.length>0);
+
+  if(filteredLevels.length===0){
+    main.innerHTML = `<div class="empty">Aucune histoire dans ce niveau pour l'instant.</div>`;
+    return;
+  }
+
+  let html = '';
+  filteredLevels.forEach(lvlGroup => {
+    const lvl = LEVEL_COLORS[lvlGroup.key];
+    const done = lvlGroup.stories.filter(s=>ls(s.key)==='done').length;
+    html += `<div class="lvl-header">
+      <div class="lvl-title">
+        <div class="lvl-dot" style="background:${lvl.dot}"></div>
+        ${lvl.label}
+        <span style="font-size:10px;font-weight:700;color:${lvl.dot};background:${lvl.bg};border-radius:100px;padding:2px 8px;margin-left:4px">${done}/${lvlGroup.stories.length}</span>
+      </div>
+    </div>`;
+    html += `<div class="stories-wrap"><div class="stories-grid">`;
+    lvlGroup.stories.forEach(s => { html += renderCard(s); });
+    html += `</div></div>`;
+  });
+
+  main.innerHTML = html;
+}
+
+// ─────────────────────────────────────
+// INIT
+// ─────────────────────────────────────
+updateStats();
+renderStories();
+</script>
+<script>
+</script>
+</div><!-- .page-enter -->
+
+</div><!-- .main -->
+</div><!-- .shell -->
 
 <!-- BOTTOM NAV -->
 <nav class="bnav">
@@ -596,21 +790,21 @@
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span>Accueil</span>
   </a>
-  <a href="vocabulaire.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-    <span>Vocab</span>
+  <a href="cours.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <span>Cours</span>
   </a>
-  <a href="histoires.html" class="bni act">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
     <span>Histoires</span>
   </a>
-  <a href="exercice.html" class="bni">
-    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
-    <span>Exercices</span>
+  <a href="challenge.html" class="bni">
+    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span>Défi</span><span class="bni-dot"></span>
   </a>
-  <a href="revision.html" class="bni">
-    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-    <span>Révision</span>
+  <a href="classement.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Classement</span>
   </a>
   <a href="profil.html" class="bni">
     <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -618,306 +812,5 @@
   </a>
 </nav>
 
-<script>
-function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-
-const xp = parseInt(ls('ks_xp')||'0');
-const h1Done = ls('ks_h1') === 'done';
-const h2Done = ls('ks_h2') === 'done';
-const h3Done = ls('ks_h3') === 'done';
-const h4Done = ls('ks_h4') === 'done';
-const h5Done = ls('ks_h5') === 'done';
-const h6Done = ls('ks_h6') === 'done';
-const allLecsDone = [1,2,3,4,5,6,7,8,9,10].every(n => ls('ks_l'+n)==='done');
-
-// XP pill
-document.getElementById('xpVal').textContent = xp.toLocaleString('fr-FR') + ' XP';
-
-// SVG icons per story
-const STORY_ICONS = {
-  h1: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
-  h2: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>`,
-  h3: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>`,
-  h4: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
-  h5: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><rect x="4" y="2" width="16" height="17" rx="2"/><path d="M9 2v5"/><path d="M15 2v5"/><path d="M4 12h16"/><circle cx="9" cy="17" r="1"/><circle cx="15" cy="17" r="1"/><path d="M7 21l2-4"/><path d="M17 21l-2-4"/></svg>`,
-  h6: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`,
-  h7: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
-  h9: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
-  h8: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>`,
-  h9: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
-};
-
-// Stories data
-const STORIES = [
-  {
-    id:'h1', key:'ks_h1', href:'histoire1.html',
-    num:'Histoire 1', storyN:'1',
-    title:'안녕하세요 !',
-    titleFr:'Bonjour !',
-    setting:'Rencontre dans la rue · Séoul',
-    words: [{kr:'해', fr:'Soleil'},{kr:'나도', fr:'Moi aussi'},{kr:'저기', fr:'Là-bas'},{kr:'수박', fr:'Pastèque'},{kr:'빨리', fr:'Vite !'},{kr:'하루', fr:'Un jour'},{kr:'또', fr:'Encore'}],
-    xp: 30, reqKey: null,
-  },
-  {
-    id:'h2', key:'ks_h2', href:'histoire2.html',
-    num:'Histoire 2', storyN:'2',
-    title:'시장에서',
-    titleFr:'Au marché',
-    setting:'Marché traditionnel · Séoul',
-    words: [{kr:'여기', fr:'Ici'},{kr:'시장', fr:'Marché'},{kr:'좋아해요', fr:"J'adore"},{kr:'얼마', fr:'Combien ?'},{kr:'비싸요', fr:"C'est cher"},{kr:'맛있어요', fr:'Délicieux'},{kr:'같이', fr:'Ensemble'},{kr:'사요', fr:'On achète'}],
-    xp: 30, reqKey: 'ks_h1',
-  },
-  {
-    id:'h3', key:'ks_h3', href:'histoire3.html',
-    num:'Histoire 3', storyN:'3',
-    title:'식당에서',
-    titleFr:'Au restaurant',
-    setting:'Restaurant coréen · Séoul',
-    words: [{kr:'배고파요', fr:"J'ai faim"},{kr:'식당', fr:'Restaurant'},{kr:'메뉴', fr:'Menu'},{kr:'주문', fr:'Commande'},{kr:'매워요', fr:"C'est épicé"},{kr:'조금', fr:'Un peu'},{kr:'물', fr:'Eau'},{kr:'또', fr:'Encore'}],
-    xp: 30, reqKey: 'ks_h2',
-  },
-  {
-    id:'h4', key:'ks_h4', href:'histoire4.html',
-    num:'Histoire 4', storyN:'4',
-    title:'카페에서',
-    titleFr:'Au café',
-    setting:'Café branché · Séoul',
-    words: [{kr:'카페', fr:'Café'},{kr:'커피', fr:'Café (boisson)'},{kr:'아이스', fr:'Glacé'},{kr:'주세요', fr:"S'il vous plaît"},{kr:'뜨거워요', fr:"C'est chaud"},{kr:'달아요', fr:"C'est sucré"},{kr:'기다려요', fr:'Attendez'},{kr:'카드', fr:'Carte'}],
-    xp: 30, reqKey: 'ks_h3',
-  },
-  {
-    id:'h5', key:'ks_h5', href:'histoire5.html',
-    num:'Histoire 5', storyN:'5',
-    title:'편의점에서',
-    titleFr:'À l\'épicerie coréenne',
-    setting:'Épicerie coréenne · Séoul',
-    words: [{kr:'편의점', fr:'Épicerie'},{kr:'배고파요', fr:"J'ai faim"},{kr:'컵라면', fr:'Cup noodles'},{kr:'있어요', fr:"Il y en a"},{kr:'얼마예요', fr:'C\'est combien ?'},{kr:'원', fr:'Won'},{kr:'지갑', fr:'Portefeuille'},{kr:'없어요', fr:"Je n'ai pas"},{kr:'카드', fr:'Carte'},{kr:'맛있어요', fr:'Délicieux'}],
-    xp: 30, reqKey: 'ks_h4',
-  },
-  {
-    id:'h6', key:'ks_h6', href:'histoire6.html',
-    num:'Histoire 6', storyN:'6',
-    title:'지하철에서',
-    titleFr:'Dans le métro',
-    setting:'Métro ligne 2 · Séoul',
-    words: [{kr:'지하철', fr:'Métro'},{kr:'빨리', fr:'Vite !'},{kr:'늦었어요', fr:'En retard'},{kr:'알아요', fr:'Je sais'},{kr:'교통카드', fr:'T-money'},{kr:'역', fr:'Station'},{kr:'앉아요', fr:'Asseyez-vous'},{kr:'괜찮아요', fr:"C'est ok"},{kr:'다음', fr:'Prochain(e)'},{kr:'내려요', fr:'On descend'},{kr:'대박이에요', fr:'Super !'}],
-    xp: 30, reqKey: 'ks_h5',
-  },
-  {
-    id:'h7', key:'ks_h7', href:'histoire7.html',
-    num:'Histoire 7', storyN:'7',
-    title:'친구 집에서',
-    titleFr:'Chez un ami',
-    setting:'Appartement · Séoul',
-    words: [{kr:'집', fr:'Maison'},{kr:'어서 오세요', fr:'Bienvenue'},{kr:'신발', fr:'Chaussures'},{kr:'벗어요', fr:'On enlève'},{kr:'라면', fr:'Ramyeon'},{kr:'같이', fr:'Ensemble'},{kr:'재미있어요', fr:'Fun'},{kr:'공부', fr:'Études'},{kr:'피곤해요', fr:'Fatigué(e)'},{kr:'미안해요', fr:'Désolé(e)'}],
-    xp: 30, reqKey: 'ks_h6',
-  },
-  {
-    id:'h8', key:'ks_h8', href:'histoire8.html',
-    num:'Histoire 8', storyN:'8',
-    title:'노래방에서',
-    titleFr:'Au norebang',
-    setting:'Norebang · Séoul',
-    words: ['노래방','노래','신나요','불러요','어떤','좋아요','마이크','못해요','잘해요','점수','다시','진짜요','최고예요','박수','놀아요','소리'],
-    xp: 30, reqKey: 'ks_h7',
-  },
-  {
-  id:'h9', key:'ks_h9', href:'histoire9.html',
-    num:'Histoire 9', storyN:'9',
-    title:'병원에서',
-    titleFr:'À l\'hôpital',
-    setting:'Clinique · Mapo-gu · Séoul',
-    words:['병원','아파요','어디가','머리','기침','언제','어제','열','도','검사','좀','감기','약','드릴게요','나아요','쉬세요','알겠어요'],
-    xp: 30, reqKey: 'ks_h8',
-  },
-  {
-  id:'h10', key:'ks_h10', href:'histoire10.html',
-    num:'Histoire 10', storyN:'10',
-    title:'쇼핑몰에서',
-    titleFr:'Au centre commercial',
-    setting:'Shopping Mall · Myeongdong · Séoul',
-    words:['쇼핑몰','세일','옷','입어봐요','사이즈','어울려요','너무','살게요','색깔','다른','계산','현금','영수증','환불','교환','구경해요'],
-    xp: 30, reqKey: 'ks_h9',
-  },
-  {
-  id:'h11', key:'ks_h11', href:'histoire11.html',
-    num:'Histoire 11', storyN:'11',
-    title:'집들이에서',
-    titleFr:'Pendaison de crémaillère',
-    setting:'Appartement · Séoul',
-    words:['집들이','어서 와요','새집','예뻐요','선물','감사해요','넓어요','마음에 들어요','같이','맛있게 드세요','배불러요','축하해요','행복하세요','오래오래','더 먹어요','또 올게요'],
-    xp: 30, reqKey: 'ks_h10',
-  },
-];
-
-function getState(s) {
-  if(s.soon) return 'soon';
-  if(s.key && ls(s.key) === 'done') return 'done';
-  if(!s.reqKey && allLecsDone) return 'active';
-  if(s.reqKey && ls(s.reqKey) === 'done' && allLecsDone) return 'active';
-  return 'locked';
-}
-
-// Audio
-function speak(t) {
-  try {
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(t);
-    u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
-    speechSynthesis.speak(u);
-  } catch(e){}
-}
-
-// Build roadmap
-const roadmap = document.getElementById('roadmap');
-const stateColors = { done:'#16a34a', active:'#C9A96E', locked:'#E2E8F0', soon:'#E2E8F0' };
-
-function buildRoadmap() {
-  if(!allLecsDone) {
-    // Show locked gate
-    const lecsDone = [1,2,3,4,5,6,7,8,9,10].filter(n => ls('ks_l'+n)==='done').length;
-    const pct = Math.round(lecsDone / 10 * 100);
-    roadmap.innerHTML = `
-      <div class="locked-section" style="margin-bottom:0">
-        <div style="font-size:48px;margin-bottom:12px"></div>
-        <h3>Histoires verrouillées</h3>
-        <p>Termine les 10 leçons Hangeul pour débloquer les histoires.<br/>
-        Tu en es à <strong>${lecsDone} / 10</strong> leçons.</p>
-        <div style="background:var(--white);border:1px solid var(--border);border-radius:100px;overflow:hidden;height:8px;margin:0 auto 18px;max-width:240px">
-          <div style="height:100%;border-radius:100px;background:var(--gold);width:${pct}%;transition:width .6s"></div>
-        </div>
-        <a href="app.html">Continuer les leçons →</a>
-      </div>`;
-    return;
-  }
-
-  let html = '';
-
-  STORIES.forEach((s, i) => {
-    const state = getState(s);
-    const isLast = i === STORIES.length - 1;
-
-    // Node
-    html += `<div class="snode">`;
-
-    // Bubble
-    const bubbleTag = state !== 'locked' && state !== 'soon' ? `<a href="${s.href}" class="node-bubble state-${state}">` : `<div class="node-bubble state-${state}">`;
-    const bubbleClose = state !== 'locked' && state !== 'soon' ? '</a>' : '</div>';
-    html += bubbleTag + (STORY_ICONS[s.id] ? '<span style="display:flex;align-items:center;justify-content:center;opacity:.92">' + STORY_ICONS[s.id] + '</span>' : '<span style="font-family:\'Playfair Display\',serif;font-size:26px;font-weight:700;line-height:1;color:inherit">' + (s.storyN||'?') + '</span>') + bubbleClose;
-
-    // Label
-    html += `<div class="node-label">
-      <div class="node-num">${s.num}</div>
-      <div class="node-title">${s.titleFr}</div>
-      <div class="node-kr">${s.title}</div>`;
-
-    // Status badge
-    let badgeText;
-    if(state==='done') badgeText = 'Lue';
-    else if(state==='active') badgeText = 'Lire';
-    else if(state==='soon') badgeText = 'Bientôt';
-    else badgeText = ' Verrouillée';
-    html += `<div class="node-status-badge ${state}">${badgeText}</div>`;
-    html += `</div>`;// /node-label
-
-    // Extra card below label
-    if(state === 'done') {
-      html += `<a href="${s.href}" class="done-mini">
-        <div style="width:36px;height:36px;border-radius:50%;background:rgba(34,197,94,.15);display:flex;align-items:center;justify-content:center;color:#16a34a;flex-shrink:0">${STORY_ICONS[s.id] ? STORY_ICONS[s.id].replace('style="width:36px;height:36px"','style="width:20px;height:20px"') : (s.storyN||'?')}</div>
-        <div class="done-mini-info">
-          <div class="done-mini-title">${s.setting}</div>
-          <div class="done-mini-sub">${s.words.length} mots · Relire</div>
-        </div>
-        <div class="done-mini-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
-      </a>`;
-    } else if(state === 'active') {
-      const wordPills = s.words.slice(0,5).map(w => `<span class="active-word">${w.kr}</span>`).join('');
-      html += `<a href="${s.href}" class="active-cta">
-        <div class="active-cta-setting">${s.setting}</div>
-        <div class="active-cta-words">${wordPills}${s.words.length>5?`<span class="active-word">+${s.words.length-5}</span>`:''}</div>
-        <div class="active-cta-btn">
-          Lire l'histoire
-          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>`;
-    } else if(state === 'locked') {
-      const prevStory = STORIES[i-1];
-      html += `<div class="locked-hint"> Termine ${prevStory ? prevStory.titleFr : 'l\'histoire précédente'} pour débloquer</div>`;
-    } else if(state === 'soon') {
-      html += `<div class="soon-card">
-        <div class="soon-card-t">Histoire 5 — bientôt disponible</div>
-        <div style="margin:8px 0;display:flex;justify-content:center;color:rgba(167,139,250,.7)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><rect x="4" y="2" width="16" height="17" rx="2"/><path d="M9 2v5"/><path d="M15 2v5"/><path d="M4 12h16"/><circle cx="9" cy="17" r="1"/><circle cx="15" cy="17" r="1"/><path d="M7 21l2-4"/><path d="M17 21l-2-4"/></svg></div>
-        <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px">지하철에서 — Dans le métro</div>
-        <div style="font-size:11px;color:var(--gray);line-height:1.6;margin-bottom:12px">Mina rate son métro… et rencontre quelqu'un d'inattendu. 8 nouveaux mots, des tournures naturelles et des situations de la vie réelle.</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px">
-          <span style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#7c3aed">지하철 (métro)</span>
-          <span style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#7c3aed">늦어요 (je suis en retard)</span>
-          <span style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#7c3aed">몇 호선 ? (quelle ligne ?)</span>
-        </div>
-        <div style="font-size:10px;color:rgba(167,139,250,.7);font-weight:600;letter-spacing:.05em">Prochainement — reviens vite !</div>
-      </div>`;
-    }
-
-    html += `</div>`; // /snode
-
-    // Connector to next
-    if(!isLast) {
-      const nextState = getState(STORIES[i+1]);
-      let connClass = 'locked';
-      if(state === 'done') connClass = nextState === 'done' ? 'done' : 'active';
-      html += `<div class="connector ${connClass}" style="height:36px"></div>`;
-    }
-  });
-
-  roadmap.innerHTML = html;
-}
-
-buildRoadmap();
-
-// Stats
-const storiesDone = STORIES.filter(s => s.key && ls(s.key) === 'done').length;
-const storiesTotal = STORIES.filter(s => !s.soon).length;
-const xpStories = storiesDone * 30;
-const pct = Math.round(storiesDone / storiesTotal * 100);
-document.getElementById('progressFill').style.width = pct + '%';
-document.getElementById('statDone').textContent = storiesDone;
-document.getElementById('statTotal').textContent = storiesTotal;
-document.getElementById('statXP').textContent = xpStories;
-
-if(allLecsDone) {
-  if(storiesDone === 0) document.getElementById('hbSub').textContent = 'Commence par l\'Histoire 1 — Bonjour !';
-  else if(storiesDone === storiesTotal) document.getElementById('hbSub').textContent = 'Bravo ! Tu as lu toutes les histoires disponibles !';
-  else document.getElementById('hbSub').textContent = `${storiesDone} lue(s) · Continue sur l'Histoire ${storiesDone+1} !`;
-}
-
-// Vocab pills
-const ALL_WORDS = [];
-STORIES.forEach(s => {
-  if(s.key && ls(s.key) === 'done') s.words.forEach(w => ALL_WORDS.push(w));
-});
-
-const vocabSection = document.getElementById('vocabSection');
-const pillsEl = document.getElementById('vocabPills');
-if(ALL_WORDS.length > 0) {
-  vocabSection.style.display = 'block';
-  pillsEl.innerHTML = ALL_WORDS.map((w,i) =>
-    `<div class="vpill" id="vp${i}" onclick="speakPill(this,'${w.kr}')">
-      <div class="vpill-kr">${w.kr}</div>
-      <div class="vpill-fr">${w.fr}</div>
-    </div>`
-  ).join('');
-}
-
-function speakPill(el, text) {
-  document.querySelectorAll('.vpill').forEach(p => p.classList.remove('played'));
-  el.classList.add('played');
-  speak(text);
-}
-</script>
-
-  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
-
-<!-- DARK MODE FAB -->
-<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--pure);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
 </body>
 </html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Grammar Battle A2 — Korean Stories</title>
+
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .5rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:1rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+  </style>
+
+  <style>
+    .battle-arena{text-align:center;padding:1.5rem;background:var(--surf);border-radius:16px;border:1px solid var(--bd);margin:.8rem 0}
+    .question{font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:1rem}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1rem}
+    .choice-btn{padding:.8rem;border:2px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font-size:.95rem;cursor:pointer;transition:.2s}
+    .choice-btn:hover{border-color:#16A34A;background:rgba(22,163,74,.08)}
+    .choice-btn.correct{border-color:#16A34A;background:rgba(22,163,74,.15);color:#16A34A;font-weight:700}
+    .choice-btn.wrong{border-color:#ef4444;background:rgba(239,68,68,.1);color:#ef4444}
+    .feedback{min-height:2rem;font-size:.9rem;margin:.5rem 0;font-weight:600}
+    .score-bar{display:flex;align-items:center;gap:.7rem;margin:.5rem 0}
+    .score-track{flex:1;height:8px;background:var(--bd);border-radius:4px;overflow:hidden}
+    .score-fill{height:100%;background:#16A34A;border-radius:4px;transition:.4s}
+    .lives{font-size:1.2rem;letter-spacing:.2rem}
+    .ko-word{font-size:1.4rem;color:#16A34A;font-weight:700;display:block;margin:.3rem 0}
+    #result{display:none;text-align:center;padding:1.5rem}
+    .trophy{font-size:3rem;margin-bottom:.5rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Grammar Battle</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <div style="margin-bottom:1rem">
+        <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/></svg> Grammar Battle A2</h2>
+        <span class="pill">10 rounds</span> <span class="xp-badge">+12 XP</span>
+        <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Choisissez la bonne particule ou forme grammaticale !</p>
+      </div>
+
+      <div class="battle-arena">
+        <div class="score-bar">
+          <div class="lives" id="lives"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+          <div class="score-track"><div class="score-fill" id="scoreBar" style="width:0%"></div></div>
+          <span id="scoreNum" style="font-weight:700;color:#16A34A">0/10</span>
+        </div>
+
+        <div id="gameArea">
+          <div class="question" id="qText"></div>
+          <div class="ko-word" id="qSentence"></div>
+          <div class="choices" id="choices"></div>
+          <div class="feedback" id="feedback"></div>
+        </div>
+
+        <div id="result">
+          <div class="trophy" id="trophy"></div>
+          <h3 id="resultTitle"></h3>
+          <p id="resultMsg"></p>
+          <button class="btn-done" id="doneBtn" onclick="completeLesson()">Récupérer mes XP ! +12 XP</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(12);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_b08');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+  </script>
+<script>
+const QUESTIONS = [
+  {q:"Complétez : 저___학생이에요.",sent:"저 ___ 학생이에요.",choices:["는","가","를","에"],ans:0,exp:"은/는 est le marqueur de thème — sujet connu."},
+  {q:"Complétez : 사과___먹어요.",sent:"사과 ___ 먹어요.",choices:["를","이","에","는"],ans:0,exp:"을/를 est le marqueur d'objet direct."},
+  {q:"Complétez : 학교___가요.",sent:"학교 ___ 가요.",choices:["에","를","가","이"],ans:0,exp:"에 indique la destination avec les verbes de mouvement."},
+  {q:"Complétez : 도서관___공부해요.",sent:"도서관 ___ 공부해요.",choices:["에서","에","가","는"],ans:0,exp:"에서 = lieu d'action (on fait quelque chose là)."},
+  {q:"Choisissez la bonne forme : Je veux dormir.",sent:"자고 ___ .",choices:["싶어요","있어요","없어요","봐요"],ans:0,exp:"-고 싶다 exprime le désir / souhait."},
+  {q:"Complétez : 비싸___맛있어요.",sent:"비싸 ___ 맛있어요.",choices:["지만","서","고","는데"],ans:0,exp:"-지만 = mais (contraste simple)."},
+  {q:"Passé de 먹다 (manger) :",sent:"어제 밥을 ___ .",choices:["먹었어요","먹어요","먹을게요","먹고요"],ans:0,exp:"-었/았어요 marque le passé en coréen."},
+  {q:"Complétez : 친구___같이 갔어요.",sent:"친구 ___ 같이 갔어요.",choices:["랑","가","를","에"],ans:0,exp:"랑/이랑 = avec (pour les animés)."},
+  {q:"Forme négative de 좋아요 (j'aime) :",sent:"저는 매운 음식이 ___ .",choices:["싫어요","없어요","아니에요","안 좋아요"],ans:3,exp:"안 + verbe = négation simple et naturelle."},
+  {q:"Complétez : 공부를 열심히 해___합격했어요.",sent:"공부를 열심히 해 ___ 합격했어요.",choices:["서","지만","고","는데"],ans:0,exp:"-서/-아서 exprime la cause : j'ai étudié, donc j'ai réussi."},
+];
+
+let cur=0, score=0, lives=3, answered=false;
+
+function renderQ() {
+  if(cur>=QUESTIONS.length){showResult();return;}
+  const q=QUESTIONS[cur];
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qSentence').textContent=q.sent;
+  document.getElementById('feedback').textContent='';
+  const box=document.getElementById('choices');
+  box.innerHTML='';
+  q.choices.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='choice-btn';b.textContent=c;
+    b.onclick=()=>answer(i,b);
+    box.appendChild(b);
+  });
+  answered=false;
+}
+
+function answer(i,btn) {
+  if(answered)return;
+  answered=true;
+  const q=QUESTIONS[cur];
+  const btns=document.querySelectorAll('.choice-btn');
+  if(i===q.ans){
+    btn.classList.add('correct');
+    score++;
+    document.getElementById('feedback').innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Bravo ! '+q.exp;
+  } else {
+    btn.classList.add('wrong');
+    btns[q.ans].classList.add('correct');
+    lives--;
+    const lv=document.getElementById('lives');
+    const hearts=['<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'];
+    for(let h=3-1;h>=3-lives-1;h--)hearts[h]='<svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:#374151;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+    lv.textContent=hearts.join('');
+    document.getElementById('feedback').innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  '+q.exp;
+    if(lives<=0){setTimeout(showResult,1200);return;}
+  }
+  document.getElementById('scoreNum').textContent=score+'/10';
+  document.getElementById('scoreBar').style.width=(score/10*100)+'%';
+  cur++;
+  if(cur<QUESTIONS.length)setTimeout(renderQ,1600);
+  else setTimeout(showResult,1600);
+}
+
+function showResult() {
+  document.getElementById('gameArea').style.display='none';
+  const res=document.getElementById('result');
+  res.style.display='block';
+  const pct=score/QUESTIONS.length;
+  if(pct>=0.8){document.getElementById('trophy').textContent='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>';document.getElementById('resultTitle').textContent='Excellent ! Maître de la grammaire !';}
+  else if(pct>=0.5){document.getElementById('trophy').textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';document.getElementById('resultTitle').textContent='Bien joué !';}
+  else{document.getElementById('trophy').textContent='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>';document.getElementById('resultTitle').textContent='Continue à pratiquer !';}
+  document.getElementById('resultMsg').textContent=`Score : ${score}/${QUESTIONS.length} bonnes réponses.`;
+}
+
+renderQ();
+</script>
+</body>
+</html>

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
   <link rel="manifest" href="manifest.json"/>
@@ -19,19 +21,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:84px;overflow-x:hidden}
-    :root{
-      --navy:#0F1B2D;--navy2:#1a2f4a;
-      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,.1);
-      --white:#F7F8FA;--pure:#FFFFFF;
-      --gray:#8A9BB0;--border:#E2E8F0;
-      --green:#22c55e;--red:#ef4444;
-    }
-
-    /* ── NAV ── */
-    .tnav{position:sticky;top:0;z-index:100;height:58px;padding:0 18px;display:flex;align-items:center;gap:12px;background:var(--navy)}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+/* ── NAV ── */
+    
     .back{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;color:white;text-decoration:none;flex-shrink:0}
     .back svg{width:16px;height:16px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round}
     .tnav-title{font-size:15px;font-weight:700;color:white;flex:1}
@@ -56,14 +51,14 @@
     .sec-hd{margin-bottom:14px}
     .sec-hd h2{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy);margin-bottom:3px}
     .sec-hd p{font-size:12px;color:var(--gray);line-height:1.5}
-    .sep{height:1px;background:var(--border);margin:24px 0}
+    .sep{height:1px;background:var(--bd);margin:24px 0}
     .sec-lbl{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gray);margin-bottom:14px}
 
     /* ── CHARACTER GRID ── */
     .char-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:6px}
     @media(min-width:400px){.char-grid{grid-template-columns:repeat(6,1fr)}}
     @media(min-width:540px){.char-grid{grid-template-columns:repeat(7,1fr)}}
-    .ccard{aspect-ratio:1;border-radius:14px;border:1.5px solid var(--border);background:var(--pure);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transition:all .2s;position:relative;text-decoration:none}
+    .ccard{aspect-ratio:1;border-radius:14px;border:1.5px solid var(--bd);background:var(--surf);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;transition:all .2s;position:relative;text-decoration:none}
     .ccard:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,27,45,.09);border-color:var(--gold2)}
     .ccard.done{background:linear-gradient(135deg,#FFFCE8,#FFF5C0);border-color:rgba(201,169,110,.4)}
     .ccard.active{background:var(--navy);border-color:var(--navy)}
@@ -81,7 +76,7 @@
     @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
     /* ── SYLLABLE EXPLAINER ── */
-    .syl-how{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:18px 16px;margin-bottom:6px}
+    .syl-how{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:18px 16px;margin-bottom:6px}
     .syl-how-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:7px}
     .syl-how-title svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
     .syl-demo{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
@@ -93,13 +88,13 @@
     .syl-result-char{font-size:52px;color:var(--gold);line-height:1;font-weight:300;font-family:'Playfair Display',serif}
     .syl-result-lbl{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
     .syl-block-visual{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-    .syl-block-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;font-size:11px;color:var(--gray);line-height:1.5}
+    .syl-block-card{background:var(--white);border:1.5px solid var(--bd);border-radius:12px;padding:10px 12px;font-size:11px;color:var(--gray);line-height:1.5}
     .syl-block-card strong{display:block;font-size:18px;color:var(--navy);margin-bottom:2px;font-weight:300}
     .syl-block-card em{color:var(--gold);font-style:normal;font-weight:600}
     .syl-note{font-size:11px;color:var(--gray);line-height:1.6;margin-top:10px;padding:8px 12px;background:rgba(201,169,110,.06);border-radius:10px;border:1px solid rgba(201,169,110,.15)}
 
     /* ── SYLLABLE BUILDER ── */
-    .builder-wrap{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:6px}
+    .builder-wrap{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:6px}
     .builder-header{background:var(--navy);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
     .builder-header-title{font-size:13px;font-weight:700;color:white}
     .builder-header-sub{font-size:11px;color:rgba(255,255,255,.4)}
@@ -108,7 +103,7 @@
     .builder-conson-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
     .builder-vowel-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
     .bkey{
-      min-width:38px;height:38px;border-radius:10px;border:1.5px solid var(--border);
+      min-width:38px;height:38px;border-radius:10px;border:1.5px solid var(--bd);
       background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;
       cursor:pointer;transition:all .18s;padding:0 6px;gap:1px;
     }
@@ -118,7 +113,7 @@
     .bkey.sel .bkey-kr{color:var(--gold)}
     .bkey-rom{font-size:8px;color:var(--gray);font-weight:600}
     .bkey.sel .bkey-rom{color:rgba(255,255,255,.45)}
-    .builder-result-wrap{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:16px}
+    .builder-result-wrap{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--white);border:1.5px solid var(--bd);border-radius:16px;padding:16px}
     .builder-eq{display:flex;align-items:center;gap:8px;font-size:18px;color:var(--gray)}
     .builder-eq-c{font-size:28px;color:var(--navy);line-height:1;min-width:28px;text-align:center}
     .builder-eq-v{font-size:28px;color:var(--navy);line-height:1;min-width:28px;text-align:center}
@@ -137,12 +132,12 @@
     .builder-hint{text-align:center;font-size:12px;color:var(--gray);margin-top:10px;min-height:18px}
 
     /* ── 3 FAMILLES ── */
-    .fam-wrap{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:6px}
+    .fam-wrap{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:6px}
     .fam-header{background:linear-gradient(135deg,#1a2f4a,#0F1B2D);padding:14px 16px}
     .fam-header-title{font-size:13px;font-weight:700;color:white;margin-bottom:2px}
     .fam-header-sub{font-size:11px;color:rgba(255,255,255,.4)}
     .fam-table{width:100%;border-collapse:collapse}
-    .fam-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:10px 12px 6px;text-align:center;border-bottom:1px solid var(--border)}
+    .fam-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:10px 12px 6px;text-align:center;border-bottom:1px solid var(--bd)}
     .fam-table th.th-base{color:#4F8EF7}
     .fam-table th.th-asp{color:#22c55e}
     .fam-table th.th-tens{color:#F43F5E}
@@ -156,24 +151,24 @@
     .fam-cell.asp .fam-cell-kr{color:#22c55e}
     .fam-cell.tens .fam-cell-kr{color:#F43F5E}
     .fam-empty{color:var(--gray);font-size:18px;opacity:.3}
-    .fam-legend{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;background:rgba(247,248,250,.5);border-top:1px solid var(--border)}
+    .fam-legend{display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;background:rgba(247,248,250,.5);border-top:1px solid var(--bd)}
     .fam-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gray)}
     .fam-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
     /* ── BATCHIM ── */
-    .batchim-wrap{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:6px}
-    .batchim-header{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .batchim-wrap{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:6px}
+    .batchim-header{padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px}
     .batchim-header-icon{width:36px;height:36px;border-radius:10px;background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
     .batchim-header-title{font-size:13px;font-weight:700;color:var(--navy)}
     .batchim-header-sub{font-size:11px;color:var(--gray);margin-top:1px}
-    .batchim-visual{padding:14px 16px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+    .batchim-visual{padding:14px 16px;background:var(--white);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
     .batchim-block{display:flex;flex-direction:column;align-items:center;gap:2px}
     .batchim-block-syl{font-size:42px;color:var(--navy);line-height:1;position:relative;cursor:pointer;font-weight:300}
     .batchim-block-lbl{font-size:9px;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
     .batchim-block-arrow{font-size:11px;color:var(--gold);font-weight:700}
     .batchim-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 16px}
     @media(min-width:400px){.batchim-grid{grid-template-columns:repeat(7,1fr)}}
-    .batchim-card{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;transition:all .18s}
+    .batchim-card{background:var(--white);border:1.5px solid var(--bd);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;transition:all .18s}
     .batchim-card:hover{border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.06)}
     .batchim-card-kr{font-size:20px;color:#7C3AED;line-height:1;font-weight:300}
     .batchim-card-sound{font-size:9px;color:var(--gray);font-weight:700;text-transform:uppercase}
@@ -214,6 +209,65 @@
     .quiz-retry:hover{background:var(--gold2);transform:translateY(-1px)}
     .quiz-retry svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;flex-shrink:0}
 
+    /* ── SECTION TABS ── */
+    .sec-tabs{
+      position:sticky;top:58px;z-index:90;
+      background:var(--navy);
+      padding:0;
+      overflow-x:auto;-webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .sec-tabs::-webkit-scrollbar{display:none}
+    .sec-tabs-inner{display:flex;gap:0;padding:0 12px;min-width:max-content}
+    .stab{
+      flex-shrink:0;padding:12px 14px;
+      font-size:11px;font-weight:600;
+      color:rgba(247,248,250,.4);
+      border:none;background:none;cursor:pointer;
+      border-bottom:2px solid transparent;
+      transition:all .18s;white-space:nowrap;
+      text-decoration:none;display:flex;align-items:center;gap:6px;
+    }
+    .stab.act{color:var(--gold);border-bottom-color:var(--gold)}
+    .stab:hover:not(.act){color:rgba(247,248,250,.7)}
+    .stab-badge{
+      font-size:9px;font-weight:700;
+      background:rgba(201,169,110,.15);
+      border-radius:100px;padding:1px 6px;color:var(--gold);
+    }
+    .stab-badge.done{background:rgba(34,197,94,.15);color:#22c55e}
+
+    /* ── COMPLETION BANNER ── */
+    .completion-banner{
+      background:linear-gradient(135deg,#0a1628,#1a2f4a);
+      border:1.5px solid rgba(201,169,110,.25);
+      border-radius:20px;padding:20px;
+      text-align:center;margin-bottom:20px;
+      animation:bannerIn .5s ease both;
+    }
+    @keyframes bannerIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+    .completion-banner h3{
+      font-family:'Playfair Display',serif;
+      font-size:20px;color:var(--gold);margin-bottom:6px;
+    }
+    .completion-banner p{font-size:13px;color:rgba(247,248,250,.6);line-height:1.65;margin-bottom:14px}
+    .completion-chars{
+      display:flex;justify-content:center;gap:6px;flex-wrap:wrap;
+      font-size:22px;letter-spacing:2px;color:var(--gold);margin-bottom:16px;
+    }
+    .completion-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--gold);color:var(--navy);
+      border-radius:100px;padding:11px 24px;
+      font-size:13px;font-weight:700;text-decoration:none;
+      transition:all .2s;
+    }
+    .completion-btn:hover{background:var(--gold2);transform:translateY(-1px)}
+
+    /* ── SECTION ANCHOR ── */
+    .sec-anchor{scroll-margin-top:102px}
+
     /* ── LEÇON CTA ── */
     .lec-cta{background:linear-gradient(135deg,rgba(201,169,110,.12),rgba(201,169,110,.05));border:1.5px solid rgba(201,169,110,.25);border-radius:20px;padding:16px 18px;display:flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:6px;transition:all .2s}
     .lec-cta:hover{background:rgba(201,169,110,.15);transform:translateY(-1px)}
@@ -227,17 +281,17 @@
     /* ── MODAL ── */
     .modal-bg{position:fixed;inset:0;z-index:200;background:rgba(15,27,45,.65);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
     .modal-bg.open{opacity:1;pointer-events:all}
-    .modal{background:var(--pure);border-radius:28px 28px 0 0;padding:24px 24px 40px;width:100%;max-width:480px;transform:translateY(20px);transition:transform .28s cubic-bezier(.4,0,.2,1)}
+    .modal{background:var(--surf);border-radius:28px 28px 0 0;padding:24px 24px 40px;width:100%;max-width:480px;transform:translateY(20px);transition:transform .28s cubic-bezier(.4,0,.2,1)}
     .modal-bg.open .modal{transform:translateY(0)}
-    .modal-handle{width:36px;height:4px;border-radius:100px;background:var(--border);margin:0 auto 20px}
+    .modal-handle{width:36px;height:4px;border-radius:100px;background:var(--bd);margin:0 auto 20px}
     .modal-char{font-size:80px;text-align:center;line-height:1;color:var(--navy);margin-bottom:6px;font-weight:300}
     .modal-rom{text-align:center;font-size:22px;font-weight:700;color:var(--gold);margin-bottom:4px}
     .modal-type{text-align:center;font-size:12px;color:var(--gray);text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px}
-    .modal-divider{height:1px;background:var(--border);margin-bottom:18px}
+    .modal-divider{height:1px;background:var(--bd);margin-bottom:18px}
     .modal-section{margin-bottom:14px}
     .modal-slbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gray);margin-bottom:8px}
     .modal-examples{display:flex;flex-wrap:wrap;gap:8px}
-    .modal-ex{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;min-width:80px;cursor:pointer;transition:all .18s}
+    .modal-ex{background:var(--white);border:1.5px solid var(--bd);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;min-width:80px;cursor:pointer;transition:all .18s}
     .modal-ex:hover{border-color:var(--gold);background:#FFFCE8}
     .ex-kr{font-size:18px;color:var(--navy);line-height:1;font-weight:300}
     .ex-fr{font-size:11px;color:var(--gray)}
@@ -246,7 +300,7 @@
     .modal-tip{background:linear-gradient(135deg,#FFFCE8,#FFF5C0);border:1.5px solid rgba(201,169,110,.25);border-radius:14px;padding:12px 14px;font-size:13px;color:var(--navy);line-height:1.6}
     .modal-tip em{color:#A87830;font-style:normal;font-weight:600}
     .modal-mnem{background:rgba(79,142,247,.08);border:1.5px solid rgba(79,142,247,.2);border-radius:14px;padding:10px 14px;font-size:12px;color:var(--navy);line-height:1.55;display:flex;align-items:flex-start;gap:8px}
-    .modal-mnem-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+    .modal-mnem-ico{flex-shrink:0;margin-top:1px;display:flex;align-items:center}
     .modal-close{width:100%;margin-top:16px;padding:13px;border-radius:100px;background:var(--navy);color:white;border:none;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
     .modal-close:hover{background:var(--navy2)}
     .speak-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 auto 4px;padding:8px 22px;border-radius:100px;background:rgba(201,169,110,.12);border:1.5px solid rgba(201,169,110,.28);color:var(--gold);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
@@ -264,77 +318,140 @@
     @keyframes wv{to{transform:scaleY(2.2)}}
 
     /* ── BOTTOM NAV ── */
-    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:72px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:0 8px 8px}
-    .bni{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 12px;border-radius:14px;cursor:pointer;text-decoration:none;transition:all .2s;flex:1;max-width:80px;border:none;background:none}
-    .bni svg{width:22px;height:22px;stroke:var(--gray);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
-    .bni span{font-size:10px;font-weight:600;color:var(--gray);transition:color .2s}
+    
+    
+    
+    
     .bni.act svg,.bni:hover svg{stroke:var(--gold)}
     .bni.act span,.bni:hover span{color:var(--gold)}
-    @media(min-width:640px){body{padding-bottom:0}.bnav{display:none}}
+    @media(min-width:640px){body{padding-bottom:0}}
 
     /* ── DARK MODE ── */
-    [data-theme="dark"]{--pure:#1e3352;--white:#162844;--border:rgba(255,255,255,.13);--gray:#7a9ab8;color-scheme:dark}
-    [data-theme="dark"] body{background:#0f1e32!important;color:#d8e8f5}
-    [data-theme="dark"] .bnav{background:#0a1628!important;border-top-color:rgba(255,255,255,.10)!important}
-    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni.act{color:#C9A96E!important}
-    [data-theme="dark"] .bni.act svg{stroke:#C9A96E!important}
-    [data-theme="dark"] .bni span{color:inherit!important}
-    [data-theme="dark"] .ccard{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
-    [data-theme="dark"] .ccard-char{color:#d8e8f5!important}
+
+    
+    [data-theme="dark"] .ccard{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .ccard-char{color:var(--t)!important}
     [data-theme="dark"] .ccard.done{background:linear-gradient(135deg,rgba(201,169,110,.15),rgba(201,169,110,.08))!important;border-color:rgba(201,169,110,.3)!important}
     [data-theme="dark"] .ccard.done .ccard-char{color:#C9A96E!important}
-    [data-theme="dark"] .ccard.locked{background:#162844!important}
-    [data-theme="dark"] .sec-hd h2{color:#d8e8f5!important}
-    [data-theme="dark"] .syl-how{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
-    [data-theme="dark"] .syl-piece-char{color:#d8e8f5!important}
-    [data-theme="dark"] .syl-block-card{background:#162844!important;border-color:rgba(255,255,255,.1)!important}
-    [data-theme="dark"] .syl-block-card strong{color:#d8e8f5!important}
-    [data-theme="dark"] .builder-wrap{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .ccard.locked{background:var(--s2)!important}
+    [data-theme="dark"] .sec-hd h2{color:var(--t)!important}
+    [data-theme="dark"] .syl-how{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .syl-piece-char{color:var(--t)!important}
+    [data-theme="dark"] .syl-block-card{background:var(--s2)!important;border-color:rgba(255,255,255,.1)!important}
+    [data-theme="dark"] .syl-block-card strong{color:var(--t)!important}
+    [data-theme="dark"] .builder-wrap{background:var(--surf)!important;border-color:var(--bd)!important}
     [data-theme="dark"] .builder-conson-grid,.builder-vowel-grid{filter:none}
-    [data-theme="dark"] .bkey{background:#162844!important;border-color:rgba(255,255,255,.15)!important}
-    [data-theme="dark"] .bkey-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .bkey{background:var(--s2)!important;border-color:var(--bd2)!important}
+    [data-theme="dark"] .bkey-kr{color:var(--t)!important}
     [data-theme="dark"] .bkey.sel{background:var(--navy2)!important;border-color:var(--gold)!important}
     [data-theme="dark"] .bkey.sel .bkey-kr{color:var(--gold)!important}
-    [data-theme="dark"] .builder-result-wrap{background:#162844!important;border-color:rgba(255,255,255,.1)!important}
-    [data-theme="dark"] .builder-eq-c,.builder-eq-v{color:#d8e8f5!important}
-    [data-theme="dark"] .fam-wrap{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .builder-result-wrap{background:var(--s2)!important;border-color:rgba(255,255,255,.1)!important}
+    [data-theme="dark"] .builder-eq-c,.builder-eq-v{color:var(--t)!important}
+    [data-theme="dark"] .fam-wrap{background:var(--surf)!important;border-color:var(--bd)!important}
     [data-theme="dark"] .fam-table th,.fam-table td{border-color:rgba(255,255,255,.07)!important}
-    [data-theme="dark"] .fam-cell-kr{color:#d8e8f5!important}
+    [data-theme="dark"] .fam-cell-kr{color:var(--t)!important}
     [data-theme="dark"] .fam-cell.base .fam-cell-kr{color:#7BA7F5!important}
     [data-theme="dark"] .fam-cell.asp .fam-cell-kr{color:#4ade80!important}
     [data-theme="dark"] .fam-cell.tens .fam-cell-kr{color:#FB7185!important}
     [data-theme="dark"] .fam-legend{background:rgba(0,0,0,.15)!important}
-    [data-theme="dark"] .batchim-wrap{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
+    [data-theme="dark"] .batchim-wrap{background:var(--surf)!important;border-color:var(--bd)!important}
     [data-theme="dark"] .batchim-header{border-bottom-color:rgba(255,255,255,.08)!important}
-    [data-theme="dark"] .batchim-header-title{color:#d8e8f5!important}
-    [data-theme="dark"] .batchim-visual{background:#162844!important;border-bottom-color:rgba(255,255,255,.08)!important}
-    [data-theme="dark"] .batchim-block-syl{color:#d8e8f5!important}
-    [data-theme="dark"] .batchim-card{background:#162844!important;border-color:rgba(255,255,255,.1)!important}
+    [data-theme="dark"] .batchim-header-title{color:var(--t)!important}
+    [data-theme="dark"] .batchim-visual{background:var(--s2)!important;border-bottom-color:rgba(255,255,255,.08)!important}
+    [data-theme="dark"] .batchim-block-syl{color:var(--t)!important}
+    [data-theme="dark"] .batchim-card{background:var(--s2)!important;border-color:rgba(255,255,255,.1)!important}
     [data-theme="dark"] .batchim-note{background:rgba(0,0,0,.15)!important}
-    [data-theme="dark"] .lec-cta-title{color:#d8e8f5!important}
-    [data-theme="dark"] .modal{background:#1e3352!important}
-    [data-theme="dark"] .modal-char{color:#d8e8f5!important}
-    [data-theme="dark"] .modal-ex{background:#162844!important;border-color:rgba(255,255,255,.1)!important}
+    [data-theme="dark"] .lec-cta-title{color:var(--t)!important}
+    [data-theme="dark"] .modal{background:var(--surf)!important}
+    [data-theme="dark"] .modal-char{color:var(--t)!important}
+    [data-theme="dark"] .modal-ex{background:var(--s2)!important;border-color:rgba(255,255,255,.1)!important}
     [data-theme="dark"] .modal-ex:hover{background:rgba(201,169,110,.1)!important;border-color:rgba(201,169,110,.3)!important}
-    [data-theme="dark"] .ex-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .modal-tip{background:rgba(201,169,110,.08)!important;border-color:rgba(201,169,110,.2)!important;color:#d8e8f5!important}
-    [data-theme="dark"] .modal-mnem{background:rgba(79,142,247,.06)!important;border-color:rgba(79,142,247,.15)!important;color:#d8e8f5!important}
-    [data-theme="dark"] .ch{background:#1e3352!important;border-color:rgba(255,255,255,.18)!important;color:#d8e8f5!important}
+    [data-theme="dark"] .ex-kr{color:var(--t)!important}
+    [data-theme="dark"] .modal-tip{background:rgba(201,169,110,.08)!important;border-color:rgba(201,169,110,.2)!important;color:var(--t)!important}
+    [data-theme="dark"] .modal-mnem{background:rgba(79,142,247,.06)!important;border-color:rgba(79,142,247,.15)!important;color:var(--t)!important}
+    [data-theme="dark"] .sec-tabs{background:var(--surf)!important;border-bottom-color:rgba(255,255,255,.07)!important}
+    [data-theme="dark"] .stab{color:var(--t3)!important}
+    [data-theme="dark"] .stab.act{color:#C9A96E!important;border-bottom-color:#C9A96E!important}
+    [data-theme="dark"] .stab-badge{background:rgba(201,169,110,.1)!important;color:rgba(201,169,110,.8)!important}
+    [data-theme="dark"] .stab-badge.done{background:rgba(34,197,94,.1)!important;color:#4ade80!important}
+    [data-theme="dark"] .completion-banner{background:linear-gradient(135deg,#0a1628,#162844)!important;border-color:rgba(201,169,110,.2)!important}
+    [data-theme="dark"] .ch{background:var(--surf)!important;border-color:var(--bd2)!important;color:var(--t)!important}
     [data-theme="dark"] .ch:hover:not(:disabled){border-color:#C9A96E!important;background:rgba(201,169,110,.12)!important}
     [data-theme="dark"] .ch.ok{border-color:#4ade80!important;background:rgba(34,197,94,.12)!important;color:#4ade80!important}
     [data-theme="dark"] .ch.ko{border-color:#f87171!important;background:rgba(239,68,68,.12)!important;color:#f87171!important}
-  </style>
+  
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 </head>
 <body>
 
+<div class="shell">
+<!-- ══ SIDEBAR desktop ══════════════════════════ -->
+<aside class="side">
+  <div class="side-head">
+    <div class="side-logo">Korean <em>Stories</em></div>
+    <div class="side-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpSide">0</span> XP
+    </div>
+  </div>
+  <nav class="side-nav">
+    <a href="app.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+    <a href="cours.html" class="sn on"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+    <a href="lecture.html" class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+    <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Classement</a>
+    <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+    <a href="ressources.html" class="sn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+  </nav>
+  <div class="side-theme">
+    <span class="side-theme-lbl">Mode sombre</span>
+    <button class="theme-pill" onclick="toggleTheme()" aria-label="Basculer le thème"></button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ════════════════════════════════════ -->
+<div class="main">
+
+<!-- ══ TOPBAR ═══════════════════════════════════ -->
+  <div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="page-enter">
 <!-- NAV -->
-<nav class="tnav">
-  <a href="app.html" class="back"><svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg></a>
-  <div class="tnav-title">Hangeul <span class="tnav-kr">한글</span></div>
-  <div class="prog-pill" id="navPill">0%</div>
-</nav>
+
+
+<!-- SECTION TABS -->
+<div class="sec-tabs" id="secTabs">
+  <div class="sec-tabs-inner">
+    <button class="stab act" onclick="scrollToSec('secSyl')">Syllabes</button>
+    <button class="stab" onclick="scrollToSec('secConson')">Consonnes <span class="stab-badge" id="tabConBadge">0/14</span></button>
+    <button class="stab" onclick="scrollToSec('secVoyel')">Voyelles <span class="stab-badge" id="tabVoyBadge">0/10</span></button>
+    <button class="stab" onclick="scrollToSec('secBuilder')">Builder</button>
+    <button class="stab" onclick="scrollToSec('secFam')">3 Familles</button>
+    <button class="stab" onclick="scrollToSec('secComp')">Composées <span class="stab-badge" id="tabCompBadge">0/11</span></button>
+    <button class="stab" onclick="scrollToSec('secDbl')">Doubles <span class="stab-badge" id="tabDblBadge">0/5</span></button>
+    <button class="stab" onclick="scrollToSec('secBatchim')">받침</button>
+    <button class="stab" onclick="scrollToSec('secQuiz')">Quiz</button>
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -352,9 +469,12 @@
 
 <main>
 
+  <!-- COMPLETION BANNER (shown when 100%) -->
+  <div id="completionBanner" style="display:none"></div>
+
   <!-- ① COMMENT ÇA FONCTIONNE -->
   <div class="sep" style="margin-top:0;margin-bottom:18px"></div>
-  <div class="sec-hd">
+  <div class="sec-hd sec-anchor" id="secSyl">
     <h2>Comment fonctionne le Hangeul ?</h2>
     <p>Le coréen ne s'écrit pas lettre à lettre — chaque son forme un <strong>bloc syllabique</strong>.</p>
   </div>
@@ -402,8 +522,8 @@
   <div class="sep"></div>
 
   <!-- ② CONSONNES DE BASE -->
-  <div class="sec-hd">
-    <h2>Consonnes de base — 기본 자음</h2>
+  <div class="sec-hd sec-anchor" id="secConson">
+    <h2>Consonnes de base — 기본 자음 <span id="conDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>14 consonnes fondamentales. Clique pour écouter et voir le mnémotechnique.</p>
   </div>
   <div class="char-grid" id="consonGrid"></div>
@@ -411,17 +531,17 @@
   <div class="sep"></div>
 
   <!-- ③ VOYELLES DE BASE -->
-  <div class="sec-hd">
-    <h2>Voyelles de base — 기본 모음</h2>
+  <div class="sec-hd sec-anchor" id="secVoyel">
+    <h2>Voyelles de base — 기본 모음 <span id="voyDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>10 voyelles pures — chaque son est clair et distinct.</p>
   </div>
   <div class="char-grid" id="vowelGrid"></div>
 
   <div class="sep"></div>
 
-  <!-- ④ CONSTRUCTEUR DE SYLLABES ✦ -->
-  <div class="sec-hd">
-    <h2>Constructeur de syllabes ✦</h2>
+  <!-- ④ CONSTRUCTEUR DE SYLLABES · -->
+  <div class="sec-hd sec-anchor" id="secBuilder">
+    <h2>Constructeur de syllabes ·</h2>
     <p>Choisis une consonne + une voyelle — la syllabe coréenne réelle s'assemble en direct.</p>
   </div>
   <div class="builder-wrap">
@@ -456,7 +576,7 @@
   <div class="sep"></div>
 
   <!-- ⑤ LES 3 FAMILLES -->
-  <div class="sec-hd">
+  <div class="sec-hd sec-anchor" id="secFam">
     <h2>Le secret des 3 familles</h2>
     <p>Chaque consonne existe en 3 versions — le son le plus important à maîtriser en coréen.</p>
   </div>
@@ -486,8 +606,8 @@
   <div class="sep"></div>
 
   <!-- ⑥ VOYELLES COMPOSÉES -->
-  <div class="sec-hd">
-    <h2>Voyelles composées — 이중 모음</h2>
+  <div class="sec-hd sec-anchor" id="secComp">
+    <h2>Voyelles composées — 이중 모음 <span id="compDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>11 voyelles formées en fusionnant deux voyelles de base.</p>
   </div>
   <div class="char-grid" id="compVowelGrid"></div>
@@ -495,8 +615,8 @@
   <div class="sep"></div>
 
   <!-- ⑦ CONSONNES DOUBLES -->
-  <div class="sec-hd">
-    <h2>Consonnes doubles — 쌍자음</h2>
+  <div class="sec-hd sec-anchor" id="secDbl">
+    <h2>Consonnes doubles — 쌍자음 <span id="dblDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>5 consonnes "tensées" — un son plus fort, bref, sans souffle. Mêmes caractères, doublés.</p>
   </div>
   <div class="char-grid" id="dblConsonGrid"></div>
@@ -504,7 +624,7 @@
   <div class="sep"></div>
 
   <!-- ⑧ LE 받침 -->
-  <div class="sec-hd">
+  <div class="sec-hd sec-anchor" id="secBatchim">
     <h2>Le 받침 — consonne finale</h2>
     <p>La 3ème pièce du bloc syllabique. Seuls 7 sons sont prononcés — même si 27 lettres peuvent servir de finale.</p>
   </div>
@@ -559,7 +679,7 @@
   <div class="sep"></div>
 
   <!-- ⑩ QUIZ ÉCLAIR -->
-  <div class="sec-hd">
+  <div class="sec-hd sec-anchor" id="secQuiz">
     <h2>Quiz éclair — 번개 퀴즈</h2>
     <p>5 flashcards ultra-rapides. Reconnais le caractère coréen !</p>
   </div>
@@ -611,7 +731,7 @@
     <div class="modal-divider"></div>
     <div class="modal-section" id="mMnemSection" style="display:none">
       <div class="modal-slbl">Mnémotechnique</div>
-      <div class="modal-mnem" id="mMnem"><span class="modal-mnem-ico">💡</span><span id="mMnemText"></span></div>
+      <div class="modal-mnem" id="mMnem"><span class="modal-mnem-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0018 8 6 6 0 006 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 018.91 14"/></svg></span><span id="mMnemText"></span></div>
     </div>
     <div class="modal-section">
       <div class="modal-slbl">Mots exemples</div>
@@ -626,14 +746,7 @@
 </div>
 
 <!-- BOTTOM NAV -->
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="hangeul.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Hangeul</span></a>
-  <a href="histoires.html" class="bni" id="bnLec"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg><span>Histoires</span></a>
-  <a href="vocabulaire.html" class="bni"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/></svg><span>Vocab</span></a>
-  <a href="revision.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg><span>Révision</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
+
 
 <script>
 // ═══════════════════════════════════════════════
@@ -730,6 +843,78 @@ function applyProgress() {
 }
 applyProgress();
 
+// ── Progress badges & completion ──
+function updateSectionBadges() {
+  function badge(arr, elId, tabId, total) {
+    const done = arr.filter(i=>i.stat==='done').length;
+    const el = document.getElementById(elId);
+    const tab = document.getElementById(tabId);
+    if(el) {
+      if(done===0) { el.textContent=''; }
+      else if(done===total) { el.textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> tout appris !'; el.style.color='#22c55e'; }
+      else { el.textContent=done+'/'+total+' appris'; el.style.color='var(--gray)'; }
+    }
+    if(tab) {
+      tab.textContent=done+'/'+total;
+      if(done===total) tab.className='stab-badge done';
+      else tab.className='stab-badge';
+    }
+  }
+  badge(CONSONNES, 'conDoneLabel', 'tabConBadge', 14);
+  badge(VOYELLES, 'voyDoneLabel', 'tabVoyBadge', 10);
+  badge(VOYELLES_COMP, 'compDoneLabel', 'tabCompBadge', 11);
+  badge(CONSONNES_DBL, 'dblDoneLabel', 'tabDblBadge', 5);
+
+  // Check 100% completion (all 10 leçons done)
+  const allDone = [1,2,3,4,5,6,7,8,9,10].every(n=>localStorage.getItem('ks_l'+n)==='done');
+  if(allDone){try{localStorage.setItem('ks_h11','done');}catch(e){}}
+  const banner = document.getElementById('completionBanner');
+  if(allDone && banner) {
+    banner.style.display='block';
+    banner.innerHTML=`<div class="completion-banner">
+      <div class="completion-chars">가 나 다 라 마 바 사 아 자 하</div>
+      <h3>Hangeul maîtrisé ! 완벽해요 !</h3>
+      <p>Tu connais les 40 caractères de l'alphabet coréen.<br/>
+      C'est une vraie base — maintenant tu peux tout lire !</p>
+      <a href="histoires.html" class="completion-btn">
+        Commencer les histoires →
+      </a>
+    </div>`;
+  }
+}
+updateSectionBadges();
+
+// ── Section tab scroll ──
+function scrollToSec(id) {
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── Active tab on scroll ──
+(function() {
+  const sections = ['secSyl','secConson','secVoyel','secBuilder','secFam','secComp','secDbl','secBatchim','secQuiz'];
+  const tabs = document.querySelectorAll('.stab');
+  let ticking = false;
+  window.addEventListener('scroll', ()=>{
+    if(ticking) return; ticking=true;
+    requestAnimationFrame(()=>{
+      const mid = window.scrollY + 140;
+      let active = 0;
+      sections.forEach((id,i)=>{
+        const el=document.getElementById(id);
+        if(el && el.offsetTop <= mid) active=i;
+      });
+      tabs.forEach((t,i)=>t.classList.toggle('act',i===active));
+      // Scroll active tab into view
+      if(tabs[active]){
+        const tabBar=document.getElementById('secTabs');
+        if(tabBar){const tl=tabs[active].offsetLeft,tw=tabs[active].offsetWidth,bl=tabBar.scrollLeft,bw=tabBar.offsetWidth;if(tl<bl)tabBar.scrollLeft=tl-12;else if(tl+tw>bl+bw)tabBar.scrollLeft=tl+tw-bw+12;}
+      }
+      ticking=false;
+    });
+  },{passive:true});
+})();
+
 // ═══════════════════════════════════════════════
 // ── AUDIO (SpeechSynthesis) ──
 // ═══════════════════════════════════════════════
@@ -772,7 +957,7 @@ setTimeout(() => {
   const pEl = document.getElementById('learnedPct');
   if(pEl) pEl.textContent = learnedPct;
   const pill = document.getElementById('navPill');
-  if(pill) pill.textContent = (learnedPct === 100 ? '✦ ' : '') + learnedPct + '%';
+  if(pill) pill.textContent = (learnedPct === 100 ? '· ' : '') + learnedPct + '%';
   let n = 0;
   const el = document.getElementById('learnedCount');
   const t = setInterval(() => { n = Math.min(n + 1, learned); el.textContent = n; if(n >= learned) clearInterval(t); }, 35);
@@ -1019,6 +1204,50 @@ initQuiz();
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 
 <!-- DARK MODE FAB -->
-<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--pure);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+<script>
+(function(){
+  var SVG_SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  var SVG_MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  function sync(){var b=document.getElementById('darkFab');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.innerHTML=d?SVG_SUN:SVG_MOON;b.style.opacity=d?'1':'.7';}
+  window.toggleDarkGlobal=function(){var d=document.documentElement.getAttribute('data-theme')==='dark';var t=d?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('ks_theme',t);}catch(e){}sync();};
+  sync();
+})();
+</script>
+<script>
+</script>
+</div><!-- .page-enter -->
+
+</div><!-- .main -->
+</div><!-- .shell -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="cours.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <span>Cours</span>
+  </a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni">
+    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span>Défi</span><span class="bni-dot"></span>
+  </a>
+  <a href="classement.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Classement</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
 </body>
 </html>

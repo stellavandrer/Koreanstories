@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
   <link rel="manifest" href="manifest.json"/>
@@ -11,27 +13,20 @@
   <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
   <title>Korean Stories — Révision 복습</title>
-  <meta name="description" content="Quiz de révision Korean Stories — teste ton coréen avec des flashcards, des QCM et du son."/>
+  <meta name="description" content="Quiz de révision Korean Stories — répétition espacée SRS, flashcards, QCM et son."/>
   <meta property="og:title" content="Korean Stories — Révision 복습"/>
   <meta property="og:type" content="website"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
-    :root{
-      --navy:#0F1B2D;--navy2:#1a2f4a;
-      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,.10);
-      --white:#F7F8FA;--pure:#FFFFFF;
-      --gray:#8A9BB0;--border:#E2E8F0;
-      --green:#22c55e;--red:#ef4444;
-    }
-
-    /* ── TOP NAV ── */
-    .tnav{position:sticky;top:0;z-index:100;height:60px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
-    .tnav-logo img{height:26px;display:block}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+/* ── TOP NAV ── */
+    
+    
     .tnav-back{display:flex;align-items:center;gap:8px;color:var(--gold2);font-size:13px;font-weight:600;text-decoration:none;opacity:.85}
     .tnav-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5}
 
@@ -42,32 +37,77 @@
     .hero-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:#F7F8FA;line-height:1.2;margin-bottom:8px}
     .hero-title em{color:var(--gold);font-style:italic}
     .hero-sub{font-size:14px;color:rgba(247,248,250,.55);line-height:1.6}
+    .hero-due-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.35);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:700;color:#fca5a5;margin-top:12px;cursor:pointer}
+    .hero-due-badge.zero{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#86efac}
 
     /* ── BOTTOM NAV ── */
-    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
-    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:600;color:var(--gray);text-decoration:none;transition:color .15s;cursor:pointer;border:none;background:none;padding:0}
-    .bni.act{color:var(--navy)}
-    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+    
+    
+    
+    
     .bni.act svg{stroke:var(--navy)}
 
     /* ── CONTAINER ── */
     .wrap{max-width:480px;margin:0 auto;padding:24px 16px}
+
+    /* ── TAB SWITCHER ── */
+    .tab-sw{display:flex;gap:5px;background:var(--bd);border-radius:12px;padding:4px;margin-bottom:24px}
+    .tab-sw-btn{flex:1;padding:10px 12px;border:none;border-radius:9px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;background:transparent;color:var(--gray);display:flex;align-items:center;justify-content:center;gap:6px}
+    .tab-sw-btn.act{background:var(--surf);color:var(--navy);box-shadow:0 1px 6px rgba(0,0,0,.08)}
+    .tab-sw-dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:none}
+    .tab-sw-btn.has-due .tab-sw-dot{display:block}
+
+    /* ── SRS PANEL ── */
+    #srsPanel{display:none}
+    .srs-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+    .srs-stat-pill{padding:14px 8px;border-radius:14px;text-align:center;border:1.5px solid var(--bd)}
+    .srs-stat-pill.due{background:#FEF2F2;border-color:#FECACA}
+    .srs-stat-pill.new-w{background:#EFF6FF;border-color:#BFDBFE}
+    .srs-stat-pill.mastered{background:#F0FDF4;border-color:#BBF7D0}
+    .srs-stat-n{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;line-height:1;margin-bottom:3px}
+    .srs-stat-pill.due .srs-stat-n{color:#DC2626}
+    .srs-stat-pill.new-w .srs-stat-n{color:#1D4ED8}
+    .srs-stat-pill.mastered .srs-stat-n{color:#16A34A}
+    .srs-stat-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gray)}
+    .srs-session-info{background:var(--goldp);border:1px solid var(--gold2);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--navy);line-height:1.6;margin-bottom:20px}
+    .srs-session-info strong{color:var(--gold);font-weight:700}
+    .srs-prog-wrap{height:6px;background:var(--bd);border-radius:100px;overflow:hidden;margin-bottom:6px}
+    .srs-prog-fill{height:100%;background:var(--gold);border-radius:100px;transition:width .5s}
+    .srs-prog-label{font-size:11px;color:var(--gray);font-weight:600;margin-bottom:18px}
+    .srs-start-btn{width:100%;padding:16px;background:var(--navy);color:var(--gold2);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;border:none;border-radius:14px;cursor:pointer;transition:opacity .15s;letter-spacing:.02em}
+    .srs-start-btn:hover{opacity:.85}
+    .srs-start-btn:disabled{opacity:.4;cursor:not-allowed}
+    .srs-empty{text-align:center;padding:24px 16px;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;margin-bottom:20px}
+    .srs-empty-icon{margin-bottom:14px;display:flex;align-items:center;justify-content:center}
+    .srs-empty-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
+    .srs-empty-sub{font-size:13px;color:var(--gray);line-height:1.5}
+    /* Histogram de la semaine */
+    .srs-week{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:20px}
+    .srs-week-title{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+    .srs-week-bars{display:flex;align-items:flex-end;gap:6px;height:50px}
+    .srs-day-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+    .srs-day-bar-wrap{flex:1;width:100%;display:flex;align-items:flex-end}
+    .srs-day-bar{width:100%;background:var(--gold);border-radius:4px 4px 0 0;min-height:2px;transition:height .3s}
+    .srs-day-bar.today{background:var(--navy)}
+    .srs-day-bar.zero{background:var(--bd)}
+    .srs-day-lbl{font-size:9px;font-weight:700;color:var(--gray);text-transform:uppercase}
+    .srs-day-lbl.today{color:var(--navy)}
 
     /* ══ START SCREEN ══ */
     #screenStart{}
     .mode-section{margin-bottom:28px}
     .section-label{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
     .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .mode-card{background:var(--pure);border:2px solid var(--border);border-radius:16px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent}
+    .mode-card{background:var(--surf);border:2px solid var(--bd);border-radius:16px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent}
     .mode-card:hover{border-color:var(--gold);transform:translateY(-1px)}
     .mode-card.sel{border-color:var(--navy);background:var(--navy)}
     .mode-card.sel .mc-label,.mode-card.sel .mc-sub{color:#F7F8FA}
-    .mode-card.sel .mc-ico{filter:invert(1)}
-    .mc-ico{font-size:28px;margin-bottom:8px;line-height:1}
+    .mc-ico{margin-bottom:8px;display:flex;align-items:center;justify-content:center}
+    .mc-ico svg{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round}
     .mc-label{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
     .mc-sub{font-size:11px;color:var(--gray)}
     .count-grid{display:flex;gap:8px}
-    .count-pill{flex:1;padding:10px 6px;border:2px solid var(--border);border-radius:100px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;color:var(--gray);transition:all .18s;background:var(--pure)}
+    .count-pill{flex:1;padding:10px 6px;border:2px solid var(--bd);border-radius:100px;font-size:13px;font-weight:700;text-align:center;cursor:pointer;color:var(--gray);transition:all .18s;background:var(--surf)}
     .count-pill.sel{border-color:var(--navy);background:var(--navy);color:#F7F8FA}
     .info-box{background:var(--goldp);border:1px solid var(--gold2);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--navy);line-height:1.6;margin-bottom:24px}
     .info-box strong{color:var(--gold);font-weight:700}
@@ -78,13 +118,16 @@
     /* ══ QUIZ SCREEN ══ */
     #screenQuiz{display:none}
     .qz-topbar{display:flex;align-items:center;gap:10px;margin-bottom:22px}
-    .qz-prog-wrap{flex:1;height:8px;background:var(--border);border-radius:100px;overflow:hidden}
+    .qz-prog-wrap{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
     .qz-prog-fill{height:100%;background:var(--gold);border-radius:100px;transition:width .4s ease}
     .qz-count{font-size:12px;font-weight:700;color:var(--gray);white-space:nowrap}
     .qz-streak{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--gray);white-space:nowrap;min-width:40px;justify-content:flex-end}
     .qz-streak.on{color:#f59e0b}
+    .qz-mode-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;border:1px solid;white-space:nowrap}
+    .qz-mode-badge.srs{background:rgba(29,78,216,.08);border-color:rgba(29,78,216,.25);color:#1D4ED8}
+    .qz-mode-badge.quiz{background:var(--goldp);border-color:var(--gold2);color:var(--navy)}
 
-    .qz-card{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:22px;transition:border-color .25s,background .25s}
+    .qz-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:32px 24px;text-align:center;margin-bottom:22px;transition:border-color .25s,background .25s}
     .qz-card.correct{border-color:var(--green);background:#f0fdf4}
     .qz-card.wrong{border-color:var(--red);background:#fef2f2}
     .qz-prompt-label{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
@@ -93,9 +136,13 @@
     .qz-audio-btn{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;background:var(--goldp);border:1px solid var(--gold2);border-radius:100px;color:var(--navy);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;border:none}
     .qz-audio-btn svg{width:14px;height:14px;fill:var(--gold)}
     .qz-audio-btn:hover{background:var(--gold2)}
+    /* SRS interval tag shown after answering */
+    .srs-next-tag{display:none;margin-top:10px;padding:5px 12px;border-radius:100px;font-size:11px;font-weight:700;border:1px solid}
+    .srs-next-tag.good{background:#F0FDF4;border-color:#BBF7D0;color:#16A34A}
+    .srs-next-tag.again{background:#FEF2F2;border-color:#FECACA;color:#DC2626}
 
     .ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-    .ans-btn{padding:18px 10px;background:var(--pure);border:2px solid var(--border);border-radius:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .18s;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent}
+    .ans-btn{padding:18px 10px;background:var(--surf);border:2px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .18s;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent}
     .ans-btn:hover:not(:disabled){border-color:var(--gold);transform:translateY(-1px);box-shadow:0 3px 10px rgba(201,169,110,.15)}
     .ans-btn.correct{border-color:var(--green)!important;background:#dcfce7!important;color:#166534!important}
     .ans-btn.wrong{border-color:var(--red)!important;background:#fee2e2!important;color:#991b1b!important}
@@ -114,346 +161,154 @@
     .res-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);margin-bottom:6px}
     .res-sub{font-size:14px;color:var(--gray);margin-bottom:28px}
     .res-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px}
-    .res-stat{background:var(--pure);border:1.5px solid var(--border);border-radius:14px;padding:16px 8px;text-align:center}
+    .res-stat{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:16px 8px;text-align:center}
     .res-stat-n{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--navy);line-height:1}
     .res-stat-l{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
     .res-xp{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--goldp);border:1px solid var(--gold);border-radius:12px;padding:14px;margin-bottom:24px;font-size:14px;font-weight:700;color:var(--navy)}
     .res-xp span{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold)}
+    /* SRS breakdown after quiz */
+    .srs-breakdown{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:20px;text-align:left}
+    .srs-breakdown-title{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+    .srs-word-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bd)}
+    .srs-word-row:last-child{border-bottom:none;padding-bottom:0}
+    .srs-word-left{display:flex;align-items:center;gap:8px}
+    .srs-word-kr{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--navy)}
+    .srs-word-fr{font-size:12px;color:var(--gray)}
+    .srs-word-right{display:flex;align-items:center;gap:6px}
+    .srs-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px}
+    .srs-badge.ok{background:#dcfce7;color:#166534}
+    .srs-badge.ko{background:#fee2e2;color:#991b1b}
+    .srs-badge.master{background:rgba(201,169,110,.15);color:var(--navy)}
+    .srs-interval-txt{font-size:11px;color:var(--gray);font-weight:600}
     .res-btns{display:flex;flex-direction:column;gap:10px}
     .res-prim{width:100%;padding:16px;background:var(--navy);color:var(--gold2);font-family:'Inter',sans-serif;font-size:15px;font-weight:700;border:none;border-radius:14px;cursor:pointer;text-decoration:none;display:block;transition:opacity .15s}
     .res-prim:hover{opacity:.85}
-    .res-sec{width:100%;padding:14px;background:var(--pure);color:var(--navy);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:1.5px solid var(--border);border-radius:14px;cursor:pointer;text-decoration:none;display:block;transition:all .15s}
+    .res-sec{width:100%;padding:14px;background:var(--surf);color:var(--navy);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;border:1.5px solid var(--bd);border-radius:14px;cursor:pointer;text-decoration:none;display:block;transition:all .15s}
     .res-sec:hover{border-color:var(--navy)}
 
     /* ── Locked warning ── */
-    .lock-msg{background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:24px;text-align:center;color:var(--gray)}
+    .lock-msg{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:24px;text-align:center;color:var(--gray)}
     .lock-msg h3{color:var(--navy);margin-bottom:8px;font-size:16px}
     .lock-msg p{font-size:13px;line-height:1.6;margin-bottom:16px}
     .lock-link{display:inline-block;padding:12px 24px;background:var(--navy);color:var(--gold2);font-size:13px;font-weight:700;border-radius:100px;text-decoration:none}
-  
-    
-  
+
     /* ═══════════════════════════════════════════════════════════
-       DARK MODE — GLOBAL SYSTEM
-       Tous les composants adaptatifs pour le mode sombre
+       DARK MODE
     ═══════════════════════════════════════════════════════════ */
-    [data-theme="dark"]{
-      --pure:#1e3352;
-      --white:#162844;
-      --border:rgba(255,255,255,.13);
-      --gray:#7a9ab8;
-      color-scheme:dark;
-    }
-    [data-theme="dark"] body{
-      background:#0f1e32!important;
-      color:#d8e8f5;
-    }
-    /* ── navigation ── */
-    [data-theme="dark"] .bnav,
-    [data-theme="dark"] .bnav-wrap{
-      background:#0a1628!important;
-      border-top-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni.act{color:#C9A96E!important}
-    [data-theme="dark"] .bni.act svg{stroke:#C9A96E!important}
-    [data-theme="dark"] .bni span{color:inherit!important}
-    /* ── cards génériques ── */
-    [data-theme="dark"] .scard,
-    [data-theme="dark"] .card,
-    [data-theme="dark"] .ex-card,
-    [data-theme="dark"] .qz-card,
-    [data-theme="dark"] .quiz-card,
-    [data-theme="dark"] .result-card,
-    [data-theme="dark"] .vocab-prev,
-    [data-theme="dark"] .flip-front{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .scard-name,
-    [data-theme="dark"] .scard-kr,
-    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .scard-pct{color:rgba(200,220,240,.45)!important}
-    /* ── leçon — choice buttons ── */
-    [data-theme="dark"] .ch{
-      background:#1e3352!important;
-      border:1.5px solid rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .ch:hover:not(:disabled){
-      border-color:#C9A96E!important;
-      background:rgba(201,169,110,.12)!important;
-    }
-    [data-theme="dark"] .ch.ok{
-      border-color:#4ade80!important;
-      background:rgba(34,197,94,.12)!important;
-      color:#4ade80!important;
-    }
-    [data-theme="dark"] .ch.ko{
-      border-color:#f87171!important;
-      background:rgba(239,68,68,.12)!important;
-      color:#f87171!important;
-    }
-    /* ── leçon — keyboard keys ── */
-    [data-theme="dark"] .kbkey{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .kbkey .kk{color:#d8e8f5!important}
-    [data-theme="dark"] .kbkey .kr{color:rgba(200,220,240,.45)!important}
-    [data-theme="dark"] .kbrow{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .kb-target{
-      background:#162844!important;
-      border-color:rgba(255,255,255,.14)!important;
-    }
-    [data-theme="dark"] .tw-blank{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    /* ── leçon — UI text ── */
-    [data-theme="dark"] .q-prompt{color:#d8e8f5!important}
-    [data-theme="dark"] .q-big{
-      color:#d8e8f5!important;
-      border-color:rgba(255,255,255,.12)!important;
-      background:#1e3352!important;
-    }
-    [data-theme="dark"] .q-cnt{color:rgba(200,220,240,.4)!important}
-    [data-theme="dark"] .q-hint{color:rgba(200,220,240,.35)!important}
-    [data-theme="dark"] .fb{color:rgba(200,220,240,.55)}
-    [data-theme="dark"] .fb.ok{color:#4ade80!important}
-    [data-theme="dark"] .fb.ko{color:#f87171!important}
-    [data-theme="dark"] .wrap{background:#0f1e32!important}
-    [data-theme="dark"] .mhdr{background:#0a1628!important}
-    [data-theme="dark"] .tbar{
-      background:#0a1628!important;
-      border-color:rgba(255,255,255,.08)!important;
-    }
-    [data-theme="dark"] .ptrack{background:rgba(255,255,255,.1)!important}
-    [data-theme="dark"] .mnm{color:rgba(215,232,248,.9)!important}
-    [data-theme="dark"] .msay{color:rgba(200,220,240,.6)!important}
-    [data-theme="dark"] .res-msg{color:#d8e8f5!important}
-    [data-theme="dark"] .res-sec{
-      border-color:rgba(255,255,255,.15)!important;
-      color:rgba(200,220,240,.65)!important;
-    }
-    /* ── exercice.html ── */
-    [data-theme="dark"] .mtab{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.15)!important;
-      color:rgba(200,220,240,.65)!important;
-    }
-    [data-theme="dark"] .mtab.act{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    [data-theme="dark"] .word-token{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .word-token.placed{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    [data-theme="dark"] .wb-target{
-      background:rgba(255,255,255,.03)!important;
-      border-color:rgba(255,255,255,.14)!important;
-    }
-    [data-theme="dark"] .pair-token{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .pair-token.selected{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    [data-theme="dark"] .lc-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .sc-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .sc-score-n{color:#d8e8f5!important}
-    [data-theme="dark"] .sc-start-title{color:#d8e8f5!important}
-    [data-theme="dark"] .sc-start-sub{color:rgba(200,220,240,.5)!important}
-    [data-theme="dark"] .fb-strip.ok{
-      background:rgba(34,197,94,.1)!important;
-      border-color:rgba(34,197,94,.25)!important;
-      color:#4ade80!important;
-    }
-    [data-theme="dark"] .fb-strip.ko{
-      background:rgba(239,68,68,.08)!important;
-      border-color:rgba(239,68,68,.2)!important;
-      color:#f87171!important;
-    }
-    [data-theme="dark"] .next-btn{
-      background:#1e3352!important;
-      border:1.5px solid rgba(255,255,255,.15)!important;
-      color:#d8e8f5!important;
-    }
-    /* ── révision ── */
-    [data-theme="dark"] .ans-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
-    [data-theme="dark"] .ans-btn.correct{
-      background:rgba(34,197,94,.1)!important;
-      border-color:#4ade80!important;
-      color:#4ade80!important;
-    }
-    [data-theme="dark"] .ans-btn.wrong{
-      background:rgba(239,68,68,.1)!important;
-      border-color:#f87171!important;
-      color:#f87171!important;
-    }
-    [data-theme="dark"] .qz-card,
-    [data-theme="dark"] .qz-card-inner{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
+
+    
+    /* tabs */
+    [data-theme="dark"] .tab-sw{background:rgba(255,255,255,.07)}
+    [data-theme="dark"] .tab-sw-btn.act{background:var(--surf);box-shadow:0 1px 6px rgba(0,0,0,.3)}
+    [data-theme="dark"] .tab-sw-btn{color:rgba(200,220,240,.5)}
+    [data-theme="dark"] .tab-sw-btn.act{color:#d8e8f5}
+    /* srs stats pills */
+    [data-theme="dark"] .srs-stat-pill.due{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.3)}
+    [data-theme="dark"] .srs-stat-pill.new-w{background:rgba(29,78,216,.1);border-color:rgba(29,78,216,.3)}
+    [data-theme="dark"] .srs-stat-pill.mastered{background:rgba(22,163,74,.1);border-color:rgba(22,163,74,.3)}
+    [data-theme="dark"] .srs-week{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .srs-day-bar.zero{background:rgba(255,255,255,.08)}
+    [data-theme="dark"] .srs-day-bar.today{background:#C9A96E}
+    [data-theme="dark"] .srs-empty{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .srs-empty-title{color:var(--t)!important}
+    /* quiz card */
+    [data-theme="dark"] .qz-card,[data-theme="dark"] .qz-card-inner{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .qz-card.correct{background:rgba(34,197,94,.08)!important;border-color:#4ade80!important}
+    [data-theme="dark"] .qz-card.wrong{background:rgba(239,68,68,.08)!important;border-color:#f87171!important}
+    [data-theme="dark"] .qz-main{color:var(--t)!important}
+    [data-theme="dark"] .srs-next-tag.good{background:rgba(22,163,74,.12);border-color:rgba(74,222,128,.3);color:#4ade80}
+    [data-theme="dark"] .srs-next-tag.again{background:rgba(220,38,38,.1);border-color:rgba(248,113,113,.3);color:#f87171}
+    [data-theme="dark"] .qz-mode-badge.srs{background:rgba(29,78,216,.12);border-color:rgba(29,78,216,.3);color:#93c5fd}
+    /* answer buttons */
+    [data-theme="dark"] .ans-btn{background:var(--surf)!important;border-color:var(--bd2)!important;color:var(--t)!important}
+    [data-theme="dark"] .ans-btn.correct{background:rgba(34,197,94,.1)!important;border-color:#4ade80!important;color:#4ade80!important}
+    [data-theme="dark"] .ans-btn.wrong{background:rgba(239,68,68,.1)!important;border-color:#f87171!important;color:#f87171!important}
     [data-theme="dark"] .qz-feedback.ok{color:#4ade80!important}
     [data-theme="dark"] .qz-feedback.ko{color:#f87171!important}
-    /* ── vocabulaire ── */
-    [data-theme="dark"] .flip-front{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
-    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .filters{
-      background:#0f1e32!important;
-      border-color:rgba(255,255,255,.08)!important;
-    }
-    [data-theme="dark"] .fchip{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.13)!important;
-      color:rgba(200,220,240,.65)!important;
-    }
-    [data-theme="dark"] .fchip.act{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
-    /* ── histoires ── */
-    [data-theme="dark"] .node-title{color:#d8e8f5!important}
-    [data-theme="dark"] .node-num{color:rgba(200,220,240,.35)!important}
-    [data-theme="dark"] .node-kr{color:rgba(200,220,240,.45)!important}
-    [data-theme="dark"] .node-bubble.state-locked{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.15)!important;
-    }
-    [data-theme="dark"] .node-bubble.state-soon{
-      background:#1e3352!important;
-      border-color:rgba(167,139,250,.2)!important;
-    }
-    [data-theme="dark"] .done-mini{
-      background:#1e3352!important;
-      border-color:rgba(34,197,94,.2)!important;
-    }
-    [data-theme="dark"] .done-mini-title{color:#d8e8f5!important}
-    [data-theme="dark"] .done-mini-sub{color:rgba(200,220,240,.4)!important}
-    [data-theme="dark"] .locked-hint{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-      color:rgba(200,220,240,.45)!important;
-    }
-    [data-theme="dark"] .locked-section{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .locked-section h3{color:#d8e8f5!important}
-    [data-theme="dark"] .locked-section p{color:rgba(200,220,240,.55)!important}
-    [data-theme="dark"] .connector.locked{
-      background:repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 6px,
-        transparent 6px,transparent 12px
-      )!important;
-    }
-    /* ── app.html ── */
-    [data-theme="dark"] .dori-tip{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .welcome-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .lbrow{background:rgba(255,255,255,.04)!important}
-    [data-theme="dark"] .lbl-name{color:#d8e8f5!important}
-    /* ── profil ── */
-    [data-theme="dark"] .stat-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .settings-list{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .setting-name{color:#d8e8f5!important}
-    [data-theme="dark"] .setting-sub{color:rgba(200,220,240,.45)!important}
-    /* ── sections labels ── */
-    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)!important}
-    /* ── histoire pages ── */
-    [data-theme="dark"] .dial-box{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .dial-text{color:#d8e8f5!important}
-    [data-theme="dark"] .dial-who{color:rgba(200,220,240,.45)!important}
-    [data-theme="dark"] .voc-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .voc-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .voc-fr{color:rgba(200,220,240,.55)!important}
-    /* ── hangeul page ── */
-    [data-theme="dark"] .char-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
-    }
-    [data-theme="dark"] .char-glyph{color:#d8e8f5!important}
-    [data-theme="dark"] .char-rom{color:rgba(200,220,240,.55)!important}
-    /* ── generic inputs ── */
-    [data-theme="dark"] input:not([type="range"]),
-    [data-theme="dark"] textarea,
-    [data-theme="dark"] select{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
-    }
+    /* result screen */
+    [data-theme="dark"] .res-stat,[data-theme="dark"] .srs-breakdown{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .res-title{color:var(--t)!important}
+    [data-theme="dark"] .srs-word-kr{color:var(--t)!important}
+    [data-theme="dark"] .srs-word-row{border-color:var(--bd)!important}
+    [data-theme="dark"] .srs-badge.ok{background:rgba(34,197,94,.12);color:#4ade80}
+    [data-theme="dark"] .srs-badge.ko{background:rgba(239,68,68,.1);color:#f87171}
+    [data-theme="dark"] .srs-badge.master{background:rgba(201,169,110,.15);color:#C9A96E}
+    [data-theme="dark"] .res-sec{border-color:var(--bd2)!important;color:var(--t2)!important}
+    [data-theme="dark"] .mode-card{background:var(--surf)!important;border-color:var(--bd2)!important}
+    [data-theme="dark"] .mc-label{color:var(--t)!important}
+    [data-theme="dark"] .count-pill{background:var(--surf)!important;border-color:var(--bd2)!important;color:rgba(200,220,240,.6)!important}
+    [data-theme="dark"] .count-pill.sel{background:#C9A96E!important;border-color:#C9A96E!important;color:var(--navy)!important}
+    [data-theme="dark"] .mode-card.sel{background:#C9A96E!important;border-color:#C9A96E!important}
+    [data-theme="dark"] .mode-card.sel .mc-label,[data-theme="dark"] .mode-card.sel .mc-sub{color:var(--navy)!important}
+    [data-theme="dark"] .lock-msg{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .lock-msg h3{color:var(--t)!important}
+    [data-theme="dark"] .res-stat-n{color:var(--t)!important}
+    [data-theme="dark"] .srs-session-info{background:rgba(201,169,110,.08)!important;border-color:rgba(201,169,110,.25)!important;color:rgba(200,220,240,.8)!important}
+    [data-theme="dark"] .srs-prog-label{color:var(--t2)!important}
+  
+/* ── BNAV DOT NOTIFICATION ── */
 
-  </style>
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 </head>
 <body>
 
-<!-- TOP NAV -->
-<nav class="tnav">
-  <a href="app.html" class="tnav-back">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    Accueil
-  </a>
-  <div style="font-size:13px;font-weight:700;color:var(--gold)">복습</div>
-</nav>
+<div class="shell">
+<!-- ══ SIDEBAR desktop ══════════════════════════ -->
+<aside class="side">
+  <div class="side-head">
+    <div class="side-logo">Korean <em>Stories</em></div>
+    <div class="side-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpSide">0</span> XP
+    </div>
+  </div>
+  <nav class="side-nav">
+    <a href="app.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+    <a href="cours.html" class="sn on"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+    <a href="lecture.html" class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+    <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Classement</a>
+    <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+    <a href="ressources.html" class="sn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+  </nav>
+  <div class="side-theme">
+    <span class="side-theme-lbl">Mode sombre</span>
+    <button class="theme-pill" onclick="toggleTheme()" aria-label="Basculer le thème"></button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ════════════════════════════════════ -->
+<div class="main">
+
+<!-- ══ TOPBAR ═══════════════════════════════════ -->
+  <div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="page-enter">
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-badge">Quiz de révision</div>
-    <h1 class="hero-title">Teste ton <em>coréen</em></h1>
-    <p class="hero-sub">Mots de tes leçons · QCM · Audio · XP</p>
+    <div class="hero-badge">Révision intelligente</div>
+    <h1 class="hero-title">Mémorise ton <em>coréen</em></h1>
+    <p class="hero-sub">Répétition espacée · SRS · Audio · XP</p>
+    <div id="heroDueBadge" class="hero-due-badge" onclick="switchTab('srs')" style="display:none"></div>
   </div>
 </div>
 
@@ -464,39 +319,93 @@
   <div id="screenStart">
     <div id="lockMsg"></div>
 
-    <div class="mode-section" id="modeSection" style="display:none">
-      <div class="section-label">Mode</div>
-      <div class="mode-grid">
-        <div class="mode-card sel" data-mode="ko-fr" onclick="selectMode('ko-fr')">
-          <div class="mc-ico">🇰🇷</div>
-          <div class="mc-label">Coréen → Français</div>
-          <div class="mc-sub">Lis et traduis</div>
+    <!-- TAB SWITCHER -->
+    <div class="tab-sw" id="tabSw" style="display:none">
+      <button class="tab-sw-btn" id="tabSrsBtn" onclick="switchTab('srs')">
+        <div class="tab-sw-dot"></div>
+        SRS 복습
+      </button>
+      <button class="tab-sw-btn" id="tabQuizBtn" onclick="switchTab('quiz')">
+        Quiz libre
+      </button>
+    </div>
+
+    <!-- SRS PANEL -->
+    <div id="srsPanel">
+      <div class="srs-stats-row">
+        <div class="srs-stat-pill due">
+          <div class="srs-stat-n" id="statDue">0</div>
+          <div class="srs-stat-l">À revoir</div>
         </div>
-        <div class="mode-card" data-mode="fr-ko" onclick="selectMode('fr-ko')">
-          <div class="mc-ico">🇫🇷</div>
-          <div class="mc-label">Français → Coréen</div>
-          <div class="mc-sub">Reconnais l'écriture</div>
+        <div class="srs-stat-pill new-w">
+          <div class="srs-stat-n" id="statNew">0</div>
+          <div class="srs-stat-l">Nouveaux</div>
+        </div>
+        <div class="srs-stat-pill mastered">
+          <div class="srs-stat-n" id="statMastered">0</div>
+          <div class="srs-stat-l">Maîtrisés</div>
         </div>
       </div>
-    </div>
 
-    <div class="mode-section" id="countSection" style="display:none">
-      <div class="section-label">Nombre de questions</div>
-      <div class="count-grid">
-        <div class="count-pill sel" data-n="5" onclick="selectCount(5)">5</div>
-        <div class="count-pill" data-n="10" onclick="selectCount(10)">10</div>
-        <div class="count-pill" id="countAll" data-n="all" onclick="selectCount('all')">Tous</div>
+      <!-- Progression semaine -->
+      <div class="srs-week" id="srsWeekChart"></div>
+
+      <!-- Session info -->
+      <div class="srs-session-info" id="srsSessionInfo"></div>
+
+      <!-- Progression globale du deck -->
+      <div class="srs-prog-wrap">
+        <div class="srs-prog-fill" id="srsDeckProg"></div>
       </div>
+      <div class="srs-prog-label" id="srsDeckProgLabel"></div>
+
+      <div id="srsEmptyMsg" class="srs-empty" style="display:none">
+        <div class="srs-empty-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 21 12 21 16 21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M5 8H3a2 2 0 000 4c0 1.5.8 2.8 2 3.5M19 8h2a2 2 0 010 4c0 1.5-.8 2.8-2 3.5"/><path d="M5 3h14v11a5 5 0 01-10 0V3"/></svg></div>
+        <div class="srs-empty-title">Tout révisé pour aujourd'hui !</div>
+        <div class="srs-empty-sub">Reviens demain pour ta prochaine session.<br/>Continue en mode Quiz libre pour t'entraîner.</div>
+      </div>
+
+      <button class="srs-start-btn" id="srsStartBtn" onclick="startSRS()">
+        Commencer la révision SRS →
+      </button>
     </div>
 
-    <div id="infoBox" class="info-box" style="display:none">
-      <strong id="infoCount">0</strong> mots disponibles dans tes leçons terminées.
-      <br/>Chaque bonne réponse = <strong>5 XP</strong>
-    </div>
+    <!-- QUIZ LIBRE PANEL -->
+    <div id="quizPanel" style="display:none">
+      <div class="mode-section" id="modeSection">
+        <div class="section-label">Mode</div>
+        <div class="mode-grid">
+          <div class="mode-card sel" data-mode="ko-fr" onclick="selectMode('ko-fr')">
+            <div class="mc-ico"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+            <div class="mc-label">Coréen → Français</div>
+            <div class="mc-sub">Lis et traduis</div>
+          </div>
+          <div class="mode-card" data-mode="fr-ko" onclick="selectMode('fr-ko')">
+            <div class="mc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+            <div class="mc-label">Français → Coréen</div>
+            <div class="mc-sub">Reconnais l'écriture</div>
+          </div>
+        </div>
+      </div>
 
-    <button class="start-btn" id="startBtn" onclick="startQuiz()" disabled style="display:none">
-      Commencer →
-    </button>
+      <div class="mode-section" id="countSection">
+        <div class="section-label">Nombre de questions</div>
+        <div class="count-grid">
+          <div class="count-pill sel" data-n="5" onclick="selectCount(5)">5</div>
+          <div class="count-pill" data-n="10" onclick="selectCount(10)">10</div>
+          <div class="count-pill" id="countAll" data-n="all" onclick="selectCount('all')">Tous</div>
+        </div>
+      </div>
+
+      <div id="infoBox" class="info-box">
+        <strong id="infoCount">0</strong> mots disponibles dans tes leçons terminées.
+        <br/>Chaque bonne réponse = <strong>5 XP</strong>
+      </div>
+
+      <button class="start-btn" id="startBtn" onclick="startQuiz()" disabled>
+        Commencer →
+      </button>
+    </div>
   </div>
 
   <!-- ══ QUIZ SCREEN ══ -->
@@ -504,7 +413,7 @@
     <div class="qz-topbar">
       <div class="qz-prog-wrap"><div class="qz-prog-fill" id="qzProgFill" style="width:0%"></div></div>
       <div class="qz-count" id="qzCount">1 / 10</div>
-      <div class="qz-streak" id="qzStreak">0 j.</div>
+      <div class="qz-mode-badge" id="qzModeBadge">SRS</div>
     </div>
 
     <div class="qz-card" id="qzCard">
@@ -515,6 +424,7 @@
         <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
         Écouter
       </button>
+      <div class="srs-next-tag" id="srsNextTag"></div>
     </div>
 
     <div class="ans-grid" id="ansGrid"></div>
@@ -537,52 +447,34 @@
         <div class="res-stat-l">Questions</div>
       </div>
       <div class="res-stat">
-        <div class="res-stat-n" id-"resPct">0%</div>
+        <div class="res-stat-n" id="resPct">0%</div>
         <div class="res-stat-l">Réussite</div>
       </div>
     </div>
     <div class="res-xp" id="resXpBox">
       <span>+<span id="resXp">0</span> XP</span> gagnés
     </div>
+    <!-- SRS breakdown (shown only in SRS mode) -->
+    <div class="srs-breakdown" id="srsBreakdown" style="display:none">
+      <div class="srs-breakdown-title">Détail de la session</div>
+      <div id="srsBreakdownList"></div>
+    </div>
     <div class="res-btns">
       <button class="res-prim" onclick="restartQuiz()">Recommencer </button>
       <a href="vocabulaire.html" class="res-sec">Vocabulaire</a>
-      <a href="app.html" class="res-sec">Accueil </a>
+      <a href="app.html" class="res-sec">Accueil</a>
     </div>
   </div>
 
 </div><!-- /wrap -->
 
 <!-- BOTTOM NAV -->
-<nav class="bnav">
-  <a href="app.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span>Accueil</span>
-  </a>
-  <a href="vocabulaire.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-    <span>Vocab</span>
-  </a>
-  <a href="histoires.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-    <span>Histoires</span>
-  </a>
-  <a href="exercice.html" class="bni">
-    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
-    <span>Exercices</span>
-  </a>
-  <a href="revision.html" class="bni act">
-    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-    <span>Révision</span>
-  </a>
-  <a href="profil.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>Profil</span>
-  </a>
-</nav>
+
 
 <script>
-// ── Data ──
+// ════════════════════════════════════════════════
+//   VOCABULARY DATA
+// ════════════════════════════════════════════════
 const WORDS = [
   {id:'ga',     kr:'가',   rom:'ga',      fr:'Aller (racine)',     audio:'가',    lec:1},
   {id:'na',     kr:'나',   rom:'na',      fr:'Moi / Je',           audio:'나',    lec:1},
@@ -604,7 +496,6 @@ const WORDS = [
   {id:'yeogi',  kr:'여기', rom:'yeo-gi',  fr:'Ici',                audio:'여기',  lec:9},
   {id:'bballi', kr:'빨리', rom:'bbal-li', fr:'Vite !',             audio:'빨리',  lec:10},
   {id:'tto',    kr:'또',   rom:'tto',     fr:'Encore / Aussi',     audio:'또',    lec:10},
-  // ── Histoire 2 words (débloqués après ks_h2) ──
   {id:'sijang',     kr:'시장',    rom:'si-jang',      fr:'Marché',           audio:'시장',     lec:'h2'},
   {id:'joahaeyo',   kr:'좋아해요', rom:'jo-a-hae-yo',  fr:"J'aime / J'adore", audio:'좋아해요', lec:'h2'},
   {id:'eolma',      kr:'얼마',    rom:'eol-ma',       fr:'Combien',          audio:'얼마',     lec:'h2'},
@@ -612,7 +503,6 @@ const WORDS = [
   {id:'masisseoyo', kr:'맛있어요', rom:'ma-si-sseo-yo', fr:"C'est délicieux",  audio:'맛있어요', lec:'h2'},
   {id:'gachi',      kr:'같이',    rom:'ga-chi',       fr:'Ensemble',         audio:'같이',     lec:'h2'},
   {id:'sayo',       kr:'사요',    rom:'sa-yo',        fr:'On achète',        audio:'사요',     lec:'h2'},
-  // ── Histoire 3 words (débloqués après ks_h3) ──
   {id:'baegopayo',  kr:'배고파요', rom:'bae-go-pa-yo',  fr:"J'ai faim",        audio:'배고파요', lec:'h3'},
   {id:'sikdang',    kr:'식당',    rom:'sik-dang',      fr:'Restaurant',       audio:'식당',     lec:'h3'},
   {id:'menyu',      kr:'메뉴',    rom:'me-nyu',        fr:'Menu',             audio:'메뉴',     lec:'h3'},
@@ -621,7 +511,6 @@ const WORDS = [
   {id:'jogeum',     kr:'조금',    rom:'jo-geum',       fr:'Un peu',           audio:'조금',     lec:'h3'},
   {id:'mul',        kr:'물',      rom:'mul',           fr:'Eau',              audio:'물',       lec:'h3'},
   {id:'ddo',        kr:'또',      rom:'ddo',           fr:'Encore / De nouveau',audio:'또',     lec:'h3'},
-  // ── Histoire 4 words (débloqués après ks_h4) ──
   {id:'kape',       kr:'카페',    rom:'ka-pe',         fr:'Café (lieu)',       audio:'카페',     lec:'h4'},
   {id:'keopi',      kr:'커피',    rom:'keo-pi',        fr:'Café (boisson)',    audio:'커피',     lec:'h4'},
   {id:'aiseu',      kr:'아이스',  rom:'a-i-seu',       fr:'Glacé / Ice',       audio:'아이스',   lec:'h4'},
@@ -630,21 +519,19 @@ const WORDS = [
   {id:'darayo',     kr:'달아요',  rom:'da-ra-yo',      fr:"C'est sucré",      audio:'달아요',   lec:'h4'},
   {id:'gidareoyo',  kr:'기다려요', rom:'gi-da-ryeo-yo', fr:'Attendez !',        audio:'기다려요', lec:'h4'},
   {id:'kadeu',      kr:'카드',    rom:'ka-deu',        fr:'Carte (bancaire)', audio:'카드',     lec:'h4'},
-  // ── Histoire 5 — 편의점에서 ──
   {id:'pyonijeom',  kr:'편의점',   rom:'pyon-i-jeom',   fr:'Épicerie coréenne', audio:'편의점',   lec:'h5'},
-  {id:'baegopayo',  kr:'배고파요', rom:'bae-go-pa-yo',  fr:"J'ai faim",         audio:'배고파요', lec:'h5'},
+  {id:'h5_bag',     kr:'배고파요', rom:'bae-go-pa-yo',  fr:"J'ai faim",         audio:'배고파요', lec:'h5'},
   {id:'gayo',       kr:'가요',     rom:'ga-yo',         fr:'On y va',           audio:'가요',     lec:'h5'},
   {id:'keomramyeon',kr:'컵라면',   rom:'keop-ra-myeon', fr:'Cup nouilles',      audio:'컵라면',   lec:'h5'},
   {id:'itsoyo',     kr:'있어요',   rom:'it-seo-yo',     fr:"Il y a / J'ai",     audio:'있어요',   lec:'h5'},
-  {id:'eolma',      kr:'얼마예요', rom:'eol-ma-ye-yo',  fr:"C'est combien ?",   audio:'얼마예요', lec:'h5'},
+  {id:'eolmayeyo',  kr:'얼마예요', rom:'eol-ma-ye-yo',  fr:"C'est combien ?",   audio:'얼마예요', lec:'h5'},
   {id:'won',        kr:'원',       rom:'won',           fr:'Won (monnaie)',      audio:'원',       lec:'h5'},
-  {id:'jigabjj',    kr:'지갑',     rom:'ji-gap',        fr:'Portefeuille',      audio:'지갑',     lec:'h5'},
+  {id:'jigap',      kr:'지갑',     rom:'ji-gap',        fr:'Portefeuille',      audio:'지갑',     lec:'h5'},
   {id:'eopseoyo',   kr:'없어요',   rom:'eop-seo-yo',    fr:"Il n'y a pas",      audio:'없어요',   lec:'h5'},
   {id:'haejulgeyo', kr:'해줄게요', rom:'hae-jul-ge-yo', fr:'Je le fais pour toi', audio:'해줄게요', lec:'h5'},
   {id:'masitsoyo',  kr:'맛있어요', rom:'mat-i-sseo-yo', fr:"C'est délicieux",   audio:'맛있어요', lec:'h5'},
   {id:'tto_h5',     kr:'또',       rom:'tto',           fr:'Encore / De nouveau', audio:'또',     lec:'h5'},
   {id:'naeil',      kr:'내일',     rom:'nae-il',        fr:'Demain',            audio:'내일',     lec:'h5'},
-  // ── Histoire 6 — 지하철에서 ──
   {id:'ppalli_h6',    kr:'빨리',     rom:'ppal-li',         fr:'Vite !',          audio:'빨리',      lec:'h6'},
   {id:'neutseosseoyo',kr:'늦었어요',  rom:'neu-jeo-sseo-yo', fr:'On est en retard',audio:'늦었어요',  lec:'h6'},
   {id:'arayo',        kr:'알아요',   rom:'a-ra-yo',         fr:'Je sais',          audio:'알아요',    lec:'h6'},
@@ -657,18 +544,17 @@ const WORDS = [
   {id:'daeum',        kr:'다음',     rom:'da-eum',          fr:'Prochain(e)',       audio:'다음',      lec:'h6'},
   {id:'naeryeoyo',    kr:'내려요',   rom:'nae-ryeo-yo',     fr:'On descend',       audio:'내려요',    lec:'h6'},
   {id:'daebak',       kr:'대박이에요',rom:'dae-ba-gi-e-yo', fr:'Super !',          audio:'대박이에요',lec:'h6'},
-  {id:'geouida',      kr:'거의',     rom:'geo-ui',          fr:'Presque',          audio:'거의',      lec:'h6'},
   {id:'jip',          kr:'집',        rom:'jip',             fr:'Maison / Chez soi',audio:'집',        lec:'h7'},
   {id:'eoseooseyo',   kr:'어서 오세요',rom:'eo-seo o-se-yo',  fr:'Bienvenue !',      audio:'어서 오세요',lec:'h7'},
   {id:'sinbal',       kr:'신발',       rom:'sin-bal',         fr:'Chaussures',       audio:'신발',       lec:'h7'},
   {id:'beoseoyo',     kr:'벗어요',     rom:'beo-seo-yo',      fr:'On enlève',        audio:'벗어요',     lec:'h7'},
-  {id:'yeppeoyo',     kr:'예뻐요',     rom:'yep-peo-yo',      fr:'C\'est joli',      audio:'예뻐요',     lec:'h7'},
-  {id:'mwo',          kr:'뭐',         rom:'mwo',             fr:'Quoi / Qu\'est-ce',audio:'뭐',         lec:'h7'},
+  {id:'yeppeoyo',     kr:'예뻐요',     rom:'yep-peo-yo',      fr:"C'est joli",       audio:'예뻐요',     lec:'h7'},
+  {id:'mwo',          kr:'뭐',         rom:'mwo',             fr:"Quoi / Qu'est-ce", audio:'뭐',         lec:'h7'},
   {id:'meogeullaeyo', kr:'먹을래요',   rom:'meo-geul-lae-yo', fr:'Tu veux manger ?', audio:'먹을래요',   lec:'h7'},
   {id:'ramyeon',      kr:'라면',       rom:'ra-myeon',        fr:'Ramyeon',          audio:'라면',       lec:'h7'},
-  {id:'gachi',        kr:'같이',       rom:'ga-chi',          fr:'Ensemble',         audio:'같이',       lec:'h7'},
+  {id:'gachi_h7',     kr:'같이',       rom:'ga-chi',          fr:'Ensemble',         audio:'같이',       lec:'h7'},
   {id:'meogeoyo',     kr:'먹어요',     rom:'meo-geo-yo',      fr:'On mange',         audio:'먹어요',     lec:'h7'},
-  {id:'jaemiisseoyo', kr:'재미있어요', rom:'jae-mi-it-seo-yo',fr:'C\'est amusant',   audio:'재미있어요', lec:'h7'},
+  {id:'jaemiisseoyo', kr:'재미있어요', rom:'jae-mi-it-seo-yo',fr:"C'est amusant",    audio:'재미있어요', lec:'h7'},
   {id:'gongbu',       kr:'공부',       rom:'gong-bu',         fr:'Étude',            audio:'공부',       lec:'h7'},
   {id:'pigonhaeyo',   kr:'피곤해요',   rom:'pi-gon-hae-yo',   fr:'Je suis fatigué',  audio:'피곤해요',   lec:'h7'},
   {id:'jayo',         kr:'자요',       rom:'ja-yo',           fr:'On dort',          audio:'자요',       lec:'h7'},
@@ -676,37 +562,37 @@ const WORDS = [
   {id:'ireonayo',     kr:'일어나요',   rom:'i-reo-na-yo',     fr:'On se lève',       audio:'일어나요',   lec:'h7'},
   {id:'noraebang', kr:'노래방',   rom:'no-rae-bang',     fr:'Karaoké / Norebang',       audio:'노래방',   lec:'h8'},
   {id:'norae',      kr:'노래',     rom:'no-rae',           fr:'Chanson',                  audio:'노래',     lec:'h8'},
-  {id:'sinnayo',    kr:'신나요',   rom:'sin-na-yo',        fr:'C\'est fun ! Excitant !',  audio:'신나요',   lec:'h8'},
+  {id:'sinnayo',    kr:'신나요',   rom:'sin-na-yo',        fr:"C'est fun ! Excitant !",   audio:'신나요',   lec:'h8'},
   {id:'bulreoyo',   kr:'불러요',   rom:'bul-leo-yo',       fr:'On chante',                audio:'불러요',   lec:'h8'},
   {id:'eotteon',    kr:'어떤',     rom:'eo-tteon',         fr:'Quel(le) / Lequel',        audio:'어떤',     lec:'h8'},
-  {id:'joayo',      kr:'좋아요',   rom:'jo-a-yo',          fr:'J\'aime / C\'est bien',    audio:'좋아요',   lec:'h8'},
+  {id:'joayo',      kr:'좋아요',   rom:'jo-a-yo',          fr:"J'aime / C'est bien",      audio:'좋아요',   lec:'h8'},
   {id:'maikheu',    kr:'마이크',   rom:'ma-i-keu',         fr:'Micro',                    audio:'마이크',   lec:'h8'},
   {id:'motaeyo',    kr:'못해요',   rom:'mot-hae-yo',       fr:'Je suis nul(le)',          audio:'못해요',   lec:'h8'},
   {id:'jalhaeyo',   kr:'잘해요',   rom:'jal-hae-yo',       fr:'Tu chantes bien',          audio:'잘해요',   lec:'h8'},
   {id:'jeomsu',     kr:'점수',     rom:'jeom-su',          fr:'Score / Points',           audio:'점수',     lec:'h8'},
   {id:'dasi',       kr:'다시',     rom:'da-si',            fr:'Encore / De nouveau',      audio:'다시',     lec:'h8'},
   {id:'jinjjayo',   kr:'진짜요',   rom:'jin-jja-yo',       fr:'Vraiment ?',               audio:'진짜요',   lec:'h8'},
-  {id:'choegoyeyo', kr:'최고예요', rom:'choe-go-ye-yo',    fr:'C\'est le top !',          audio:'최고예요', lec:'h8'},
+  {id:'choegoyeyo', kr:'최고예요', rom:'choe-go-ye-yo',    fr:"C'est le top !",           audio:'최고예요', lec:'h8'},
   {id:'baksu',      kr:'박수',     rom:'bak-su',           fr:'Applaudissements',         audio:'박수',     lec:'h8'},
-  {id:'nolayo',     kr:'놀아요',   rom:'no-la-yo',         fr:'On s\'amuse / On joue',    audio:'놀아요',   lec:'h8'},
+  {id:'nolayo',     kr:'놀아요',   rom:'no-la-yo',         fr:"On s'amuse / On joue",     audio:'놀아요',   lec:'h8'},
   {id:'sori',       kr:'소리',     rom:'so-ri',            fr:'Son / Voix / Bruit',       audio:'소리',     lec:'h8'},
   {id:'byeongwon',  kr:'병원',    rom:'byeong-won',   fr:'Hôpital / Clinique',       audio:'병원',    lec:'h9'},
-  {id:'apayo',      kr:'아파요',  rom:'a-pa-yo',       fr:'J\'ai mal / Malade',         audio:'아파요',  lec:'h9'},
-  {id:'eodiga',     kr:'어디가',  rom:'eo-di-ga',      fr:'Où / Quelle partie',         audio:'어디가',  lec:'h9'},
-  {id:'meori',      kr:'머리',    rom:'meo-ri',        fr:'Tête',                       audio:'머리',    lec:'h9'},
-  {id:'gichim',     kr:'기침',    rom:'gi-chim',       fr:'Toux',                       audio:'기침',    lec:'h9'},
-  {id:'eonje',      kr:'언제',    rom:'eon-je',        fr:'Quand',                      audio:'언제',    lec:'h9'},
-  {id:'eoje',       kr:'어제',    rom:'eo-je',         fr:'Hier',                       audio:'어제',    lec:'h9'},
-  {id:'yeol',       kr:'열',      rom:'yeol',          fr:'Fièvre',                     audio:'열',      lec:'h9'},
-  {id:'do',         kr:'도',      rom:'do',            fr:'Degré / Aussi',              audio:'도',      lec:'h9'},
-  {id:'geomsa',     kr:'검사',    rom:'geom-sa',       fr:'Examen médical',             audio:'검사',    lec:'h9'},
-  {id:'jom',        kr:'좀',      rom:'jom',           fr:'Un peu',                     audio:'좀',      lec:'h9'},
-  {id:'gamgi',      kr:'감기',    rom:'gam-gi',        fr:'Rhume / Grippe',             audio:'감기',    lec:'h9'},
-  {id:'yak',        kr:'약',      rom:'yak',           fr:'Médicament',                 audio:'약',      lec:'h9'},
-  {id:'deurilgeyo', kr:'드릴게요',rom:'deu-ril-ge-yo', fr:'Je vais vous donner',        audio:'드릴게요', lec:'h9'},
-  {id:'naayo',      kr:'나아요',  rom:'na-a-yo',       fr:'Ça va mieux',                audio:'나아요',  lec:'h9'},
-  {id:'swiseyo',    kr:'쉬세요',  rom:'swi-se-yo',     fr:'Reposez-vous !',             audio:'쉬세요',  lec:'h9'},
-  {id:'algesseoyo', kr:'알겠어요',rom:'al-get-seo-yo', fr:'J\'ai compris',              audio:'알겠어요', lec:'h9'},
+  {id:'apayo',      kr:'아파요',  rom:'a-pa-yo',       fr:"J'ai mal / Malade",        audio:'아파요',  lec:'h9'},
+  {id:'eodiga',     kr:'어디가',  rom:'eo-di-ga',      fr:'Où / Quelle partie',       audio:'어디가',  lec:'h9'},
+  {id:'meori',      kr:'머리',    rom:'meo-ri',        fr:'Tête',                     audio:'머리',    lec:'h9'},
+  {id:'gichim',     kr:'기침',    rom:'gi-chim',       fr:'Toux',                     audio:'기침',    lec:'h9'},
+  {id:'eonje',      kr:'언제',    rom:'eon-je',        fr:'Quand',                    audio:'언제',    lec:'h9'},
+  {id:'eoje',       kr:'어제',    rom:'eo-je',         fr:'Hier',                     audio:'어제',    lec:'h9'},
+  {id:'yeol',       kr:'열',      rom:'yeol',          fr:'Fièvre',                   audio:'열',      lec:'h9'},
+  {id:'do',         kr:'도',      rom:'do',            fr:'Degré / Aussi',            audio:'도',      lec:'h9'},
+  {id:'geomsa',     kr:'검사',    rom:'geom-sa',       fr:'Examen médical',           audio:'검사',    lec:'h9'},
+  {id:'jom',        kr:'좀',      rom:'jom',           fr:'Un peu',                   audio:'좀',      lec:'h9'},
+  {id:'gamgi',      kr:'감기',    rom:'gam-gi',        fr:'Rhume / Grippe',           audio:'감기',    lec:'h9'},
+  {id:'yak',        kr:'약',      rom:'yak',           fr:'Médicament',               audio:'약',      lec:'h9'},
+  {id:'deurilgeyo', kr:'드릴게요',rom:'deu-ril-ge-yo', fr:'Je vais vous donner',      audio:'드릴게요', lec:'h9'},
+  {id:'naayo',      kr:'나아요',  rom:'na-a-yo',       fr:'Ça va mieux',              audio:'나아요',  lec:'h9'},
+  {id:'swiseyo',    kr:'쉬세요',  rom:'swi-se-yo',     fr:'Reposez-vous !',           audio:'쉬세요',  lec:'h9'},
+  {id:'algesseoyo', kr:'알겠어요',rom:'al-get-seo-yo', fr:"J'ai compris",             audio:'알겠어요', lec:'h9'},
   {id:'syopingmol', kr:'쇼핑몰',   rom:'syo-ping-mol',   fr:'Centre commercial',     audio:'쇼핑몰',   lec:'h10'},
   {id:'seil',       kr:'세일',     rom:'se-il',           fr:'Soldes',                audio:'세일',     lec:'h10'},
   {id:'ot',         kr:'옷',       rom:'ot',              fr:'Vêtement',              audio:'옷',       lec:'h10'},
@@ -714,7 +600,7 @@ const WORDS = [
   {id:'saijeu',     kr:'사이즈',   rom:'sa-i-jeu',        fr:'Taille',                audio:'사이즈',   lec:'h10'},
   {id:'eoullyeoyo', kr:'어울려요', rom:'eo-ul-lyeo-yo',   fr:'Ça vous va bien',       audio:'어울려요', lec:'h10'},
   {id:'neomu',      kr:'너무',     rom:'neo-mu',          fr:'Trop / Vraiment',       audio:'너무',     lec:'h10'},
-  {id:'salgeyo',    kr:'살게요',   rom:'sal-ge-yo',       fr:'Je vais l\'acheter',    audio:'살게요',   lec:'h10'},
+  {id:'salgeyo',    kr:'살게요',   rom:'sal-ge-yo',       fr:"Je vais l'acheter",     audio:'살게요',   lec:'h10'},
   {id:'saekgal',    kr:'색깔',     rom:'saek-gal',        fr:'Couleur',               audio:'색깔',     lec:'h10'},
   {id:'dareun',     kr:'다른',     rom:'da-reun',         fr:'Autre / Différent',     audio:'다른',     lec:'h10'},
   {id:'gyesan',     kr:'계산',     rom:'gye-san',         fr:'Paiement / Caisse',     audio:'계산',     lec:'h10'},
@@ -723,58 +609,146 @@ const WORDS = [
   {id:'hwanbul',    kr:'환불',     rom:'hwan-bul',        fr:'Remboursement',         audio:'환불',     lec:'h10'},
   {id:'gyohwan',    kr:'교환',     rom:'gyo-hwan',        fr:'Échange',               audio:'교환',     lec:'h10'},
   {id:'gyeonghaeyo',kr:'구경해요', rom:'gu-gyeong-hae-yo',fr:'Je regarde',            audio:'구경해요', lec:'h10'},
-  // H11 — 집들이에서
   {id:'jipduri',    kr:'집들이',       rom:'jip-deu-ri',         fr:'Pendaison de crémaillère',   audio:'집들이',       lec:'h11'},
   {id:'eoseo',      kr:'어서 와요',    rom:'eo-seo-wa-yo',       fr:'Bienvenue / Entrez !',       audio:'어서 와요',    lec:'h11'},
   {id:'saejip',     kr:'새집',         rom:'sae-jip',            fr:'Nouvelle maison',            audio:'새집',         lec:'h11'},
-  {id:'yeppeoyo',   kr:'예뻐요',       rom:'yep-peo-yo',         fr:"C'est beau / Joli",          audio:'예뻐요',       lec:'h11'},
+  {id:'yeppeoyo_h11',kr:'예뻐요',      rom:'yep-peo-yo',         fr:"C'est beau / Joli",          audio:'예뻐요',       lec:'h11'},
   {id:'seonmul',    kr:'선물',         rom:'seon-mul',           fr:'Cadeau',                     audio:'선물',         lec:'h11'},
   {id:'gamsahaeyo', kr:'감사해요',     rom:'gam-sa-hae-yo',      fr:'Merci / Je vous remercie',   audio:'감사해요',     lec:'h11'},
   {id:'neolbeoyo',  kr:'넓어요',       rom:'neol-beo-yo',        fr:"C'est grand / Spacieux",     audio:'넓어요',       lec:'h11'},
   {id:'maeumei',    kr:'마음에 들어요',rom:'ma-eum-e-deu-leo-yo', fr:"J'adore / Ça me plaît",     audio:'마음에 들어요',lec:'h11'},
-  {id:'hamkke',     kr:'같이',         rom:'ga-chi',             fr:'Ensemble / Avec',            audio:'같이',         lec:'h11'},
   {id:'masitge',    kr:'맛있게 드세요',rom:'ma-sit-ge-deu-se-yo', fr:'Bon appétit !',             audio:'맛있게 드세요',lec:'h11'},
   {id:'baebulleo',  kr:'배불러요',     rom:'bae-bul-leo-yo',     fr:"Je suis rassasié(e)",        audio:'배불러요',     lec:'h11'},
   {id:'chukhahaeyo',kr:'축하해요',     rom:'chu-ka-hae-yo',      fr:'Félicitations !',            audio:'축하해요',     lec:'h11'},
   {id:'haengbok',   kr:'행복하세요',   rom:'haeng-bok-ha-se-yo', fr:'Soyez heureux(se) !',        audio:'행복하세요',   lec:'h11'},
   {id:'orae',       kr:'오래오래',     rom:'o-rae-o-rae',        fr:'Longtemps / Durablement',    audio:'오래오래',     lec:'h11'},
-  {id:'deo',        kr:'더 먹어요',    rom:'deo-meo-geo-yo',     fr:'Mangez encore / Reprenez !', audio:'더 먹어요',    lec:'h11'},
   {id:'ttoolgeyyo', kr:'또 올게요',    rom:'tto-ol-ge-yo',       fr:'Je reviendrai !',            audio:'또 올게요',    lec:'h11'},
 ];
 
-// ── localStorage helpers ──
+// ════════════════════════════════════════════════
+//   HELPERS
+// ════════════════════════════════════════════════
 function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
 function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
 
 function getAvailableWords() {
   const done = {};
   for(let i=1;i<=10;i++) done[i] = ls('ks_l'+i)==='done';
-  const h2Done = ls('ks_h2') === 'done';
-  const h3Done = ls('ks_h3') === 'done';
-  const h4Done = ls('ks_h4') === 'done';
-  const h5Done = ls('ks_h5') === 'done';
-  const h6Done = ls('ks_h6') === 'done';
-  const h7Done = ls('ks_h7') === 'done';
-  const h8Done = ls('ks_h8') === 'done';
-  const h9Done = ls('ks_h9') === 'done';
-  const h10Done = ls('ks_h10') === 'done';
-  const h11Done = ls('ks_h11') === 'done';
+  const hDone = {};
+  for(let i=2;i<=11;i++) hDone['h'+i] = ls('ks_h'+i)==='done';
   return WORDS.filter(w => {
-    if(w.lec === 'h7') return h7Done;
-    if(w.lec === 'h8') return h8Done;
-    if(w.lec === 'h9') return h9Done;
-    if(w.lec === 'h10') return h10Done;
-    if(w.lec === 'h11') return h11Done;
-    if(w.lec === 'h6') return h6Done;
-    if(w.lec === 'h5') return h5Done;
-    if(w.lec === 'h4') return h4Done;
-    if(w.lec === 'h3') return h3Done;
-    if(w.lec === 'h2') return h2Done;
+    if(typeof w.lec === 'string' && w.lec.startsWith('h')) return hDone[w.lec];
     return done[w.lec];
   });
 }
 
-// ── State ──
+// ════════════════════════════════════════════════
+//   SRS ALGORITHM (SM-2)
+// ════════════════════════════════════════════════
+const SRS_PREFIX = 'ks_srs2_';
+const TODAY = new Date().toISOString().slice(0,10);
+
+// Récupère les données SRS d'un mot
+function getSRS(id) {
+  try { return JSON.parse(localStorage.getItem(SRS_PREFIX + id) || 'null'); } catch(e) { return null; }
+}
+
+// Sauvegarde les données SRS d'un mot
+function setSRS(id, data) {
+  try { localStorage.setItem(SRS_PREFIX + id, JSON.stringify(data)); } catch(e) {}
+}
+
+/**
+ * Algorithme SM-2 modifié
+ * quality: 4 = réponse correcte, 1 = mauvaise réponse
+ * reps: nombre de répétitions réussies d'affilée
+ * ef: easiness factor (facteur de facilité), min 1.3
+ * interval: intervalle actuel en jours
+ * Retourne: { reps, ef, interval, due }
+ */
+function sm2(quality, reps, ef, interval) {
+  if (quality >= 3) {
+    if (reps === 0) interval = 1;
+    else if (reps === 1) interval = 6;
+    else interval = Math.round(interval * ef);
+    reps++;
+    ef = ef + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+    if (ef < 1.3) ef = 1.3;
+  } else {
+    // Mauvaise réponse → reset
+    reps = 0;
+    interval = 1;
+    // Légère pénalité sur le facteur de facilité
+    ef = Math.max(1.3, ef - 0.2);
+  }
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + interval);
+  return {
+    reps,
+    ef: parseFloat(ef.toFixed(2)),
+    interval,
+    due: dueDate.toISOString().slice(0,10),
+    lastReview: TODAY
+  };
+}
+
+// Formate l'intervalle en texte lisible
+function fmtInterval(days) {
+  if (days <= 0) return 'maintenant';
+  if (days === 1) return 'demain';
+  if (days < 7) return `dans ${days} jours`;
+  if (days === 7) return 'dans 1 semaine';
+  if (days < 14) return `dans ${days} jours`;
+  if (days < 30) return `dans ${Math.round(days/7)} semaines`;
+  return `dans ${Math.round(days/30)} mois`;
+}
+
+// Mots dus aujourd'hui (déjà vus + échéance passée ou aujourd'hui)
+function getDueWords(avail) {
+  return avail.filter(w => {
+    const s = getSRS(w.id);
+    return s && s.due <= TODAY;
+  });
+}
+
+// Nouveaux mots (jamais vus en SRS)
+function getNewWords(avail) {
+  return avail.filter(w => !getSRS(w.id));
+}
+
+// Nombre de mots maîtrisés (intervalle ≥ 21 jours)
+function getMasteredCount(avail) {
+  return avail.filter(w => {
+    const s = getSRS(w.id);
+    return s && s.interval >= 21;
+  }).length;
+}
+
+// Compter les révisions par jour (7 derniers jours)
+function getWeekActivity() {
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0,10);
+    const count = parseInt(ls('ks_srs_day_' + key) || '0');
+    days.push({ date: key, count, label: ['Di','Lu','Ma','Me','Je','Ve','Sa'][d.getDay()] });
+  }
+  return days;
+}
+
+// Incrémente le compteur de révisions du jour
+function incrementDayCount() {
+  const key = 'ks_srs_day_' + TODAY;
+  lsSet(key, String(parseInt(ls(key)||'0') + 1));
+}
+
+// ════════════════════════════════════════════════
+//   ÉTAT GLOBAL
+// ════════════════════════════════════════════════
+let available = [];
+let currentTab = 'srs'; // 'srs' | 'quiz'
+let isSRSMode = false;
 let mode = 'ko-fr';
 let qCount = 5;
 let questions = [];
@@ -784,32 +758,180 @@ let streak = 0;
 let bestStreak = 0;
 let answered = false;
 let earnedXP = 0;
+// Données de session SRS pour le breakdown
+let srsSessionResults = [];
 
-// ── Init ──
-const available = getAvailableWords();
-const lockMsg = document.getElementById('lockMsg');
-const modeSection = document.getElementById('modeSection');
-const countSection = document.getElementById('countSection');
-const infoBox = document.getElementById('infoBox');
-const startBtn = document.getElementById('startBtn');
-const countAll = document.getElementById('countAll');
+// ════════════════════════════════════════════════
+//   INIT
+// ════════════════════════════════════════════════
+function init() {
+  available = getAvailableWords();
+  const lockMsg = document.getElementById('lockMsg');
 
-if(available.length < 2) {
-  lockMsg.innerHTML = `<div class="lock-msg">
-    <h3> Aucun mot disponible</h3>
-    <p>Termine au moins une leçon pour débloquer la révision !</p>
-    <a href="lecon.html" class="lock-link">Commencer la leçon 1 →</a>
-  </div>`;
-} else {
-  modeSection.style.display = '';
-  countSection.style.display = '';
-  infoBox.style.display = '';
-  startBtn.style.display = '';
+  if (available.length < 2) {
+    lockMsg.innerHTML = `<div class="lock-msg">
+      <h3>Aucun mot disponible</h3>
+      <p>Termine au moins une leçon pour débloquer la révision !</p>
+      <a href="lecon.html" class="lock-link">Commencer la leçon 1 →</a>
+    </div>`;
+    return;
+  }
+
+  document.getElementById('tabSw').style.display = '';
   document.getElementById('infoCount').textContent = available.length;
-  countAll.textContent = 'Tous (' + available.length + ')';
+  document.getElementById('countAll').textContent = 'Tous (' + available.length + ')';
   updateStartBtn();
+
+  // Afficher le bon tab par défaut
+  const due = getDueWords(available);
+  if (due.length === 0 && getNewWords(available).length === 0) {
+    currentTab = 'quiz';
+  } else {
+    currentTab = 'srs';
+  }
+
+  switchTab(currentTab);
+  updateHeroBadge();
 }
 
+// ════════════════════════════════════════════════
+//   TAB SWITCHER
+// ════════════════════════════════════════════════
+function switchTab(tab) {
+  currentTab = tab;
+  const srsBtn = document.getElementById('tabSrsBtn');
+  const quizBtn = document.getElementById('tabQuizBtn');
+  const srsPanel = document.getElementById('srsPanel');
+  const quizPanel = document.getElementById('quizPanel');
+
+  if (tab === 'srs') {
+    srsBtn.classList.add('act');
+    quizBtn.classList.remove('act');
+    srsPanel.style.display = '';
+    quizPanel.style.display = 'none';
+    renderSRSPanel();
+  } else {
+    quizBtn.classList.add('act');
+    srsBtn.classList.remove('act');
+    quizPanel.style.display = '';
+    srsPanel.style.display = 'none';
+  }
+}
+
+// ════════════════════════════════════════════════
+//   SRS PANEL RENDERING
+// ════════════════════════════════════════════════
+function renderSRSPanel() {
+  const due = getDueWords(available);
+  const newWords = getNewWords(available);
+  const mastered = getMasteredCount(available);
+
+  document.getElementById('statDue').textContent = due.length;
+  document.getElementById('statNew').textContent = Math.min(newWords.length, 20);
+  document.getElementById('statMastered').textContent = mastered;
+
+  // Indicateur de point rouge sur le tab SRS
+  const srsBtn = document.getElementById('tabSrsBtn');
+  if (due.length > 0 || newWords.length > 0) {
+    srsBtn.classList.add('has-due');
+  } else {
+    srsBtn.classList.remove('has-due');
+  }
+
+  // Session info
+  const sessionSize = Math.min(due.length + Math.min(newWords.length, 10), 20);
+  const infoEl = document.getElementById('srsSessionInfo');
+  if (sessionSize === 0) {
+    infoEl.style.display = 'none';
+    document.getElementById('srsEmptyMsg').style.display = '';
+    document.getElementById('srsStartBtn').disabled = true;
+    document.getElementById('srsStartBtn').textContent = 'Tout révisé aujourd\'hui <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
+  } else {
+    infoEl.style.display = '';
+    document.getElementById('srsEmptyMsg').style.display = 'none';
+    document.getElementById('srsStartBtn').disabled = false;
+    document.getElementById('srsStartBtn').textContent = `Commencer — ${sessionSize} mots →`;
+    let infoText = '';
+    if (due.length > 0) infoText += `<strong>${due.length}</strong> mot${due.length>1?'s':''} à revoir`;
+    if (due.length > 0 && Math.min(newWords.length,10) > 0) infoText += ' + ';
+    const nNew = Math.min(newWords.length, 10);
+    if (nNew > 0) infoText += `<strong>${nNew}</strong> nouveau${nNew>1?'x':''}`;
+    infoText += ` = <strong>${sessionSize} questions</strong> aujourd'hui`;
+    infoEl.innerHTML = infoText;
+  }
+
+  // Progression globale du deck
+  const totalInDeck = available.filter(w => getSRS(w.id)).length;
+  const pct = available.length > 0 ? Math.round(totalInDeck / available.length * 100) : 0;
+  document.getElementById('srsDeckProg').style.width = pct + '%';
+  document.getElementById('srsDeckProgLabel').textContent = `${totalInDeck} / ${available.length} mots dans le deck (${pct}%)`;
+
+  // Graphique semaine
+  renderWeekChart();
+}
+
+function renderWeekChart() {
+  const activity = getWeekActivity();
+  const maxCount = Math.max(...activity.map(d => d.count), 1);
+  let html = `<div class="srs-week-title">Activité des 7 derniers jours</div><div class="srs-week-bars">`;
+  activity.forEach(day => {
+    const isToday = day.date === TODAY;
+    const heightPct = Math.round((day.count / maxCount) * 100);
+    const barClass = day.count === 0 ? 'zero' : (isToday ? 'today' : '');
+    html += `<div class="srs-day-col">
+      <div class="srs-day-bar-wrap">
+        <div class="srs-day-bar ${barClass}" style="height:${Math.max(heightPct,4)}%;" title="${day.count} révision${day.count>1?'s':''}"></div>
+      </div>
+      <div class="srs-day-lbl ${isToday?'today':''}">${day.label}</div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('srsWeekChart').innerHTML = html;
+}
+
+function updateHeroBadge() {
+  const due = getDueWords(available);
+  const badgeEl = document.getElementById('heroDueBadge');
+  if (available.length < 2) { badgeEl.style.display = 'none'; return; }
+  badgeEl.style.display = 'inline-flex';
+  if (due.length === 0) {
+    badgeEl.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Tout révisé aujourd\'hui';
+    badgeEl.className = 'hero-due-badge zero';
+  } else {
+    badgeEl.textContent = `${due.length} mot${due.length>1?'s':''} à revoir aujourd'hui`;
+    badgeEl.className = 'hero-due-badge';
+  }
+}
+
+// ════════════════════════════════════════════════
+//   START SRS SESSION
+// ════════════════════════════════════════════════
+function startSRS() {
+  const due = getDueWords(available);
+  const newWords = shuffle([...getNewWords(available)]).slice(0, 10);
+
+  // Priorité : mots dus d'abord, puis nouveaux
+  const pool = shuffle([...due, ...newWords]).slice(0, 20);
+  if (pool.length === 0) return;
+
+  isSRSMode = true;
+  srsSessionResults = [];
+  questions = pool;
+  qIndex = 0; score = 0; streak = 0; bestStreak = 0; earnedXP = 0; answered = false;
+
+  // Badge mode
+  const badge = document.getElementById('qzModeBadge');
+  badge.textContent = 'SRS';
+  badge.className = 'qz-mode-badge srs';
+
+  document.getElementById('screenStart').style.display = 'none';
+  document.getElementById('screenQuiz').style.display = '';
+  renderQuestion();
+}
+
+// ════════════════════════════════════════════════
+//   QUIZ LIBRE
+// ════════════════════════════════════════════════
 function selectMode(m) {
   mode = m;
   document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('sel'));
@@ -825,56 +947,73 @@ function selectCount(n) {
 
 function updateStartBtn() {
   const n = qCount === 'all' ? available.length : qCount;
+  const startBtn = document.getElementById('startBtn');
   startBtn.disabled = available.length < 2;
   startBtn.textContent = 'Commencer ' + Math.min(n, available.length) + ' questions →';
-}
-
-// ── Build quiz ──
-function shuffle(a) {
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
 }
 
 function startQuiz() {
   const pool = shuffle([...available]);
   const n = qCount === 'all' ? pool.length : Math.min(qCount, pool.length);
+
+  isSRSMode = false;
+  srsSessionResults = [];
   questions = pool.slice(0, n);
   qIndex = 0; score = 0; streak = 0; bestStreak = 0; earnedXP = 0; answered = false;
+
+  // Badge mode
+  const badge = document.getElementById('qzModeBadge');
+  badge.textContent = 'Quiz';
+  badge.className = 'qz-mode-badge quiz';
+
   document.getElementById('screenStart').style.display = 'none';
   document.getElementById('screenQuiz').style.display = '';
   renderQuestion();
 }
 
-// ── Render question ──
+// ════════════════════════════════════════════════
+//   RENDER QUESTION
+// ════════════════════════════════════════════════
+function shuffle(a) {
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
 function renderQuestion() {
   answered = false;
   const q = questions[qIndex];
   const total = questions.length;
 
-  // Progress
   document.getElementById('qzProgFill').style.width = (qIndex / total * 100) + '%';
   document.getElementById('qzCount').textContent = (qIndex + 1) + ' / ' + total;
-  updateStreak();
 
-  // Card
   const card = document.getElementById('qzCard');
   card.classList.remove('correct','wrong');
 
-  if(mode === 'ko-fr') {
+  const nextTag = document.getElementById('srsNextTag');
+  nextTag.style.display = 'none';
+
+  const quizMode = isSRSMode ? 'ko-fr' : mode;
+
+  if (quizMode === 'ko-fr') {
     document.getElementById('qzLabel').textContent = 'Que signifie ce mot ?';
-    document.getElementById('qzMain').textContent = q.kr;
+    const mainEl = document.getElementById('qzMain');
+    mainEl.style.fontFamily = "'Playfair Display',serif";
+    mainEl.style.fontSize = '52px';
+    mainEl.textContent = q.kr;
     document.getElementById('qzRoman').textContent = q.rom;
     document.getElementById('qzAudioBtn').style.display = '';
   } else {
     document.getElementById('qzLabel').textContent = 'Comment dit-on en coréen ?';
-    document.getElementById('qzMain').style.fontFamily = "'Inter',sans-serif";
-    document.getElementById('qzMain').style.fontSize = '28px';
-    document.getElementById('qzMain').textContent = q.fr;
+    const mainEl = document.getElementById('qzMain');
+    mainEl.style.fontFamily = "'Inter',sans-serif";
+    mainEl.style.fontSize = '28px';
+    mainEl.textContent = q.fr;
     document.getElementById('qzRoman').textContent = '';
     document.getElementById('qzAudioBtn').style.display = 'none';
   }
 
-  // Choices
+  // 4 choix : 1 correct + 3 faux
   const wrong = shuffle(available.filter(w => w.id !== q.id)).slice(0, 3);
   const choices = shuffle([q, ...wrong]);
 
@@ -883,7 +1022,7 @@ function renderQuestion() {
   choices.forEach(c => {
     const btn = document.createElement('button');
     btn.className = 'ans-btn';
-    if(mode === 'ko-fr') {
+    if (quizMode === 'ko-fr') {
       btn.textContent = c.fr;
     } else {
       btn.innerHTML = '<span class="ans-kr">'+c.kr+'</span>'+c.rom;
@@ -896,12 +1035,134 @@ function renderQuestion() {
   document.getElementById('qzFeedback').className = 'qz-feedback';
   document.getElementById('qzNextBtn').style.display = 'none';
 
-  // Auto-play audio for ko-fr
-  if(mode === 'ko-fr') setTimeout(() => playAudio(q.audio), 300);
+  const quizModeActual = isSRSMode ? 'ko-fr' : mode;
+  if (quizModeActual === 'ko-fr') setTimeout(() => playAudio(q.audio), 300);
 }
 
+// ════════════════════════════════════════════════
+//   CHECK ANSWER
+// ════════════════════════════════════════════════
+function checkAnswer(choice, correct, btn) {
+  if (answered) return;
+  answered = true;
+  const isRight = choice.id === correct.id;
 
-// ── Audio feedback ──
+  const card = document.getElementById('qzCard');
+  const grid = document.getElementById('ansGrid');
+  const feedback = document.getElementById('qzFeedback');
+
+  grid.querySelectorAll('.ans-btn').forEach(b => b.disabled = true);
+
+  if (isRight) {
+    btn.classList.add('correct');
+    ksBeep('ok');
+    card.classList.add('correct');
+    feedback.textContent = 'Correct ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';
+    feedback.className = 'qz-feedback ok';
+    score++;
+    streak++;
+    if (streak > bestStreak) bestStreak = streak;
+    earnedXP += isSRSMode ? 10 : 5;
+
+    // Mise à jour mastery vocabulaire (ancien système)
+    try {
+      const vocKey = 'ks_voc_' + correct.id;
+      const cur = parseInt(localStorage.getItem(vocKey)||'0');
+      if (cur < 3) localStorage.setItem(vocKey, String(cur + 1));
+    } catch(e) {}
+
+    setTimeout(() => playAudio(correct.audio), 100);
+  } else {
+    btn.classList.add('wrong');
+    ksBeep('ko');
+    card.classList.add('wrong');
+    streak = 0;
+    const quizMode = isSRSMode ? 'ko-fr' : mode;
+    feedback.textContent = 'La bonne réponse : ' + (quizMode==='ko-fr' ? correct.fr : correct.kr + ' (' + correct.rom + ')');
+    feedback.className = 'qz-feedback ko';
+    // Mettre en vert la bonne réponse
+    grid.querySelectorAll('.ans-btn').forEach(b => {
+      const bText = b.textContent.trim();
+      const cText = quizMode==='ko-fr' ? correct.fr : correct.kr;
+      if (bText.includes(cText) || bText === cText) b.classList.add('correct');
+    });
+    setTimeout(() => playAudio(correct.audio), 200);
+  }
+
+  // ── Mise à jour SRS si mode SRS ──
+  if (isSRSMode) {
+    const quality = isRight ? 4 : 1;
+    const prevData = getSRS(correct.id) || { reps: 0, ef: 2.5, interval: 0 };
+    const newData = sm2(quality, prevData.reps, prevData.ef, prevData.interval);
+    setSRS(correct.id, newData);
+    incrementDayCount();
+
+    // Enregistrer pour le breakdown
+    srsSessionResults.push({
+      word: correct,
+      correct: isRight,
+      interval: newData.interval,
+      due: newData.due,
+      mastered: newData.interval >= 21
+    });
+
+    // Afficher le tag "prochaine révision"
+    const nextTag = document.getElementById('srsNextTag');
+    if (isRight) {
+      nextTag.textContent = `Prochaine révision : ${fmtInterval(newData.interval)}`;
+      nextTag.className = 'srs-next-tag good';
+    } else {
+      nextTag.textContent = `À revoir : demain`;
+      nextTag.className = 'srs-next-tag again';
+    }
+    nextTag.style.display = 'inline-block';
+  }
+
+  // Auto-advance
+  if (qIndex < questions.length - 1) {
+    document.getElementById('qzNextBtn').style.display = '';
+    setTimeout(() => { if (answered) nextQuestion(); }, 2000);
+  } else {
+    setTimeout(() => showResult(), 2000);
+  }
+}
+
+function nextQuestion() {
+  qIndex++;
+  if (qIndex >= questions.length) { showResult(); return; }
+  renderQuestion();
+}
+
+// ════════════════════════════════════════════════
+//   AUDIO
+// ════════════════════════════════════════════════
+let _curAudio = null;
+function _stopAll(){ if(_curAudio){ _curAudio.pause(); _curAudio=null; } if(window.speechSynthesis) window.speechSynthesis.cancel(); }
+
+function playAudio(text) {
+  _stopAll();
+  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ko&client=tw-ob`;
+  const a = new Audio(url);
+  _curAudio = a;
+  a.onended = () => { _curAudio=null; };
+  a.onerror = () => { _curAudio=null; _wsSpeak(text); };
+  a.play().catch(() => { _curAudio=null; _wsSpeak(text); });
+}
+function playQ() { const q=questions[qIndex]; if(q) playAudio(q.audio); }
+
+function _wsSpeak(text) {
+  if(!window.speechSynthesis) return;
+  const voices = window.speechSynthesis.getVoices();
+  const kr = voices.find(v => v.lang.startsWith('ko'));
+  if(!kr) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='ko-KR'; u.rate=0.8; u.voice=kr;
+  window.speechSynthesis.speak(u);
+}
+
+// ════════════════════════════════════════════════
+//   AUDIO FEEDBACK
+// ════════════════════════════════════════════════
 function ksBeep(type) {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -929,113 +1190,9 @@ function ksBeep(type) {
   } catch(e) {}
 }
 
-function checkAnswer(choice, correct, btn) {
-  if(answered) return;
-  answered = true;
-  const isRight = choice.id === correct.id;
-
-  // Visual feedback on card
-  const card = document.getElementById('qzCard');
-  const grid = document.getElementById('ansGrid');
-  const feedback = document.getElementById('qzFeedback');
-
-  // Disable all buttons
-  grid.querySelectorAll('.ans-btn').forEach(b => b.disabled = true);
-
-  if(isRight) {
-    btn.classList.add('correct');
-    ksBeep('ok');
-    card.classList.add('correct');
-    feedback.textContent = 'Correct ! ✓';
-    feedback.className = 'qz-feedback ok';
-    score++;
-    streak++;
-    if(streak > bestStreak) bestStreak = streak;
-    earnedXP += 5;
-    // Update vocab mastery for this word
-    try {
-      const vocKey = 'ks_voc_' + correct.id;
-      const cur = parseInt(localStorage.getItem(vocKey)||'0');
-      if(cur < 3) localStorage.setItem(vocKey, String(cur + 1));
-    } catch(e) {}
-    // Play audio on correct
-    setTimeout(() => playAudio(correct.audio), 100);
-  } else {
-    btn.classList.add('wrong');
-    ksBeep('ko');
-    card.classList.add('wrong');
-    streak = 0;
-    feedback.textContent = 'La bonne réponse : ' + (mode==='ko-fr' ? correct.fr : correct.kr + ' (' + correct.rom + ')');
-    feedback.className = 'qz-feedback ko';
-    // Highlight correct answer
-    grid.querySelectorAll('.ans-btn').forEach(b => {
-      const bText = b.textContent.trim();
-      const cText = mode==='ko-fr' ? correct.fr : correct.kr;
-      if(bText.includes(cText) || bText === cText) b.classList.add('correct');
-    });
-    setTimeout(() => playAudio(correct.audio), 200);
-  }
-
-  updateStreak();
-
-  // Auto-advance or show next button
-  if(qIndex < questions.length - 1) {
-    const nextBtn = document.getElementById('qzNextBtn');
-    nextBtn.style.display = '';
-    setTimeout(() => {
-      if(answered) nextQuestion();
-    }, 1800);
-  } else {
-    setTimeout(() => showResult(), 1800);
-  }
-}
-
-function nextQuestion() {
-  qIndex++;
-  if(qIndex >= questions.length) { showResult(); return; }
-  renderQuestion();
-}
-
-function updateStreak() {
-  const el = document.getElementById('qzStreak');
-  if(streak >= 2) {
-    el.textContent = streak + ' j.';
-    el.className = 'qz-streak on';
-  } else {
-    el.textContent = streak + ' j.';
-    el.className = 'qz-streak';
-  }
-}
-
-// ── Audio ──
-let _curAudio = null;
-function _stopAll(){ if(_curAudio){ _curAudio.pause(); _curAudio=null; } if(window.speechSynthesis) window.speechSynthesis.cancel(); }
-
-function playAudio(text) {
-  _stopAll();
-  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ko&client=tw-ob`;
-  const a = new Audio(url);
-  _curAudio = a;
-  a.onended = () => { _curAudio=null; };
-  a.onerror = () => { _curAudio=null; _wsSpeak(text); };
-  a.play().catch(() => { _curAudio=null; _wsSpeak(text); });
-}
-function playQ() { const q=questions[qIndex]; if(q) playAudio(q.audio); }
-
-function _wsSpeak(text) {
-  if(!window.speechSynthesis) return;
-  const voices = window.speechSynthesis.getVoices();
-  const kr = voices.find(v => v.lang.startsWith('ko'));
-  if(!kr) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang='ko-KR'; u.rate=0.8; u.voice=kr;
-  window.speechSynthesis.speak(u);
-}
-
-// ── Results ──
-// ─────────────────────────────────────────────
-// 🎉 CONFETTI
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════════
+//   RÉSULTATS
+// ════════════════════════════════════════════════
 function launchConfetti(duration) {
   try {
     const cvs = document.createElement('canvas');
@@ -1076,58 +1233,156 @@ function showResult() {
 
   const total = questions.length;
   const pct = Math.round(score / total * 100);
-  // 🎉 Confetti on good score
-  try { if(pct >= 70) setTimeout(() => launchConfetti(pct >= 90 ? 3000 : 2000), 400); } catch(e) {}
+  if(pct >= 70) setTimeout(() => launchConfetti(pct >= 90 ? 3000 : 2000), 400);
 
-  // Emoji & title based on score
-  let emoji = '—', title = 'Pas mal…';
-  if(pct >= 90) { emoji='✦'; title='Excellent !'; }
-  else if(pct >= 70) { emoji='★'; title='Très bien !'; }
+  let emoji = '—', title = 'Continue !';
+  if(pct >= 90) { emoji='·'; title='Excellent !'; }
+  else if(pct >= 70) { emoji='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'; title='Très bien !'; }
   else if(pct >= 50) { emoji='↑'; title='Bien joué !'; }
 
   document.getElementById('resEmoji').textContent = emoji;
   document.getElementById('resTitle').textContent = title;
-  document.getElementById('resSub').textContent = pct+'% de bonnes réponses · Meilleure série: '+bestStreak;
+  document.getElementById('resSub').textContent = pct+'% · Meilleure série : '+bestStreak;
   document.getElementById('resScore').textContent = score;
   document.getElementById('resTotal').textContent = total;
-  document.querySelector('#screenResult .res-stat:nth-child(3) .res-stat-n').textContent = pct+'%';
+  document.getElementById('resPct').textContent = pct+'%';
   document.getElementById('resXp').textContent = earnedXP;
 
-  // Save XP to localStorage
+  // XP & streak
   const prevXP = parseInt(ls('ks_xp')||'0');
   lsSet('ks_xp', String(prevXP + earnedXP));
-  // Update daily goal tracker
+  // Sauvegarder XP du jour (pour le graphique profil.html)
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const dayKey = 'ks_xp_day_' + today;
+    lsSet(dayKey, String(parseInt(ls(dayKey)||'0') + earnedXP));
+  } catch(e) {}
   try{
     const today=new Date().toISOString().slice(0,10);
     const daily=JSON.parse(ls('ks_daily')||'{}');
     if(daily.date!==today){lsSet('ks_daily',JSON.stringify({date:today,start:prevXP}));}
   }catch(e){}
-  // Streak
   try{const t=new Date().toISOString().slice(0,10),l=ls('ks_lastplay'),s=parseInt(ls('ks_streak')||'0');if(l!==t){lsSet('ks_streak',String(l&&(new Date(t)-new Date(l))/86400000===1?s+1:1));lsSet('ks_lastplay',t);}}catch(e){}
+
+  // ── SRS Breakdown ──
+  const breakdownEl = document.getElementById('srsBreakdown');
+  const listEl = document.getElementById('srsBreakdownList');
+  if (isSRSMode && srsSessionResults.length > 0) {
+    breakdownEl.style.display = '';
+    let html = '';
+    srsSessionResults.forEach(r => {
+      const badgeClass = r.correct ? (r.mastered ? 'master' : 'ok') : 'ko';
+      const badgeText = r.correct ? (r.mastered ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Maîtrisé' : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct') : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Revoir';
+      html += `<div class="srs-word-row">
+        <div class="srs-word-left">
+          <span class="srs-word-kr">${r.word.kr}</span>
+          <span class="srs-word-fr">${r.word.fr}</span>
+        </div>
+        <div class="srs-word-right">
+          <span class="srs-badge ${badgeClass}">${badgeText}</span>
+          <span class="srs-interval-txt">${fmtInterval(r.interval)}</span>
+        </div>
+      </div>`;
+    });
+    listEl.innerHTML = html;
+  } else {
+    breakdownEl.style.display = 'none';
+  }
 }
 
 function restartQuiz() {
   document.getElementById('screenResult').style.display = 'none';
   document.getElementById('screenStart').style.display = '';
+  // Rafraîchir les stats SRS
+  available = getAvailableWords();
+  switchTab(currentTab);
+  updateHeroBadge();
 }
 
-// ── Raccourcis clavier révision ──
+// ════════════════════════════════════════════════
+//   CLAVIER
+// ════════════════════════════════════════════════
 document.addEventListener('keydown', function(e) {
-  if(e.key >= '1' && e.key <= '4') {
+  if (e.key >= '1' && e.key <= '4') {
     const btns = document.querySelectorAll('.ans-btn:not([disabled])');
     const idx = parseInt(e.key) - 1;
-    if(btns[idx]) btns[idx].click();
+    if (btns[idx]) btns[idx].click();
   }
-  if(e.key === 'Enter') {
+  if (e.key === 'Enter') {
     const nxt = document.getElementById('qzNextBtn');
-    if(nxt && nxt.style.display !== 'none') nxt.click();
+    if (nxt && nxt.style.display !== 'none') nxt.click();
   }
 });
+
+// ════════════════════════════════════════════════
+//   DARK MODE
+// ════════════════════════════════════════════════
+function toggleDarkGlobal() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    lsSet('ks_theme', 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    lsSet('ks_theme', 'dark');
+  }
+  updateDarkFab();
+}
+function updateDarkFab() {
+  const fab = document.getElementById('darkFab');
+  if (!fab) return;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  fab.innerHTML = isDark
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  fab.style.color = isDark ? '#C9A96E' : '#0F1B2D';
+}
+
+// ════════════════════════════════════════════════
+//   START
+// ════════════════════════════════════════════════
+init();
+updateDarkFab();
 </script>
 
-  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
 
 <!-- DARK MODE FAB -->
-<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:var(--pure);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;opacity:.75"></button>
+<script>
+</script>
+</div><!-- .page-enter -->
+
+</div><!-- .main -->
+</div><!-- .shell -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="cours.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <span>Cours</span>
+  </a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni">
+    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span>Défi</span><span class="bni-dot"></span>
+  </a>
+  <a href="classement.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Classement</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
 </body>
 </html>

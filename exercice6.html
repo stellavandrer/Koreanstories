@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Choisir la bonne particule — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1rem 0 .3rem;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem;margin:.7rem 0}
+    .ko{color:#16A34A;font-weight:700}
+    .part-chip{display:inline-block;background:rgba(22,163,74,.1);color:#16A34A;border-radius:8px;padding:.15rem .55rem;font-size:.88rem;font-weight:700;margin:.15rem}
+    .q-block{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.7rem 0}
+    .q-sent{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.6rem;line-height:1.5}
+    .blank{display:inline-block;min-width:60px;border-bottom:2.5px solid #16A34A;text-align:center;font-weight:700;color:#16A34A;padding:0 4px;cursor:pointer}
+    .choices{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0}
+    .choice{border:1.5px solid var(--bd);border-radius:8px;padding:.35rem .7rem;cursor:pointer;font-size:.9rem;font-weight:600;background:var(--bg);color:var(--tx);transition:.15s}
+    .choice:hover{border-color:#16A34A;color:#16A34A}
+    .choice.sel{border-color:#16A34A;background:rgba(22,163,74,.12);color:#16A34A}
+    .choice.ok{border-color:#16A34A;background:rgba(22,163,74,.15);color:#16A34A}
+    .choice.ko{border-color:#ef4444;background:rgba(239,68,68,.1);color:#ef4444}
+    .fb{font-size:.85rem;margin-top:.4rem;min-height:1.2rem;font-weight:600}
+    .tip{background:rgba(22,163,74,.07);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.3rem 0}
+    .prog-bar{height:6px;background:var(--bd);border-radius:3px;margin:.5rem 0}
+    .prog-fill{height:100%;background:#16A34A;border-radius:3px;transition:.4s}
+    .score-area{text-align:center;padding:1.2rem;background:var(--surf);border-radius:14px;border:1px solid var(--bd);display:none}
+    .score-num{font-size:2.5rem;font-weight:900;color:#16A34A}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Choisir la bonne particule</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Choisir la bonne particule</h2>
+      <span class="pill">15 questions</span> <span class="xp-badge">+10 XP</span>
+      <p style="color:var(--tx-muted);font-size:.88rem;margin:.4rem 0 .8rem">Couvre les 6 particules essentielles — cliquez sur la bonne réponse !</p>
+
+      <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0">
+        <div style="font-size:.82rem;color:var(--tx-muted)">Progression</div>
+        <div class="prog-bar" style="flex:1"><div class="prog-fill" id="pgFill" style="width:0%"></div></div>
+        <div style="font-size:.82rem;font-weight:700;color:#16A34A"><span id="pgNum">0</span>/15</div>
+      </div>
+
+      <div class="card" style="margin:.5rem 0;padding:.7rem 1rem">
+        <div style="display:flex;flex-wrap:wrap;gap:.3rem;font-size:.82rem">
+          <span class="part-chip">이/가</span><span style="font-size:.78rem;color:var(--tx-muted)">sujet</span>
+          <span style="color:var(--bd);margin:0 .2rem">·</span>
+          <span class="part-chip">은/는</span><span style="font-size:.78rem;color:var(--tx-muted)">thème</span>
+          <span style="color:var(--bd);margin:0 .2rem">·</span>
+          <span class="part-chip">을/를</span><span style="font-size:.78rem;color:var(--tx-muted)">objet</span>
+          <span style="color:var(--bd);margin:0 .2rem">·</span>
+          <span class="part-chip">에</span><span style="font-size:.78rem;color:var(--tx-muted)">lieu/destination</span>
+          <span style="color:var(--bd);margin:0 .2rem">·</span>
+          <span class="part-chip">에서</span><span style="font-size:.78rem;color:var(--tx-muted)">lieu d'action</span>
+          <span style="color:var(--bd);margin:0 .2rem">·</span>
+          <span class="part-chip">로/으로</span><span style="font-size:.78rem;color:var(--tx-muted)">direction/moyen</span>
+        </div>
+      </div>
+
+      <div id="questions"></div>
+
+      <div class="score-area" id="scoreArea">
+        <div class="score-num" id="scoreNum"></div>
+        <div style="font-size:1rem;color:var(--tx-muted);margin:.3rem 0">bonnes réponses sur 15</div>
+        <div id="scoreMsg" style="font-size:.95rem;font-weight:600;margin:.5rem 0"></div>
+        <button class="btn-done" id="doneBtn" onclick="completeLesson()">Récupérer mes XP +10 XP</button>
+      </div>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(10);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_a33');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+
+  const QS = [
+    {sent:'저___ 학생이에요.', blank:'___', ans:'는', choices:['가','는','를','에'], tip:'저 = "je" (thème connu) → 은/는'},
+    {sent:'사과___ 먹어요.', blank:'___', ans:'를', choices:['이','를','에','는'], tip:'사과 = objet direct de 먹다 → 을/를'},
+    {sent:'학교___ 가요.', blank:'___', ans:'에', choices:['에서','에','를','가'], tip:'가다 (aller) + destination → 에'},
+    {sent:'도서관___ 공부해요.', blank:'___', ans:'에서', choices:['에','에서','를','이'], tip:'공부하다 = action → lieu d'action = 에서'},
+    {sent:'버스___ 학교에 가요.', blank:'___', ans:'로', choices:['에','가','로','를'], tip:'버스 = moyen de transport → 로/으로'},
+    {sent:'고양이___ 귀여워요.', blank:'___', ans:'가', choices:['는','가','를','에서'], tip:'고양이 = sujet, info nouvelle → 이/가'},
+    {sent:'저는 물___ 마셔요.', blank:'___', ans:'을', choices:['이','을','에','는'], tip:'물 (con. finale ㄹ) + objet → 을'},
+    {sent:'오빠___ 키가 커요.', blank:'___', ans:'는', choices:['가','는','를','에'], tip:'오빠 = thème de la phrase → 은/는'},
+    {sent:'집___ 있어요.', blank:'___', ans:'에', choices:['에서','에','를','가'], tip:'있다/없다 + lieu statique → 에'},
+    {sent:'친구___ 같이 밥을 먹어요.', blank:'___', ans:'랑', choices:['를','랑','는','에서'], tip:'친구 = avec qui → 랑/이랑 (avec)'},
+    {sent:'한국어___ 재미있어요.', blank:'___', ans:'가', choices:['는','가','를','에'], tip:'한국어 = sujet de l'émotion → 이/가'},
+    {sent:'저는 서울___ 살아요.', blank:'___', ans:'에', choices:['에서','에','를','로'], tip:'살다 (habiter) + lieu statique → 에'},
+    {sent:'시장___ 과일을 사요.', blank:'___', ans:'에서', choices:['에','에서','가','를'], tip:'시장 = lieu où se déroule l'action d'achat → 에서'},
+    {sent:'지하철___ 타세요.', blank:'___', ans:'을', choices:['이','을','에','는'], tip:'지하철 (con. finale ㄹ) + objet de 타다 → 을'},
+    {sent:'저는 커피___ 차를 좋아해요.', blank:'___', ans:'보다', choices:['보다','에서','가','를'], tip:'A보다 B = B plus que A (comparaison)'},
+  ];
+
+  let score=0, answered=0;
+
+  function render(){
+    const wrap=document.getElementById('questions');
+    QS.forEach((q,i)=>{
+      const d=document.createElement('div');
+      d.className='q-block';
+      d.id='q'+i;
+      const parts=q.sent.split('___');
+      d.innerHTML=`
+        <div class="q-sent">${i+1}. ${parts[0]}<span class="blank" id="bl${i}">___</span>${parts[1]||''}</div>
+        <div class="choices">${q.choices.map(c=>`<button class="choice" onclick="pick(${i},this,'${c}')">${c}</button>`).join('')}</div>
+        <div class="fb" id="fb${i}"></div>`;
+      wrap.appendChild(d);
+    });
+  }
+
+  function pick(i,btn,val){
+    const block=document.getElementById('q'+i);
+    if(block.querySelector('.ok,.ko'))return;
+    const btns=block.querySelectorAll('.choice');
+    const q=QS[i];
+    if(val===q.ans){
+      btn.classList.add('ok');
+      document.getElementById('bl'+i).textContent=val;
+      document.getElementById('fb'+i).innerHTML='<span style="color:#16A34A"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Correct ! '+q.tip+'</span>';
+      score++;
+    } else {
+      btn.classList.add('ko');
+      btns.forEach(b=>{if(b.textContent===q.ans)b.classList.add('ok');});
+      document.getElementById('fb'+i).innerHTML='<span style="color:#ef4444"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  </span><span style="color:#16A34A">'+q.ans+'</span> — '+q.tip;
+    }
+    answered++;
+    document.getElementById('pgNum').textContent=answered;
+    document.getElementById('pgFill').style.width=(answered/15*100)+'%';
+    if(answered===QS.length){
+      setTimeout(()=>{
+        document.getElementById('scoreArea').style.display='block';
+        document.getElementById('scoreNum').textContent=score;
+        const msgs=['Continue à pratiquer ! ','Bien joué ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>','Excellent ! Maître des particules ! <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>'];
+        document.getElementById('scoreMsg').textContent=score<8?msgs[0]:score<13?msgs[1]:msgs[2];
+        document.getElementById('scoreArea').scrollIntoView({behavior:'smooth'});
+      },600);
+    }
+  }
+
+  render();
+  </script>
+</body>
+</html>

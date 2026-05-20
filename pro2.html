@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Intonation des salutations · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .hero-meta{display:flex;justify-content:center;gap:16px;margin-top:18px}
+    .hero-meta span{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(237,242,250,.45)}
+    .hero-meta svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .card-title svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{background:var(--s3);color:var(--t2);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;text-align:left}
+    td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--t)}
+    .kr{font-size:18px;color:var(--gold);font-weight:700}
+    tr:hover td{background:var(--s2)}
+    .tip{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;color:var(--t)}
+    .tip strong{color:var(--gold)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .btn-outline{background:transparent;border:2px solid var(--bd2);color:var(--t2);padding:10px 20px;font-size:14px}
+    .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-row{display:flex;gap:12px;margin-top:20px;justify-content:center;flex-wrap:wrap}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .intonation-card{background:var(--s2);border-radius:12px;padding:16px;margin:10px 0;border:1px solid var(--bd)}
+    .intonation-card .ic-kr{font-size:22px;color:var(--gold);font-weight:800;margin-bottom:4px}
+    .intonation-card .ic-rom{font-size:12px;color:var(--t3);font-weight:600;margin-bottom:6px}
+    .intonation-card .ic-fr{font-size:14px;color:var(--t);font-weight:500;margin-bottom:8px}
+    .intonation-card .ic-context{font-size:12px;color:var(--t2);margin-bottom:8px;font-style:italic}
+    .intonation-curve{font-size:18px;letter-spacing:6px;margin-bottom:4px}
+    .intonation-desc{font-size:12px;color:var(--t2)}
+    /* Répétition exercise */
+    .rep-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .rep-progress-bar{width:100%;height:6px;background:var(--bd);border-radius:3px;margin-bottom:16px;overflow:hidden}
+    .rep-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),#D4A55A);border-radius:3px;transition:width .4s}
+    .rep-current{background:var(--s2);border-radius:14px;padding:20px;margin-bottom:14px;text-align:center;border:2px solid var(--goldbd)}
+    .rep-counter{font-size:11px;font-weight:800;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+    .rep-kr{font-size:26px;color:var(--gold);font-weight:800;margin-bottom:6px}
+    .rep-rom{font-size:14px;color:var(--t3);margin-bottom:4px}
+    .rep-fr{font-size:15px;color:var(--t2);margin-bottom:8px}
+    .rep-curve{font-size:24px;letter-spacing:8px;color:var(--t);margin:6px 0}
+    .rep-desc{font-size:12px;color:var(--t2);line-height:1.5;max-width:280px;margin:0 auto}
+    .rep-btn{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:700;border:none;cursor:pointer;margin-top:12px;transition:all .2s}
+    .rep-btn:hover{transform:translateY(-1px)}
+    .rep-done{background:rgba(22,163,74,.1);border:1.5px solid rgba(22,163,74,.3);border-radius:10px;padding:14px;text-align:center;display:none}
+    .rep-done p{font-size:15px;font-weight:700;color:var(--green)}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+  <div class="xp-pill">+8 XP</div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">Prononciation</div>
+  <h1 class="hero-title">Intonation des salutations</h1>
+  <p class="hero-sub">Maîtrisez les courbes d'intonation pour saluer naturellement comme un locuteur natif.</p>
+  <div class="hero-meta">
+    <span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/><polyline points="6,3 6,6 8,8"/></svg> ~8 min</span>
+    <span><svg viewBox="0 0 12 12"><path d="M6 2l1.5 3 3.5.5-2.5 2.5.6 3.5L6 10l-3.1 1.5.6-3.5L1 5.5l3.5-.5z"/></svg> 4 sections</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- CARD 1 — Pourquoi l'intonation est cruciale -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M2 8 Q5 2 8 8 Q11 14 14 8"/></svg>
+      Pourquoi l'intonation est cruciale
+    </div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:12px">En coréen, l'intonation ne change pas le <em>sens lexical</em> des mots (comme en chinois), mais elle impacte directement le <strong style="color:var(--t)">registre</strong>, l'<strong style="color:var(--t)">intention</strong> et la <strong style="color:var(--t)">fluidité naturelle</strong> de votre discours.</p>
+    <div class="tip">
+      <strong>Points clés :</strong> Les salutations coréennes ont des patterns d'intonation précis. Une mauvaise intonation peut paraître abrupte ou froid, même si les mots sont corrects. L'accent tonique tombe souvent sur la première syllabe forte, puis la phrase descend.
+    </div>
+  </div>
+
+  <!-- CARD 2 — 5 salutations avec courbe -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M2 12 Q5 4 8 8 Q11 12 14 6"/></svg>
+      5 salutations avec leur courbe d'intonation
+    </div>
+    <div class="intonation-card">
+      <div class="ic-kr">안녕하세요</div>
+      <div class="ic-rom">annyeonghaseyo</div>
+      <div class="ic-fr">Bonjour / Bonsoir (salutation universelle)</div>
+      <div class="intonation-curve">↗ ↘</div>
+      <div class="intonation-desc">Monte sur 녕, descend progressivement sur 하세요. Accent sur la 2e syllabe.</div>
+    </div>
+    <div class="intonation-card">
+      <div class="ic-kr">안녕히 가세요</div>
+      <div class="ic-rom">annyeonghi gaseyo</div>
+      <div class="ic-fr">Au revoir — dit à celui qui part</div>
+      <div class="ic-context">Utilisé par celui qui reste, pour saluer celui qui part.</div>
+      <div class="intonation-curve">↗ ↗ ↘</div>
+      <div class="intonation-desc">Légère montée sur 안녕히, petite montée sur 가, descente sur 세요.</div>
+    </div>
+    <div class="intonation-card">
+      <div class="ic-kr">안녕히 계세요</div>
+      <div class="ic-rom">annyeonghi gyeseyo</div>
+      <div class="ic-fr">Au revoir — dit par celui qui part</div>
+      <div class="ic-context">Utilisé par celui qui part, pour saluer celui qui reste.</div>
+      <div class="intonation-curve">↗ ↗ ↘</div>
+      <div class="intonation-desc">Même pattern que 안녕히 가세요 mais utilisé dans la situation inverse.</div>
+    </div>
+    <div class="intonation-card">
+      <div class="ic-kr">반가워요</div>
+      <div class="ic-rom">bangawoyo</div>
+      <div class="ic-fr">Enchanté(e) / Content(e) de vous rencontrer</div>
+      <div class="intonation-curve">↗ ↘</div>
+      <div class="intonation-desc">Monte sur 반가, descend sur 워요. Phrase courte, rythmée.</div>
+    </div>
+    <div class="intonation-card">
+      <div class="ic-kr">잘 지냈어요?</div>
+      <div class="ic-rom">jal jinaesseoyo?</div>
+      <div class="ic-fr">Vous avez bien été ? / Ça allait ?</div>
+      <div class="intonation-curve">↗ ↗ ↗</div>
+      <div class="intonation-desc">Intonation montante tout le long — c'est une question ! La voix monte nettement à la fin sur 어요?</div>
+    </div>
+  </div>
+
+  <!-- CARD 3 — Exercice de répétition -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M3 8a5 5 0 109.9-1"/><polyline points="13,4 14,7 11,8"/></svg>
+      Exercice de répétition
+    </div>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:14px">Répétez chaque salutation à voix haute en faisant attention à l'intonation décrite. Cochez quand vous avez répété 3 fois.</p>
+    <div class="rep-progress-bar"><div class="rep-progress-fill" id="repFill" style="width:0%"></div></div>
+    <div id="repArea"></div>
+    <div class="rep-done" id="repDone">
+      <p>Excellent ! Vous avez pratiqué les 5 salutations.</p>
+    </div>
+  </div>
+
+  <!-- CARD 4 — Registres -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><line x1="2" y1="7" x2="14" y2="7"/><line x1="2" y1="11" x2="14" y2="11"/><line x1="7" y1="2" x2="7" y2="14"/></svg>
+      Formelle, neutre ou informelle ?
+    </div>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:12px">Le coréen possède plusieurs niveaux de politesse. Voici les trois principaux registres pour les salutations.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Formelle (합쇼체)</th>
+          <th>Neutre (해요체)</th>
+          <th>Informelle (해체)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="kr">안녕하십니까</span></td>
+          <td><span class="kr">안녕하세요</span></td>
+          <td><span class="kr">안녕</span></td>
+        </tr>
+        <tr>
+          <td><span class="kr">감사합니다</span></td>
+          <td><span class="kr">감사해요</span></td>
+          <td><span class="kr">고마워</span></td>
+        </tr>
+        <tr>
+          <td><span class="kr">죄송합니다</span></td>
+          <td><span class="kr">미안해요</span></td>
+          <td><span class="kr">미안</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="tip" style="margin-top:14px">
+      <strong>Conseil :</strong> Pour commencer, maîtrisez bien le niveau <strong>해요체</strong> (neutre poli) — c'est le niveau le plus polyvalent et le plus sûr dans toutes les situations.
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="completeLesson()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Terminé</button>
+  </div>
+
+</div>
+
+<script>
+const phrases = [
+  { kr: '안녕하세요', rom: 'annyeonghaseyo', fr: 'Bonjour / Bonsoir', curve: '↗ ↘', desc: 'Montez sur 녕, descendez progressivement sur 하세요.' },
+  { kr: '안녕히 가세요', rom: 'annyeonghi gaseyo', fr: 'Au revoir (à celui qui part)', curve: '↗ ↗ ↘', desc: 'Légère montée sur 안녕히, petite montée sur 가, descente sur 세요.' },
+  { kr: '안녕히 계세요', rom: 'annyeonghi gyeseyo', fr: 'Au revoir (dit par celui qui part)', curve: '↗ ↗ ↘', desc: 'Même pattern, mais utilisé par celui qui part.' },
+  { kr: '반가워요', rom: 'bangawoyo', fr: 'Enchanté(e)', curve: '↗ ↘', desc: 'Monte sur 반가, descend sur 워요. Phrase courte et chaleureuse.' },
+  { kr: '잘 지냈어요?', rom: 'jal jinaesseoyo?', fr: 'Vous avez bien été ?', curve: '↗ ↗ ↗', desc: 'Intonation montante tout le long — question !' }
+];
+
+let repIdx = 0;
+
+function renderRep() {
+  if (repIdx >= phrases.length) {
+    document.getElementById('repArea').style.display = 'none';
+    document.getElementById('repDone').style.display = 'block';
+    return;
+  }
+  const p = phrases[repIdx];
+  document.getElementById('repFill').style.width = (repIdx / phrases.length * 100) + '%';
+  document.getElementById('repArea').innerHTML = `
+    <div class="rep-current">
+      <div class="rep-counter">${repIdx + 1} / ${phrases.length}</div>
+      <div class="rep-kr">${p.kr}</div>
+      <div class="rep-rom">${p.rom}</div>
+      <div class="rep-fr">${p.fr}</div>
+      <div class="rep-curve">${p.curve}</div>
+      <div class="rep-desc">${p.desc}</div>
+      <button class="rep-btn" onclick="markRepeated()">J'ai répété <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg></button>
+    </div>
+  `;
+}
+
+function markRepeated() {
+  repIdx++;
+  if (repIdx >= phrases.length) {
+    document.getElementById('repFill').style.width = '100%';
+    document.getElementById('repArea').style.display = 'none';
+    document.getElementById('repDone').style.display = 'block';
+  } else {
+    renderRep();
+  }
+}
+
+function completeLesson() {
+  try { localStorage.setItem('ks_a02', 'done'); } catch(e) {}
+  window.location.href = 'cours.html';
+}
+
+renderRep();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

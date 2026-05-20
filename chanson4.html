@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>G-Dragon — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .artist-hero{background:linear-gradient(135deg,#1a1a2e,#DB2777);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .artist-emoji{font-size:2.5rem;margin-bottom:.3rem}
+    .artist-name{font-size:1.3rem;font-weight:900}
+    .artist-sub{font-size:.82rem;opacity:.75;margin-top:.2rem}
+    .lyric-block{background:var(--surf);border-left:3px solid #DB2777;border-radius:0 12px 12px 0;padding:.9rem;margin:.6rem 0}
+    .lyric-ko{font-size:1rem;font-weight:700;color:var(--tx);line-height:1.7;font-family:Georgia,serif}
+    .lyric-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.4rem;font-style:italic}
+    .lyric-note{background:rgba(219,39,119,.06);border-radius:8px;padding:.4rem .7rem;font-size:.8rem;margin-top:.4rem}
+    .lyric-note .label{font-weight:700;color:#DB2777}
+    .vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin:.6rem 0}
+    .vocab-card{background:var(--surf);border:1px solid var(--bd);border-radius:8px;padding:.5rem;font-size:.82rem}
+    .v-ko{font-weight:700;color:#DB2777}
+    .v-fr{color:var(--tx-muted);font-size:.78rem}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:.88rem}
+    th{background:rgba(219,39,119,.1);color:#DB2777;padding:.5rem .7rem;text-align:left;font-size:.78rem;font-weight:700}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">G-Dragon — Crooked</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> G-Dragon — 삐딱하게 (Crooked)</h2>
+  <span class="pill">B2 · Chanson</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Coréen argotique, registre jeune, rébellion — avec 지디 (GD), le prince du K-pop artistique.</p>
+
+  <div class="artist-hero">
+    <div class="artist-emoji"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+    <div class="artist-name">G-Dragon (권지용)</div>
+    <div class="artist-sub">BIGBANG · Rappeur · Artiste · Icône mode K-pop<br>삐딱하게 (Crooked) — Album Coup d'Etat · 2013</div>
+  </div>
+
+  <h3> Contexte artistique</h3>
+  <div class="card">
+    <p style="font-size:.9rem;line-height:1.6"><strong>삐딱하게</strong> (Crooked / De travers) est une chanson sur la douleur amoureuse exprimée par la rébellion, l'excès et l'attitude "je m'en fous". Le narrateur fait semblant d'être indifférent mais souffre intérieurement. C'est un exemple parfait du coréen <strong>argotique des jeunes</strong> mêlé à des structures avancées.</p>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> Extraits et analyse linguistique</h3>
+
+  <div class="lyric-block">
+    <div class="lyric-ko">오늘따라 왜 이렇게 거리가 조용해<br>다들 어디 숨었어, 나 혼자만 남은 거야</div>
+    <div class="lyric-fr">Pourquoi la rue est-elle si silencieuse aujourd'hui<br>Où vous êtes-vous tous cachés, suis-je le seul à rester</div>
+    <div class="lyric-note"><span class="label">오늘따라</span> = "aujourd'hui en particulier" — 따라 renforce le contraste avec d'habitude</div>
+  </div>
+
+  <div class="lyric-block">
+    <div class="lyric-ko">됐어, 나 신경 꺼<br>그냥 내버려 둬</div>
+    <div class="lyric-fr">Ça suffit, occupe-toi pas de moi<br>Laisse-moi juste tranquille</div>
+    <div class="lyric-note"><span class="label">신경 끄다</span> = litt. "éteindre l'intérêt" = ne pas s'occuper de qqn. <span class="label">내버려 두다</span> = laisser tranquille, abandonner à soi-même</div>
+  </div>
+
+  <div class="lyric-block">
+    <div class="lyric-ko">삐딱하게 삐딱하게<br>세상이 어떻게 돌아가든 나는 몰라</div>
+    <div class="lyric-fr">De travers, de travers<br>Peu importe comment le monde tourne, je m'en fiche</div>
+    <div class="lyric-note"><span class="label">-든</span> = "peu importe que / quel que soit" — 어떻게 돌아가든 = peu importe comment ça tourne. Structure avancée de concession.</div>
+  </div>
+
+  <div class="lyric-block">
+    <div class="lyric-ko">이런 내 모습이 한심해 보이겠지만<br>어쩔 수가 없어</div>
+    <div class="lyric-fr">Je dois sembler pathétique comme ça<br>Mais je n'y peux rien</div>
+    <div class="lyric-note"><span class="label">한심하다</span> = pathétique, pitoyable (terme fort). <span class="label">어쩔 수가 없다</span> = il n'y a rien à faire, on ne peut rien y faire</div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Argot jeune dans la chanson</h3>
+  <div class="vocab-grid">
+    <div class="vocab-card"><div class="v-ko">됐어</div><div class="v-fr">Laisse tomber / Ça suffit</div></div>
+    <div class="vocab-card"><div class="v-ko">신경 꺼</div><div class="v-fr">Occupe-toi pas de moi</div></div>
+    <div class="vocab-card"><div class="v-ko">내버려 둬</div><div class="v-fr">Laisse-moi tranquille</div></div>
+    <div class="vocab-card"><div class="v-ko">한심하다</div><div class="v-fr">Pathétique, lamentable</div></div>
+    <div class="vocab-card"><div class="v-ko">삐딱하다</div><div class="v-fr">De travers, rebelle</div></div>
+    <div class="vocab-card"><div class="v-ko">어쩔 수 없다</div><div class="v-fr">Rien à faire, inévitable</div></div>
+    <div class="vocab-card"><div class="v-ko">모르겠다</div><div class="v-fr">Je ne sais pas / Je m'en fous</div></div>
+    <div class="vocab-card"><div class="v-ko">상관없어</div><div class="v-fr">Ça m'est égal</div></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Structures avancées</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Structure</th><th>Sens</th><th>Exemple</th></tr>
+      <tr><td class="ko">-든(지)</td><td>Peu importe que</td><td class="ko">어디 가든 상관없어</td></tr>
+      <tr><td class="ko">-겠지만</td><td>Ça sera… mais</td><td class="ko">힘들겠지만 할게</td></tr>
+      <tr><td class="ko">따라</td><td>En particulier ce jour-là</td><td class="ko">오늘따라 힘들어</td></tr>
+      <tr><td class="ko">-아/어 보이다</td><td>Sembler, avoir l'air</td><td class="ko">행복해 보여요</td></tr>
+    </table></div>
+  </div>
+
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> G-Dragon est connu pour mélanger le coréen standard, l'argot, et même l'anglais dans ses textes. Écouter 삐딱하게 t'entraîne à reconnaître le coréen rapide et contracté tel qu'il est vraiment parlé par les jeunes.</div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Mini-quiz</h3>
+  <div class="card mq" id="q1"><p style="font-weight:600">신경 꺼 signifie littéralement :</p>
+    <div class="opt" onclick="a(this,'ko')">Sois attentif à moi</div>
+    <div class="opt" onclick="a(this,'ok')">Éteins ton intérêt (= occupe-toi pas de moi)</div>
+    <div class="opt" onclick="a(this,'ko')">Je vais y faire attention</div>
+  </div>
+  <div class="card mq" id="q2"><p style="font-weight:600">어떻게 돌아가든 — que signifie -든 ici ?</p>
+    <div class="opt" onclick="a(this,'ko')">Quand</div>
+    <div class="opt" onclick="a(this,'ok')">Peu importe comment</div>
+    <div class="opt" onclick="a(this,'ko')">Parce que</div>
+  </div>
+  <div class="card mq" id="q3"><p style="font-weight:600">삐딱하다 signifie ?</p>
+    <div class="opt" onclick="a(this,'ko')">Joyeux, souriant</div>
+    <div class="opt" onclick="a(this,'ok')">De travers, rebelle, stormy</div>
+    <div class="opt" onclick="a(this,'ko')">Triste, mélancolique</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Chanson analysée — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_d11');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

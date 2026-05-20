@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Flashcards A1 — 200 mots clés · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .prog-wrap{background:var(--bd);height:8px;border-radius:100px;overflow:hidden;margin:12px 0}
+    .prog-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .4s ease}
+    .prog-label{text-align:right;font-size:11px;font-weight:700;color:var(--t3);margin-bottom:4px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35);width:100%}
+    .btn-gold:hover{transform:translateY(-1px)}
+    .btn-outline{background:none;border:2px solid var(--bd2);color:var(--t2);width:100%;margin-top:10px}
+
+    /* Tabs */
+    .tabs{display:flex;gap:6px;overflow-x:auto;padding:0 16px 0;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:0}
+    .tabs::-webkit-scrollbar{display:none}
+    .tab{padding:8px 14px;border-radius:100px;font-size:12px;font-weight:700;white-space:nowrap;border:1.5px solid var(--bd);background:var(--surf);color:var(--t2);cursor:pointer;transition:all var(--tr);flex-shrink:0}
+    .tab.active{background:var(--navy);color:var(--gold);border-color:var(--gold)}
+
+    /* Flashcard */
+    .flashcard-wrap{perspective:1000px;height:200px;margin:20px 0}
+    .flashcard{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;cursor:pointer;border-radius:20px}
+    .flashcard.flipped{transform:rotateY(180deg)}
+    .fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+    .fc-front{background:var(--navy);color:#fff}
+    .fc-back{background:var(--goldbg);border:2px solid var(--goldbd);transform:rotateY(180deg);color:var(--t)}
+    .fc-kr{font-size:42px;color:var(--gold);font-weight:700;margin-bottom:6px}
+    .fc-rom{font-size:14px;color:rgba(237,242,250,.6)}
+    .fc-fr{font-size:20px;font-weight:700;color:var(--t);margin-bottom:8px}
+    .fc-ex{font-size:12px;color:var(--t2);text-align:center}
+    .fc-hint{font-size:11px;color:rgba(237,242,250,.35);margin-top:12px}
+
+    /* Nav buttons */
+    .card-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
+    .nav-btn{padding:10px 18px;border-radius:100px;border:1.5px solid var(--bd2);background:none;font-size:13px;font-weight:700;color:var(--t2);cursor:pointer;transition:all var(--tr)}
+    .nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .nav-btn:disabled{opacity:.3;pointer-events:none}
+    .card-counter{font-size:13px;font-weight:700;color:var(--t3)}
+
+    /* Verdict buttons */
+    .verdict-row{display:flex;gap:10px;margin-top:14px}
+    .vbtn{flex:1;padding:12px 16px;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;transition:all var(--tr);border:2px solid}
+    .vbtn-review{background:none;border-color:#EF4444;color:#EF4444}
+    .vbtn-review:hover{background:#FEE2E2}
+    .vbtn-known{background:none;border-color:#22C55E;color:#22C55E}
+    .vbtn-known:hover{background:#DCFCE7}
+    .vbtn.selected-review{background:#FEE2E2;border-color:#EF4444}
+    .vbtn.selected-known{background:#DCFCE7;border-color:#22C55E}
+
+    /* Category end screen */
+    .cat-end{display:none;text-align:center;padding:30px 20px}
+    .cat-end.show{display:block}
+    .cat-score{font-size:40px;font-weight:800;color:var(--gold);margin:12px 0}
+    .cat-pct{font-size:14px;color:var(--t2);margin-bottom:20px}
+
+    /* Final success */
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="hero">
+  <div class="hero-tag">FLASHCARDS</div>
+  <h1 class="hero-title">Flashcards A1 — 200 mots clés</h1>
+  <p class="hero-sub">5 catégories · 20 mots chacune · Clique pour retourner la carte !</p>
+</div>
+
+<div style="background:var(--surf);border-bottom:1px solid var(--bd);padding:12px 0">
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<div class="wrap" id="mainArea">
+  <div class="card" id="flashArea">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+      <span style="font-size:12px;font-weight:700;color:var(--t3)" id="catLabel"></span>
+      <span style="font-size:12px;font-weight:700;color:var(--gold)" id="knownCount">0 connu(s)</span>
+    </div>
+    <div class="prog-label" id="progLabel">0%</div>
+    <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="fc-front">
+          <div class="fc-kr" id="fcKr"></div>
+          <div class="fc-rom" id="fcRom"></div>
+          <div class="fc-hint">Cliquez pour retourner</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-fr" id="fcFr"></div>
+          <div class="fc-ex" id="fcEx"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-nav">
+      <button class="nav-btn" id="prevBtn" onclick="prevCard()">← Précédent</button>
+      <span class="card-counter" id="cardCounter">1 / 20</span>
+      <button class="nav-btn" id="nextBtn" onclick="nextCard()">Suivant →</button>
+    </div>
+
+    <div class="verdict-row">
+      <button class="vbtn vbtn-review" id="vReview" onclick="setVerdict('review')"> À revoir</button>
+      <button class="vbtn vbtn-known" id="vKnown" onclick="setVerdict('known')"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Connu !</button>
+    </div>
+  </div>
+
+  <div class="cat-end" id="catEnd">
+    <div style="font-size:40px;margin-bottom:12px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:8px">Catégorie terminée !</h2>
+    <div class="cat-score" id="catScoreNum"></div>
+    <div class="cat-pct" id="catScorePct"></div>
+    <button class="btn btn-gold" id="nextCatBtn" onclick="nextCategory()">Catégorie suivante →</button>
+    <button class="btn btn-outline" onclick="restartCategory()">Recommencer cette catégorie</button>
+  </div>
+</div>
+
+<div class="wrap success-screen" id="successScreen">
+  <div style="font-size:64px;margin-bottom:16px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg></div>
+  <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:12px">Toutes les catégories terminées !</h2>
+  <div style="background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:20px;margin-bottom:24px">
+    <div style="font-size:36px;font-weight:800;color:var(--gold)" id="totalKnown">0</div>
+    <div style="font-size:13px;color:var(--t2)">mots connus sur 100</div>
+  </div>
+  <p style="font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6">Tu as parcouru 5 catégories et mémorisé les mots essentiels du A1. Continue à pratiquer pour les ancrer !</p>
+  <a href="cours.html" class="btn btn-gold">Retour au parcours</a>
+</div>
+
+<script>
+const categories = [
+  {
+    name: "Salutations",
+    emoji: "",
+    cards: [
+      {kr:"안녕하세요", rom:"annyeonghaseyo", fr:"bonjour", ex:"안녕하세요 ! — Bonjour !"},
+      {kr:"감사합니다", rom:"gamsahamnida", fr:"merci", ex:"감사합니다 ! — Merci beaucoup !"},
+      {kr:"미안해요", rom:"mianhaeyo", fr:"désolé(e)", ex:"미안해요 — Je suis désolé(e)."},
+      {kr:"괜찮아요", rom:"gwaenchanayo", fr:"ça va / c'est OK", ex:"괜찮아요 ? — Ça va ?"},
+      {kr:"반가워요", rom:"bangawoyo", fr:"enchanté(e)", ex:"반가워요 ! — Enchanté(e) !"},
+      {kr:"네", rom:"ne", fr:"oui", ex:"네, 알아요. — Oui, je sais."},
+      {kr:"아니요", rom:"aniyo", fr:"non", ex:"아니요, 몰라요. — Non, je ne sais pas."},
+      {kr:"잘 가세요", rom:"jal gaseyo", fr:"bon voyage / au revoir", ex:"잘 가세요 ! — Bon voyage !"},
+      {kr:"주세요", rom:"juseyo", fr:"s'il vous plaît / donnez-moi", ex:"물 주세요. — De l'eau, s.v.p."},
+      {kr:"있어요", rom:"isseoyo", fr:"il y a / j'ai", ex:"시간 있어요 ? — Tu as le temps ?"},
+      {kr:"없어요", rom:"eopseoyo", fr:"il n'y a pas / je n'ai pas", ex:"돈이 없어요. — Je n'ai pas d'argent."},
+      {kr:"알아요", rom:"arayo", fr:"je sais / je comprends", ex:"네, 알아요 ! — Oui, je comprends !"},
+      {kr:"몰라요", rom:"mollayo", fr:"je ne sais pas", ex:"몰라요... — Je ne sais pas..."},
+      {kr:"잠깐만요", rom:"jamkkanmanyo", fr:"un instant / attendez", ex:"잠깐만요 ! — Un instant !"},
+      {kr:"여기", rom:"yeogi", fr:"ici", ex:"여기 있어요. — C'est ici."},
+      {kr:"저기", rom:"jeogi", fr:"là-bas", ex:"저기 봐요 ! — Regardez là-bas !"},
+      {kr:"이거", rom:"igeo", fr:"ça / ceci", ex:"이거 뭐예요 ? — C'est quoi ça ?"},
+      {kr:"얼마예요", rom:"eolmayeyo", fr:"combien ça coûte ?", ex:"얼마예요 ? — C'est combien ?"},
+      {kr:"어디예요", rom:"eodiyeyo", fr:"où est ?", ex:"화장실 어디예요 ? — Où sont les toilettes ?"},
+      {kr:"왜요", rom:"waeyo", fr:"pourquoi ?", ex:"왜요 ? — Pourquoi ?"}
+    ]
+  },
+  {
+    name: "Famille",
+    emoji: "‍‍",
+    cards: [
+      {kr:"엄마", rom:"eomma", fr:"maman", ex:"엄마, 사랑해요 ! — Maman, je t'aime !"},
+      {kr:"아빠", rom:"appa", fr:"papa", ex:"아빠가 있어요. — J'ai un papa."},
+      {kr:"오빠", rom:"oppa", fr:"grand frère (d'une fille)", ex:"오빠, 도와줘요 ! — Grand frère, aide-moi !"},
+      {kr:"누나", rom:"nuna", fr:"grande sœur (d'un garçon)", ex:"누나가 예뻐요. — Ma grande sœur est jolie."},
+      {kr:"언니", rom:"eonni", fr:"grande sœur (d'une fille)", ex:"언니, 같이 가자 ! — Grande sœur, allons-y ensemble !"},
+      {kr:"형", rom:"hyeong", fr:"grand frère (d'un garçon)", ex:"형이 멋있어요. — Mon grand frère est cool."},
+      {kr:"남동생", rom:"namdongsaeng", fr:"petit frère", ex:"남동생이 있어요. — J'ai un petit frère."},
+      {kr:"여동생", rom:"yeodongsaeng", fr:"petite sœur", ex:"여동생이 귀여워요. — Ma petite sœur est mignonne."},
+      {kr:"할머니", rom:"halmeoni", fr:"grand-mère", ex:"할머니가 보고 싶어요. — Ma grand-mère me manque."},
+      {kr:"할아버지", rom:"harabeoji", fr:"grand-père", ex:"할아버지는 건강해요. — Mon grand-père est en bonne santé."},
+      {kr:"친구", rom:"chingu", fr:"ami(e)", ex:"친구랑 카페에 가요. — Je vais au café avec un ami."},
+      {kr:"선생님", rom:"seonsaengnim", fr:"professeur", ex:"선생님 감사합니다 ! — Merci, professeur !"},
+      {kr:"남자친구", rom:"namjachingu", fr:"petit ami", ex:"남자친구가 있어요 ? — Tu as un petit ami ?"},
+      {kr:"여자친구", rom:"yeojachingu", fr:"petite amie", ex:"여자친구가 예뻐요. — Ma petite amie est belle."},
+      {kr:"사람", rom:"saram", fr:"personne / gens", ex:"한국 사람이에요. — C'est une personne coréenne."},
+      {kr:"저", rom:"jeo", fr:"je (formel)", ex:"저는 학생이에요. — Je suis étudiant(e)."},
+      {kr:"나", rom:"na", fr:"je (informel)", ex:"나 배고파. — J'ai faim."},
+      {kr:"우리", rom:"uri", fr:"nous / notre", ex:"우리 가족이에요. — C'est notre famille."},
+      {kr:"이름", rom:"ireum", fr:"prénom / nom", ex:"이름이 뭐예요 ? — C'est quoi ton prénom ?"},
+      {kr:"나이", rom:"nai", fr:"âge", ex:"나이가 몇 살이에요 ? — Quel âge as-tu ?"}
+    ]
+  },
+  {
+    name: "Nourriture",
+    emoji: "",
+    cards: [
+      {kr:"밥", rom:"bap", fr:"riz cuit / repas", ex:"밥 먹었어요 ? — Tu as mangé ?"},
+      {kr:"김치", rom:"gimchi", fr:"kimchi", ex:"김치 좋아해요. — J'aime le kimchi."},
+      {kr:"물", rom:"mul", fr:"eau", ex:"물 주세요. — De l'eau, s.v.p."},
+      {kr:"커피", rom:"keopi", fr:"café", ex:"커피 한 잔 주세요. — Un café, s.v.p."},
+      {kr:"차", rom:"cha", fr:"thé", ex:"녹차 있어요 ? — Vous avez du thé vert ?"},
+      {kr:"맥주", rom:"maekju", fr:"bière", ex:"치맥 먹을까요 ? — On mange du poulet-bière ?"},
+      {kr:"고기", rom:"gogi", fr:"viande", ex:"고기를 좋아해요. — J'aime la viande."},
+      {kr:"생선", rom:"saengseon", fr:"poisson", ex:"생선이 신선해요. — Le poisson est frais."},
+      {kr:"야채", rom:"yachae", fr:"légumes", ex:"야채를 많이 먹어요. — Je mange beaucoup de légumes."},
+      {kr:"과일", rom:"gwail", fr:"fruits", ex:"과일이 달아요. — Les fruits sont sucrés."},
+      {kr:"맛있어요", rom:"masisseoyo", fr:"c'est délicieux", ex:"진짜 맛있어요 ! — C'est vraiment délicieux !"},
+      {kr:"매워요", rom:"maewoyo", fr:"c'est épicé", ex:"너무 매워요 ! — C'est trop épicé !"},
+      {kr:"달아요", rom:"darayo", fr:"c'est sucré", ex:"이 케이크가 달아요. — Ce gâteau est sucré."},
+      {kr:"짜요", rom:"jjayo", fr:"c'est salé", ex:"조금 짜요. — C'est un peu salé."},
+      {kr:"배고파요", rom:"baegopayo", fr:"j'ai faim", ex:"배고파요, 밥 먹자 ! — J'ai faim, mangeons !"},
+      {kr:"먹다", rom:"meokda", fr:"manger", ex:"같이 먹어요. — Mangeons ensemble."},
+      {kr:"마시다", rom:"masida", fr:"boire", ex:"커피를 마셔요. — Je bois du café."},
+      {kr:"주문하다", rom:"jumunhada", fr:"commander", ex:"주문할게요. — Je vais commander."},
+      {kr:"계산해주세요", rom:"gyesanhaejeseyo", fr:"l'addition s.v.p.", ex:"계산해주세요 ! — L'addition, s.v.p. !"},
+      {kr:"포장", rom:"pojang", fr:"à emporter", ex:"포장해 주세요. — À emporter, s.v.p."}
+    ]
+  },
+  {
+    name: "Lieux",
+    emoji: "",
+    cards: [
+      {kr:"학교", rom:"hakgyo", fr:"école", ex:"학교에 가요. — Je vais à l'école."},
+      {kr:"병원", rom:"byeongwon", fr:"hôpital", ex:"병원에 가야 해요. — Je dois aller à l'hôpital."},
+      {kr:"카페", rom:"kape", fr:"café", ex:"카페에서 공부해요. — J'étudie au café."},
+      {kr:"식당", rom:"sikdang", fr:"restaurant", ex:"식당에서 밥 먹어요. — Je mange au restaurant."},
+      {kr:"편의점", rom:"pyeonuijeom", fr:"supérette / convenience store", ex:"편의점에 있어요. — C'est à la supérette."},
+      {kr:"지하철", rom:"jihacheol", fr:"métro", ex:"지하철을 타요. — Je prends le métro."},
+      {kr:"역", rom:"yeok", fr:"station / gare", ex:"강남역에서 내려요. — Je descends à la station Gangnam."},
+      {kr:"버스", rom:"beoseu", fr:"bus", ex:"버스로 가요. — J'y vais en bus."},
+      {kr:"택시", rom:"taeksi", fr:"taxi", ex:"택시 타요 ! — Prenons un taxi !"},
+      {kr:"공항", rom:"gonghang", fr:"aéroport", ex:"공항에 가야 해요. — Je dois aller à l'aéroport."},
+      {kr:"호텔", rom:"hotel", fr:"hôtel", ex:"호텔이 어디예요 ? — Où est l'hôtel ?"},
+      {kr:"집", rom:"jip", fr:"maison / chez soi", ex:"집에 가고 싶어요. — Je veux rentrer chez moi."},
+      {kr:"회사", rom:"hoesa", fr:"entreprise / bureau", ex:"회사에 있어요. — Je suis au bureau."},
+      {kr:"공원", rom:"gongwon", fr:"parc", ex:"공원에서 산책해요. — Je me promène au parc."},
+      {kr:"화장실", rom:"hwajangsil", fr:"toilettes", ex:"화장실이 어디예요 ? — Où sont les toilettes ?"},
+      {kr:"은행", rom:"eunhaeng", fr:"banque", ex:"은행에 가야 해요. — Je dois aller à la banque."},
+      {kr:"약국", rom:"yakguk", fr:"pharmacie", ex:"약국이 어디예요 ? — Où est la pharmacie ?"},
+      {kr:"서점", rom:"seojeom", fr:"librairie", ex:"서점에서 책을 사요. — J'achète des livres à la librairie."},
+      {kr:"시장", rom:"sijang", fr:"marché", ex:"시장에서 야채를 사요. — J'achète des légumes au marché."},
+      {kr:"백화점", rom:"baekhwajeom", fr:"grand magasin", ex:"백화점에 쇼핑하러 가요. — Je vais faire du shopping au grand magasin."}
+    ]
+  },
+  {
+    name: "Verbes",
+    emoji: "<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>",
+    cards: [
+      {kr:"가다", rom:"gada", fr:"aller", ex:"학교에 가요. — Je vais à l'école."},
+      {kr:"오다", rom:"oda", fr:"venir", ex:"집에 와요. — Venez chez moi."},
+      {kr:"먹다", rom:"meokda", fr:"manger", ex:"밥을 먹어요. — Je mange du riz."},
+      {kr:"마시다", rom:"masida", fr:"boire", ex:"물을 마셔요. — Je bois de l'eau."},
+      {kr:"자다", rom:"jada", fr:"dormir", ex:"일찍 자요. — Je dors tôt."},
+      {kr:"일어나다", rom:"ireonada", fr:"se lever", ex:"아침에 일어나요. — Je me lève le matin."},
+      {kr:"공부하다", rom:"gongbuhada", fr:"étudier", ex:"한국어를 공부해요. — J'étudie le coréen."},
+      {kr:"일하다", rom:"ilhada", fr:"travailler", ex:"회사에서 일해요. — Je travaille au bureau."},
+      {kr:"보다", rom:"boda", fr:"voir / regarder", ex:"드라마를 봐요. — Je regarde un drama."},
+      {kr:"듣다", rom:"deutda", fr:"écouter", ex:"음악을 들어요. — J'écoute de la musique."},
+      {kr:"말하다", rom:"malhada", fr:"parler", ex:"한국어로 말해요. — Je parle en coréen."},
+      {kr:"쓰다", rom:"sseuda", fr:"écrire", ex:"편지를 써요. — J'écris une lettre."},
+      {kr:"읽다", rom:"ikda", fr:"lire", ex:"책을 읽어요. — Je lis un livre."},
+      {kr:"사다", rom:"sada", fr:"acheter", ex:"옷을 사요. — J'achète des vêtements."},
+      {kr:"팔다", rom:"palda", fr:"vendre", ex:"가게에서 팔아요. — On vend au magasin."},
+      {kr:"좋아하다", rom:"joahada", fr:"aimer / apprécier", ex:"한국어를 좋아해요. — J'aime le coréen."},
+      {kr:"싫어하다", rom:"sileohada", fr:"ne pas aimer / détester", ex:"매운 음식을 싫어해요. — Je n'aime pas la nourriture épicée."},
+      {kr:"알다", rom:"alda", fr:"savoir / connaître", ex:"알아요. — Je sais."},
+      {kr:"있다", rom:"itda", fr:"être / avoir / il y a", ex:"시간이 있어요. — J'ai le temps."},
+      {kr:"없다", rom:"eopda", fr:"ne pas avoir / ne pas être", ex:"시간이 없어요. — Je n'ai pas le temps."}
+    ]
+  }
+];
+
+let currentCat = 0;
+let currentCard = 0;
+let isFlipped = false;
+let verdicts = {};
+let totalKnown = 0;
+
+function initTabs() {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = '';
+  categories.forEach((cat, i) => {
+    const tab = document.createElement('button');
+    tab.className = 'tab' + (i === currentCat ? ' active' : '');
+    tab.textContent = cat.emoji + ' ' + cat.name;
+    tab.onclick = () => switchCategory(i);
+    tabsEl.appendChild(tab);
+  });
+}
+
+function switchCategory(idx) {
+  currentCat = idx;
+  currentCard = 0;
+  isFlipped = false;
+  verdicts = {};
+  document.getElementById('catEnd').classList.remove('show');
+  document.getElementById('flashArea').style.display = 'block';
+  initTabs();
+  renderCard();
+}
+
+function renderCard() {
+  const cat = categories[currentCat];
+  const card = cat.cards[currentCard];
+  const total = cat.cards.length;
+
+  document.getElementById('catLabel').textContent = cat.emoji + ' ' + cat.name + ' — ' + cat.name;
+  const known = Object.values(verdicts).filter(v => v === 'known').length;
+  document.getElementById('knownCount').textContent = known + ' connu(s)';
+
+  const pct = Math.round(((currentCard) / total) * 100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = pct + '%';
+
+  document.getElementById('fcKr').textContent = card.kr;
+  document.getElementById('fcRom').textContent = card.rom;
+  document.getElementById('fcFr').textContent = card.fr;
+  document.getElementById('fcEx').textContent = card.ex;
+  document.getElementById('cardCounter').textContent = (currentCard + 1) + ' / ' + total;
+
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  isFlipped = false;
+
+  document.getElementById('prevBtn').disabled = currentCard === 0;
+  document.getElementById('nextBtn').disabled = currentCard === total - 1;
+
+  // Restore verdict visual
+  const vr = document.getElementById('vReview');
+  const vk = document.getElementById('vKnown');
+  vr.classList.remove('selected-review');
+  vk.classList.remove('selected-known');
+  if (verdicts[currentCard] === 'review') vr.classList.add('selected-review');
+  if (verdicts[currentCard] === 'known') vk.classList.add('selected-known');
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('flashcard').classList.toggle('flipped', isFlipped);
+}
+
+function prevCard() {
+  if (currentCard > 0) {
+    currentCard--;
+    renderCard();
+  }
+}
+
+function nextCard() {
+  const total = categories[currentCat].cards.length;
+  if (currentCard < total - 1) {
+    currentCard++;
+    renderCard();
+  } else {
+    showCatEnd();
+  }
+}
+
+function setVerdict(v) {
+  if (v === 'known' && verdicts[currentCard] !== 'known') {
+    totalKnown++;
+  } else if (v !== 'known' && verdicts[currentCard] === 'known') {
+    totalKnown--;
+  }
+  verdicts[currentCard] = v;
+
+  const vr = document.getElementById('vReview');
+  const vk = document.getElementById('vKnown');
+  vr.classList.remove('selected-review');
+  vk.classList.remove('selected-known');
+  if (v === 'review') vr.classList.add('selected-review');
+  if (v === 'known') vk.classList.add('selected-known');
+
+  const known = Object.values(verdicts).filter(x => x === 'known').length;
+  document.getElementById('knownCount').textContent = known + ' connu(s)';
+
+  // Auto advance after 400ms
+  setTimeout(() => {
+    const total = categories[currentCat].cards.length;
+    if (currentCard < total - 1) {
+      currentCard++;
+      renderCard();
+    } else {
+      showCatEnd();
+    }
+  }, 400);
+}
+
+function showCatEnd() {
+  document.getElementById('flashArea').style.display = 'none';
+  const catEnd = document.getElementById('catEnd');
+  catEnd.classList.add('show');
+
+  const known = Object.values(verdicts).filter(v => v === 'known').length;
+  const total = categories[currentCat].cards.length;
+  const pct = Math.round((known / total) * 100);
+
+  document.getElementById('catScoreNum').textContent = known + ' / ' + total;
+  document.getElementById('catScorePct').textContent = pct + '% de mots connus dans cette catégorie';
+
+  const nextBtn = document.getElementById('nextCatBtn');
+  if (currentCat >= categories.length - 1) {
+    nextBtn.textContent = 'Voir mon résultat final <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>';
+  } else {
+    nextBtn.textContent = 'Catégorie suivante →';
+  }
+}
+
+function nextCategory() {
+  if (currentCat >= categories.length - 1) {
+    showFinalSuccess();
+  } else {
+    switchCategory(currentCat + 1);
+  }
+}
+
+function restartCategory() {
+  document.getElementById('catEnd').classList.remove('show');
+  document.getElementById('flashArea').style.display = 'block';
+  currentCard = 0;
+  isFlipped = false;
+  verdicts = {};
+  renderCard();
+}
+
+function showFinalSuccess() {
+  document.getElementById('mainArea').style.display = 'none';
+  const screen = document.getElementById('successScreen');
+  screen.classList.add('show');
+  document.getElementById('totalKnown').textContent = totalKnown;
+  try {
+    localStorage.setItem('ks_a29', '1');
+    localStorage.setItem('ks_a29_known', totalKnown);
+  } catch(e) {}
+}
+
+initTabs();
+renderCard();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Conjugaison Blitz · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .choices{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:16px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left;width:100%}
+    .choice:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D;pointer-events:none}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626;pointer-events:none}
+    .feedback{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;margin:10px 0;display:none}
+    .feedback.ok{background:#DCFCE7;border:1px solid #86EFAC;color:#15803D;display:block}
+    .feedback.ko{background:#FEE2E2;border:1px solid #FCA5A5;color:#DC2626;display:block}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none;width:100%}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    .success-icon{font-size:64px;margin-bottom:16px}
+    .success-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px}
+    .success-sub{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6}
+    .score-badge{background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:16px;display:inline-block;margin-bottom:20px}
+    .score-badge .score-num{font-size:40px;font-weight:800;color:var(--gold)}
+    .score-badge .score-lbl{font-size:12px;color:var(--t2)}
+    .game-hud{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--navy);border-radius:12px;margin-bottom:16px}
+    .lives-display{font-size:22px;letter-spacing:2px}
+    .timer-circle{width:56px;height:56px;position:relative}
+    .timer-circle svg{transform:rotate(-90deg)}
+    .timer-circle .bg{fill:none;stroke:rgba(255,255,255,.1);stroke-width:4}
+    .timer-circle .fg{fill:none;stroke:var(--gold);stroke-width:4;stroke-linecap:round;stroke-dasharray:138;stroke-dashoffset:0;transition:stroke-dashoffset .1s linear}
+    .timer-circle .fg.danger{stroke:#EF4444}
+    .timer-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+    .score-hud{text-align:right}
+    .score-hud-num{font-size:24px;font-weight:800;color:var(--gold)}
+    .score-hud-lbl{font-size:10px;color:rgba(237,242,250,.4)}
+    .verb-card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);text-align:center}
+    .verb-base{font-size:32px;font-weight:800;color:var(--gold);display:block;margin-bottom:6px}
+    .tense-label{display:inline-block;padding:6px 16px;border-radius:100px;font-size:13px;font-weight:800;letter-spacing:.05em}
+    .tense-past{background:rgba(239,68,68,.15);color:#FCA5A5;border:1px solid rgba(239,68,68,.25)}
+    .tense-present{background:rgba(34,197,94,.15);color:#86EFAC;border:1px solid rgba(34,197,94,.25)}
+    .tense-future{background:rgba(59,130,246,.15);color:#93C5FD;border:1px solid rgba(59,130,246,.25)}
+    .start-screen{text-align:center}
+    .gameover-screen{display:none;text-align:center;padding:40px 20px}
+    .gameover-screen.show{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+    .shake{animation:shake .3s ease}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="hero">
+  <div class="hero-tag">JEU</div>
+  <h1 class="hero-title">Conjugaison Blitz <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg></h1>
+  <p class="hero-sub">Mode Survie · 3 vies · 60 secondes · Conjugue vite !</p>
+</div>
+
+<div class="wrap">
+  <!-- Start screen -->
+  <div id="startScreen">
+    <div class="card" style="text-align:center;padding:28px 20px">
+      <div style="font-size:48px;margin-bottom:12px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg></div>
+      <h3 style="font-size:18px;font-weight:800;margin-bottom:8px">Mode Survie</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.6">Tu as <strong>3 vies <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></strong> et <strong>60 secondes</strong>.<br>Chaque mauvaise réponse = une vie perdue.<br>Conjugue au présent, passé ou futur !</p>
+      <div style="background:var(--s3);border-radius:10px;padding:12px;margin-bottom:16px;text-align:left;font-size:12px">
+        <div style="font-weight:800;margin-bottom:6px;color:var(--t3)">RÈGLES RAPIDES</div>
+        <div style="margin-bottom:3px">• <span style="color:#86EFAC">Présent</span> : racine + 아/어요</div>
+        <div style="margin-bottom:3px">• <span style="color:#FCA5A5">Passé</span> : racine + 았/었어요</div>
+        <div>• <span style="color:#93C5FD">Futur</span> : racine + (으)ㄹ 거예요</div>
+      </div>
+      <button class="btn btn-gold" onclick="startGame()"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg> Lancer le Blitz !</button>
+    </div>
+  </div>
+
+  <!-- Game screen -->
+  <div id="gameScreen" style="display:none">
+    <div class="game-hud">
+      <div class="lives-display" id="livesDisplay"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      <div class="timer-circle">
+        <svg viewBox="0 0 48 48" width="56" height="56">
+          <circle class="bg" cx="24" cy="24" r="22"/>
+          <circle class="fg" id="timerCircle" cx="24" cy="24" r="22"/>
+        </svg>
+        <div class="timer-text" id="timerText">60</div>
+      </div>
+      <div class="score-hud">
+        <div class="score-hud-num" id="scoreHud">0</div>
+        <div class="score-hud-lbl">points</div>
+      </div>
+    </div>
+
+    <div class="verb-card" id="verbCard">
+      <span class="verb-base" id="verbDisplay">가다</span>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:10px" id="verbMeaning">aller</div>
+      <div class="tense-label" id="tenseLabel">PASSÉ</div>
+    </div>
+
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="feedback"></div>
+    <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:4px" id="qCounter">1 / 20</div>
+  </div>
+
+  <!-- Win screen -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg></div>
+    <h2 class="success-title">Survie réussie !</h2>
+    <p class="success-sub">Tu as conjugué tous les verbes sans tomber à zéro !</p>
+    <div class="score-badge">
+      <div class="score-num" id="finalScore">20</div>
+      <div class="score-lbl">points gagnés</div>
+    </div>
+    <a href="cours.html" class="btn btn-gold">Retour au parcours</a>
+  </div>
+
+  <!-- Game over screen -->
+  <div class="gameover-screen" id="gameoverScreen">
+    <div style="font-size:64px;margin-bottom:16px"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px">Game Over</h2>
+    <p style="font-size:14px;color:var(--t2);margin-bottom:24px">Plus de vies ! Mais chaque erreur est un apprentissage.</p>
+    <div class="score-badge">
+      <div class="score-num" id="goScore">0</div>
+      <div class="score-lbl">points avant game over</div>
+    </div>
+    <button class="btn btn-gold" onclick="restartGame()" style="margin-bottom:12px"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Rejouer</button>
+    <a href="cours.html" class="btn" style="background:none;border:2px solid var(--bd2);color:var(--t2)">Retour au parcours</a>
+  </div>
+</div>
+
+<script>
+const allQuestions = [
+  {verb:'가다',meaning:'aller',tense:'past',label:'PASSÉ',cls:'tense-past',answer:'갔어요',options:['갔어요','가요','갈 거예요','가었어요']},
+  {verb:'먹다',meaning:'manger',tense:'future',label:'FUTUR',cls:'tense-future',answer:'먹을 거예요',options:['먹을 거예요','먹었어요','먹어요','먹겠어요']},
+  {verb:'오다',meaning:'venir',tense:'present',label:'PRÉSENT',cls:'tense-present',answer:'와요',options:['와요','왔어요','올 거예요','오아요']},
+  {verb:'자다',meaning:'dormir',tense:'past',label:'PASSÉ',cls:'tense-past',answer:'잤어요',options:['잤어요','자요','잘 거예요','자았어요']},
+  {verb:'하다',meaning:'faire',tense:'future',label:'FUTUR',cls:'tense-future',answer:'할 거예요',options:['할 거예요','했어요','해요','하겠어요']},
+  {verb:'마시다',meaning:'boire',tense:'present',label:'PRÉSENT',cls:'tense-present',answer:'마셔요',options:['마셔요','마셨어요','마실 거예요','마시요']},
+  {verb:'보다',meaning:'voir/regarder',tense:'past',label:'PASSÉ',cls:'tense-past',answer:'봤어요',options:['봤어요','봐요','볼 거예요','보았어요']},
+  {verb:'읽다',meaning:'lire',tense:'present',label:'PRÉSENT',cls:'tense-present',answer:'읽어요',options:['읽어요','읽었어요','읽을 거예요','읽요']},
+  {verb:'말하다',meaning:'parler',tense:'future',label:'FUTUR',cls:'tense-future',answer:'말할 거예요',options:['말할 거예요','말했어요','말해요','말하겠어요']},
+  {verb:'사다',meaning:'acheter',tense:'past',label:'PASSÉ',cls:'tense-past',answer:'샀어요',options:['샀어요','사요','살 거예요','사았어요']},
+  {verb:'가다',meaning:'aller',tense:'present',label:'PRÉSENT',cls:'tense-present',answer:'가요',options:['가요','갔어요','갈 거예요','갈게요']},
+  {verb:'먹다',meaning:'manger',tense:'past',label:'PASSÉ',cls:'tense-past',answer:'먹었어요',options:['먹었어요','먹어요','먹을 거예요','먹겠어요']},
+  {verb:'오다',meaning:'venir',tense:'future',label:'FUTUR',cls:'tense-future',answer:'올 거예요',options:['올 거예요','왔어요','와요','오겠어요']},
+  {verb:'자다',meaning:'dormir',tense:'present',label:'PRÉSENT',cls:'tense-present',answer:'자요',options:['자요','잤어요','잘 거예요','자아요']},
+  {verb:'하다',meaning:'faire',tense:'past',label:'PASSÉ',cls:'tense-past',answer:'했어요',options:['했어요','해요','할 거예요','하았어요']},
+  {verb:'마시다',meaning:'boire',tense:'future',label:'FUTUR',cls:'tense-future',answer:'마실 거예요',options:['마실 거예요','마셨어요','마셔요','마시겠어요']},
+  {verb:'보다',meaning:'voir/regarder',tense:'present',label:'PRÉSENT',cls:'tense-present',answer:'봐요',options:['봐요','봤어요','볼 거예요','보아요']},
+  {verb:'읽다',meaning:'lire',tense:'future',label:'FUTUR',cls:'tense-future',answer:'읽을 거예요',options:['읽을 거예요','읽었어요','읽어요','읽겠어요']},
+  {verb:'말하다',meaning:'parler',tense:'past',label:'PASSÉ',cls:'tense-past',answer:'말했어요',options:['말했어요','말해요','말할 거예요','말하았어요']},
+  {verb:'사다',meaning:'acheter',tense:'present',label:'PRÉSENT',cls:'tense-present',answer:'사요',options:['사요','샀어요','살 거예요','사겠어요']},
+];
+
+let currentQ = 0;
+let lives = 3;
+let score = 0;
+let answered = false;
+let timerInterval = null;
+let timeLeft = 60;
+
+function startGame() {
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('gameScreen').style.display = 'block';
+  startTimer();
+  renderQ();
+}
+
+function restartGame() {
+  currentQ = 0; lives = 3; score = 0; answered = false; timeLeft = 60;
+  document.getElementById('gameoverScreen').classList.remove('show');
+  document.getElementById('gameScreen').style.display = 'block';
+  updateLives();
+  startTimer();
+  renderQ();
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      winGame();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  document.getElementById('timerText').textContent = timeLeft;
+  const circle = document.getElementById('timerCircle');
+  const circumference = 2 * Math.PI * 22;
+  const offset = circumference * (1 - timeLeft / 60);
+  circle.style.strokeDashoffset = offset;
+  if (timeLeft <= 15) circle.classList.add('danger');
+}
+
+function updateLives() {
+  const hearts = ['<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><line x1="8" y1="12" x2="16" y2="12"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><line x1="8" y1="12" x2="16" y2="12"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><line x1="8" y1="12" x2="16" y2="12"/></svg>','<svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><line x1="8" y1="12" x2="16" y2="12"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><line x1="8" y1="12" x2="16" y2="12"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'];
+  document.getElementById('livesDisplay').textContent = lives === 3 ? '<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : lives === 2 ? '<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:#374151;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : lives === 1 ? '<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:#374151;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:#374151;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : '<svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:#374151;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:#374151;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:#374151;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+}
+
+function renderQ() {
+  if (currentQ >= allQuestions.length) {
+    clearInterval(timerInterval);
+    winGame();
+    return;
+  }
+  const q = allQuestions[currentQ];
+  document.getElementById('verbDisplay').textContent = q.verb;
+  document.getElementById('verbMeaning').textContent = q.meaning;
+  const tl = document.getElementById('tenseLabel');
+  tl.textContent = q.label;
+  tl.className = 'tense-label ' + q.cls;
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('qCounter').textContent = `${currentQ+1} / 20`;
+  answered = false;
+
+  const shuffled = [...q.options].sort(()=>Math.random()-.5);
+  const container = document.getElementById('choices');
+  container.innerHTML = '';
+  shuffled.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(btn, opt, q.answer);
+    container.appendChild(btn);
+  });
+}
+
+function answerQ(btn, chosen, correct) {
+  if (answered) return;
+  answered = true;
+  const fb = document.getElementById('feedback');
+  document.querySelectorAll('.choice').forEach(b => b.disabled = true);
+
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback ok';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct !';
+    score++;
+    document.getElementById('scoreHud').textContent = score;
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback ko';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Bonne réponse : ' + correct;
+    document.querySelectorAll('.choice').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+    lives--;
+    updateLives();
+    const vc = document.getElementById('verbCard');
+    vc.classList.add('shake');
+    setTimeout(()=>vc.classList.remove('shake'),300);
+
+    if (lives <= 0) {
+      clearInterval(timerInterval);
+      setTimeout(gameOver, 1200);
+      return;
+    }
+  }
+
+  setTimeout(() => {
+    currentQ++;
+    renderQ();
+  }, 1200);
+}
+
+function winGame() {
+  document.getElementById('gameScreen').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('finalScore').textContent = score;
+  try { localStorage.setItem('ks_a26','1'); } catch(e){}
+}
+
+function gameOver() {
+  document.getElementById('gameScreen').style.display = 'none';
+  document.getElementById('gameoverScreen').classList.add('show');
+  document.getElementById('goScore').textContent = score;
+}
+
+updateTimerDisplay();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

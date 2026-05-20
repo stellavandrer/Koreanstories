@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards — Premium A1 — Korean Stories</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Inter','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+/* NAV */
+
+.tnav-back{display:flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--bd);border-radius:100px;color:var(--gold);font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;transition:all .2s}
+.tnav-back:hover{border-color:var(--gold);background:var(--gold-light)}
+.tnav-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--text);font-style:italic}
+.tnav-xp{font-size:12px;font-weight:700;color:var(--gold);background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.25);padding:5px 12px;border-radius:20px}
+/* UNIT TABS */
+.unit-tabs{display:flex;gap:8px;padding:14px 18px;overflow-x:auto;border-bottom:1px solid var(--bd);scrollbar-width:none}
+.unit-tabs::-webkit-scrollbar{display:none}
+.utab{flex-shrink:0;padding:7px 14px;border-radius:100px;border:1.5px solid var(--bd);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .2s;background:none}
+.utab.active{border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,0.1)}
+/* HERO */
+.hero{padding:20px 18px 8px;text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.2);border-radius:100px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.hero h2{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:4px}
+.hero h2 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:13px;color:var(--text2)}
+/* PROGRESS BAR */
+.prog-bar-wrap{padding:12px 18px 0}
+.prog-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px;color:var(--text2)}
+.prog-info strong{color:var(--text);font-weight:700}
+.prog-bar{height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .5s ease}
+/* STATS ROW */
+.stats-row{display:flex;gap:8px;padding:12px 18px;justify-content:center}
+.stat-chip{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--bd);border-radius:100px;padding:6px 14px;font-size:12px;font-weight:600}
+.stat-chip .sc-icon{font-size:14px}
+/* FLASHCARD AREA */
+.card-area{padding:20px 18px;display:flex;flex-direction:column;align-items:center;gap:16px}
+/* 3D Flip Card */
+.flip-card{width:100%;max-width:380px;height:220px;perspective:1000px;cursor:pointer}
+.flip-card-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg)}
+.flip-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 24px;border:1px solid var(--bd)}
+.flip-front{background:var(--bg2);border-color:rgba(201,169,110,0.2)}
+.flip-back{background:linear-gradient(135deg,#1a2e45,#162236);transform:rotateY(180deg);border-color:rgba(201,169,110,0.3)}
+.card-unit-tag{font-size:10px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;opacity:.7}
+.card-kr{font-family:'Noto Sans KR',sans-serif;font-size:44px;font-weight:700;color:var(--text);text-align:center;line-height:1.2;margin-bottom:8px}
+.card-hint{font-size:12px;color:var(--text3);margin-top:8px}
+.card-tap{font-size:11px;color:var(--text3);margin-top:12px;display:flex;align-items:center;gap:4px}
+.card-fr{font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:8px;line-height:1.3}
+.card-rom{font-size:13px;color:var(--gold);font-style:italic;margin-bottom:12px}
+.card-example{font-size:12px;color:var(--text2);text-align:center;line-height:1.6;max-width:280px;background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 14px;width:100%}
+/* ACTION BUTTONS */
+.action-btns{display:flex;gap:10px;width:100%;max-width:380px}
+.action-btn{flex:1;padding:13px 8px;border-radius:14px;border:1.5px solid;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-wrong{border-color:rgba(244,114,182,0.4);color:#f472b6;background:rgba(244,114,182,0.08)}
+.btn-wrong:hover{background:rgba(244,114,182,0.15)}
+.btn-hard{border-color:rgba(251,191,36,0.4);color:#fbbf24;background:rgba(251,191,36,0.08)}
+.btn-hard:hover{background:rgba(251,191,36,0.15)}
+.btn-easy{border-color:rgba(34,197,94,0.4);color:#22c55e;background:rgba(34,197,94,0.08)}
+.btn-easy:hover{background:rgba(34,197,94,0.15)}
+.action-btns.hidden{opacity:0;pointer-events:none}
+/* FLIP HINT */
+.flip-hint{font-size:12px;color:var(--text3);text-align:center;padding:4px 0}
+/* COMPLETION */
+.completion{display:none;flex-direction:column;align-items:center;text-align:center;padding:40px 18px;gap:16px}
+.completion.show{display:flex}
+.comp-icon{width:72px;height:72px;border-radius:50%;background:rgba(201,169,110,0.15);border:2px solid rgba(201,169,110,0.4);display:flex;align-items:center;justify-content:center;font-size:32px}
+.comp-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:600}
+.comp-title em{color:var(--gold);font-style:italic}
+.comp-sub{font-size:14px;color:var(--text2);line-height:1.6;max-width:280px}
+.comp-xp{display:flex;align-items:center;gap:8px;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);border-radius:100px;padding:10px 20px;font-size:16px;font-weight:800;color:var(--gold)}
+.comp-btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
+.btn-main{width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#E8C98A);color:#0F1B2D;font-weight:800;font-size:15px;border:none;cursor:pointer}
+.btn-secondary{width:100%;padding:13px;border-radius:14px;background:var(--bg3);border:1.5px solid var(--bd);color:var(--text2);font-weight:600;font-size:14px;cursor:pointer}
+/* MAIN visible area */
+.main-content{display:block}
+/* SRS BADGE */
+.srs-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;border-radius:100px;padding:4px 12px;border:1px solid}
+.srs-easy{color:#22c55e;border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.08)}
+.srs-hard{color:#fbbf24;border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.08)}
+.srs-wrong{color:#f472b6;border-color:rgba(244,114,182,0.3);background:rgba(244,114,182,0.08)}
+/* ACCURACY ROW */
+.acc-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.acc-item{text-align:center}
+.acc-val{font-size:22px;font-weight:800}
+.acc-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
+
+    /* ── BOTTOM NAV ── */
+    
+    
+    
+    
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    @media(min-width:640px){body{padding-bottom:0}}
+
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <link rel="stylesheet" href="design.css"/>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<!-- NAV -->
+
+
+<!-- UNIT TABS -->
+<div class="unit-tabs" id="unitTabs"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">· Répétition espacée</div>
+  <h2>Flash<em>cards</em></h2>
+  <p class="hero-sub" id="unitSub">Sélectionne une unité</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-bar-wrap">
+  <div class="prog-info">
+    <span id="progLabel">Carte <strong id="cardNum">1</strong> / <strong id="cardTotal">15</strong></span>
+    <span id="accLabel" style="color:var(--green);font-weight:700"></span>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+</div>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat-chip"><span class="sc-icon"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg></span><span id="statEasy">0 sus</span></div>
+  <div class="stat-chip"><span class="sc-icon">↺</span><span id="statHard">0 difficile</span></div>
+  <div class="stat-chip"><span class="sc-icon"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span><span id="statWrong">0 à revoir</span></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent">
+  <div class="card-area">
+    <p class="flip-hint" id="flipHint">Tap sur la carte pour révéler</p>
+
+    <!-- FLIP CARD -->
+    <div class="flip-card" id="flipCard" onclick="flipCard()">
+      <div class="flip-card-inner">
+        <div class="flip-face flip-front">
+          <div class="card-unit-tag" id="cardUnitTag"></div>
+          <div class="card-kr" id="cardKr">—</div>
+          <div class="card-tap"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 00-2-2v0a2 2 0 00-2 2v0M14 10V4a2 2 0 00-2-2v0a2 2 0 00-2 2v0M10 10.5V6a2 2 0 00-2-2v0a2 2 0 00-2 2v4.5"/><path d="M18 11a2 2 0 114 0v3a8 8 0 01-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 012.83-2.82L7 15"/></svg> Appuie pour révéler</div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="card-fr" id="cardFr"></div>
+          <div class="card-rom" id="cardRom"></div>
+          <div class="card-example" id="cardEx"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION BUTTONS (shown after flip) -->
+    <div class="action-btns hidden" id="actionBtns">
+      <button class="action-btn btn-wrong" onclick="rate('wrong')"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>À revoir</span></button>
+      <button class="action-btn btn-hard" onclick="rate('hard')">↺<span>Difficile</span></button>
+      <button class="action-btn btn-easy" onclick="rate('easy')"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg><span>Je savais</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPLETION SCREEN -->
+<div class="completion" id="completionScreen">
+  <div class="comp-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 21 12 21 16 21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M5 8H3a2 2 0 000 4c0 1.5.8 2.8 2 3.5M19 8h2a2 2 0 010 4c0 1.5-.8 2.8-2 3.5"/><path d="M5 3h14v11a5 5 0 01-10 0V3"/></svg></div>
+  <div class="comp-title">Session <em>terminée !</em></div>
+  <div class="comp-sub" id="compSub">Excellent travail — continue comme ça !</div>
+  <div class="acc-row" id="compStats"></div>
+  <div class="comp-xp" id="compXP">+60 XP</div>
+  <div class="comp-btns">
+    <button class="btn-main" onclick="restartSession()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/></svg>Recommencer</button>
+    <button class="btn-secondary" onclick="goBack()">← Retour au cours</button>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const UNITS = {
+  u_d1:{ name:'Voyelles', sub:'ㅏ ㅓ ㅗ ㅜ ㅡ ㅣ · lettres coréennes de base', cards:[
+    {kr:'아',fr:'ah (voyelle ㅏ)',rom:'a',ex:'아이 = enfant'},
+    {kr:'어',fr:'euh (voyelle ㅓ)',rom:'eo',ex:'어디 = où ?'},
+    {kr:'오',fr:'o (voyelle ㅗ)',rom:'o',ex:'오이 = concombre'},
+    {kr:'우',fr:'ou (voyelle ㅜ)',rom:'u',ex:'우리 = nous'},
+    {kr:'으',fr:'eu fermé (voyelle ㅡ)',rom:'eu',ex:'으로 = vers (particule)'},
+    {kr:'이',fr:'i (voyelle ㅣ)',rom:'i',ex:'이야기 = histoire'},
+    {kr:'에/애',fr:'é (voyelles ㅔ/ㅐ)',rom:'e/ae',ex:'에서 = à (lieu)'},
+    {kr:'아이',fr:'enfant',rom:'a-i',ex:'아이가 와요 = l\'enfant arrive'},
+    {kr:'우리',fr:'nous / notre',rom:'u-ri',ex:'우리 집 = notre maison'},
+    {kr:'어디',fr:'où ?',rom:'eo-di',ex:'어디예요? = Où est-ce ?'},
+    {kr:'이야기',fr:'histoire / récit',rom:'i-ya-gi',ex:'이야기해요 = parlez/racontez'},
+    {kr:'오이',fr:'concombre',rom:'o-i',ex:'오이 있어요 = il y a du concombre'},
+    {kr:'아이스크림',fr:'glace / ice cream',rom:'a-i-seu-keu-rim',ex:'아이스크림 주세요 = une glace svp'},
+    {kr:'이미',fr:'déjà',rom:'i-mi',ex:'이미 알아요 = je sais déjà'},
+    {kr:'아무',fr:"n'importe quel",rom:'a-mu',ex:'아무거나 = n\'importe quoi'}
+  ]},
+  u_d2:{ name:'Consonnes ①', sub:'ㄱ ㄴ ㄷ ㄹ ㅁ · 5 consonnes essentielles', cards:[
+    {kr:'가다',fr:'aller',rom:'ga-da',ex:'학교에 가다 = aller à l\'école'},
+    {kr:'나라',fr:'pays',rom:'na-ra',ex:'한국은 좋은 나라예요 = La Corée est un beau pays'},
+    {kr:'다리',fr:'jambe / pont',rom:'da-ri',ex:'다리가 아파요 = j\'ai mal à la jambe'},
+    {kr:'마음',fr:'cœur / esprit',rom:'ma-eum',ex:'마음이 좋아요 = il a bon cœur'},
+    {kr:'고모',fr:'tante (côté père)',rom:'go-mo',ex:'고모가 와요 = ma tante vient'},
+    {kr:'노래',fr:'chanson',rom:'no-rae',ex:'노래를 불러요 = je chante'},
+    {kr:'도서관',fr:'bibliothèque',rom:'do-seo-gwan',ex:'도서관에서 공부해요 = j\'étudie à la bibliothèque'},
+    {kr:'라디오',fr:'radio',rom:'la-di-o',ex:'라디오를 들어요 = j\'écoute la radio'},
+    {kr:'모자',fr:'chapeau',rom:'mo-ja',ex:'모자를 써요 = je porte un chapeau'},
+    {kr:'나무',fr:'arbre',rom:'na-mu',ex:'나무가 커요 = l\'arbre est grand'},
+    {kr:'달',fr:'lune',rom:'dal',ex:'달이 밝아요 = la lune est brillante'},
+    {kr:'물',fr:'eau',rom:'mul',ex:'물 주세요 = de l\'eau svp'},
+    {kr:'밥',fr:'riz / repas',rom:'bap',ex:'밥 먹어요 = je mange'},
+    {kr:'눈',fr:'neige / œil',rom:'nun',ex:'눈이 와요 = il neige'},
+    {kr:'라면',fr:'ramyeon (nouilles)',rom:'ra-myeon',ex:'라면을 먹어요 = je mange des nouilles'}
+  ]},
+  u_d3:{ name:'Consonnes ②', sub:'ㅂ ㅅ + voyelles ㅜ ㅣ ㅓ · premiers vrais mots', cards:[
+    {kr:'수박',fr:'pastèque',rom:'su-bak',ex:'수박이 달아요 = la pastèque est sucrée'},
+    {kr:'바나나',fr:'banane',rom:'ba-na-na',ex:'바나나를 먹어요 = je mange une banane'},
+    {kr:'사람',fr:'personne / humain',rom:'sa-ram',ex:'한국 사람이에요 = je suis coréen(ne)'},
+    {kr:'비빔밥',fr:'bibimbap',rom:'bi-bim-bap',ex:'비빔밥 주세요 = un bibimbap svp'},
+    {kr:'바다',fr:'mer / océan',rom:'ba-da',ex:'바다가 좋아요 = j\'aime la mer'},
+    {kr:'서울',fr:'Séoul',rom:'seo-ul',ex:'서울에 살아요 = je vis à Séoul'},
+    {kr:'버스',fr:'bus',rom:'beo-seu',ex:'버스를 타요 = je prends le bus'},
+    {kr:'사랑',fr:'amour',rom:'sa-rang',ex:'사랑해요 = je t\'aime'},
+    {kr:'배우',fr:'acteur / actrice',rom:'bae-u',ex:'배우가 되고 싶어요 = je veux devenir acteur'},
+    {kr:'의사',fr:'médecin',rom:'ui-sa',ex:'의사를 만나요 = je vois un médecin'},
+    {kr:'소파',fr:'canapé',rom:'so-pa',ex:'소파에 앉아요 = je m\'assieds sur le canapé'},
+    {kr:'비밀',fr:'secret',rom:'bi-mil',ex:'비밀이에요 = c\'est un secret'},
+    {kr:'부산',fr:'Busan',rom:'bu-san',ex:'부산에 가요 = je vais à Busan'},
+    {kr:'노래방',fr:'karaoké',rom:'no-rae-bang',ex:'노래방에 가요 = je vais au karaoké'},
+    {kr:'이리',fr:'loup',rom:'i-ri',ex:'이리가 와요 = le loup arrive'}
+  ]},
+  u_d4:{ name:'Sons aspirés', sub:'ㅊ ㅋ ㅌ ㅍ · ㄲ ㄸ ㅃ ㅆ ㅉ', cards:[
+    {kr:'치즈',fr:'fromage',rom:'chi-jeu',ex:'치즈피자 = pizza fromage'},
+    {kr:'커피',fr:'café (boisson)',rom:'keo-pi',ex:'커피 한 잔 주세요 = un café svp'},
+    {kr:'파티',fr:'fête / party',rom:'pa-ti',ex:'파티에 가요 = je vais à la fête'},
+    {kr:'기차',fr:'train',rom:'gi-cha',ex:'기차를 타요 = je prends le train'},
+    {kr:'포도',fr:'raisin',rom:'po-do',ex:'포도가 달아요 = le raisin est sucré'},
+    {kr:'허리',fr:'taille / dos',rom:'heo-ri',ex:'허리가 아파요 = j\'ai mal au dos'},
+    {kr:'초콜릿',fr:'chocolat',rom:'cho-kol-rit',ex:'초콜릿 좋아해요 = j\'aime le chocolat'},
+    {kr:'토마토',fr:'tomate',rom:'to-ma-to',ex:'토마토 주세요 = des tomates svp'},
+    {kr:'하늘',fr:'ciel',rom:'ha-neul',ex:'하늘이 파래요 = le ciel est bleu'},
+    {kr:'빨리',fr:'vite / rapidement',rom:'ppal-li',ex:'빨리 가요 = on y va vite'},
+    {kr:'또',fr:'encore / aussi',rom:'tto',ex:'또 만나요 = à bientôt (littéralement : on se revoit encore)'},
+    {kr:'쌀',fr:'riz (non cuit)',rom:'ssal',ex:'쌀을 사요 = j\'achète du riz'},
+    {kr:'찌개',fr:'jjigae (soupe coréenne)',rom:'jji-gae',ex:'김치찌개 = soupe au kimchi'},
+    {kr:'까다',fr:'éplucher / difficile',rom:'kka-da',ex:'까다로워요 = c\'est difficile'},
+    {kr:'짜다',fr:'salé',rom:'jja-da',ex:'너무 짜요 = c\'est trop salé'}
+  ]},
+  u_d5:{ name:'Batchim', sub:'Voyelles composées · consonnes finales', cards:[
+    {kr:'한국',fr:'Corée',rom:'han-guk',ex:'한국어 = langue coréenne'},
+    {kr:'학교',fr:'école',rom:'hak-gyo',ex:'학교에 가요 = je vais à l\'école'},
+    {kr:'음악',fr:'musique',rom:'eum-ak',ex:'음악을 들어요 = j\'écoute de la musique'},
+    {kr:'봄',fr:'printemps',rom:'bom',ex:'봄이 좋아요 = j\'aime le printemps'},
+    {kr:'책',fr:'livre',rom:'chaek',ex:'책을 읽어요 = je lis un livre'},
+    {kr:'먹다',fr:'manger',rom:'meok-da',ex:'뭐 먹을 거예요? = qu\'est-ce que vous allez manger?'},
+    {kr:'있어요',fr:"il y a / j'ai",rom:'is-seo-yo',ex:'시간이 있어요 = j\'ai le temps'},
+    {kr:'없어요',fr:"il n'y a pas / je n'ai pas",rom:'eob-seo-yo',ex:'시간이 없어요 = je n\'ai pas le temps'},
+    {kr:'봐요',fr:'on regarde / on voit',rom:'bwa-yo',ex:'영화를 봐요 = je regarde un film'},
+    {kr:'원',fr:'won (monnaie)',rom:'won',ex:'천 원이에요 = ça fait 1000 won'},
+    {kr:'괜찮아요',fr:"ça va / c'est bien",rom:'gwaen-cha-na-yo',ex:'괜찮아요? = ça va ?'},
+    {kr:'좋아요',fr:"c'est bien / j'aime",rom:'jo-a-yo',ex:'정말 좋아요 = c\'est vraiment bien'},
+    {kr:'싫어요',fr:"je n'aime pas",rom:'si-reo-yo',ex:'별로 싫어요 = je n\'aime pas trop'},
+    {kr:'재미있어요',fr:"c'est amusant / intéressant",rom:'jae-mi-is-seo-yo',ex:'한국어가 재미있어요 = le coréen est intéressant'},
+    {kr:'뭐예요?',fr:"c'est quoi ?",rom:'mwo-ye-yo?',ex:'이게 뭐예요? = c\'est quoi ça ?'}
+  ]},
+  u_a1_6:{ name:'Salutations', sub:'안녕하세요 · 감사합니다 · 존댓말', cards:[
+    {kr:'안녕하세요',fr:'Bonjour (formel)',rom:'an-nyeong-ha-se-yo',ex:'선생님께 안녕하세요 = bonjour professeur'},
+    {kr:'안녕히 가세요',fr:'Au revoir (à celui qui part)',rom:'an-nyeong-hi ga-se-yo',ex:'손님이 떠날 때 = quand l\'invité part'},
+    {kr:'안녕히 계세요',fr:'Au revoir (à celui qui reste)',rom:'an-nyeong-hi gye-se-yo',ex:'내가 떠날 때 = quand c\'est moi qui pars'},
+    {kr:'감사합니다',fr:'Merci beaucoup (très formel)',rom:'gam-sa-ham-ni-da',ex:'도움에 감사합니다 = merci pour l\'aide'},
+    {kr:'죄송합니다',fr:'Je suis désolé(e) (formel)',rom:'joe-song-ham-ni-da',ex:'늦어서 죄송합니다 = désolé d\'être en retard'},
+    {kr:'괜찮아요',fr:"Ça va / C'est pas grave",rom:'gwaen-cha-na-yo',ex:'괜찮아요, 걱정 마세요 = ça va, ne t\'inquiète pas'},
+    {kr:'반갑습니다',fr:'Enchanté(e)',rom:'ban-gap-seum-ni-da',ex:'처음 만날 때 = lors d\'une première rencontre'},
+    {kr:'잘 지냈어요?',fr:'Comment allez-vous ?',rom:'jal ji-naess-eo-yo?',ex:'오랜만이에요 = ça fait longtemps'},
+    {kr:'네',fr:'Oui',rom:'ne',ex:'네, 알겠어요 = oui, je comprends'},
+    {kr:'아니요',fr:'Non',rom:'a-ni-yo',ex:'아니요, 괜찮아요 = non, ça va'},
+    {kr:'실례합니다',fr:'Excusez-moi',rom:'sil-lye-ham-ni-da',ex:'지나가려고 할 때 = quand on veut passer'},
+    {kr:'어서 오세요',fr:'Bienvenue !',rom:'eo-seo o-se-yo',ex:'가게에서 = dans un magasin'},
+    {kr:'미안해요',fr:'Désolé(e) (poli)',rom:'mi-an-hae-yo',ex:'친구에게 = à un(e) ami(e)'},
+    {kr:'고맙습니다',fr:'Merci',rom:'go-map-seum-ni-da',ex:'선물을 받을 때 = en recevant un cadeau'},
+    {kr:'처음 뵙겠습니다',fr:'Enchanté (très formel)',rom:'cheo-eum boep-get-seum-ni-da',ex:'비즈니스 미팅에서 = en réunion d\'affaires'}
+  ]},
+  u_a1_7:{ name:'Se présenter', sub:'저는 ___ 이에요 · 가족 · Professions', cards:[
+    {kr:'저는 ___이에요',fr:'Je suis ___ (fin consonne)',rom:'jeo-neun ___i-e-yo',ex:'저는 학생이에요 = je suis étudiant(e)'},
+    {kr:'저는 ___예요',fr:'Je suis ___ (fin voyelle)',rom:'jeo-neun ___ye-yo',ex:'저는 의사예요 = je suis médecin'},
+    {kr:'이름이 뭐예요?',fr:'Comment vous appelez-vous ?',rom:'i-reum-i mwo-ye-yo?',ex:'성함이 어떻게 되세요? = (très formel)'},
+    {kr:'몇 살이에요?',fr:'Quel âge avez-vous ?',rom:'myeot sal-i-e-yo?',ex:'저는 스물다섯 살이에요 = j\'ai 25 ans'},
+    {kr:'어디 사세요?',fr:'Où habitez-vous ?',rom:'eo-di sa-se-yo?',ex:'서울에 살아요 = je vis à Séoul'},
+    {kr:'엄마 / 어머니',fr:'maman / mère (formel)',rom:'eom-ma / eo-meo-ni',ex:'어머니께 전화했어요 = j\'ai appelé ma mère'},
+    {kr:'아빠 / 아버지',fr:'papa / père (formel)',rom:'a-ppa / a-beo-ji',ex:'아버지는 의사예요 = mon père est médecin'},
+    {kr:'형 / 오빠',fr:'grand frère (H/F)',rom:'hyeong / o-ppa',ex:'오빠가 있어요 = j\'ai un grand frère'},
+    {kr:'누나 / 언니',fr:'grande sœur (H/F)',rom:'nu-na / eon-ni',ex:'언니가 예뻐요 = ma grande sœur est belle'},
+    {kr:'동생',fr:'petit(e) frère/sœur',rom:'dong-saeng',ex:'동생이 두 명 있어요 = j\'ai deux petit(e)s frères/sœurs'},
+    {kr:'선생님',fr:'professeur',rom:'seon-saeng-nim',ex:'선생님이 좋아요 = j\'aime mon professeur'},
+    {kr:'학생',fr:'étudiant(e)',rom:'hak-saeng',ex:'저는 대학생이에요 = je suis étudiant(e) à l\'université'},
+    {kr:'회사원',fr:'employé(e) de bureau',rom:'hoe-sa-won',ex:'회사원으로 일해요 = je travaille comme employé'},
+    {kr:'좋아해요',fr:"j'aime",rom:'jo-a-hae-yo',ex:'한국어를 좋아해요 = j\'aime le coréen'},
+    {kr:'싫어해요',fr:"je n'aime pas",rom:'si-reo-hae-yo',ex:'매운 거 싫어해요 = je n\'aime pas les épices'}
+  ]},
+  u_a1_8:{ name:'Nombres & Temps', sub:'일 이 삼 vs 하나 둘 셋 · 몇 시예요?', cards:[
+    {kr:'일 이 삼 사 오',fr:'1 2 3 4 5 (sino-coréen)',rom:'il i sam sa o',ex:'일 층 = 1er étage'},
+    {kr:'육 칠 팔 구 십',fr:'6 7 8 9 10',rom:'yuk chil pal gu sip',ex:'십 원 = 10 won'},
+    {kr:'하나 둘 셋 넷 다섯',fr:'1 2 3 4 5 (natif)',rom:'ha-na dul set net da-seot',ex:'하나 주세요 = un, svp'},
+    {kr:'몇 시예요?',fr:'Quelle heure est-il ?',rom:'myeot si-ye-yo?',ex:'지금 몇 시예요? = il est quelle heure ?'},
+    {kr:'한 시예요',fr:'Il est une heure',rom:'han si-ye-yo',ex:'한 시에 만나요 = on se retrouve à 1h'},
+    {kr:'오늘',fr:"aujourd'hui",rom:'o-neul',ex:'오늘 뭐 해요? = qu\'est-ce que tu fais aujourd\'hui ?'},
+    {kr:'내일',fr:'demain',rom:'nae-il',ex:'내일 봐요 = à demain'},
+    {kr:'어제',fr:'hier',rom:'eo-je',ex:'어제 뭐 했어요? = qu\'as-tu fait hier ?'},
+    {kr:'월요일',fr:'lundi',rom:'wol-yo-il',ex:'월요일에 학교 가요 = le lundi je vais à l\'école'},
+    {kr:'생일',fr:'anniversaire',rom:'saeng-il',ex:'생일 축하해요 = joyeux anniversaire'},
+    {kr:'얼마예요?',fr:'Combien ça coûte ?',rom:'eol-ma-ye-yo?',ex:'이거 얼마예요? = ça coûte combien ?'},
+    {kr:'천 원',fr:'1000 won',rom:'cheon won',ex:'천 원이에요 = ça fait 1000 won'},
+    {kr:'오전 / 오후',fr:'matin / après-midi',rom:'o-jeon / o-hu',ex:'오전 열 시 = 10h du matin'},
+    {kr:'몇 월이에요?',fr:"On est quel mois ?",rom:'myeot wol-i-e-yo?',ex:'지금 몇 월이에요? = on est quel mois ?'},
+    {kr:'주말',fr:'week-end',rom:'ju-mal',ex:'주말에 뭐 해요? = que fais-tu le week-end ?'}
+  ]},
+  u_a1_9:{ name:'Nourriture & Shopping', sub:'주세요 · 얼마예요? · 맛있어요', cards:[
+    {kr:'주세요',fr:"S'il vous plaît / Donnez-moi",rom:'ju-se-yo',ex:'물 주세요 = de l\'eau svp'},
+    {kr:'있어요?',fr:'Est-ce que vous avez... ?',rom:'is-seo-yo?',ex:'김치 있어요? = vous avez du kimchi ?'},
+    {kr:'없어요',fr:"Il n'y en a pas",rom:'eob-seo-yo',ex:'지금 없어요 = il n\'y en a pas maintenant'},
+    {kr:'맛있어요',fr:"C'est délicieux",rom:'ma-si-ss-eo-yo',ex:'정말 맛있어요! = c\'est vraiment délicieux !'},
+    {kr:'맵지 않아요?',fr:"Ce n'est pas épicé ?",rom:'maep-ji a-na-yo?',ex:'조금 매워요 = c\'est un peu épicé'},
+    {kr:'얼마예요?',fr:'Combien ça coûte ?',rom:'eol-ma-ye-yo?',ex:'다 얼마예요? = ça fait combien en tout ?'},
+    {kr:'비싸요',fr:"C'est cher",rom:'bi-ssa-yo',ex:'너무 비싸요 = c\'est trop cher'},
+    {kr:'싸요',fr:"C'est pas cher",rom:'ssa-yo',ex:'생각보다 싸요 = c\'est moins cher que prévu'},
+    {kr:'계산서 주세요',fr:"L'addition s'il vous plaît",rom:'gye-san-seo ju-se-yo',ex:'식당에서 = au restaurant'},
+    {kr:'삼겹살',fr:'poitrine de porc grillée',rom:'sam-gyeop-sal',ex:'삼겹살 이 인분 주세요 = deux portions de samgyeopsal'},
+    {kr:'김치',fr:'kimchi',rom:'gim-chi',ex:'김치찌개 = soupe au kimchi'},
+    {kr:'떡볶이',fr:'tteokbokki (gâteaux de riz épicés)',rom:'tteok-bo-kki',ex:'떡볶이 먹어요 = je mange du tteokbokki'},
+    {kr:'냉면',fr:'nouilles froides',rom:'naeng-myeon',ex:'물냉면 주세요 = des nouilles froides svp'},
+    {kr:'할인 있어요?',fr:'Vous avez une réduction ?',rom:'hal-in is-seo-yo?',ex:'학생 할인 있어요? = y a-t-il une réduction étudiant ?'},
+    {kr:'하나 주세요',fr:"Un, s'il vous plaît",rom:'ha-na ju-se-yo',ex:'아메리카노 하나 주세요 = un americano svp'}
+  ]},
+  u_a1_10:{ name:'Se déplacer', sub:'지하철 · 버스 · 어디예요? · Directions', cards:[
+    {kr:'지하철',fr:'métro',rom:'ji-ha-cheol',ex:'지하철을 타요 = je prends le métro'},
+    {kr:'버스',fr:'bus',rom:'beo-seu',ex:'몇 번 버스예요? = c\'est le bus numéro combien ?'},
+    {kr:'택시',fr:'taxi',rom:'taek-si',ex:'택시 잡아요 = je prends un taxi'},
+    {kr:'기차역',fr:'gare',rom:'gi-cha-yeok',ex:'서울역 = gare de Séoul'},
+    {kr:'어디예요?',fr:'Où est... ?',rom:'eo-di-ye-yo?',ex:'화장실이 어디예요? = où sont les toilettes ?'},
+    {kr:'왼쪽',fr:'gauche',rom:'wen-jjok',ex:'왼쪽으로 가세요 = tournez à gauche'},
+    {kr:'오른쪽',fr:'droite',rom:'o-reun-jjok',ex:'오른쪽으로 가세요 = tournez à droite'},
+    {kr:'직진',fr:'tout droit',rom:'jik-jin',ex:'직진하세요 = allez tout droit'},
+    {kr:'가깝다',fr:"c'est proche",rom:'ga-kkap-da',ex:'여기서 가까워요 = c\'est proche d\'ici'},
+    {kr:'멀다',fr:"c'est loin",rom:'meol-da',ex:'거기서 멀어요 = c\'est loin de là'},
+    {kr:'내리다',fr:'descendre',rom:'nae-ri-da',ex:'다음 역에서 내려요 = je descends à la prochaine station'},
+    {kr:'타다',fr:'monter / prendre (transport)',rom:'ta-da',ex:'지하철을 타요 = je prends le métro'},
+    {kr:'환승',fr:'correspondance',rom:'hwan-seung',ex:'2호선으로 환승해요 = je change pour la ligne 2'},
+    {kr:'T-머니',fr:'T-money (carte transport)',rom:'T-meo-ni',ex:'T-머니로 내요 = je paie avec la T-money'},
+    {kr:'몇 번 버스예요?',fr:'Bus numéro combien ?',rom:'myeot beon beo-seu-ye-yo?',ex:'지하철역까지 몇 번 버스예요?'}
+  ]},
+  u_a1_11:{ name:'Grammaire A1', sub:'SOV · Particules · Conjugaison · Négation', cards:[
+    {kr:'은/는',fr:'particule de thème (sujet mis en valeur)',rom:'eun/neun',ex:'저는 학생이에요 = moi, je suis étudiant'},
+    {kr:'이/가',fr:'particule de sujet grammatical',rom:'i/ga',ex:'고양이가 자요 = le chat dort'},
+    {kr:'을/를',fr:"particule d'objet direct",rom:'eul/reul',ex:'밥을 먹어요 = je mange du riz'},
+    {kr:'에',fr:'particule de lieu (existence) / temps',rom:'e',ex:'학교에 가요 = je vais à l\'école'},
+    {kr:'에서',fr:"particule de lieu (action)",rom:'e-seo',ex:'카페에서 공부해요 = j\'étudie au café'},
+    {kr:'저는 학생이에요',fr:'Je suis étudiant(e)',rom:'jeo-neun hak-saeng-i-e-yo',ex:'저는 대학교 학생이에요 = je suis à l\'université'},
+    {kr:'한국어를 공부해요',fr:"J'étudie le coréen",rom:'han-gug-eo-reul gong-bu-hae-yo',ex:'매일 공부해요 = j\'étudie tous les jours'},
+    {kr:'안 먹어요',fr:'Je ne mange pas (négation courte)',rom:'an meog-eo-yo',ex:'고기 안 먹어요 = je ne mange pas de viande'},
+    {kr:'먹지 않아요',fr:'Je ne mange pas (négation longue)',rom:'meok-ji a-na-yo',ex:'형식적으로 더 사용 = plus utilisé formellement'},
+    {kr:'없어요',fr:"Il n'y a pas / Je n'ai pas",rom:'eob-seo-yo',ex:'돈이 없어요 = je n\'ai pas d\'argent'},
+    {kr:'아니에요',fr:"Ce n'est pas... / Non",rom:'a-ni-e-yo',ex:'학생이 아니에요 = je ne suis pas étudiant'},
+    {kr:'가요',fr:'je vais (présent poli)',rom:'ga-yo',ex:'어디 가요? = où allez-vous ?'},
+    {kr:'먹어요',fr:'je mange (présent poli)',rom:'meog-eo-yo',ex:'뭐 먹어요? = qu\'est-ce que vous mangez ?'},
+    {kr:'공부해요',fr:"j'étudie (présent poli)",rom:'gong-bu-hae-yo',ex:'열심히 공부해요 = j\'étudie dur'},
+    {kr:'하다 → 해요',fr:'verbe HADA (faire) au présent poli',rom:'ha-da → hae-yo',ex:'일해요 = je travaille / 노래해요 = je chante'}
+  ]},
+  u_a1_12:{ name:'Météo & Saisons', sub:'날씨가 어때요? · 비가 와요 · 4 saisons', cards:[
+    {kr:'날씨가 어때요?',fr:'Quel temps fait-il ?',rom:'nal-ssi-ga eo-ttae-yo?',ex:'오늘 날씨가 어때요? = quel temps fait-il aujourd\'hui ?'},
+    {kr:'맑아요',fr:'Il fait beau / clair',rom:'mal-ga-yo',ex:'오늘 날씨가 맑아요 = il fait beau aujourd\'hui'},
+    {kr:'흐려요',fr:'Il est nuageux',rom:'heu-ryeo-yo',ex:'하늘이 흐려요 = le ciel est nuageux'},
+    {kr:'비가 와요',fr:'Il pleut',rom:'bi-ga wa-yo',ex:'오늘 비가 많이 와요 = il pleut beaucoup aujourd\'hui'},
+    {kr:'눈이 와요',fr:'Il neige',rom:'nun-i wa-yo',ex:'겨울에 눈이 와요 = il neige en hiver'},
+    {kr:'바람이 불어요',fr:'Il y a du vent',rom:'ba-ram-i bur-eo-yo',ex:'바람이 많이 불어요 = il y a beaucoup de vent'},
+    {kr:'더워요',fr:'Il fait chaud',rom:'deo-wo-yo',ex:'여름에 너무 더워요 = il fait très chaud en été'},
+    {kr:'추워요',fr:'Il fait froid',rom:'chu-wo-yo',ex:'겨울에 많이 추워요 = il fait très froid en hiver'},
+    {kr:'따뜻해요',fr:'Il fait doux / chaud agréable',rom:'tta-tteu-tae-yo',ex:'봄에 따뜻해요 = il fait doux au printemps'},
+    {kr:'시원해요',fr:'Il fait frais (agréable)',rom:'si-won-hae-yo',ex:'가을에 시원해요 = il fait frais en automne'},
+    {kr:'봄',fr:'printemps',rom:'bom',ex:'봄이 왔어요 = le printemps est arrivé'},
+    {kr:'여름',fr:'été',rom:'yeo-reum',ex:'여름 방학 = vacances d\'été'},
+    {kr:'가을',fr:'automne',rom:'ga-eul',ex:'가을 단풍 = feuilles d\'automne'},
+    {kr:'겨울',fr:'hiver',rom:'gyeo-ul',ex:'겨울은 추워요 = l\'hiver est froid'},
+    {kr:'장마',fr:'saison des pluies (mousson)',rom:'jang-ma',ex:'한국 장마 = la mousson coréenne (juin-juillet)'}
+  ]},
+  u_a1_13:{ name:'Positions & Lieux', sub:'안/밖/위/아래/앞/뒤/옆 · 있어요', cards:[
+    {kr:'안',fr:'dedans / à l\'intérieur',rom:'an',ex:'안에 있어요 = c\'est dedans'},
+    {kr:'밖',fr:'dehors / à l\'extérieur',rom:'bak',ex:'밖에 나가요 = je sors dehors'},
+    {kr:'위',fr:'dessus / en haut',rom:'wi',ex:'위에 있어요 = c\'est dessus / en haut'},
+    {kr:'아래',fr:'dessous / en bas',rom:'a-rae',ex:'아래에 있어요 = c\'est dessous / en bas'},
+    {kr:'앞',fr:'devant',rom:'ap',ex:'앞에 있어요 = c\'est devant'},
+    {kr:'뒤',fr:'derrière',rom:'dwi',ex:'뒤에 있어요 = c\'est derrière'},
+    {kr:'옆',fr:'à côté',rom:'yeop',ex:'옆에 있어요 = c\'est à côté'},
+    {kr:'사이',fr:'entre / parmi',rom:'sa-i',ex:'사이에 있어요 = c\'est entre les deux'},
+    {kr:'책상 위에 있어요',fr:'C\'est sur le bureau',rom:'chaek-sang wi-e is-seo-yo',ex:'고양이가 책상 위에 있어요 = le chat est sur le bureau'},
+    {kr:'가방 안에 있어요',fr:'C\'est dans le sac',rom:'ga-bang an-e is-seo-yo',ex:'열쇠가 가방 안에 있어요 = les clés sont dans le sac'},
+    {kr:'어디 있어요?',fr:'Où est-ce ?',rom:'eo-di is-seo-yo?',ex:'고양이가 어디 있어요? = où est le chat ?'},
+    {kr:'화장실이 어디예요?',fr:'Où sont les toilettes ?',rom:'hwa-jang-sil-i eo-di-ye-yo?',ex:'자주 쓰는 표현 = expression très utile'},
+    {kr:'왼쪽으로 가세요',fr:'Tournez à gauche',rom:'wen-jjok-eu-ro ga-se-yo',ex:'신호등에서 왼쪽으로 가세요 = tournez à gauche au feu'},
+    {kr:'오른쪽으로 가세요',fr:'Tournez à droite',rom:'o-reun-jjok-eu-ro ga-se-yo',ex:'다음 골목에서 오른쪽으로 = prochain carrefour à droite'},
+    {kr:'직진하세요',fr:'Allez tout droit',rom:'jik-jin-ha-se-yo',ex:'계속 직진하세요 = continuez tout droit'}
+  ]},
+  u_a1_14:{ name:'Maison & Quotidien', sub:'거실/침실/부엌 · Routine journalière', cards:[
+    {kr:'거실',fr:'salon',rom:'geo-sil',ex:'거실에서 TV를 봐요 = je regarde la TV au salon'},
+    {kr:'침실',fr:'chambre (à coucher)',rom:'chim-sil',ex:'침실에서 자요 = je dors dans la chambre'},
+    {kr:'부엌',fr:'cuisine',rom:'bu-eok',ex:'부엌에서 요리해요 = je cuisine dans la cuisine'},
+    {kr:'화장실',fr:'salle de bain / toilettes',rom:'hwa-jang-sil',ex:'화장실에서 씻어요 = je me lave dans la salle de bain'},
+    {kr:'소파',fr:'canapé',rom:'so-pa',ex:'소파에 앉아요 = je m\'assieds sur le canapé'},
+    {kr:'침대',fr:'lit',rom:'chim-dae',ex:'침대에서 자요 = je dors dans le lit'},
+    {kr:'냉장고',fr:'réfrigérateur',rom:'naeng-jang-go',ex:'냉장고에 음식이 있어요 = il y a de la nourriture dans le frigo'},
+    {kr:'일어나다',fr:'se lever',rom:'i-reo-na-da',ex:'아침에 일어나요 = je me lève le matin'},
+    {kr:'씻다',fr:'se laver',rom:'ssit-da',ex:'샤워해요 = je prends une douche'},
+    {kr:'아침을 먹다',fr:'prendre son petit-déjeuner',rom:'a-chim-eul meok-da',ex:'아침을 먹고 나가요 = je pars après le petit-dej'},
+    {kr:'학교에 가다',fr:"aller à l'école",rom:'hak-gyo-e ga-da',ex:'버스로 학교에 가요 = je vais à l\'école en bus'},
+    {kr:'공부하다',fr:'étudier',rom:'gong-bu-ha-da',ex:'도서관에서 공부해요 = j\'étudie à la bibliothèque'},
+    {kr:'집에 오다',fr:'rentrer à la maison',rom:'jib-e o-da',ex:'6시에 집에 와요 = je rentre à 6h'},
+    {kr:'저녁을 먹다',fr:'dîner',rom:'jeo-nyeok-eul meok-da',ex:'가족과 저녁을 먹어요 = je dîne en famille'},
+    {kr:'자다',fr:'dormir',rom:'ja-da',ex:'10시에 자요 = je dors à 22h'}
+  ]},
+  u_a1_15:{ name:'Émotions & Corps', sub:'기쁘다/슬프다/화나다 · 몸 · 건강', cards:[
+    {kr:'기쁘다',fr:'être heureux/heureuse (joie vive)',rom:'gi-ppeu-da',ex:'오늘 기뻐요 = je suis heureux aujourd\'hui'},
+    {kr:'슬프다',fr:'être triste',rom:'seul-peu-da',ex:'영화를 보고 슬펐어요 = j\'étais triste après le film'},
+    {kr:'화나다',fr:'être en colère',rom:'hwa-na-da',ex:'화났어요 = je suis en colère'},
+    {kr:'피곤하다',fr:'être fatigué(e)',rom:'pi-gon-ha-da',ex:'오늘 많이 피곤해요 = je suis très fatigué aujourd\'hui'},
+    {kr:'행복하다',fr:'être heureux (bonheur profond)',rom:'haeng-bok-ha-da',ex:'지금 행복해요 = je suis heureux maintenant'},
+    {kr:'머리',fr:'tête',rom:'meo-ri',ex:'머리가 아파요 = j\'ai mal à la tête'},
+    {kr:'눈',fr:'œil / yeux',rom:'nun',ex:'눈이 아파요 = j\'ai mal aux yeux'},
+    {kr:'코',fr:'nez',rom:'ko',ex:'코가 막혔어요 = j\'ai le nez bouché'},
+    {kr:'입',fr:'bouche',rom:'ip',ex:'입이 아파요 = j\'ai mal à la bouche'},
+    {kr:'귀',fr:'oreille',rom:'gwi',ex:'귀가 아파요 = j\'ai mal à l\'oreille'},
+    {kr:'손',fr:'main',rom:'son',ex:'손이 시려요 = j\'ai les mains froides'},
+    {kr:'발',fr:'pied',rom:'bal',ex:'발이 아파요 = j\'ai mal au pied'},
+    {kr:'어디 아파요?',fr:'Où avez-vous mal ?',rom:'eo-di a-pa-yo?',ex:'병원에서 의사가 물어봐요 = le médecin demande'},
+    {kr:'머리가 아파요',fr:"J'ai mal à la tête",rom:'meo-ri-ga a-pa-yo',ex:'두통이 있어요 = j\'ai des maux de tête'},
+    {kr:'기분이 어때요?',fr:'Comment vous sentez-vous ?',rom:'gi-bun-i eo-ttae-yo?',ex:'기분이 좋아요 = je me sens bien'}
+  ]}
+};
+
+const UNIT_ORDER = ['u_d1','u_d2','u_d3','u_d4','u_d5','u_a1_6','u_a1_7','u_a1_8','u_a1_9','u_a1_10','u_a1_11','u_a1_12','u_a1_13','u_a1_14','u_a1_15'];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let currentUnit = 'u_d1';
+let deck = [];        // cards still to review
+let wrongPile = [];   // cards to repeat
+let doneEasy = 0, doneHard = 0, doneWrong = 0;
+let isFlipped = false;
+let totalXP = parseInt(localStorage.getItem('ks_prem_ecrit_xp') || '0');
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+function init() {
+  const params = new URLSearchParams(window.location.search);
+  const u = params.get('u');
+  if (u && UNITS[u]) currentUnit = u;
+  buildTabs();
+  loadUnit(currentUnit);
+  document.getElementById('xpBadge').textContent = totalXP + ' XP';
+}
+
+function buildTabs() {
+  const wrap = document.getElementById('unitTabs');
+  wrap.innerHTML = '';
+  UNIT_ORDER.forEach(uid => {
+    const u = UNITS[uid];
+    const btn = document.createElement('button');
+    btn.className = 'utab' + (uid === currentUnit ? ' active' : '');
+    btn.textContent = u.name;
+    btn.onclick = () => loadUnit(uid);
+    wrap.appendChild(btn);
+  });
+}
+
+function loadUnit(uid) {
+  currentUnit = uid;
+  buildTabs();
+  const u = UNITS[uid];
+  document.getElementById('unitSub').textContent = u.sub;
+  deck = [...u.cards].sort(() => Math.random() - 0.5);
+  wrongPile = [];
+  doneEasy = 0; doneHard = 0; doneWrong = 0;
+  document.getElementById('completionScreen').classList.remove('show');
+  document.getElementById('mainContent').style.display = 'block';
+  showCard();
+  updateStats();
+}
+
+function showCard() {
+  if (deck.length === 0 && wrongPile.length === 0) {
+    showCompletion();
+    return;
+  }
+  if (deck.length === 0) {
+    deck = [...wrongPile];
+    wrongPile = [];
+  }
+  const card = deck[0];
+  const u = UNITS[currentUnit];
+  isFlipped = false;
+  document.getElementById('flipCard').classList.remove('flipped');
+  document.getElementById('actionBtns').classList.add('hidden');
+  document.getElementById('flipHint').style.opacity = '1';
+
+  document.getElementById('cardUnitTag').textContent = u.name.toUpperCase();
+  document.getElementById('cardKr').textContent = card.kr;
+  document.getElementById('cardFr').textContent = card.fr;
+  document.getElementById('cardRom').textContent = '[ ' + card.rom + ' ]';
+  document.getElementById('cardEx').textContent = card.ex;
+
+  const total = u.cards.length;
+  const done = doneEasy + doneHard;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('cardNum').textContent = done + 1;
+  document.getElementById('cardTotal').textContent = total;
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').innerHTML = 'Carte <strong>' + (done + 1) + '</strong> / <strong>' + total + '</strong>';
+  if (pct > 0) document.getElementById('accLabel').textContent = pct + '% vu';
+}
+
+function flipCard() {
+  if (isFlipped) return;
+  isFlipped = true;
+  document.getElementById('flipCard').classList.add('flipped');
+  document.getElementById('actionBtns').classList.remove('hidden');
+  document.getElementById('flipHint').style.opacity = '0';
+}
+
+function rate(result) {
+  const card = deck.shift();
+  if (result === 'easy') { doneEasy++; }
+  else if (result === 'hard') { doneHard++; deck.push(card); }
+  else { doneWrong++; wrongPile.push(card); }
+  updateStats();
+  showCard();
+}
+
+function updateStats() {
+  document.getElementById('statEasy').textContent = doneEasy + ' sus';
+  document.getElementById('statHard').textContent = doneHard + ' difficile';
+  document.getElementById('statWrong').textContent = doneWrong + ' à revoir';
+}
+
+function showCompletion() {
+  document.getElementById('mainContent').style.display = 'none';
+  const total = doneEasy + doneHard + doneWrong;
+  const accuracy = total > 0 ? Math.round(doneEasy / total * 100) : 0;
+  const xpEarned = doneEasy * 5 + doneHard * 2;
+  totalXP += xpEarned;
+  localStorage.setItem('ks_prem_ecrit_xp', totalXP);
+  document.getElementById('xpBadge').textContent = totalXP + ' XP';
+
+  let msg = accuracy >= 80 ? 'Excellent ! Tu maîtrises ce vocabulaire.' : accuracy >= 50 ? 'Bien joué ! Continue à pratiquer.' : 'Continue — chaque révision t\'améliore !';
+  document.getElementById('compSub').textContent = msg;
+  document.getElementById('compStats').innerHTML =
+    '<div class="acc-item"><div class="acc-val" style="color:#22c55e">' + doneEasy + '</div><div class="acc-label">Sus</div></div>' +
+    '<div class="acc-item"><div class="acc-val" style="color:#fbbf24">' + doneHard + '</div><div class="acc-label">Difficile</div></div>' +
+    '<div class="acc-item"><div class="acc-val" style="color:#f472b6">' + doneWrong + '</div><div class="acc-label">À revoir</div></div>' +
+    '<div class="acc-item"><div class="acc-val" style="color:var(--gold)">' + accuracy + '%</div><div class="acc-label">Précision</div></div>';
+  document.getElementById('compXP').textContent = '+' + xpEarned + ' XP gagné !';
+  document.getElementById('completionScreen').classList.add('show');
+}
+
+function restartSession() {
+  loadUnit(currentUnit);
+}
+
+function goBack() {
+  if (window.parent && typeof window.parent.closeCPanel === 'function') {
+    window.parent.closeCPanel();
+  } else {
+    history.back();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<script>
+(function(){
+  var SVG_MOON='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  var SVG_SUN='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+  function sync(){var b=document.getElementById('darkFab');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.innerHTML=d?SVG_SUN:SVG_MOON;b.style.opacity=d?'1':'.7';}
+  window.toggleDarkGlobal=function(){var d=document.documentElement.getAttribute('data-theme')==='dark';var t=d?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('ks_theme',t);}catch(e){}sync();};
+  sync();
+})();
+</script>
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

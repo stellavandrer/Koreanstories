@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Korean Stories — Leçon A2 : L'expérience -아/어 봤어요</title>
+  <meta name="description" content="-아/어 봤어요 · -아/어 본 적이 있다— parler de ses expériences en coréen. Essentiel pour TOPIK."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .gram-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .2s;flex-shrink:0}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Formula card */
+    .formula-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;overflow:hidden;margin-bottom:20px}
+    .formula-head{background:var(--navy);padding:14px 18px}
+    .formula-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:8px}
+    .formula-main{font-size:20px;color:white;font-weight:400;margin-bottom:4px}
+    .formula-rom{font-size:12px;color:rgba(247,248,250,.5)}
+    .formula-body{padding:16px 18px}
+    .formula-rule{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:8px}
+    .formula-rule em{color:var(--t);font-weight:700;font-style:normal}
+    .formula-tip{background:var(--goldp);border:1px solid rgba(201,169,110,.15);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--t);line-height:1.65}
+    /* Ex list */
+    .ex-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+    .ex-item{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px 16px;cursor:pointer;transition:all .2s}
+    .ex-item:hover{border-color:var(--gold)}
+    .ex-kor{font-size:18px;color:var(--t);margin-bottom:4px}
+    .ex-rom{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:3px}
+    .ex-mean{font-size:13px;color:var(--t2)}
+    /* Dialogue */
+    .dial-card{background:var(--navy);border-radius:20px;padding:18px;margin-bottom:20px}
+    .dial-title{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:14px}
+    .dial-line{display:flex;gap:10px;margin-bottom:12px}
+    .dial-who{font-size:11px;font-weight:800;color:var(--gold);min-width:52px;padding-top:3px}
+    .dial-text{flex:1}
+    .dial-kor{font-size:15px;color:white;margin-bottom:3px;cursor:pointer}
+    .dial-mean{font-size:12px;color:rgba(247,248,250,.5)}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(22px,6vw,30px);color:var(--t);font-weight:300;margin:0 0 8px;cursor:pointer;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px;line-height:1.4}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:12px 8px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+    .next-btn:hover{opacity:.88}
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+    [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
+    [data-theme=dark] .q-prompt{color:var(--t)}
+    .gram-overlay{position:fixed;inset:0;background:rgba(15,27,45,.6);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+    .gram-overlay.open{display:flex}
+    .gram-modal{background:var(--surf);border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:78vh;overflow-y:auto;padding:24px 24px 32px;animation:slideUp .3s cubic-bezier(.4,0,.2,1)}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+    .gram-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .gram-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t)}
+    .gram-close{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);background:none;font-size:20px;color:var(--gray);cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .gram-rule{padding:10px 0;border-bottom:1px solid var(--bd)}.gram-rule:last-of-type{border-bottom:none}
+    .gram-head{font-size:13px;font-weight:800;color:var(--gold);margin-bottom:5px}
+    .gram-exp{font-size:13px;color:var(--t2);line-height:1.6}
+    .gram-exp em{color:var(--t);font-style:normal;font-weight:700}
+    .gram-tip{margin-top:12px;background:var(--goldp);border:1px solid rgba(201,169,110,.2);border-radius:12px;padding:12px;font-size:13px;color:var(--t);line-height:1.7}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+<div id="gramOverlay" class="gram-overlay">
+  <div class="gram-modal">
+    <div class="gram-hd">
+      <span class="gram-title">L'expérience en coréen</span>
+      <button class="gram-close" onclick="closeGram()">×</button>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">-아/어 봤어요 — "J'ai déjà essayé"</div>
+      <div class="gram-exp">Verbe + <em>-아/어 봤어요</em> = j'ai essayé de faire<br>먹어 봤어요 (j'ai goûté) · 가 봤어요 (j'y suis allé) · 해 봤어요 (j'ai essayé)</div>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">-아/어 본 적이 있어요 — "J'ai déjà eu l'expérience"</div>
+      <div class="gram-exp">Verbe + <em>-아/어 본 적이 있어요</em> = j'ai déjà [expérience]<br>한국에 가 본 적이 있어요 = j'ai déjà été en Corée</div>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">-아/어 본 적이 없어요 — "Je n'ai jamais"</div>
+      <div class="gram-exp">Verbe + <em>-아/어 본 적이 없어요</em> = je n'ai jamais [expérience]<br>김치를 먹어 본 적이 없어요 = je n'ai jamais mangé de kimchi</div>
+    </div>
+    <div class="gram-tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> La nuance : -봤어요 = j'ai essayé une fois · -본 적이 있어요 = j'ai l'expérience (plus large)</div>
+  </div>
+</div>
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span> XP</a>
+  </div>
+</div>
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <button class="gram-btn" onclick="openGram()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Grammaire</button>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">먹어 봤어요? — Est-ce que tu as déjà goûté ?</div></div>
+</div>
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">L'expérience maîtrisée !</div>
+      <div class="res-subtitle">완료 — 경험 있어요 !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n">+15</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg">Tu peux maintenant parler de tes expériences en coréen ! -아/어 봐요 = essaie ! -아/어 봤어요 = j'ai essayé !</div>
+      <div class="res-btns">
+        <button class="res-prim" onclick="window.location.href='lecon47.html'">Leçon suivante — Permission & Interdiction <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn">Recommencer</button>
+          <a href="cours.html" class="res-sec">Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+function openGram(){document.getElementById('gramOverlay').classList.add('open')}
+function closeGram(){document.getElementById('gramOverlay').classList.remove('open')}
+document.getElementById('gramOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeGram()});
+
+const STEPS=[
+  {type:'story',tag:'Leçon A2 · L\'Expérience',
+   txt:'"Emma est au marché Gwangjang. Ji-woo lui demande : 빈대떡 먹어 봤어요? (T\'as déjà goûté les crêpes aux haricots?) Emma : 아니요, 먹어 본 적이 없어요. (Non, je n\'en ai jamais mangé.) Ji-woo : 그럼 먹어 봐요 ! 정말 맛있어요 ! (Alors goûte ! C\'est vraiment délicieux!)"',
+   scene:'Marché traditionnel de Gwangjang, Séoul',
+   mina:'-아/어 봐요 = essaie ! · -아/어 봤어요 = j\'ai essayé · -아/어 본 적이 있어요 = j\'ai déjà fait. C\'est une des structures les plus utiles du coréen quotidien !'
+  },
+  {type:'formula',
+   title:'-아/어 봐요 / 봤어요 — Structure',
+   formula:'동사 + -아/어 보다',
+   forms:[
+     {lbl:'Proposition',kor:'-아/어 봐요',mean:'Essaie ! (invitation)'},
+     {lbl:'Passé',kor:'-아/어 봤어요',mean:'J\'ai essayé / J\'ai goûté'},
+     {lbl:'Expérience',kor:'-아/어 본 적이 있어요',mean:'J\'ai déjà eu l\'expérience de'},
+     {lbl:'Jamais',kor:'-아/어 본 적이 없어요',mean:'Je n\'ai jamais'},
+   ],
+   mina:'보다 = voir/essayer. -아/어 보다 = essayer de faire. 먹어 보다 = essayer de manger (→ goûter). C\'est le sens d\'essai/tentative !'
+  },
+  {type:'examples',
+   title:'Exemples en contexte — Clique pour écouter',
+   items:[
+     {kor:'김치 먹어 봤어요?',rom:'gim-chi meo-geo bwa-sseo-yo?',mean:'Tu as déjà goûté le kimchi ?'},
+     {kor:'네, 먹어 봤어요. 맛있었어요!',rom:'ne, meo-geo bwa-sseo-yo. ma-si-sseo-sseo-yo!',mean:'Oui, j\'en ai goûté. C\'était délicieux !'},
+     {kor:'한국에 가 본 적이 있어요?',rom:'han-gu-ge ga bon jeo-gi i-sseo-yo?',mean:'Est-ce que tu es déjà allé(e) en Corée ?'},
+     {kor:'아직 가 본 적이 없어요',rom:'a-jik ga bon jeo-gi eob-sseo-yo',mean:'Je n\'y suis pas encore allé(e)'},
+     {kor:'한번 입어 봐요 !',rom:'han-beon i-beo bwa-yo!',mean:'Essaie-le donc ! (habits)'},
+     {kor:'저도 해 본 적이 없어요',rom:'jeo-do hae bon jeo-gi eob-sseo-yo',mean:'Moi non plus, je n\'ai jamais essayé'},
+   ],
+   mina:'아직 = pas encore. 저도 = moi aussi / moi non plus. Très utiles pour parler d\'expériences. 한번 = une fois / donc — invite à essayer !'
+  },
+  {type:'dialogue',
+   title:'Dialogue — Au magasin de vêtements',
+   lines:[
+     {who:'직원',kor:'이 옷 입어 보실래요?',mean:'Voulez-vous essayer ce vêtement ?'},
+     {who:'Emma',kor:'네, 입어 봐도 될까요?',mean:'Oui, puis-je l\'essayer ?'},
+     {who:'직원',kor:'물론이죠! 탈의실은 저쪽이에요.',mean:'Bien sûr ! La cabine est par là.'},
+     {who:'Emma',kor:'아, 이런 옷 입어 본 적이 없어요.',mean:'Je n\'ai jamais porté ce genre de vêtement.'},
+     {who:'직원',kor:'한번 입어 보세요. 정말 잘 어울려요!',mean:'Essayez ! Ça vous va vraiment bien !'},
+   ],
+   mina:'입어 보다 = essayer (des vêtements). 먹어 보다 = goûter. 들어 보다 = écouter pour voir. 해 보다 = essayer de faire. La structure est toujours la même !'
+  },
+  {type:'mcq',qn:1,
+   prompt:'Comment dit-on "J\'ai déjà mangé du bibimbap" ?',
+   main:'비빔밥 먹다 → expérience',
+   answer:'비빔밥 먹어 본 적이 있어요',choices:['비빔밥 먹어 본 적이 있어요','비빔밥 먹었어요','비빔밥 먹어 봐요','비빔밥을 먹고 있어요'],
+   fb_ok:'비빔밥 먹어 본 적이 있어요 — parfait ! -어 본 적이 있어요 = j\'ai eu l\'expérience de manger.',
+   fb_ko:'비빔밥 먹어 본 적이 있어요. -어 본 적이 있어요 = j\'ai déjà eu l\'expérience. (먹었어요 = j\'ai mangé, mais sans idée d\'expérience/nouveauté).',
+   mina_ok:'훌륭해요 ! 먹어 본 적이 있어요 = j\'ai l\'expérience d\'avoir mangé. Beaucoup plus riche que 먹었어요 !',
+   mina_ko:'먹어 본 적이 있어요 = j\'ai déjà goûté/j\'ai l\'expérience. -어 봤어요 = j\'ai essayé. Les deux fonctionnent mais nuances différentes !'
+  },
+  {type:'mcq',qn:2,
+   prompt:'Que signifie "한번 해 봐요 !" ?',
+   main:'한번 해 봐요 !',
+   answer:'Essayez donc !',choices:['Essayez donc !','J\'ai essayé','Vous n\'avez jamais essayé','Essayez encore une fois'],
+   fb_ok:'Essayez donc ! — parfait ! 한번 = une fois/donc · 해 봐요 = essayez (impératif poli). Phrase très naturelle !',
+   fb_ko:'한번 해 봐요 = essayez donc ! 한번 = une fois · 해 봐요 = essayez. C\'est l\'invitation à tenter quelque chose !',
+   mina_ok:'완벽해요 ! 한번 해 봐요 ! = Essayez ! On utilise beaucoup 한번 (une fois/donc) avec -아/어 봐요 pour inviter quelqu\'un à essayer !',
+   mina_ko:'한번 해 봐요 = essayez ! 한번 먹어 봐요 = goûtez ! 한번 가 봐요 = allez-y voir ! La formule magique pour inviter à essayer !'
+  },
+  {type:'mcq',qn:3,
+   prompt:'Comment dit-on "Je n\'ai jamais fait de snowboard" ?',
+   main:'스노보드 타다 → jamais',
+   answer:'스노보드를 타 본 적이 없어요',choices:['스노보드를 타 본 적이 없어요','스노보드를 안 타요','스노보드를 못 타요','스노보드를 타 봤어요'],
+   fb_ok:'스노보드를 타 본 적이 없어요 — parfait ! 타다(prendre/faire) + -아 본 적이 없어요 = je n\'ai jamais eu l\'expérience.',
+   fb_ko:'스노보드를 타 본 적이 없어요. -아/어 본 적이 없어요 = je n\'ai jamais. (안 타요 = je ne fais pas · 못 타요 = je ne sais pas faire).',
+   mina_ok:'훌륭해요 ! 타 본 적이 없어요 = je n\'ai jamais fait. Différent de 못 타요 (je ne sais pas faire) ou 안 타요 (je ne fais pas) !',
+   mina_ko:'타 본 적이 없어요 = jamais eu l\'expérience. 못 타요 = incapable. 안 타요 = je ne fais pas (par choix). 3 formes négatives différentes !'
+  },
+];
+
+const TOTAL_Q=STEPS.filter(s=>s.type==='mcq').length;
+let cur=0,score=0,answered=false;
+
+function ksBeep(t){try{const c=new(window.AudioContext||window.webkitAudioContext)();if(t==='ok'){[[523.25,0],[659.25,.08],[783.99,.16]].forEach(([f,d])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;const tt=c.currentTime+d;g.gain.setValueAtTime(0,tt);g.gain.linearRampToValueAtTime(.14,tt+.025);g.gain.exponentialRampToValueAtTime(.001,tt+.2);o.start(tt);o.stop(tt+.2);});}else{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.setValueAtTime(220,c.currentTime);o.frequency.linearRampToValueAtTime(110,c.currentTime+.2);g.gain.setValueAtTime(.10,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.22);o.start(c.currentTime);o.stop(c.currentTime+.22);}}catch(e){}}
+function setMina(t,img){document.getElementById('msay').textContent=t;si('minaHdr',img||A.e);}
+function initDots(){const el=document.getElementById('stepDots');if(!el)return;const col={story:'#C9A96E',formula:'#4F46E5',examples:'#16A34A',dialogue:'#7C3AED',mcq:'#F59E0B'};el.innerHTML=STEPS.map((s,i)=>`<div class="sdot" id="dot${i}" style="background:${col[s.type]||'#C9A96E'};opacity:.25"></div>`).join('');}
+function updateDots(){STEPS.forEach((_,i)=>{const d=document.getElementById('dot'+i);if(!d)return;if(i<cur){d.style.opacity='1';d.classList.add('done');d.classList.remove('current');}else if(i===cur){d.style.opacity='1';d.classList.add('current');d.classList.remove('done');}else{d.style.opacity='.25';d.classList.remove('current','done');}});}
+function updateProgress(){document.getElementById('pbar').style.width=Math.round((cur/STEPS.length)*100)+'%';}
+
+function renderStory(s){return`<div class="story"><span class="story-tag">${s.tag}</span><p class="story-txt">${s.txt}</p><div class="story-scene">${s.scene}</div></div><button class="next-btn" onclick="advance()">Commencer →</button>`;}
+function renderFormula(s){const rows=s.forms.map(f=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)"><span style="font-size:10px;font-weight:800;text-transform:uppercase;color:var(--t3);min-width:70px">${f.lbl}</span><span style="font-size:17px;color:var(--t);cursor:pointer;flex:1" onclick="speak('${f.kor}')">${f.kor}</span><span style="font-size:11px;color:var(--t2)">${f.mean}</span></div>`).join('');return`<div class="formula-card"><div class="formula-head"><div class="formula-title">${s.title}</div><div class="formula-main">${s.formula}</div></div><div class="formula-body">${rows}</div></div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderExamples(s){const items=s.items.map(it=>`<div class="ex-item" onclick="speak('${it.kor}')"><div class="ex-kor">${it.kor}</div><div class="ex-rom">${it.rom}</div><div class="ex-mean">${it.mean}</div></div>`).join('');return`<div style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px">${s.title}</div><div class="ex-list">${items}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderDialogue(s){const lines=s.lines.map(l=>`<div class="dial-line"><div class="dial-who">${l.who}</div><div class="dial-text"><div class="dial-kor" onclick="speak('${l.kor}')">${l.kor}</div><div class="dial-mean">${l.mean}</div></div></div>`).join('');return`<div class="dial-card"><div class="dial-title">${s.title}</div>${lines}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderMcq(s){const chs=s.choices.map(c=>`<button class="ch" onclick="checkMcq(this,'${c.replace(/'/g,"\\'")}','${s.answer.replace(/'/g,"\\'")}','${(s.fb_ok||'').replace(/'/g,"\\'")}','${(s.fb_ko||'').replace(/'/g,"\\'")}','${(s.mina_ok||'').replace(/'/g,"\\'")}','${(s.mina_ko||'').replace(/'/g,"\\'")}',this.closest('.mcq'))">${c}</button>`).join('');return`<div class="mcq"><span class="q-cnt">Question ${s.qn} / ${TOTAL_Q}</span><p class="q-prompt">${s.prompt}</p><div class="q-big" onclick="speak('${s.main}')">${s.main}</div><div class="choices">${chs}</div><div class="fb-strip" id="fb" style="display:none"></div><button class="next-btn" id="nextQ" style="display:none" onclick="advance()">Continuer →</button></div>`;}
+function checkMcq(btn,chosen,answer,fok,fko,mok,mko,wrap){if(answered)return;answered=true;wrap.querySelectorAll('.ch').forEach(b=>b.disabled=true);const ok=chosen===answer;if(ok){score++;btn.classList.add('ok');ksBeep('ok');setMina(mok,A.b);}else{btn.classList.add('ko');wrap.querySelectorAll('.ch').forEach(b=>{if(b.textContent===answer)b.classList.add('ok');});ksBeep('ko');setMina(mko,A.a);}const fb=document.getElementById('fb');fb.textContent=ok?fok:fko;fb.className='fb-strip '+(ok?'ok':'ko');fb.style.display='block';document.getElementById('nextQ').style.display='block';}
+
+function renderStep(){const s=STEPS[cur];const lc=document.getElementById('lc');answered=false;
+  if(s.type==='story')lc.innerHTML=renderStory(s);
+  else if(s.type==='formula')lc.innerHTML=renderFormula(s);
+  else if(s.type==='examples')lc.innerHTML=renderExamples(s);
+  else if(s.type==='dialogue')lc.innerHTML=renderDialogue(s);
+  else if(s.type==='mcq')lc.innerHTML=renderMcq(s);
+  if(s.mina)setMina(s.mina,A.e);
+  lc.scrollIntoView({behavior:'smooth',block:'start'});
+  updateDots();updateProgress();
+}
+function advance(){cur++;if(cur>=STEPS.length){showResults();return;}renderStep();}
+function showResults(){document.getElementById('lc').style.display='none';document.getElementById('results').style.display='block';document.getElementById('resScore').textContent=score;document.getElementById('resOf').textContent='/ '+TOTAL_Q+' bonnes rép.';try{localStorage.setItem('ks_b04c','done');}catch(e){}document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;document.getElementById('lc').style.display='';document.getElementById('results').style.display='none';renderStep();};}
+
+initDots();renderStep();
+</script>
+</body>
+</html>

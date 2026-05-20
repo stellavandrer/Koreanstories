@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Production de phrases A2 — Korean Stories</title>
+
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .5rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:1rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+  </style>
+
+  <style>
+    .ex-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .prompt{font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.8rem}
+    .hint{font-size:.82rem;color:var(--tx-muted);margin-bottom:.5rem;font-style:italic}
+    textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--bd);border-radius:10px;padding:.7rem;font-size:1rem;background:var(--bg);color:var(--tx);resize:vertical;min-height:60px}
+    textarea:focus{border-color:#16A34A;outline:none}
+    .reveal-btn{background:rgba(22,163,74,.1);color:#16A34A;border:1.5px solid #16A34A;border-radius:8px;padding:.4rem .9rem;font-size:.88rem;cursor:pointer;margin-top:.5rem}
+    .answer{display:none;margin-top:.6rem;background:rgba(22,163,74,.08);border-radius:8px;padding:.6rem;font-size:.92rem}
+    .answer.show{display:block}
+    .ko{font-size:1.1rem;color:#16A34A;font-weight:700}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Production de phrases</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <div style="margin-bottom:1rem">
+        <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Production de phrases A2</h2>
+        <span class="pill">10 exercices</span> <span class="xp-badge">+10 XP</span>
+        <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Construisez des phrases complètes en coréen à partir des indices donnés.</p>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">1. Dites que vous habitez à Paris.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 살다 (vivre/habiter), 파리 (Paris), -에 (particule de lieu)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">저는 파리에 살아요.</span><br>Je vis à Paris.</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">2. Demandez où se trouve la gare.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 기차역 (gare), 어디 (où), -에 있다 (être situé)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">기차역이 어디에 있어요?</span><br>Où se trouve la gare ?</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">3. Dites que vous avez mangé du bibimbap hier.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 어제 (hier), 비빔밥 (bibimbap), -을/를 먹다 (manger)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">어제 비빔밥을 먹었어요.</span><br>Hier j'ai mangé du bibimbap.</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">4. Exprimez que vous voulez aller en Corée.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 한국 (Corée), -에 가다 (aller à), -고 싶다 (vouloir)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">한국에 가고 싶어요.</span><br>Je veux aller en Corée.</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">5. Dites que le café est chaud mais bon.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 커피 (café), 뜨겁다 (chaud), -지만 (mais), 맛있다 (délicieux)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">커피가 뜨겁지만 맛있어요.</span><br>Le café est chaud mais délicieux.</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">6. Demandez combien coûte cette robe.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 이 원피스 (cette robe), 얼마 (combien), 예요/이에요</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">이 원피스는 얼마예요?</span><br>Combien coûte cette robe ?</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">7. Dites que vous êtes étudiant(e) et que vous étudiez le coréen.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 학생 (étudiant), 한국어 (coréen), 공부하다 (étudier)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">저는 학생이고 한국어를 공부해요.</span><br>Je suis étudiant(e) et j'étudie le coréen.</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">8. Exprimez que vous n'avez pas d'argent.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 돈 (argent), 없다 (ne pas avoir)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">저는 돈이 없어요.</span><br>Je n'ai pas d'argent.</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">9. Dites que vous avez un ami coréen.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 한국 친구 (ami coréen), 있다 (avoir)</div>
+        <textarea placeholder="Écrivez votre phrase..."></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">저는 한국 친구가 있어요.</span><br>J'ai un ami coréen.</div>
+      </div>
+
+      <div class="ex-card">
+        <div class="prompt">10. Décrivez votre routine matinale : vous vous levez à 7h, vous mangez, vous allez au travail.</div>
+        <div class="hint"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Indice : 일어나다, 먹다, 회사에 가다, -고 (pour enchaîner)</div>
+        <textarea placeholder="Écrivez votre phrase..." style="min-height:80px"></textarea>
+        <button class="reveal-btn" onclick="this.nextElementSibling.classList.add('show')">Voir la réponse</button>
+        <div class="answer"><span class="ko">저는 7시에 일어나고 밥을 먹고 회사에 가요.</span><br>Je me lève à 7h, je mange et je vais au travail.</div>
+      </div>
+
+      <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer l'exercice +10 XP</button>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(10);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_b07');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+  </script>
+</body>
+</html>

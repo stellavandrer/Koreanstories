@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Scénarios A2 — Korean Stories</title>
+
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .5rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:1rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+  </style>
+
+  <style>
+    .scenario-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .sc-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
+    .sc-icon{font-size:1.5rem}
+    .sc-title{font-weight:700;color:var(--navy);font-size:1rem}
+    .situation{background:rgba(22,163,74,.07);border-radius:8px;padding:.6rem .8rem;margin-bottom:.8rem;font-size:.88rem;color:var(--tx)}
+    .prompt-list{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.8rem}
+    .prompt-item{display:flex;gap:.5rem;align-items:flex-start;font-size:.9rem}
+    .prompt-num{background:#16A34A;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+    textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--bd);border-radius:10px;padding:.7rem;font-size:.92rem;background:var(--bg);color:var(--tx);resize:vertical;min-height:70px;margin:.3rem 0}
+    textarea:focus{border-color:#16A34A;outline:none}
+    .model-btn{background:transparent;border:1.5px solid #16A34A;color:#16A34A;border-radius:8px;padding:.4rem .9rem;font-size:.85rem;cursor:pointer;margin-top:.3rem}
+    .model-ans{display:none;background:rgba(22,163,74,.07);border-radius:8px;padding:.6rem;margin-top:.5rem;font-size:.88rem}
+    .model-ans.show{display:block}
+    .ko{color:#16A34A;font-weight:700;display:block;font-size:.95rem}
+    .tip{font-size:.8rem;color:var(--tx-muted)}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Scénarios A2</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2> Scénarios de conversation A2</h2>
+      <span class="pill">5 scénarios</span> <span class="xp-badge">+10 XP</span>
+      <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Exercez votre coréen dans des situations réelles. Rédigez vos réponses puis comparez avec le modèle.</p>
+
+      <div class="scenario-card">
+        <div class="sc-header"><span class="sc-icon"></span><span class="sc-title">Scénario 1 — Au café</span></div>
+        <div class="situation"> Vous entrez dans un café à Séoul. Vous voulez un americano chaud et un croissant. Vous demandez si le Wi-Fi est disponible.</div>
+        <div class="prompt-list">
+          <div class="prompt-item"><div class="prompt-num">1</div><div>Saluez et commandez l'americano chaud</div></div>
+          <div class="prompt-item"><div class="prompt-num">2</div><div>Ajoutez le croissant</div></div>
+          <div class="prompt-item"><div class="prompt-num">3</div><div>Demandez le Wi-Fi</div></div>
+        </div>
+        <textarea placeholder="Rédigez votre conversation complète ici..."></textarea>
+        <button class="model-btn" onclick="showAns(this)">Voir le modèle</button>
+        <div class="model-ans">
+          <span class="ko">안녕하세요! 아메리카노 따뜻한 거 한 잔이랑 크루아상 하나 주세요.</span>
+          <div class="tip">Bonjour ! Un americano chaud et un croissant, s.v.p.</div>
+          <span class="ko" style="margin-top:.4rem">와이파이 있어요? 비밀번호가 뭐예요?</span>
+          <div class="tip">Vous avez le Wi-Fi ? C'est quoi le mot de passe ?</div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="sc-header"><span class="sc-icon"></span><span class="sc-title">Scénario 2 — Dans le métro</span></div>
+        <div class="situation"> Vous êtes perdu(e) dans le métro de Séoul. Vous cherchez la ligne 2 pour aller à 홍대입구 (Hongdae). Demandez à quelqu'un de l'aide.</div>
+        <div class="prompt-list">
+          <div class="prompt-item"><div class="prompt-num">1</div><div>Interpellez poliment quelqu'un</div></div>
+          <div class="prompt-item"><div class="prompt-num">2</div><div>Expliquez où vous voulez aller</div></div>
+          <div class="prompt-item"><div class="prompt-num">3</div><div>Demandez quelle ligne prendre</div></div>
+        </div>
+        <textarea placeholder="Rédigez votre conversation ici..."></textarea>
+        <button class="model-btn" onclick="showAns(this)">Voir le modèle</button>
+        <div class="model-ans">
+          <span class="ko">저기요, 죄송한데요…</span>
+          <div class="tip">Excusez-moi, pardon de vous déranger…</div>
+          <span class="ko" style="margin-top:.4rem">홍대입구역에 가고 싶어요. 몇 호선을 타야 해요?</span>
+          <div class="tip">Je veux aller à Hongdae. Quelle ligne dois-je prendre ?</div>
+          <span class="ko" style="margin-top:.4rem">여기서 갈아타야 해요?</span>
+          <div class="tip">Je dois changer ici ?</div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="sc-header"><span class="sc-icon"></span><span class="sc-title">Scénario 3 — À la pharmacie</span></div>
+        <div class="situation"> Vous avez mal à la tête et de la fièvre. Allez à la pharmacie et décrivez vos symptômes pour obtenir un médicament.</div>
+        <div class="prompt-list">
+          <div class="prompt-item"><div class="prompt-num">1</div><div>Dites que vous avez mal à la tête</div></div>
+          <div class="prompt-item"><div class="prompt-num">2</div><div>Mentionnez la fièvre</div></div>
+          <div class="prompt-item"><div class="prompt-num">3</div><div>Demandez un médicament</div></div>
+        </div>
+        <textarea placeholder="Rédigez votre conversation ici..."></textarea>
+        <button class="model-btn" onclick="showAns(this)">Voir le modèle</button>
+        <div class="model-ans">
+          <span class="ko">머리가 아프고 열이 있어요.</span>
+          <div class="tip">J'ai mal à la tête et de la fièvre.</div>
+          <span class="ko" style="margin-top:.4rem">감기약 있어요? 아니면 해열제 주세요.</span>
+          <div class="tip">Vous avez un médicament contre le rhume ? Sinon donnez-moi un antipyrétique.</div>
+          <span class="ko" style="margin-top:.4rem">하루에 몇 번 먹어야 해요?</span>
+          <div class="tip">Combien de fois par jour dois-je le prendre ?</div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="sc-header"><span class="sc-icon"></span><span class="sc-title">Scénario 4 — Réserver un restaurant</span></div>
+        <div class="situation"> Vous téléphonez pour réserver une table pour 3 personnes, demain soir à 19h. Mentionnez que l'un de vous ne mange pas de viande.</div>
+        <div class="prompt-list">
+          <div class="prompt-item"><div class="prompt-num">1</div><div>Expliquez que vous voulez réserver</div></div>
+          <div class="prompt-item"><div class="prompt-num">2</div><div>Précisez le nombre et l'heure</div></div>
+          <div class="prompt-item"><div class="prompt-num">3</div><div>Mentionnez la restriction alimentaire</div></div>
+        </div>
+        <textarea placeholder="Rédigez votre conversation ici..."></textarea>
+        <button class="model-btn" onclick="showAns(this)">Voir le modèle</button>
+        <div class="model-ans">
+          <span class="ko">여보세요, 예약하고 싶은데요.</span>
+          <div class="tip">Allô, je voudrais faire une réservation.</div>
+          <span class="ko" style="margin-top:.4rem">내일 저녁 7시에 세 명이요.</span>
+          <div class="tip">Demain soir à 19h pour 3 personnes.</div>
+          <span class="ko" style="margin-top:.4rem">한 명은 고기를 못 먹어요. 채식 메뉴 있어요?</span>
+          <div class="tip">Une personne ne peut pas manger de viande. Vous avez un menu végétarien ?</div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="sc-header"><span class="sc-icon"></span><span class="sc-title">Scénario 5 — Retour d'achat</span></div>
+        <div class="situation"> Vous avez acheté des chaussures hier mais elles sont trop petites. Retournez au magasin pour les échanger contre une taille plus grande.</div>
+        <div class="prompt-list">
+          <div class="prompt-item"><div class="prompt-num">1</div><div>Expliquez le problème</div></div>
+          <div class="prompt-item"><div class="prompt-num">2</div><div>Demandez une taille plus grande</div></div>
+          <div class="prompt-item"><div class="prompt-num">3</div><div>Demandez si c'est possible</div></div>
+        </div>
+        <textarea placeholder="Rédigez votre conversation ici..."></textarea>
+        <button class="model-btn" onclick="showAns(this)">Voir le modèle</button>
+        <div class="model-ans">
+          <span class="ko">어제 이 신발을 샀는데 너무 작아요.</span>
+          <div class="tip">J'ai acheté ces chaussures hier mais elles sont trop petites.</div>
+          <span class="ko" style="margin-top:.4rem">더 큰 사이즈로 교환할 수 있어요?</span>
+          <div class="tip">Je peux les échanger contre une taille plus grande ?</div>
+          <span class="ko" style="margin-top:.4rem">영수증 가져왔어요.</span>
+          <div class="tip">J'ai apporté le reçu.</div>
+        </div>
+      </div>
+
+      <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer les scénarios +10 XP</button>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(10);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_b21');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+  </script>
+<script>
+function showAns(btn){
+  const ans=btn.nextElementSibling;
+  ans.classList.toggle('show');
+  btn.textContent=ans.classList.contains('show')?'Masquer le modèle':'Voir le modèle';
+}
+</script>
+</body>
+</html>

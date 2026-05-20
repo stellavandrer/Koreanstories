@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Korean Stories — Leçon A2 : Comparaisons</title>
+  <meta name="description" content="Maîtrisez les comparaisons en coréen : 더, 가장/제일, -보다, -만큼, -처럼. Niveau A2 / TOPIK 2."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Comparison cards */
+    .comp-block{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:18px;margin-bottom:14px}
+    .comp-tag{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:20px;background:var(--navy);color:var(--gold);margin-bottom:10px}
+    .comp-formula{font-size:20px;color:var(--t);font-weight:400;margin-bottom:4px}
+    .comp-meaning{font-size:13px;color:var(--t2);margin-bottom:10px}
+    .comp-rule{font-size:12px;color:var(--t3);background:var(--bg);border-radius:10px;padding:8px 10px;margin-bottom:10px;line-height:1.6}
+    .comp-ex{padding:7px 0;border-bottom:1px solid var(--bd);cursor:pointer}
+    .comp-ex:last-child{border-bottom:none}
+    .comp-ex-kor{font-size:15px;color:var(--t);font-weight:300}
+    .comp-ex-rom{font-size:10px;color:var(--gold);font-weight:700;margin:2px 0}
+    .comp-ex-mean{font-size:12px;color:var(--t2)}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(17px,5vw,26px);color:var(--t);line-height:1.4;font-weight:400;margin:0 0 8px;cursor:pointer;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center;line-height:1.4}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+    .next-btn:hover{opacity:.88}
+    /* Results */
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span> XP</a>
+  </div>
+</div>
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">서울이 파리보다 더 커요. Séoul est plus grande que Paris !</div></div>
+</div>
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">Comparaisons maîtrisées !</div>
+      <div class="res-subtitle">비교 완료 — 훌륭해요 !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n">+15</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg">Tu maîtrises les comparaisons en coréen ! Tu peux comparer des personnes, des choses, des lieux. Très utile pour le TOPIK 2 !</div>
+      <div class="res-btns">
+        <button class="res-prim" onclick="window.location.href='lecon49.html'">Leçon suivante — Nominalisation <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn">Recommencer</button>
+          <a href="cours.html" class="res-sec">Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+function beep(ok){try{const ac=new AudioContext();const o=ac.createOscillator();const g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=ok?880:200;g.gain.setValueAtTime(.4,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.4);o.start();o.stop(ac.currentTime+.4);}catch(e){}}
+
+const COMPS=[
+  {tag:'더 + adjectif',formula:'A가/이 더 [adj]',meaning:'A est plus [adj]',
+   rule:'더 = "plus". Se place devant l\'adjectif. Pour renforcer : 훨씬 (bien plus), 조금 (un peu plus).',
+   exs:[
+     {kor:'서울이 파리보다 더 커요.',rom:'seo-u-ri pa-ri-bo-da deo keo-yo.',mean:'Séoul est plus grande que Paris.'},
+     {kor:'이 가방이 훨씬 더 비싸요.',rom:'i ga-bang-i hwol-ssim deo bi-ssa-yo.',mean:'Ce sac est bien plus cher.'},
+   ]},
+  {tag:'A 보다 — que (comparatif)',formula:'B보다 (더) [adj]',meaning:'(plus) [adj] que B',
+   rule:'보다 marque le terme de comparaison. B + 보다 = "que B". Souvent associé à 더 (mais 더 peut être omis).',
+   exs:[
+     {kor:'오늘이 어제보다 더 추워요.',rom:'o-neu-ri eo-je-bo-da deo chu-wo-yo.',mean:'Aujourd\'hui il fait plus froid qu\'hier.'},
+     {kor:'한국어가 일본어보다 쉬워요.',rom:'han-gu-geo-ga il-bo-neo-bo-da swi-wo-yo.',mean:'Le coréen est plus facile que le japonais.'},
+   ]},
+  {tag:'가장 / 제일 — le plus (superlatif)',formula:'가장 / 제일 + [adj]',meaning:'Le/la plus [adj]',
+   rule:'가장 et 제일 sont interchangeables. 가장 est légèrement plus soutenu. 제일 est plus courant à l\'oral.',
+   exs:[
+     {kor:'한국이 세계에서 가장 안전해요.',rom:'han-gu-gi se-gye-e-seo ga-jang an-jeon-hae-yo.',mean:'La Corée est la plus sûre au monde.'},
+     {kor:'이게 제일 맛있어요 !',rom:'i-ge je-il ma-si-sseo-yo!',mean:'C\'est le plus délicieux !'},
+   ]},
+  {tag:'만큼 — autant que',formula:'A만큼 [adj/verbe]',meaning:'Autant que A / aussi [adj] que A',
+   rule:'만큼 exprime l\'égalité. A만큼 B이다 = B est autant que A. Peut suivre un nom ou un verbe nominalisé.',
+   exs:[
+     {kor:'너만큼 열심히 공부해요.',rom:'neo-man-keum yeol-ssim-hi gong-bu-hae-yo.',mean:'J\'étudie autant que toi.'},
+     {kor:'기대만큼 좋지 않아요.',rom:'gi-dae-man-keum jo-chi a-na-yo.',mean:'Ce n\'est pas aussi bien qu\'espéré.'},
+   ]},
+  {tag:'처럼 — comme (similitude)',formula:'A처럼 [verbe/adj]',meaning:'Comme A / à la manière de A',
+   rule:'처럼 exprime la ressemblance. Similaire à 같이 (gachi). Les deux sont souvent interchangeables.',
+   exs:[
+     {kor:'천사처럼 착해요.',rom:'cheon-sa-cheo-reom cha-kae-yo.',mean:'Il/elle est gentil(le) comme un ange.'},
+     {kor:'한국 사람처럼 말해요 !',rom:'han-guk sa-ram-cheo-reom ma-lae-yo!',mean:'Tu parles comme un Coréen !'},
+   ]},
+];
+
+const MCQ=[
+  {q:'Comment dire "Séoul est plus grande que Paris" ?',big:'서울 > 파리 — taille',choices:['서울이 파리보다 더 커요','서울이 파리만큼 커요','서울이 파리처럼 커요','서울보다 파리가 더 커요'],ans:0,fb:'서울이 파리보다 더 커요 ! Structure : A이/가 + B보다 + 더 + adjectif.'},
+  {q:'Quelle phrase signifie "C\'est le plus délicieux" ?',big:'최고 맛 !',choices:['제일 맛있어요','더 맛있어요','보다 맛있어요','만큼 맛있어요'],ans:0,fb:'제일 맛있어요 ! 제일/가장 = superlatif "le plus". 더 = comparatif "plus".'},
+  {q:'"J\'étudie autant que toi." — quelle particule ?',big:'나 ___ 열심히 공부해요',choices:['너만큼','너보다','너처럼','너가장'],ans:0,fb:'너만큼 열심히 공부해요 ! 만큼 = "autant que", exprime l\'égalité.'},
+  {q:'Tu dis à ton ami : "Tu parles comme un Coréen !" en coréen :',big:'한국 사람 ___ 말해요',choices:['한국 사람처럼','한국 사람보다','한국 사람만큼','한국 사람가장'],ans:0,fb:'한국 사람처럼 말해요 ! 처럼 = "comme", exprime la ressemblance.'},
+];
+
+const STEPS=[
+  {type:'story'},
+  {type:'comp',idx:0},{type:'comp',idx:1},{type:'comp',idx:2},{type:'comp',idx:3},{type:'comp',idx:4},
+  {type:'mcq',idx:0},{type:'mcq',idx:1},{type:'mcq',idx:2},{type:'mcq',idx:3},
+];
+
+let cur=0,score=0,total=0;
+const lc=document.getElementById('lc');
+const pb=document.getElementById('pbar');
+const dots=document.getElementById('stepDots');
+
+function buildDots(){dots.innerHTML='';STEPS.forEach((_,i)=>{const d=document.createElement('span');d.className='sdot'+(i===0?' current':'');dots.appendChild(d);});}
+function updateDots(i){dots.querySelectorAll('.sdot').forEach((d,j)=>{d.className='sdot'+(j<i?' done':j===i?' current':'');});}
+function updatePB(){pb.style.width=((cur/STEPS.length)*100)+'%';}
+function advance(){cur++;render();}
+
+function render(){
+  if(cur>=STEPS.length){showResults();return;}
+  updateDots(cur);updatePB();
+  const s=STEPS[cur];
+  lc.innerHTML='';
+  lc.style.animation='none';requestAnimationFrame(()=>{lc.style.animation='fadeUp .35s ease both';});
+  if(s.type==='story') renderStory();
+  else if(s.type==='comp') renderComp(s.idx);
+  else if(s.type==='mcq') renderMCQ(s.idx);
+}
+
+function renderStory(){
+  
+  document.getElementById('msay').textContent='서울이 파리보다 더 커요. Séoul est plus grande que Paris !';
+  lc.innerHTML=`
+    <div class="story">
+      <span class="story-tag">Leçon A2 · Comparaisons</span>
+      <div class="story-txt">"Emma et Mina font du shopping. Emma essaie deux robes. Mina : 빨간 게 파란 것보다 더 예뻐요 ! (La rouge est plus jolie que la bleue !) Emma : 정말요? 어느 게 제일 싸요 ? (Vraiment ? Laquelle est la moins chère ?) Mina : 파란 게 제일 싸요. (La bleue est la moins chère.)"</div>
+      <div class="story-scene"> Myeongdong, Séoul — boutique de mode</div>
+    </div>
+    <div style="background:rgba(201,169,110,.1);border:1.5px solid var(--gold);border-radius:18px;padding:14px 16px;margin-bottom:20px">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> 5 outils de comparaison</div>
+      <div style="font-size:13px;color:var(--t2);line-height:2">
+        <strong>더</strong> = plus · <strong>A보다</strong> = que A · <strong>가장/제일</strong> = le plus<br>
+        <strong>만큼</strong> = autant que · <strong>처럼</strong> = comme
+      </div>
+    </div>
+    <button class="next-btn" onclick="advance()">Commencer →</button>`;
+}
+
+function renderComp(idx){
+  const c=COMPS[idx];
+  document.getElementById('msay').textContent=c.formula+' → '+c.meaning;
+  let exHtml='';
+  c.exs.forEach(e=>{
+    exHtml+=`<div class="comp-ex" onclick="speak('${e.kor}',null)">
+      <div class="comp-ex-kor">${e.kor}</div>
+      <div class="comp-ex-rom">${e.rom}</div>
+      <div class="comp-ex-mean">${e.mean}</div>
+    </div>`;
+  });
+  lc.innerHTML=`
+    <div class="comp-block">
+      <div class="comp-tag">${c.tag}</div>
+      <div class="comp-formula">${c.formula}</div>
+      <div class="comp-meaning">${c.meaning}</div>
+      <div class="comp-rule"> ${c.rule}</div>
+      ${exHtml}
+    </div>
+    <button class="next-btn" onclick="advance()">${idx<COMPS.length-1?'Structure suivante →':'Quiz →'}</button>`;
+}
+
+function renderMCQ(idx){
+  const q=MCQ[idx];total++;
+  
+  document.getElementById('msay').textContent='비교 퀴즈 — Quiz comparaisons !';
+  lc.innerHTML=`
+    <div class="mcq">
+      <span class="q-cnt">Question ${idx+1} / ${MCQ.length}</span>
+      <div class="q-prompt">${q.q}</div>
+      <div class="q-big" onclick="speak('${q.big}',null)">${q.big}</div>
+      <div class="choices" id="chs">
+        ${q.choices.map((c,i)=>`<button class="ch" onclick="pick(${i},${idx})">${c}</button>`).join('')}
+      </div>
+      <div class="fb-strip" id="fb" style="display:none"></div>
+      <button class="next-btn" id="nxt" style="display:none" onclick="advance()">Suivant →</button>
+    </div>`;
+}
+
+function pick(i,idx){
+  const q=MCQ[idx];
+  const chs=document.querySelectorAll('.ch');
+  chs.forEach(b=>b.disabled=true);
+  const ok=i===q.ans;
+  if(ok){score++;chs[i].classList.add('ok');beep(true);}
+  else{chs[i].classList.add('ko');chs[q.ans].classList.add('ok');beep(false);}
+  const fb=document.getElementById('fb');fb.style.display='block';
+  fb.className='fb-strip '+(ok?'ok':'ko');fb.textContent=q.fb;
+  document.getElementById('nxt').style.display='block';
+}
+
+function showResults(){
+  document.getElementById('results').style.display='block';
+  lc.style.display='none';
+  document.getElementById('resScore').textContent=score;
+  document.getElementById('resOf').textContent='/ '+total+' bonnes rép.';
+  
+  try{localStorage.setItem('ks_b04e','1');}catch(e){}
+  document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;total=0;document.getElementById('results').style.display='none';lc.style.display='block';render();};
+}
+
+buildDots();render();
+try{const xp=parseInt(localStorage.getItem('ks_xp')||'0');document.getElementById('xpEl').textContent=xp;}catch(e){}
+</script>
+</body>
+</html>

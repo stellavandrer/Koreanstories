@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Exercice TOPIK B1 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.12);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .q-block{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0}
+    .q-num{font-size:.75rem;font-weight:700;color:#7C3AED;text-transform:uppercase;margin-bottom:.3rem}
+    .q-text{font-weight:600;margin-bottom:.6rem;font-size:.95rem}
+    .opt{display:block;width:100%;text-align:left;padding:.6rem .9rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.25rem 0;font-size:.9rem;background:var(--bg);color:var(--tx)}
+    .opt:hover{border-color:#7C3AED}
+    .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .fb{font-size:.8rem;color:var(--tx-muted);margin-top:.4rem;font-style:italic}
+    .context-box{background:rgba(124,58,237,.06);border-left:3px solid #7C3AED;border-radius:0 10px 10px 0;padding:.6rem .9rem;margin-bottom:.6rem;font-size:.9rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Exercice TOPIK style B1</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Exercice style TOPIK 3-4</h2>
+  <span class="pill">Exercice B1</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0 1rem">Questions inspirées du TOPIK niveau 3-4. Préparez-vous à l'examen officiel !</p>
+
+  <div class="q-block" id="q1">
+    <div class="q-num">Question 1 · Choisir la bonne structure</div>
+    <div class="q-text">다음 중 틀린 것을 고르세요. (Choisissez la phrase incorrecte parmi les suivantes.)</div>
+    <button class="opt" onclick="ans(this,'ko')">비가 오면 우산을 써요.</button>
+    <button class="opt" onclick="ans(this,'ko')">피곤해도 운동해요.</button>
+    <button class="opt" onclick="ans(this,'ok')">늦어서 빨리 가세요!</button>
+    <button class="opt" onclick="ans(this,'ko')">한국어가 재미있기 때문에 공부해요.</button>
+    <div class="fb">-아/어서 ne peut pas être suivi d'un impératif. Il faut utiliser -(으)니까 : 늦었으니까 빨리 가세요!</div>
+  </div>
+
+  <div class="q-block" id="q2">
+    <div class="q-num">Question 2 · Remplir le blanc</div>
+    <div class="context-box">지하철이 고장 ( ) 학교에 늦었어요. — Le métro était en panne, donc je suis arrivé(e) en retard à l'école.</div>
+    <div class="q-text">Quelle expression convient dans les parenthèses (cause inattendue + conséquence négative) ?</div>
+    <button class="opt" onclick="ans(this,'ko')">하기 때문에</button>
+    <button class="opt" onclick="ans(this,'ok')">나는 바람에</button>
+    <button class="opt" onclick="ans(this,'ko')">해서</button>
+    <div class="fb">-는 바람에 = cause inattendue avec conséquence négative (ici : "고장나는 바람에")</div>
+  </div>
+
+  <div class="q-block" id="q3">
+    <div class="q-num">Question 3 · Proposition relative</div>
+    <div class="q-text">"L'ami avec qui j'ai étudié hier" → 어제 같이 ( ) 친구</div>
+    <button class="opt" onclick="ans(this,'ko')">공부하는</button>
+    <button class="opt" onclick="ans(this,'ok')">공부한</button>
+    <button class="opt" onclick="ans(this,'ko')">공부할</button>
+    <div class="fb">Action passée + verbe d'action → -(으)ㄴ : "공부한 친구" = l'ami avec qui j'ai étudié</div>
+  </div>
+
+  <div class="q-block" id="q4">
+    <div class="q-num">Question 4 · Discours indirect</div>
+    <div class="context-box">직접 화법 : 민준 : "내일 회의가 있어요."</div>
+    <div class="q-text">Indirect : 민준 씨가 내일 회의가 ( ) 했어요.</div>
+    <button class="opt" onclick="ans(this,'ok')">있다고</button>
+    <button class="opt" onclick="ans(this,'ko')">있으라고</button>
+    <button class="opt" onclick="ans(this,'ko')">있자고</button>
+    <div class="fb">Affirmation (verbe/état) → -다고 하다 : 있다고 했어요</div>
+  </div>
+
+  <div class="q-block" id="q5">
+    <div class="q-num">Question 5 · Compréhension de texte</div>
+    <div class="context-box">에마는 한국에서 3개월 동안 일하면서 한국어 실력이 많이 늘었다. 처음에는 존댓말을 잘 몰라서 실수를 많이 했지만, 동료들이 친절하게 도와줬기 때문에 금방 적응할 수 있었다.</div>
+    <div class="q-text">이 글의 내용과 같은 것을 고르세요. (Ce qui correspond au texte) :</div>
+    <button class="opt" onclick="ans(this,'ko')">에마는 한국어를 전혀 몰랐다.</button>
+    <button class="opt" onclick="ans(this,'ok')">에마는 동료들의 도움 덕분에 빨리 적응했다.</button>
+    <button class="opt" onclick="ans(this,'ko')">에마는 존댓말을 완벽하게 알았다.</button>
+    <div class="fb">"동료들이 친절하게 도와줬기 때문에 금방 적응할 수 있었다" → Elle s'est adaptée rapidement grâce à ses collègues</div>
+  </div>
+
+  <div class="q-block" id="q6">
+    <div class="q-num">Question 6 · Vocabulaire en contexte</div>
+    <div class="context-box">한국 음식이 정말 맛있었는데, 아쉽게도 너무 빨리 돌아와야 했다.</div>
+    <div class="q-text">아쉽게도 dans cette phrase signifie :</div>
+    <button class="opt" onclick="ans(this,'ko')">Heureusement</button>
+    <button class="opt" onclick="ans(this,'ok')">Malheureusement / C'est dommage</button>
+    <button class="opt" onclick="ans(this,'ko')">Rapidement</button>
+    <div class="fb">아쉽게도 = "malheureusement / c'est vraiment dommage" (adverbe de 아쉽다)</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function ans(btn,r){const q=btn.closest('.q-block');if(q.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_c22');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

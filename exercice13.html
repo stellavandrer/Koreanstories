@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Exercice mixte B1 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.12);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .q-block{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0}
+    .q-num{font-size:.75rem;font-weight:700;color:#7C3AED;text-transform:uppercase;margin-bottom:.3rem}
+    .q-text{font-weight:600;margin-bottom:.6rem;font-size:.95rem}
+    .opt{display:block;width:100%;text-align:left;padding:.6rem .9rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.25rem 0;font-size:.9rem;background:var(--bg);color:var(--tx)}
+    .opt:hover{border-color:#7C3AED}
+    .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .fb{font-size:.8rem;color:var(--tx-muted);margin-top:.4rem;font-style:italic}
+    .tag{display:inline-block;font-size:.7rem;font-weight:700;background:rgba(124,58,237,.1);color:#7C3AED;border-radius:6px;padding:.1rem .4rem;margin-bottom:.35rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Exercice mixte B1</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Exercice mixte B1</h2>
+  <span class="pill">Exercice B1</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0 1rem">Consolidez tout le niveau B1 : grammaire, politesse, vocabulaire et culture.</p>
+
+  <div class="q-block" id="q1">
+    <div class="tag">Temps</div>
+    <div class="q-num">Question 1</div>
+    <div class="q-text">"Dès que je suis rentré(e), j'ai dormi" →</div>
+    <button class="opt" onclick="ans(this,'ko')">집에 오면서 잤어요</button>
+    <button class="opt" onclick="ans(this,'ok')">집에 오자마자 잤어요</button>
+    <button class="opt" onclick="ans(this,'ko')">집에 오기 전에 잤어요</button>
+    <div class="fb">-자마자 = "dès que / aussitôt que"</div>
+  </div>
+
+  <div class="q-block" id="q2">
+    <div class="tag">Vocabulaire</div>
+    <div class="q-num">Question 2</div>
+    <div class="q-text">설레다 signifie :</div>
+    <button class="opt" onclick="ans(this,'ko')">Être fatigué(e)</button>
+    <button class="opt" onclick="ans(this,'ok')">Être fébrile / excité(e) d'anticipation</button>
+    <button class="opt" onclick="ans(this,'ko')">Être triste</button>
+    <div class="fb">설레다 = sentiment d'excitation mêlée d'impatience, typiquement avant quelque chose d'important</div>
+  </div>
+
+  <div class="q-block" id="q3">
+    <div class="tag">Politesse</div>
+    <div class="q-num">Question 3</div>
+    <div class="q-text">"Merci" → version formelle -습니다 ?</div>
+    <button class="opt" onclick="ans(this,'ko')">고마워</button>
+    <button class="opt" onclick="ans(this,'ko')">감사해요</button>
+    <button class="opt" onclick="ans(this,'ok')">감사합니다</button>
+    <div class="fb">감사합니다 = forme formelle · 감사해요 = poli standard · 고마워 = informel</div>
+  </div>
+
+  <div class="q-block" id="q4">
+    <div class="tag">Habitude passée</div>
+    <div class="q-num">Question 4</div>
+    <div class="q-text">"Quand j'étais enfant, j'avais l'habitude de jouer ici" →</div>
+    <button class="opt" onclick="ans(this,'ko')">어릴 때 여기서 놀았어요</button>
+    <button class="opt" onclick="ans(this,'ok')">어릴 때 여기서 놀곤 했어요</button>
+    <button class="opt" onclick="ans(this,'ko')">어릴 때 여기서 놀아요</button>
+    <div class="fb">-곤 했어요 = habitude passée révolue ("used to")</div>
+  </div>
+
+  <div class="q-block" id="q5">
+    <div class="tag">Culture</div>
+    <div class="q-num">Question 5</div>
+    <div class="q-text">해녀 vient de l'île de :</div>
+    <button class="opt" onclick="ans(this,'ko')">부산</button>
+    <button class="opt" onclick="ans(this,'ok')">제주도</button>
+    <button class="opt" onclick="ans(this,'ko')">서울</button>
+    <div class="fb">Les haenyeo sont la tradition ancestrale de plongée de l'île de Jeju (제주도)</div>
+  </div>
+
+  <div class="q-block" id="q6">
+    <div class="tag">Connecteur</div>
+    <div class="q-num">Question 6</div>
+    <div class="q-text">"En revanche / Par contre" →</div>
+    <button class="opt" onclick="ans(this,'ko')">따라서</button>
+    <button class="opt" onclick="ans(this,'ok')">반면에</button>
+    <button class="opt" onclick="ans(this,'ko')">결국</button>
+    <div class="fb">반면에 = en revanche / par contre · 따라서 = par conséquent · 결국 = finalement</div>
+  </div>
+
+  <div class="q-block" id="q7">
+    <div class="tag">Changement</div>
+    <div class="q-num">Question 7</div>
+    <div class="q-text">"Il fait de plus en plus chaud" →</div>
+    <button class="opt" onclick="ans(this,'ko')">날씨가 더워요</button>
+    <button class="opt" onclick="ans(this,'ok')">날씨가 더워지고 있어요</button>
+    <button class="opt" onclick="ans(this,'ko')">날씨가 더울 거예요</button>
+    <div class="fb">-아/어지고 있어요 = changement progressif en cours</div>
+  </div>
+
+  <div class="q-block" id="q8">
+    <div class="tag">Formel</div>
+    <div class="q-num">Question 8</div>
+    <div class="q-text">"Je vais commencer" (intention ferme, style formel) →</div>
+    <button class="opt" onclick="ans(this,'ko')">시작할 거예요</button>
+    <button class="opt" onclick="ans(this,'ok')">시작하겠습니다</button>
+    <button class="opt" onclick="ans(this,'ko')">시작해요</button>
+    <div class="fb">-(으)겠습니다 = intention ferme ou promesse en style formel 합쇼체</div>
+  </div>
+
+  <div class="q-block" id="q9">
+    <div class="tag">Expression</div>
+    <div class="q-num">Question 9</div>
+    <div class="q-text">잘 부탁드립니다 s'utilise :</div>
+    <button class="opt" onclick="ans(this,'ko')">Pour dire au revoir</button>
+    <button class="opt" onclick="ans(this,'ok')">Lors d'une première rencontre pour établir une relation</button>
+    <button class="opt" onclick="ans(this,'ko')">Pour commander au restaurant</button>
+    <div class="fb">잘 부탁드립니다 = "Je compte sur vous" — formule essentielle pour les nouvelles relations</div>
+  </div>
+
+  <div class="q-block" id="q10">
+    <div class="tag">Complétion</div>
+    <div class="q-num">Question 10</div>
+    <div class="q-text">"J'ai fini par manger tout le gâteau (légère culpabilité)" →</div>
+    <button class="opt" onclick="ans(this,'ok')">케이크를 다 먹어 버렸어요</button>
+    <button class="opt" onclick="ans(this,'ko')">케이크를 다 먹었어요</button>
+    <button class="opt" onclick="ans(this,'ko')">케이크를 다 먹을 거예요</button>
+    <div class="fb">-아/어 버리다 = action complétée, souvent avec nuance de regret ou soulagement</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function ans(btn,r){const q=btn.closest('.q-block');if(q.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_c15');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

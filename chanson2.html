@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BTS — DNA : Analyse — Korean Stories</title>
+
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .5rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:1rem}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+  </style>
+
+  <style>
+    .song-header{background:linear-gradient(135deg,#7c3aed,#4f46e5);border-radius:16px;padding:1.5rem;color:#fff;margin:.8rem 0;text-align:center}
+    .song-header h2{margin:0 0 .3rem;color:#fff}
+    .song-header p{margin:0;opacity:.85;font-size:.9rem}
+    .lyric-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .ko-lyric{font-size:1.1rem;font-weight:700;color:#7c3aed;margin:.3rem 0}
+    .rom{font-size:.85rem;color:var(--tx-muted);font-style:italic}
+    .fr-lyric{font-size:.9rem;color:var(--tx);margin:.2rem 0}
+    .gram-note{background:rgba(124,58,237,.07);border-left:3px solid #7c3aed;border-radius:0 8px 8px 0;padding:.5rem .8rem;margin:.5rem 0;font-size:.85rem}
+    .quiz-q{margin:1rem 0}
+    .q-text{font-weight:600;margin-bottom:.5rem}
+    .q-opts{display:flex;flex-direction:column;gap:.4rem}
+    .q-opt{padding:.6rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;font-size:.9rem;background:var(--bg)}
+    .q-opt:hover{border-color:#7c3aed}
+    .q-opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A}
+    .q-opt.ko{border-color:#ef4444;background:rgba(239,68,68,.1);color:#ef4444}
+    .vocab-chip{display:inline-block;background:rgba(124,58,237,.1);color:#7c3aed;border-radius:10px;padding:.2rem .6rem;font-size:.82rem;margin:.2rem;font-weight:600}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">BTS — DNA</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <div class="song-header">
+        <div style="font-size:2rem;margin-bottom:.3rem"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <h2>BTS — DNA (2017)</h2>
+        <p>Analyse linguistique · Niveau A2</p>
+        <div style="margin-top:.5rem">
+          <span style="background:rgba(255,255,255,.2);border-radius:8px;padding:.2rem .6rem;font-size:.8rem">Album : Love Yourself 承 Her</span>
+        </div>
+      </div>
+      <span class="pill">Analyse musicale</span> <span class="xp-badge">+15 XP</span>
+
+      <div class="card" style="margin:.8rem 0">
+        <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Objectifs</h3>
+        <p style="font-size:.9rem;margin:0">Comprendre des paroles authentiques A2-B1, identifier des structures grammaticales clés et enrichir votre vocabulaire émotionnel.</p>
+      </div>
+
+      <h3 style="color:#7c3aed"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Extraits analysés</h3>
+
+      <div class="lyric-card">
+        <div class="ko-lyric">우주가 생긴 그 날부터 (우 / 그날부터)</div>
+        <div class="rom">Uju-ga saenggin geu nal-buteo</div>
+        <div class="fr-lyric">Depuis le jour où l'univers est né</div>
+        <div class="gram-note">
+          <b> -부터</b> = « depuis » (point de départ dans le temps)<br>
+          Ex : 오늘부터 = depuis aujourd'hui · 아침부터 = depuis ce matin<br>
+          <b>생기다</b> = naître / apparaître · <b>그 날</b> = ce jour-là
+        </div>
+        <div><span class="vocab-chip">우주 (univers)</span><span class="vocab-chip">날 (jour)</span><span class="vocab-chip">-부터 (depuis)</span></div>
+      </div>
+
+      <div class="lyric-card">
+        <div class="ko-lyric">너와 나의 연결고리 이건 우연이 아니야</div>
+        <div class="rom">Neowa naui yeongyeolgori igeon uyeoni aniya</div>
+        <div class="fr-lyric">Le lien entre toi et moi, ce n'est pas une coïncidence</div>
+        <div class="gram-note">
+          <b> A와/과 B</b> = A et B (entre deux éléments)<br>
+          <b>이건</b> = 이것은 (contracté) = quant à ceci<br>
+          <b>-이/가 아니다</b> = ne pas être · 우연 = coïncidence
+        </div>
+        <div><span class="vocab-chip">연결 (lien)</span><span class="vocab-chip">우연 (coïncidence)</span><span class="vocab-chip">아니야 (non / ce n'est pas)</span></div>
+      </div>
+
+      <div class="lyric-card">
+        <div class="ko-lyric">내 혈관 속 DNA가 말해줘</div>
+        <div class="rom">Nae hyeolgwan sok DNA-ga malhaejwo</div>
+        <div class="fr-lyric">Mon ADN dans mes veines me dit</div>
+        <div class="gram-note">
+          <b> 속</b> = intérieur / dans · Ex : 가방 속 = dans le sac<br>
+          <b>말해주다</b> = dire (pour quelqu'un) · 말하다 + 주다<br>
+          <b>-어/아 주다</b> = faire quelque chose pour qqn
+        </div>
+        <div><span class="vocab-chip">혈관 (veine)</span><span class="vocab-chip">속 (dans)</span><span class="vocab-chip">말하다 (parler/dire)</span></div>
+      </div>
+
+      <div class="lyric-card">
+        <div class="ko-lyric">너와 난 달라, 또 같아 (similar DNA)</div>
+        <div class="rom">Neowa nan dalla, tto gata</div>
+        <div class="fr-lyric">Toi et moi on est différents, mais aussi pareils</div>
+        <div class="gram-note">
+          <b> 다르다</b> = être différent (irrégulier : 달라요)<br>
+          <b>같다</b> = être identique/pareil → 같아요<br>
+          <b>또</b> = aussi / en plus · Contraste : différent ET pareil
+        </div>
+        <div><span class="vocab-chip">다르다 (différent)</span><span class="vocab-chip">같다 (pareil)</span><span class="vocab-chip">또 (aussi)</span></div>
+      </div>
+
+      <div class="lyric-card">
+        <div class="ko-lyric">운명을 찾아가</div>
+        <div class="rom">Unmyeong-eul chaja-ga</div>
+        <div class="fr-lyric">Je vais chercher mon destin</div>
+        <div class="gram-note">
+          <b> 찾다</b> = chercher · <b>찾아가다</b> = aller chercher<br>
+          Structure : Verbe A + 아/어 + Verbe B = deux actions liées<br>
+          <b>운명</b> = destin / destinée
+        </div>
+        <div><span class="vocab-chip">운명 (destin)</span><span class="vocab-chip">찾다 (chercher)</span><span class="vocab-chip">찾아가다 (aller chercher)</span></div>
+      </div>
+
+      <h3 style="color:#7c3aed"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Quiz sur la chanson</h3>
+
+      <div class="quiz-q">
+        <div class="q-text">1. Que signifie -부터 dans « 그 날부터 » ?</div>
+        <div class="q-opts">
+          <div class="q-opt" onclick="ansQ(this,'ok')">Depuis (point de départ temporel)</div>
+          <div class="q-opt" onclick="ansQ(this,'ko')">Jusqu'à</div>
+          <div class="q-opt" onclick="ansQ(this,'ko')">Pendant</div>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">2. Comment dit-on « ce n'est pas une coïncidence » en coréen ?</div>
+        <div class="q-opts">
+          <div class="q-opt" onclick="ansQ(this,'ko')">우연이에요</div>
+          <div class="q-opt" onclick="ansQ(this,'ok')">우연이 아니에요</div>
+          <div class="q-opt" onclick="ansQ(this,'ko')">우연이 있어요</div>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">3. Dans « 가방 속 », que signifie 속 ?</div>
+        <div class="q-opts">
+          <div class="q-opt" onclick="ansQ(this,'ko')">Sur</div>
+          <div class="q-opt" onclick="ansQ(this,'ok')">Dans / à l'intérieur</div>
+          <div class="q-opt" onclick="ansQ(this,'ko')">Sous</div>
+        </div>
+      </div>
+
+      <div class="quiz-q">
+        <div class="q-text">4. La forme correcte de 다르다 au présent poli est :</div>
+        <div class="q-opts">
+          <div class="q-opt" onclick="ansQ(this,'ko')">다르아요</div>
+          <div class="q-opt" onclick="ansQ(this,'ko')">다르어요</div>
+          <div class="q-opt" onclick="ansQ(this,'ok')">달라요</div>
+        </div>
+      </div>
+
+      <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer l'analyse +15 XP</button>
+    </div>
+  </main>
+</div>
+  <nav class="bnav">
+    <a href="index.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+    <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+    <a href="ressources.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Ressources</span></a>
+    <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+  </nav>
+  <script src="ks.js"></script>
+  <script>
+  function completeLesson(){
+    if(typeof ksAddXP==='function')ksAddXP(15);
+    if(typeof ksMarkDone==='function')ksMarkDone('ks_b19');
+    const b=document.getElementById('doneBtn');
+    if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+    setTimeout(()=>window.location.href='cours.html',1200);
+  }
+  </script>
+<script>
+function ansQ(btn, result){
+  const parent = btn.closest('.q-opts');
+  if(parent.querySelector('.ok,.ko'))return;
+  btn.classList.add(result);
+}
+</script>
+</body>
+</html>

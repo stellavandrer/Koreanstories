@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Répétition orale — A1 | Korean Stories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar */
+    
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--gold);
+    }
+
+    .topbar-title {
+      flex: 1;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.125rem;
+      font-weight: 700;
+    }
+
+    .topbar-mic {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    /* Unit tabs */
+    .unit-tabs {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem;
+      overflow-x: auto;
+      background-color: var(--bg2);
+      border-bottom: 1px solid rgba(201, 169, 110, 0.2);
+      scroll-behavior: smooth;
+    }
+
+    .unit-tab {
+      flex-shrink: 0;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      background-color: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .unit-tab.active {
+      background-color: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Status pill */
+    .status-pill {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background-color: rgba(201, 169, 110, 0.15);
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      border-radius: 20px;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      align-self: flex-start;
+    }
+
+    /* Card */
+    .card {
+      background-color: var(--bg2);
+      border: 1px solid rgba(201, 169, 110, 0.2);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .card-korean {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1.2;
+    }
+
+    .card-french {
+      font-size: 1rem;
+      color: rgba(247, 248, 250, 0.8);
+      font-weight: 400;
+    }
+
+    /* Progress */
+    .progress-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: rgba(247, 248, 250, 0.7);
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background-color: rgba(201, 169, 110, 0.15);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: var(--gold);
+      transition: width 0.3s ease;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 1rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background-color: var(--gold);
+      color: var(--bg);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background-color: #d4b896;
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      width: 100%;
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(201, 169, 110, 0.1);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      width: 100%;
+    }
+
+    .btn-group button {
+      flex: 1;
+    }
+
+    /* Mic button */
+    .mic-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: var(--gold);
+      color: var(--bg);
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1rem auto;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .mic-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .mic-btn:active {
+      transform: scale(0.95);
+    }
+
+    .mic-btn.recording {
+      animation: pulse-glow 1.5s infinite;
+    }
+
+    @keyframes pulse-glow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(201, 169, 110, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 20px rgba(201, 169, 110, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(201, 169, 110, 0);
+      }
+    }
+
+    /* Transcript box */
+    .transcript-box {
+      background-color: rgba(201, 169, 110, 0.1);
+      border: 1px solid rgba(201, 169, 110, 0.2);
+      border-radius: 8px;
+      padding: 1rem;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(247, 248, 250, 0.8);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 1.125rem;
+      word-break: break-word;
+    }
+
+    .transcript-box.empty {
+      color: rgba(247, 248, 250, 0.4);
+    }
+
+    /* Score circle */
+    .score-circle-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .score-circle {
+      width: 140px;
+      height: 140px;
+      position: relative;
+    }
+
+    .score-circle svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .score-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    /* Feedback */
+    .feedback {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .feedback-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-message {
+      font-size: 0.875rem;
+      color: rgba(247, 248, 250, 0.8);
+      line-height: 1.6;
+    }
+
+    /* Comparison */
+    .comparison {
+      background-color: rgba(201, 169, 110, 0.05);
+      border: 1px solid rgba(201, 169, 110, 0.15);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .comparison-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+    }
+
+    .comparison-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .comparison-label {
+      color: rgba(247, 248, 250, 0.6);
+    }
+
+    .comparison-value {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Completion banner */
+    .completion-banner {
+      background: linear-gradient(135deg, rgba(201, 169, 110, 0.2), rgba(34, 197, 94, 0.1));
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .completion-xp {
+      font-size: 2.5rem;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .completion-text {
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    /* Warning banner */
+    .warning-banner {
+      background-color: rgba(244, 114, 182, 0.15);
+      border: 1px solid rgba(244, 114, 182, 0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      color: rgba(247, 248, 250, 0.9);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  
+    /* ── BOTTOM NAV ── */
+    
+    
+    
+    
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    @media(min-width:640px){body{padding-bottom:0}}
+
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <link rel="stylesheet" href="design.css"/>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+  <div class="app">
+    <!-- Topbar -->
+    
+      <div class="topbar-title">Répétition orale</div>
+      <div class="topbar-mic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+    </div>
+
+    <!-- Unit tabs -->
+    <div class="unit-tabs" id="unitTabs"></div>
+
+    <!-- Main content -->
+    <div class="main">
+      <div id="warningBanner" class="warning-banner hidden">
+        La reconnaissance vocale nécessite Chrome ou Edge. En attendant, entraîne ton oreille avec le bouton Écouter !
+      </div>
+
+      <div id="contentArea"></div>
+    </div>
+  </div>
+
+  <script>
+    const UNITS_DATA = {
+      u_d1: { title:'Voyelles', sub:'ㅏ ㅓ ㅗ ㅜ ㅡ ㅣ', phrases:[
+        {kr:'아', fr:'voyelle ㅏ — comme "a"'},
+        {kr:'어', fr:'voyelle ㅓ — entre "eu" et "o"'},
+        {kr:'오', fr:'voyelle ㅗ — comme "o"'},
+        {kr:'우', fr:'voyelle ㅜ — comme "ou"'},
+        {kr:'으', fr:'voyelle ㅡ — "eu" fermé'},
+        {kr:'이', fr:'voyelle ㅣ — comme "i"'},
+        {kr:'아이', fr:'enfant'},
+        {kr:'우리', fr:'nous'}
+      ]},
+      u_d2: { title:'Consonnes ①', sub:'ㄱ ㄴ ㄷ ㄹ ㅁ', phrases:[
+        {kr:'가다', fr:'aller'},
+        {kr:'나라', fr:'pays'},
+        {kr:'다리', fr:'jambe'},
+        {kr:'마음', fr:'coeur'},
+        {kr:'고모', fr:'tante'},
+        {kr:'노래', fr:'chanson'},
+        {kr:'물', fr:'eau'},
+        {kr:'밥', fr:'riz/repas'}
+      ]},
+      u_d3: { title:'Consonnes ②', sub:'ㅂ ㅅ + ㅜ ㅣ ㅓ', phrases:[
+        {kr:'수박', fr:'pastèque'},
+        {kr:'바나나', fr:'banane'},
+        {kr:'사람', fr:'personne'},
+        {kr:'서울', fr:'Séoul'},
+        {kr:'버스', fr:'bus'},
+        {kr:'사랑', fr:'amour'},
+        {kr:'바다', fr:'mer'},
+        {kr:'비밀', fr:'secret'}
+      ]},
+      u_d4: { title:'Sons aspirés', sub:'ㅊ ㅋ ㅌ ㅍ ㄲ ㄸ', phrases:[
+        {kr:'치즈', fr:'fromage'},
+        {kr:'커피', fr:'café'},
+        {kr:'파티', fr:'fête'},
+        {kr:'기차', fr:'train'},
+        {kr:'하늘', fr:'ciel'},
+        {kr:'빨리', fr:'vite'},
+        {kr:'포도', fr:'raisin'},
+        {kr:'초콜릿', fr:'chocolat'}
+      ]},
+      u_d5: { title:'Batchim', sub:'21 voyelles · consonnes finales', phrases:[
+        {kr:'한국', fr:'Corée'},
+        {kr:'학교', fr:'école'},
+        {kr:'음악', fr:'musique'},
+        {kr:'책', fr:'livre'},
+        {kr:'먹다', fr:'manger'},
+        {kr:'있어요', fr:"il y a"},
+        {kr:'좋아요', fr:"c'est bien"},
+        {kr:'괜찮아요', fr:'ça va'}
+      ]},
+      u_a1_6: { title:'Salutations', sub:'안녕하세요 · 감사합니다', phrases:[
+        {kr:'안녕하세요', fr:'Bonjour (formel)'},
+        {kr:'감사합니다', fr:'Merci beaucoup'},
+        {kr:'죄송합니다', fr:'Je suis désolé(e)'},
+        {kr:'괜찮아요', fr:'Ça va'},
+        {kr:'반갑습니다', fr:'Enchanté(e)'},
+        {kr:'안녕히 가세요', fr:'Au revoir'},
+        {kr:'잘 지냈어요?', fr:'Comment allez-vous ?'},
+        {kr:'네, 잘 지냈어요', fr:'Oui, ça va bien'}
+      ]},
+      u_a1_7: { title:'Se présenter', sub:'저는 ___ 이에요', phrases:[
+        {kr:'저는 학생이에요', fr:'Je suis étudiant(e)'},
+        {kr:'이름이 뭐예요?', fr:'Comment vous appelez-vous ?'},
+        {kr:'저는 프랑스 사람이에요', fr:'Je suis français(e)'},
+        {kr:'몇 살이에요?', fr:'Quel âge avez-vous ?'},
+        {kr:'반갑습니다', fr:'Enchanté(e)'},
+        {kr:'어디 사세요?', fr:'Où habitez-vous ?'},
+        {kr:'좋아해요', fr:"j'aime"},
+        {kr:'잘 부탁드립니다', fr:'Je compte sur vous'}
+      ]},
+      u_a1_8: { title:'Nombres & Temps', sub:'일 이 삼 · 몇 시?', phrases:[
+        {kr:'일 이 삼', fr:'un deux trois (sino-coréen)'},
+        {kr:'하나 둘 셋', fr:'un deux trois (natif)'},
+        {kr:'몇 시예요?', fr:'Quelle heure est-il ?'},
+        {kr:'오늘', fr:"aujourd'hui"},
+        {kr:'내일', fr:'demain'},
+        {kr:'얼마예요?', fr:'Combien ça coûte ?'},
+        {kr:'생일 축하해요', fr:'Joyeux anniversaire'},
+        {kr:'지금 몇 시예요?', fr:'Quelle heure est-il maintenant ?'}
+      ]},
+      u_a1_9: { title:'Nourriture & Shopping', sub:'주세요 · 얼마예요?', phrases:[
+        {kr:'주세요', fr:"S'il vous plaît"},
+        {kr:'맛있어요', fr:"C'est délicieux"},
+        {kr:'얼마예요?', fr:'Combien ça coûte ?'},
+        {kr:'계산서 주세요', fr:"L'addition"},
+        {kr:'있어요?', fr:'Est-ce que vous avez... ?'},
+        {kr:'맵지 않아요?', fr:"Ce n'est pas épicé ?"},
+        {kr:'삼겹살 주세요', fr:"De la poitrine de porc, s'il vous plaît"},
+        {kr:'김치 있어요?', fr:'Avez-vous du kimchi ?'}
+      ]},
+      u_a1_10: { title:'Se déplacer', sub:'지하철 · 어디예요?', phrases:[
+        {kr:'지하철', fr:'métro'},
+        {kr:'어디예요?', fr:'Où est... ?'},
+        {kr:'왼쪽으로 가세요', fr:'Tournez à gauche'},
+        {kr:'오른쪽으로 가세요', fr:'Tournez à droite'},
+        {kr:'직진하세요', fr:'Tout droit'},
+        {kr:'얼마예요?', fr:'Combien ça coûte ?'},
+        {kr:'버스 타세요', fr:'Prenez le bus'},
+        {kr:'가깝지 않아요', fr:"Ce n'est pas proche"}
+      ]},
+      u_a1_11: { title:'Grammaire A1', sub:'SOV · Particules', phrases:[
+        {kr:'저는 학생이에요', fr:'Je suis étudiant(e)'},
+        {kr:'한국어를 공부해요', fr:"J'étudie le coréen"},
+        {kr:'카페에서 공부해요', fr:"J'étudie au café"},
+        {kr:'안 먹어요', fr:'Je ne mange pas'},
+        {kr:'가요', fr:'je vais'},
+        {kr:'먹어요', fr:'je mange'},
+        {kr:'없어요', fr:"il n'y a pas"},
+        {kr:'아니에요', fr:"ce n'est pas"}
+      ]},
+      u_a1_12: { title:'Météo & Saisons', sub:'날씨가 어때요?', phrases:[
+        {kr:'날씨가 어때요?', fr:'Quel temps fait-il ?'},
+        {kr:'맑아요', fr:'Il fait beau'},
+        {kr:'비가 와요', fr:'Il pleut'},
+        {kr:'눈이 와요', fr:'Il neige'},
+        {kr:'더워요', fr:'Il fait chaud'},
+        {kr:'추워요', fr:'Il fait froid'},
+        {kr:'봄이에요', fr:"C'est le printemps"},
+        {kr:'날씨가 좋아요', fr:'Le temps est beau'}
+      ]},
+      u_a1_13: { title:'Positions', sub:'안/밖/위/아래', phrases:[
+        {kr:'안에 있어요', fr:"C'est dedans"},
+        {kr:'밖에 있어요', fr:"C'est dehors"},
+        {kr:'위에 있어요', fr:"C'est dessus"},
+        {kr:'아래에 있어요', fr:"C'est dessous"},
+        {kr:'앞에 있어요', fr:"C'est devant"},
+        {kr:'뒤에 있어요', fr:"C'est derrière"},
+        {kr:'어디 있어요?', fr:'Où est-ce ?'},
+        {kr:'화장실이 어디예요?', fr:'Où sont les toilettes ?'}
+      ]},
+      u_a1_14: { title:'Maison & Quotidien', sub:'거실/침실 · Routine', phrases:[
+        {kr:'거실', fr:'salon'},
+        {kr:'침실', fr:'chambre'},
+        {kr:'부엌', fr:'cuisine'},
+        {kr:'일어나요', fr:'je me lève'},
+        {kr:'씻어요', fr:'je me lave'},
+        {kr:'학교에 가요', fr:"je vais à l'école"},
+        {kr:'공부해요', fr:"j'étudie"},
+        {kr:'자요', fr:'je dors'}
+      ]},
+      u_a1_15: { title:'Émotions & Corps', sub:'기쁘다/슬프다 · 몸', phrases:[
+        {kr:'기뻐요', fr:'je suis heureux/heureuse'},
+        {kr:'슬퍼요', fr:'je suis triste'},
+        {kr:'화났어요', fr:'je suis en colère'},
+        {kr:'피곤해요', fr:'je suis fatigué(e)'},
+        {kr:'머리가 아파요', fr:"j'ai mal à la tête"},
+        {kr:'어디 아파요?', fr:'Où avez-vous mal ?'},
+        {kr:'기분이 어때요?', fr:'Comment vous sentez-vous ?'},
+        {kr:'행복해요', fr:'je suis heureux/heureuse'}
+      ]}
+    };
+
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const hasSpeechRecognition = !!SR;
+
+    let currentUnit = 'u_d1';
+    let currentPhrase = 0;
+    let currentPhase = 1; // 1: listen, 2: repeat, 3: result
+    let currentScore = 0;
+    let attemptCount = 0;
+    let recognitionText = '';
+    let recognizer = null;
+
+    if (hasSpeechRecognition) {
+      recognizer = new SR();
+      recognizer.lang = 'ko-KR';
+      recognizer.continuous = false;
+      recognizer.interimResults = true;
+    }
+
+    function initApp() {
+      renderUnitTabs();
+      renderContent();
+      if (!hasSpeechRecognition) {
+        document.getElementById('warningBanner').classList.remove('hidden');
+      }
+    }
+
+    function renderUnitTabs() {
+      const tabsContainer = document.getElementById('unitTabs');
+      tabsContainer.innerHTML = '';
+      Object.entries(UNITS_DATA).forEach(([key, data]) => {
+        const tab = document.createElement('button');
+        tab.className = `unit-tab ${key === currentUnit ? 'active' : ''}`;
+        tab.textContent = data.title;
+        tab.onclick = () => {
+          currentUnit = key;
+          currentPhrase = 0;
+          currentPhase = 1;
+          renderUnitTabs();
+          renderContent();
+        };
+        tabsContainer.appendChild(tab);
+      });
+    }
+
+    function scorePhrase(expected, recognized) {
+      const e = expected.replace(/[^가-힣]/g, '').toLowerCase();
+      const r = (recognized || '').replace(/[^가-힣]/g, '').toLowerCase();
+      if (!r) return 0;
+      if (e === r) return 100;
+      let matches = 0;
+      for (let i = 0; i < Math.min(e.length, r.length); i++) {
+        if (e[i] === r[i]) matches++;
+      }
+      const overlap = matches / Math.max(e.length, r.length);
+      const bonus = r.includes(e) || e.includes(r) ? 0.3 : 0;
+      return Math.min(100, Math.round((overlap + bonus) * 100));
+    }
+
+    function renderContent() {
+      const unit = UNITS_DATA[currentUnit];
+      const phrase = unit.phrases[currentPhrase];
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = '';
+
+      const progressPercent = ((currentPhrase + 1) / unit.phrases.length) * 100;
+
+      let html = `
+        <div class="status-pill">Phase ${currentPhase} — ${currentPhase === 1 ? 'Écouter' : currentPhase === 2 ? 'Répéter' : 'Résultat'}</div>
+        <div class="card">
+          <div class="card-korean">${phrase.kr}</div>
+          <div class="card-french">${phrase.fr}</div>
+        </div>
+        <div class="progress-section">
+          <span>${currentPhrase + 1} / ${unit.phrases.length}</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${progressPercent}%"></div>
+          </div>
+        </div>
+      `;
+
+      if (currentPhase === 1) {
+        html += `
+          <button class="btn btn-primary" onclick="playTTS('${phrase.kr}')"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Écouter</button>
+          <button id="nextPhaseBtn" class="btn btn-secondary hidden" onclick="goToPhase2()">J'ai écouté →</button>
+        `;
+      } else if (currentPhase === 2) {
+        html += `
+          <button class="mic-btn" id="micBtn" onclick="toggleRecording()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          <div class="transcript-box empty" id="transcriptBox">En attente...</div>
+          <div id="attemptsInfo" style="text-align: center; font-size: 0.875rem; color: rgba(247, 248, 250, 0.6);">Tentatives: ${attemptCount}/3</div>
+          <button id="viewScoreBtn" class="btn btn-secondary hidden" onclick="goToPhase3()">Voir mon score</button>
+          <button id="retryBtn" class="btn btn-secondary hidden" onclick="resetPhase2()">Réessayer</button>
+        `;
+      } else {
+        const feedback = currentScore >= 80 ? 'Excellent !' : currentScore >= 50 ? 'Bien !' : 'À améliorer !';
+        const feedbackColor = currentScore >= 80 ? '#22c55e' : currentScore >= 50 ? '#C9A96E' : '#f472b6';
+        html += `
+          <div class="score-circle-wrapper">
+            <div class="score-circle">
+              <svg viewBox="0 0 140 140">
+                <circle cx="70" cy="70" r="65" fill="none" stroke="rgba(201, 169, 110, 0.2)" stroke-width="4" />
+                <circle id="scoreCircle" cx="70" cy="70" r="65" fill="none" stroke="${feedbackColor}" stroke-width="4"
+                  stroke-dasharray="408" stroke-dashoffset="408" style="transform: rotate(-90deg); transform-origin: 70px 70px; transition: stroke-dashoffset 1s ease-out;" />
+              </svg>
+              <div class="score-text">${currentScore}%</div>
+            </div>
+          </div>
+          <div class="feedback">
+            <div class="feedback-title">${feedback}</div>
+            <div class="feedback-message" id="feedbackMsg"></div>
+          </div>
+          <div class="comparison">
+            <div class="comparison-row">
+              <span class="comparison-label">Attendu:</span>
+              <span class="comparison-value">${phrase.kr}</span>
+            </div>
+            <div class="comparison-row">
+              <span class="comparison-label">Reconnu:</span>
+              <span class="comparison-value">${recognitionText || '(silence)'}</span>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-secondary" onclick="resetPhase2()">Réessayer</button>
+            <button class="btn btn-primary" onclick="nextPhrase()">Suivant →</button>
+          </div>
+        `;
+      }
+
+      contentArea.innerHTML = html;
+
+      if (currentPhase === 1) {
+        setTimeout(() => {
+          document.getElementById('nextPhaseBtn').classList.remove('hidden');
+        }, 500);
+      } else if (currentPhase === 3) {
+        setTimeout(() => {
+          const offset = 408 - (currentScore / 100) * 408;
+          document.getElementById('scoreCircle').style.strokeDashoffset = offset;
+        }, 100);
+      }
+    }
+
+    function playTTS(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ko-KR';
+      utterance.rate = 0.8;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utterance);
+    }
+
+    function goToPhase2() {
+      currentPhase = 2;
+      attemptCount = 0;
+      recognitionText = '';
+      renderContent();
+    }
+
+    function toggleRecording() {
+      if (!hasSpeechRecognition) return;
+      if (recognizer.isRecording) {
+        recognizer.stop();
+      } else {
+        attemptCount++;
+        recognitionText = '';
+        recognizer.start();
+        document.getElementById('micBtn').classList.add('recording');
+      }
+    }
+
+    if (hasSpeechRecognition && recognizer) {
+      recognizer.onstart = () => {
+        document.getElementById('micBtn').classList.add('recording');
+      };
+
+      recognizer.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(r => r[0].transcript)
+          .join('');
+        recognitionText = transcript;
+        const box = document.getElementById('transcriptBox');
+        if (box) {
+          box.textContent = transcript;
+          box.classList.remove('empty');
+        }
+      };
+
+      recognizer.onend = () => {
+        document.getElementById('micBtn').classList.remove('recording');
+        const unit = UNITS_DATA[currentUnit];
+        const phrase = unit.phrases[currentPhrase];
+        currentScore = scorePhrase(phrase.kr, recognitionText);
+
+        const viewScoreBtn = document.getElementById('viewScoreBtn');
+        const retryBtn = document.getElementById('retryBtn');
+        if (viewScoreBtn && attemptCount >= 3) {
+          viewScoreBtn.classList.remove('hidden');
+          if (retryBtn) retryBtn.classList.add('hidden');
+        } else if (viewScoreBtn) {
+          retryBtn.classList.remove('hidden');
+          viewScoreBtn.classList.add('hidden');
+        }
+      };
+
+      recognizer.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+      };
+    }
+
+    function resetPhase2() {
+      currentPhase = 2;
+      recognitionText = '';
+      renderContent();
+    }
+
+    function goToPhase3() {
+      currentPhase = 3;
+      renderContent();
+    }
+
+    function nextPhrase() {
+      const unit = UNITS_DATA[currentUnit];
+      if (currentPhrase < unit.phrases.length - 1) {
+        currentPhrase++;
+        currentPhase = 1;
+        attemptCount = 0;
+        recognitionText = '';
+        renderContent();
+      } else {
+        // Unit complete
+        saveProgress();
+        showCompletion();
+      }
+    }
+
+    function saveProgress() {
+      let progress = JSON.parse(localStorage.getItem('ks_prem_oral') || '{}');
+      const unit = UNITS_DATA[currentUnit];
+      progress[currentUnit] = unit.phrases.length;
+      localStorage.setItem('ks_prem_oral', JSON.stringify(progress));
+    }
+
+    function showCompletion() {
+      const contentArea = document.getElementById('contentArea');
+      contentArea.innerHTML = `
+        <div class="completion-banner">
+          <div class="completion-xp">+75 XP</div>
+          <div class="completion-text">Unité complétée !</div>
+          <button class="btn btn-primary" onclick="location.reload()">Retour aux unités</button>
+        </div>
+      `;
+    }
+
+    initApp();
+  </script>
+
+<script>
+(function(){
+  var SVG_MOON='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  var SVG_SUN='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+  function sync(){var b=document.getElementById('darkFab');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.innerHTML=d?SVG_SUN:SVG_MOON;b.style.opacity=d?'1':'.7';}
+  window.toggleDarkGlobal=function(){var d=document.documentElement.getAttribute('data-theme')==='dark';var t=d?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('ks_theme',t);}catch(e){}sync();};
+  sync();
+})();
+</script>
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

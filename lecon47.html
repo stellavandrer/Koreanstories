@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Korean Stories — Leçon A2 : Permission & Interdiction</title>
+  <meta name="description" content="Apprenez à exprimer la permission et l'interdiction en coréen : -아도 되다, -면 안 되다, -지 않아도 되다."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Permission cards */
+    .perm-card{border-radius:20px;padding:18px;margin-bottom:12px;border:2px solid transparent;cursor:pointer;transition:all .2s}
+    .perm-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+    .perm-card.allow{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.3)}
+    .perm-card.forbid{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.25)}
+    .perm-card.notneed{background:rgba(59,130,246,.07);border-color:rgba(59,130,246,.25)}
+    .perm-badge{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:3px 8px;border-radius:20px;margin-bottom:10px}
+    .allow .perm-badge{background:rgba(34,197,94,.15);color:#15803d}
+    .forbid .perm-badge{background:rgba(239,68,68,.12);color:#b91c1c}
+    .notneed .perm-badge{background:rgba(59,130,246,.12);color:#1d4ed8}
+    .perm-formula{font-size:19px;color:var(--t);font-weight:400;margin-bottom:6px}
+    .perm-meaning{font-size:13px;color:var(--t2);margin-bottom:8px}
+    .perm-how{font-size:11px;color:var(--t3);line-height:1.7;background:var(--surf);border-radius:10px;padding:8px 10px;margin-bottom:8px}
+    .perm-exs{font-size:13px;color:var(--t2);line-height:1.8}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(18px,5vw,28px);color:var(--t);line-height:1.4;font-weight:400;margin:0 0 8px;cursor:pointer;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center;line-height:1.4}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+    .next-btn:hover{opacity:.88}
+    /* Dialogue */
+    .dlg{margin-bottom:20px}
+    .dlg-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:10px}
+    .bubble{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+    .bubble.r{flex-direction:row-reverse}
+    .bubble-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#FFD800);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px}
+    .bubble-txt{max-width:75%;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:10px 13px;font-size:13px;color:var(--t);line-height:1.6;cursor:pointer}
+    .bubble.r .bubble-txt{background:var(--navy);color:rgba(247,248,250,.9);border-color:transparent}
+    .bubble-rom{font-size:10px;color:var(--gold);font-weight:700;margin-top:3px}
+    .bubble-mean{font-size:11px;color:var(--t3);margin-top:2px}
+    /* Results */
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+    [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span> XP</a>
+  </div>
+</div>
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">여기서 사진 찍어도 돼요 ? On peut prendre des photos ici ?</div></div>
+</div>
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">Permission maîtrisée !</div>
+      <div class="res-subtitle">허가 & 금지 완료 — 잘 했어요 !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n">+15</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg">Tu sais maintenant demander la permission, exprimer l'interdiction et dire que quelque chose n'est pas nécessaire. Ces structures sont essentielles dans la vie quotidienne !</div>
+      <div class="res-btns">
+        <button class="res-prim" onclick="window.location.href='lecon48.html'">Leçon suivante — Comparaisons <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn">Recommencer</button>
+          <a href="cours.html" class="res-sec">Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+
+const PATTERNS=[
+  {type:'allow',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Permission',formula:'-아/어도 되다',meaning:'C\'est permis / On peut...',
+   how:'Radical du verbe + 아도 되다 (après voyelle ensoleillée) ou 어도 되다 (après autre). Forme polie : -아/어도 돼요',
+   exs:[
+     {kor:'여기서 사진 찍어도 돼요?',rom:'yeo-gi-seo sa-jin jji-geo-do dwae-yo?',mean:'On peut prendre des photos ici ?'},
+     {kor:'들어와도 돼요.',rom:'deu-reo-wa-do dwae-yo.',mean:'Vous pouvez entrer.'},
+     {kor:'이거 먹어도 돼요?',rom:'i-geo meo-geo-do dwae-yo?',mean:'Je peux manger ça ?'},
+   ]
+  },
+  {type:'forbid',badge:'<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> Interdiction',formula:'-면 안 되다',meaning:'Il ne faut pas / C\'est interdit',
+   how:'Radical + (으)면 안 돼요. Si le radical finit par une consonne → -으면 안 돼요. Par une voyelle → -면 안 돼요.',
+   exs:[
+     {kor:'여기서 담배 피우면 안 돼요.',rom:'yeo-gi-seo dam-bae pi-u-myeon an dwae-yo.',mean:'Il est interdit de fumer ici.'},
+     {kor:'늦으면 안 돼요.',rom:'neu-jeu-myeon an dwae-yo.',mean:'Il ne faut pas être en retard.'},
+     {kor:'사진 찍으면 안 됩니다.',rom:'sa-jin jji-geu-myeon an doem-ni-da.',mean:'Les photos sont interdites. (formel)'},
+   ]
+  },
+  {type:'notneed',badge:'<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Pas nécessaire',formula:'-지 않아도 되다',meaning:'Ce n\'est pas nécessaire / On n\'est pas obligé de...',
+   how:'Radical + 지 않아도 돼요. Plus court et naturel : -아/어도 돼요 avec une négation implicite du contexte.',
+   exs:[
+     {kor:'오지 않아도 돼요.',rom:'o-ji a-na-do dwae-yo.',mean:'Vous n\'êtes pas obligé(e) de venir.'},
+     {kor:'걱정하지 않아도 돼요.',rom:'geok-jeong-ha-ji a-na-do dwae-yo.',mean:'Vous n\'avez pas besoin de vous inquiéter.'},
+     {kor:'돈 내지 않아도 됩니다.',rom:'don nae-ji a-na-do doem-ni-da.',mean:'Vous n\'avez pas à payer. (formel)'},
+   ]
+  },
+];
+
+const MCQ=[
+  {q:'Comment demander "Est-ce qu\'on peut s\'asseoir ici ?" en coréen ?',big:'여기 앉다 + permission',choices:['여기 앉아도 돼요?','여기 앉으면 안 돼요?','여기 앉지 않아도 돼요?','여기 앉어도 안 돼요?'],ans:0,fb:'여기 앉아도 돼요? La voyelle de 앉다 = ㅏ (ensoleillée) → 앉 + 아도 돼요 ?'},
+  {q:'Au musée, un panneau dit "PHOTOS INTERDITES". Comment le dire ?',big:'사진 찍다 + interdit',choices:['사진 찍으면 안 돼요','사진 찍어도 돼요','사진 찍지 않아도 돼요','사진 찍으면 돼요'],ans:0,fb:'사진 찍으면 안 돼요 ! 찍다 finit par ㄱ (consonne) → 찍 + 으면 안 돼요.'},
+  {q:'Ton ami veut aider mais ce n\'est pas nécessaire. Tu dis :',big:'걱정하다 + pas nécessaire',choices:['걱정하지 않아도 돼요','걱정하면 안 돼요','걱정해도 안 돼요','걱정하지 않아도 안 돼요'],ans:0,fb:'걱정하지 않아도 돼요 ! -지 않아도 되다 = ce n\'est pas nécessaire.'},
+  {q:'Quelle structure exprime la PERMISSION ?',big:'허락 (permission)',choices:['-아/어도 되다','-면 안 되다','-지 않아도 되다','-아/어서 안 되다'],ans:0,fb:'-아/어도 되다 = permission ! -면 안 되다 = interdiction. -지 않아도 되다 = pas nécessaire.'},
+];
+
+const STEPS=[
+  {type:'story'},
+  {type:'allow'},{type:'forbid'},{type:'notneed'},
+  {type:'dialogue'},
+  {type:'mcq',idx:0},{type:'mcq',idx:1},{type:'mcq',idx:2},{type:'mcq',idx:3},
+];
+
+let cur=0,score=0,total=0;
+const lc=document.getElementById('lc');
+const pb=document.getElementById('pbar');
+const dots=document.getElementById('stepDots');
+
+function buildDots(){dots.innerHTML='';STEPS.forEach((_,i)=>{const d=document.createElement('span');d.className='sdot'+(i===0?' current':'');dots.appendChild(d);});}
+function updateDots(i){dots.querySelectorAll('.sdot').forEach((d,j)=>{d.className='sdot'+(j<i?' done':j===i?' current':'');});}
+function updatePB(){pb.style.width=((cur/STEPS.length)*100)+'%';}
+function beep(ok){try{const ac=new AudioContext();const o=ac.createOscillator();const g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=ok?880:200;g.gain.setValueAtTime(.4,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.4);o.start();o.stop(ac.currentTime+.4);}catch(e){}}
+function advance(){cur++;render();}
+
+function render(){
+  if(cur>=STEPS.length){showResults();return;}
+  updateDots(cur);updatePB();
+  const s=STEPS[cur];
+  lc.innerHTML='';
+  lc.style.animation='none';requestAnimationFrame(()=>{lc.style.animation='fadeUp .35s ease both';});
+  if(s.type==='story') renderStory();
+  else if(['allow','forbid','notneed'].includes(s.type)) renderPattern(s.type);
+  else if(s.type==='dialogue') renderDialogue();
+  else if(s.type==='mcq') renderMCQ(s.idx);
+}
+
+function renderStory(){
+  
+  document.getElementById('msay').textContent='여기서 사진 찍어도 돼요? On peut prendre des photos ici ?';
+  lc.innerHTML=`
+    <div class="story">
+      <span class="story-tag">Leçon A2 · Permission & Interdiction</span>
+      <div class="story-txt">"Emma visite un palais à Séoul. Elle sort son téléphone. Un garde s'approche. Mina lui chuchote : 잠깐만요 ! 여기서 사진 찍으면 안 돼요. (Attendez ! On ne peut pas prendre de photos ici.) Emma range son téléphone. Plus loin, Mina dit : 저기서는 찍어도 돼요. (Là-bas, c\'est permis.)"</div>
+      <div class="story-scene"> Gyeongbokgung, Séoul — visite guidée</div>
+    </div>
+    <div style="background:rgba(201,169,110,.1);border:1.5px solid var(--gold);border-radius:18px;padding:14px 16px;margin-bottom:20px">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> 3 structures essentielles</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.9">
+        <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  <strong>-아/어도 되다</strong> = c'est permis, on peut<br>
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg> <strong>-면 안 되다</strong> = c'est interdit, il ne faut pas<br>
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> <strong>-지 않아도 되다</strong> = pas nécessaire
+      </div>
+    </div>
+    <button class="next-btn" onclick="advance()">Commencer →</button>`;
+}
+
+function renderPattern(type){
+  const p=PATTERNS.find(x=>x.type===type);
+  const cls=type;
+  document.getElementById('msay').textContent=p.formula+' — '+p.meaning;
+  let exHtml='';
+  p.exs.forEach(e=>{
+    exHtml+=`<div style="padding:8px 0;border-bottom:1px solid var(--bd);cursor:pointer" onclick="speak('${e.kor}',null)">
+      <div style="font-size:16px;color:var(--t);font-weight:300">${e.kor}</div>
+      <div style="font-size:10px;color:var(--gold);font-weight:700">${e.rom}</div>
+      <div style="font-size:12px;color:var(--t2)">${e.mean}</div>
+    </div>`;
+  });
+  lc.innerHTML=`
+    <div class="perm-card ${cls}">
+      <div class="perm-badge">${p.badge}</div>
+      <div class="perm-formula">${p.formula}</div>
+      <div class="perm-meaning">${p.meaning}</div>
+      <div class="perm-how"> ${p.how}</div>
+      <div class="perm-exs">${exHtml}</div>
+    </div>
+    <button class="next-btn" onclick="advance()">Suivant →</button>`;
+}
+
+function renderDialogue(){
+  document.getElementById('msay').textContent='Un dialogue réel avec ces 3 structures !';
+  const lines=[
+    {r:false,av:'',kor:'선생님, 질문해도 돼요?',rom:'seon-saeng-nim, jil-mun-hae-do dwae-yo?',mean:'Professeur, est-ce que je peux poser une question ?'},
+    {r:true,av:'‍',kor:'네, 물론이죠. 질문하세요.',rom:'ne, mul-lon-i-jyo. jil-mun-ha-se-yo.',mean:'Oui, bien sûr. Posez votre question.'},
+    {r:false,av:'',kor:'한국어로 말하지 않아도 돼요?',rom:'han-gu-geo-ro mal-ha-ji a-na-do dwae-yo?',mean:'On n\'est pas obligé de parler en coréen ?'},
+    {r:true,av:'‍',kor:'아니요, 수업 중에는 한국어로만 말하면 돼요. 영어로 하면 안 돼요!',rom:'a-ni-yo, su-eop jung-e-neun han-gu-geo-ro-man mal-ha-myeon dwae-yo. yeong-eo-ro ha-myeon an dwae-yo!',mean:'Non, pendant le cours il faut parler uniquement en coréen. L\'anglais est interdit !'},
+  ];
+  let html=`<div class="dlg"><div class="dlg-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Dialogue — En cours</div>`;
+  lines.forEach(l=>{
+    html+=`<div class="bubble ${l.r?'r':''}">
+      <div class="bubble-av">${l.av}</div>
+      <div>
+        <div class="bubble-txt" onclick="speak('${l.kor}',null)">${l.kor}<div class="bubble-rom">${l.rom}</div><div class="bubble-mean">${l.mean}</div></div>
+      </div>
+    </div>`;
+  });
+  html+=`</div><button class="next-btn" onclick="advance()">Quiz →</button>`;
+  lc.innerHTML=html;
+}
+
+function renderMCQ(idx){
+  const q=MCQ[idx];total++;
+  
+  document.getElementById('msay').textContent='허가 & 금지 퀴즈 !';
+  lc.innerHTML=`
+    <div class="mcq">
+      <span class="q-cnt">Question ${idx+1} / ${MCQ.length}</span>
+      <div class="q-prompt">${q.q}</div>
+      <div class="q-big" onclick="speak('${q.big}',null)">${q.big}</div>
+      <div class="choices" id="chs">
+        ${q.choices.map((c,i)=>`<button class="ch" onclick="pick(${i},${idx})">${c}</button>`).join('')}
+      </div>
+      <div class="fb-strip" id="fb" style="display:none"></div>
+      <button class="next-btn" id="nxt" style="display:none" onclick="advance()">Suivant →</button>
+    </div>`;
+}
+
+function pick(i,idx){
+  const q=MCQ[idx];
+  const chs=document.querySelectorAll('.ch');
+  chs.forEach(b=>b.disabled=true);
+  const ok=i===q.ans;
+  if(ok){score++;chs[i].classList.add('ok');beep(true);}
+  else{chs[i].classList.add('ko');chs[q.ans].classList.add('ok');beep(false);}
+  const fb=document.getElementById('fb');fb.style.display='block';
+  fb.className='fb-strip '+(ok?'ok':'ko');fb.textContent=q.fb;
+  document.getElementById('nxt').style.display='block';
+}
+
+function showResults(){
+  document.getElementById('results').style.display='block';
+  lc.style.display='none';
+  document.getElementById('resScore').textContent=score;
+  document.getElementById('resOf').textContent='/ '+total+' bonnes rép.';
+  
+  try{localStorage.setItem('ks_b04d','1');}catch(e){}
+  document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;total=0;document.getElementById('results').style.display='none';lc.style.display='block';render();};
+}
+
+buildDots();render();
+try{const xp=parseInt(localStorage.getItem('ks_xp')||'0');document.getElementById('xpEl').textContent=xp;}catch(e){}
+</script>
+</body>
+</html>

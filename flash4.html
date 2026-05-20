@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Flashcards B2 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .progress-bar{height:6px;background:var(--bd);border-radius:3px;margin:1rem 0}
+    .progress-fill{height:100%;background:#DB2777;border-radius:3px;transition:width .4s}
+    .counter{font-size:.82rem;color:var(--tx-muted);text-align:center;margin-bottom:.8rem}
+    .flashcard{background:var(--surf);border:2px solid var(--bd);border-radius:20px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;margin:.5rem 0;cursor:pointer;transition:all .25s;position:relative}
+    .flashcard:hover{border-color:#DB2777;transform:scale(1.01)}
+    .flashcard.flipped{background:rgba(219,39,119,.06);border-color:#DB2777}
+    .card-front{text-align:center}
+    .card-ko{font-size:1.6rem;font-weight:900;color:#DB2777;margin-bottom:.4rem}
+    .card-hint{font-size:.78rem;color:var(--tx-muted)}
+    .card-back{display:none;text-align:center}
+    .card-back.show{display:block}
+    .card-fr{font-size:1.05rem;font-weight:700;color:var(--tx);margin-bottom:.3rem}
+    .card-ex{font-size:.82rem;color:var(--tx-muted);font-style:italic}
+    .card-struct{font-size:.78rem;background:rgba(219,39,119,.1);color:#DB2777;border-radius:8px;padding:.2rem .6rem;display:inline-block;margin-top:.3rem;font-weight:600}
+    .tap-hint{font-size:.72rem;color:var(--tx-muted);text-align:center;margin-bottom:.3rem}
+    .nav-btns{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.7rem 0}
+    .nav-btn{padding:.6rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;font-size:.9rem;font-weight:600;background:var(--bg);color:var(--tx)}
+    .nav-btn:hover{border-color:#DB2777;color:#DB2777}
+    .nav-btn.next-btn{background:#DB2777;color:#fff;border-color:#DB2777}
+    .category-tabs{display:flex;gap:.4rem;overflow-x:auto;margin:.6rem 0;padding-bottom:.2rem}
+    .cat-tab{padding:.3rem .8rem;border:1.5px solid var(--bd);border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--tx-muted);background:var(--bg)}
+    .cat-tab.active{background:#DB2777;color:#fff;border-color:#DB2777}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Flashcards B2</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2> Flashcards B2</h2>
+  <span class="pill">Révision B2</span> <span class="xp-badge">+8 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">28 cartes couvrant les structures et vocabulaire avancés du B2.</p>
+
+  <div class="category-tabs">
+    <button class="cat-tab active" onclick="setCategory(0)">Toutes</button>
+    <button class="cat-tab" onclick="setCategory(1)">Grammaire</button>
+    <button class="cat-tab" onclick="setCategory(2)">Business</button>
+    <button class="cat-tab" onclick="setCategory(3)">Médias</button>
+    <button class="cat-tab" onclick="setCategory(4)">Argot</button>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+  <div class="counter" id="cnt">1 / 28</div>
+
+  <div class="tap-hint"> Appuyez pour retourner la carte</div>
+  <div class="flashcard" id="fc" onclick="flip()">
+    <div class="card-front" id="cf">
+      <div class="card-ko" id="cko">Loading...</div>
+      <div class="card-hint" id="chi"></div>
+    </div>
+    <div class="card-back" id="cb">
+      <div class="card-fr" id="cfr"></div>
+      <div class="card-ex" id="cex"></div>
+      <div class="card-struct" id="cst"></div>
+    </div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="nav-btn" onclick="prev()">← Précédent</button>
+    <button class="nav-btn next-btn" onclick="next()">Suivant →</button>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +8 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const ALL=[
+  // Grammaire cat:1
+  {ko:'-는 것 같다',fr:'Sembler, avoir l\'air (présent)',ex:'피곤한 것 같아요',st:'Supposition',cat:1},
+  {ko:'-(으)ㄴ 것 같다',fr:'Sembler (passé/adj)',ex:'먹은 것 같아요',st:'Supposition passée',cat:1},
+  {ko:'-(으)ㄹ 것 같다',fr:'Probablement (futur)',ex:'올 것 같아요',st:'Supposition future',cat:1},
+  {ko:'-(으)ㄹ 텐데',fr:'Ça doit être… (+ préoccupation)',ex:'힘들 텐데 괜찮아요?',st:'Supposition+contexte',cat:1},
+  {ko:'-(으)ㄹ 뻔했다',fr:'J\'ai failli…',ex:'넘어질 뻔했어요',st:'Manqué de peu',cat:1},
+  {ko:'-(으)ㄹ걸 그랬다',fr:'J\'aurais dû…',ex:'더 공부할걸 그랬어요',st:'Regret',cat:1},
+  {ko:'-았/었어야 했다',fr:'J\'aurais dû (obligation)',ex:'전화했어야 했는데',st:'Obligation passée',cat:1},
+  {ko:'-든(지)',fr:'Peu importe que / quel que soit',ex:'어디 가든 상관없어',st:'Concession totale',cat:1},
+  {ko:'-겠지만',fr:'Ça sera… mais (hypothèse)',ex:'힘들겠지만 할게요',st:'Hypothèse+contraste',cat:1},
+  {ko:'-기는 한데',fr:'C\'est vrai que… mais',ex:'좋기는 한데 비싸요',st:'Concession',cat:1},
+  // Business cat:2
+  {ko:'매출액',fr:'Chiffre d\'affaires',ex:'이번 분기 매출액',st:'Business',cat:2},
+  {ko:'검토해 보겠습니다',fr:'Nous allons examiner cela',ex:'제안을 검토해 보겠습니다',st:'Négociation',cat:2},
+  {ko:'여쭤보다',fr:'Demander (honorifique)',ex:'의견을 여쭤봐도 될까요?',st:'Honorifique business',cat:2},
+  {ko:'절충안',fr:'Compromis',ex:'절충안을 찾겠습니다',st:'Négociation',cat:2},
+  {ko:'이상으로 마치겠습니다',fr:'Cela conclut ma présentation',ex:'이상으로 발표를 마치겠습니다',st:'Présentation',cat:2},
+  {ko:'회의록',fr:'Procès-verbal de réunion',ex:'회의록을 작성했어요',st:'Business',cat:2},
+  {ko:'체면',fr:'La face / l\'honneur social',ex:'체면을 지키다',st:'Culture business',cat:2},
+  // Médias cat:3
+  {ko:'-에 따르면',fr:'Selon… / D\'après…',ex:'연구에 따르면',st:'Journalistique',cat:3},
+  {ko:'-다고 밝혔다',fr:'A révélé / déclaré que',ex:'대변인이 밝혔다',st:'Citation officielle',cat:3},
+  {ko:'-ㄹ 것으로 보인다',fr:'Il semble que / On s\'attend à',ex:'증가할 것으로 보인다',st:'Prédiction presse',cat:3},
+  {ko:'-로 알려졌다',fr:'Il est connu que',ex:'진행 중인 것으로 알려졌다',st:'Information officieuse',cat:3},
+  {ko:'열풍',fr:'Engouement / Fièvre',ex:'한국어 학습 열풍',st:'Médias',cat:3},
+  {ko:'논란',fr:'Controverse / Polémique',ex:'큰 논란이 됐다',st:'Médias',cat:3},
+  // Argot cat:4
+  {ko:'워라밸',fr:'Work-life balance',ex:'워라밸이 중요해요',st:'Argot moderne',cat:4},
+  {ko:'대박',fr:'Incroyable ! Wahou !',ex:'대박이에요!',st:'Exclamation',cat:4},
+  {ko:'헐',fr:'Oh non ! / C\'est dingue !',ex:'헐, 진짜요?',st:'Surprise',cat:4},
+  {ko:'삐딱하다',fr:'De travers / Rebelle',ex:'삐딱하게 행동해요',st:'Attitude',cat:4},
+  {ko:'-거든요',fr:'"Tu vois / C\'est parce que…"',ex:'사실 바쁘거든요',st:'Explication orale',cat:4},
+];
+
+let cards=ALL,idx=0,isFlipped=false,currentCat=0;
+function setCategory(c){currentCat=c;cards=c===0?ALL:ALL.filter(x=>x.cat===c);idx=0;document.querySelectorAll('.cat-tab').forEach((t,i)=>t.classList.toggle('active',i===c));render();}
+function render(){
+  const c=cards[idx];
+  document.getElementById('cko').textContent=c.ko;
+  document.getElementById('chi').textContent=' Appuyez pour voir la traduction';
+  document.getElementById('cfr').textContent=c.fr;
+  document.getElementById('cex').textContent=c.ex;
+  document.getElementById('cst').textContent=c.st;
+  document.getElementById('cnt').textContent=(idx+1)+' / '+cards.length;
+  document.getElementById('pf').style.width=((idx+1)/cards.length*100)+'%';
+  const fc=document.getElementById('fc');
+  fc.classList.remove('flipped');
+  document.getElementById('cf').style.display='flex';document.getElementById('cf').style.flexDirection='column';document.getElementById('cf').style.alignItems='center';
+  document.getElementById('cb').classList.remove('show');
+  isFlipped=false;
+}
+function flip(){
+  isFlipped=!isFlipped;
+  document.getElementById('fc').classList.toggle('flipped',isFlipped);
+  document.getElementById('cb').classList.toggle('show',isFlipped);
+  document.getElementById('chi').textContent=isFlipped?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Vu !':' Appuyez pour voir la traduction';
+}
+function next(){idx=(idx+1)%cards.length;render();}
+function prev(){idx=(idx-1+cards.length)%cards.length;render();}
+render();
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_d14');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Le métro de Séoul  · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .hero-meta{display:flex;justify-content:center;gap:16px;margin-top:18px}
+    .hero-meta span{font-size:11px;font-weight:600;color:rgba(237,242,250,.45)}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:14px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .card-title .icon{font-size:20px}
+    .body-text{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:10px}
+    .body-text strong{color:var(--t);font-weight:700}
+    table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+    th{background:var(--s3);color:var(--t2);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;text-align:left}
+    td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--t)}
+    .kr{font-size:18px;color:var(--gold);font-weight:700}
+    tr:hover td{background:var(--s2)}
+    .fact-box{background:var(--s2);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 16px;margin:10px 0}
+    .fact-box .label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .fact-box p{font-size:13px;color:var(--t2);line-height:1.6}
+    .announce-box{background:var(--navy);border-radius:12px;padding:16px;margin:10px 0}
+    .announce-kr{font-size:15px;color:var(--gold);font-weight:600;margin-bottom:6px}
+    .announce-rom{font-size:11px;color:rgba(237,242,250,.5);margin-bottom:4px}
+    .announce-fr{font-size:13px;color:rgba(237,242,250,.8)}
+    .btn{display:block;width:100%;padding:16px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;text-align:center;margin-top:20px;box-shadow:0 4px 18px rgba(184,146,78,.35);transition:all .2s;text-decoration:none}
+    .btn:hover{transform:translateY(-1px)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+  <div class="xp-pill">+8 XP</div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag"> Anecdote</div>
+  <div class="hero-title">Le métro de Séoul</div>
+  <div class="hero-sub">Le plus ponctuel du monde · Annonces en coréen · Vocabulaire du transport quotidien</div>
+  <div class="hero-meta">
+    <span><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ~5 min</span>
+    <span><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Culture</span>
+    <span> Transport</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg></span> Le plus ponctuel du monde</div>
+    <p class="body-text"><strong>9 lignes, 300+ stations, 7 millions de passagers par jour.</strong> Le métro de Séoul (서울 지하철 · Seoul Jihacheol) est régulièrement classé parmi les meilleurs systèmes de transport en commun au monde.</p>
+    <p class="body-text">Son retard moyen ? <strong>Moins de 30 secondes.</strong> Les rames arrivent toutes les 2-3 minutes aux heures de pointe. Les annonces sont diffusées en <strong>4 langues</strong> : coréen, anglais, chinois et japonais.</p>
+    <div class="fact-box">
+      <div class="label"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg> Les lignes</div>
+      <p>Ligne 1 (bleu foncé) → Ligne 9 (dorée) + lignes spéciales (Sinbundang, Gyeongui...). Chaque ligne a sa couleur. Ex : Ligne 2 = verte, Ligne 5 = violette.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span> Vocabulaire du métro</div>
+    <table>
+      <thead><tr><th>Coréen</th><th>Romanisation</th><th>Français</th></tr></thead>
+      <tbody>
+        <tr><td class="kr">지하철</td><td>jihacheol</td><td>Métro</td></tr>
+        <tr><td class="kr">역</td><td>yeok</td><td>Station / Gare</td></tr>
+        <tr><td class="kr">호선</td><td>hoseon</td><td>Ligne</td></tr>
+        <tr><td class="kr">승강장</td><td>seunggjangjang</td><td>Quai</td></tr>
+        <tr><td class="kr">환승</td><td>hwanseung</td><td>Correspondance</td></tr>
+        <tr><td class="kr">출구</td><td>chulgu</td><td>Sortie</td></tr>
+        <tr><td class="kr">입구</td><td>ipgu</td><td>Entrée</td></tr>
+        <tr><td class="kr">교통카드</td><td>gyotongkadeu</td><td>Carte de transport</td></tr>
+        <tr><td class="kr">다음 역</td><td>daeum yeok</td><td>Prochaine station</td></tr>
+        <tr><td class="kr">종착역</td><td>jongchagyeok</td><td>Station terminus</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 010 8.49m-8.48-.01a6 6 0 010-8.49m11.31-2.82a10 10 0 010 14.14m-14.14 0a10 10 0 010-14.14"/></svg></span> Annonces types dans le métro</div>
+    <p class="body-text" style="margin-bottom:14px">Tu vas entendre ces phrases dans chaque rame :</p>
+
+    <div class="announce-box">
+      <div class="announce-kr">다음 역은 강남 입니다.</div>
+      <div class="announce-rom">Daeum yeogeun Gangnam imnida.</div>
+      <div class="announce-fr">→ "La prochaine station est Gangnam."</div>
+    </div>
+
+    <div class="announce-box">
+      <div class="announce-kr">내리실 문은 왼쪽입니다.</div>
+      <div class="announce-rom">Naeriil muneun oenjjogimnida.</div>
+      <div class="announce-fr">→ "Les portes s'ouvriront à gauche."</div>
+    </div>
+
+    <div class="announce-box">
+      <div class="announce-kr">승강장 안전선 밖으로 물러나 주시기 바랍니다.</div>
+      <div class="announce-rom">Seunggjangjang anjeonsseon bakkeuro mulleonaJuSigi baramnida.</div>
+      <div class="announce-fr">→ "Veuillez reculer derrière la ligne de sécurité."</div>
+    </div>
+
+    <div class="announce-box">
+      <div class="announce-kr">이번 역은 서울역입니다. 종착역입니다.</div>
+      <div class="announce-rom">Ibeon yeogeun Seouyeogimmnida. Jongchagyeogimnida.</div>
+      <div class="announce-fr">→ "Cette station est Seoul Station. C'est le terminus."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"></span> La T-Money — carte indispensable</div>
+    <p class="body-text">La <strong>T-Money (티머니)</strong> est la carte de transport rechargeable de Séoul. Elle fonctionne dans :</p>
+    <ul style="margin:10px 0 10px 20px;font-size:14px;color:var(--t2);line-height:2">
+      <li>Le métro (지하철)</li>
+      <li>Les bus (버스)</li>
+      <li>Certains taxis (택시)</li>
+      <li>Les convenience stores (편의점) — GS25, CU, 7-Eleven</li>
+    </ul>
+    <div class="fact-box">
+      <div class="label"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Astuce</div>
+      <p>Tu peux recharger ta T-Money dans n'importe quel <strong>편의점 (pyeonuijeom)</strong> — convenience store. Dis juste : <strong>"티머니 충전해 주세요"</strong> (T-money chungjonhae juseyo) = "Rechargez ma T-Money s'il vous plaît."</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Applications indispensables</div>
+    <p class="body-text">Pour naviguer dans le métro de Séoul, télécharge :</p>
+    <div class="fact-box">
+      <div class="label"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.7 19.79 19.79 0 01.22 1.11 2 2 0 012.22 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg> Naver Map (네이버 지도)</div>
+      <p>L'équivalent coréen de Google Maps. Plus précis en Corée. Disponible en anglais.</p>
+    </div>
+    <div class="fact-box">
+      <div class="label"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.7 19.79 19.79 0 01.22 1.11 2 2 0 012.22 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg> Kakao Map (카카오맵)</div>
+      <p>Très utilisé par les locaux. Indique les sorties exactes de chaque station.</p>
+    </div>
+    <div class="fact-box">
+      <div class="label"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.7 19.79 19.79 0 01.22 1.11 2 2 0 012.22 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg> Korail / Seoul Metro App</div>
+      <p>Pour les horaires officiels et les perturbations en temps réel.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span> Phrases utiles dans le métro</div>
+    <table>
+      <thead><tr><th>Coréen</th><th>Traduction</th></tr></thead>
+      <tbody>
+        <tr><td class="kr">이 역이 어디예요?</td><td>Quelle station est-ce ?</td></tr>
+        <tr><td class="kr">몇 호선이에요?</td><td>C'est quelle ligne ?</td></tr>
+        <tr><td class="kr">강남역 어떻게 가요?</td><td>Comment aller à Gangnam ?</td></tr>
+        <tr><td class="kr">어디서 환승해요?</td><td>Où faire la correspondance ?</td></tr>
+        <tr><td class="kr">몇 정거장이에요?</td><td>C'est combien d'arrêts ?</td></tr>
+        <tr><td class="kr">출구가 어디예요?</td><td>Où est la sortie ?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <a href="cours.html" class="btn" onclick="complete()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Lu ! Retour au parcours</a>
+</div>
+
+<script>
+function complete(){
+  try{localStorage.setItem('ks_a21','1')}catch(e){}
+}
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

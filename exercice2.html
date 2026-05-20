@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Lis tes premières syllabes · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .prog-wrap{background:var(--bd);height:8px;border-radius:100px;margin:0 0 20px;overflow:hidden}
+    .prog-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .4s ease}
+    .prog-label{font-size:11px;font-weight:700;color:var(--t3);margin-bottom:6px;text-align:right}
+    .choices{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .choice{padding:14px 18px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left;width:100%}
+    .choice:hover{border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D;pointer-events:none}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626;pointer-events:none}
+    .feedback{padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;margin:10px 0;display:none}
+    .feedback.ok{background:#DCFCE7;border:1px solid #86EFAC;color:#15803D;display:block}
+    .feedback.ko{background:#FEE2E2;border:1px solid #FCA5A5;color:#DC2626;display:block}
+    .kr-big{font-size:64px;text-align:center;color:var(--gold);font-weight:700;display:block;margin:12px 0;line-height:1.2}
+    .tip{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;color:var(--t)}
+    .tip strong{color:var(--gold)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none;width:100%}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .btn-outline{background:none;border:2px solid var(--bd2);color:var(--t2);margin-top:10px}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    .success-icon{font-size:64px;margin-bottom:16px}
+    .success-title{font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px}
+    .success-sub{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6}
+    .score-badge{background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:16px;display:inline-block;margin-bottom:20px}
+    .score-badge .score-num{font-size:40px;font-weight:800;color:var(--gold)}
+    .score-badge .score-lbl{font-size:12px;color:var(--t2)}
+    .syllable-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px;margin:16px 0}
+    .syl-card{background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .2s}
+    .syl-card:hover{border-color:var(--goldbd);transform:translateY(-2px)}
+    .syl-card.revealed{background:var(--goldbg);border-color:var(--goldbd)}
+    .syl-kr{font-size:28px;font-weight:700;color:var(--gold);display:block}
+    .syl-rom{font-size:11px;color:var(--t2);margin-top:4px;display:none}
+    .syl-card.revealed .syl-rom{display:block}
+    .big-reveal-card{background:var(--surf);border-radius:var(--r);padding:32px 20px;text-align:center;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06);margin-bottom:16px}
+    .big-kr{font-size:80px;font-weight:700;color:var(--gold);display:block;line-height:1.1;margin-bottom:8px}
+    .reveal-info{display:none;margin-top:16px}
+    .reveal-info.show{display:block}
+    .reveal-roman{font-size:22px;font-weight:800;color:var(--t);margin-bottom:4px}
+    .reveal-meaning{font-size:15px;color:var(--t2);margin-bottom:8px}
+    .reveal-example{font-size:13px;color:var(--t3);font-style:italic}
+    .level-badge{display:inline-block;padding:4px 12px;border-radius:100px;background:var(--s3);font-size:11px;font-weight:800;color:var(--t3);margin-bottom:12px;letter-spacing:.05em}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    .pop{animation:pop .25s ease}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="hero">
+  <div class="hero-tag">EXERCICE</div>
+  <h1 class="hero-title">Lis tes premières syllabes</h1>
+  <p class="hero-sub">5 niveaux progressifs — de la syllabe simple au mot connu</p>
+</div>
+
+<div class="wrap">
+  <div id="learnSection">
+    <div class="prog-label" id="levelLabel">Niveau 1 / 5</div>
+    <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:20%"></div></div>
+
+    <div class="card" style="padding:16px 20px 12px">
+      <div class="level-badge" id="levelBadge">NIVEAU 1 — Syllabes simples</div>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">Clique sur chaque syllabe pour révéler sa prononciation !</p>
+      <div class="syllable-grid" id="syllableGrid"></div>
+    </div>
+
+    <div class="big-reveal-card" id="bigCard" style="display:none">
+      <span class="big-kr" id="bigKr"></span>
+      <div class="reveal-info" id="revealInfo">
+        <div class="reveal-roman" id="revealRoman"></div>
+        <div class="reveal-meaning" id="revealMeaning"></div>
+        <div class="reveal-example" id="revealExample"></div>
+      </div>
+      <button class="btn btn-gold" id="revealBtn" onclick="revealCurrent()" style="margin-top:16px;width:auto;padding:10px 24px"> Révéler</button>
+    </div>
+
+    <button class="btn btn-gold" id="nextLevelBtn" onclick="nextLevel()" style="display:none">Niveau suivant →</button>
+  </div>
+
+  <!-- Quiz between levels -->
+  <div id="quizSection" style="display:none">
+    <div class="prog-label" id="quizLabel">Validation — Question 1/2</div>
+    <div class="prog-wrap"><div class="prog-bar" id="quizProg" style="width:50%"></div></div>
+    <div class="card">
+      <div class="card-title"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Valide le niveau</div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:8px" id="quizPrompt"></div>
+      <span class="kr-big" id="quizChar"></span>
+      <div class="choices" id="quizChoices"></div>
+      <div class="feedback" id="quizFeedback"></div>
+    </div>
+  </div>
+
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <h2 class="success-title">Bravo !</h2>
+    <p class="success-sub">Tu as terminé les 5 niveaux de lecture de syllabes coréennes !</p>
+    <div class="score-badge">
+      <div class="score-num">5/5</div>
+      <div class="score-lbl">niveaux complétés</div>
+    </div>
+    <a href="cours.html" class="btn btn-gold">Retour au parcours</a>
+  </div>
+</div>
+
+<script>
+const levels = [
+  {
+    name:'NIVEAU 1 — Syllabes simples',
+    type:'grid',
+    items:[
+      {kr:'가',rom:'ga',meaning:'ga',example:''},
+      {kr:'나',rom:'na',meaning:'na',example:''},
+      {kr:'다',rom:'da',meaning:'da',example:''},
+    ],
+    quiz:[
+      {prompt:'Comment se prononce cette syllabe ?',char:'나',answer:'na',options:['na','ga','da','ma']},
+      {prompt:'Comment se prononce cette syllabe ?',char:'가',answer:'ga',options:['da','na','ga','ra']},
+    ]
+  },
+  {
+    name:'NIVEAU 2 — 5 syllabes',
+    type:'grid',
+    items:[
+      {kr:'라',rom:'ra',meaning:'ra',example:''},
+      {kr:'마',rom:'ma',meaning:'ma',example:''},
+      {kr:'바',rom:'ba',meaning:'ba',example:''},
+      {kr:'사',rom:'sa',meaning:'sa',example:''},
+      {kr:'아',rom:'a',meaning:'a (voyelle seule)',example:''},
+    ],
+    quiz:[
+      {prompt:'Comment se prononce cette syllabe ?',char:'사',answer:'sa',options:['sa','ba','ma','ra']},
+      {prompt:'Comment se prononce cette syllabe ?',char:'아',answer:'a',options:['ba','a','ra','sa']},
+    ]
+  },
+  {
+    name:'NIVEAU 3 — Syllabes + batchim',
+    type:'grid',
+    items:[
+      {kr:'강',rom:'gang',meaning:'rivière',example:''},
+      {kr:'산',rom:'san',meaning:'montagne',example:''},
+      {kr:'밥',rom:'bap',meaning:'riz',example:''},
+      {kr:'집',rom:'jip',meaning:'maison',example:''},
+    ],
+    quiz:[
+      {prompt:'Comment se prononce ce mot ?',char:'강',answer:'gang',options:['gang','san','bap','jip']},
+      {prompt:'Comment se prononce ce mot ?',char:'밥',answer:'bap',options:['san','jip','gang','bap']},
+    ]
+  },
+  {
+    name:'NIVEAU 4 — Vrais mots',
+    type:'reveal',
+    items:[
+      {kr:'나라',rom:'nara',meaning:'pays <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',example:'한국은 나라예요. — La Corée est un pays.'},
+      {kr:'가다',rom:'gada',meaning:'aller ',example:'학교에 가다. — Aller à l\'école.'},
+      {kr:'자다',rom:'jada',meaning:'dormir ',example:'일찍 자다. — Dormir tôt.'},
+      {kr:'마다',rom:'mada',meaning:'chaque ',example:'날마다 — Chaque jour.'},
+      {kr:'바다',rom:'bada',meaning:'mer ',example:'바다에 가요. — Je vais à la mer.'},
+    ],
+    quiz:[
+      {prompt:'Que signifie ce mot ?',char:'바다',answer:'mer',options:['mer','pays','dormir','aller']},
+      {prompt:'Que signifie ce mot ?',char:'나라',answer:'pays',options:['mer','aller','pays','chaque']},
+    ]
+  },
+  {
+    name:'NIVEAU 5 — Mots connus',
+    type:'reveal',
+    items:[
+      {kr:'안녕',rom:'annyeong',meaning:'bonjour / au revoir ',example:'안녕! — Salut !'},
+      {kr:'사랑',rom:'sarang',meaning:'amour <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',example:'사랑해요. — Je t\'aime.'},
+      {kr:'김치',rom:'gimchi',meaning:'kimchi ',example:'김치 맛있어요. — Le kimchi est délicieux.'},
+      {kr:'한국',rom:'hanguk',meaning:'Corée KR',example:'한국에 가고 싶어요. — Je veux aller en Corée.'},
+      {kr:'서울',rom:'Seoul',meaning:'Séoul ',example:'서울은 한국의 수도예요. — Séoul est la capitale de la Corée.'},
+    ],
+    quiz:[
+      {prompt:'Que signifie ce mot ?',char:'사랑',answer:'amour',options:['amour','Corée','kimchi','bonjour']},
+      {prompt:'Que signifie ce mot ?',char:'한국',answer:'Corée',options:['Séoul','amour','Corée','bonjour']},
+    ]
+  },
+];
+
+let currentLevel = 0;
+let currentRevealIdx = 0;
+let quizStep = 0;
+let quizAnswered = false;
+let allRevealed = false;
+
+function renderLevel() {
+  const lv = levels[currentLevel];
+  document.getElementById('levelLabel').textContent = `Niveau ${currentLevel+1} / 5`;
+  document.getElementById('progBar').style.width = ((currentLevel+1)/5*100)+'%';
+  document.getElementById('levelBadge').textContent = lv.name;
+  document.getElementById('learnSection').style.display = 'block';
+  document.getElementById('quizSection').style.display = 'none';
+  document.getElementById('nextLevelBtn').style.display = 'none';
+
+  const grid = document.getElementById('syllableGrid');
+  const bigCard = document.getElementById('bigCard');
+
+  if (lv.type === 'grid') {
+    grid.style.display = 'grid';
+    bigCard.style.display = 'none';
+    grid.innerHTML = '';
+    lv.items.forEach((item,i) => {
+      const div = document.createElement('div');
+      div.className = 'syl-card';
+      div.innerHTML = `<span class="syl-kr">${item.kr}</span><span class="syl-rom">${item.rom}${item.meaning && item.meaning !== item.rom ? '<br>'+item.meaning : ''}</span>`;
+      div.onclick = () => {
+        div.classList.toggle('revealed');
+        checkAllRevealed();
+      };
+      grid.appendChild(div);
+    });
+  } else {
+    grid.style.display = 'none';
+    bigCard.style.display = 'block';
+    currentRevealIdx = 0;
+    showRevealItem();
+  }
+}
+
+function showRevealItem() {
+  const lv = levels[currentLevel];
+  const item = lv.items[currentRevealIdx];
+  document.getElementById('bigKr').textContent = item.kr;
+  document.getElementById('revealInfo').className = 'reveal-info';
+  document.getElementById('revealRoman').textContent = item.rom;
+  document.getElementById('revealMeaning').textContent = item.meaning;
+  document.getElementById('revealExample').textContent = item.example;
+  document.getElementById('revealBtn').style.display = 'inline-flex';
+  document.getElementById('revealBtn').textContent = ' Révéler';
+  document.getElementById('nextLevelBtn').style.display = 'none';
+}
+
+function revealCurrent() {
+  const lv = levels[currentLevel];
+  document.getElementById('revealInfo').classList.add('show');
+  const btn = document.getElementById('revealBtn');
+  if (currentRevealIdx < lv.items.length - 1) {
+    btn.textContent = '→ Suivant';
+    btn.onclick = () => {
+      currentRevealIdx++;
+      showRevealItem();
+    };
+  } else {
+    btn.style.display = 'none';
+    setTimeout(startLevelQuiz, 500);
+  }
+}
+
+function checkAllRevealed() {
+  const cards = document.querySelectorAll('.syl-card');
+  const allRev = [...cards].every(c => c.classList.contains('revealed'));
+  if (allRev && !allRevealed) {
+    allRevealed = true;
+    setTimeout(startLevelQuiz, 500);
+  }
+}
+
+function startLevelQuiz() {
+  quizStep = 0;
+  quizAnswered = false;
+  document.getElementById('learnSection').style.display = 'none';
+  document.getElementById('quizSection').style.display = 'block';
+  showQuizQ();
+}
+
+function showQuizQ() {
+  const q = levels[currentLevel].quiz[quizStep];
+  document.getElementById('quizLabel').textContent = `Validation — Question ${quizStep+1}/2`;
+  document.getElementById('quizProg').style.width = ((quizStep+1)/2*100)+'%';
+  document.getElementById('quizPrompt').textContent = q.prompt;
+  document.getElementById('quizChar').textContent = q.char;
+  document.getElementById('quizFeedback').className = 'feedback';
+  quizAnswered = false;
+
+  const shuffled = [...q.options].sort(()=>Math.random()-.5);
+  const container = document.getElementById('quizChoices');
+  container.innerHTML = '';
+  shuffled.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = opt;
+    btn.onclick = () => answerQ(btn, opt, q.answer);
+    container.appendChild(btn);
+  });
+}
+
+function answerQ(btn, chosen, correct) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const fb = document.getElementById('quizFeedback');
+  document.querySelectorAll('#quizChoices .choice').forEach(b => b.disabled = true);
+
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback ok';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct !';
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback ko';
+    fb.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Bonne réponse : ' + correct;
+    document.querySelectorAll('#quizChoices .choice').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+  }
+
+  setTimeout(() => {
+    quizStep++;
+    if (quizStep < 2) {
+      showQuizQ();
+    } else {
+      advanceLevel();
+    }
+  }, 1400);
+}
+
+function advanceLevel() {
+  currentLevel++;
+  allRevealed = false;
+  if (currentLevel >= 5) {
+    showSuccess();
+  } else {
+    renderLevel();
+  }
+}
+
+function nextLevel() {
+  advanceLevel();
+}
+
+function showSuccess() {
+  document.getElementById('learnSection').style.display = 'none';
+  document.getElementById('quizSection').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  try { localStorage.setItem('ks_h10','done'); } catch(e){}
+}
+
+renderLevel();
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Korean Stories — Leçon A1 : Météo & Saisons</title>
+  <meta name="description" content="날씨가 어때요? Apprends à parler de la météo et des saisons en coréen. Vocabulaire essentiel TOPIK 1."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Weather grid */
+    .weather-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+    .wcard{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:16px 14px;text-align:center;cursor:pointer;transition:all .2s}
+    .wcard:hover,.wcard.on{transform:translateY(-3px);box-shadow:var(--sh2)}
+    .wcard-em{font-size:36px;margin-bottom:8px}
+    .wcard-kor{font-size:18px;color:var(--t);font-weight:400;margin-bottom:3px;cursor:pointer}
+    .wcard-rom{font-size:10px;color:var(--gold);font-weight:700;margin-bottom:2px}
+    .wcard-mean{font-size:12px;color:var(--t2)}
+    /* Season cards */
+    .season-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+    .scard{border-radius:20px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;border:1.5px solid transparent}
+    .scard:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+    .scard-em{font-size:32px;margin-bottom:8px}
+    .scard-kor{font-size:20px;font-weight:400;margin-bottom:3px}
+    .scard-sub{font-size:11px;opacity:.75;margin-bottom:4px}
+    .scard-mean{font-size:12px;opacity:.7}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(26px,7vw,38px);color:var(--t);line-height:1.3;font-weight:400;margin:0 0 8px;cursor:pointer;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+    .next-btn:hover{opacity:.88}
+    /* Vocab */
+    .vc{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:20px}
+    .vc-title{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px}
+    .vrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}
+    .vrow:last-child{border-bottom:none}
+    .vkor{font-size:18px;color:var(--t);font-weight:300;min-width:100px;cursor:pointer}
+    .vrom{font-size:11px;color:var(--gold);font-weight:700;min-width:80px}
+    .vmean{font-size:13px;color:var(--t2)}
+    .vplay{background:none;border:none;cursor:pointer;padding:2px;margin-left:auto;color:var(--gold)}
+    .vplay svg{width:14px;height:14px;fill:var(--gold)}
+    /* Results */
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+    [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
+    [data-theme=dark] .q-prompt{color:var(--t)}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span> XP</a>
+  </div>
+</div>
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">날씨가 어때요? Quel temps fait-il aujourd'hui ?</div></div>
+</div>
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">Météo & Saisons maîtrisées !</div>
+      <div class="res-subtitle">날씨 완료 — Parfait !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n">+12</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg">Tu peux maintenant parler de la météo et des saisons ! La Corée a 4 saisons très marquées — tu sauras les décrire !</div>
+      <div class="res-btns">
+        <button class="res-prim" onclick="window.location.href='lecon44.html'">Leçon suivante — Les compteurs <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn">Recommencer</button>
+          <a href="cours.html" class="res-sec">Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+
+const WEATHER=[
+  {em:'',kor:'맑아요',rom:'mal-ga-yo',mean:'Il fait beau / ensoleillé'},
+  {em:'',kor:'흐려요',rom:'heu-ryeo-yo',mean:'Nuageux'},
+  {em:'',kor:'비가 와요',rom:'bi-ga wa-yo',mean:'Il pleut'},
+  {em:'',kor:'눈이 와요',rom:'nu-ni wa-yo',mean:'Il neige'},
+  {em:'',kor:'바람이 불어요',rom:'ba-ra-mi bu-reo-yo',mean:'Il y a du vent'},
+  {em:'',kor:'천둥이 쳐요',rom:'cheon-dung-i cheo-yo',mean:'Il y a du tonnerre'},
+];
+const TEMP=[
+  {em:'',kor:'더워요',rom:'deo-wo-yo',mean:'Il fait chaud'},
+  {em:'',kor:'추워요',rom:'chu-wo-yo',mean:'Il fait froid'},
+  {em:'·',kor:'따뜻해요',rom:'tta-tteu-tae-yo',mean:'Il fait doux/chaud'},
+  {em:'',kor:'시원해요',rom:'si-won-hae-yo',mean:'Il fait frais'},
+  {em:'',kor:'습해요',rom:'seu-pae-yo',mean:'C\'est humide'},
+  {em:'',kor:'안개가 꼈어요',rom:'an-gae-ga kkyo-sseo-yo',mean:'Il y a du brouillard'},
+];
+const SEASONS=[
+  {em:'·',kor:'봄',sub:'3-5월',mean:'Printemps',bg:'linear-gradient(135deg,#FFC8DE,#FFD6E7)',color:'#8B1A4A'},
+  {em:'',kor:'여름',sub:'6-8월',mean:'Été',bg:'linear-gradient(135deg,#93C5FD,#BFDBFE)',color:'#1E40AF'},
+  {em:'',kor:'가을',sub:'9-11월',mean:'Automne',bg:'linear-gradient(135deg,#FDE68A,#FCA5A5)',color:'#92400E'},
+  {em:'',kor:'겨울',sub:'12-2월',mean:'Hiver',bg:'linear-gradient(135deg,#E0E7FF,#C7D2FE)',color:'#3730A3'},
+];
+
+const STEPS=[
+  {type:'story',tag:'Leçon A1 · Météo & Saisons',
+   txt:'"Emma regarde par la fenêtre et dit à Mina : 날씨가 너무 좋아요 ! (Le temps est vraiment beau !) Mina sourit : 맞아요 ! 봄 날씨예요. (Oui ! C\'est le temps du printemps.) Emma : 서울의 봄이 정말 예뻐요. (Le printemps à Séoul est vraiment beau.)"',
+   scene:'Dortoir universitaire de Séoul — avril',
+   mina:'날씨가 어때요 = Quel temps fait-il ? En Corée, les 4 saisons sont très marquées. Le printemps est doux, l\'été très humide, l\'automne parfait, l\'hiver très froid !'
+  },
+  {type:'weathergrid',
+   title:'Les conditions météo essentielles',
+   data:WEATHER,
+   mina:'비가 와요 = il pleut (la pluie VIENT — 오다). 눈이 와요 = il neige. En coréen, la pluie et la neige "viennent" — elles ne "tombent" pas comme en français !'
+  },
+  {type:'tempgrid',
+   title:'La température',
+   data:TEMP,
+   mina:'더워요 (chaud) et 추워요 (froid) viennent des adjectifs 덥다 et 춥다. Ce sont des adjectifs irréguliers — la finale ㅂ se transforme !'
+  },
+  {type:'seasons',
+   mina:'4 saisons très différentes en Corée ! Le printemps 봄 est célèbre pour les cerisiers (벚꽃), l\'été est le plus humide (장마 = saison des pluies), l\'automne est parfait, l\'hiver très froid !'
+  },
+  {type:'vocab',
+   title:'Parler de la météo — Phrases complètes',
+   items:[
+     {kor:'날씨가 어때요?',rom:'nal-ssi-ga eo-ttae-yo?',mean:'Quel temps fait-il ?'},
+     {kor:'날씨가 좋아요',rom:'nal-ssi-ga jo-a-yo',mean:'Il fait beau'},
+     {kor:'날씨가 나빠요',rom:'nal-ssi-ga na-ppa-yo',mean:'Il fait mauvais'},
+     {kor:'기온이 몇 도예요?',rom:'gi-o-ni myeot do-ye-yo?',mean:'Quelle est la température ?'},
+     {kor:'오늘 비가 올 거예요',rom:'o-neul bi-ga ol geo-ye-yo',mean:"Il va pleuvoir aujourd'hui"},
+     {kor:'이번 겨울은 추워요',rom:'i-beon gyeo-u-reun chu-wo-yo',mean:'Cet hiver est froid'},
+   ],
+   mina:'날씨가 = le temps (sujet) · 좋아요 = est bien. En coréen on utilise des adjectifs-verbes directement : 추워요 = il fait froid (c\'est froid).'
+  },
+  {type:'mcq',qn:1,
+   prompt:'Comment dit-on "Il pleut" en coréen ?',main:'Il pleut',
+   answer:'비가 와요',choices:['비가 와요','비가 내려요','비가 있어요','날씨가 비예요'],
+   fb_ok:'비가 와요 — parfait ! 비 = pluie · 가 = particule sujet · 와요 = vient (de 오다). La pluie "vient" en coréen !',
+   fb_ko:'비가 와요. 비(pluie) + 가(sujet) + 와요(vient). En coréen la pluie "vient" (오다), elle ne tombe pas !',
+   mina_ok:'완벽해요 ! 비가 와요. Et 눈이 와요 = il neige. Les deux utilisent 오다 (venir) !',
+   mina_ko:'비가 와요. La pluie et la neige "viennent" en coréen. 비(pluie) + 오다(venir) = 와요 !'
+  },
+  {type:'mcq',qn:2,
+   prompt:'Quelle saison est 가을 ?',main:'가을',
+   answer:'Automne',choices:['Automne','Printemps','Été','Hiver'],
+   fb_ok:'가을 = automne ! 봄(printemps) · 여름(été) · 가을(automne) · 겨울(hiver). 4 saisons parfaitement distinctes en Corée !',
+   fb_ko:'가을 = automne. Mémorise : 봄(printemps) · 여름(été) · 가을(automne) · 겨울(hiver). Printemps-Été-Automne-Hiver.',
+   mina_ok:'훌륭해요 ! 가을 = automne. C\'est la plus belle saison en Corée — les feuilles rouges sur Namsan !',
+   mina_ko:'가을 = automne. 봄(printemps) · 여름(été) · 가을(automne) · 겨울(hiver) — 4 mots à mémoriser absolument !'
+  },
+  {type:'mcq',qn:3,
+   prompt:'Que signifie "더워요" ?',main:'더워요',
+   answer:'Il fait chaud',choices:['Il fait chaud','Il fait froid','Il fait doux','Il fait humide'],
+   fb_ok:'더워요 = il fait chaud ! Vient de 덥다 (être chaud/avoir chaud). Adjectif irrégulier ㅂ → 워.',
+   fb_ko:'더워요 = il fait chaud. Opposé : 추워요 (il fait froid). 더워요 ↔ 추워요 — les deux adjectifs les plus utiles pour la météo !',
+   mina_ok:'완벽해요 ! 더워요 = il fait chaud. 추워요 = il fait froid. Ces deux mots tu les utiliseras chaque jour en Corée !',
+   mina_ko:'더워요 = chaud · 추워요 = froid. Mémorise aussi : 따뜻해요 (doux/tiède) et 시원해요 (frais) !'
+  },
+  {type:'mcq',qn:4,
+   prompt:'Comment dit-on "Quel temps fait-il ?" en coréen ?',main:'Quel temps fait-il ?',
+   answer:'날씨가 어때요?',choices:['날씨가 어때요?','날씨가 뭐예요?','오늘 날씨야?','날씨 있어요?'],
+   fb_ok:'날씨가 어때요 — parfait ! 날씨 = temps/météo · 가 = particule sujet · 어때요 = comment est ?',
+   fb_ko:'날씨가 어때요 = quel temps fait-il ? 날씨(météo) + 가(sujet) + 어때요(comment est ?). C\'est la question standard !',
+   mina_ok:'훌륭해요 ! 날씨가 어때요 = quel temps fait-il ? 어때요 sert aussi à demander une opinion : 어때요 = comment c\'est ?',
+   mina_ko:'날씨가 어때요 ? Mémorise 어때요 — ça sert aussi pour demander l\'opinion : 한국어 어때요 = comment tu trouves le coréen ?'
+  },
+];
+
+const TOTAL_Q=STEPS.filter(s=>s.type==='mcq').length;
+let cur=0,score=0,answered=false;
+
+function ksBeep(t){try{const c=new(window.AudioContext||window.webkitAudioContext)();if(t==='ok'){[[523.25,0],[659.25,.08],[783.99,.16]].forEach(([f,d])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.value=f;const tt=c.currentTime+d;g.gain.setValueAtTime(0,tt);g.gain.linearRampToValueAtTime(.14,tt+.025);g.gain.exponentialRampToValueAtTime(.001,tt+.2);o.start(tt);o.stop(tt+.2);});}else{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sawtooth';o.frequency.setValueAtTime(220,c.currentTime);o.frequency.linearRampToValueAtTime(110,c.currentTime+.2);g.gain.setValueAtTime(.10,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.22);o.start(c.currentTime);o.stop(c.currentTime+.22);}}catch(e){}}
+function setMina(t,img){document.getElementById('msay').textContent=t;si('minaHdr',img||A.e);}
+function initDots(){const el=document.getElementById('stepDots');if(!el)return;const col={story:'#C9A96E',weathergrid:'#2563EB',tempgrid:'#7C3AED',seasons:'#16A34A',vocab:'#D97706',mcq:'#F59E0B'};el.innerHTML=STEPS.map((s,i)=>`<div class="sdot" id="dot${i}" style="background:${col[s.type]||'#C9A96E'};opacity:.25"></div>`).join('');}
+function updateDots(){STEPS.forEach((_,i)=>{const d=document.getElementById('dot'+i);if(!d)return;if(i<cur){d.style.opacity='1';d.classList.add('done');d.classList.remove('current');}else if(i===cur){d.style.opacity='1';d.classList.add('current');d.classList.remove('done');}else{d.style.opacity='.25';d.classList.remove('current','done');}});}
+function updateProgress(){document.getElementById('pbar').style.width=Math.round((cur/STEPS.length)*100)+'%';}
+
+function renderStory(s){return`<div class="story"><span class="story-tag">${s.tag}</span><p class="story-txt">${s.txt}</p><div class="story-scene">${s.scene}</div></div><button class="next-btn" onclick="advance()">Commencer →</button>`;}
+function renderGrid(items,title){const cards=items.map(w=>`<div class="wcard" onclick="speak('${w.kor}',this)"><div class="wcard-em">${w.em}</div><div class="wcard-kor">${w.kor}</div><div class="wcard-rom">${w.rom}</div><div class="wcard-mean">${w.mean}</div></div>`).join('');return`<div style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px">${title}</div><div class="weather-grid">${cards}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderSeasons(){const cards=SEASONS.map(s=>`<div class="scard" style="background:${s.bg};color:${s.color}" onclick="speak('${s.kor}',this)"><div class="scard-em">${s.em}</div><div class="scard-kor">${s.kor}</div><div class="scard-sub">${s.sub}</div><div class="scard-mean">${s.mean}</div></div>`).join('');return`<div style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px">LES 4 SAISONS — 사계절</div><div class="season-row">${cards}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderVocab(s){const rows=s.items.map(it=>`<div class="vrow"><span class="vkor" onclick="speak('${it.kor}')">${it.kor}</span><span class="vrom">${it.rom}</span><span class="vmean">${it.mean}</span><button class="vplay" onclick="speak('${it.kor}',this)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');return`<div class="vc"><div class="vc-title">${s.title}</div>${rows}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderMcq(s){const chs=s.choices.map(c=>`<button class="ch" onclick="checkMcq(this,'${c.replace(/'/g,"\\'")}','${s.answer.replace(/'/g,"\\'")}','${(s.fb_ok||'').replace(/'/g,"\\'")}','${(s.fb_ko||'').replace(/'/g,"\\'")}','${(s.mina_ok||'').replace(/'/g,"\\'")}','${(s.mina_ko||'').replace(/'/g,"\\'")}',this.closest('.mcq'))">${c}</button>`).join('');return`<div class="mcq"><span class="q-cnt">Question ${s.qn} / ${TOTAL_Q}</span><p class="q-prompt">${s.prompt}</p><div class="q-big" onclick="speak('${s.main}')">${s.main}</div><div class="choices">${chs}</div><div class="fb-strip" id="fb" style="display:none"></div><button class="next-btn" id="nextQ" style="display:none" onclick="advance()">Continuer →</button></div>`;}
+function checkMcq(btn,chosen,answer,fok,fko,mok,mko,wrap){if(answered)return;answered=true;wrap.querySelectorAll('.ch').forEach(b=>b.disabled=true);const ok=chosen===answer;if(ok){score++;btn.classList.add('ok');ksBeep('ok');setMina(mok,A.b);}else{btn.classList.add('ko');wrap.querySelectorAll('.ch').forEach(b=>{if(b.textContent===answer)b.classList.add('ok');});ksBeep('ko');setMina(mko,A.a);}const fb=document.getElementById('fb');fb.textContent=ok?fok:fko;fb.className='fb-strip '+(ok?'ok':'ko');fb.style.display='block';document.getElementById('nextQ').style.display='block';}
+
+function renderStep(){
+  const s=STEPS[cur];const lc=document.getElementById('lc');answered=false;
+  if(s.type==='story')lc.innerHTML=renderStory(s);
+  else if(s.type==='weathergrid')lc.innerHTML=renderGrid(s.data,s.title);
+  else if(s.type==='tempgrid')lc.innerHTML=renderGrid(s.data,s.title);
+  else if(s.type==='seasons')lc.innerHTML=renderSeasons();
+  else if(s.type==='vocab')lc.innerHTML=renderVocab(s);
+  else if(s.type==='mcq')lc.innerHTML=renderMcq(s);
+  if(s.mina)setMina(s.mina,A.e);
+  lc.scrollIntoView({behavior:'smooth',block:'start'});
+  updateDots();updateProgress();
+}
+function advance(){cur++;if(cur>=STEPS.length){showResults();return;}renderStep();}
+function showResults(){document.getElementById('lc').style.display='none';document.getElementById('results').style.display='block';document.getElementById('resScore').textContent=score;document.getElementById('resOf').textContent='/ '+TOTAL_Q+' bonnes rép.';try{localStorage.setItem('ks_a_meteo','done');}catch(e){}document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;document.getElementById('lc').style.display='';document.getElementById('results').style.display='none';renderStep();};}
+
+initDots();renderStep();
+</script>
+</body>
+</html>

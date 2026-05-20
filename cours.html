@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<link rel="manifest" href="manifest.json"/>
+<title>Mon Parcours · Korean Stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+<style>
+/* ── TOKENS ─────────────────────────────────── */
+/* ── RESET ───────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100svh;
+  transition:background .3s,color .3s;
+  padding-bottom:calc(60px + env(safe-area-inset-bottom));}
+a{text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+
+/* ── LAYOUT ──────────────────────────────────── */
+.shell{display:flex;min-height:100svh}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+
+/* ── SIDEBAR ─────────────────────────────────── */
+.side{
+  display:none;width:252px;flex-shrink:0;
+  background:var(--side);border-right:1px solid var(--bd);
+  position:sticky;top:0;height:100svh;
+  overflow-y:auto;overflow-x:hidden;
+  flex-direction:column;z-index:60;
+  scrollbar-width:thin;scrollbar-color:var(--bd) transparent;
+}
+.side::-webkit-scrollbar{width:3px}
+.side::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+
+.side-head{
+  padding:20px 18px 16px;
+  border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;gap:10px;
+}
+.side-logo{
+  flex:1;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t);
+}
+.side-logo em{color:var(--gold);font-style:italic}
+.side-xp{
+  display:flex;align-items:center;gap:4px;padding:4px 10px;
+  background:var(--goldbg);border:1.5px solid var(--goldbd);border-radius:100px;
+  font-size:11px;font-weight:800;color:var(--gold);white-space:nowrap;
+}
+.side-xp svg{width:9px;height:9px;fill:var(--gold)}
+
+.side-nav{padding:10px 10px 6px;display:flex;flex-direction:column;gap:1px}
+.sn{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  border-radius:10px;font-size:13px;font-weight:600;color:var(--t2);
+  transition:all var(--tr);
+}
+.sn:hover{background:var(--s2);color:var(--t)}
+.sn.on{background:var(--goldbg);color:var(--gold);font-weight:700}
+.sn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+.side-block{padding:14px 10px 6px;border-top:1px solid var(--bd)}
+.side-lbl{font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:8px;padding:0 8px}
+
+.stab{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 12px;border-radius:10px;font-size:12px;font-weight:700;
+  color:var(--t2);transition:all var(--tr);cursor:pointer;
+  border:1.5px solid transparent;margin-bottom:3px;
+}
+.stab:hover{background:var(--s2);color:var(--t)}
+.stab.on{color:#fff}
+.stab.off{opacity:.45;pointer-events:none}
+.stab-r{display:flex;align-items:center;gap:6px}
+.stab-pct{font-size:9px;font-weight:900;padding:2px 7px;border-radius:100px;background:rgba(255,255,255,.22)}
+.stab.off .stab-pct{background:var(--s3);color:var(--t3)}
+
+.sfc{
+  display:flex;align-items:center;gap:8px;padding:7px 12px;
+  border-radius:10px;font-size:12px;font-weight:600;color:var(--t2);
+  cursor:pointer;transition:all var(--tr);margin-bottom:2px;
+}
+.sfc:hover{background:var(--s2)}
+.sfc.on{font-weight:800}
+.sfc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:transform var(--tr)}
+.sfc.on .sfc-dot{transform:scale(1.3)}
+
+.side-theme{
+  margin:auto 18px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 14px;background:var(--s2);border-radius:10px;
+  border:1px solid var(--bd);
+}
+.side-theme-lbl{font-size:12px;font-weight:600;color:var(--t2)}
+.theme-pill{
+  width:44px;height:24px;border-radius:100px;
+  background:var(--bd2);position:relative;cursor:pointer;
+  transition:background var(--tr);border:none;
+}
+[data-theme=dark] .theme-pill{background:var(--gold)}
+.theme-pill::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:18px;height:18px;border-radius:50%;background:#fff;
+  transition:transform var(--tr);box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+[data-theme=dark] .theme-pill::after{transform:translateX(20px)}
+
+/* ── TOPBAR ──────────────────────────────────── */
+.bar{
+  position:sticky;top:0;z-index:100;height:56px;
+  padding:0 16px;display:flex;align-items:center;gap:12px;
+  background:var(--bar);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bd);
+}
+.bar-back{
+  display:flex;align-items:center;gap:5px;padding:7px 13px;
+  border-radius:100px;border:1.5px solid var(--bd2);
+  font-size:12px;font-weight:700;color:var(--t2);
+  transition:all var(--tr);flex-shrink:0;
+}
+.bar-back:hover{color:var(--gold);border-color:var(--goldbd)}
+.bar-back svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+.bar-logo{
+  position:absolute;left:50%;transform:translateX(-50%);
+  font-family:'Playfair Display',serif;font-size:15px;font-weight:700;
+  color:var(--t);pointer-events:none;white-space:nowrap;
+}
+.bar-logo em{color:var(--gold);font-style:italic}
+.bar-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.bar-theme{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--s2);border:1.5px solid var(--bd);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:border-color var(--tr);
+}
+.bar-theme:hover{border-color:var(--goldbd)}
+.ico-d{display:none}.ico-l{display:block}
+[data-theme=dark] .ico-d{display:block}[data-theme=dark] .ico-l{display:none}
+.bar-xp{
+  display:flex;align-items:center;gap:4px;padding:5px 12px;
+  background:var(--goldbg);border:1.5px solid var(--goldbd);
+  border-radius:100px;font-size:12px;font-weight:800;color:var(--gold);
+}
+.bar-xp svg{width:10px;height:10px;fill:var(--gold)}
+
+/* ── PAGE CONTENT ────────────────────────────── */
+.page{max-width:620px;margin:0 auto;padding:16px 16px 0;width:100%}
+.page-enter{animation:pgIn .35s ease both}
+@keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── HERO ────────────────────────────────────── */
+.hero{
+  background:var(--surf);border-radius:var(--rxl);
+  border:1.5px solid var(--bd);box-shadow:var(--sh2);
+  padding:20px;margin-bottom:14px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-50px;right:-50px;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,var(--goldbg) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;position:relative}
+.hero-av{
+  width:64px;height:64px;border-radius:20px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--goldbg),#FFF6E0);
+  border:2px solid var(--goldbd);box-shadow:0 4px 14px rgba(184,146,78,.18);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);
+  position:relative;
+}
+.fire{
+  position:absolute;bottom:-7px;right:-7px;
+  background:linear-gradient(135deg,#FF6922,#FF9500);
+  border-radius:100px;padding:2px 7px;border:2.5px solid var(--surf);
+  font-size:9px;font-weight:900;color:#fff;white-space:nowrap;
+}
+.hero-info{flex:1;min-width:0}
+.hero-tag{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.hero-name{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--t);line-height:1.25;margin-bottom:10px}
+.hero-name em{color:var(--gold);font-style:italic}
+.prog-track{height:8px;background:var(--s3);border-radius:100px;overflow:hidden;position:relative}
+.prog-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD060);
+  transition:width 1.5s cubic-bezier(.4,0,.2,1);will-change:width;position:relative}
+.prog-fill::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.4) 50%,transparent 100%);
+  animation:shimmer 2.2s ease-in-out infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+.prog-lbl{font-size:10px;color:var(--t3);margin-top:5px;font-weight:500}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;position:relative}
+.stat{
+  background:var(--s2);border:1.5px solid var(--bd);
+  border-radius:12px;padding:10px 8px;text-align:center;
+  transition:border-color var(--tr);
+}
+.stat:hover{border-color:var(--goldbd)}
+.stat-v{font-size:18px;font-weight:900;color:var(--t);line-height:1;letter-spacing:-.01em}
+.stat-l{font-size:9px;font-weight:700;color:var(--t3);margin-top:4px;text-transform:uppercase;letter-spacing:.04em}
+
+/* ── CHALLENGE ───────────────────────────────── */
+.chal{
+  display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,#1D58E8 0%,#4540E0 100%);
+  border-radius:var(--rl);padding:16px;margin-bottom:16px;
+  box-shadow:0 6px 28px rgba(29,88,232,.3);
+  position:relative;overflow:hidden;
+  transition:transform var(--tr),box-shadow var(--tr);
+}
+.chal::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.07)}
+.chal::after{content:'';position:absolute;bottom:-30px;left:30%;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.04)}
+.chal:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(29,88,232,.38)}
+.chal:active{transform:scale(.98)}
+.chal-ico{
+  width:50px;height:50px;border-radius:15px;flex-shrink:0;
+  background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
+}
+.chal-ico svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.chal-body{flex:1;min-width:0;position:relative;z-index:1}
+.chal-tag{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.58);margin-bottom:3px}
+.chal-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:5px;line-height:1.3}
+.chal-pills{display:flex;gap:6px;flex-wrap:wrap}
+.chal-pill{font-size:9px;font-weight:800;background:rgba(255,255,255,.2);color:#fff;padding:3px 9px;border-radius:100px}
+.chal-arr{flex-shrink:0;position:relative;z-index:1}
+.chal-arr svg{width:16px;height:16px;stroke:rgba(255,255,255,.6);fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* ── MOBILE TABS ─────────────────────────────── */
+.m-tabs{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.m-tabs::-webkit-scrollbar{display:none}
+.m-tabs-row{display:flex;gap:7px;padding:0 16px;margin-bottom:14px;width:max-content}
+.tab{
+  display:flex;align-items:center;gap:6px;padding:8px 16px;
+  border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);
+  font-size:12px;font-weight:700;color:var(--t2);
+  transition:all var(--tr);white-space:nowrap;box-shadow:var(--sh);
+}
+.tab.on{color:#fff;border-color:transparent;box-shadow:none}
+.tab.locked{opacity:1}
+.tab-ct{font-size:9px;font-weight:900;padding:1px 7px;border-radius:100px;background:rgba(255,255,255,.25)}
+
+/* ── MOBILE FILTER ───────────────────────────── */
+.m-filter{overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;margin-bottom:18px}
+.m-filter::-webkit-scrollbar{display:none}
+.m-filter-row{display:flex;gap:6px;padding:0 16px;width:max-content}
+.fc{
+  display:flex;align-items:center;gap:5px;padding:5px 11px;
+  border-radius:100px;border:1.5px solid transparent;background:var(--surf);
+  font-size:10px;font-weight:700;color:var(--t2);
+  transition:all var(--tr);box-shadow:var(--sh);white-space:nowrap;
+}
+.fc.on{border-color:currentColor;font-weight:800}
+.fc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* ── FAB ─────────────────────────────────────── */
+.fab{
+  position:fixed;bottom:calc(74px + env(safe-area-inset-bottom));right:16px;z-index:150;
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#1D58E8,#4540E0);
+  border-radius:100px;padding:13px 20px;
+  font-size:13px;font-weight:700;color:#fff;
+  box-shadow:0 8px 28px rgba(69,64,224,.45);
+  opacity:0;pointer-events:none;
+  transform:translateY(20px) scale(.9);
+  transition:opacity .3s,transform .38s cubic-bezier(.34,1.4,.64,1);
+  will-change:transform,opacity;
+}
+.fab.show{opacity:1;pointer-events:all;transform:none}
+.fab:hover{transform:translateY(-3px) scale(1.04)!important;box-shadow:0 12px 36px rgba(69,64,224,.55)!important}
+.fab:active{transform:scale(.95)!important}
+.fab svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* ── ROADMAP ─────────────────────────────────── */
+.roadmap{max-width:620px;margin:0 auto;padding:0 16px 40px;width:100%}
+.lv-sec{position:relative;margin-bottom:8px;scroll-margin-top:64px}
+
+/* ── LEVEL CARD ──────────────────────────────── */
+.lvc{
+  background:var(--surf);border-radius:var(--rl);
+  border:1.5px solid var(--bd);box-shadow:var(--sh);
+  margin-bottom:24px;overflow:hidden;position:relative;
+}
+.lvc-accent{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(--rl) 0 0 var(--rl)}
+.lvc-body{padding:16px 18px 0 18px}
+.lvc-top{display:flex;align-items:flex-start;gap:13px}
+.lvc-badge{
+  width:46px;height:46px;border-radius:13px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;
+}
+.lvc-info{flex:1;min-width:0}
+.lvc-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t);line-height:1.25;margin-bottom:2px}
+.lvc-cefr{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--t3);margin-bottom:5px}
+.lvc-desc{font-size:12px;color:var(--t2);line-height:1.6}
+.lvc-meta{text-align:right;flex-shrink:0;min-width:64px}
+.lvc-xp{display:inline-block;font-size:11px;font-weight:800;color:var(--gold);background:var(--goldbg);border:1px solid var(--goldbd);padding:3px 9px;border-radius:100px;margin-bottom:4px;white-space:nowrap}
+.lvc-time{font-size:10px;color:var(--t3)}
+.lvc-foot{padding:10px 18px 14px 18px}
+.lvc-prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.lvc-prog-lbl{font-size:10px;font-weight:600;color:var(--t3)}
+.lvc-prog-pct{font-size:12px;font-weight:900}
+.lvc-bar{height:6px;background:var(--s3);border-radius:100px;overflow:hidden}
+.lvc-fill{height:100%;border-radius:100px;transition:width 1.4s cubic-bezier(.4,0,.2,1);will-change:width;position:relative}
+.lvc-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:shimmer 2s ease-in-out infinite}
+.lvc-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
+.lvc-chip{display:flex;align-items:center;gap:4px;font-size:9px;font-weight:800;padding:3px 9px;border-radius:100px}
+
+/* ── PATH LINE ───────────────────────────────── */
+.path-line{
+  position:absolute;left:34px;transform:none;
+  width:2px;top:0;bottom:0;z-index:0;pointer-events:none;border-radius:4px;
+}
+
+/* ── NODE ROW ────────────────────────────────── */
+.nrow{
+  position:relative;z-index:2;display:flex;flex-direction:row;align-items:center;
+  margin-bottom:10px;
+  animation:nodeIn .38s ease both;will-change:transform,opacity;
+}
+.nrow.hide{display:none!important}
+@keyframes nodeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ── NODE CIRCLE ─────────────────────────────── */
+.node{
+  width:56px;height:56px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;border:3px solid transparent;
+  transition:transform .22s cubic-bezier(.34,1.4,.64,1),box-shadow .22s;
+  will-change:transform;
+}
+a.node,button.node{cursor:pointer}
+a.node:hover:not(.locked):not(.prem),
+button.node:hover:not(.locked):not(.prem){transform:scale(1.13) translateY(-3px)}
+a.node:active:not(.locked):not(.prem),
+button.node:active:not(.locked):not(.prem){transform:scale(.91)}
+
+.node.active{animation:pulse 2.8s ease-in-out infinite}
+@keyframes pulse{
+  0%,100%{box-shadow:0 5px 18px var(--g,rgba(0,0,0,.2)),0 0 0 0 var(--g,rgba(0,0,0,.2))}
+  55%{box-shadow:0 5px 18px var(--g,rgba(0,0,0,.2)),0 0 0 16px transparent}
+}
+/* status-based only — no type gradients */
+.node.done  {background:linear-gradient(135deg,var(--gold),#D4A55A);border-color:transparent;--g:rgba(184,146,78,.38)}
+.node.active{background:linear-gradient(135deg,#1D58E8,#4540E0);border-color:transparent;--g:rgba(29,88,232,.38)}
+.node.todo  {background:var(--surf);border-color:var(--bd2);box-shadow:var(--sh)}
+.node.locked{background:var(--surf);border-color:var(--bd);cursor:pointer;opacity:1}
+.node.prem  {background:var(--s2);border-color:rgba(124,58,237,.2);cursor:pointer;opacity:.5}
+[data-theme=dark] .node.todo{background:var(--s2)}
+
+.node svg{width:22px;height:22px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.node.done svg,.node.active svg{stroke:#fff}
+.node.todo svg,.node.locked svg,.node.prem svg{stroke:var(--t3)}
+.node-num{
+  font-size:14px;font-weight:800;color:var(--t3);
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.node.done .node-num,.node.active .node-num{color:#fff}
+
+/* ── NODE CARD ───────────────────────────────── */
+.nc{
+  flex:1;padding:12px 14px 12px 16px;min-width:0;margin-left:12px;
+  background:var(--surf);border:1.5px solid var(--bd);
+  border-radius:14px;box-shadow:var(--sh);
+  transition:border-color var(--tr),box-shadow var(--tr),transform var(--tr);
+  text-align:left;
+}
+.nc:hover{border-color:var(--bd2);box-shadow:var(--sh2)}
+a.nc{cursor:pointer;display:block}
+a.nc:hover{border-color:var(--bd2);transform:translateX(2px)}
+a.nc.done-card:hover{border-color:rgba(22,163,74,.3)}
+a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
+.nc-type{
+  display:inline-block;
+  font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:4px;
+}
+.nc-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:2px;line-height:1.35}
+.nc-sub{font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:7px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nc-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nc-st{font-size:9px;font-weight:800;padding:2px 8px;border-radius:100px}
+.nc-st.done  {background:rgba(22,163,74,.1);color:#15803D}
+.nc-st.active{background:rgba(37,99,235,.12);color:#1D4ED8;animation:activePulse 2s ease-in-out infinite}
+@keyframes activePulse{0%,100%{opacity:1}50%{opacity:.6}}
+.nc-st.todo  {background:var(--s3);color:var(--t3);border:1px solid var(--bd)}
+.nc-st.locked,.nc-st.prem{background:var(--s3);color:var(--t3)}
+.nc-st.prem  {background:rgba(124,58,237,.1);color:#7C3AED}
+[data-theme=dark] .nc-st.done {background:rgba(34,197,94,.12);color:#4ade80}
+[data-theme=dark] .nc-st.active{background:rgba(96,165,250,.12);color:#93c5fd}
+.nc-xp{font-size:9px;font-weight:800;color:var(--gold)}
+.nc-dur{font-size:9px;color:var(--t3)}
+.nc-arr{margin-left:auto;flex-shrink:0}
+.nc-arr svg{width:14px;height:14px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round}
+.nc.done-card{border-top-color:rgba(22,163,74,.25);border-right-color:rgba(22,163,74,.15);border-bottom-color:rgba(22,163,74,.15)}
+.nc.active-card{border-top-color:rgba(37,99,235,.35);border-right-color:rgba(37,99,235,.2);border-bottom-color:rgba(37,99,235,.2);box-shadow:0 0 0 2px rgba(37,99,235,.07),var(--sh)}
+[data-theme=dark] .nc.done-card{border-color:rgba(34,197,94,.2)}
+[data-theme=dark] .nc.active-card{border-color:rgba(96,165,250,.25);box-shadow:0 0 0 3px rgba(96,165,250,.08),var(--sh)}
+
+/* ── ACTIVITY GROUP ──────────────────────────────── */
+.act-group{margin-bottom:4px}
+.act-group-hdr{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 0 10px 0;position:relative;z-index:2;
+}
+.act-group-line{flex:1;height:1px;background:var(--bd)}
+.act-group-lbl{
+  font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--t3);white-space:nowrap;padding:0 2px;
+}
+/* ── MILESTONE ───────────────────────────────── */
+.ms{
+  background:var(--surf);border-radius:var(--rl);border:1.5px solid var(--bd);
+  box-shadow:var(--sh);padding:24px 20px;text-align:center;
+  margin:20px 0 24px;position:relative;z-index:2;overflow:hidden;
+}
+.ms.done{animation:msGlow 3s ease-in-out infinite}
+@keyframes msGlow{0%,100%{box-shadow:var(--sh)}50%{box-shadow:0 0 0 7px var(--ms-ring),var(--sh2)}}
+.ms-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ms-confetti span{
+  position:absolute;width:6px;height:6px;border-radius:50%;opacity:.3;
+  animation:confettiFloat 6s ease-in-out infinite;
+}
+@keyframes confettiFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(180deg)}}
+.ms-em{display:flex;align-items:center;justify-content:center;margin-bottom:14px;position:relative}
+.ms-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--t);margin-bottom:5px;position:relative}
+.ms-sub{font-size:12px;color:var(--t2);line-height:1.65;margin-bottom:12px;position:relative;max-width:340px;margin-left:auto;margin-right:auto}
+.ms-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:7px 16px;border-radius:100px;position:relative}
+.ms-chips{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:14px;position:relative}
+.ms-chip{font-size:9px;font-weight:600;color:var(--t3);display:flex;align-items:center;gap:4px}
+.ms-chip-dot{width:5px;height:5px;border-radius:50%}
+
+/* ── SHORTCUT ────────────────────────────────── */
+.sc-row{display:flex;justify-content:center;margin-bottom:24px;position:relative;z-index:2}
+.sc{
+  display:flex;align-items:center;gap:12px;
+  background:var(--surf);border:1.5px solid var(--bd);
+  border-radius:var(--rl);padding:13px 15px;
+  max-width:320px;width:100%;box-shadow:var(--sh);
+  transition:transform var(--tr),box-shadow var(--tr),border-color var(--tr);
+}
+.sc:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.sc:active{transform:scale(.97)}
+.sc-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-ico svg{width:19px;height:19px;fill:none;stroke-width:2;stroke-linecap:round}
+.sc-body{flex:1;min-width:0}
+.sc-title{font-size:13px;font-weight:700;color:var(--t);margin-bottom:2px}
+.sc-sub{font-size:11px;color:var(--t2)}
+.sc-arr svg{width:13px;height:13px;stroke:var(--t3);fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* ── PREMIUM SECTION ─────────────────────────── */
+.prem-wrap{margin-bottom:24px}
+.prem-hdr-card{
+  background:var(--surf);border:1.5px solid var(--bd);border-radius:var(--rl);
+  padding:16px 18px;margin-bottom:8px;opacity:.55;
+  display:flex;align-items:flex-start;gap:13px;
+}
+.prem-badge{width:46px;height:46px;border-radius:13px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+.prem-text{flex:1;min-width:0}
+.prem-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t);margin-bottom:2px}
+.prem-cefr{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:4px}
+.prem-desc{font-size:11.5px;color:var(--t2);line-height:1.6}
+.prem-lock{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800;flex-shrink:0;margin-top:2px}
+.prem-lock svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+
+.prem-box{background:var(--surf);border-radius:var(--rl);border:1.5px solid var(--bd);box-shadow:var(--sh);overflow:hidden}
+.prem-items{padding:12px 14px 0;display:flex;flex-direction:column;gap:6px}
+.pi{
+  display:flex;align-items:center;gap:11px;padding:10px 11px;
+  border-radius:11px;background:var(--s2);border:1px solid var(--bd);opacity:.62;
+}
+.pi-ico{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pi-ico svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+.pi-body{flex:1;min-width:0}
+.pi-title{font-size:12px;font-weight:700;color:var(--t2);margin-bottom:1px}
+.pi-type{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.07em}
+.pi-lock svg{width:11px;height:11px;fill:none;stroke:var(--t3);stroke-width:2;stroke-linecap:round}
+
+.prem-cta{padding:16px;text-align:center;border-top:1px solid var(--bd);margin-top:12px}
+.prem-cta-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--t);margin-bottom:5px}
+.prem-cta-sub{font-size:11px;color:var(--t2);line-height:1.65;margin-bottom:14px}
+.prem-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  color:#fff;font-size:13px;font-weight:700;padding:12px 24px;
+  border-radius:100px;transition:opacity .15s,transform .15s;
+}
+.prem-btn:hover{opacity:.9;transform:translateY(-1px)}
+.prem-btn:active{transform:scale(.96)}
+.prem-btn svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* coming soon */
+.soon{
+  background:var(--s2);border:2px dashed var(--bd2);
+  border-radius:var(--rl);padding:24px;text-align:center;margin-bottom:24px;
+}
+.soon-em{font-size:32px;margin-bottom:8px}
+.soon-title{font-size:14px;font-weight:700;color:var(--t2);margin-bottom:4px}
+.soon-sub{font-size:11px;color:var(--t3);line-height:1.65}
+
+/* end marker */
+.rm-end{text-align:center;padding:16px 0 8px;position:relative;z-index:2}
+.rm-dot{width:48px;height:48px;border-radius:50%;background:var(--s2);border:2px dashed var(--bd2);margin:0 auto 12px;display:flex;align-items:center;justify-content:center}
+.rm-dot svg{width:18px;height:18px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round}
+.rm-lbl{font-size:11px;color:var(--t3);line-height:1.75}
+
+/* ── BOTTOM NAV ──────────────────────────────── */
+
+[data-theme=dark] 
+.bn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 12px;border-radius:12px;color:var(--t3);
+  transition:color var(--tr);position:relative;min-width:44px;
+}
+.bn.on{color:var(--gold)}
+.bn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bn span{font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.bn-pip{width:4px;height:4px;border-radius:50%;background:var(--gold);position:absolute;top:5px;right:6px;display:none}
+.bn.on .bn-pip{display:block}
+
+/* ── MODAL ───────────────────────────────────── */
+.modal-bg{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .28s;
+}
+.modal-bg.on{opacity:1;pointer-events:all}
+.modal-sheet{
+  background:var(--surf);border-radius:var(--rxl) var(--rxl) 0 0;
+  border:1px solid var(--bd);
+  padding:22px 22px calc(32px + env(safe-area-inset-bottom));
+  width:100%;max-width:480px;
+  transform:translateY(100%);transition:transform .38s cubic-bezier(.34,1.2,.64,1);
+}
+.modal-bg.on .modal-sheet{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--bd2);border-radius:100px;margin:0 auto 22px}
+.modal-ico{width:62px;height:62px;border-radius:19px;background:linear-gradient(135deg,#7c3aed,#9333ea);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 28px rgba(124,58,237,.32)}
+.modal-ico svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.modal-title{font-family:'Playfair Display',serif;font-size:21px;color:var(--t);text-align:center;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--t2);text-align:center;line-height:1.7;margin-bottom:20px;max-width:320px;margin-left:auto;margin-right:auto}
+.modal-feats{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.mf{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--t2)}
+.mf-dot{width:6px;height:6px;border-radius:50%;background:#9333ea;flex-shrink:0}
+.modal-btn{display:block;width:100%;text-align:center;background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;font-size:14px;font-weight:700;padding:15px;border-radius:12px;box-shadow:0 6px 20px rgba(124,58,237,.3);transition:opacity .15s,transform .15s}
+.modal-btn:hover{opacity:.9;transform:translateY(-1px)}
+.modal-cancel{display:block;width:100%;text-align:center;color:var(--t3);font-size:12px;font-weight:600;background:none;margin-top:12px;padding:8px;transition:color var(--tr)}
+.modal-cancel:hover{color:var(--t2)}
+
+/* ── RESPONSIVE TABLET 640px ─────────────────── */
+@media(min-width:640px){
+  .page,.roadmap{padding-left:24px;padding-right:24px}
+  .m-tabs-row,.m-filter-row{padding-left:24px;padding-right:24px}
+  .hero-av{width:68px;height:68px;font-size:32px}
+  .hero-name{font-size:21px}
+  .nc-title{font-size:15px}
+  .nc-sub{font-size:12px}
+  .stat-v{font-size:20px}
+}
+
+/* ── RESPONSIVE DESKTOP 960px ────────────────── */
+@media(min-width:960px){
+  body{padding-bottom:0}
+  .side{display:flex}
+  
+  .m-tabs,.m-filter{display:none}
+  .bar-back{display:none}
+  .bar{padding:0 28px}
+
+  .page,.roadmap{max-width:680px;padding-left:36px;padding-right:36px}
+  .page{padding-top:24px}
+
+  /* Hero: 2 col on desktop */
+  .hero{display:grid;grid-template-columns:1fr 180px;gap:20px;align-items:start;padding:24px;margin-bottom:18px}
+  .hero::before{display:none}
+  .hero-top{margin-bottom:0}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .stat{padding:12px 10px}
+  .stat-v{font-size:22px}
+  .stat-l{font-size:10px}
+
+  /* Nodes wider */
+  .nrow{min-height:90px;margin-bottom:20px}
+  .node{width:74px;height:74px}
+  .node svg{width:28px;height:28px}
+  .nc{padding:0 16px}
+  .nc-title{font-size:15px}
+  .nc-sub{font-size:12px}
+
+  /* Level card */
+  .lvc-body{padding:20px 22px 0 26px}
+  .lvc-foot{padding:14px 22px 18px 26px}
+  .lvc-name{font-size:17px}
+  .lvc-desc{font-size:12px}
+
+  /* FAB repositioned */
+  .fab{bottom:24px;right:24px}
+
+  /* Challenge card */
+  .chal{padding:18px 20px}
+  .chal-title{font-size:15px}
+}
+@media(min-width:1200px){
+  .page,.roadmap{max-width:720px;padding-left:48px;padding-right:48px}
+}
+
+/* ── PREMIUM EXTRAS ──────────────────────────── */
+.pi-faded{opacity:.35;pointer-events:none}
+.pi-sub-type{font-size:10px;color:var(--t2);line-height:1.45;margin-top:1px}
+.prem-more-wrap{position:relative}
+.prem-more-blur{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 0%,var(--surf) 55%);
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px;
+}
+.prem-more-msg{
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;color:var(--t2);
+  background:var(--surf);border:1.5px solid var(--bd);
+  border-radius:100px;padding:6px 14px;box-shadow:var(--sh);
+}
+.prem-type-chips{padding:12px 14px 0;display:flex;gap:5px;flex-wrap:wrap}
+
+/* PDFs locked in premium */
+.pdf-locked-section{
+  padding:12px 14px;border-top:1px solid var(--bd);
+  opacity:.6;
+}
+.pdf-locked-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:8px}
+.pdf-locked-list{display:flex;flex-direction:column;gap:5px}
+.pdf-locked-item{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 8px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;
+}
+.pdf-locked-ico{
+  width:26px;height:26px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.pdf-locked-name{flex:1;font-size:11px;font-weight:600;color:var(--t2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── PDF DOWNLOADS ───────────────────────────── */
+.pdfs-section{margin:0 0 28px;position:relative;z-index:2}
+.pdfs-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.pdfs-title{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3)}
+.pdfs-badge{font-size:9px;font-weight:800;background:rgba(219,39,119,.1);color:#DB2777;padding:2px 8px;border-radius:100px}
+.pdfs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:380px){.pdfs-grid{grid-template-columns:1fr}}
+.pdf-card{
+  display:flex;align-items:center;gap:10px;
+  background:var(--surf);border:1.5px solid var(--bd);
+  border-radius:var(--r);padding:11px 12px;
+  transition:all var(--tr);box-shadow:var(--sh);
+}
+.pdf-card:hover{transform:translateY(-2px);box-shadow:var(--sh2);border-color:var(--bd2)}
+.pdf-card:active{transform:scale(.97)}
+.pdf-ico{
+  width:38px;height:38px;border-radius:11px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.pdf-ico svg{width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pdf-body{flex:1;min-width:0}
+.pdf-name{font-size:11px;font-weight:700;color:var(--t);line-height:1.3;margin-bottom:2px}
+.pdf-meta{font-size:9px;color:var(--t3);font-weight:600}
+.pdf-dl svg{width:14px;height:14px;fill:none;stroke:var(--t3);stroke-width:2;stroke-linecap:round;flex-shrink:0}
+
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ══ SIDEBAR desktop ══════════════════════════ -->
+<aside class="side" id="sideEl">
+  <div class="side-head">
+    <div class="side-logo">Korean <em>Stories</em></div>
+    <div class="side-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpSide">0</span> XP
+    </div>
+  </div>
+
+  <nav class="side-nav">
+    <a href="app.html"        class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+    <a href="cours.html"      class="sn on"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+    <a href="lecture.html" class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="challenge.html"  class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+    <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Classement</a>
+    <a href="profil.html"     class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+    <a href="ressources.html" class="sn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+  </nav>
+
+  <div class="side-block">
+    <div class="side-lbl">Niveaux</div>
+    <div id="sideTabsEl"></div>
+  </div>
+
+  <div class="side-block">
+    <div class="side-lbl">Filtrer par type</div>
+    <div id="sideFilterEl"></div>
+  </div>
+
+  <div class="side-theme">
+    <span class="side-theme-lbl">Mode sombre</span>
+    <button class="theme-pill" onclick="toggleTheme()" aria-label="Thème"></button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ════════════════════════════════════ -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="bar">
+    <a href="app.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Accueil
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span><span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+  <div class="page-enter">
+
+  <!-- HERO -->
+  <div class="page">
+    <div class="hero">
+      <div class="hero-top">
+        <div class="hero-av">가
+          <span class="fire" id="fireBadge"><svg style="width:9px;height:9px;vertical-align:middle;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round" viewBox="0 0 24 24"><path d="M12 2c0 0-4 4-4 10a4 4 0 008 0c0-6-4-10-4-10z"></path></svg><span id="streakEl">0</span></span>
+        </div>
+        <div class="hero-info">
+          <div class="hero-tag">Niveau actuel</div>
+          <div class="hero-name" id="heroName">Niveau <em>Débutant</em></div>
+          <div class="prog-track"><div class="prog-fill" id="heroFill" style="width:0%"></div></div>
+          <div class="prog-lbl"><span id="stPct">0%</span> du parcours complété</div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-v" id="stDone">0</div><div class="stat-l">Activités</div></div>
+        <div class="stat"><div class="stat-v" id="stXP">0</div><div class="stat-l">XP</div></div>
+        <div class="stat"><div class="stat-v" id="stStr">0</div><div class="stat-l">Jours <svg style="width:10px;height:10px;vertical-align:middle" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"><path d="M12 2c0 0-4 4-4 10a4 4 0 008 0c0-6-4-10-4-10z"/><path d="M10 14c0 0 .5 2 2 2s2-2 2-2"/></svg></div></div>
+        <div class="stat"><div class="stat-v" id="stPct2">0%</div><div class="stat-l">Complété</div></div>
+      </div>
+    </div>
+
+    <!-- Challenge -->
+    <a href="challenge.html" class="chal">
+      <div class="chal-ico"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="chal-body">
+        <div class="chal-tag"><svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-right:3px" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</div>
+        <div class="chal-title">5 minutes de coréen aujourd'hui</div>
+        <div class="chal-pills"><span class="chal-pill">+50 XP bonus</span><span class="chal-pill">~5 min</span></div>
+      </div>
+      <div class="chal-arr"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>
+  </div>
+
+  <!-- MOBILE TABS -->
+  <div class="m-tabs">
+    <div class="m-tabs-row" id="tabsEl"></div>
+  </div>
+
+  <!-- MOBILE FILTER -->
+  <div class="m-filter">
+    <div class="m-filter-row" id="filterEl"></div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="roadmap" id="roadmap"></div>
+
+  </div><!-- page-enter -->
+</div><!-- .main -->
+</div><!-- .shell -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="cours.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <span>Cours</span>
+  </a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni">
+    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span>Défi</span>
+    <span class="bni-dot"></span>
+  </a>
+  <a href="classement.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Classement</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+<!-- FAB -->
+<a href="#" class="fab" id="fabEl">
+  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>Continuer
+</a>
+
+<!-- MODAL -->
+<div class="modal-bg" id="premModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="modal-title">Passer à Premium <svg style="width:16px;height:16px;vertical-align:middle;stroke:var(--gold);fill:none;stroke-width:2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div class="modal-sub">Débloque tous les niveaux et atteins la fluidité en coréen avec du contenu exclusif.</div>
+    <div class="modal-feats">
+      <div class="mf"><span class="mf-dot"></span>Niveaux A2, B1, B2 intégralement débloqués</div>
+      <div class="mf"><span class="mf-dot"></span>Histoires, jeux & K-Drama vocabulary avancés</div>
+      <div class="mf"><span class="mf-dot"></span>Audio natif sur chaque dialogue et exercice</div>
+      <div class="mf"><span class="mf-dot"></span>PDFs de grammaire téléchargeables offline</div>
+      <div class="mf"><span class="mf-dot"></span>Conversation guidée avec une IA coréenne</div>
+      <div class="mf"><span class="mf-dot"></span>Simulation complète de l'examen TOPIK</div>
+    </div>
+    <button class="modal-btn" onclick="closePrem()">Bientôt disponible — Me prévenir <svg style="width:13px;height:13px;vertical-align:middle;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></button>
+    <button class="modal-cancel" onclick="closePrem()">Continuer gratuitement</button>
+  </div>
+</div>
+
+<script>
+/* ── TYPES ─────────────────────────────────── */
+const TYPES={
+  lecon:        {l:'Leçon',         c:'#B8924E',bg:'rgba(184,146,78,.13)',  svg:`<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>`},
+  exercice:     {l:'Exercice',      c:'#2563EB',bg:'rgba(37,99,235,.12)',   svg:`<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>`},
+  jeu:          {l:'Jeu',           c:'#16A34A',bg:'rgba(22,163,74,.12)',   svg:`<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>`},
+  histoire:     {l:'Histoire',      c:'#4F46E5',bg:'rgba(79,70,229,.12)',   svg:`<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>`},
+  conseil:      {l:'Conseil',       c:'#D97706',bg:'rgba(217,119,6,.12)',   svg:`<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>`},
+  anecdote:     {l:'Anecdote',      c:'#DB2777',bg:'rgba(219,39,119,.12)', svg:`<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>`},
+  quiz:         {l:'Quiz',          c:'#9A3412',bg:'rgba(154,52,18,.12)',   svg:`<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>`},
+  flashcards:   {l:'Flashcards',    c:'#0369A1',bg:'rgba(3,105,161,.12)',   svg:`<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>`},
+  prononciation:{l:'Prononciation', c:'#0D9488',bg:'rgba(13,148,136,.12)', svg:`<path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>`},
+  chanson:      {l:'K-Pop',         c:'#7C3AED',bg:'rgba(124,58,237,.12)', svg:`<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`},
+};
+
+/* ── CURRICULUM ─────────────────────────────── */
+const LEVELS=[
+  {id:'hangeul',tab:'한 Hangeul',name:"Hangeul — L'alphabet",cefr:'Niveau 0 · Pré-TOPIK',
+   desc:"Apprends à lire et écrire le coréen en 2h30. Plus jamais besoin de romanisation — tu lis vraiment !",
+   color:'#B8924E',bg:'rgba(184,146,78,.08)',border:'rgba(184,146,78,.25)',time:'~2h30',free:true,
+   acts:[
+     {id:'h01',t:'lecon',        group:'Voyelles',title:'Voyelles de base',               sub:'아·야·어·여·오·요·우·유·으·이 — les 10 voyelles fondamentales',              dur:'~15 min',xp:15,href:'lecon.html',       key:'ks_h01'},
+     {id:'h02',t:'prononciation',title:'Prononce tes premières voyelles',sub:'Écoute les locuteurs natifs · Répète · Enregistre-toi',                  dur:'~8 min', xp:10,href:'pro1.html',         key:'ks_h02'},
+     {id:'h03',t:'jeu',          title:'Memory Voyelles',              sub:'Associe chaque son à son symbole — mémorisation rapide et fun',          dur:'~5 min', xp:8, href:'jeu1.html',         key:'ks_h03'},
+     {id:'h04',t:'lecon',        group:'Consonnes simples',title:'Consonnes simples',              sub:'ㄱ·ㄴ·ㄷ·ㄹ·ㅁ·ㅂ·ㅅ·ㅇ — les 8 consonnes de base à maîtriser',         dur:'~20 min',xp:15,href:'lecon2.html',      key:'ks_h04'},
+     {id:'h05',t:'conseil',      title:"L'astuce des formes",          sub:'Une forme = un son — mémoriser chaque consonne en 30 secondes',          dur:'~3 min', xp:5, href:'conseil1.html',     key:'ks_h05'},
+     {id:'h06',t:'exercice',     title:'Écriture des consonnes',         sub:'Tracé correct + ordre des traits · Du plus simple au plus complexe',     dur:'~10 min',xp:10,href:'exercice1.html',   key:'ks_h06'},
+     {id:'h07',t:'lecon',        group:'Consonnes avancées',title:'Consonnes aspirées & tendues',   sub:'ㅋ·ㅌ·ㅍ·ㅊ·ㅎ · ㄲ·ㄸ·ㅃ·ㅆ·ㅉ — sons forts et doublés',             dur:'~18 min',xp:15,href:'lecon3.html',      key:'ks_h07'},
+     {id:'h08',t:'anecdote',     title:'Le Roi Sejong & le Hangeul',   sub:"1443 · Pourquoi cet alphabet est un chef-d'œuvre scientifique",         dur:'~5 min', xp:8, href:'anecdote1.html',   key:'ks_h08'},
+     {id:'h09',t:'lecon',        group:'Syllabes & Prononciation',title:'Syllabes & Batchim',             sub:'Assembler les blocs syllabiques · 받침 · Règles de prononciation',       dur:'~20 min',xp:15,href:'lecon4.html',      key:'ks_h09'},
+     {id:'h14',t:'lecon',        title:'Diphtongues — Voyelles composées', sub:'ㅘ(wa)·ㅝ(wo)·ㅕ(yeo)·ㅒ·ㅖ·ㅙ·ㅚ·ㅞ·ㅟ·ㅢ — 10 voyelles composées essentielles',      dur:'~15 min',xp:12,href:'lecon9.html',      key:'ks_h14'},
+     {id:'h10',t:'exercice',     title:'Lis tes premières syllabes',     sub:'가나다라 → 갈비탕 → 안녕하세요 · Du simple au complexe',               dur:'~10 min',xp:10,href:'exercice2.html',   key:'ks_h10'},
+     {id:'h11',t:'flashcards',   group:'Révision finale',title:'Flashcards Hangeul complet',     sub:'40 caractères · Recto-verso · Spaced Repetition · Audio natif',         dur:'~10 min',xp:10,href:'hangeul.html',     key:'ks_h11'},
+     {id:'h12',t:'jeu',          title:'Speed Round Hangeul',         sub:'Lis le plus vite possible · Chronomètre · Bats ton record !',           dur:'~5 min', xp:12,href:'jeu2.html',         key:'ks_h12'},
+     {id:'h13',t:'quiz',         title:'Checkpoint Hangeul',           sub:'20 questions · Validation · Badge Hangeul officiel',                     dur:'~10 min',xp:20,href:'quiz1.html',       key:'ks_h13'},
+   ],
+   ms:{em:'hangeul',title:'Hangeul maîtrisé !',sub:'14 activités · 165 XP · Voyelles · Consonnes · Diphtongues · Batchim · Tu lis le coréen !',c:'#B8924E',bg:'rgba(184,146,78,.06)',ring:'rgba(184,146,78,.15)',border:'rgba(184,146,78,.4)'},
+   sc:{title:'Tableau Hangeul complet',sub:'40 caractères · Audio natif · PDF téléchargeable',href:'hangeul.html',c:'#B8924E',bg:'rgba(184,146,78,.09)',svg:`<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>`},
+   pdfs:[
+     {title:'Tableau Hangeul complet',      sub:'40 caractères · Voyelles + Consonnes + Règles', pages:2, color:'#B8924E', href:'pdf/hangeul-chart.html'},
+     {title:'Fiches mnémotechniques',        sub:'Mémoriser chaque caractère par l\'image',        pages:4, color:'#D97706', href:'pdf/hangeul-mnemo.html'},
+     {title:'Règles de prononciation',       sub:'Batchim · Liaison · Assimilation · Nasalisation',pages:3, color:'#4F46E5', href:'pdf/prononc-hangeul.html'},
+     {title:'Exercices de lecture — Niveau 0',sub:'100 syllabes à déchiffrer progressivement',    pages:6, color:'#16A34A', href:'pdf/hangeul-exercices.html'},
+   ],
+  },
+  {id:'a1',tab:'A1',name:'A1 — Débutant',cefr:'CEFR A1 · TOPIK 1',
+   desc:'Salutations, chiffres, famille, nourriture, lieux, verbes — tout pour communiquer dans la vie quotidienne coréenne.',
+   color:'#2563EB',bg:'rgba(37,99,235,.07)',border:'rgba(37,99,235,.22)',time:'~6h',free:true,
+   acts:[
+     /* ── Bloc 1 : Salutations ── */
+     {id:'a01',t:'lecon',        group:'Salutations',title:'Salutations & Se présenter',       sub:'안녕하세요 · 저는 …이에요 · 만나서 반가워요 — les formules incontournables du quotidien',      dur:'~20 min',xp:15,href:'lecon5.html',    key:'ks_a01'},
+     {id:'a02',t:'prononciation',title:'Intonation des salutations',       sub:"Écoute 10 natifs · Entraîne-toi sur l'intonation · Enregistre et compare ta prononciation",  dur:'~8 min', xp:8, href:'pro2.html',       key:'ks_a02'},
+     {id:'a03',t:'histoire',     title:'Au café — Première rencontre',   sub:'Ji-woo rencontre Emma · Dialogue naturel complet · 15 expressions du quotidien à retenir',  dur:'~10 min',xp:12,href:'histoire1.html', key:'ks_a03'},
+     {id:'a04',t:'anecdote',     title:'La révérence en Corée',          sub:"Angle 15°, 45° ou 90° — saluer selon l'âge et le statut · Les erreurs que font les étrangers", dur:'~5 min', xp:8, href:'anecdote2.html', key:'ks_a04'},
+     /* ── Bloc 2 : Chiffres ── */
+     {id:'a05',t:'lecon',        group:'Chiffres',title:'Chiffres Sino-coréens',            sub:"일·이·삼·사·오·육·칠·팔·구·십·백·천·만 — système d'origine chinoise pour prix, dates, étages", dur:'~18 min',xp:15,href:'lecon6.html',    key:'ks_a05'},
+     {id:'a06',t:'lecon',        title:'Chiffres Natifs coréens',          sub:'하나·둘·셋·넷·다섯·여섯·일곱·여덟·아홉·열 — système purement coréen pour âge, heures, objets',  dur:'~15 min',xp:15,href:'lecon6b.html',   key:'ks_a06'},
+     {id:'a07',t:'jeu',          title:'Chiffres Express',               sub:'Sino ou natif ? Quiz chronométré · 50 rounds · Beat the clock · Score en temps réel',        dur:'~5 min', xp:10,href:'jeu3.html',       key:'ks_a07'},
+     {id:'a08',t:'conseil',      title:'Le secret des deux systèmes',    sub:'Âge → natif · Prix → sino · Téléphone → sino · Heures → natif — la règle en 30 secondes',    dur:'~4 min', xp:5, href:'conseil2.html',  key:'ks_a08'},
+     /* ── Bloc 3 : Famille & Société ── */
+     {id:'a09',t:'lecon',        group:'Famille & Société',title:'Famille & Pronoms personnels',      sub:'저·나 · 엄마·아빠·오빠·언니·누나·형·남동생·여동생 — toute la famille coréenne',             dur:'~20 min',xp:15,href:'lecon7.html',    key:'ks_a09'},
+     {id:'a10',t:'anecdote',     title:'Oppa, Unnie, Sunbae…', sub:"La hiérarchie sociale coréenne · Pourquoi on ne dit jamais le prénom · Règles implicites",   dur:'~6 min', xp:8, href:'anecdote3.html', key:'ks_a10'},
+     {id:'a11',t:'exercice',     title:'Décris ta famille en coréen',       sub:'8 situations concrètes · Production orale guidée · Correction automatique · Audio natif',     dur:'~10 min',xp:10,href:'exercice3.html', key:'ks_a11'},
+     /* ── Bloc 4 : Description ── */
+     {id:'a12',t:'lecon',        group:'Description',title:'Couleurs & Adjectifs essentiels',   sub:'빨간·파란·노란·하얀·검은·예쁜·크다·작다·좋다·싫다 — 30 adjectifs du quotidien',           dur:'~20 min',xp:15,href:'lecon8.html',    key:'ks_a12'},
+     {id:'a13',t:'exercice',     title:'Décris ce que tu vois',             sub:'Photos de Séoul · Décris en coréen · 10 exercices progressifs avec feedback instantané',       dur:'~10 min',xp:10,href:'exercice5.html', key:'ks_a13'},
+     /* ── Bloc 5 : Nourriture ── */
+     {id:'a14',t:'lecon',        group:'Nourriture & Culture',title:'La nourriture coréenne',          sub:'비빔밥·김치찌개·삼겹살·떡볶이·냉면 · 40 mots · Commander, demander, payer',               dur:'~22 min',xp:15,href:'lecon10.html',   key:'ks_a14'},
+     {id:'a15',t:'histoire',     title:'Au restaurant — Commander',      sub:'Ha-eun et ses amis au pojangmacha · Dialogue authentique · Expressions indispensables',      dur:'~10 min',xp:12,href:'histoire2.html', key:'ks_a15'},
+     {id:'a16',t:'anecdote',     title:'Chimaek & Culture food coréenne', sub:"Poulet frit + bière = chimaek · Pourquoi manger ensemble est une affaire sérieuse en Corée", dur:'~5 min', xp:8, href:'anecdote4.html', key:'ks_a16'},
+     {id:'a17',t:'jeu',          title:'Menu coréen : Devine le plat !',  sub:'50 plats · Écoute le nom · Associe la photo · Mémorisation par l\'image et le son',         dur:'~6 min', xp:10,href:'jeu5.html',       key:'ks_a17'},
+     /* ── Bloc 6 : Lieux & Directions ── */
+     {id:'a18',t:'lecon',        group:'Lieux & Directions',title:'Lieux de la vie quotidienne',       sub:'학교·병원·카페·슈퍼·지하철역·공원 — 30 lieux essentiels · Particules 에/에서/로',           dur:'~20 min',xp:15,href:'lecon11.html',   key:'ks_a18'},
+     {id:'a19',t:'lecon',        title:'Directions & Positions',            sub:'앞·뒤·왼쪽·오른쪽·위·아래·옆·근처 — se repérer dans Séoul · 10 expressions de trajet',      dur:'~18 min',xp:15,href:'lecon12.html',   key:'ks_a19'},
+     {id:'a20',t:'jeu',          title:'Trouve ton chemin à Séoul',       sub:'Carte interactive du métro · Suis les indications en coréen · Trouve la bonne station',     dur:'~8 min', xp:12,href:'jeu6.html',       key:'ks_a20'},
+     {id:'a21',t:'anecdote',     title:'Le métro de Séoul',               sub:'Le plus ponctuel du monde · Annonces en coréen · Vocabulaire du transport quotidien',        dur:'~5 min', xp:8, href:'anecdote5.html', key:'ks_a21'},
+     /* ── Bloc 7 : Verbes & Grammaire ── */
+     {id:'a22',t:'lecon',        group:'Verbes & Grammaire',title:'20 Verbes essentiels + Conjugaison', sub:'가다·오다·먹다·마시다·보다·자다·살다·만나다·공부하다·일하다 — présent/passé/futur',        dur:'~25 min',xp:18,href:'lecon41.html',   key:'ks_a22'},
+     {id:'a23',t:'lecon',        title:'La négation : 안 & 못',              sub:'안 = ne pas vouloir · 못 = ne pas pouvoir · 50 exemples en contexte · Nuances cruciales',   dur:'~15 min',xp:15,href:'lecon13.html',   key:'ks_a23'},
+     {id:'a24',t:'lecon',        title:'Poser des questions en coréen',      sub:'뭐·어디·언제·왜·어떻게·누구·얼마나 — les 7 mots interrogatifs + structures grammaticales',   dur:'~20 min',xp:15,href:'lecon14.html',   key:'ks_a24'},
+     {id:'a31',t:'lecon',        title:'Particules 이/가 et 은/는',            sub:'Sujet vs thème — distinction fondamentale · 이/가 = info nouvelle · 은/는 = contexte connu · 30 exemples',dur:'~20 min',xp:15,href:'lecon15.html',key:'ks_a31'},
+     {id:'a32',t:'lecon',        title:'Particules 을/를, 에, 에서, 로',       sub:'Objet direct · Lieu statique vs dynamique · Direction · Moyen — 4 particules essentielles maîtrisées',dur:'~20 min',xp:15,href:'lecon16.html',key:'ks_a32'},
+     {id:'a33',t:'exercice',     title:'Choisir la bonne particule',        sub:'이/가 · 은/는 · 을/를 · 에 · 에서 — 10 exercices en contexte · Correction immédiate · Explications',dur:'~10 min',xp:10,href:'exercice6.html',key:'ks_a33'},
+     {id:'a34',t:'quiz',         title:'Checkpoint Particules',             sub:'10 questions TOPIK-style · Valider l\'acquis de toutes les particules A1 · Badge Particules',dur:'~8 min',xp:20,href:'quiz3.html',key:'ks_a34'},
+     {id:'a25',t:'exercice',     title:'Conjugaison en contexte',            sub:'Passé · Présent · Futur · 15 exercices avec scénarios réels · Correction IA instantanée',    dur:'~12 min',xp:10,href:'exercice4.html', key:'ks_a25'},
+     {id:'a26',t:'jeu',          title:'Conjugaison Blitz',               sub:'Mode Survival · Conjugue le plus vite possible · Score mondial · Défi entre amis',          dur:'~6 min', xp:12,href:'jeu4.html',       key:'ks_a26'},
+     /* ── Bloc 8 : Temps, Météo & Compteurs ── */
+     {id:'a35',t:'lecon',        group:'Temps, Météo & Compteurs',title:'Heure, Jours & Mois',              sub:'몇 시예요 ? · Nombres natifs pour heures · Sino-coréens pour minutes · 월요일→일요일 · 1월→12월', dur:'~20 min',xp:15,href:'lecon42.html',   key:'ks_a_time'},
+     {id:'a36',t:'lecon',        title:'Météo & Saisons',                   sub:'날씨가 어때요? · 맑아요·흐려요·비가 와요·눈이 와요 · 봄여름가을겨울 · 6 températures',           dur:'~18 min',xp:12,href:'lecon43.html',   key:'ks_a_meteo'},
+     {id:'a37',t:'lecon',        title:'Les Compteurs Coréens',             sub:'개·명·잔·권·마리·장·병·대 — 8 compteurs TOPIK 1 essentiels · Nombres natifs + règles des formes courtes', dur:'~22 min',xp:14,href:'lecon44.html',   key:'ks_a_counters'},
+     /* ── Bloc 9 : Immersion ── */
+     {id:'a27',t:'histoire',     group:'Immersion finale',title:'Une journée à Séoul',             sub:'Se lever → prendre le métro → travailler → manger → rentrer · Routine quotidienne complète', dur:'~12 min',xp:15,href:'histoire3.html', key:'ks_a27'},
+     {id:'a28',t:'chanson',      title:'어머나 — Apprends en chantant',    sub:'K-Pop classique · +20 mots A1 · Karaoké syllabe par syllabe · Analyse grammaticale',       dur:'~10 min',xp:15,href:'chanson1.html',  key:'ks_a28'},
+     {id:'a29',t:'flashcards',   title:'Flashcards A1 — 200 mots clés',      sub:'Les 200 mots les plus fréquents · SRS adaptatif · Audio natif · Révision intelligente',     dur:'~15 min',xp:12,href:'flash1.html',    key:'ks_a29'},
+     /* ── Vocabulaire & Vie quotidienne A1 ── */
+     {id:'a38',t:'lecon',    group:'Vocabulaire A1 — Vie quotidienne',
+      title:'Le corps & la santé',
+      sub:'머리·눈·코·입·손·발 · 30 parties du corps · Décrire ses symptômes · 아파요 · 열이 나요 · Chez le médecin',
+      dur:'~18 min',xp:14,href:'lecon58.html',key:'ks_a38'},
+     {id:'a39',t:'lecon',
+      title:'Les vêtements & la mode',
+      sub:'옷 · 바지 · 치마 · 신발 · 가방 + couleurs · Shopping vocab · 입어봐도 돼요?',
+      dur:'~16 min',xp:12,href:'lecon59.html',key:'ks_a39'},
+     {id:'a40',t:'lecon',
+      title:"Les émotions & l'état d'esprit",
+      sub:'기쁘다 · 슬프다 · 화나다 · 무섭다 · 행복하다 · 걱정되다 · 30 émotions essentielles · Expressions naturelles',
+      dur:'~15 min',xp:12,href:'lecon60.html',key:'ks_a40'},
+     /* ── Histoires & Culture A1 supplémentaires ── */
+     {id:'a41',t:'histoire',  group:'Histoires A1 supplémentaires',
+      title:'Une journée à Gyeongbokgung',
+      sub:'경복궁 · Palais royal · Emma en visite · 한복 rental · Dialogue complet + 15 expressions touristiques',
+      dur:'~10 min',xp:12,href:'histoire29.html',key:'ks_a41'},
+     {id:'a42',t:'histoire',
+      title:'Chez le médecin — Premiers symptômes',
+      sub:'병원 · 증상 설명 · 약 처방 · Dialogue A1 simplifié · 10 mots clés médicaux pour débutants',
+      dur:'~10 min',xp:10,href:'histoire30.html',key:'ks_a42'},
+     {id:'a43',t:'anecdote',
+      title:'빨리빨리 — La culture de la rapidité',
+      sub:'Le rythme de vie coréen · Pourquoi tout va vite en Corée · Delivery apps · 빠른 배송 · Vocabulaire',
+      dur:'~5 min',xp:8,href:'anecdote19.html',key:'ks_a43'},
+     {id:'a44',t:'exercice',
+      title:'Commander en ligne / Au téléphone',
+      sub:'배달 앱 · Formulaire de livraison · 주문하다 · 배달 주소 · 몇 시에 와요? · 3 scénarios pratiques',
+      dur:'~10 min',xp:10,href:'exercice24.html',key:'ks_a44'},
+     {id:'a45',t:'jeu',
+      title:'Vocabulaire visuel A1 — Photo Quiz',
+      sub:'50 photos de la vie quotidienne coréenne · Nomme ce que tu vois · Chronométré · Score mondial',
+      dur:'~6 min',xp:10,href:'jeu12.html',key:'ks_a45'},
+     {id:'a46',t:'chanson',
+      title:'Apprendre en chantant — K-Pop A1',
+      sub:'Chansons simples · Vocabulaire A1 fondamental · Karaoké syllabe par syllabe · Quiz final',
+      dur:'~10 min',xp:12,href:'chanson6.html',key:'ks_a46'},
+     {id:'a30',t:'quiz',         title:'Checkpoint A1 Final',              sub:'40 questions · Grammaire + Vocabulaire + Écoute + Production · Badge A1 TOPIK certifié',     dur:'~20 min',xp:30,href:'quiz2.html',     key:'ks_a30'},
+   ],
+   ms:{em:'a1',title:'A1 Débutant validé !',sub:'46 activités · 600 XP · Hangeul · Salutations · Chiffres · Famille · Corps · Émotions · Lieux · Verbes · Heure · Météo · Vêtements · Particules · Certifié TOPIK 1',c:'#2563EB',bg:'rgba(37,99,235,.06)',ring:'rgba(37,99,235,.12)',border:'rgba(37,99,235,.35)'},
+   sc:{title:'Toutes les histoires A1',sub:'5 histoires immersives · Dialogues natifs · Traduction ligne à ligne',href:'histoires.html',c:'#4F46E5',bg:'rgba(79,70,229,.07)',svg:`<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>`},
+   pdfs:[
+     {title:'Vocabulaire A1 Complet',     sub:'200 mots incontournables avec exemples',pages:10,color:'#2563EB',href:'pdf/vocab-a1.html'},
+     {title:'Grammaire A1 — Fiches mémo', sub:'SOV · Particules · Conjugaison · Négation · Questions',pages:8,color:'#4F46E5',href:'pdf/grammaire-a1.html'},
+     {title:'Particules coréennes A1',    sub:'이/가 · 은/는 · 을/를 · 에 · 에서 · 로 — guide complet',pages:4,color:'#16A34A',href:'pdf/particules-a2.html'},
+     {title:'Tableaux de conjugaison A1', sub:'Présent · Passé · Futur · Négatif',      pages:4, color:'#0D9488',href:'pdf/conjugaison-a1.html'},
+     {title:'50 Expressions essentielles',sub:'Phrases clés A1 prêtes à l\'emploi',     pages:3, color:'#D97706',href:'pdf/expressions-a1.html'},
+     {title:'Hangeul + Phonétique',       sub:'Tableau complet audio-référencé',         pages:2, color:'#DB2777',href:'pdf/hangeul-chart.html'},
+     {title:'Corps, Santé & Émotions A1', sub:'Vocabulaire thématique illustré · 80 mots', pages:4, color:'#0369A1',href:'pdf/corps-a1.html'},
+     {title:'Plan de Séoul + Vocab lieux',sub:'Carte annotée · 40 lieux essentiels · Métro', pages:3, color:'#16A34A',href:'pdf/seoul-map.html'},
+   ],
+  },
+  /* ═══ A2 ═══════════════════════════════════════════════════════ */
+  {id:'a2',tab:'A2',name:'A2 — Élémentaire',cefr:'CEFR A2 · TOPIK 2',
+   desc:'Grammaire des particules, conversations avancées, K-Drama, voyage, shopping — parler avec aisance des sujets du quotidien.',
+   color:'#16A34A',bg:'rgba(22,163,74,.07)',border:'rgba(22,163,74,.22)',time:'~6h',free:true,
+   acts:[
+     /* ── Grammaire avancée ── */
+     {id:'b01',t:'lecon',     group:'Grammaire A2',
+      title:'Le futur en coréen : -(으)ㄹ 거예요',
+      sub:'Exprimer ses projets et intentions · 갈 거예요 · 먹을 거예요 · 20 exemples contextualisés',
+      dur:'~18 min',xp:15,href:'lecon21.html',key:'ks_b01'},
+     {id:'b23',t:'lecon',
+      title:'Progressif & Résultatif : -고 있어요 / -아 있어요',
+      sub:'Action en cours vs état résultant — 먹고 있어요 · 앉아 있어요 · Différence clé',
+      dur:'~18 min',xp:15,href:'lecon22.html',key:'ks_b23'},
+     {id:'b24',t:'lecon',
+      title:'Capacité & Obligation : -ㄹ 수 있다 / -아야 하다',
+      sub:'할 수 있어요 · 해야 해요 · Possibilité et nécessité en contexte',
+      dur:'~15 min',xp:15,href:'lecon23.html',key:'ks_b24'},
+     /* ── Grammaire expressive ── */
+     {id:'b25',t:'lecon',     group:'Grammaire expressive',
+      title:'Désir & Envie : -고 싶다',
+      sub:'-고 싶어요 · -고 싶어해요 · -고 싶지 않아요 — exprimer vos envies et celles des autres · 20 exemples',
+      dur:'~15 min',xp:15,href:'lecon24.html',key:'ks_b25'},
+     {id:'b26',t:'lecon',
+      title:'Exprimer une opinion : -(으)ㄹ 것 같다',
+      sub:'-(으)ㄹ 것 같아요 · -다고 생각해요 · 제 생각에는 — donner son avis avec nuance',
+      dur:'~16 min',xp:15,href:'lecon25.html',key:'ks_b26'},
+     {id:'b27',t:'lecon',
+      title:'Requêtes polies : -아/어 주세요',
+      sub:'-아/어 주세요 · -아/어 주실 수 있어요? — demander de l\'aide · 6 scénarios réels du quotidien',
+      dur:'~15 min',xp:15,href:'lecon26.html',key:'ks_b27'},
+     {id:'b28',t:'lecon',
+      title:'Temps & Durée : 전에 · 후에 · 동안',
+      sub:'Avant · Après · Pendant · -은 다음에 · -(으)면서 — situer, ordonner, raconter',
+      dur:'~16 min',xp:15,href:'lecon27.html',key:'ks_b28'},
+     {id:'b29',t:'exercice',
+      title:'Production : Désir, Opinion, Requêtes',
+      sub:'15 situations réelles — choisir la bonne structure · -고 싶다 · 것 같다 · -아/어 주세요',
+      dur:'~12 min',xp:10,href:'exercice10.html',key:'ks_b29'},
+     /* ── Grammaire avancée A2 — nouvelles structures ── */
+     {id:'b04b',t:'lecon',    group:'Grammaire avancée A2',
+      title:'Voix passive : -이/히/리/기 & -되다',
+      sub:'보이다·먹히다·팔리다·끊기다 · 4 suffixes passifs + -되다 pour 하다 · -아/어지다 — voix passive complète',
+      dur:'~20 min',xp:16,href:'lecon45.html',key:'ks_b04b'},
+     {id:'b04c',t:'lecon',
+      title:"L'expérience : -아/어 봤어요 & -본 적이 있다",
+      sub:"-아/어 봐요 · -아/어 봤어요 · -본 적이 있어요 · -본 적이 없어요 — essayer & avoir vécu quelque chose",
+      dur:'~18 min',xp:15,href:'lecon46.html',key:'ks_b04c'},
+     {id:'b04d',t:'lecon',
+      title:'Permission & Interdiction',
+      sub:'-아/어도 되다 · -면 안 되다 · -지 않아도 되다— 3 structures essentielles de la vie quotidienne',
+      dur:'~18 min',xp:15,href:'lecon47.html',key:'ks_b04d'},
+     {id:'b04e',t:'lecon',
+      title:'Comparaisons : 더, 보다, 가장, 만큼, 처럼',
+      sub:'A보다 더 [adj] · 가장/제일 · A만큼 · A처럼 — 5 outils pour comparer en coréen',
+      dur:'~20 min',xp:15,href:'lecon48.html',key:'ks_b04e'},
+     /* ── Construire des phrases ── */
+     {id:'b05',t:'lecon',     group:'Construire des phrases',
+      title:'Construire des phrases complexes',
+      sub:'SOV · Modificateurs · Propositions relatives — ordre des mots en coréen',
+      dur:'~20 min',xp:15,href:'lecon17.html',key:'ks_b05'},
+     {id:'b06',t:'lecon',
+      title:'Conjonctions : et, mais, parce que',
+      sub:'-고 · -지만 · -어서/-니까/-는데 — relier des idées naturellement',
+      dur:'~18 min',xp:15,href:'lecon18.html',key:'ks_b06'},
+     {id:'b07',t:'exercice',
+      title:'Production de phrases A2',
+      sub:'10 situations réelles · Construire des phrases complètes · Voir le modèle',
+      dur:'~15 min',xp:10,href:'exercice7.html',key:'ks_b07'},
+     {id:'b08',t:'jeu',
+      title:'Grammar Battle',
+      sub:'10 rounds · Particules & conjugaison · 3 vies · Classement par score',
+      dur:'~6 min',xp:12,href:'jeu7.html',key:'ks_b08'},
+     /* ── Culture & Immersion ── */
+     {id:'b09',t:'histoire',  group:'Culture & Immersion',
+      title:'K-Drama : 사랑해요',
+      sub:'Dialogues romantiques authentiques · Vocabulaire émotionnel · Analyse grammaticale',
+      dur:'~12 min',xp:12,href:'histoire12.html',key:'ks_b09'},
+     {id:'b10',t:'anecdote',
+      title:'La culture des PC Bang',
+      sub:'Gaming · Société coréenne · Vocabulaire geek et digital incontournable',
+      dur:'~5 min',xp:8,href:'anecdote6.html',key:'ks_b10'},
+     {id:'b11',t:'anecdote',
+      title:'La K-Beauty expliquée',
+      sub:'10 étapes de soin · Vocabulaire beauté · Marques coréennes incontournables',
+      dur:'~5 min',xp:8,href:'anecdote7.html',key:'ks_b11'},
+     {id:'b12',t:'histoire',
+      title:'Un week-end à Hongdae',
+      sub:'Quartier branché de Séoul · Street art · Shopping · 20 expressions',
+      dur:'~12 min',xp:12,href:'histoire13.html',key:'ks_b12'},
+     {id:'b32',t:'anecdote',
+      title:'Noraebang : le karaoké coréen',
+      sub:'Salles privées · Vocabulaire 노래방 · Phrases pour réserver · Étiquette culturelle',
+      dur:'~5 min',xp:8,href:'anecdote8.html',key:'ks_b32'},
+     {id:'b31',t:'histoire',
+      title:'Emma chez le médecin à Séoul',
+      sub:'Décrire ses symptômes · Clinique · Pharmacie · Dialogue complet + 15 mots médicaux clés',
+      dur:'~12 min',xp:12,href:'histoire15.html',key:'ks_b31'},
+     /* ── Shopping & Argent ── */
+     {id:'b13',t:'lecon',     group:'Shopping & Voyage',
+      title:'Achats & Argent',
+      sub:'얼마예요 · 비싸다 · 싸다 · Négocier · Payer · Rendre la monnaie',
+      dur:'~18 min',xp:15,href:'lecon19.html',key:'ks_b13'},
+     {id:'b14',t:'exercice',
+      title:'Dans un grand magasin',
+      sub:'Trouver un rayon · Essayer un vêtement · Payer · 3 dialogues complets',
+      dur:'~12 min',xp:10,href:'exercice8.html',key:'ks_b14'},
+     {id:'b15',t:'flashcards',
+      title:'Flashcards A2 — 80 mots essentiels',
+      sub:'Verbes · Noms · Adjectifs · Expressions — filtrage par catégorie · Système Connu/À revoir',
+      dur:'~15 min',xp:12,href:'flash2.html',key:'ks_b15'},
+     /* ── Voyage ── */
+     {id:'b16',t:'lecon',
+      title:'Planifier un voyage en Corée',
+      sub:'Réservation · Hôtel · Transports · 경복궁 · 홍대 · 제주도 — vocabulaire tourisme',
+      dur:'~18 min',xp:15,href:'lecon20.html',key:'ks_b16'},
+     {id:'b17',t:'histoire',
+      title:"À l'aéroport d'Incheon",
+      sub:"Check-in · Contrôle · Embarquement · Dialogue complet avec vocabulaire clé",
+      dur:'~12 min',xp:12,href:'histoire14.html',key:'ks_b17'},
+     {id:'b18',t:'conseil',
+      title:'10 pièges du touriste en Corée',
+      sub:'Tipping · Chaussures · Baguettes · Politesse · Éviter tous les impairs',
+      dur:'~6 min',xp:8,href:'conseil3.html',key:'ks_b18'},
+     {id:'b33',t:'conseil',
+      title:'Téléphoner & textos en coréen',
+      sub:'여보세요 · Décrocher · Laisser un message · Abréviations SMS ㅋㅋ ㅠㅠ ㄱㄱ — tout le vocabulaire',
+      dur:'~5 min',xp:5,href:'conseil4.html',key:'ks_b33'},
+     /* ── Immersion finale ── */
+     {id:'b30',t:'jeu',       group:'Immersion finale',
+      title:'K-Drama : Complète le dialogue !',
+      sub:'8 scènes authentiques · Café · Aveu · Médecin · Noraebang · Choisir la bonne réplique',
+      dur:'~8 min',xp:12,href:'jeu8.html',key:'ks_b30'},
+     {id:'b19',t:'chanson',
+      title:'BTS — DNA',
+      sub:'Grammaire A2 intégrée · -부터 · -지만 · 속 · Karaoké + quiz sur la chanson',
+      dur:'~12 min',xp:15,href:'chanson2.html',key:'ks_b19'},
+     {id:'b20',t:'prononciation',
+      title:'Intonation avancée A2',
+      sub:'Montée finale · Allongement · Liaisons · Patterns émotionnels — 4 règles clés',
+      dur:'~10 min',xp:8,href:'pro3.html',key:'ks_b20'},
+     {id:'b21',t:'exercice',
+      title:'Scénarios de conversation A2',
+      sub:'5 scénarios réels : café · métro · pharmacie · restaurant · magasin · modèles inclus',
+      dur:'~15 min',xp:10,href:'exercice9.html',key:'ks_b21'},
+     /* ── Grammaire A2 supplémentaire ── */
+     {id:'b34',t:'lecon',    group:'Grammaire A2 — Structures complémentaires',
+      title:'-ㄴ/는다 — Style journal & narration',
+      sub:'Style neutre/littéraire · Journaux intimes · Articles · Différence avec -아요/해요 · Passer du parlé à l\'écrit',
+      dur:'~16 min',xp:14,href:'lecon55.html',key:'ks_b34'},
+     {id:'b35',t:'lecon',
+      title:'Propositions concessive : -아/어도 · -더라도',
+      sub:'"Même si" en A2 · 비가 와도 갈 거예요 · -더라도 (hypothèse forte) · Différence clé avec -(으)면',
+      dur:'~15 min',xp:14,href:'lecon56.html',key:'ks_b35'},
+     {id:'b36',t:'lecon',
+      title:'Exprimer la raison : -거든요 & -잖아요',
+      sub:'-거든요 : informer de quelque chose que l\'autre ne sait pas · -잖아요 : rappeler ce que l\'autre sait · 20 exemples',
+      dur:'~15 min',xp:14,href:'lecon57.html',key:'ks_b36'},
+     /* ── Histoires & Culture A2 supplémentaires ── */
+     {id:'b37',t:'histoire',  group:'Histoires & Culture A2 supplémentaires',
+      title:'Chuseok chez une famille coréenne',
+      sub:'La fête de la lune · 차례 · 한복 · 성묘 · Traditions en famille · 10 expressions festives essentielles',
+      dur:'~12 min',xp:12,href:'histoire27.html',key:'ks_b37'},
+     {id:'b38',t:'histoire',
+      title:'Emma et le jimjilbang',
+      sub:"Sauna coréen · 찜질방 · 식혜 · 계란 · Culture du bain collectif · Dialogues et vocabulaire",
+      dur:'~10 min',xp:12,href:'histoire28.html',key:'ks_b38'},
+     {id:'b39',t:'anecdote',
+      title:'La culture du manhwa & webtoon',
+      sub:'만화 vs 웹툰 · Naver Webtoon · LINE Webtoon · 신의 탑 · 미생 · Vocabulary créatif coréen',
+      dur:'~6 min',xp:8,href:'anecdote18.html',key:'ks_b39'},
+     {id:'b40',t:'conseil',
+      title:'Les réseaux sociaux en coréen',
+      sub:'인스타 · 틱톡 · 유튜브 · Hashtags coréens · Commenter · 팔로우 · Vocabulaire digital A2 complet',
+      dur:'~5 min',xp:6,href:'conseil8.html',key:'ks_b40'},
+     {id:'b41',t:'prononciation',
+      title:'Règles de liaison & changements consonantiques',
+      sub:'연음 · 격음화 · 경음화 · 비음화 · 4 règles fondamentales pour sonner naturel · Exemples audio',
+      dur:'~12 min',xp:10,href:'pro6.html',key:'ks_b41'},
+     {id:'b42',t:'exercice',
+      title:'Écrire son journal intime en coréen',
+      sub:'오늘 일기 · Routine journalière · 기분 표현 · Template de journal · 3 exemples corrigés · Modèles à compléter',
+      dur:'~12 min',xp:10,href:'exercice23.html',key:'ks_b42'},
+     {id:'b22',t:'quiz',
+      title:'Checkpoint A2 Final',
+      sub:'10 questions TOPIK-style · Grammaire + Vocab + Compréhension · Badge A2 débloqué',
+      dur:'~10 min',xp:30,href:'quiz4.html',key:'ks_b22'},
+   ],
+   ms:{em:'a2',title:'A2 Élémentaire validé !',sub:'43 activités · Futur · Désir · Opinion · Voix passive · Expérience · Permission · Comparaisons · -거든요 · K-Drama · Shopping · Voyage · Certifié TOPIK 2',c:'#16A34A',bg:'rgba(22,163,74,.06)',ring:'rgba(22,163,74,.15)',border:'rgba(22,163,74,.4)'},
+   pdfs:[
+     {title:'Grammaire A2 — Futur · Progressif · Capacité',sub:'-(으)ㄹ 거예요 · -고 있어요 · -ㄹ 수 있다 · -아야 하다',pages:8,color:'#16A34A',href:'pdf/grammaire-a2.html'},
+     {title:'Vocabulaire A2 — 400 mots',            sub:'Thèmes : voyage, shopping, culture, K-Drama',     pages:14, color:'#2563EB', href:'pdf/vocab-a2.html'},
+     {title:'Conjonctions & Connecteurs A2',         sub:'-고 · -지만 · -어서/-니까 · -는데 — relier des idées',pages:6,color:'#4F46E5',href:'pdf/conjonctions-a2.html'},
+     {title:'Dialogues A2 — 10 scripts complets',   sub:'Café · Métro · Restaurant · Shopping · Pharmacie',pages:12,color:'#D97706',href:'pdf/dialogues-a2.html'},
+     {title:'Culture coréenne — Guide A2',           sub:'K-Drama · K-Beauty · PC Bang · Shopping',        pages:8,  color:'#DB2777', href:'pdf/culture-a2.html'},
+     {title:'Préparation TOPIK I — Stratégies',     sub:'Format · Méthode · 30 exercices corrigés',        pages:16, color:'#9A3412', href:'pdf/topik1-prep.html'},
+   ],
+  },
+
+  /* ═══ B1 ═══════════════════════════════════════════════════════ */
+  {id:'b1',tab:'B1',name:'B1 — Intermédiaire',cefr:'CEFR B1 · TOPIK 3-4',
+   desc:'Indépendance totale. Voyager seul, travailler, se divertir et exprimer des opinions entièrement en coréen.',
+   color:'#7C3AED',time:'~7h',free:true,
+   acts:[
+     /* ── Grammaire B1 — Structures clés ── */
+     {id:'c01',t:'lecon',     group:'Grammaire B1 — Structures clés',
+      title:'Propositions relatives : -는 / -(으)ㄴ / -(으)ㄹ',
+      sub:'Modifier les noms avec des verbes · 4 formes essentielles · "la personne qui mange" · structures figées',
+      dur:'~18 min',xp:15,href:'lecon28.html',key:'ks_c01'},
+     {id:'c02',t:'lecon',
+      title:'Discours indirect : -다고 하다',
+      sub:'Rapporter ce que quelqu\'un a dit · Affirmation · Question · Ordre · Proposition · Direct → Indirect',
+      dur:'~18 min',xp:15,href:'lecon29.html',key:'ks_c02'},
+     {id:'c03',t:'lecon',
+      title:'Conditionnel : -(으)면 · -아/어도 · -더라도',
+      sub:'"Si…" · "Même si…" · Hypothèse forte · Conditions du quotidien · 12 exemples contextualisés',
+      dur:'~16 min',xp:15,href:'lecon30.html',key:'ks_c03'},
+     {id:'c04',t:'lecon',
+      title:'Cause avancée : -기 때문에 · -는 바람에',
+      sub:'Formel · Cause inattendue · -아/어서 vs -니까 décryptés définitivement · Tableau comparatif',
+      dur:'~18 min',xp:15,href:'lecon31.html',key:'ks_c04'},
+     {id:'c05',t:'exercice',
+      title:'Exercice : Grammaire B1 — 12 questions',
+      sub:'Propositions relatives · Discours indirect · Conditionnel · Cause · Tout en un exercice ciblé',
+      dur:'~12 min',xp:10,href:'exercice11.html',key:'ks_c05'},
+     /* ── Politesse & Niveaux de langue ── */
+     {id:'c06',t:'lecon',     group:'Politesse & Niveaux de langue',
+      title:'존댓말 vs 반말 — Niveaux de langue',
+      sub:'Poli standard · Informel · Quand utiliser quoi · 반말 써도 돼요? — demander la permission',
+      dur:'~16 min',xp:15,href:'lecon32.html',key:'ks_c06'},
+     {id:'c07',t:'lecon',
+      title:'Formes formelles : -습니다 / 합쇼체',
+      sub:'Présent · Passé · Questions · -(으)겠습니다 · Dialogues professionnels · Présentations',
+      dur:'~16 min',xp:15,href:'lecon33.html',key:'ks_c07'},
+     {id:'c08',t:'conseil',
+      title:'Culture & Hiérarchie coréenne',
+      sub:'나이 · 선배/후배 · Titres · Règles de table · 잘 부탁드립니다 · Règles sociales essentielles',
+      dur:'~8 min',xp:8,href:'conseil5.html',key:'ks_c08'},
+     {id:'c09',t:'exercice',
+      title:'Exercice : Choisir le bon niveau de langue',
+      sub:'8 scénarios réels · Patron · Ami · Magasin · Présentation · Prof · Hôtes coréens',
+      dur:'~10 min',xp:10,href:'exercice12.html',key:'ks_c09'},
+     /* ── Temps & Vocabulaire ── */
+     {id:'c10',t:'lecon',     group:'Temps & Vocabulaire',
+      title:'Exprimer le temps (avancé)',
+      sub:'-면서 · -곤 했어요 · -아/어지다 · -아/어 버리다 · -자마자 · Simultanéité et changement',
+      dur:'~18 min',xp:15,href:'lecon34.html',key:'ks_c10'},
+     {id:'c11',t:'lecon',
+      title:'Vocabulaire TOPIK 3-4 — Essentiel',
+      sub:'Verbes d\'opinion · Connecteurs discursifs · Émotions coréennes · 설레다 · 아쉽다 · 뿌듯하다',
+      dur:'~16 min',xp:15,href:'lecon35.html',key:'ks_c11'},
+     /* ── Immersion B1 ── */
+     {id:'c12',t:'anecdote',  group:'Immersion B1',
+      title:'Culture : Les Haenyeo de Jeju',
+      sub:'Femmes-plongeuses · Île de Jeju · Patrimoine UNESCO 2016 · Vocabulaire et traditions',
+      dur:'~6 min',xp:8,href:'anecdote9.html',key:'ks_c12'},
+     {id:'c13',t:'histoire',
+      title:'Premier jour au bureau à Séoul',
+      sub:'Emma en stage dans une IT coréenne · 존댓말 · 잘 부탁드립니다 · Déjeuner avec le 선배',
+      dur:'~12 min',xp:12,href:'histoire16.html',key:'ks_c13'},
+     {id:'c14',t:'jeu',
+      title:'Jeu : Construire des phrases B1',
+      sub:'6 puzzles · Remettre les mots dans l\'ordre · Relatives · Discours indirect · Conditionnels',
+      dur:'~10 min',xp:12,href:'jeu9.html',key:'ks_c14'},
+     /* ── Culture & Expression ── */
+     {id:'c15',t:'exercice',  group:'Culture & Expression',
+      title:'Exercice mixte B1 — 10 questions',
+      sub:'Temps · Vocabulaire · Politesse · Culture · Connecteurs · Changement progressif · Formel',
+      dur:'~12 min',xp:10,href:'exercice13.html',key:'ks_c15'},
+     {id:'c16',t:'histoire',
+      title:'Week-end à Busan avec les collègues',
+      sub:'KTX · Haeundae · Marché Jagalchi · 해산물 · -곤 했어요 · -아/어지고 있어요 en contexte',
+      dur:'~12 min',xp:12,href:'histoire17.html',key:'ks_c16'},
+     {id:'c17',t:'chanson',
+      title:'IU — Palette (팔레트) : Analyse B1',
+      sub:'좋아지다 · Propositions relatives · Changement progressif · Vocabulaire poétique',
+      dur:'~10 min',xp:10,href:'chanson3.html',key:'ks_c17'},
+     {id:'c18',t:'anecdote',
+      title:'Culture Gaming : PC방 & Esport',
+      sub:'피씨방 · Cybercafés coréens · StarCraft · Pro gamers · Vocabulaire gaming en coréen',
+      dur:'~6 min',xp:8,href:'anecdote10.html',key:'ks_c18'},
+     /* ── Professionnel & Pratique ── */
+     {id:'c19',t:'lecon',     group:'Professionnel & Pratique',
+      title:'Coréen en milieu professionnel',
+      sub:'Emails · Réunions · Titres (팀장님, 부장님) · 수고하세요 · 알겠습니다 · Dialogues bureau',
+      dur:'~12 min',xp:10,href:'pro4.html',key:'ks_c19'},
+     {id:'c20',t:'jeu',
+      title:'Traducteur instantané B1',
+      sub:'8 phrases · Choisir la bonne traduction · Toutes les structures B1 · Score en temps réel',
+      dur:'~8 min',xp:12,href:'jeu10.html',key:'ks_c20'},
+     {id:'c21',t:'histoire',
+      title:'Retour de voyage — Emma raconte',
+      sub:'Discours indirect · -는 바람에 · -자마자 · 설레다 · Raconter en coréen naturellement',
+      dur:'~12 min',xp:12,href:'histoire18.html',key:'ks_c21'},
+     {id:'c22',t:'exercice',
+      title:'Exercice style TOPIK 3-4',
+      sub:'Questions inspirées de l\'examen officiel · Structures · Compréhension de texte · Contexte',
+      dur:'~12 min',xp:10,href:'exercice14.html',key:'ks_c22'},
+     /* ── Grammaire B1 — Structures avancées ── */
+     {id:'c09b',t:'lecon',    group:'Grammaire B1 — Structures avancées',
+      title:'Nominalisation : -기 & -음/-ㅁ',
+      sub:'-기 (activités, expressions figées) vs -음/-ㅁ (formel, écrit, TOPIK) · 배우기 · 죽음 · 삶 · 8 expressions figées',
+      dur:'~20 min',xp:18,href:'lecon49.html',key:'ks_c09b'},
+     {id:'c09c',t:'lecon',
+      title:'-게 되다 & -기로 하다',
+      sub:'-게 되다 : changement progressif / involontaire · -기로 하다 : décision délibérée — nuance essentielle TOPIK',
+      dur:'~18 min',xp:18,href:'lecon50.html',key:'ks_c09c'},
+     {id:'c09d',t:'lecon',
+      title:'-는 반면에 & -(으)ㄹ수록',
+      sub:'Contraste (alors que, tandis que) · Degré progressif (plus...plus) · 벼는 익을수록 고개를 숙인다',
+      dur:'~18 min',xp:20,href:'lecon51.html',key:'ks_c09d'},
+     /* ── Bilan TOPIK 3-4 ── */
+     {id:'c23',t:'histoire',  group:'Bilan TOPIK 3-4',
+      title:'Histoire longue : L\'examen TOPIK d\'Emma',
+      sub:'5 chapitres · Toutes les structures B1 · Vocabulaire riche · Compréhension avancée',
+      dur:'~18 min',xp:15,href:'histoire19.html',key:'ks_c23'},
+     {id:'c24',t:'flashcards',
+      title:'Flashcards B1 — 24 cartes essentielles',
+      sub:'Grammaire · Émotions · Professionnel · Connecteurs · 4 catégories · Retourner et mémoriser',
+      dur:'~12 min',xp:8,href:'flash3.html',key:'ks_c24'},
+     {id:'c25',t:'quiz',
+      title:'Quiz final B1 — 15 questions',
+      sub:'Validation complète · Toutes les structures B1 · Score + message personnalisé · Prêt pour TOPIK 3 ?',
+      dur:'~15 min',xp:15,href:'exercice15.html',key:'ks_c25'},
+     /* ── Grammaire B1 — Structures supplémentaires ── */
+     {id:'c27',t:'lecon',    group:'Grammaire B1 — Structures supplémentaires',
+      title:'-ㄴ/는 편이다 & -(으)ㄹ 만하다',
+      sub:'-ㄴ 편이에요 : plutôt · -(으)ㄹ 만해요 : ça vaut la peine · Exprimer des degrés et recommandations nuancées',
+      dur:'~16 min',xp:15,href:'lecon52.html',key:'ks_c27'},
+     {id:'c28',t:'lecon',
+      title:'-아/어 가다 · -아/어 오다 — Changement dans le temps',
+      sub:'Action qui progresse vers le futur (-아가다) ou qui a évolué jusqu\'au présent (-아오다) · 살아가다 · 알아오다 · 10 exemples',
+      dur:'~16 min',xp:15,href:'lecon53.html',key:'ks_c28'},
+     {id:'c29',t:'lecon',
+      title:'Structures de regret & hypothèse passée',
+      sub:'-(으)ㄹ걸 그랬다 · -(으)ㄹ 뻔했다 · -았/었더라면 — Regret, manque de peu, contre-factuel · 15 exemples',
+      dur:'~18 min',xp:16,href:'lecon54.html',key:'ks_c29'},
+     /* ── Immersion B1 supplémentaire ── */
+     {id:'c30',t:'histoire',  group:'Immersion B1 — supplémentaire',
+      title:'Séoul by night — Itaewon & Hongdae',
+      sub:'Vie nocturne coréenne · Rencontres internationales · Dialogues en 반말 et 존댓말 · Expressions de la nuit',
+      dur:'~12 min',xp:12,href:'histoire25.html',key:'ks_c30'},
+     {id:'c31',t:'histoire',
+      title:'La dispute — réconciliation en coréen',
+      sub:"Dialogues de conflit puis réconciliation · 미안해 · 화 풀어 · Expressions émotionnelles · -는 바람에 en contexte",
+      dur:'~12 min',xp:12,href:'histoire26.html',key:'ks_c31'},
+     {id:'c32',t:'anecdote',
+      title:'Culture jeunesse coréenne — SNS & trends',
+      sub:'밈 · 챌린지 · 인플루언서 · 부캐 · Néologismes des jeunes Coréens · Vocabulaire digital incontournable',
+      dur:'~6 min',xp:8,href:'anecdote17.html',key:'ks_c32'},
+     {id:'c33',t:'chanson',
+      title:'BLACKPINK — How You Like That : Analyse B1',
+      sub:'Structures B1 intégrées · Propositions relatives · -잖아 · Argot · Karaoké + quiz grammatical',
+      dur:'~12 min',xp:10,href:'chanson5.html',key:'ks_c33'},
+     {id:'c34',t:'exercice',
+      title:'Lire un blog coréen — Compréhension B1',
+      sub:'Article de blog natif sur la vie à Séoul · Questions de compréhension · Vocabulaire en contexte · Annotation',
+      dur:'~12 min',xp:10,href:'exercice22.html',key:'ks_c34'},
+     {id:'c35',t:'quiz',
+      title:'Simulation TOPIK 3-4 — 20 questions',
+      sub:'Format officiel TOPIK II · Lecture · Grammaire · Vocabulaire · Résultat personnalisé avec analyses',
+      dur:'~20 min',xp:20,href:'quiz9.html',key:'ks_c35'},
+     {id:'c26',t:'quiz',
+      title:'Bilan TOPIK 3-4 & Prochaines étapes',
+      sub:'Récapitulatif · Guide TOPIK · Prochaines étapes B2 · Badge B1 Intermédiaire',
+      dur:'~10 min',xp:20,href:'quiz5.html',key:'ks_c26'},
+   ],
+   ms:{em:'b1',title:'B1 Intermédiaire validé !',sub:'38 activités · 516 XP · Propositions relatives · Discours indirect · Nominalisation · -게 되다 · Contraste · Regret · Politesse formelle · Certifié TOPIK 3',c:'#7C3AED',bg:'rgba(124,58,237,.06)',ring:'rgba(124,58,237,.15)',border:'rgba(124,58,237,.4)'},
+   pdfs:[
+     {title:'Temps verbaux B1 — Tableau complet',  sub:'Toutes les formes avec exemples',              pages:12, color:'#7C3AED', href:'pdf/temps-b1.html'},
+     {title:'Vocabulaire B1 — 600 mots',           sub:'Professionnel · Médias · Expressions idiom.', pages:18, color:'#4F46E5', href:'pdf/vocab-b1.html'},
+     {title:'존댓말 — Guide de la politesse',        sub:'Niveaux formels · Formules · Contextes',       pages:8,  color:'#2563EB', href:'pdf/politesse-b1.html'},
+     {title:'100 Expressions idiomatiques coréennes',sub:'Avec exemples audio et contexte',             pages:10, color:'#D97706', href:'pdf/idiomes-b1.html'},
+     {title:'Préparation TOPIK II — Niveaux 3-4',   sub:'Format · Stratégies · Exercices corrigés',    pages:20, color:'#9A3412', href:'pdf/topik2-b1.html'},
+     {title:'Scripts dialogues B1 — Immersion',     sub:'5 histoires complètes · Audio natif · Notes',  pages:16, color:'#16A34A', href:'pdf/scripts-b1.html'},
+   ],
+  },
+
+  /* ═══ B2 ═══════════════════════════════════════════════════════ */
+  {id:'b2',tab:'B2',name:'B2 — Avancé',cefr:'CEFR B2 · TOPIK 5-6',
+   desc:"Coréen courant. Films, podcasts et romans sans dictionnaire. Tu comprends les nuances et tu penses en coréen.",
+   color:'#DB2777',time:'~8h',free:true,
+   acts:[
+     /* ── Expression avancée ── */
+     {id:'d01',t:'lecon',     group:'Expression avancée',
+      title:'Discours indirect avancé & citation',
+      sub:'-다고/-(으)라고/-냐고 hada · Nuances · Verbes de citation · Presse',
+      dur:'~18 min',xp:15,href:'lecon36.html',key:'ks_d01'},
+     {id:'d02',t:'lecon',
+      title:'Formes verbales complexes B2',
+      sub:'-는 것 같다 · -(으)ㄹ 텐데 · -(으)ㄹ 뻔했다 · Regret · Hypothèse',
+      dur:'~20 min',xp:15,href:'lecon37.html',key:'ks_d02'},
+     {id:'d03',t:'exercice',
+      title:'Débat en coréen',
+      sub:'Défendre un point de vue · Contre-argumenter · Expressions de débat',
+      dur:'~12 min',xp:10,href:'exercice16.html',key:'ks_d03'},
+     {id:'d04',t:'conseil',
+      title:'Écrire comme un coréen natif',
+      sub:'7 pièges de traduction · Naturel vs formel · -거든요 · -잖아요',
+      dur:'~10 min',xp:8,href:'conseil6.html',key:'ks_d04'},
+     /* ── Culture & Littérature ── */
+     {id:'d05',t:'anecdote',  group:'Culture & Littérature',
+      title:'Littérature coréenne moderne',
+      sub:'Han Kang (Nobel 2024) · Kim Young-ha · Cho Nam-joo · 한국 문학',
+      dur:'~10 min',xp:8,href:'anecdote11.html',key:'ks_d05'},
+     {id:'d06',t:'histoire',
+      title:'Histoire littéraire — La rencontre',
+      sub:'Style Han Kang · 4 chapitres · Analyse linguistique · -ㄴ 채로 · -기도 하고',
+      dur:'~15 min',xp:12,href:'histoire20.html',key:'ks_d06'},
+     {id:'d07',t:'anecdote',
+      title:'Humour & Jeux de mots coréens',
+      sub:'아재 개그 · Argot (대박, 헐, ㅋㅋ) · Emoticons coréens · 눈치',
+      dur:'~10 min',xp:8,href:'anecdote12.html',key:'ks_d07'},
+     /* ── Médias authentiques ── */
+     {id:'d08',t:'lecon',     group:'Médias authentiques',
+      title:'Comprendre les médias coréens',
+      sub:'Journaux · Podcasts · Structures journalistiques · Lire les titres',
+      dur:'~18 min',xp:15,href:'lecon38.html',key:'ks_d08'},
+     {id:'d09',t:'histoire',
+      title:'Article de presse coréen — guidé',
+      sub:'Article sur le coréen dans le monde · Vocabulaire · Analyse structures',
+      dur:'~12 min',xp:12,href:'histoire21.html',key:'ks_d09'},
+     {id:'d10',t:'exercice',
+      title:'Compréhension orale sans sous-titres',
+      sub:'Stratégies d\'écoute · Podcast simulé · Vocabulaire 워라밸 · 눈치',
+      dur:'~15 min',xp:10,href:'exercice17.html',key:'ks_d10'},
+     {id:'d11',t:'chanson',
+      title:'G-Dragon — 삐딱하게 (Crooked)',
+      sub:'Argot jeune · -든(지) · 신경 꺼 · 삐딱하다 · Registre rebelle',
+      dur:'~12 min',xp:10,href:'chanson4.html',key:'ks_d11'},
+     /* ── Monde professionnel ── */
+     {id:'d12',t:'lecon',     group:'Monde professionnel',
+      title:'Coréen des affaires avancé',
+      sub:'Email formel · Présentation · 여쭤보다 · 회식 · 체면 · Business vocab',
+      dur:'~18 min',xp:15,href:'lecon39.html',key:'ks_d12'},
+     {id:'d13',t:'exercice',
+      title:'Négociation en coréen',
+      sub:'Dialogue de négociation · 검토해 보겠습니다 · 절충안 · Culture 체면',
+      dur:'~12 min',xp:10,href:'exercice18.html',key:'ks_d13'},
+     /* ── Certification TOPIK II ── */
+     {id:'d14',t:'flashcards', group:'Certification TOPIK II',
+      title:'Flashcards B2 — 28 cartes avancées',
+      sub:'Grammaire · Business · Médias · Argot · 4 catégories',
+      dur:'~15 min',xp:8,href:'flash4.html',key:'ks_d14'},
+     {id:'d15',t:'quiz',
+      title:'Simulation TOPIK II — Section 읽기',
+      sub:'12 questions · Compréhension écrite · Format officiel · Niveau 5-6',
+      dur:'~20 min',xp:12,href:'quiz6.html',key:'ks_d15'},
+     {id:'d16',t:'quiz',
+      title:'Simulation TOPIK II — Section 쓰기',
+      sub:'10 questions · Expression écrite · Dissertation · Registre formel',
+      dur:'~20 min',xp:12,href:'quiz7.html',key:'ks_d16'},
+     /* ── Grammaire B2 — Formes rhétoriques ── */
+     {id:'d18',t:'lecon',    group:'Grammaire B2 — Formes rhétoriques',
+      title:"Formes rhétoriques : -(으)ㄹ 리가 없다 · -기 마련이다",
+      sub:"-(으)ㄹ 리가 없다 : impossible · -기 마련이다 : inévitable · -는 법이다 — 3 formes figées TOPIK 5-6 avec 15 exemples contextualisés",
+      dur:'~18 min',xp:18,href:'lecon40.html',key:'ks_d18'},
+     {id:'d19',t:'lecon',
+      title:'Connecteurs formels : 게다가 · 그럼에도 · 따라서',
+      sub:'게다가 · 그러나 · 따라서 · 반면에 · 즉 · 한편 — 10 connecteurs discursifs essentiels pour dissertations et TOPIK',
+      dur:'~16 min',xp:16,href:'lecon40b.html',key:'ks_d19'},
+     {id:'d20',t:'lecon',
+      title:"Honorifiques approfondis : 여쭙다 · 드리다 · 뵙다",
+      sub:"여쭈다 · 드리다 · 뵙다 · 말씀드리다 — les 8 verbes honorifiques · Entretiens d'embauche · Contextes ultra-formels",
+      dur:'~18 min',xp:16,href:'lecon40c.html',key:'ks_d20'},
+     {id:'d21',t:'lecon',
+      title:'속담 — Proverbes coréens essentiels',
+      sub:'가는 말이 고와야 오는 말이 곱다 · 10 속담 avec contexte culturel · Analyse linguistique · Utilisation naturelle',
+      dur:'~14 min',xp:12,href:'lecon40d.html',key:'ks_d21'},
+     /* ── Histoires & Médias B2 ── */
+     {id:'d22',t:'histoire',  group:'Histoires & Médias B2',
+      title:'Webtoon coréen — Lecture guidée',
+      sub:"Extrait de 신의 탑 (Tower of God) · Langage des personnages · Argot · Onomatopées · Structure narrative",
+      dur:'~15 min',xp:12,href:'histoire22.html',key:'ks_d22'},
+     {id:'d23',t:'histoire',
+      title:'Podcast simulé — Le coréen naturel',
+      sub:"Discussion sur l'identité coréenne post-Hallyu · Débit natif · Stratégies d'écoute avancée · Script complet annoté",
+      dur:'~15 min',xp:12,href:'histoire23.html',key:'ks_d23'},
+     {id:'d24',t:'histoire',
+      title:'Essai littéraire — style Han Kang',
+      sub:"Fragment inspiré de 채식주의자 · Analyse stylistique · Vocabulaire littéraire · -ㄴ 채로 · -(으)며 · Nuances",
+      dur:'~18 min',xp:15,href:'histoire24.html',key:'ks_d24'},
+     /* ── Culture avancée ── */
+     {id:'d25',t:'anecdote',  group:'Culture avancée B2',
+      title:'Hallyu Wave — Impact culturel mondial',
+      sub:'BTS · Parasite · Squid Game · Pourquoi la culture coréenne conquiert le monde · 한류 expliqué avec données',
+      dur:'~8 min',xp:8,href:'anecdote13.html',key:'ks_d25'},
+     {id:'d26',t:'anecdote',
+      title:'Hansik — La gastronomie patrimoine UNESCO',
+      sub:'발효 · Kimchi · Doenjang · Temple food · Pourquoi la cuisine coréenne est reconnue mondialement',
+      dur:'~8 min',xp:8,href:'anecdote14.html',key:'ks_d26'},
+     {id:'d27',t:'anecdote',
+      title:'눈치 — L\'intelligence sociale coréenne',
+      sub:'눈치 보다 · 분위기 파악 · Lire entre les lignes · Un concept intraduisible qui régit toutes les relations sociales',
+      dur:'~8 min',xp:8,href:'anecdote15.html',key:'ks_d27'},
+     {id:'d33',t:'anecdote',
+      title:'La culture des 학원 — L\'éducation coréenne',
+      sub:"Hagwon · Suneung · La pression scolaire · 교육열 · Pourquoi la Corée a le taux de diplômés le plus élevé du monde",
+      dur:'~8 min',xp:8,href:'anecdote16.html',key:'ks_d33'},
+     /* ── Exercices avancés ── */
+     {id:'d28',t:'exercice',  group:'Exercices & Production B2',
+      title:'Rédiger un email professionnel',
+      sub:'Structure formelle · 귀하 · 안녕하십니까 · Formules de clôture · 3 modèles complets · Corrections annotées',
+      dur:'~15 min',xp:12,href:'exercice19.html',key:'ks_d28'},
+     {id:'d29',t:'exercice',
+      title:'Essai TOPIK II — Entraînement rédaction',
+      sub:"Format 쓰기 section B · Plan en 3 parties · Introduction · Développement · Conclusion · Modèle corrigé",
+      dur:'~20 min',xp:15,href:'exercice20.html',key:'ks_d29'},
+     {id:'d34',t:'exercice',
+      title:'Compréhension d\'un article de presse coréen',
+      sub:'Article réel sur la société coréenne · Vocabulaire académique · Questions de compréhension · Analyse des structures',
+      dur:'~15 min',xp:12,href:'exercice21.html',key:'ks_d34'},
+     {id:'d30',t:'jeu',
+      title:'Bataille des idiomes coréens',
+      sub:'25 expressions idiomatiques · 속담 vs 관용어 · Choix multiple en contexte · Audio natif · Classement mondial',
+      dur:'~8 min',xp:12,href:'jeu11.html',key:'ks_d30'},
+     {id:'d31',t:'prononciation',
+      title:'Prosodie avancée — Intonation naturelle',
+      sub:'Liaisons consonantiques · Accent de groupe · Rythme natif · Enregistre et compare · 5 exercices phonétiques',
+      dur:'~12 min',xp:10,href:'pro5.html',key:'ks_d31'},
+     {id:'d32',t:'conseil',
+      title:'Penser en coréen — Immersion mentale',
+      sub:'7 stratégies pour ne plus traduire · Inner monologue en coréen · Techniques des polyglotes avancés · Ressources',
+      dur:'~8 min',xp:8,href:'conseil7.html',key:'ks_d32'},
+     {id:'d17',t:'quiz',
+      title:'Bilan B2 & TOPIK 5-6 — Checkpoint final',
+      sub:'Récapitulatif · 5 questions · Prochaines étapes · Badge B2 Expert',
+      dur:'~12 min',xp:20,href:'quiz8.html',key:'ks_d17'},
+   ],
+   ms:{em:'b2',title:'B2 Avancé validé !',sub:'32 activités · 396 XP · Discours indirect · Formes rhétoriques · Honorifiques · Proverbes · Hallyu · 눈치 · Médias authentiques · Business · TOPIK 5-6',c:'#DB2777',bg:'rgba(219,39,119,.06)',ring:'rgba(219,39,119,.15)',border:'rgba(219,39,119,.4)'},
+   pdfs:[
+     {title:'Vocabulaire B2 — 1000 mots avancés',  sub:'Académique · Professionnel · Littéraire',     pages:24, color:'#DB2777', href:'pdf/vocab-b2.html'},
+     {title:'Grammaire B2 — Formes complexes',      sub:'Toutes les structures avancées + exemples',   pages:14, color:'#7C3AED', href:'pdf/grammaire-b2.html'},
+     {title:'Préparation TOPIK II — Niveaux 5-6',   sub:'Format · Stratégies · 40 exercices corrigés', pages:28, color:'#9A3412', href:'pdf/topik2-b2.html'},
+     {title:'100 Expressions & argot moderne',      sub:'Langage des jeunes · Social media · K-culture', pages:10, color:'#16A34A', href:'pdf/argot-b2.html'},
+     {title:'Guide littérature coréenne',           sub:'Han Kang · Kim Young-ha · Cho Nam-joo',       pages:12, color:'#4F46E5', href:'pdf/litterature-b2.html'},
+     {title:'Business coréen — Guide complet',      sub:'Réunions · Emails · Présentations · Etiquette', pages:16, color:'#2563EB', href:'pdf/business-b2.html'},
+   ],
+  },
+];
+
+/* ── UTILS ──────────────────────────────────── */
+function ls(k){try{return localStorage.getItem(k)}catch(e){return null}}
+const KEY_ALIAS={'ks_a01':'ks_l5','ks_a05':'ks_l6','ks_a09':'ks_l7','ks_a12':'ks_l8','ks_a14':'ks_l10','ks_a22':'ks_l9','ks_a03':'ks_h1','ks_a15':'ks_h2','ks_a27':'ks_h3','ks_h01':'ks_l1','ks_h04':'ks_l2','ks_h07':'ks_l3','ks_h09':'ks_l4'};
+function isDone(k){const v=ls(k);if(v==='done'||v==='1'||v==='true')return true;const alt=KEY_ALIAS[k];if(alt){const v2=ls(alt);return v2==='done'||v2==='1'||v2==='true';}return false;}
+function count(el,to,ms){
+  if(!el||!to)return;
+  const s=performance.now();
+  (function f(n){
+    const p=Math.min((n-s)/ms,1),e=p<.5?2*p*p:-1+(4-2*p)*p;
+    el.textContent=Math.round(to*e).toLocaleString();
+    if(p<1)requestAnimationFrame(f);
+  })(s);
+}
+function shk(el){
+  el.animate(
+    [{transform:'translateX(-6px)'},{transform:'translateX(5px)'},{transform:'translateX(-3px)'},{transform:'none'}],
+    {duration:250,easing:'ease-out'}
+  );
+}
+
+/* ── ACTIVE FILTER STATE ─────────────────────── */
+let _activeFilter='all';
+function setFilter(key,allMobChips,allMobItems,allSideItems){
+  _activeFilter=key;
+  // mobile chips
+  allMobChips.forEach(c=>c.classList.remove('on'));
+  allMobItems.forEach(c=>c.classList.remove('on'));
+  // sidebar items
+  allSideItems.forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.nrow').forEach(r=>r.classList.toggle('hide',key!=='all'&&r.dataset.t!==key));
+  // Hide group headers that have no visible nodes after them
+  document.querySelectorAll('.act-group-hdr').forEach(hdr=>{
+    let next=hdr.nextElementSibling;
+    let hasVisible=false;
+    while(next&&!next.classList.contains('act-group-hdr')&&!next.classList.contains('ms')){
+      if(next.classList.contains('nrow')&&!next.classList.contains('hide'))hasVisible=true;
+      next=next.nextElementSibling;
+    }
+    hdr.style.display=hasVisible?'':'none';
+  });
+}
+
+/* ── BUILD FILTER ───────────────────────────── */
+function buildFilter(){
+  const mobWrap=document.getElementById('filterEl');
+  const sideWrap=document.getElementById('sideFilterEl');
+
+  const mobChips=[],sideItems=[];
+
+  function make(key,label,color,dot){
+    // mobile chip
+    const mc=document.createElement('div');
+    mc.className='fc'+(key==='all'?' on':'');
+    if(key!=='all')mc.style.color=color;
+    mc.innerHTML=`<span class="fc-dot" style="background:${dot}"></span>${label}`;
+    mobWrap.appendChild(mc);mobChips.push(mc);
+
+    // sidebar item
+    const si=document.createElement('div');
+    si.className='sfc'+(key==='all'?' on':'');
+    if(key!=='all')si.style.color=color;
+    si.innerHTML=`<span class="sfc-dot" style="background:${dot}"></span>${label}`;
+    sideWrap.appendChild(si);sideItems.push(si);
+
+    mc.onclick=()=>{setFilter(key,mobChips,mobChips,sideItems);mc.classList.add('on');si.classList.add('on')};
+    si.onclick=()=>{setFilter(key,mobChips,mobChips,sideItems);mc.classList.add('on');si.classList.add('on')};
+  }
+
+  make('all','Tout','var(--t2)','var(--t3)');
+  Object.entries(TYPES).forEach(([k,t])=>make(k,t.l,t.c,t.c));
+}
+
+/* ── BUILD TABS ─────────────────────────────── */
+function buildTabs(doneMap){
+  const mobWrap=document.getElementById('tabsEl');
+  const sideWrap=document.getElementById('sideTabsEl');
+
+  LEVELS.forEach(lv=>{
+    const done=doneMap[lv.id]||0;
+    const tot=(lv.acts||lv.teasers||[]).length;
+    const pct=tot?Math.round(done/tot*100):0;
+
+    // mobile tab
+    const a=document.createElement('a');
+    a.href=`#lv-${lv.id}`;
+    if(!lv.free){
+      a.className='tab locked';
+      a.innerHTML=`${lv.tab} <svg style="width:9px;height:9px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`;
+    } else {
+      a.className='tab on';
+      a.style.background=`linear-gradient(135deg,${lv.color},${lv.color}cc)`;
+      a.innerHTML=`${lv.tab}<span class="tab-ct">${done}/${tot}</span>`;
+    }
+    mobWrap.appendChild(a);
+
+    // sidebar tab
+    const b=document.createElement('a');
+    b.href=`#lv-${lv.id}`;
+    if(!lv.free){
+      b.className='stab off';
+      b.innerHTML=`<span>${lv.tab}</span><span class="stab-r"><svg style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>`;
+    } else {
+      b.className='stab on';
+      b.style.background=`linear-gradient(135deg,${lv.color},${lv.color}cc)`;
+      b.innerHTML=`<span>${lv.tab}</span><span class="stab-r"><span class="stab-pct">${pct}%</span></span>`;
+    }
+    sideWrap.appendChild(b);
+  });
+}
+
+/* ── RENDER BANNER ──────────────────────────── */
+function rBanner(lv,done,tot,pct){
+  const d=document.createElement('div');
+  d.className='lvc';
+  d.style.borderColor=lv.border||lv.color+'33';
+  const totalXP=(lv.acts||[]).reduce((s,a)=>s+(a.xp||0),0);
+  const chips=Object.entries(TYPES).map(([k,t])=>{
+    const n=(lv.acts||[]).filter(a=>a.t===k).length;
+    return n?`<span class="lvc-chip" style="color:${t.c};background:${t.bg}">${n} ${t.l}${n>1?'s':''}</span>`:'';
+  }).join('');
+  d.innerHTML=`
+    <div class="lvc-accent" style="background:linear-gradient(180deg,${lv.color},${lv.color}88)"></div>
+    <div class="lvc-body">
+      <div class="lvc-top">
+        <div class="lvc-badge" style="background:${lv.bg};color:${lv.color};border:2px solid ${lv.color}33;font-size:11px;font-weight:900">${lv.tab.split(' ')[0]}</div>
+        <div class="lvc-info">
+          <div class="lvc-name">${lv.name}</div>
+          <div class="lvc-cefr">${lv.cefr}</div>
+          <div class="lvc-desc">${lv.desc}</div>
+        </div>
+        <div class="lvc-meta">
+          ${totalXP?`<div class="lvc-xp">+${totalXP} XP</div>`:''}
+          <div class="lvc-time">${lv.time}</div>
+        </div>
+      </div>
+    </div>
+    <div class="lvc-foot">
+      <div class="lvc-prog-row">
+        <span class="lvc-prog-lbl">${done} / ${tot} activités complétées</span>
+        <span class="lvc-prog-pct" style="color:${lv.color};font-size:13px">${pct}%</span>
+      </div>
+      <div class="lvc-bar"><div class="lvc-fill" style="width:${pct}%;background:linear-gradient(90deg,${lv.color},${lv.color}cc)"></div></div>
+      <div class="lvc-chips">${chips}</div>
+    </div>`;
+  return d;
+}
+
+/* ── RENDER NODE ────────────────────────────── */
+function rNode(act,status,_side,i){
+  const tp=TYPES[act.t]||TYPES.lecon;
+  const div=document.createElement('div');
+  div.className='nrow';div.dataset.t=act.t;
+  div.style.animationDelay=`${i*28}ms`;
+
+  const lkSvg=`<svg style="width:9px;height:9px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`;
+  const stSvg=`<svg style="width:9px;height:9px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  const ckSvg=`<svg style="width:9px;height:9px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const arrSvg=`<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>`;
+
+  const labels={done:'Terminé '+ckSvg,active:'En cours',todo:'À faire',locked:'Verrouillé',prem:'En cours'};
+  const isLink=status==='done'||status==='active'||status==='todo';
+  const tag=isLink?'a':'button';
+  const href=isLink&&act.href?`href="${act.href}"`:'';
+  const oc=status==='locked'?``:status==='prem'?`` :'';
+
+  const nodeCls=`node ${status}`;
+  const cardCls=status==='done'?' done-card':status==='active'?' active-card':'';
+  const showArr=status==='active'||status==='done';
+  const cardTag=isLink?'a':'div';
+  const cardHref=isLink&&act.href?`href="${act.href}"`:'';
+  const cardOc=!isLink&&status==='prem'?``:!isLink&&status==='locked'?`onclick="shk(this.closest('.nrow').querySelector('.node'))"` :'';
+
+  div.innerHTML=`
+    <${tag} ${href} class="${nodeCls}" ${oc} aria-label="${act.title}" tabindex="-1">
+      <span class="node-num">${status==='done'?'<svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>':i+1}</span>
+    </${tag}>
+    <${cardTag} ${cardHref} ${cardOc} class="nc${cardCls}" style="border-left:3px solid ${tp.c}22">
+      <span class="nc-type" style="color:${tp.c}">${tp.l}</span>
+      <div class="nc-title">${act.title}</div>
+      <div class="nc-sub">${act.sub}</div>
+      <div class="nc-row">
+        <span class="nc-st ${status==='locked'?'locked':status==='prem'?'prem':status}">${labels[status]||'À faire'}</span>
+        <span class="nc-xp">+${act.xp} XP</span>
+        <span class="nc-dur">${act.dur}</span>
+        ${showArr?`<span class="nc-arr">${arrSvg}</span>`:''}
+      </div>
+    </${cardTag}>`;
+  return div;
+}
+
+/* ── RENDER MILESTONE ───────────────────────── */
+function rMs(lv,achieved){
+  const m=lv.ms;
+  if(!m)return document.createElement('div'); // sécurité si ms absent
+  const d=document.createElement('div');
+  d.className='ms'+(achieved?' done':'');
+  if(achieved){
+    d.style.setProperty('--ms-ring',m.ring||'transparent');
+    d.style.borderColor=m.border||lv.color||'var(--bd)';
+    d.style.background=`linear-gradient(160deg,${m.bg||'var(--surf)'} 0%,var(--surf) 60%)`;
+  }
+  // Confetti dots for achieved state
+  let confetti='';
+  if(achieved){
+    const colors=['#B8924E','#2563EB','#16A34A','#4F46E5','#DB2777','#0D9488'];
+    for(let i=0;i<12;i++){
+      const c=colors[i%colors.length],x=Math.random()*100,y=Math.random()*100,d2=2+Math.random()*4,del=Math.random()*4;
+      confetti+=`<span style="background:${c};left:${x}%;top:${y}%;width:${d2}px;height:${d2}px;animation-delay:${del}s"></span>`;
+    }
+  }
+  const chips=Object.entries(TYPES).map(([k,t])=>{
+    const n=(lv.acts||[]).filter(a=>a.t===k).length;
+    return n?`<div class="ms-chip"><span class="ms-chip-dot" style="background:${t.c}"></span>${n} ${t.l}${n>1?'s':''}</div>`:'';
+  }).join('');
+  const MS_ICONS={
+    hangeul:`<svg viewBox="0 0 24 24" style="width:44px;height:44px;fill:none;stroke:var(--ms-c,#B8924E);stroke-width:1.5;stroke-linecap:round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>`,
+    a1:`<svg viewBox="0 0 24 24" style="width:44px;height:44px;fill:none;stroke:var(--ms-c,#2563EB);stroke-width:1.5;stroke-linecap:round"><path d="M12 2l2.09 6.26L20 9.27l-4 4.14 1 6.59L12 16.9l-5 3.1 1-6.59L4 9.27l5.91-.01z"/><path d="M12 8v8M9 13h6"/></svg>`,
+    a2:`<svg viewBox="0 0 24 24" style="width:44px;height:44px;fill:none;stroke:var(--ms-c,#16A34A);stroke-width:1.5;stroke-linecap:round"><path d="M12 2l2.09 6.26L20 9.27l-4 4.14 1 6.59L12 16.9l-5 3.1 1-6.59L4 9.27l5.91-.01z"/><path d="M9 10h6M9 14h4"/></svg>`,
+  };
+  const lockSvg=`<svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;vertical-align:middle"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`;
+  const checkSvg=`<svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg>`;
+  d.innerHTML=`
+    ${achieved?`<div class="ms-confetti">${confetti}</div>`:''}
+    <span class="ms-em" style="--ms-c:${m.c}">${MS_ICONS[m.em]||MS_ICONS.hangeul}</span>
+    <div class="ms-title">${m.title}</div>
+    <div class="ms-sub">${m.sub}</div>
+    <span class="ms-badge" style="background:${achieved?m.bg:'var(--s3)'};color:${achieved?m.c:'var(--t3)'};border:1.5px solid ${achieved?m.border:'var(--bd)'}">
+      ${achieved?checkSvg+' Niveau validé':lockSvg+' À débloquer'}
+    </span>
+    <div class="ms-chips">${chips}</div>`;
+  return d;
+}
+
+/* ── RENDER SHORTCUT ────────────────────────── */
+function rSc(s){
+  const d=document.createElement('div');d.className='sc-row';
+  d.innerHTML=`
+    <a href="${s.href}" class="sc" style="border-color:${s.c}22">
+      <div class="sc-ico" style="background:${s.bg}"><svg viewBox="0 0 24 24" style="stroke:${s.c}">${s.svg}</svg></div>
+      <div class="sc-body"><div class="sc-title">${s.title}</div><div class="sc-sub">${s.sub}</div></div>
+      <div class="sc-arr"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
+    </a>`;
+  return d;
+}
+
+/* ── RENDER PREMIUM ─────────────────────────── */
+function rPrem(lv){
+  const wrap=document.createElement('div');wrap.className='prem-wrap';
+
+  // Header card
+  const hdr=document.createElement('div');hdr.className='prem-hdr-card';
+  hdr.style.borderColor=lv.color+'33';
+  const totalXP=(lv.teasers||[]).length*12; // estimation XP
+  hdr.innerHTML=`
+    <div class="prem-badge" style="background:${lv.color}15;color:${lv.color};border:2px solid ${lv.color}28">${lv.tab}</div>
+    <div class="prem-text">
+      <div class="prem-name">${lv.name}</div>
+      <div class="prem-cefr">${lv.cefr}</div>
+      <div class="prem-desc">${lv.desc}</div>
+    </div>
+    <div style="flex-shrink:0;text-align:right">
+      <div class="prem-lock" style="color:${lv.color};justify-content:flex-end;margin-bottom:6px">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Premium
+      </div>
+      <div style="font-size:10px;color:var(--t3)">${lv.time}</div>
+    </div>`;
+  wrap.appendChild(hdr);
+
+  // Main content box
+  const box=document.createElement('div');box.className='prem-box';box.style.borderColor=lv.color+'22';
+
+  // Count by type for chips
+  const typeCount={};
+  (lv.teasers||[]).forEach(ta=>{typeCount[ta.t]=(typeCount[ta.t]||0)+1});
+  const chips=Object.entries(typeCount).map(([k,n])=>{
+    const tp=TYPES[k]||TYPES.lecon;
+    return `<span class="lvc-chip" style="background:${tp.bg};color:${tp.c}">${n} ${tp.l}${n>1?'s':''}</span>`;
+  }).join('');
+
+  // Show first 8 teasers visibly, rest faded
+  const all=lv.teasers||[];
+  const shown=all.slice(0,8);
+  const hidden=all.slice(8);
+  const mkItem=(ta,faded)=>{
+    const tp=TYPES[ta.t]||TYPES.lecon;
+    return `<div class="pi${faded?' pi-faded':''}">
+      <div class="pi-ico" style="background:${tp.c}"><svg viewBox="0 0 24 24">${tp.svg}</svg></div>
+      <div class="pi-body"><div class="pi-title">${ta.title}</div><div class="pi-sub-type" style="color:${tp.c}">${ta.sub||tp.l}</div></div>
+      <div class="pi-lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+    </div>`;
+  };
+
+  // PDFs locked preview
+  const pdfPreview=(lv.pdfs||[]).slice(0,4).map(p=>`
+    <div class="pdf-locked-item">
+      <div class="pdf-locked-ico" style="background:${p.color}18"><svg viewBox="0 0 24 24" style="stroke:${p.color};width:14px;height:14px;fill:none;stroke-width:2;stroke-linecap:round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <span class="pdf-locked-name">${p.title}</span>
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:var(--t3);stroke-width:2;stroke-linecap:round;flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    </div>`).join('');
+
+  box.innerHTML=`
+    <div class="prem-type-chips" style="padding:12px 14px 0;display:flex;gap:5px;flex-wrap:wrap">${chips}</div>
+    <div class="prem-items">
+      ${shown.map(ta=>mkItem(ta,false)).join('')}
+      ${hidden.length?`<div class="prem-more-wrap">
+        ${hidden.map(ta=>mkItem(ta,true)).join('')}
+        <div class="prem-more-blur">
+          <div class="prem-more-msg">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:${lv.color};fill:none;stroke-width:2;stroke-linecap:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <span>+${hidden.length} activités supplémentaires</span>
+          </div>
+        </div>
+      </div>`:''}
+    </div>
+    ${pdfPreview?`<div class="pdf-locked-section">
+      <div class="pdf-locked-title"><svg style="width:11px;height:11px;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;margin-right:4px" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Fiches PDF incluses (${(lv.pdfs||[]).length} fichiers)</div>
+      <div class="pdf-locked-list">${pdfPreview}</div>
+    </div>`:''}
+    <div class="prem-cta">
+      <div class="prem-cta-title">Débloquer ${lv.name}</div>
+      <div class="prem-cta-sub">${all.length} activités · ${lv.time} de contenu · ${(lv.pdfs||[]).length} PDFs · Audio natif</div>
+      <button class="prem-btn"  style="background:linear-gradient(135deg,${lv.color},${lv.color}aa)">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Débloquer ${lv.tab} — Premium
+      </button>
+    </div>`;
+  wrap.appendChild(box);
+  return wrap;
+}
+
+/* ── RENDER PDFs ────────────────────────────── */
+function rPdfs(lv){
+  if(!lv.pdfs||!lv.pdfs.length)return null;
+  const wrap=document.createElement('div');wrap.className='pdfs-section';
+  wrap.innerHTML=`<div class="pdfs-head"><div class="pdfs-title"><svg style="width:12px;height:12px;vertical-align:middle;fill:none;stroke:var(--t3);stroke-width:2;stroke-linecap:round;margin-right:5px" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Fiches PDF</div><span class="pdfs-badge">${lv.pdfs.length} fichiers</span></div>`;
+  const grid=document.createElement('div');grid.className='pdfs-grid';
+  lv.pdfs.forEach(p=>{
+    const a=document.createElement('a');
+    a.href=p.href;a.target='_blank';a.className='pdf-card';
+    a.innerHTML=`
+      <div class="pdf-ico" style="background:${p.color}18">
+        <svg viewBox="0 0 24 24" style="stroke:${p.color}">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+      </div>
+      <div class="pdf-body">
+        <div class="pdf-name">${p.title}</div>
+        <div class="pdf-meta">${p.sub} · ${p.pages} p.</div>
+      </div>
+      <div class="pdf-dl">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </div>`;
+    grid.appendChild(a);
+  });
+  wrap.appendChild(grid);
+  return wrap;
+}
+
+/* ── INIT ───────────────────────────────────── */
+(function init(){
+  const xp=parseInt(ls('ks_xp')||'0');
+  const streak=parseInt(ls('ks_streak')||'0');
+
+  count(document.getElementById('xpEl'),xp,900);
+  count(document.getElementById('xpSide'),xp,900);
+  count(document.getElementById('stXP'),xp,900);
+  document.getElementById('stStr').textContent=streak;
+  document.getElementById('streakEl').textContent=streak;
+  if(!streak)document.getElementById('fireBadge').style.display='none';
+
+  buildFilter();
+
+  const roadmap=document.getElementById('roadmap');
+  let gDone=0,gTotal=0,activeHref=null,found=false;
+  const doneMap={};
+
+  LEVELS.forEach(lv=>{
+    const sec=document.createElement('div');
+    sec.className='lv-sec';sec.id=`lv-${lv.id}`;
+
+    if(!lv.free){
+      if(lv.comingSoon){
+        const cs=document.createElement('div');cs.className='soon';
+        cs.innerHTML=`<div class="soon-em"><svg viewBox="0 0 24 24" style="width:36px;height:36px;fill:none;stroke:var(--t3);stroke-width:1.5;stroke-linecap:round"><path d="M12 2C8 2 4.5 5.5 4.5 9.5c0 5.5 7.5 12.5 7.5 12.5s7.5-7 7.5-12.5C19.5 5.5 16 2 12 2z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div><div class="soon-title">${lv.name} — Bientôt disponible</div><div class="soon-sub">${lv.cefr} · En développement · ${lv.time} de contenu exclusif · Inscris-toi pour être notifié</div>`;
+        sec.appendChild(cs);
+      } else {
+        sec.appendChild(rPrem(lv));
+      }
+      doneMap[lv.id]=0;roadmap.appendChild(sec);return;
+    }
+
+    const acts=lv.acts||[];
+    gTotal+=acts.length;
+    const lvDone=acts.filter(a=>isDone(a.key)).length;
+    gDone+=lvDone;doneMap[lv.id]=lvDone;
+    const pct=acts.length?Math.round(lvDone/acts.length*100):0;
+
+    sec.appendChild(rBanner(lv,lvDone,acts.length,pct));
+
+    const pl=document.createElement('div');pl.className='path-line';
+    pl.style.background=`linear-gradient(180deg,transparent,${lv.color}12 5%,${lv.color}08 95%,transparent)`;
+    sec.appendChild(pl);
+
+    let prev=true;
+    let lastGroup='';
+    acts.forEach((act,i)=>{
+      const done=isDone(act.key);
+      let st;
+      if(done){st='done';prev=true;}
+      else if(!found){st='active';found=true;activeHref=act.href;}
+      else{st='todo';}
+
+      // Group header
+      if(act.group && act.group!==lastGroup){
+        lastGroup=act.group;
+        const gh=document.createElement('div');
+        gh.className='act-group-hdr';
+        gh.innerHTML=`<span class="act-group-lbl">${act.group}</span><span class="act-group-line"></span>`;
+        sec.appendChild(gh);
+      }
+
+      sec.appendChild(rNode(act,st,'L',i));
+    });
+
+    sec.appendChild(rMs(lv,lvDone>=acts.length));
+    if(lv.sc)sec.appendChild(rSc(lv.sc));
+    const pdfs=rPdfs(lv);if(pdfs)sec.appendChild(pdfs);
+    roadmap.appendChild(sec);
+  });
+
+  buildTabs(doneMap);
+
+  // End marker
+  const end=document.createElement('div');end.className='rm-end';
+  end.innerHTML=`<div class="rm-dot"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="rm-lbl">Fin du parcours actuel<br>Niveau B2 en cours de préparation</div>`;
+  roadmap.appendChild(end);
+
+  // Hero stats
+  const pct=gTotal?Math.round(gDone/gTotal*100):0;
+  count(document.getElementById('stDone'),gDone,700);
+  document.getElementById('stPct').textContent=pct+'%';
+  document.getElementById('stPct2').textContent=pct+'%';
+  setTimeout(()=>{const f=document.getElementById('heroFill');if(f)f.style.width=pct+'%'},400);
+
+  const nm=document.getElementById('heroName');
+  if(gDone>=20)      nm.innerHTML='Niveau <em>A1 Avancé</em>';
+  else if(gDone>=13) nm.innerHTML='Niveau <em>A1 Débutant</em>';
+  else if(gDone>=6)  nm.innerHTML='Niveau <em>Hangeul</em>';
+  else               nm.innerHTML='Niveau <em>Débutant</em>';
+
+  if(activeHref&&gDone>0){
+    const fab=document.getElementById('fabEl');
+    fab.href=activeHref;fab.classList.add('show');
+  }
+})();
+
+/* ── MODAL ──────────────────────────────────── */
+function openPrem(){document.getElementById('premModal').classList.add('on');document.body.style.overflow='hidden'}
+function closePrem(){document.getElementById('premModal').classList.remove('on');document.body.style.overflow=''}
+document.getElementById('premModal').addEventListener('click',function(e){if(e.target===this)closePrem()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePrem()});
+
+/* ── THEME ──────────────────────────────────── */
+function toggleTheme(){
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  if(dark){document.documentElement.removeAttribute('data-theme');try{localStorage.removeItem('ks_theme')}catch(e){}}
+  else{document.documentElement.setAttribute('data-theme','dark');try{localStorage.setItem('ks_theme','dark')}catch(e){}}
+}
+</script>
+</body>
+</html>

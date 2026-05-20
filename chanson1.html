@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>어머나 — Karaoké K-Pop · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:linear-gradient(160deg,#1a0a2e,var(--navy));padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.12) 0%,transparent 70%);pointer-events:none}
+    .music-waves{display:flex;align-items:center;justify-content:center;gap:4px;margin-bottom:16px;height:32px}
+    .wave{width:4px;border-radius:4px;background:var(--gold);animation:wave 1.2s ease-in-out infinite}
+    .wave:nth-child(2){animation-delay:.1s;height:20px}
+    .wave:nth-child(3){animation-delay:.2s;height:28px}
+    .wave:nth-child(4){animation-delay:.3s;height:16px}
+    .wave:nth-child(5){animation-delay:.4s;height:24px}
+    .wave:nth-child(6){animation-delay:.5s;height:12px}
+    @keyframes wave{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:28px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:14px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .body-text{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:10px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{background:var(--s3);color:var(--t2);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;text-align:left}
+    td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--t)}
+    .kr{font-size:18px;color:var(--gold);font-weight:700}
+    tr:hover td{background:var(--s2)}
+
+    /* KARAOKÉ */
+    .kara-section{background:var(--navy);border-radius:16px;padding:20px;margin:16px 0}
+    .kara-phrase{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px;min-height:60px;align-items:center}
+    .syl{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.08);font-size:18px;font-weight:700;color:rgba(237,242,250,.5);transition:all .3s;cursor:default}
+    .syl.active{background:var(--gold);color:#fff;transform:scale(1.1)}
+    .kara-rom{text-align:center;font-size:12px;color:rgba(237,242,250,.4);margin-bottom:4px;min-height:20px}
+    .kara-fr{text-align:center;font-size:13px;color:rgba(237,242,250,.7);margin-bottom:14px;min-height:20px}
+    .kara-nav{display:flex;align-items:center;justify-content:center;gap:12px}
+    .kara-btn{padding:10px 20px;border-radius:100px;font-size:13px;font-weight:700;transition:all .2s}
+    .kara-prev{background:rgba(255,255,255,.08);color:rgba(237,242,250,.7);border:1.5px solid rgba(255,255,255,.12)}
+    .kara-next{background:var(--gold);color:#fff}
+    .kara-counter{font-size:12px;color:rgba(237,242,250,.4);min-width:40px;text-align:center}
+
+    /* QUIZ */
+    .choices{display:flex;flex-direction:column;gap:10px;margin:14px 0}
+    .choice{padding:13px 16px;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;font-size:14px;font-weight:600;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:left;width:100%}
+    .choice:hover:not([disabled]){border-color:var(--goldbd);background:var(--goldbg)}
+    .choice.correct{background:#DCFCE7;border-color:#22C55E;color:#15803D}
+    .choice.wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626}
+    .expl{padding:10px 14px;border-radius:10px;font-size:12px;margin-top:8px;line-height:1.5;display:none}
+    .expl.show{display:block}
+    .expl.ok{background:#DCFCE7;color:#15803D}
+    .expl.ko{background:#FEE2E2;color:#DC2626}
+    .q-label{font-size:12px;font-weight:700;color:var(--t3);margin-bottom:8px}
+    .q-text{font-size:15px;font-weight:700;color:var(--t);margin-bottom:4px}
+
+    .tip-box{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0}
+    .tip-box strong{color:var(--gold)}
+    .tip-box p{font-size:13px;color:var(--t);line-height:1.6}
+    .grammar-item{padding:12px 0;border-bottom:1px solid var(--bd)}
+    .grammar-item:last-child{border:none}
+    .g-structure{font-size:16px;color:var(--gold);font-weight:700;margin-bottom:4px}
+    .g-desc{font-size:13px;color:var(--t2);line-height:1.5}
+    .btn{display:block;width:100%;padding:16px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;text-align:center;margin-top:20px;box-shadow:0 4px 18px rgba(184,146,78,.35);transition:all .2s;text-decoration:none}
+    .btn:hover{transform:translateY(-1px)}
+    .success{display:none;text-align:center;background:var(--goldbg);border:2px solid var(--goldbd);border-radius:16px;padding:28px 20px;margin-top:20px}
+    .success.show{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+  <div class="xp-pill">+15 XP</div>
+</div>
+
+<div class="hero">
+  <div class="music-waves">
+    <div class="wave" style="height:14px"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave" style="height:14px"></div>
+  </div>
+  <div class="hero-tag"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> Chanson K-Pop</div>
+  <div class="hero-title">어머나 — Apprends en chantant</div>
+  <div class="hero-sub">+20 mots A1 · Karaoké syllabe par syllabe · Analyse grammaticale</div>
+</div>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="card-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> À propos de la chanson</div>
+    <p class="body-text"><strong>어머나 (Eomeona)</strong> est une chanson K-Pop au vocabulaire simple et au rythme répétitif, idéale pour les débutants A1. Ce type de chanson est très utilisé dans les cours de coréen car on entend clairement chaque syllabe.</p>
+    <p class="body-text"><strong>어머나</strong> est une exclamation de surprise, l'équivalent de "Oh là là !" ou "Mon Dieu !" en français. Tu vas entendre ce mot partout en Corée !</p>
+    <div class="tip-box"><p><strong><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Méthode :</strong> En apprenant 20 mots dans le contexte d'une chanson, tu les retiens 3× plus vite que par simple mémorisation. La musique ancre les mots dans ta mémoire à long terme.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Vocabulaire de la chanson (20 mots)</div>
+    <table>
+      <thead><tr><th>Coréen</th><th>Romanisation</th><th>Traduction</th></tr></thead>
+      <tbody>
+        <tr><td class="kr">어머나</td><td>eomeona</td><td>Oh là là ! / Mon Dieu !</td></tr>
+        <tr><td class="kr">좋아</td><td>joa</td><td>J'aime / C'est bien</td></tr>
+        <tr><td class="kr">싫어</td><td>sireo</td><td>Je n'aime pas / Non</td></tr>
+        <tr><td class="kr">몰라</td><td>molla</td><td>Je ne sais pas</td></tr>
+        <tr><td class="kr">알아</td><td>ara</td><td>Je sais / Je comprends</td></tr>
+        <tr><td class="kr">왜</td><td>wae</td><td>Pourquoi</td></tr>
+        <tr><td class="kr">나</td><td>na</td><td>Moi / Je (informel)</td></tr>
+        <tr><td class="kr">너</td><td>neo</td><td>Toi / Tu (informel)</td></tr>
+        <tr><td class="kr">우리</td><td>uri</td><td>Nous / Notre</td></tr>
+        <tr><td class="kr">사랑</td><td>sarang</td><td>Amour</td></tr>
+        <tr><td class="kr">눈</td><td>nun</td><td>Yeux / Neige</td></tr>
+        <tr><td class="kr">마음</td><td>maeum</td><td>Cœur / Esprit</td></tr>
+        <tr><td class="kr">예뻐</td><td>yeppeo</td><td>Tu es belle / C'est joli</td></tr>
+        <tr><td class="kr">귀여워</td><td>gwiyeowo</td><td>Tu es mignon(ne)</td></tr>
+        <tr><td class="kr">보고 싶어</td><td>bogo sipeo</td><td>Tu me manques</td></tr>
+        <tr><td class="kr">같이</td><td>gachi</td><td>Ensemble</td></tr>
+        <tr><td class="kr">지금</td><td>jigeum</td><td>Maintenant</td></tr>
+        <tr><td class="kr">기다려</td><td>gidaryeo</td><td>Attends !</td></tr>
+        <tr><td class="kr">행복해</td><td>haengbokhae</td><td>Je suis heureux/heureuse</td></tr>
+        <tr><td class="kr">괜찮아</td><td>gwaenchana</td><td>Ça va / C'est OK</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> Karaoké — Syllabe par syllabe</div>
+    <p class="body-text" style="margin-bottom:14px">Clique sur <strong>"<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Suivant"</strong> pour surligner chaque syllabe. Répète à voix haute !</p>
+    <div class="kara-section">
+      <div class="kara-phrase" id="karaPhrase"></div>
+      <div class="kara-rom" id="karaRom"></div>
+      <div class="kara-fr" id="karaFr"></div>
+      <div class="kara-nav">
+        <button class="kara-btn kara-prev" onclick="karaPrev()">← Précédent</button>
+        <span class="kara-counter" id="karaCounter">1 / 5</span>
+        <button class="kara-btn kara-next" onclick="karaNext()"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Suivant</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"> Grammaire dans la K-Pop</div>
+    <div class="grammar-item">
+      <div class="g-structure">Verbe + 아/어 (style informel)</div>
+      <div class="g-desc">Dans les chansons K-Pop, on utilise la forme courte informelle. 가 = vas-y (aller), 봐 = regarde (voir), 줘 = donne-moi (donner). Plus naturel et plus musical.</div>
+    </div>
+    <div class="grammar-item">
+      <div class="g-structure">-고 싶어 (je veux...)</div>
+      <div class="g-desc"><strong>보고 싶어</strong> = tu me manques (littéralement "je veux te voir"). Cette structure -고 싶어 exprime le désir ou le manque. Très courant dans les chansons romantiques !</div>
+    </div>
+    <div class="grammar-item">
+      <div class="g-structure">-아/어서 (parce que / donc)</div>
+      <div class="g-desc"><strong>좋아서</strong> = parce que c'est bien / tellement bien. <strong>예뻐서</strong> = parce que tu es belle. Relie une cause à une conséquence de façon naturelle.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Quiz "Chanteur débutant"</div>
+    <div id="quizContainer"></div>
+    <div class="success" id="quizSuccess">
+      <div style="font-size:48px;margin-bottom:10px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--t);margin-bottom:6px">Bravo, tu chantes en coréen !</div>
+      <div style="font-size:13px;color:var(--t2)">Tu as validé la section chanson. Continue comme ça !</div>
+    </div>
+  </div>
+
+  <a href="cours.html" class="btn" id="finBtn" style="display:none" onclick="complete()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> J'ai chanté ! Retour au parcours</a>
+</div>
+
+<script>
+// KARAOKÉ DATA
+const karaData = [
+  {syls:['나','는','너','를','좋','아','해'], rom:'na-neun neo-reul jo-a-hae', fr:'J\'aime bien (toi)'},
+  {syls:['같','이','가','자'], rom:'ga-chi ga-ja', fr:'Allons-y ensemble !'},
+  {syls:['지','금','행','복','해'], rom:'ji-geum haeng-bo-khae', fr:'Je suis heureux maintenant'},
+  {syls:['보','고','싶','어'], rom:'bo-go si-peo', fr:'Tu me manques'},
+  {syls:['괜','찮','아','괜','찮','아'], rom:'gwaen-cha-na, gwaen-cha-na', fr:'C\'est OK, c\'est OK'}
+];
+let karaIdx = 0, sylIdx = -1;
+
+function renderKara(){
+  const d = karaData[karaIdx];
+  const ph = document.getElementById('karaPhrase');
+  ph.innerHTML = d.syls.map((s,i)=>`<span class="syl${i===sylIdx?' active':''}">${s}</span>`).join('');
+  document.getElementById('karaRom').textContent = sylIdx>=0 ? d.rom : '↑ Clique "<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Suivant" pour commencer';
+  document.getElementById('karaFr').textContent = sylIdx>=0 ? d.fr : '';
+  document.getElementById('karaCounter').textContent = `${karaIdx+1} / ${karaData.length}`;
+}
+
+function karaNext(){
+  const d = karaData[karaIdx];
+  if(sylIdx < d.syls.length-1){ sylIdx++; }
+  else if(karaIdx < karaData.length-1){ karaIdx++; sylIdx=0; }
+  renderKara();
+}
+
+function karaPrev(){
+  if(sylIdx > 0){ sylIdx--; }
+  else if(karaIdx > 0){ karaIdx--; sylIdx = karaData[karaIdx].syls.length-1; }
+  renderKara();
+}
+
+renderKara();
+
+// QUIZ
+const quizData = [
+  {q:'어머나 est une expression de ?', ans:['Surprise / exclamation','Tristesse','Colère','Remerciement'], correct:0, expl:'어머나 = "Oh là là !" — exclamation de surprise très courante en coréen.'},
+  {q:'보고 싶어 signifie ?', ans:['Tu me manques','Je t\'aime','Je te vois','Je veux manger'], correct:0, expl:'보고 싶어 = lit. "je veux te voir" → tu me manques. Structure: 보다 (voir) + 고 싶어 (je veux).'},
+  {q:'나 = ?', ans:['Je/Moi (informel)','Tu/Toi','Nous','Vous'], correct:0, expl:'나 = je/moi en style informel. 저 = je/moi en style formel (poli).'},
+  {q:'같이 가자 signifie ?', ans:['Allons-y ensemble','Je pars seul','Tu y vas ?','Viens ici !'], correct:0, expl:'같이 = ensemble, 가자 = allons-y (forme propositive informelle de 가다).'},
+  {q:'귀여워 = ?', ans:['Tu es mignon(ne)','Tu es grand(e)','Tu es intelligent(e)','Tu es beau/belle'], correct:0, expl:'귀여워 = tu es mignon(ne) / c\'est cute ! 예뻐 = tu es belle (plutôt pour une fille).'}
+];
+let qIdx = 0, answered = 0;
+
+function renderQuiz(){
+  const c = document.getElementById('quizContainer');
+  if(qIdx >= quizData.length){
+    c.innerHTML='';
+    document.getElementById('quizSuccess').classList.add('show');
+    document.getElementById('finBtn').style.display='block';
+    return;
+  }
+  const q = quizData[qIdx];
+  const shuffled = q.ans.map((a,i)=>({a,i})).sort(()=>Math.random()-.5);
+  c.innerHTML = `<div class="q-label">Question ${qIdx+1} / ${quizData.length}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="choices">${shuffled.map(({a,i})=>`<button class="choice" onclick="answer(this,${i==q.correct})">${a}</button>`).join('')}</div>
+    <div class="expl" id="expl"></div>`;
+}
+
+function answer(btn, correct){
+  document.querySelectorAll('.choice').forEach(b=>b.disabled=true);
+  btn.classList.add(correct?'correct':'wrong');
+  if(!correct) document.querySelectorAll('.choice').forEach(b=>{ if(b.textContent===quizData[qIdx].ans[quizData[qIdx].correct]) b.classList.add('correct'); });
+  const e = document.getElementById('expl');
+  e.textContent = quizData[qIdx].expl;
+  e.className = `expl show ${correct?'ok':'ko'}`;
+  setTimeout(()=>{ qIdx++; renderQuiz(); }, 1800);
+}
+
+renderQuiz();
+
+function complete(){
+  try{localStorage.setItem('ks_a28','1')}catch(e){}
+}
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

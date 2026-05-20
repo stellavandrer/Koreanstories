@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
   <link rel="manifest" href="manifest.json"/>
@@ -19,19 +20,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
-    :root{
-      --navy:#0F1B2D;--navy2:#1a2f4a;
-      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
-      --white:#F7F8FA;--pure:#FFFFFF;
-      --gray:#8A9BB0;--border:#E2E8F0;
-      --green:#22c55e;--red:#ef4444;
-      --rose:#F43F5E;--rosep:rgba(244,63,94,0.12);
-    }
-    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+
     .quit{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
     .quit:hover{border-color:#FB7185;color:#FB7185}
     .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
@@ -85,9 +79,9 @@
     .tooltip-rom{font-size:11px;color:rgba(247,248,250,.4);font-style:italic;margin-bottom:4px}
     .tooltip-fr{font-size:13px;color:white;font-weight:600}
     .tooltip-tip{font-size:11px;color:rgba(247,248,250,.35);margin-top:6px;line-height:1.5}
-    .recap{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:20px;margin-bottom:22px}
+    .recap{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;padding:20px;margin-bottom:22px}
     .recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-    .recap-item{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
+    .recap-item{background:var(--white);border:1.5px solid var(--bd);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
     .recap-item:hover{border-color:rgba(244,63,94,.4);background:rgba(244,63,94,.04);transform:translateY(-1px)}
     .recap-item.played{border-color:rgba(244,63,94,.3);background:rgba(244,63,94,.04)}
     .recap-kr{font-size:20px;font-weight:300;color:var(--navy);flex-shrink:0;min-width:36px;text-align:center}
@@ -120,52 +114,59 @@
     .res-btn.primary:hover{background:var(--gold2);transform:translateY(-1px)}
     .res-btn.secondary{background:rgba(255,255,255,.06);color:rgba(247,248,250,.65);border:1.5px solid rgba(255,255,255,.1)}
     .res-btn.secondary:hover{border-color:#FB7185;color:#FB7185}
-    .chars-intro{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:20px;margin-bottom:22px}
+    .chars-intro{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;padding:20px;margin-bottom:22px}
     .char-row{display:flex;align-items:center;gap:14px;padding:10px 0}
-    .char-row+.char-row{border-top:1px solid var(--border)}
-    .char-ava{width:46px;height:46px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .char-row+.char-row{border-top:1px solid var(--bd)}
+    .char-ava{width:46px;height:46px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
     .char-name{font-size:14px;font-weight:700;color:var(--navy)}
     .char-desc{font-size:12px;color:var(--gray);margin-top:2px;line-height:1.5}
-    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:90;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
-    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
-    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
-    .bni.act,.bni:hover{color:var(--navy)}
+    
+    
+    
+    .bni.act,
     .bni.act svg{stroke:#F43F5E}
-    [data-theme="dark"]{--pure:#1e3352;--white:#162844;--border:rgba(255,255,255,.13);--gray:#7a9ab8;color-scheme:dark}
-    [data-theme="dark"] body{background:#0f1e32!important;color:#d8e8f5}
-    [data-theme="dark"] .bnav{background:#0a1628!important;border-top-color:rgba(255,255,255,.10)!important}
-    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni.act{color:#FB7185!important}
-    [data-theme="dark"] .bni.act svg{stroke:#FB7185!important}
-    [data-theme="dark"] .chars-intro,[data-theme="dark"] .recap,[data-theme="dark"] .culture-tip{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
-    [data-theme="dark"] .char-name,[data-theme="dark"] .recap-fr{color:#d8e8f5!important}
-    [data-theme="dark"] .recap-item{background:#162844!important;border-color:rgba(255,255,255,.10)!important}
+
+    
+    [data-theme="dark"] .chars-intro,[data-theme="dark"] .recap,[data-theme="dark"] .culture-tip{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .char-name,[data-theme="dark"] .recap-fr{color:var(--t)!important}
+    [data-theme="dark"] .recap-item{background:var(--s2)!important;border-color:var(--bd)!important}
     [data-theme="dark"] .recap-item:hover{background:rgba(244,63,94,.08)!important;border-color:rgba(244,63,94,.3)!important}
-    [data-theme="dark"] .recap-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .qchoice{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.12)!important;color:rgba(200,220,240,.7)!important}
+    [data-theme="dark"] .recap-kr{color:var(--t)!important}
+    [data-theme="dark"] .qchoice{background:rgba(255,255,255,.05)!important;border-color:var(--bd)!important;color:rgba(200,220,240,.7)!important}
     [data-theme="dark"] .qchoice.ok{border-color:#4ade80!important;background:rgba(34,197,94,.12)!important;color:#4ade80!important}
     [data-theme="dark"] .qchoice.ko{border-color:#f87171!important;background:rgba(239,68,68,.1)!important;color:#f87171!important}
     [data-theme="dark"] .culture-tip-text{color:rgba(200,220,240,.7)!important}
-    [data-theme="dark"] .culture-tip-text strong{color:#d8e8f5!important}
-    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .culture-tip-text strong{color:var(--t)!important}
+    [data-theme="dark"] .sec-lbl{color:var(--t3)!important}
     .ava-init{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-weight:700;font-size:inherit;line-height:1}
     .ava-mina{background:linear-gradient(135deg,#FFDCEA,#FFC0DA);color:#9d274e;border:none}
     .ava-joon{background:linear-gradient(135deg,#BFDBFE,#93C5FD);color:#1d4ed8;border:none}
-  </style>
+  
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 </head>
 <body>
-
-<div class="topbar">
-  <a href="app.html" class="quit">
-    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    Accueil
-  </a>
-  <span class="tb-title">Histoire 7</span>
-  <div class="xp-pill">
-    <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    +30 XP
+<div class="bar">
+    <a href="histoires.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Histoires
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
   </div>
+
+
 </div>
 
 <div class="pbar-wrap">
@@ -398,14 +399,7 @@
 
 </main>
 
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="vocabulaire.html" class="bni"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Vocab</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg><span>Histoire</span></a>
-  <a href="exercice.html" class="bni"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg><span>Exercices</span></a>
-  <a href="revision.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg><span>Révision</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
+
 
 <script>
   const STORY_WORDS = [
@@ -513,7 +507,7 @@
     document.getElementById('resultWrap').classList.add('show');
     const pct=Math.round(score/totalQ*100);
     const xpEarned=pct>=80?30:pct>=60?20:10;
-    document.getElementById('resEmoji').textContent=pct>=80?'✦':pct>=60?'★':'↑';
+    document.getElementById('resEmoji').textContent=pct>=80?'·':pct>=60?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>':'↑';
     document.getElementById('resTitle').textContent=pct>=80?'Parfait !':pct>=60?'Bien joué !':'Continue !';
     document.getElementById('resSub').textContent=score+' bonne'+(score>1?'s':'')+' réponse'+(score>1?'s':'')+' sur '+totalQ+' — '+pct+' %';
     document.getElementById('resXpVal').textContent=xpEarned;
@@ -526,7 +520,7 @@
   loadQuestion();
 </script>
 
-<button id="darkFab" onclick="toggleDarkGlobal()" style="position:fixed;bottom:76px;right:14px;z-index:200;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:var(--pure);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.1);transition:all .2s"></button>
+<button id="darkFab" onclick="toggleDarkGlobal()" style="position:fixed;bottom:76px;right:14px;z-index:200;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.1);transition:all .2s"></button>
 <script>
 (function(){
   var S='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
@@ -536,5 +530,16 @@
   sync();
 })();
 </script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
 </body>
 </html>

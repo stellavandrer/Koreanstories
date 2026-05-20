@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Médias coréens — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .table-wrap{overflow-x:auto;margin:.6rem 0}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th{background:rgba(219,39,119,.1);color:#DB2777;padding:.5rem .7rem;text-align:left;font-size:.8rem;font-weight:700}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .media-card{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.9rem;margin:.5rem 0;display:flex;gap:.8rem;align-items:flex-start}
+    .media-icon{font-size:1.5rem;flex-shrink:0}
+    .media-name{font-weight:700;font-size:.92rem;color:var(--tx)}
+    .media-sub{font-size:.8rem;color:var(--tx-muted);margin-top:.2rem}
+    .headline-box{background:rgba(219,39,119,.04);border:1px solid rgba(219,39,119,.15);border-radius:10px;padding:.8rem;margin:.5rem 0}
+    .headline-ko{font-size:.95rem;font-weight:700;color:var(--tx);line-height:1.5}
+    .headline-fr{font-size:.8rem;color:var(--tx-muted);margin-top:.3rem}
+    .headline-struct{font-size:.75rem;background:rgba(219,39,119,.1);color:#DB2777;border-radius:6px;padding:.15rem .4rem;display:inline-block;margin-top:.3rem;font-weight:600}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Médias coréens</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> Comprendre les médias coréens</h2>
+  <span class="pill">B2 · Compréhension</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Journaux, podcasts, infos TV — le coréen journalistique a ses propres codes. Apprends à les déchiffrer.</p>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg> Les médias coréens à connaître</h3>
+  <div class="media-card"><span class="media-icon"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span><div><div class="media-name">조선일보 / 동아일보</div><div class="media-sub">Grands quotidiens conservateurs · Langue formelle classique</div></div></div>
+  <div class="media-card"><span class="media-icon"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg></span><div><div class="media-name">한겨레 / 경향신문</div><div class="media-sub">Quotidiens progressistes · Thèmes société, environnement</div></div></div>
+  <div class="media-card"><span class="media-icon"></span><div><div class="media-name">KBS / MBC / SBS</div><div class="media-sub">Chaînes publiques · Journaux télévisés · Langue standard</div></div></div>
+  <div class="media-card"><span class="media-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span><div><div class="media-name">네이버 뉴스</div><div class="media-sub">Agrégateur dominant · Commentaires · Articles variés</div></div></div>
+  <div class="media-card"><span class="media-icon"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span><div><div class="media-name">KBS World Radio / TBS</div><div class="media-sub">Radio et podcasts · Idéal pour la compréhension orale</div></div></div>
+
+  <h3> Structures journalistiques clés</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Structure</th><th>Usage journalistique</th><th>Exemple</th></tr>
+      <tr><td class="ko">-다고 밝혔다</td><td>Citer une source officielle</td><td class="ko">대변인은 회의가 취소됐다고 밝혔다</td></tr>
+      <tr><td class="ko">-에 따르면</td><td>Selon (source)</td><td class="ko">통계청에 따르면</td></tr>
+      <tr><td class="ko">-를 보도했다</td><td>Rapporter (une nouvelle)</td><td class="ko">언론은 사고를 보도했다</td></tr>
+      <tr><td class="ko">-로 알려졌다</td><td>Il est connu que / On sait que</td><td class="ko">협상이 진행 중인 것으로 알려졌다</td></tr>
+      <tr><td class="ko">-할 것으로 보인다</td><td>Il semble que / On s'attend à</td><td class="ko">내년에 시행될 것으로 보인다</td></tr>
+      <tr><td class="ko">-이/가 발표되었다</td><td>Il a été annoncé</td><td class="ko">새 정책이 발표되었다</td></tr>
+    </table></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> Lire un titre de journal coréen</h3>
+  <p style="font-size:.88rem;color:var(--tx-muted);margin:.3rem 0">Les titres coréens omettent souvent les particules et utilisent des formes nominales compactes :</p>
+
+  <div class="headline-box">
+    <div class="headline-ko">정부, 내년 최저임금 인상 계획 발표</div>
+    <div class="headline-fr">Le gouvernement annonce un plan d'augmentation du salaire minimum pour l'année prochaine</div>
+    <div class="headline-struct">Sujet + virgule + nom compressé</div>
+  </div>
+  <div class="headline-box">
+    <div class="headline-ko">한강 작가, 노벨문학상 수상… "감격스럽다"</div>
+    <div class="headline-fr">L'auteure Han Kang remporte le Prix Nobel de Littérature… "Je suis profondément émue"</div>
+    <div class="headline-struct">Discours indirect abrégé avec guillemets</div>
+  </div>
+  <div class="headline-box">
+    <div class="headline-ko">서울 기온 30도 넘어 폭염 주의보 발령</div>
+    <div class="headline-fr">Alerte canicule déclenchée alors que les températures à Séoul dépassent 30°C</div>
+    <div class="headline-struct">Pas de verbe copule · Structure nominale</div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Vocabulaire journalistique essentiel</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Français</th><th>Coréen</th><th>Contexte</th></tr>
+      <tr><td>Reporter</td><td class="ko">기자</td><td>Le journaliste sur le terrain</td></tr>
+      <tr><td>Communiqué</td><td class="ko">보도자료</td><td>Communiqué de presse officiel</td></tr>
+      <tr><td>Conférence de presse</td><td class="ko">기자회견</td><td>Rencontre avec les médias</td></tr>
+      <tr><td>En direct</td><td class="ko">생중계</td><td>Diffusion en temps réel</td></tr>
+      <tr><td>Économie</td><td class="ko">경제</td><td>Section économique</td></tr>
+      <tr><td>Politique</td><td class="ko">정치</td><td>Section politique</td></tr>
+      <tr><td>Société</td><td class="ko">사회</td><td>Section société</td></tr>
+      <tr><td>Internationale</td><td class="ko">국제</td><td>Section internationale</td></tr>
+      <tr><td>Sondage</td><td class="ko">여론조사</td><td>Opinion publique</td></tr>
+      <tr><td>Polémique</td><td class="ko">논란</td><td>Controverse médiatique</td></tr>
+    </table></div>
+  </div>
+
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Conseil pratique : commence par lire les titres sur 네이버 뉴스, puis clique sur l'article qui t'intéresse. Le premier paragraphe résume toujours l'essentiel (règle des 5W : 누가, 무엇을, 어디서, 언제, 왜).</div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Mini-quiz</h3>
+  <div class="card mq" id="q1"><p style="font-weight:600">-에 따르면 s'utilise pour :</p>
+    <div class="opt" onclick="a(this,'ko')">Donner une opinion personnelle</div>
+    <div class="opt" onclick="a(this,'ok')">Citer une source ("selon…")</div>
+    <div class="opt" onclick="a(this,'ko')">Rapporter une question directe</div>
+  </div>
+  <div class="card mq" id="q2"><p style="font-weight:600">Dans "정부, 내년 최저임금 인상 계획 발표", que remarque-t-on sur le style titre ?</p>
+    <div class="opt" onclick="a(this,'ko')">Le verbe est au passé</div>
+    <div class="opt" onclick="a(this,'ok')">Les particules sont omises, structure nominale compressée</div>
+    <div class="opt" onclick="a(this,'ko')">Le sujet est absent</div>
+  </div>
+  <div class="card mq" id="q3"><p style="font-weight:600">기자 signifie ?</p>
+    <div class="opt" onclick="a(this,'ok')">Journaliste / reporter</div>
+    <div class="opt" onclick="a(this,'ko')">Sondage</div>
+    <div class="opt" onclick="a(this,'ko')">Communiqué de presse</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Leçon terminée — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_d08');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

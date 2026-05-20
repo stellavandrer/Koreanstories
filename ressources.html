@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0F1B2D"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<title>Ressources PDF · Korean Stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="design.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(72px + env(safe-area-inset-bottom));overflow-x:hidden}
+.hero{background:var(--navy);padding:28px 20px 44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%)}
+.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:32px;background:var(--bg);border-radius:32px 32px 0 0}
+.hero-inner{max-width:560px;margin:0 auto;position:relative;z-index:1}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.25);border-radius:100px;padding:5px 13px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.hero-tag svg{width:10px;height:10px;fill:var(--gold)}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,32px);color:white;line-height:1.2;margin-bottom:8px}
+.hero-h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.7;margin-bottom:20px}
+.hero-stats{display:flex;gap:24px}
+.h-stat-n{font-family:'Playfair Display',serif;font-size:24px;color:white;line-height:1}
+.h-stat-l{font-size:10px;color:rgba(247,248,250,.4);margin-top:2px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.filters-wrap{max-width:560px;margin:0 auto;padding:20px 16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filters-wrap::-webkit-scrollbar{display:none}
+.filters{display:flex;gap:8px;padding-bottom:2px}
+.fchip{flex-shrink:0;padding:8px 16px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .18s;white-space:nowrap;font-family:'Inter',sans-serif}
+.fchip.act{background:var(--navy);border-color:var(--navy);color:white}
+.fchip:hover:not(.act){border-color:var(--gold);color:var(--navy)}
+.section-wrap{max-width:560px;margin:0 auto;padding:20px 16px 0}
+.level-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.level-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.level-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy)}
+.level-badge{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:100px;padding:3px 10px;margin-left:2px}
+.level-desc{font-size:12px;color:var(--gray);line-height:1.6;margin-bottom:16px;padding-left:20px}
+.pdf-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.pdf-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;overflow:hidden;transition:box-shadow .2s}
+.pdf-card:hover{box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.pdf-card-inner{display:flex}
+.pdf-accent{width:5px;flex-shrink:0}
+.pdf-body{padding:14px 14px 12px;flex:1;min-width:0}
+.pdf-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.pdf-icon-wrap{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pdf-icon-wrap svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pdf-info{flex:1;min-width:0}
+.pdf-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;line-height:1.3}
+.pdf-subtitle{font-size:11px;color:var(--gray)}
+.pdf-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.pdf-tag{background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:3px 9px;font-size:10px;color:var(--navy);font-weight:500}
+.pdf-type-tag{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-right:2px}
+.pdf-actions{display:flex;align-items:center;gap:8px}
+.pdf-btn-dl{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:white;border:none;border-radius:10px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;text-decoration:none;font-family:'Inter',sans-serif}
+.pdf-btn-dl:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,27,45,.22)}
+.pdf-btn-dl svg{width:13px;height:13px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round}
+.pdf-btn-view{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid var(--bd);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .18s;text-decoration:none;font-family:'Inter',sans-serif}
+.pdf-btn-view:hover{border-color:var(--gold);color:var(--navy)}
+.pdf-btn-view svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+[data-theme="dark"] .pdf-card{background:var(--surf);border-color:var(--bd)}
+[data-theme="dark"] .pdf-title{color:var(--t)}
+[data-theme="dark"] .pdf-tag{background:rgba(255,255,255,.05);border-color:var(--bd);color:var(--t)}
+[data-theme="dark"] .pdf-btn-view{border-color:var(--bd);color:rgba(200,220,240,.5)}
+[data-theme="dark"] .level-title{color:var(--t)}
+[data-theme="dark"] .fchip{background:var(--surf);border-color:var(--bd);color:rgba(200,220,240,.5)}
+[data-theme="dark"] .fchip.act{background:var(--navy);border-color:var(--navy);color:white}
+.bni.act svg,.bni.act span{stroke:var(--gold);color:var(--gold)}
+</style>
+<script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+  <div class="side-head">
+    <div class="side-logo">Korean <em>Stories</em></div>
+    <div class="side-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpSide">0</span> XP</div>
+  </div>
+  <nav class="side-nav">
+    <a href="app.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+    <a href="cours.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+    <a href="lecture.html" class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+    <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Classement</a>
+    <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+    <a href="ressources.html" class="sn on"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+  </nav>
+  <div class="side-theme">
+    <span class="side-theme-lbl">Mode sombre</span>
+    <button class="theme-pill" onclick="toggleTheme()" aria-label="Basculer le thème"></button>
+  </div>
+</aside>
+<div class="main">
+<div class="bar">
+  <a href="app.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Accueil</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()">
+      <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span> XP</a>
+  </div>
+</div>
+<div class="page-enter">
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:var(--gold)"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Ressources gratuites
+    </div>
+    <h1 class="hero-h1">Fiches &amp; <em>PDF</em></h1>
+    <p class="hero-sub">Alphabet, lexique, grammaire, exercices et TOPIK.<br>Tout est gratuit, organisé par niveau, imprimable.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-n">29</div><div class="h-stat-l">fiches PDF</div></div>
+      <div class="h-stat"><div class="h-stat-n">5</div><div class="h-stat-l">niveaux</div></div>
+      <div class="h-stat"><div class="h-stat-n">100%</div><div class="h-stat-l">gratuit</div></div>
+    </div>
+  </div>
+</section>
+<div class="filters-wrap">
+  <div class="filters">
+    <button class="fchip act" data-f="all" onclick="setFilter('all')">Tous</button>
+    <button class="fchip" data-f="hangeul" onclick="setFilter('hangeul')">Hangeul</button>
+    <button class="fchip" data-f="a1" onclick="setFilter('a1')">A1</button>
+    <button class="fchip" data-f="a2" onclick="setFilter('a2')">A2</button>
+    <button class="fchip" data-f="b1" onclick="setFilter('b1')">B1</button>
+    <button class="fchip" data-f="b2" onclick="setFilter('b2')">B2</button>
+    <button class="fchip" data-f="vocab" onclick="setFilter('vocab')">Vocabulaire</button>
+    <button class="fchip" data-f="gram" onclick="setFilter('gram')">Grammaire</button>
+    <button class="fchip" data-f="topik" onclick="setFilter('topik')">TOPIK</button>
+  </div>
+</div>
+<main id="mainContent"></main>
+</div>
+</div>
+</div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script>
+var PDFS = [{"id": "hangeul-chart", "level": "hangeul", "cat": "hangeul", "title": "Tableau Hangeul complet", "subtitle": "40 caractères · Consonnes & voyelles", "color": "#C9A96E", "desc": "Toutes les consonnes et voyelles coréennes avec romanisation et guide de lecture. La référence à garder sous la main.", "tags": ["ㄱ ㄴ ㄷ ㄹ", "Romanisation", "Consonne/Voyelle", "Tableau"], "file": "pdf/hangeul-chart"}, {"id": "hangeul-mnemo", "level": "hangeul", "cat": "hangeul", "title": "Hangeul par mnémotechniques", "subtitle": "Méthode visuelle · Mémorisation rapide", "color": "#C9A96E", "desc": "Apprends l'alphabet coréen grâce à des associations visuelles et mnémotechniques. Idéal pour mémoriser vite.", "tags": ["Mnémotechniques", "Visuels", "ㅏ ㅓ ㅗ ㅜ", "Méthode"], "file": "pdf/hangeul-mnemo"}, {"id": "hangeul-exercices", "level": "hangeul", "cat": "hangeul", "title": "Exercices Hangeul", "subtitle": "Lecture, écriture & reconnaissance", "color": "#C9A96E", "desc": "Exercices pour pratiquer la lecture et l'écriture de l'alphabet coréen. Consonnes, voyelles et syllabes.", "tags": ["Lecture", "Écriture", "Syllabes", "Pratique"], "file": "pdf/hangeul-exercices"}, {"id": "prononc-hangeul", "level": "hangeul", "cat": "hangeul", "title": "Guide de prononciation", "subtitle": "Sons coréens · Règles phonétiques", "color": "#C9A96E", "desc": "Les règles de prononciation du coréen : assimilation, liaison, sons spéciaux et bat-chim. Pour parler comme un natif.", "tags": ["Prononciation", "Bat-chim", "Liaison", "Sons"], "file": "pdf/prononc-hangeul"}, {"id": "vocab-a1", "level": "a1", "cat": "vocab", "title": "Vocabulaire A1", "subtitle": "200 mots essentiels · 10 thèmes", "color": "#3b82f6", "desc": "Les 200 mots incontournables du niveau A1 organisés par thème : famille, nourriture, transports, couleurs, chiffres.", "tags": ["Famille", "Nourriture", "200 mots", "Thèmes"], "file": "pdf/vocab-a1"}, {"id": "expressions-a1", "level": "a1", "cat": "vocab", "title": "Expressions courantes A1", "subtitle": "50 phrases · Situations du quotidien", "color": "#3b82f6", "desc": "50 expressions indispensables pour les premières conversations : saluer, remercier, demander son chemin, commander.", "tags": ["Salutations", "Quotidien", "Politesse", "Phrases"], "file": "pdf/expressions-a1"}, {"id": "grammaire-a1", "level": "a1", "cat": "gram", "title": "Grammaire coréenne A1", "subtitle": "Particules · Structure SOV · Conjugaison", "color": "#22c55e", "desc": "Les bases grammaticales : particules 은/는, 이/가, 을/를, structure sujet-objet-verbe, conjugaison du présent.", "tags": ["은/는 이/가", "Structure SOV", "아요/어요", "Particules"], "file": "pdf/grammaire-a1"}, {"id": "conjugaison-a1", "level": "a1", "cat": "gram", "title": "Guide de conjugaison A1", "subtitle": "Verbes réguliers & irréguliers", "color": "#22c55e", "desc": "Tableaux de conjugaison des verbes coréens : présent, passé, futur, verbes irréguliers en ㄷ, ㅂ, ㅅ.", "tags": ["Présent", "Passé", "Irréguliers", "Tableaux"], "file": "pdf/conjugaison-a1"}, {"id": "corps-a1", "level": "a1", "cat": "vocab", "title": "Corps, Santé & Émotions A1", "subtitle": "80 mots · Lexique thématique", "color": "#3b82f6", "desc": "Vocabulaire du corps humain, des émotions et expressions de santé au niveau A1. Avec exemples de phrases.", "tags": ["Corps", "Émotions", "Santé", "Expressions"], "file": "pdf/corps-a1"}, {"id": "topik1-prep", "level": "a1", "cat": "topik", "title": "Préparation TOPIK I", "subtitle": "400 mots · Grammaire · Exercices types", "color": "#f59e0b", "desc": "Le guide complet pour réussir le TOPIK niveau I : vocabulaire ciblé, règles grammaticales clés et exercices types.", "tags": ["TOPIK I", "400 mots", "Examen", "Exercices"], "file": "pdf/topik1-prep"}, {"id": "vocab-a2", "level": "a2", "cat": "vocab", "title": "Vocabulaire A2", "subtitle": "400 mots · Niveau pré-intermédiaire", "color": "#f59e0b", "desc": "400 mots du niveau A2 : vie quotidienne avancée, travail, loisirs, nature, voyages. Avec exemples contextuels.", "tags": ["400 mots", "Voyages", "Travail", "Loisirs"], "file": "pdf/vocab-a2"}, {"id": "grammaire-a2", "level": "a2", "cat": "gram", "title": "Grammaire coréenne A2", "subtitle": "Temps · Politesse · Subordonnées", "color": "#22c55e", "desc": "Passé, futur, niveaux de politesse formels, connecteurs (아서/어서, 고, 지만) et propositions subordonnées.", "tags": ["았어요", "아서/어서", "Politesse", "지만"], "file": "pdf/grammaire-a2"}, {"id": "particules-a2", "level": "a2", "cat": "gram", "title": "Guide des particules A2", "subtitle": "20 particules essentielles", "color": "#22c55e", "desc": "Les particules coréennes expliquées avec exemples : 에서, 에게, 한테, 의, 만, 도, 부터, 까지 et plus.", "tags": ["에서 에게", "한테 의", "만 도", "Exemples"], "file": "pdf/particules-a2"}, {"id": "conjonctions-a2", "level": "a2", "cat": "gram", "title": "Conjonctions & Connecteurs A2", "subtitle": "Liaisons · Cause · Opposition", "color": "#22c55e", "desc": "Maîtrise les connecteurs pour construire des phrases complexes : cause, opposition, condition, simultanéité.", "tags": ["Cause", "Opposition", "Condition", "고 지만"], "file": "pdf/conjonctions-a2"}, {"id": "dialogues-a2", "level": "a2", "cat": "vocab", "title": "Dialogues & Conversations A2", "subtitle": "Situations réelles · Vocabulaire en contexte", "color": "#f59e0b", "desc": "Dialogues authentiques pour 8 situations : café, restaurant, métro, médecin, shopping, hôtel, banque, université.", "tags": ["Café", "Restaurant", "Métro", "Shopping"], "file": "pdf/dialogues-a2"}, {"id": "culture-a2", "level": "a2", "cat": "vocab", "title": "Culture & Société coréenne", "subtitle": "Traditions · K-pop · Cuisine", "color": "#f59e0b", "desc": "Introduction à la culture coréenne : Chuseok, Seollal, K-pop, webtoons, gastronomie et codes sociaux.", "tags": ["Chuseok", "K-pop", "Gastronomie", "Société"], "file": "pdf/culture-a2"}, {"id": "seoul-map", "level": "a2", "cat": "vocab", "title": "Carte de Séoul & Vocabulaire", "subtitle": "Quartiers · Transports · Lieux incontournables", "color": "#f59e0b", "desc": "Une carte de Séoul annotée avec les noms des quartiers, du métro et des lieux emblématiques. Indispensable pour voyager.", "tags": ["Séoul", "Métro", "Quartiers", "Voyage"], "file": "pdf/seoul-map"}, {"id": "vocab-b1", "level": "b1", "cat": "vocab", "title": "Vocabulaire B1", "subtitle": "200 mots intermédiaires · 12 thèmes", "color": "#8b5cf6", "desc": "Vocabulaire du niveau B1 : économie, politique, environnement, technologie, art et culture. Avec collocations.", "tags": ["Économie", "Environnement", "Technologie", "200 mots"], "file": "pdf/vocab-b1"}, {"id": "idiomes-b1", "level": "b1", "cat": "vocab", "title": "Idiomes & Expressions B1", "subtitle": "100 expressions idiomatiques", "color": "#8b5cf6", "desc": "100 expressions figées, proverbes et idiomes coréens du niveau B1. Avec contexte et équivalent français.", "tags": ["Proverbes", "Idiomes", "속담", "Expressions"], "file": "pdf/idiomes-b1"}, {"id": "temps-b1", "level": "b1", "cat": "gram", "title": "Temps & Aspect B1", "subtitle": "Nuances temporelles · Expressions de temps", "color": "#22c55e", "desc": "Maîtrise tous les temps du coréen : présent continu, passé accompli, futur proche, aspect duratif et terminatif.", "tags": ["Passé accompli", "Futur", "Aspect", "Nuances"], "file": "pdf/temps-b1"}, {"id": "politesse-b1", "level": "b1", "cat": "gram", "title": "Niveaux de politesse B1", "subtitle": "3 registres · Contextes · Formules", "color": "#22c55e", "desc": "Les 3 grands niveaux de politesse coréens : formel (합쇼체), poli (해요체), familier (해체). Quand et comment utiliser chacun.", "tags": ["합쇼체", "해요체", "해체", "Contextes"], "file": "pdf/politesse-b1"}, {"id": "scripts-b1", "level": "b1", "cat": "vocab", "title": "Scripts & Conversations B1", "subtitle": "Dialogues authentiques · 10 situations", "color": "#8b5cf6", "desc": "Dialogues complets pour des situations B1 : réunion de travail, médecin, banque, location, négociation.", "tags": ["Travail", "Médecin", "Banque", "Négociation"], "file": "pdf/scripts-b1"}, {"id": "topik2-b1", "level": "b1", "cat": "topik", "title": "Préparation TOPIK II · Niveau B1", "subtitle": "Stratégies · Vocabulaire ciblé · Exercices", "color": "#f59e0b", "desc": "Guide de préparation au TOPIK II orienté B1 : stratégies, vocabulaire ciblé, grammaire avancée et exercices types.", "tags": ["TOPIK II", "B1", "Stratégies", "Exercices"], "file": "pdf/topik2-b1"}, {"id": "vocab-b2", "level": "b2", "cat": "vocab", "title": "Vocabulaire B2", "subtitle": "1000 mots · Niveau supérieur", "color": "#ef4444", "desc": "1000 mots du niveau B2 : presse, littérature, débat, sciences humaines, économie et langue académique.", "tags": ["Presse", "Littérature", "Académique", "1000 mots"], "file": "pdf/vocab-b2"}, {"id": "grammaire-b2", "level": "b2", "cat": "gram", "title": "Grammaire avancée B2", "subtitle": "Structures complexes · Nominalisation · Passif", "color": "#22c55e", "desc": "Structures grammaticales avancées : nominalisation (기/음), voix passive, causative, discours indirect et connecteurs formels.", "tags": ["Nominalisation", "Passif", "Causatif", "Formel"], "file": "pdf/grammaire-b2"}, {"id": "argot-b2", "level": "b2", "cat": "vocab", "title": "Argot & Langue familière B2", "subtitle": "100 expressions · Dramas · SNS", "color": "#ef4444", "desc": "L'argot coréen des jeunes, des dramas et des réseaux sociaux. 100 expressions familières avec contexte et niveau de formalité.", "tags": ["Argot", "Dramas", "SNS", "Jeunes"], "file": "pdf/argot-b2"}, {"id": "litterature-b2", "level": "b2", "cat": "vocab", "title": "Littérature & Textes B2", "subtitle": "Extraits · Analyse · Vocabulaire littéraire", "color": "#ef4444", "desc": "Extraits de littérature coréenne avec analyse linguistique, vocabulaire littéraire et exercices de compréhension.", "tags": ["Littérature", "Extraits", "Analyse", "Classiques"], "file": "pdf/litterature-b2"}, {"id": "business-b2", "level": "b2", "cat": "vocab", "title": "Coréen des affaires B2", "subtitle": "Vocabulaire professionnel · Emails · Réunions", "color": "#ef4444", "desc": "Vocabulaire et expressions du milieu professionnel coréen : emails formels, réunions, présentations et négociation.", "tags": ["Emails", "Réunions", "Formel", "Professionnel"], "file": "pdf/business-b2"}, {"id": "topik2-b2", "level": "b2", "cat": "topik", "title": "Préparation TOPIK II · Niveau B2", "subtitle": "Épreuve 3 & 4 · Rédaction · Stratégies", "color": "#ef4444", "desc": "Préparation intensive au TOPIK II niveau B2 : stratégies rédaction, grille évaluation, vocabulaire examen.", "tags": ["TOPIK II", "B2", "Rédaction", "Évaluation"], "file": "pdf/topik2-b2"}];
+var LEVELS = {"hangeul": {"color": "#C9A96E", "badge": "Hangeul", "badgeBg": "rgba(201,169,110,.12)", "badgeColor": "#A87830", "title": "Hangeul — L'alphabet coréen", "desc": "Avant tout, maîtriser l'alphabet. Ces fiches couvrent les 40 caractères, la prononciation et les règles d'écriture."}, "a1": {"color": "#3b82f6", "badge": "A1", "badgeBg": "rgba(59,130,246,.12)", "badgeColor": "#1d4ed8", "title": "A1 — Niveau élémentaire", "desc": "Tu découvres le coréen. Ces fiches t'aident à acquérir le vocabulaire de base, la grammaire fondamentale et préparer le TOPIK I."}, "a2": {"color": "#f59e0b", "badge": "A2", "badgeBg": "rgba(245,158,11,.12)", "badgeColor": "#b45309", "title": "A2 — Niveau pré-intermédiaire", "desc": "Tu lis le Hangeul et connais les bases. Ces ressources développent ta grammaire, ton vocabulaire et ta culture coréenne."}, "b1": {"color": "#8b5cf6", "badge": "B1", "badgeBg": "rgba(139,92,246,.12)", "badgeColor": "#6d28d9", "title": "B1 — Niveau intermédiaire", "desc": "Tu peux tenir une conversation. Ces fiches approfondissent les nuances grammaticales, les idiomes et préparent au TOPIK II."}, "b2": {"color": "#ef4444", "badge": "B2", "badgeBg": "rgba(239,68,68,.12)", "badgeColor": "#b91c1c", "title": "B2 — Niveau intermédiaire supérieur", "desc": "Tu t'exprimes avec aisance. Ces ressources visent la maîtrise du langage formel, académique et de la littérature coréenne."}};
+
+var CAT_ICO = {
+  hangeul: '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+  vocab:   '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+  gram:    '<svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>',
+  topik:   '<svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+};
+var CAT_LBL = {hangeul:'Hangeul', vocab:'Vocabulaire', gram:'Grammaire', topik:'TOPIK'};
+var CAT_COLOR = {
+  hangeul: {bg:'rgba(201,169,110,.1)', color:'#A87830'},
+  vocab:   {bg:'rgba(59,130,246,.1)',  color:'#1d4ed8'},
+  gram:    {bg:'rgba(34,197,94,.1)',   color:'#15803d'},
+  topik:   {bg:'rgba(245,158,11,.1)', color:'#b45309'}
+};
+
+var activeFilter = 'all';
+
+function setFilter(f) {
+  activeFilter = f;
+  document.querySelectorAll('.fchip').forEach(function(c) {
+    c.classList.toggle('act', c.dataset.f === f);
+  });
+  render();
+}
+
+function matchFilter(p) {
+  if (activeFilter === 'all') return true;
+  return p.level === activeFilter || p.cat === activeFilter;
+}
+
+function render() {
+  var main = document.getElementById('mainContent');
+  main.innerHTML = '';
+  var order = ['hangeul','a1','a2','b1','b2'];
+  order.forEach(function(lv) {
+    var items = PDFS.filter(function(p) { return p.level === lv && matchFilter(p); });
+    if (!items.length) return;
+    var li = LEVELS[lv];
+    var cc_lv = CAT_COLOR[lv] || {bg:'rgba(128,128,128,.1)', color:'#666'};
+    var html = '<div class="section-wrap">' +
+      '<div class="level-header">' +
+        '<div class="level-dot" style="background:' + li.color + '"></div>' +
+        '<span class="level-title">' + li.title + '</span>' +
+        '<span class="level-badge" style="background:' + li.badgeBg + ';color:' + li.badgeColor + '">' + li.badge + '</span>' +
+      '</div>' +
+      '<p class="level-desc">' + li.desc + '</p>' +
+      '<div class="pdf-grid">';
+
+    items.forEach(function(p) {
+      var cc = CAT_COLOR[p.cat] || {bg:'rgba(128,128,128,.1)', color:'#666'};
+      var tags = p.tags.map(function(t) { return '<span class="pdf-tag">' + t + '</span>'; }).join('');
+      html += '<div class="pdf-card">' +
+        '<div class="pdf-card-inner">' +
+          '<div class="pdf-accent" style="background:' + p.color + '"></div>' +
+          '<div class="pdf-body">' +
+            '<div class="pdf-top">' +
+              '<div class="pdf-icon-wrap" style="background:' + cc.bg + ';color:' + p.color + '">' + (CAT_ICO[p.cat] || '') + '</div>' +
+              '<div class="pdf-info">' +
+                '<div class="pdf-title">' + p.title + '</div>' +
+                '<div class="pdf-subtitle">' + p.subtitle + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="pdf-tags">' +
+              '<span class="pdf-type-tag" style="background:' + cc.bg + ';color:' + cc.color + '">' + (CAT_LBL[p.cat] || p.cat) + '</span>' +
+              tags +
+            '</div>' +
+            '<div class="pdf-actions">' +
+              '<a href="' + p.file + '.pdf" class="pdf-btn-dl" target="_blank" rel="noopener">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>' +
+                'Ouvrir PDF' +
+              '</a>' +
+              '<a href="' + p.file + '.pdf" class="pdf-btn-view" download>' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+                'Télécharger' +
+              '</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '</div></div>';
+    main.innerHTML += html;
+  });
+
+  if (!main.innerHTML.trim()) {
+    main.innerHTML = '<div class="section-wrap" style="text-align:center;padding:48px 0;color:var(--gray);font-size:14px;">Aucune ressource pour ce filtre.</div>';
+  }
+}
+
+function toggleTheme() {
+  var d = document.documentElement;
+  var n = d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  d.setAttribute('data-theme', n);
+  try { localStorage.setItem('ks_theme', n); } catch(e) {}
+}
+
+render();
+</script>
+</body>
+</html>

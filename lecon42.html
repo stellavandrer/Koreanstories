@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <title>Korean Stories — Leçon A1 : L'Heure, les Jours et les Mois</title>
+  <meta name="description" content="Apprends à dire l'heure, les jours de la semaine et les mois en coréen. Essentiel pour TOPIK 1."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden}
+    .tbar{position:sticky;top:0;z-index:100;background:var(--surf);border-bottom:1px solid var(--bd);padding:0 18px;height:56px;display:flex;align-items:center;gap:14px}
+    .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
+    .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
+    .lives-row{display:flex;gap:3px;flex-shrink:0}
+    .hrt{font-size:16px;color:#ef4444;line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
+    .gram-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .2s;flex-shrink:0}
+    .gram-btn:hover{border-color:var(--gold);color:var(--navy)}
+    .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
+    .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
+    .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px}
+    .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
+    .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
+    .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+    .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
+    .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px}
+    .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px}
+    .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
+    .story-scene{font-size:11px;color:rgba(247,248,250,.3)}
+    /* Time card */
+    .time-display{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px;text-align:center}
+    .time-big{font-size:56px;font-weight:300;color:white;margin-bottom:6px}
+    .time-kor{font-size:22px;color:var(--gold);font-weight:600;margin-bottom:4px}
+    .time-rom{font-size:14px;color:rgba(247,248,250,.5);margin-bottom:16px}
+    .time-formula{background:rgba(255,255,255,.07);border-radius:14px;padding:12px 16px;font-size:13px;color:rgba(247,248,250,.7);line-height:1.7;text-align:left}
+    .time-formula em{color:var(--gold);font-style:normal;font-weight:700}
+    /* Grid calendar */
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:20px}
+    .cal-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer;transition:all .2s}
+    .cal-card:hover,.cal-card.on{background:var(--navy);border-color:var(--gold)}
+    .cal-kor{font-size:16px;color:var(--t);font-weight:400}
+    .cal-card.on .cal-kor{color:white}
+    .cal-rom{font-size:9px;color:var(--t3);font-weight:600;margin-top:3px}
+    .cal-card.on .cal-rom{color:var(--gold)}
+    .cal-mean{font-size:8px;color:var(--t3);margin-top:1px}
+    .cal-card.on .cal-mean{color:rgba(255,255,255,.5)}
+    /* Month grid */
+    .month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+    .month-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s}
+    .month-card:hover,.month-card.on{background:var(--navy);border-color:var(--gold)}
+    .month-num{font-size:11px;font-weight:800;color:var(--t3);margin-bottom:4px}
+    .month-card.on .month-num{color:var(--gold)}
+    .month-kor{font-size:18px;color:var(--t);font-weight:300}
+    .month-card.on .month-kor{color:white}
+    .month-rom{font-size:9px;color:var(--t3)}
+    .month-card.on .month-rom{color:rgba(255,255,255,.5)}
+    /* MCQ */
+    .mcq{text-align:center}
+    .q-cnt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;display:block}
+    .q-prompt{font-size:15px;font-weight:500;color:var(--t);margin-bottom:20px;line-height:1.5}
+    .q-big{font-size:clamp(28px,8vw,42px);color:var(--t);line-height:1.3;font-weight:400;margin:0 0 8px;cursor:pointer;display:inline-block;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:12px 20px}
+    .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:380px;margin:0 auto 12px}
+    .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center}
+    .ch:hover:not(:disabled){border-color:var(--gold);background:var(--goldp)}
+    .ch.ok{border-color:#22c55e!important;background:rgba(34,197,94,.08)!important;color:#15803d!important}
+    .ch.ko{border-color:#ef4444!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch:disabled{cursor:default}
+    .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
+    .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#15803d}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .2s}
+    .next-btn:hover{opacity:.88}
+    /* Vocab card */
+    .vc{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:20px}
+    .vc-title{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px}
+    .vrow{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}
+    .vrow:last-child{border-bottom:none}
+    .vkor{font-size:19px;color:var(--t);font-weight:300;min-width:80px;cursor:pointer}
+    .vrom{font-size:11px;color:var(--gold);font-weight:700;min-width:70px}
+    .vmean{font-size:13px;color:var(--t2)}
+    .vplay{background:none;border:none;cursor:pointer;padding:2px;margin-left:auto;color:var(--gold)}
+    .vplay svg{width:14px;height:14px;fill:var(--gold)}
+    /* Results */
+    .results{display:none;text-align:center;padding:32px 0}
+    .res-inner{background:var(--surf);border:1.5px solid var(--bd);border-radius:24px;padding:28px 22px}
+    .res-stars{display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+    .res-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .res-subtitle{font-size:12px;color:var(--t3);margin-bottom:20px}
+    .res-stats{display:flex;justify-content:center;gap:28px;margin-bottom:20px}
+    .res-stat-n{font-size:24px;font-weight:800;color:var(--t)}
+    .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    .res-mina{width:80px;margin:0 auto 14px;display:block}
+    .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px}
+    .res-prim:hover{opacity:.88}
+    .res-prim svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .res-btns-row{display:flex;gap:10px}
+    .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
+    .res-sec:hover{border-color:var(--gold)}
+    [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
+    [data-theme=dark] .q-prompt{color:var(--t)}
+    .gram-overlay{position:fixed;inset:0;background:rgba(15,27,45,.6);z-index:500;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+    .gram-overlay.open{display:flex}
+    .gram-modal{background:var(--surf);border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:78vh;overflow-y:auto;padding:24px 24px 32px;animation:slideUp .3s cubic-bezier(.4,0,.2,1)}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+    .gram-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .gram-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t)}
+    .gram-close{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);background:none;font-size:20px;color:var(--gray);cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .gram-rule{padding:10px 0;border-bottom:1px solid var(--bd)}
+    .gram-rule:last-of-type{border-bottom:none}
+    .gram-head{font-size:13px;font-weight:800;color:var(--gold);margin-bottom:5px}
+    .gram-exp{font-size:13px;color:var(--t2);line-height:1.6}
+    .gram-exp em{color:var(--t);font-style:normal;font-weight:700}
+    .gram-tip{margin-top:12px;background:var(--goldp);border:1px solid rgba(201,169,110,.2);border-radius:12px;padding:12px;font-size:13px;color:var(--t);line-height:1.7}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+
+<div id="gramOverlay" class="gram-overlay">
+  <div class="gram-modal">
+    <div class="gram-hd">
+      <span class="gram-title">L'heure en coréen — Structure</span>
+      <button class="gram-close" onclick="closeGram()">×</button>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">Structure : 몇 시 몇 분이에요?</div>
+      <div class="gram-exp"><em>[chiffre natif] 시 [chiffre sino-coréen] 분이에요</em><br>시 = heure · 분 = minute · 이에요 = c'est<br>Ex : 세 시 삼십 분이에요 = Il est 3h30</div>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">Chiffres natifs pour les heures (1-12)</div>
+      <div class="gram-exp">한 시(1h) · 두 시(2h) · 세 시(3h) · 네 시(4h) · 다섯 시(5h) · 여섯 시(6h)<br>일곱 시(7h) · 여덟 시(8h) · 아홉 시(9h) · 열 시(10h) · 열한 시(11h) · 열두 시(12h)</div>
+    </div>
+    <div class="gram-rule">
+      <div class="gram-head">Chiffres sino-coréens pour les minutes (0-59)</div>
+      <div class="gram-exp">일 분(1min) · 오 분(5min) · 십 분(10min) · 이십 분(20min) · 삼십 분(30min) · 사십 오 분(45min)</div>
+    </div>
+    <div class="gram-tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> <strong>오전/오후</strong> (matin/après-midi) se place AVANT l'heure : <em>오후 세 시</em> = 15h00</div>
+  </div>
+</div>
+
+<div class="bar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours</a>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+      <span class="ico-l"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+      <span class="ico-d"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/></svg></span>
+    </button>
+    <a href="profil.html" class="bar-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpEl">0</span> XP
+    </a>
+  </div>
+</div>
+
+<div class="tbar">
+  <a href="cours.html" class="quit"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></a>
+  <div class="ptrack"><div class="pbar" id="pbar"></div></div>
+  <button class="gram-btn" onclick="openGram()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Grammaire</button>
+  <div class="lives-row"><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span><span class="hrt lost"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span></div>
+</div>
+<div id="stepDots" class="step-dots"></div>
+<div class="mhdr">
+  <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+  <div><div class="mnm">Korean Stories</div><div class="msay" id="msay">몇 시예요? — Quelle heure est-il ? On apprend le temps !</div></div>
+</div>
+
+<div class="wrap">
+  <div id="lc"></div>
+  <div class="results" id="results">
+    <div class="res-inner">
+      <div class="res-stars">
+        <span class="res-star" id="star1"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span class="res-star" id="star2"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span class="res-star" id="star3"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      </div>
+      <div class="res-title">Heure & Calendrier maîtrisés !</div>
+      <div class="res-subtitle">완료 — 잘 했어요 !</div>
+      <div class="res-stats">
+        <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
+        <div class="res-stat"><div class="res-stat-n" id="resXP">+15</div><div class="res-stat-l">XP gagnés</div></div>
+      </div>
+      
+      <div class="res-msg" id="resMsg">Tu peux maintenant dire l'heure, les jours et les mois en coréen. Essaie de donner des rendez-vous en coréen !</div>
+      <div class="res-btns" id="resBtns">
+        <button class="res-prim" onclick="window.location.href='lecon43.html'">
+          Leçon suivante — Météo & Saisons <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <div class="res-btns-row">
+          <button class="res-sec" id="retryBtn"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>Recommencer</button>
+          <a href="cours.html" class="res-sec"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Parcours</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+function openGram(){document.getElementById('gramOverlay').classList.add('open')}
+function closeGram(){document.getElementById('gramOverlay').classList.remove('open')}
+document.getElementById('gramOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeGram()});
+
+const DAYS=[
+  {kor:'월요일',rom:'wol-yo-il',mean:'Lundi',hanja:'月'},
+  {kor:'화요일',rom:'hwa-yo-il',mean:'Mardi',hanja:'火'},
+  {kor:'수요일',rom:'su-yo-il',mean:'Mercredi',hanja:'水'},
+  {kor:'목요일',rom:'mok-yo-il',mean:'Jeudi',hanja:'木'},
+  {kor:'금요일',rom:'geum-yo-il',mean:'Vendredi',hanja:'金'},
+  {kor:'토요일',rom:'to-yo-il',mean:'Samedi',hanja:'土'},
+  {kor:'일요일',rom:'il-yo-il',mean:'Dimanche',hanja:'日'},
+];
+const MONTHS=[
+  {n:1,kor:'일월',rom:'il-wol'},{n:2,kor:'이월',rom:'i-wol'},{n:3,kor:'삼월',rom:'sam-wol'},
+  {n:4,kor:'사월',rom:'sa-wol'},{n:5,kor:'오월',rom:'o-wol'},{n:6,kor:'유월',rom:'yu-wol'},
+  {n:7,kor:'칠월',rom:'chil-wol'},{n:8,kor:'팔월',rom:'pal-wol'},{n:9,kor:'구월',rom:'gu-wol'},
+  {n:10,kor:'시월',rom:'si-wol'},{n:11,kor:'십일월',rom:'sip-il-wol'},{n:12,kor:'십이월',rom:'si-bi-wol'},
+];
+
+const STEPS=[
+  {type:'story',tag:'Leçon A1 · L\'Heure, Jours & Mois',
+   txt:'"Emma arrive en retard au café. Ji-woo lui dit : 지금 몇 시예요? (Quelle heure est-il maintenant?) Emma répond : 오후 두 시 삼십 분이에요. (Il est 14h30.) Ji-woo : 오늘 무슨 요일이에요? (C\'est quel jour aujourd\'hui?) Emma : 수요일이에요 ! (C\'est mercredi!)"',
+   scene:'Café de Insadong, Séoul — après-midi',
+   mina:'안녕하세요 ! Pour savoir dire l\'heure, les jours et les mois, tu dois combiner les deux systèmes de chiffres coréens. On commence !'
+  },
+  {type:'timedisp',
+   time:'3:30',kor:'세 시 삼십 분이에요',rom:'se si sam-sip bun-i-e-yo',
+   formula:'[chiffre NATIF] 시 [chiffre SINO] 분이에요',
+   note:'시 = heure · 분 = minute · 이에요 = "c\'est". Les heures avec chiffres NATIFS, les minutes avec chiffres SINO-coréens !',
+   mina:'La règle d\'or : HEURES → chiffres natifs (한, 두, 세…) · MINUTES → chiffres sino-coréens (일, 이, 삼…). Différents systèmes, même phrase !'
+  },
+  {type:'vocabcard',
+   title:'Vocabulaire du temps quotidien',
+   items:[
+     {kor:'몇 시예요?',rom:'myeot si-ye-yo?',mean:'Quelle heure est-il ?'},
+     {kor:'지금',rom:'ji-geum',mean:'maintenant'},
+     {kor:'오전',rom:'o-jeon',mean:'matin (AM)'},
+     {kor:'오후',rom:'o-hu',mean:'après-midi (PM)'},
+     {kor:'오늘',rom:'o-neul',mean:"aujourd'hui"},
+     {kor:'어제',rom:'eo-je',mean:'hier'},
+     {kor:'내일',rom:'nae-il',mean:'demain'},
+     {kor:'이번 주',rom:'i-beon ju',mean:'cette semaine'},
+     {kor:'이번 달',rom:'i-beon dal',mean:'ce mois-ci'},
+   ],
+   mina:'Ces mots du quotidien apparaissent dans presque chaque conversation en coréen. Écoute et mémorise-les bien !'
+  },
+  {type:'days',mina:'월화수목금토일 — 7 jours appris grâce aux caractères chinois ! Chaque jour = un élément naturel + 요일. Clique sur chacun pour entendre !'},
+  {type:'months',mina:'Les mois en coréen sont faciles — juste le chiffre sino-coréen + 월 ! Mais attention : 6월 = 유월 (pas 육월) et 10월 = 시월 (pas 십월). Deux exceptions à retenir !'},
+  {type:'mcq',qn:1,
+   prompt:'Comment dit-on "Il est 7 heures" en coréen ?',
+   main:'7시',
+   answer:'일곱 시예요',choices:['일곱 시예요','칠 시예요','일 시예요','여섯 시예요'],
+   fb_ok:'일곱 시예요 — parfait ! Les heures utilisent les chiffres NATIFS : 일곱 = 7 en natif.',
+   fb_ko:'일곱 시예요. Les heures → chiffres natifs : 일곱 = 7. (칠 = 7 en sino-coréen, mais on dit "일곱 시" pas "칠 시")',
+   mina_ok:'훌륭해요 ! 일곱 시예요 = il est 7h. Toujours chiffres natifs pour les heures !',
+   mina_ko:'일곱 시예요. Astuce : heures → chiffres NATIFS. 일곱 = 7 natif. 한(1) 두(2) 세(3) 네(4) 다섯(5) 여섯(6) 일곱(7)...'
+  },
+  {type:'mcq',qn:2,
+   prompt:'Quel jour de la semaine est 금요일 ?',
+   main:'금요일',
+   answer:'Vendredi',choices:['Vendredi','Jeudi','Samedi','Mercredi'],
+   fb_ok:'Vendredi — parfait ! 금(金) = or en hanja · 금요일 = jour de l\'or = vendredi !',
+   fb_ko:'金 = or = vendredi. 월(月=lune), 화(火=feu), 수(水=eau), 목(木=bois), 금(金=or), 토(土=terre), 일(日=soleil).',
+   mina_ok:'완벽해요 ! 금요일 = vendredi. Les jours coréens viennent des 5 éléments + lune + soleil. Fascinant !',
+   mina_ko:'금요일 = vendredi. Les 7 jours = les 5 éléments (feu, eau, bois, métal, terre) + lune + soleil. Une leçon d\'histoire !'
+  },
+  {type:'mcq',qn:3,
+   prompt:'Comment dit-on "octobre" en coréen ?',
+   main:'10월 = ?',
+   answer:'시월',choices:['시월','십월','열월','십이월'],
+   fb_ok:'시월 — excellent ! 10월 est une exception : on dit 시월 et non 십월 (prononciation simplifiée).',
+   fb_ko:'시월. Attention : 6월=유월 et 10월=시월 sont deux exceptions ! Les autres mois = chiffre sino + 월.',
+   mina_ok:'훌륭해요 ! 시월 = octobre. C\'est une exception à retenir — comme 6월 = 유월, pas 육월 !',
+   mina_ko:'시월 = octobre. Exception : 10월 → 시월 (pas 십월). Idem pour 6월 → 유월 (pas 육월). Deux exceptions seulement !'
+  },
+  {type:'mcq',qn:4,
+   prompt:'Que signifie "오후 세 시 반이에요" ?',
+   main:'오후 세 시 반이에요',
+   answer:'Il est 15h30',choices:['Il est 15h30','Il est 3h00','Il est 13h30','Il est 30h15'],
+   fb_ok:'Il est 15h30 — parfait ! 오후 = après-midi · 세 시 = 3h · 반 = demi (30 min). 오후+3h = 15h !',
+   fb_ko:'Il est 15h30. 오후 = après-midi (PM) · 세 시 = 3h · 반 = moitié/demi. Donc 오후 3h30 = 15h30 !',
+   mina_ok:'완벽해요 ! 오후 세 시 반이에요 = il est 15h30. 반 = demi = 30 minutes. Très pratique !',
+   mina_ko:'오후 세 시 반 = 15h30. 반 = moitié → 30 min. 오전 = matin, 오후 = après-midi. Toujours devant l\'heure !'
+  },
+  {type:'mcq',qn:5,
+   prompt:'Comment demande-t-on "C\'est quand ?" en coréen ?',
+   main:'언제예요?',
+   answer:'C\'est quand ? / Quand est-ce ?',choices:['C\'est quand ? / Quand est-ce ?','Quelle heure est-il ?','Quel jour ?','C\'est combien ?'],
+   fb_ok:'언제예요 = c\'est quand / quand est-ce ? Très utile pour demander une date ou un rendez-vous !',
+   fb_ko:'언제 = quand · 예요 = c\'est. 언제예요 = c\'est quand ? Indispensable pour prendre des rendez-vous !',
+   mina_ok:'훌륭해요 ! 언제예요 ? = c\'est quand ? Souviens-toi : 언제(quand) 어디(où) 뭐(quoi) 누구(qui) 왜(pourquoi) !',
+   mina_ko:'언제예요 = quand est-ce ? Les 5 mots interrogatifs à maîtriser : 언제·어디·뭐·누구·왜 !'
+  },
+];
+
+const TOTAL_Q=STEPS.filter(s=>s.type==='mcq').length;
+let cur=0,score=0,answered=false;
+
+function ksBeep(type){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();if(type==='ok'){[[523.25,0],[659.25,.08],[783.99,.16]].forEach(([f,d])=>{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=f;const t=ctx.currentTime+d;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.14,t+.025);g.gain.exponentialRampToValueAtTime(.001,t+.2);o.start(t);o.stop(t+.2);});}else{const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sawtooth';o.frequency.setValueAtTime(220,ctx.currentTime);o.frequency.linearRampToValueAtTime(110,ctx.currentTime+.2);g.gain.setValueAtTime(.10,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.22);o.start(ctx.currentTime);o.stop(ctx.currentTime+.22);}}catch(e){}}
+function setMina(txt,img){document.getElementById('msay').textContent=txt;si('minaHdr',img||A.e);}
+function initDots(){const el=document.getElementById('stepDots');if(!el)return;const colors={story:'#C9A96E',timedisp:'#4F46E5',vocabcard:'#2563EB',days:'#16A34A',months:'#D97706',mcq:'#F59E0B'};el.innerHTML=STEPS.map((s,i)=>`<div class="sdot" id="dot${i}" style="background:${colors[s.type]||'#C9A96E'};opacity:.25"></div>`).join('');}
+function updateDots(){STEPS.forEach((_,i)=>{const d=document.getElementById('dot'+i);if(!d)return;if(i<cur){d.style.opacity='1';d.classList.remove('current');d.classList.add('done');}else if(i===cur){d.style.opacity='1';d.classList.add('current');d.classList.remove('done');}else{d.style.opacity='.25';d.classList.remove('current','done');}});}
+function updateProgress(){document.getElementById('pbar').style.width=Math.round((cur/STEPS.length)*100)+'%';}
+
+function renderStory(s){return`<div class="story"><span class="story-tag">${s.tag}</span><p class="story-txt">${s.txt}</p><div class="story-scene">${s.scene}</div></div><button class="next-btn" onclick="advance()">Commencer la leçon →</button>`;}
+function renderTimeDisp(s){return`<div class="time-display"><div class="time-big" onclick="speak('${s.kor}')">${s.time}</div><div class="time-kor" onclick="speak('${s.kor}')">${s.kor}</div><div class="time-rom">${s.rom}</div><div class="time-formula">Structure : <em>${s.formula}</em><br>${s.note}</div></div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderVocabCard(s){const rows=s.items.map(it=>`<div class="vrow"><span class="vkor" onclick="speak('${it.kor}')">${it.kor}</span><span class="vrom">${it.rom}</span><span class="vmean">${it.mean}</span><button class="vplay" onclick="speak('${it.kor}',this)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');return`<div class="vc"><div class="vc-title">${s.title||'Vocabulaire'}</div>${rows}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderDays(){const cards=DAYS.map(d=>`<div class="cal-card" onclick="speak('${d.kor}',this)"><div class="cal-kor">${d.hanja}</div><div class="cal-rom">${d.kor}</div><div class="cal-mean">${d.mean}</div></div>`).join('');return`<div style="margin-bottom:14px"><div style="font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px">Les 7 jours de la semaine — 요일</div><div class="cal-grid">${cards}</div></div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderMonths(){const cards=MONTHS.map(m=>`<div class="month-card" onclick="speak('${m.kor}',this)"><div class="month-num">${m.n}월</div><div class="month-kor">${m.kor}</div><div class="month-rom">${m.rom}</div></div>`).join('');return`<div style="margin-bottom:14px"><div style="font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:12px">Les 12 mois — 월 (<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 6월=유월 · 10월=시월)</div><div class="month-grid">${cards}</div></div><button class="next-btn" onclick="advance()">Continuer →</button>`;}
+function renderMcq(s){const chs=s.choices.map(c=>`<button class="ch" onclick="checkMcq(this,'${c.replace(/'/g,"\\'")}','${s.answer.replace(/'/g,"\\'")}','${(s.fb_ok||'').replace(/'/g,"\\'")}','${(s.fb_ko||'').replace(/'/g,"\\'")}','${(s.mina_ok||'').replace(/'/g,"\\'")}','${(s.mina_ko||'').replace(/'/g,"\\'")}',this.closest('.mcq'))">${c}</button>`).join('');return`<div class="mcq"><span class="q-cnt">Question ${s.qn} / ${TOTAL_Q}</span><p class="q-prompt">${s.prompt}</p><div class="q-big" onclick="speak('${s.main}')">${s.main}</div><div class="choices">${chs}</div><div class="fb-strip" id="fb" style="display:none"></div><button class="next-btn" id="nextQ" style="display:none" onclick="advance()">Continuer →</button></div>`;}
+function checkMcq(btn,chosen,answer,fok,fko,mok,mko,wrap){if(answered)return;answered=true;wrap.querySelectorAll('.ch').forEach(b=>b.disabled=true);const ok=chosen===answer;if(ok){score++;btn.classList.add('ok');ksBeep('ok');setMina(mok,A.b);}else{btn.classList.add('ko');wrap.querySelectorAll('.ch').forEach(b=>{if(b.textContent===answer)b.classList.add('ok');});ksBeep('ko');setMina(mko,A.a);}const fb=document.getElementById('fb');fb.textContent=ok?fok:fko;fb.className='fb-strip '+(ok?'ok':'ko');fb.style.display='block';document.getElementById('nextQ').style.display='block';}
+
+function renderStep(){
+  const s=STEPS[cur];const lc=document.getElementById('lc');answered=false;
+  if(s.type==='story')lc.innerHTML=renderStory(s);
+  else if(s.type==='timedisp')lc.innerHTML=renderTimeDisp(s);
+  else if(s.type==='vocabcard')lc.innerHTML=renderVocabCard(s);
+  else if(s.type==='days')lc.innerHTML=renderDays();
+  else if(s.type==='months')lc.innerHTML=renderMonths();
+  else if(s.type==='mcq')lc.innerHTML=renderMcq(s);
+  if(s.mina)setMina(s.mina,A.e);
+  lc.scrollIntoView({behavior:'smooth',block:'start'});
+  updateDots();updateProgress();
+}
+function advance(){cur++;if(cur>=STEPS.length){showResults();return;}renderStep();}
+function showResults(){document.getElementById('lc').style.display='none';document.getElementById('results').style.display='block';document.getElementById('resScore').textContent=score;document.getElementById('resOf').textContent='/ '+TOTAL_Q+' bonnes rép.';try{localStorage.setItem('ks_a_time','done');}catch(e){}document.getElementById('retryBtn').onclick=()=>{cur=0;score=0;document.getElementById('lc').style.display='';document.getElementById('results').style.display='none';renderStep();};}
+
+initDots();renderStep();
+</script>
+</body>
+</html>

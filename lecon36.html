@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Discours indirect avancé — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .table-wrap{overflow-x:auto;margin:.6rem 0}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th{background:rgba(219,39,119,.1);color:#DB2777;padding:.5rem .7rem;text-align:left;font-size:.8rem;font-weight:700}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .warn{background:rgba(219,39,119,.07);border-left:3px solid #DB2777;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .transform-box{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.6rem 0}
+    .transform-row{display:flex;flex-direction:column;gap:.4rem;padding:.5rem 0;border-bottom:1px solid var(--bd);font-size:.9rem}
+    .transform-row:last-child{border-bottom:none}
+    .t-label{font-size:.72rem;font-weight:700;color:var(--tx-muted);text-transform:uppercase;letter-spacing:.04em}
+    .t-orig{color:var(--tx)}
+    .t-result{color:#DB2777;font-weight:700}
+    .dialogue{background:var(--surf);border-radius:12px;padding:.8rem;margin:.6rem 0}
+    .d-line{display:flex;gap:.7rem;align-items:flex-start;margin:.4rem 0;font-size:.9rem}
+    .d-spk{font-weight:700;color:#DB2777;min-width:2.5rem;font-size:.82rem;margin-top:.1rem}
+    .d-txt .ko{font-size:.95rem}
+    .d-txt small{display:block;color:var(--tx-muted);font-size:.78rem;margin-top:.1rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Discours indirect avancé</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Discours indirect avancé & Citation</h2>
+  <span class="pill">B2 · Grammaire</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Rapporter ce que quelqu'un a dit, pensé, demandé ou ordonné — avec toutes les nuances du coréen avancé.</p>
+
+  <h3><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Les 4 types de discours indirect</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Type</th><th>Terminaison</th><th>Exemple</th></tr>
+    <tr><td><strong>Affirmation</strong></td><td class="ko">-다고 하다</td><td class="ko">피곤하다고 했어요 <small style="color:var(--tx-muted)">Il a dit qu'il était fatigué</small></td></tr>
+    <tr><td><strong>Question</strong></td><td class="ko">-(으)냐고 하다</td><td class="ko">어디 가냐고 했어요 <small style="color:var(--tx-muted)">Il a demandé où j'allais</small></td></tr>
+    <tr><td><strong>Ordre</strong></td><td class="ko">-(으)라고 하다</td><td class="ko">기다리라고 했어요 <small style="color:var(--tx-muted)">Il a dit d'attendre</small></td></tr>
+    <tr><td><strong>Suggestion</strong></td><td class="ko">-자고 하다</td><td class="ko">같이 가자고 했어요 <small style="color:var(--tx-muted)">Il a proposé d'y aller ensemble</small></td></tr>
+  </table></div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Transformation : direct → indirect</h3>
+  <div class="transform-box">
+    <div class="transform-row">
+      <span class="t-label">Direct (affirmation)</span>
+      <span class="t-orig">"저는 한국에 살고 싶어요."</span>
+      <span class="t-label">→ Indirect</span>
+      <span class="t-result">한국에 살고 싶다고 했어요.</span>
+    </div>
+    <div class="transform-row">
+      <span class="t-label">Direct (question)</span>
+      <span class="t-orig">"어제 뭐 먹었어요?"</span>
+      <span class="t-label">→ Indirect</span>
+      <span class="t-result">어제 뭐 먹었냐고 물었어요.</span>
+    </div>
+    <div class="transform-row">
+      <span class="t-label">Direct (ordre)</span>
+      <span class="t-orig">"빨리 오세요!"</span>
+      <span class="t-label">→ Indirect</span>
+      <span class="t-result">빨리 오라고 했어요.</span>
+    </div>
+    <div class="transform-row">
+      <span class="t-label">Direct (suggestion)</span>
+      <span class="t-orig">"커피 마시자!"</span>
+      <span class="t-label">→ Indirect</span>
+      <span class="t-result">커피 마시자고 했어요.</span>
+    </div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Nuances avancées : -고 하다 vs autres verbes</h3>
+  <div class="card">
+    <p style="font-size:.9rem;margin:.3rem 0">Le verbe <span class="ko">하다</span> peut être remplacé pour plus de précision :</p>
+    <div class="table-wrap"><table>
+      <tr><th>Verbe</th><th>Nuance</th><th>Exemple</th></tr>
+      <tr><td class="ko">말하다</td><td>Dire (neutre)</td><td class="ko">오라고 말했어요</td></tr>
+      <tr><td class="ko">물어보다</td><td>Demander (question)</td><td class="ko">왜 그랬냐고 물어봤어요</td></tr>
+      <tr><td class="ko">시키다</td><td>Ordonner (hiérarchique)</td><td class="ko">보고서를 쓰라고 시켰어요</td></tr>
+      <tr><td class="ko">부탁하다</td><td>Demander poliment</td><td class="ko">도와달라고 부탁했어요</td></tr>
+      <tr><td class="ko">주장하다</td><td>Affirmer / Soutenir</td><td class="ko">틀렸다고 주장했어요</td></tr>
+      <tr><td class="ko">강조하다</td><td>Insister sur</td><td class="ko">중요하다고 강조했어요</td></tr>
+    </table></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6z"/></svg> -다고 하다 dans les médias</h3>
+  <p style="font-size:.88rem;color:var(--tx-muted);margin:.3rem 0">Dans les journaux et reportages, le discours indirect est omniprésent :</p>
+  <div class="card">
+    <p class="ko" style="font-size:.95rem">전문가들은 경제가 회복되고 있다<strong style="color:#DB2777">고 밝혔습니다</strong>.</p>
+    <p style="font-size:.82rem;color:var(--tx-muted)">Les experts ont révélé que l'économie se redresse.</p>
+    <hr style="border:none;border-top:1px solid var(--bd);margin:.7rem 0">
+    <p class="ko" style="font-size:.95rem">정부는 새로운 정책을 시행하겠<strong style="color:#DB2777">다고 발표했습니다</strong>.</p>
+    <p style="font-size:.82rem;color:var(--tx-muted)">Le gouvernement a annoncé qu'il mettrait en œuvre une nouvelle politique.</p>
+    <hr style="border:none;border-top:1px solid var(--bd);margin:.7rem 0">
+    <p class="ko" style="font-size:.95rem">시민들은 변화가 필요하<strong style="color:#DB2777">다고 호소했습니다</strong>.</p>
+    <p style="font-size:.82rem;color:var(--tx-muted)">Les citoyens ont appelé au changement.</p>
+  </div>
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> Dans la presse : 밝히다 (révéler) · 발표하다 (annoncer) · 호소하다 (appeler) · 강조하다 (insister) remplacent souvent 하다.</div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg> Changements temporels au discours indirect</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Direct</th><th>Indirect</th><th>Changement</th></tr>
+    <tr><td class="ko">가요 (présent)</td><td class="ko">간다고</td><td>→ forme dictionnaire</td></tr>
+    <tr><td class="ko">갔어요 (passé)</td><td class="ko">갔다고</td><td>→ maintenu</td></tr>
+    <tr><td class="ko">갈 거예요 (futur)</td><td class="ko">갈 거라고</td><td>→ -ㄹ 거라고</td></tr>
+    <tr><td class="ko">이에요/예요 (copule)</td><td class="ko">이라고/라고</td><td>→ -이라고 / -라고</td></tr>
+  </table></div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Dialogue réel</h3>
+  <div class="dialogue">
+    <div class="d-line"><span class="d-spk">민지</span><div class="d-txt"><span class="ko">팀장님이 뭐라고 했어?</span><small>Qu'est-ce que le chef d'équipe a dit ?</small></div></div>
+    <div class="d-line"><span class="d-spk">수아</span><div class="d-txt"><span class="ko">내일까지 보고서를 완성하<strong style="color:#DB2777">라고 했어</strong>. 그리고 다음 주에 회의가 있<strong style="color:#DB2777">다고도 했어</strong>.</span><small>Il a dit de finir le rapport pour demain. Et aussi qu'il y avait une réunion la semaine prochaine.</small></div></div>
+    <div class="d-line"><span class="d-spk">민지</span><div class="d-txt"><span class="ko">회의에 우리도 참석하<strong style="color:#DB2777">냐고 물어봤어?</span><small>Tu lui as demandé si on participait aussi à la réunion ?</small></div></div>
+    <div class="d-line"><span class="d-spk">수아</span><div class="d-txt"><span class="ko">응, 우리도 꼭 오<strong style="color:#DB2777">라고 했어</strong>. 준비해!</span><small>Oui, il a dit qu'on devait absolument venir. Prépare-toi !</small></div></div>
+  </div>
+
+  <div class="warn"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Attention : <span class="ko">-아/어 달라고</span> = demander à quelqu'un de faire qqch POUR soi. Ex : <span class="ko">도와달라고 부탁했어요</span> (J'ai demandé de l'aide).</div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Mini-quiz</h3>
+  <div class="card mq" id="q1"><p style="font-weight:600">Comment dit-on "Il a demandé où tu habitais" ?</p>
+    <div class="opt" onclick="a(this,'ko')">어디 살다고 물었어요</div>
+    <div class="opt" onclick="a(this,'ok')">어디 사냐고 물었어요</div>
+    <div class="opt" onclick="a(this,'ko')">어디 살라고 했어요</div>
+  </div>
+  <div class="card mq" id="q2"><p style="font-weight:600">"Viens ici !" → discours indirect ?</p>
+    <div class="opt" onclick="a(this,'ko')">여기 오자고 했어요</div>
+    <div class="opt" onclick="a(this,'ok')">여기 오라고 했어요</div>
+    <div class="opt" onclick="a(this,'ko')">여기 온다고 했어요</div>
+  </div>
+  <div class="card mq" id="q3"><p style="font-weight:600">Dans un journal, quel verbe remplace souvent 하다 pour "annoncer" ?</p>
+    <div class="opt" onclick="a(this,'ko')">물어보다</div>
+    <div class="opt" onclick="a(this,'ko')">부탁하다</div>
+    <div class="opt" onclick="a(this,'ok')">발표하다</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Leçon terminée — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_d01');const b=document.getElementById('doneBtn');if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

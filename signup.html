@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
+  <title>Korean Stories — Créer un compte</title>
+  <meta name="description" content="Rejoins Korean Stories et commence à apprendre le coréen gratuitement avec des histoires, des leçons et des flashcards."/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
+
+    /* ── SPLIT LAYOUT ── */
+    .auth-wrap{display:flex;min-height:100svh}
+    .auth-left{
+      display:none;flex:1;background:var(--navy);
+      position:relative;overflow:hidden;
+      flex-direction:column;align-items:center;justify-content:center;padding:48px;
+    }
+    @media(min-width:860px){.auth-left{display:flex}}
+    .auth-left-bg{
+      position:absolute;inset:0;
+      background:radial-gradient(ellipse at 20% 50%, rgba(201,169,110,.12) 0%, transparent 60%),
+                 radial-gradient(ellipse at 80% 20%, rgba(79,142,247,.08) 0%, transparent 50%);
+    }
+    .auth-left-kr{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(120px,15vw,200px);
+      color:rgba(201,169,110,.08);
+      position:absolute;right:-20px;bottom:-20px;
+      line-height:1;user-select:none;
+    }
+    .auth-left-content{position:relative;z-index:1;text-align:center;max-width:400px}
+    .auth-left-logo{
+      display:flex;align-items:center;gap:10px;margin-bottom:48px;
+      font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white;
+    }
+    .auth-left-logo-icon{
+      width:40px;height:40px;border-radius:12px;
+      background:linear-gradient(135deg,var(--gold),#E8C97E);
+      display:flex;align-items:center;justify-content:center;
+      font-size:18px;font-weight:700;color:var(--navy);
+    }
+
+    /* Benefits list */
+    .benefit-list{list-style:none;text-align:left;display:flex;flex-direction:column;gap:16px;margin-bottom:40px}
+    .benefit-item{display:flex;align-items:center;gap:14px}
+    .benefit-icon{
+      width:36px;height:36px;border-radius:10px;
+      background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.2);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;
+    }
+    .benefit-text{color:rgba(247,248,250,.75);font-size:14px;line-height:1.4}
+    .benefit-text strong{color:white;display:block;font-size:14px;margin-bottom:2px}
+
+    .auth-left-foot{font-size:12px;color:rgba(247,248,250,.3)}
+
+    /* ── RIGHT PANEL ── */
+    .auth-right{
+      flex:0 0 100%;max-width:100%;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:32px 20px 48px;
+    }
+    @media(min-width:860px){.auth-right{flex:0 0 480px;max-width:480px;padding:48px 48px 48px}}
+
+    .auth-form-wrap{width:100%;max-width:420px}
+
+    .auth-mobile-logo{
+      display:flex;align-items:center;gap:10px;margin-bottom:32px;
+      font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);
+    }
+    @media(min-width:860px){.auth-mobile-logo{display:none}}
+    .auth-mobile-logo-icon{
+      width:36px;height:36px;border-radius:10px;
+      background:linear-gradient(135deg,var(--gold),#E8C97E);
+      display:flex;align-items:center;justify-content:center;
+      font-size:16px;font-weight:700;color:var(--navy);
+    }
+
+    .auth-title{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,28px);color:var(--navy);margin-bottom:6px;line-height:1.2}
+    .auth-sub{font-size:14px;color:var(--gray);line-height:1.55;margin-bottom:24px}
+
+    /* Free badge */
+    .free-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);
+      border-radius:100px;padding:4px 12px;
+      font-size:11px;font-weight:700;color:#15803d;
+      margin-bottom:16px;letter-spacing:.04em;text-transform:uppercase;
+    }
+
+    /* ── GOOGLE BTN ── */
+    .btn-google{
+      width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+      padding:13px 20px;border-radius:14px;
+      border:1.5px solid var(--bd);background:var(--surf);
+      font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--navy);
+      cursor:pointer;transition:all .2s;margin-bottom:20px;
+    }
+    .btn-google:hover{border-color:var(--gold);background:var(--goldp);transform:translateY(-1px);box-shadow:var(--shadow)}
+    .btn-google svg{width:20px;height:20px;flex-shrink:0}
+
+    /* ── DIVIDER ── */
+    .divider{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bd)}
+    .divider span{font-size:12px;color:var(--gray);white-space:nowrap;font-weight:500}
+
+    /* ── FORM FIELDS ── */
+    .field{margin-bottom:14px}
+    .field label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px;letter-spacing:.02em}
+    .field input{
+      width:100%;padding:13px 16px;
+      border:1.5px solid var(--bd);border-radius:12px;
+      background:var(--surf);font-family:'Inter',sans-serif;font-size:14px;color:var(--navy);
+      outline:none;transition:all .2s;
+    }
+    .field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
+    .field input::placeholder{color:var(--gray)}
+    .field input.error{border-color:var(--red)}
+    .field input.ok{border-color:var(--green)}
+    .field-hint{font-size:11px;color:var(--gray);margin-top:4px}
+    .field-err{font-size:11px;color:var(--red);margin-top:4px;display:none}
+    .field-err.show{display:block}
+    .field-ok{font-size:11px;color:var(--green);margin-top:4px;display:none}
+    .field-ok.show{display:block}
+
+    /* Name row */
+    .name-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+    /* Password toggle */
+    .field-pw{position:relative}
+    .field-pw input{padding-right:44px}
+    .pw-toggle{
+      position:absolute;right:12px;top:50%;transform:translateY(-50%);
+      background:none;border:none;cursor:pointer;color:var(--gray);padding:4px;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .pw-toggle:hover{color:var(--navy)}
+    .pw-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+    /* Password strength */
+    .pw-strength{margin-top:6px}
+    .pw-strength-bar{display:flex;gap:4px;margin-bottom:4px}
+    .pw-bar-seg{flex:1;height:3px;border-radius:100px;background:var(--bd);transition:background .25s}
+    .pw-strength-label{font-size:11px;color:var(--gray)}
+
+    /* Terms */
+    .terms-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;margin-top:4px}
+    .terms-row input[type="checkbox"]{
+      width:16px;height:16px;flex-shrink:0;margin-top:2px;
+      accent-color:var(--gold);cursor:pointer;
+    }
+    .terms-row label{font-size:12px;color:var(--gray);line-height:1.5;cursor:pointer}
+    .terms-row a{color:var(--gold);text-decoration:none;font-weight:600}
+    .terms-row a:hover{text-decoration:underline}
+
+    /* ── SUBMIT BTN ── */
+    .btn-submit{
+      width:100%;padding:14px;border-radius:14px;
+      background:var(--navy);color:white;border:none;
+      font-family:'Inter',sans-serif;font-size:15px;font-weight:700;
+      cursor:pointer;transition:all .22s;
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      margin-bottom:20px;
+    }
+    .btn-submit:hover:not(:disabled){background:var(--navy2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(15,27,45,.2)}
+    .btn-submit:disabled{opacity:.6;cursor:default;transform:none}
+    .btn-submit .spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:none}
+    .btn-submit.loading .spin{display:block}
+    .btn-submit.loading .btn-txt{display:none}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── SWITCH ── */
+    .auth-switch{text-align:center;font-size:13px;color:var(--gray)}
+    .auth-switch a{color:var(--gold);font-weight:600;text-decoration:none}
+    .auth-switch a:hover{text-decoration:underline}
+
+    /* ── ERROR / SUCCESS BANNERS ── */
+    .err-banner{
+      background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.2);
+      border-radius:12px;padding:12px 14px;font-size:13px;color:#b91c1c;
+      margin-bottom:16px;display:none;line-height:1.5;
+    }
+    .err-banner.show{display:block}
+    .ok-banner{
+      background:rgba(34,197,94,.08);border:1.5px solid rgba(34,197,94,.2);
+      border-radius:12px;padding:12px 14px;font-size:13px;color:#15803d;
+      margin-bottom:16px;display:none;line-height:1.5;
+    }
+    .ok-banner.show{display:block}
+
+    /* ── DARK MODE ── */
+
+    [data-theme="dark"] .auth-title{color:#d8e8f5}
+    [data-theme="dark"] .auth-mobile-logo{color:#d8e8f5}
+    [data-theme="dark"] .field label{color:#d8e8f5}
+    [data-theme="dark"] .field input{background:var(--surf);border-color:rgba(255,255,255,.15);color:#d8e8f5}
+    [data-theme="dark"] .field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,.1)}
+    [data-theme="dark"] .btn-google{background:var(--surf);border-color:rgba(255,255,255,.15);color:#d8e8f5}
+    [data-theme="dark"] .btn-google:hover{background:rgba(201,169,110,.1)}
+    [data-theme="dark"] .btn-submit{background:var(--gold);color:var(--navy)}
+    [data-theme="dark"] .btn-submit:hover:not(:disabled){background:var(--gold2)}
+    [data-theme="dark"] .free-badge{background:rgba(34,197,94,.15);color:#4ade80}
+    [data-theme="dark"] .terms-row label{color:#7a9ab8}
+  </style>
+  <script src="ks.js" defer></script>
+</head>
+<body>
+
+<div class="auth-wrap">
+
+  <!-- LEFT — branding panel (desktop only) -->
+  <div class="auth-left">
+    <div class="auth-left-bg"></div>
+    <div class="auth-left-kr">어</div>
+    <div class="auth-left-content">
+      <div class="auth-left-logo">
+        <div class="auth-left-logo-icon">韓</div>
+        Korean Stories
+      </div>
+      <ul class="benefit-list">
+        <li class="benefit-item">
+          <div class="benefit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+          <div class="benefit-text">
+            <strong>11 histoires interactives</strong>
+            Apprends avec des récits immersifs et du vocabulaire en contexte.
+          </div>
+        </li>
+        <li class="benefit-item">
+          <div class="benefit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+          <div class="benefit-text">
+            <strong>10 leçons Hangeul complètes</strong>
+            Maîtrise l'alphabet coréen étape par étape, avec des flashcards et mnémotechniques.
+          </div>
+        </li>
+        <li class="benefit-item">
+          <div class="benefit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.9 0-3.5-.5-4.8-1.5L8.5 14.5z"/></svg></div>
+          <div class="benefit-text">
+            <strong>Streaks & gamification</strong>
+            Maintiens ta série quotidienne et grimpe dans le classement des apprenants.
+          </div>
+        </li>
+        <li class="benefit-item">
+          <div class="benefit-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+          <div class="benefit-text">
+            <strong>Progression sauvegardée</strong>
+            Reprends exactement où tu t'es arrêté, sur tous tes appareils.
+          </div>
+        </li>
+      </ul>
+      <div class="auth-left-foot">100% gratuit · Aucune carte requise</div>
+    </div>
+  </div>
+
+  <!-- RIGHT — form panel -->
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+
+      <!-- Mobile logo -->
+      <div class="auth-mobile-logo">
+        <div class="auth-mobile-logo-icon">韓</div>
+        Korean Stories
+      </div>
+
+      <div class="free-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> 100% Gratuit</div>
+      <h1 class="auth-title">Crée ton compte 시작하자!</h1>
+      <p class="auth-sub">Rejoins des milliers d'apprenants et commence ton aventure coréenne.</p>
+
+      <!-- Error / success banners -->
+      <div class="err-banner" id="errBanner"></div>
+      <div class="ok-banner" id="okBanner"></div>
+
+      <!-- Google -->
+      <button class="btn-google" id="btnGoogle" onclick="signUpGoogle()">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        S'inscrire avec Google
+      </button>
+
+      <div class="divider"><span>ou avec ton email</span></div>
+
+      <!-- Form -->
+      <form id="signupForm" onsubmit="return false">
+
+        <div class="name-row">
+          <div class="field">
+            <label for="firstName">Prénom</label>
+            <input type="text" id="firstName" placeholder="Léa" autocomplete="given-name" required/>
+          </div>
+          <div class="field">
+            <label for="lastName">Nom</label>
+            <input type="text" id="lastName" placeholder="Martin" autocomplete="family-name"/>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Adresse email</label>
+          <input type="email" id="email" placeholder="prenom@email.com" autocomplete="email" required/>
+          <div class="field-err" id="emailErr"></div>
+        </div>
+
+        <div class="field">
+          <label for="pw">Mot de passe</label>
+          <div class="field-pw">
+            <input type="password" id="pw" placeholder="Minimum 8 caractères" autocomplete="new-password" required oninput="checkPwStrength(this.value)"/>
+            <button type="button" class="pw-toggle" onclick="togglePw('pw','eyePw')">
+              <svg id="eyePw" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="pw-strength">
+            <div class="pw-strength-bar">
+              <div class="pw-bar-seg" id="bar1"></div>
+              <div class="pw-bar-seg" id="bar2"></div>
+              <div class="pw-bar-seg" id="bar3"></div>
+              <div class="pw-bar-seg" id="bar4"></div>
+            </div>
+            <div class="pw-strength-label" id="pwLabel">Au moins 8 caractères</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="pw2">Confirmer le mot de passe</label>
+          <div class="field-pw">
+            <input type="password" id="pw2" placeholder="••••••••" autocomplete="new-password" required oninput="checkPwMatch()"/>
+            <button type="button" class="pw-toggle" onclick="togglePw('pw2','eyePw2')">
+              <svg id="eyePw2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="field-err" id="pw2Err"></div>
+          <div class="field-ok" id="pw2Ok"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Les mots de passe correspondent</div>
+        </div>
+
+        <div class="terms-row">
+          <input type="checkbox" id="terms" required/>
+          <label for="terms">
+            J'accepte les <a href="#" onclick="return false">Conditions d'utilisation</a> et la
+            <a href="#" onclick="return false">Politique de confidentialité</a> de Korean Stories.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit" onclick="signUpEmail()">
+          <div class="spin"></div>
+          <span class="btn-txt">Créer mon compte gratuitement</span>
+        </button>
+      </form>
+
+      <p class="auth-switch">Déjà un compte ? <a href="login.html">Se connecter</a></p>
+
+    </div>
+  </div>
+</div>
+
+<!-- Firebase v10 -->
+<script type="module">
+  import { initializeApp }        from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+  import { getAuth, createUserWithEmailAndPassword, signInWithPopup, updateProfile, GoogleAuthProvider, onAuthStateChanged }
+    from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+
+  // ══════════════════════════════════════════════════════
+  //  CONFIGURATION FIREBASE — copie-colle depuis login.html
+  // ══════════════════════════════════════════════════════
+  const firebaseConfig = {
+    apiKey:            "REMPLACE_PAR_TON_API_KEY",
+    authDomain:        "REMPLACE_PAR_TON_AUTH_DOMAIN",
+    projectId:         "REMPLACE_PAR_TON_PROJECT_ID",
+    storageBucket:     "REMPLACE_PAR_TON_STORAGE_BUCKET",
+    messagingSenderId: "REMPLACE_PAR_TON_MESSAGING_SENDER_ID",
+    appId:             "REMPLACE_PAR_TON_APP_ID"
+  };
+  // ══════════════════════════════════════════════════════
+
+  let app, auth, provider;
+  const FIREBASE_READY = !firebaseConfig.apiKey.includes('REMPLACE');
+
+  if(FIREBASE_READY) {
+    try {
+      app      = initializeApp(firebaseConfig);
+      auth     = getAuth(app);
+      provider = new GoogleAuthProvider();
+      onAuthStateChanged(auth, user => {
+        if(user) { window.location.href = 'app.html'; }
+      });
+    } catch(e) { console.warn('Firebase init failed:', e.message); }
+  } else {
+    showDemoMode();
+  }
+
+  // ── Sign up Email ──
+  window.signUpEmail = async function() {
+    if(!FIREBASE_READY) { demoSignup(); return; }
+
+    const firstName = document.getElementById('firstName').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const pw        = document.getElementById('pw').value;
+    const pw2       = document.getElementById('pw2').value;
+    const terms     = document.getElementById('terms').checked;
+
+    if(!firstName){ showErr('Entre ton prénom.'); return; }
+    if(!email){ showErr('Entre ton adresse email.'); return; }
+    if(pw.length < 8){ showErr('Le mot de passe doit faire au moins 8 caractères.'); return; }
+    if(pw !== pw2){ showErr('Les mots de passe ne correspondent pas.'); return; }
+    if(!terms){ showErr('Tu dois accepter les conditions d\'utilisation.'); return; }
+
+    setLoading(true);
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pw);
+      // Save display name
+      const lastName = document.getElementById('lastName').value.trim();
+      const fullName = lastName ? firstName + ' ' + lastName : firstName;
+      await updateProfile(cred.user, { displayName: fullName });
+      showOk(' Compte créé ! Bienvenue ' + firstName + ' ! Redirection…');
+      setTimeout(() => { window.location.href = 'app.html'; }, 1200);
+    } catch(e) {
+      setLoading(false);
+      const msgs = {
+        'auth/email-already-in-use': 'Cet email est déjà utilisé. <a href="login.html">Se connecter</a>',
+        'auth/invalid-email':        'Adresse email invalide.',
+        'auth/weak-password':        'Mot de passe trop faible (8 caractères minimum).',
+        'auth/operation-not-allowed':'L\'inscription par email n\'est pas activée dans Firebase.',
+      };
+      showErr(msgs[e.code] || 'Erreur : ' + e.message);
+    }
+  };
+
+  // ── Sign up Google ──
+  window.signUpGoogle = async function() {
+    if(!FIREBASE_READY) { demoSignup(); return; }
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, provider);
+      // onAuthStateChanged handles redirect
+    } catch(e) {
+      setLoading(false);
+      if(e.code !== 'auth/popup-closed-by-user') showErr('Erreur Google : ' + e.message);
+    }
+  };
+
+  // ── Demo mode ──
+  function showDemoMode() {
+    const b = document.getElementById('errBanner');
+    b.innerHTML = ' <strong>Mode démo</strong> — Firebase pas encore configuré. ' +
+      'L\'inscription est simulée avec localStorage. ' +
+      '<a href="https://console.firebase.google.com" target="_blank" style="color:inherit;font-weight:700">Configurer Firebase →</a>';
+    b.classList.add('show');
+    b.style.background   = 'rgba(79,142,247,.08)';
+    b.style.borderColor  = 'rgba(79,142,247,.25)';
+    b.style.color        = '#1d4ed8';
+  }
+
+  function demoSignup() {
+    const firstName = document.getElementById('firstName').value.trim() || 'Apprenant';
+    const email     = document.getElementById('email').value.trim() || 'demo@koreanstories.app';
+    const pw        = document.getElementById('pw').value;
+    const pw2       = document.getElementById('pw2').value;
+    if(pw && pw !== pw2){ showErr('Les mots de passe ne correspondent pas.'); return; }
+    try {
+      localStorage.setItem('ks_user', JSON.stringify({ email, name: firstName, demo: true }));
+    } catch(e) {}
+    showOk(' Compte démo créé ! Bienvenue ' + firstName + ' ! Redirection…');
+    setTimeout(() => { window.location.href = 'app.html'; }, 1200);
+  }
+</script>
+
+<script>
+  // ── Shared UI helpers ──
+  function showErr(msg) {
+    const b = document.getElementById('errBanner');
+    b.innerHTML = msg; b.classList.add('show');
+    b.style.background = ''; b.style.borderColor = ''; b.style.color = '';
+  }
+  function showOk(msg) {
+    document.getElementById('errBanner').classList.remove('show');
+    const b = document.getElementById('okBanner');
+    b.textContent = msg; b.classList.add('show');
+  }
+  function setLoading(on) {
+    const btn = document.getElementById('btnSubmit');
+    const g   = document.getElementById('btnGoogle');
+    btn.disabled = on; g.disabled = on;
+    btn.classList.toggle('loading', on);
+  }
+  function togglePw(inputId, iconId) {
+    const input  = document.getElementById(inputId);
+    const icon   = document.getElementById(iconId);
+    const isText = input.type === 'text';
+    input.type   = isText ? 'password' : 'text';
+    icon.innerHTML = isText
+      ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+      : '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  }
+
+  // ── Password strength ──
+  function checkPwStrength(val) {
+    const bars  = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
+    const label = document.getElementById('pwLabel');
+    const len   = val.length;
+    let score   = 0;
+    if(len >= 8)  score++;
+    if(len >= 12) score++;
+    if(/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+    if(/[^A-Za-z0-9]/.test(val)) score++;
+
+    const colors = ['#ef4444','#f97316','#eab308','#22c55e'];
+    const labels = ['Trop court','Faible','Moyen','Fort','Très fort'];
+
+    bars.forEach((b,i) => {
+      b.style.background = i < score ? colors[Math.min(score-1, colors.length-1)] : 'var(--bd)';
+    });
+    label.textContent = len === 0 ? 'Au moins 8 caractères' : labels[score] || 'Très fort';
+    label.style.color = score > 0 ? colors[Math.min(score-1, colors.length-1)] : 'var(--gray)';
+  }
+
+  // ── Password match ──
+  function checkPwMatch() {
+    const pw  = document.getElementById('pw').value;
+    const pw2 = document.getElementById('pw2').value;
+    const err = document.getElementById('pw2Err');
+    const ok  = document.getElementById('pw2Ok');
+    const inp = document.getElementById('pw2');
+    if(pw2.length === 0){ err.classList.remove('show'); ok.classList.remove('show'); inp.classList.remove('error','ok'); return; }
+    if(pw === pw2){
+      err.classList.remove('show'); ok.classList.add('show');
+      inp.classList.remove('error'); inp.classList.add('ok');
+    } else {
+      ok.classList.remove('show');
+      err.textContent = 'Les mots de passe ne correspondent pas.';
+      err.classList.add('show');
+      inp.classList.add('error'); inp.classList.remove('ok');
+    }
+  }
+
+  // Enter key support
+  document.addEventListener('keydown', e => { if(e.key === 'Enter') signUpEmail(); });
+</script>
+
+</body>
+</html>

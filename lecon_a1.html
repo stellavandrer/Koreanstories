@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+  <title>Leçon A1 · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:40px}
+    
+    .back-btn{display:flex;align-items:center;gap:7px;background:rgba(201,169,110,.12);border:1.5px solid rgba(201,169,110,.5);border-radius:100px;color:#C9A96E;font-size:13px;font-weight:700;padding:8px 18px 8px 14px;cursor:pointer;text-decoration:none;transition:all .25s;letter-spacing:.01em;box-shadow:0 0 0 0 rgba(201,169,110,0)}
+    .back-btn:hover{background:rgba(201,169,110,.22);border-color:#C9A96E;color:#e2c97e;box-shadow:0 0 12px rgba(201,169,110,.25);transform:translateX(-2px)}
+    .back-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .tb-title{font-family:'Playfair Display',serif;font-size:14px;color:white;font-style:italic;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+    .lesson-hero{background:#0F1B2D;padding:20px 20px 36px;position:relative;overflow:hidden}
+    .lesson-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:28px;background:var(--bg);border-radius:28px 28px 0 0}
+    .lh-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:100px;padding:4px 12px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#93c5fd;margin-bottom:10px}
+    .lh-num{font-size:11px;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:4px}
+    .lh-title{font-family:'Playfair Display',serif;font-size:clamp(18px,4.5vw,24px);color:white;line-height:1.25;margin-bottom:6px}
+    .lh-sub{font-size:12px;color:rgba(255,255,255,.45);line-height:1.6}
+    .lh-meta{display:flex;gap:12px;margin-top:14px;flex-wrap:wrap}
+    .lh-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.55);font-weight:500}
+    .lh-chip svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+    .wrap{max-width:640px;margin:0 auto;padding:0 16px}
+    .section{background:var(--white);border-radius:16px;padding:20px;margin-top:16px;border:1px solid var(--bd)}
+    .sec-title{font-size:13px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .sec-title svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
+    /* Korean vocab table */
+    .vocab-table{width:100%;border-collapse:collapse;font-size:13px}
+    .vocab-table th{background:#3b82f6;color:white;padding:8px 12px;text-align:left;font-weight:700;font-size:11px}
+    .vocab-table th:first-child{border-radius:8px 0 0 0}
+    .vocab-table th:last-child{border-radius:0 8px 0 0}
+    .vocab-table td{padding:9px 12px;border-bottom:1px solid var(--bd);vertical-align:middle}
+    .vocab-table tr:last-child td{border-bottom:none}
+    .vocab-table tr:nth-child(even) td{background:rgba(59,130,246,.04)}
+    .ko{font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:15px;color:#1e40af}
+    [data-theme="dark"] .ko{color:#93c5fd}
+    .rom{font-size:11px;color:var(--gray);font-style:italic}
+    .fr{font-weight:500}
+    .ex-ko{font-family:'Noto Sans KR',sans-serif;font-size:13px;color:#1e40af;font-weight:700}
+    [data-theme="dark"] .ex-ko{color:#93c5fd}
+
+    /* Grammar rule box */
+    .rule-box{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:0 10px 10px 0;padding:14px 16px;margin:12px 0}
+    [data-theme="dark"] .rule-box{background:rgba(59,130,246,.1);border-left-color:#60a5fa}
+    .rule-box .rule-label{font-size:10px;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+    .rule-box .rule-text{font-size:13px;line-height:1.6;font-weight:500}
+    .rule-box .rule-ko{font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;color:#1e40af;display:block;margin-top:6px}
+    [data-theme="dark"] .rule-box .rule-ko{color:#93c5fd}
+
+    /* Tip box */
+    .tip-box{background:#fefce8;border-left:4px solid #f59e0b;border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0;font-size:12px;line-height:1.6}
+    [data-theme="dark"] .tip-box{background:rgba(245,158,11,.1)}
+    .tip-box strong{color:#b45309}
+
+    /* Examples */
+    .ex-card{background:var(--bg);border-radius:10px;padding:12px 14px;margin:8px 0;border:1px solid var(--bd)}
+    .ex-card .ex-ko{display:block;margin-bottom:3px}
+    .ex-card .ex-fr{font-size:12px;color:var(--gray)}
+    .ex-card .ex-rom{font-size:11px;color:var(--gray);font-style:italic;margin-top:1px}
+
+    /* Mini-quiz */
+    .quiz-wrap{margin-top:4px}
+    .quiz-q{font-size:14px;font-weight:600;margin-bottom:12px;line-height:1.5}
+    .quiz-q .qko{font-family:'Noto Sans KR',sans-serif;color:#1e40af;font-size:16px}
+    [data-theme="dark"] .quiz-q .qko{color:#93c5fd}
+    .quiz-opts{display:flex;flex-direction:column;gap:8px}
+    .qopt{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;border:1.5px solid var(--bd);background:var(--white);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;text-align:left;width:100%}
+    .qopt:hover{border-color:#3b82f6;background:#eff6ff}
+    .qopt.correct{border-color:#22c55e;background:#f0fdf4;color:#15803d}
+    .qopt.wrong{border-color:#ef4444;background:#fef2f2;color:#b91c1c}
+    .qopt .opt-letter{width:22px;height:22px;border-radius:50%;background:var(--bd);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+    .qopt.correct .opt-letter{background:#22c55e;color:white}
+    .qopt.wrong .opt-letter{background:#ef4444;color:white}
+    .quiz-fb{margin-top:12px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;display:none}
+    .quiz-fb.show{display:block}
+    .quiz-fb.ok{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+    .quiz-fb.ko{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+    .quiz-next{margin-top:10px;width:100%;padding:12px;border-radius:10px;background:#3b82f6;color:white;font-weight:700;font-size:13px;border:none;cursor:pointer;display:none;transition:background .15s}
+    .quiz-next.show{display:block}
+    .quiz-next:hover{background:#2563eb}
+    .quiz-done{text-align:center;padding:20px;display:none}
+    .quiz-done.show{display:block}
+    .quiz-score{font-size:28px;font-weight:800;color:#3b82f6}
+    .quiz-score-lbl{font-size:13px;color:var(--gray);margin-top:4px}
+
+    /* Progress bar */
+    .lesson-prog{background:var(--bg);border-bottom:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;gap:10px}
+    .lp-bar{flex:1;height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
+    .lp-fill{height:100%;background:#3b82f6;border-radius:2px;transition:width .4s}
+    .lp-txt{font-size:11px;color:var(--gray);font-weight:600;white-space:nowrap}
+
+    /* Done banner */
+    .done-banner{background:linear-gradient(135deg,#22c55e,#16a34a);color:white;border-radius:14px;padding:18px 20px;margin-top:16px;display:flex;align-items:center;gap:14px}
+    .done-banner svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+    .done-banner h3{font-size:15px;font-weight:700;margin-bottom:2px}
+    .done-banner p{font-size:12px;opacity:.85}
+
+    /* ── Culture note box ── */
+    .culture-box{background:linear-gradient(135deg,#fdf4ff 0%,#f0f9ff 100%);border:1.5px solid #d8b4fe;border-radius:14px;padding:16px 18px;margin:10px 0}
+    [data-theme="dark"] .culture-box{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.3)}
+    .culture-box .cb-item{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(168,85,247,.15)}
+    .culture-box .cb-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+    .culture-box .cb-title{font-size:12px;font-weight:700;color:#7c3aed;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .culture-box .cb-text{font-size:13px;line-height:1.65;color:var(--navy)}
+    .culture-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(168,85,247,.12);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:700;color:#7c3aed;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+
+    /* ── Error box ── */
+    .error-box{background:#fff7ed;border:1.5px solid #fed7aa;border-radius:14px;padding:16px 18px;margin:10px 0}
+    [data-theme="dark"] .error-box{background:rgba(249,115,22,.08);border-color:rgba(249,115,22,.3)}
+    .error-box .err-item{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(249,115,22,.15)}
+    .error-box .err-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+    .err-wrong{display:flex;align-items:center;gap:6px;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:#dc2626;font-size:14px;margin-bottom:3px}
+    .err-wrong::before{content:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';font-family:sans-serif;font-size:11px;background:#fca5a5;color:#991b1b;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .err-correct{display:flex;align-items:center;gap:6px;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:#15803d;font-size:14px;margin-bottom:5px}
+    .err-correct::before{content:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';font-family:sans-serif;font-size:11px;background:#86efac;color:#14532d;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .err-expl{font-size:12px;color:var(--gray);line-height:1.55;padding-left:22px}
+    .error-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(249,115,22,.12);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:700;color:#ea580c;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+
+    /* ── Method / tip box ── */
+    .method-box{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:14px 16px;margin:10px 0;font-size:13px;line-height:1.65}
+    [data-theme="dark"] .method-box{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.25)}
+    .method-box strong{color:#15803d}
+  
+    /* ── BOTTOM NAV ── */
+    
+    
+    
+    
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    @media(min-width:640px){body{padding-bottom:0}}
+
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+
+<div id="lessonHero" class="lesson-hero">
+  <div style="max-width:600px;margin:0 auto">
+    <div class="lh-badge">
+      <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Niveau A1 — Élémentaire
+    </div>
+    <div class="lh-num" id="lhNum">Leçon 6.1</div>
+    <div class="lh-title" id="lhTitle">Chargement…</div>
+    <div class="lh-sub" id="lhSub"></div>
+    <div class="lh-meta">
+      <div class="lh-chip">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="lhDuration">10 min</span>
+      </div>
+      <div class="lh-chip">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+        <span id="lhWords">Vocabulaire</span>
+      </div>
+      <div class="lh-chip">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        A1
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lesson-prog">
+  <div class="lp-bar"><div class="lp-fill" id="lpFill" style="width:0%"></div></div>
+  <span class="lp-txt" id="lpTxt">0 / 3 sections</span>
+</div>
+
+<div class="wrap" id="lessonBody"></div>
+
+<script>
+var LESSONS = {
+  '6.1':{
+    title:'Toutes les salutations coréennes',
+    sub:'Matin · soir · téléphone · rencontre · séparation · formel vs informel',
+    duration:'12 min', words:'32 expressions', lk:'ks_a1_6_1',
+    sections:[
+      { type:'vocab', title:'Salutations principales', icon:'book',
+        rows:[
+          ['안녕하세요','an-nyeong-ha-se-yo','Bonjour / Bonsoir (formel)'],
+          ['안녕','an-nyeong','Salut (informel, amis proches)'],
+          ['안녕히 계세요','an-nyeong-hi gye-se-yo','Au revoir (dit à celui qui reste)'],
+          ['안녕히 가세요','an-nyeong-hi ga-se-yo','Au revoir (dit à celui qui part)'],
+          ['잘 있어','jal i-sseo','Salut, ciao (informel, à celui qui reste)'],
+          ['잘 가','jal ga','Bonne route (informel, à celui qui part)'],
+          ['처음 뵙겠습니다','cheo-eum boep-get-seum-ni-da','Enchanté (très formel, 1ère fois)'],
+          ['반가워요','ban-ga-wo-yo','Ravi de vous rencontrer (poli)'],
+        ]
+      },
+      { type:'vocab', title:'Salutations par moment de la journée', icon:'clock',
+        rows:[
+          ['좋은 아침이에요','jo-eun a-chi-mi-e-yo','Bonjour (le matin)'],
+          ['좋은 저녁이에요','jo-eun jeo-nyeo-gi-e-yo','Bonsoir'],
+          ['잘 자요','jal ja-yo','Bonne nuit (poli)'],
+          ['잘 자','jal ja','Bonne nuit (informel)'],
+          ['오랜만이에요','o-raen-ma-ni-e-yo','Ça fait longtemps !'],
+          ['잘 지냈어요?','jal ji-naet-sseo-yo','Comment allez-vous ? (litt. Vous avez bien vécu ?)'],
+        ]
+      },
+      { type:'rule', title:'Formel vs Informel', icon:'zap',
+        rules:[
+          { label:'존댓말 (Formel/Poli)', text:'Utilisé avec des inconnus, des aînés, au travail, en public. Terminaisons en -요 ou -습니다/-ㅂ니다.', ko:'안녕하세요! 처음 뵙겠습니다.' },
+          { label:'반말 (Informel)', text:'Utilisé entre amis proches du même âge, avec des enfants. Pas de terminaison -요.', ko:'안녕! 잘 지냈어?' },
+        ],
+        tip:'En Corée, le niveau de langue dépend du contexte social. Utilise toujours le formel avec des inconnus — tu éviteras les malentendus !'
+      },
+      { type:'examples', title:'Exemples en contexte', icon:'message',
+        items:[
+          { ko:'A: 안녕하세요! 처음 뵙겠습니다. B: 네, 반갑습니다!', rom:'A: An-nyeong-ha-se-yo! B: Ne, ban-gap-seum-ni-da!', fr:'A: Bonjour, enchanté ! B: Oui, ravi de vous rencontrer !' },
+          { ko:'A: 잘 지냈어요? B: 네, 잘 지냈어요. 감사해요!', rom:'', fr:'A: Comment allez-vous ? B: Bien, merci !' },
+          { ko:'(Au téléphone) 여보세요?', rom:'yeo-bo-se-yo?', fr:'Allô ? (uniquement au téléphone)' },
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Salutations', icon:'check',
+        questions:[
+          { q:'Comment dit-on "Bonjour" de façon polie en coréen ?', opts:['잘 자요','안녕하세요','반가워요','잘 가'], ans:1 },
+          { q:'Vous partez et votre ami reste. Vous lui dites…', opts:['안녕히 가세요','잘 있어','안녕히 계세요','오랜만이에요'], ans:2 },
+          { q:'Quel mot utilise-t-on UNIQUEMENT au téléphone ?', opts:['안녕','여보세요','좋은 아침','잘 지냈어요'], ans:1 },
+          { q:'반말 est utilisé avec…', opts:['Son patron','Un inconnu dans la rue','Un ami proche du même âge','Le professeur'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '6.2':{
+    title:'존댓말 vs 반말 : les niveaux de langue',
+    sub:'Comprendre les niveaux · règles sociales · quand passer au tutoiement',
+    duration:'14 min', words:'25 paires', lk:'ks_a1_6_2',
+    sections:[
+      { type:'vocab', title:'20 paires formel / informel', icon:'book',
+        rows:[
+          ['있어요 / 있어','it-sseo-yo / it-sseo','Il y a / Y en a (avoir, exister)'],
+          ['먹어요 / 먹어','meo-geo-yo / meo-geo','Je mange / On mange'],
+          ['가요 / 가','ga-yo / ga','On y va / On y va (fam.)'],
+          ['해요 / 해','hae-yo / hae','Je fais / Je fais (fam.)'],
+          ['좋아요 / 좋아','jo-a-yo / jo-a','C\'est bien / C\'est bien (fam.)'],
+          ['알아요 / 알아','a-ra-yo / a-ra','Je sais / Je sais (fam.)'],
+          ['봐요 / 봐','bwa-yo / bwa','Je regarde / Je regarde (fam.)'],
+          ['와요 / 와','wa-yo / wa','Je viens / Viens'],
+        ]
+      },
+      { type:'rule', title:'Règle des niveaux', icon:'zap',
+        rules:[
+          { label:'Avec qui → 존댓말', text:'Personnes plus âgées, inconnus, supérieurs hiérarchiques, situation formelle (shop, médecin, transport en commun).', ko:'선생님, 안녕하세요!' },
+          { label:'Avec qui → 반말', text:'Amis proches, personnes plus jeunes que toi, membres de ta famille proche.', ko:'야, 우리 밥 먹자!' },
+        ],
+        tip:'En coréen, passer du 존댓말 au 반말 est une étape importante dans une relation. On dit "반말해도 돼요?" (Je peux te tutoyer ?). Attends toujours d\'être invité(e) !'
+      },
+      { type:'examples', title:'Même phrase, deux niveaux', icon:'message',
+        items:[
+          { ko:'(Formel) 밥 먹었어요? / (Informel) 밥 먹었어?', rom:'bap meo-geo-sseo-yo? / bap meo-geo-sseo?', fr:'Tu as mangé ? (formel / informel)' },
+          { ko:'(Formel) 어디 가요? / (Informel) 어디 가?', rom:'eo-di ga-yo? / eo-di ga?', fr:'Tu vas où ? (formel / informel)' },
+          { ko:'(Formel) 이름이 뭐예요? / (Informel) 이름이 뭐야?', rom:'', fr:'C\'est quoi ton nom ? (formel / informel)' },
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — 존댓말 vs 반말', icon:'check',
+        questions:[
+          { q:'Quelle terminaison indique le registre poli (-yo) ?', opts:['아/어','야','요','다'], ans:2 },
+          { q:'Tu rencontres le professeur de ta fac. Tu utilises…', opts:['반말','존댓말','Les deux, c\'est pareil','Ni l\'un ni l\'autre'], ans:1 },
+          { q:'Forme informelle de "가요" (on y va) ?', opts:['갑니다','가요','가','갔어요'], ans:2 },
+          { q:'Comment demander poliment à passer au tutoiement ?', opts:['야, 반말해!','반말해도 돼요?','존댓말 해요!','아니요'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '6.3':{
+    title:'Remercier, s\'excuser, répondre',
+    sub:'감사합니다 · 죄송합니다 · 아니에요 · 괜찮아요 · formules fixes',
+    duration:'10 min', words:'18 formules', lk:'ks_a1_6_3',
+    sections:[
+      { type:'vocab', title:'Remercier & Répondre', icon:'book',
+        rows:[
+          ['감사합니다','gam-sa-ham-ni-da','Merci (très formel)'],
+          ['감사해요','gam-sa-hae-yo','Merci (poli)'],
+          ['고마워요','go-ma-wo-yo','Merci (moins formel)'],
+          ['고마워','go-ma-wo','Merci (informel, amis)'],
+          ['천만에요','cheon-man-e-yo','De rien (formel)'],
+          ['아니에요','a-ni-e-yo','Ce n\'est rien / De rien'],
+        ]
+      },
+      { type:'vocab', title:'S\'excuser & Répondre', icon:'book',
+        rows:[
+          ['죄송합니다','joe-song-ham-ni-da','Je suis désolé(e) (très formel)'],
+          ['미안해요','mi-an-hae-yo','Désolé(e) (poli)'],
+          ['미안해','mi-an-hae','Désolé(e) (informel)'],
+          ['괜찮아요','gwaen-cha-na-yo','C\'est OK / Pas de problème'],
+          ['괜찮아','gwaen-cha-na','C\'est bon (informel)'],
+          ['실례합니다','sil-lye-ham-ni-da','Excusez-moi (pour interrompre)'],
+          ['잠깐만요','jam-kkan-man-yo','Un instant / Attendez'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Politesse', icon:'check',
+        questions:[
+          { q:'Comment dit-on "Merci" de façon très formelle ?', opts:['고마워','감사해요','감사합니다','아니에요'], ans:2 },
+          { q:'Quelqu\'un te dit 감사해요. Tu réponds…', opts:['죄송합니다','괜찮아요','아니에요','잠깐만요'], ans:2 },
+          { q:'Tu marches sur le pied de quelqu\'un dans le métro. Tu dis…', opts:['괜찮아요','감사합니다','죄송합니다','실례합니다'], ans:2 },
+          { q:'미안해 vs 미안해요 — quelle est la différence ?', opts:['Sens différent','미안해 est informel, 미안해요 est poli','미안해요 est plus grave','Aucune différence'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '7.1':{
+    title:'Se présenter : nom, nationalité, profession',
+    sub:'저는 ___ 이에요/예요 · 저는 프랑스 사람이에요 · 30 professions',
+    duration:'15 min', words:'35 mots', lk:'ks_a1_7_1',
+    sections:[
+      { type:'rule', title:'Structure de présentation', icon:'zap',
+        rules:[
+          { label:'Mon nom', text:'저는 [Nom] 이에요 / 예요 — "Je suis [Nom]". On utilise 이에요 après une consonne, 예요 après une voyelle.', ko:'저는 마리아예요. / 저는 준이에요.' },
+          { label:'Ma nationalité', text:'저는 [Pays] 사람이에요 — "Je suis de [Pays]". 사람 = personne.', ko:'저는 프랑스 사람이에요.' },
+          { label:'Ma profession', text:'저는 [Profession] 이에요/예요 — "Je suis [Profession]".', ko:'저는 학생이에요.' },
+        ],
+        tip:'이에요 vs 예요 : si le mot se termine par une consonne → 이에요 (학생이에요). Par une voyelle → 예요 (마리아예요).'
+      },
+      { type:'vocab', title:'30 professions essentielles', icon:'book',
+        rows:[
+          ['학생','hak-ssaeng','Étudiant(e)'],
+          ['선생님','seon-saeng-nim','Professeur'],
+          ['의사','ui-sa','Médecin'],
+          ['간호사','gan-ho-sa','Infirmier/ière'],
+          ['회사원','hoe-sa-won','Employé(e) de bureau'],
+          ['요리사','yo-ri-sa','Cuisinier/ière'],
+          ['경찰관','gyeong-chal-gwan','Policier/ière'],
+          ['엔지니어','en-ji-ni-eo','Ingénieur'],
+          ['디자이너','di-ja-i-neo','Designer'],
+          ['기자','gi-ja','Journaliste'],
+          ['변호사','byeon-ho-sa','Avocat(e)'],
+          ['배우','bae-u','Acteur/Actrice'],
+        ]
+      },
+      { type:'vocab', title:'Nationalités & pays', icon:'book',
+        rows:[
+          ['프랑스 사람','peu-rang-seu sa-ram','Français(e)'],
+          ['한국 사람','han-guk sa-ram','Coréen(ne)'],
+          ['미국 사람','mi-guk sa-ram','Américain(e)'],
+          ['일본 사람','il-bon sa-ram','Japonais(e)'],
+          ['중국 사람','jung-guk sa-ram','Chinois(e)'],
+          ['캐나다 사람','kae-na-da sa-ram','Canadien(ne)'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Se présenter', icon:'check',
+        questions:[
+          { q:'Comment dit-on "Je suis étudiant(e)" ?', opts:['저는 학생이에요','나는 선생님이야','저는 프랑스예요','저는 의사요'], ans:0 },
+          { q:'Après une voyelle, on utilise…', opts:['이에요','예요','에요','입니다'], ans:1 },
+          { q:'저는 프랑스 사람이에요 signifie…', opts:['Je parle français','Je suis en France','Je suis français(e)','J\'aime la France'], ans:2 },
+          { q:'Comment dit-on "professeur" en coréen ?', opts:['학생','의사','선생님','요리사'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '7.2':{
+    title:'L\'âge, la ville, les goûts',
+    sub:'몇 살이에요? · 어디 사세요? · 좋아해요 · 싫어해요 · hobbies',
+    duration:'13 min', words:'28 mots', lk:'ks_a1_7_2',
+    sections:[
+      { type:'vocab', title:'L\'âge & Questions personnelles', icon:'book',
+        rows:[
+          ['나이','na-i','Âge'],
+          ['몇 살이에요?','myeot sa-ri-e-yo','Quel âge avez-vous ?'],
+          ['스물한 살이에요','seu-mul-han sa-ri-e-yo','J\'ai 21 ans (natif)'],
+          ['어디 사세요?','eo-di sa-se-yo','Où habitez-vous ?'],
+          ['서울에 살아요','seo-u-re sa-ra-yo','J\'habite à Séoul'],
+          ['어디서 왔어요?','eo-di-seo wa-sseo-yo','D\'où venez-vous ?'],
+          ['파리에서 왔어요','pa-ri-e-seo wa-sseo-yo','Je viens de Paris'],
+        ]
+      },
+      { type:'vocab', title:'Goûts & Loisirs', icon:'book',
+        rows:[
+          ['좋아해요','jo-a-hae-yo','J\'aime'],
+          ['싫어해요','si-reo-hae-yo','Je n\'aime pas'],
+          ['음악','eu-mak','Musique'],
+          ['독서','dok-seo','Lecture'],
+          ['운동','un-dong','Sport'],
+          ['요리','yo-ri','Cuisine'],
+          ['영화','yeong-hwa','Film'],
+          ['여행','yeo-haeng','Voyage'],
+          ['게임','ge-im','Jeux vidéo'],
+          ['K-팝','ke-i-pap','K-pop'],
+        ]
+      },
+      { type:'examples', title:'Phrases complètes', icon:'message',
+        items:[
+          { ko:'저는 스물다섯 살이에요. 서울에 살아요.', rom:'jeo-neun seu-mul-da-seot sa-ri-e-yo. seo-u-re sa-ra-yo.', fr:'J\'ai 25 ans. J\'habite à Séoul.' },
+          { ko:'저는 음악을 좋아해요. 운동은 싫어해요.', rom:'', fr:'J\'aime la musique. Je n\'aime pas le sport.' },
+          { ko:'취미가 뭐예요? — 독서를 좋아해요.', rom:'', fr:'Quel est ton hobby ? — J\'aime la lecture.' },
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Goûts & Âge', icon:'check',
+        questions:[
+          { q:'Comment demander l\'âge poliment ?', opts:['몇 살이에요?','어디 사세요?','이름이 뭐예요?','취미가 뭐예요?'], ans:0 },
+          { q:'저는 음악을 좋아해요 = ?', opts:['Je n\'aime pas la musique','J\'écoute de la musique','J\'aime la musique','Je fais de la musique'], ans:2 },
+          { q:'Comment dire "Je viens de Lyon" ?', opts:['리옹에 살아요','리옹에서 왔어요','리옹을 좋아해요','리옹이에요'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '7.3':{
+    title:'La famille coréenne',
+    sub:'엄마/어머니 · 아빠/아버지 · 형/오빠 · 누나/언니 · 동생 · usage',
+    duration:'14 min', words:'24 mots', lk:'ks_a1_7_3',
+    sections:[
+      { type:'rule', title:'Particularité du coréen', icon:'zap',
+        rules:[
+          { label:'Le sexe DU LOCUTEUR change les mots', text:'En coréen, comment tu appelles tes frères et sœurs dépend de TON sexe, pas du leur. Exemple : une fille appelle son grand frère 오빠, un garçon l\'appelle 형.', ko:'형 (homme → grand frère) / 오빠 (femme → grand frère)' },
+        ],
+        tip:'Pour les parents et grands-parents, la terminaison change aussi selon qu\'on parle d\'eux (어머니) ou qu\'on les appelle directement (엄마 = maman).'
+      },
+      { type:'vocab', title:'Famille — Tableau complet', icon:'book',
+        rows:[
+          ['아버지 / 아빠','a-beo-ji / ap-pa','Père / Papa'],
+          ['어머니 / 엄마','eo-meo-ni / eom-ma','Mère / Maman'],
+          ['형 (homme) / 오빠 (femme)','hyeong / op-pa','Grand frère'],
+          ['누나 (homme) / 언니 (femme)','nu-na / eon-ni','Grande sœur'],
+          ['남동생','nam-dong-saeng','Petit frère'],
+          ['여동생','yeo-dong-saeng','Petite sœur'],
+          ['할아버지','ha-ra-beo-ji','Grand-père'],
+          ['할머니','hal-meo-ni','Grand-mère'],
+          ['남편','nam-pyeon','Mari'],
+          ['아내','a-nae','Épouse'],
+          ['아들','a-deul','Fils'],
+          ['딸','ttal','Fille'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Famille', icon:'check',
+        questions:[
+          { q:'Une fille appelle son grand frère…', opts:['형','오빠','누나','언니'], ans:1 },
+          { q:'어머니 signifie…', opts:['Grand-mère','Petite sœur','Mère','Tante'], ans:2 },
+          { q:'남동생 = ?', opts:['Grande sœur','Petit frère','Grande sœur (pour homme)','Petite sœur'], ans:1 },
+          { q:'Un garçon appelle sa grande sœur…', opts:['언니','오빠','누나','형'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '8.1':{
+    title:'Nombres sino-coréens (일 이 삼…)',
+    sub:'0 à 1000+ · prix · étages · dates · numéros de téléphone',
+    duration:'16 min', words:'20 nombres', lk:'ks_a1_8_1',
+    sections:[
+      { type:'vocab', title:'0 à 10 000 — Sino-coréens', icon:'book',
+        rows:[
+          ['영 / 공','yeong / gong','0 (영 général, 공 pour téléphone)'],
+          ['일','il','1'],
+          ['이','i','2'],
+          ['삼','sam','3'],
+          ['사','sa','4'],
+          ['오','o','5'],
+          ['육','yuk','6'],
+          ['칠','chil','7'],
+          ['팔','pal','8'],
+          ['구','gu','9'],
+          ['십','sip','10'],
+          ['백','baek','100'],
+          ['천','cheon','1 000'],
+          ['만','man','10 000'],
+        ]
+      },
+      { type:'rule', title:'Utilisation des sino-coréens', icon:'zap',
+        rules:[
+          { label:'Pour quoi ?', text:'Prix en 원, numéros de téléphone, étages (층), minutes (분), mois (월), années (년), dates du mois (일).', ko:'오천 원 (5 000₩) · 삼층 (3ème étage) · 육월 (juin)' },
+          { label:'Construire des nombres', text:'Combiner : 이십삼 = 20+3 = 23 / 삼백오십 = 350 / 사천이백 = 4 200', ko:'23 → 이십삼 / 350 → 삼백오십' },
+        ],
+        tip:'Le 일 devant 백, 천, 만 est souvent omis à l\'oral : 백 원 (pas 일백 원), 천 원 (pas 일천 원).'
+      },
+      { type:'quiz', title:'Mini-quiz — Sino-coréens', icon:'check',
+        questions:[
+          { q:'Comment dit-on "5 000 won" ?', opts:['오만 원','오천 원','오백 원','오십 원'], ans:1 },
+          { q:'삼십이 = ?', opts:['23','32','13','302'], ans:1 },
+          { q:'On utilise les nombres sino-coréens pour…', opts:['L\'âge','Les heures','Les prix','Compter des objets'], ans:2 },
+          { q:'Comment lire "010-1234-5678" (numéro de tél.) ?', opts:['공일공-일이삼사-오육칠팔','영일영-일이삼사-오육칠팔','둘하나영-하나둘셋넷-다섯여섯일곱여덟','Les deux marchent'], ans:0 },
+        ]
+      }
+    ]
+  },
+  '8.2':{
+    title:'Nombres natifs coréens (하나 둘 셋…)',
+    sub:'1 à 99 · âge · heures · compter des objets · compteurs coréens',
+    duration:'14 min', words:'15 nombres', lk:'ks_a1_8_2',
+    sections:[
+      { type:'vocab', title:'1 à 20 — Natifs coréens', icon:'book',
+        rows:[
+          ['하나','ha-na','1'],
+          ['둘','dul','2'],
+          ['셋','set','3'],
+          ['넷','net','4'],
+          ['다섯','da-seot','5'],
+          ['여섯','yeo-seot','6'],
+          ['일곱','il-gop','7'],
+          ['여덟','yeo-deol','8'],
+          ['아홉','a-hop','9'],
+          ['열','yeol','10'],
+          ['스물','seu-mul','20'],
+          ['서른','seo-reun','30'],
+          ['마흔','ma-heun','40'],
+          ['쉰','swin','50'],
+        ]
+      },
+      { type:'rule', title:'Quand utiliser les natifs ?', icon:'zap',
+        rules:[
+          { label:'Usage', text:'Âge (살), heures (시), compter des objets avec compteurs (개, 명, 잔, 병…)', ko:'스물다섯 살 (25 ans) · 두 시 (2h) · 세 개 (3 objets)' },
+          { label:'Règle importante', text:'하나/둘/셋/넷 → 한/두/세/네 devant un compteur !', ko:'하나 개 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> → 한 개 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> / 두 명 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>' },
+        ],
+        tip:'Devant un compteur, 하나→한, 둘→두, 셋→세, 넷→네. Mémorise ces 4 exceptions !'
+      },
+      { type:'quiz', title:'Mini-quiz — Natifs', icon:'check',
+        questions:[
+          { q:'"J\'ai 28 ans" en coréen ?', opts:['이십팔 살이에요','스물여덟 살이에요','열여덟 살이에요','스물여덟이에요'], ans:1 },
+          { q:'"3 personnes" = ?', opts:['셋 명','삼 명','세 명','서 명'], ans:2 },
+          { q:'"Il est 7h" = ?', opts:['칠 시예요','일곱 시예요','일곱시 이에요','칠시예요'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '8.3':{
+    title:'Dire l\'heure, les jours & les mois',
+    sub:'몇 시예요? · 월/일 · 요일 · 계절 · AM/PM · expressions temporelles',
+    duration:'15 min', words:'30 mots', lk:'ks_a1_8_3',
+    sections:[
+      { type:'vocab', title:'Heures & Minutes', icon:'book',
+        rows:[
+          ['몇 시예요?','myeot si-ye-yo','Quelle heure est-il ?'],
+          ['시','si','Heure (natif pour heure)'],
+          ['분','bun','Minute (sino-coréen)'],
+          ['오전','o-jeon','AM (matin)'],
+          ['오후','o-hu','PM (après-midi)'],
+          ['두 시 삼십 분','du si sam-sip bun','2h30'],
+          ['정오','jeong-o','Midi'],
+          ['자정','ja-jeong','Minuit'],
+        ]
+      },
+      { type:'vocab', title:'Jours & Mois', icon:'book',
+        rows:[
+          ['월요일','wo-ryo-il','Lundi (月)'],
+          ['화요일','hwa-yo-il','Mardi (火)'],
+          ['수요일','su-yo-il','Mercredi (水)'],
+          ['목요일','mo-gyo-il','Jeudi (木)'],
+          ['금요일','geu-myo-il','Vendredi (金)'],
+          ['토요일','to-yo-il','Samedi (土)'],
+          ['일요일','i-ryo-il','Dimanche (日)'],
+          ['일월','il-wol','Janvier (1er mois)'],
+          ['유월','yu-wol','Juin (6ème mois — irrégulier)'],
+          ['시월','si-wol','Octobre (10ème mois — irrégulier)'],
+        ]
+      },
+      { type:'rule', title:'Dates complètes', icon:'zap',
+        rules:[
+          { label:'Format', text:'Année 년 + Mois 월 + Jour 일. Ex: 2025년 6월 15일 = 15 juin 2025.', ko:'오늘은 몇 월 며칠이에요? (Quel jour sommes-nous ?)' },
+        ],
+        tip:'유월 (juin) et 시월 (octobre) sont irréguliers — on n\'ajoute pas 육 ou 십 car c\'est difficile à prononcer. Attention !'
+      },
+      { type:'quiz', title:'Mini-quiz — Temps', icon:'check',
+        questions:[
+          { q:'"Il est 3h du matin" = ?', opts:['오후 세 시예요','오전 세 시예요','삼 시예요','세 시 오전이에요'], ans:1 },
+          { q:'Juin en coréen = ?', opts:['육월','유월','육시','여섯 월'], ans:1 },
+          { q:'"Quel jour sommes-nous ?" = ?', opts:['몇 시예요?','오늘은 무슨 요일이에요?','언제예요?','몇 월이에요?'], ans:1 },
+          { q:'Mardi = ?', opts:['월요일','수요일','화요일','목요일'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '9.1':{
+    title:'Commander de la nourriture',
+    sub:'주세요 · 있어요/없어요 · 하나/둘 주세요 · lire un menu coréen réel',
+    duration:'13 min', words:'25 mots', lk:'ks_a1_9_1',
+    sections:[
+      { type:'vocab', title:'Phrases essentielles au restaurant', icon:'book',
+        rows:[
+          ['___ 주세요','___ ju-se-yo','Donnez-moi ___ / Je voudrais ___'],
+          ['있어요?','i-sseo-yo','Est-ce que vous avez ___ ?'],
+          ['없어요','eop-sseo-yo','Il n\'y en a pas'],
+          ['이거 뭐예요?','i-geo mwo-ye-yo','C\'est quoi ça ?'],
+          ['얼마예요?','eol-ma-ye-yo','C\'est combien ?'],
+          ['맛있어요!','ma-si-sseo-yo','C\'est délicieux !'],
+          ['맵지 않아요?','maep-ji a-na-yo','Ce n\'est pas épicé ?'],
+          ['계산서 주세요','gye-san-seo ju-se-yo','L\'addition, s\'il vous plaît'],
+          ['포장해 주세요','po-jang-hae ju-se-yo','A emporter, s\'il vous plaît'],
+        ]
+      },
+      { type:'vocab', title:'10 plats coréens incontournables', icon:'book',
+        rows:[
+          ['김치찌개','gim-chi jji-gae','Soupe au kimchi'],
+          ['비빔밥','bi-bim-bap','Riz mélangé aux légumes'],
+          ['불고기','bul-go-gi','Bœuf mariné grillé'],
+          ['삼겹살','sam-gyeop-sal','Poitrine de porc grillée'],
+          ['냉면','naeng-myeon','Nouilles froides'],
+          ['순두부찌개','sun-du-bu jji-gae','Soupe au tofu soyeux'],
+          ['김밥','gim-bap','Rouleau de riz aux algues'],
+          ['떡볶이','tteok-bo-kki','Gâteaux de riz pimentés'],
+          ['라면','ra-myeon','Ramen coréen'],
+          ['치킨','chi-kin','Poulet frit coréen'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Au restaurant', icon:'check',
+        questions:[
+          { q:'Comment commander "un bibimbap" ?', opts:['비빔밥 있어요?','비빔밥 주세요','비빔밥 얼마예요?','비빔밥 맛있어요'], ans:1 },
+          { q:'계산서 주세요 = ?', opts:['Encore de l\'eau, s\'il vous plaît','L\'addition, s\'il vous plaît','Une table, s\'il vous plaît','Emporter, s\'il vous plaît'], ans:1 },
+          { q:'맛있어요 = ?', opts:['C\'est épicé','C\'est cher','C\'est délicieux','C\'est trop'], ans:2 },
+          { q:'포장해 주세요 = ?', opts:['Ici / sur place','A emporter','Encore du riz','Réservation'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '9.2':{
+    title:'Les prix & le shopping',
+    sub:'얼마예요? · 비싸요/싸요 · 할인 있어요? · marchés · grands magasins',
+    duration:'12 min', words:'20 mots', lk:'ks_a1_9_2',
+    sections:[
+      { type:'vocab', title:'Vocabulaire shopping', icon:'book',
+        rows:[
+          ['얼마예요?','eol-ma-ye-yo','C\'est combien ?'],
+          ['비싸요','bi-ssa-yo','C\'est cher'],
+          ['싸요','ssa-yo','C\'est pas cher'],
+          ['할인 있어요?','ha-rin i-sseo-yo','Il y a une réduction ?'],
+          ['세일 중이에요','se-il jung-i-e-yo','C\'est en solde'],
+          ['카드 돼요?','ka-deu dwae-yo','Carte bancaire acceptée ?'],
+          ['영수증 주세요','yeong-su-jeung ju-se-yo','Un reçu, s\'il vous plaît'],
+          ['이거 주세요','i-geo ju-se-yo','Je prends ça'],
+          ['더 작은 거 있어요?','deo ja-geun geo i-sseo-yo','Vous avez en plus petit ?'],
+          ['이거 입어봐도 돼요?','i-geo i-beo-bwa-do dwae-yo','Je peux essayer ça ?'],
+        ]
+      },
+      { type:'examples', title:'Dialogues en boutique', icon:'message',
+        items:[
+          { ko:'A: 얼마예요? B: 만오천 원이에요.', rom:'', fr:'A: C\'est combien ? B: C\'est 15 000 won.' },
+          { ko:'A: 할인 있어요? B: 지금 세일 중이에요! 30% 할인이에요.', rom:'', fr:'A: Y a-t-il une réduction ? B: C\'est en solde ! 30% de réduction.' },
+          { ko:'카드 돼요? — 네, 돼요!', rom:'', fr:'Carte bancaire ? — Oui, ça marche !' },
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Shopping', icon:'check',
+        questions:[
+          { q:'Comment demander le prix ?', opts:['얼마예요?','어디예요?','언제예요?','왜예요?'], ans:0 },
+          { q:'비싸요 = ?', opts:['C\'est bon marché','C\'est en solde','C\'est cher','C\'est épicé'], ans:2 },
+          { q:'할인 있어요? = ?', opts:['Il y a du Wi-Fi ?','Il y a des toilettes ?','Il y a une réduction ?','Il y a du stock ?'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '9.3':{
+    title:'Exprimer ses goûts & opinions',
+    sub:'맛있어요! · 맵지 않아요? · 좋아해요 · 별로예요 · 너무 + adj',
+    duration:'11 min', words:'18 expressions', lk:'ks_a1_9_3',
+    sections:[
+      { type:'vocab', title:'Goûts & Opinions', icon:'book',
+        rows:[
+          ['맛있어요','ma-si-sseo-yo','C\'est délicieux'],
+          ['맛없어요','ma-deop-sseo-yo','C\'est pas bon'],
+          ['맵지 않아요','maep-ji a-na-yo','C\'est pas épicé'],
+          ['달아요','da-ra-yo','C\'est sucré'],
+          ['짜요','jja-yo','C\'est salé'],
+          ['너무 매워요','neo-mu mae-wo-yo','C\'est trop épicé'],
+          ['별로예요','byeol-lo-ye-yo','C\'est pas terrible / bof'],
+          ['좋아요','jo-a-yo','C\'est bien'],
+          ['싫어요','si-reo-yo','Je n\'aime pas ça'],
+          ['최고예요!','choe-go-ye-yo','C\'est le meilleur !'],
+        ]
+      },
+      { type:'rule', title:'너무 = trop (souvent positif !)', icon:'zap',
+        rules:[
+          { label:'너무 + adjectif', text:'Littéralement "trop" mais souvent utilisé en positif dans la langue moderne. 너무 맛있어요 = Tellement délicieux ! / C\'est trop bon !', ko:'너무 맛있어요! = Tellement délicieux ! (positif)' },
+        ],
+        tip:'Dans la langue moderne, les jeunes Coréens disent 너무 dans un sens positif. "너무 예뻐요" = Tellement belle ! Ne t\'inquiète pas si ça ressemble à "trop".'
+      },
+      { type:'quiz', title:'Mini-quiz — Opinions', icon:'check',
+        questions:[
+          { q:'너무 매워요 = ?', opts:['Pas du tout épicé','Un peu épicé','C\'est trop épicé','J\'aime l\'épicé'], ans:2 },
+          { q:'별로예요 = ?', opts:['C\'est délicieux !','C\'est le meilleur','C\'est bof / pas terrible','C\'est cher'], ans:2 },
+          { q:'Comment dire "C\'est délicieux !" ?', opts:['맛없어요','맛있어요','별로예요','짜요'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '10.1':{
+    title:'Le métro de Séoul (지하철)',
+    sub:'9 lignes · numéros · annonces · acheter un ticket · T-money card',
+    duration:'14 min', words:'22 mots', lk:'ks_a1_10_1',
+    sections:[
+      { type:'vocab', title:'Vocabulaire du métro', icon:'book',
+        rows:[
+          ['지하철','ji-ha-cheol','Métro'],
+          ['역','yeok','Station'],
+          ['호선','ho-seon','Ligne (ex: 2호선 = ligne 2)'],
+          ['승강장','seung-gang-jang','Quai'],
+          ['출구','chul-gu','Sortie'],
+          ['환승','hwan-seung','Correspondance'],
+          ['종착역','jong-cha-kyeok','Terminus'],
+          ['티머니','ti-meo-ni','Carte T-money (rechargeable)'],
+          ['1회용 카드','il-hoe-yong ka-deu','Ticket à l\'unité'],
+          ['다음 역은','da-eum yeo-geun','La prochaine station est…'],
+          ['내리세요','nae-ri-se-yo','Descendez (annonce)'],
+          ['갈아타세요','ga-ra-ta-se-yo','Changez (correspondance — annonce)'],
+        ]
+      },
+      { type:'rule', title:'Les 9 lignes essentielles', icon:'zap',
+        rules:[
+          { label:'Numéroter les lignes', text:'On dit [nombre]호선 : 일호선 (L1), 이호선 (L2, verte — la plus utilisée), 삼호선 (L3)…', ko:'이호선 타세요 → Prenez la ligne 2' },
+          { label:'Annonce type', text:'"이번 역은 강남, 강남역입니다. 내리실 문은 오른쪽입니다." = Cette station est Gangnam. Les portes s\'ouvrent à droite.', ko:'내리실 문은 왼쪽/오른쪽입니다.' },
+        ],
+        tip:'La T-money est indispensable : elle te donne une réduction par rapport au ticket à l\'unité et fonctionne aussi dans les bus, taxis et même certains commerces !'
+      },
+      { type:'quiz', title:'Mini-quiz — Métro', icon:'check',
+        questions:[
+          { q:'이호선 = ?', opts:['Ligne 1','Ligne 2','Ligne 3','Ligne 12'], ans:1 },
+          { q:'출구 = ?', opts:['Entrée','Quai','Sortie','Correspondance'], ans:2 },
+          { q:'환승 = ?', opts:['Terminus','Ticket','Correspondance','Annonce'], ans:2 },
+          { q:'T-money est…', opts:['Un ticket à l\'unité','Une carte rechargeable','Un abonnement mensuel','Le nom d\'une ligne'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '10.2':{
+    title:'Bus, taxi & KTX',
+    sub:'버스 번호 · 택시 어디까지요? · 기차역 · acheter un billet',
+    duration:'12 min', words:'20 mots', lk:'ks_a1_10_2',
+    sections:[
+      { type:'vocab', title:'Bus, Taxi & Train', icon:'book',
+        rows:[
+          ['버스','beo-seu','Bus'],
+          ['버스 정류장','beo-seu jeong-nyu-jang','Arrêt de bus'],
+          ['택시','taek-si','Taxi'],
+          ['KTX','ke-i-ti-eks','Train grande vitesse'],
+          ['기차역','gi-cha-yeok','Gare'],
+          ['어디까지요?','eo-di-kka-ji-yo','Jusqu\'où ? (taxi)'],
+          ['___까지 가 주세요','___kka-ji ga ju-se-yo','Amenez-moi à ___, s\'il vous plaît'],
+          ['얼마 나와요?','eol-ma na-wa-yo','Ça fait combien ? (taxi)'],
+          ['미터기 켜주세요','mi-teo-gi kyeo-ju-se-yo','Mettez le compteur'],
+          ['기차표','gi-cha-pyo','Billet de train'],
+        ]
+      },
+      { type:'examples', title:'Dialogues transport', icon:'message',
+        items:[
+          { ko:'(Dans un taxi) 홍대까지 가 주세요.', rom:'hong-dae-kka-ji ga ju-se-yo.', fr:'Amenez-moi à Hongdae, s\'il vous plaît.' },
+          { ko:'서울역까지 KTX 표 한 장 주세요.', rom:'', fr:'Un billet KTX pour Seoul Station, s\'il vous plaît.' },
+          { ko:'이 버스가 명동 가요?', rom:'', fr:'Ce bus va à Myeongdong ?' },
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Transport', icon:'check',
+        questions:[
+          { q:'Dans un taxi, comment dire "Amenez-moi à Hongdae" ?', opts:['홍대 있어요?','홍대까지 가 주세요','홍대 주세요','홍대가 어디예요?'], ans:1 },
+          { q:'기차역 = ?', opts:['Aéroport','Gare','Station de métro','Arrêt de bus'], ans:1 },
+          { q:'KTX est…', opts:['Le métro de Séoul','Un bus express','Le train grande vitesse coréen','Un taxi coréen'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '10.3':{
+    title:'Demander & donner des directions',
+    sub:'어디예요? · 왼쪽/오른쪽 · 직진 · 가깝다/멀다 · repères urbains',
+    duration:'13 min', words:'22 mots', lk:'ks_a1_10_3',
+    sections:[
+      { type:'vocab', title:'Directions & Repères', icon:'book',
+        rows:[
+          ['어디예요?','eo-di-ye-yo','Où est-ce ?'],
+          ['왼쪽','oen-jjok','Gauche'],
+          ['오른쪽','o-reun-jjok','Droite'],
+          ['직진','jik-jin','Tout droit'],
+          ['앞','ap','Devant'],
+          ['뒤','dwi','Derrière'],
+          ['옆','yeop','À côté'],
+          ['맞은편','ma-jeun-pyeon','En face'],
+          ['가깝다','ga-kkap-da','C\'est proche'],
+          ['멀다','meol-da','C\'est loin'],
+          ['걸어서','geo-reo-seo','À pied'],
+          ['분 걸려요','bun geol-lyeo-yo','Ça prend ___ minutes'],
+          ['길을 잃었어요','gi-reul i-reo-sseo-yo','Je suis perdu(e)'],
+        ]
+      },
+      { type:'examples', title:'Demander son chemin', icon:'message',
+        items:[
+          { ko:'실례합니다, 지하철역이 어디예요?', rom:'sil-lye-ham-ni-da, ji-ha-cheol-yeo-gi eo-di-ye-yo?', fr:'Excusez-moi, où est la station de métro ?' },
+          { ko:'직진하다가 왼쪽으로 가세요.', rom:'jik-jin-ha-da-ga oen-jjok-eu-ro ga-se-yo.', fr:'Continuez tout droit puis tournez à gauche.' },
+          { ko:'걸어서 5분 걸려요.', rom:'geo-reo-seo o-bun geol-lyeo-yo.', fr:'C\'est à 5 minutes à pied.' },
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Directions', icon:'check',
+        questions:[
+          { q:'오른쪽 = ?', opts:['Gauche','Droite','Tout droit','En face'], ans:1 },
+          { q:'"C\'est à 10 minutes à pied" = ?', opts:['열 분 걸려요','걸어서 열 분 걸려요','십 분이에요','걸어요 열'], ans:1 },
+          { q:'"Je suis perdu(e)" = ?', opts:['어디예요?','길을 잃었어요','멀어요','도와주세요'], ans:1 },
+          { q:'직진 = ?', opts:['Tournez','Rebroussez chemin','Tout droit','À gauche'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '11.1':{
+    title:'Structure SOV & Particules sujet (이/가, 은/는)',
+    sub:'Ordre des mots · sujet vs topic · nuance · 20 exemples annotés',
+    duration:'16 min', words:'Grammaire', lk:'ks_a1_11_1',
+    sections:[
+      { type:'rule', title:'L\'ordre SOV en coréen', icon:'zap',
+        rules:[
+          { label:'Sujet — Objet — Verbe', text:'En coréen, le verbe est TOUJOURS en fin de phrase. Les particules indiquent la fonction des mots (pas l\'ordre comme en français).', ko:'저는 밥을 먹어요. (Je [SUJET] riz [OBJET] mange [VERBE])' },
+          { label:'이/가 — Particule sujet', text:'Marque le sujet de l\'action. 이 après consonne, 가 après voyelle.', ko:'고양이가 자요. (Le chat dort.)' },
+          { label:'은/는 — Particule topic', text:'Marque le thème/topic de la phrase. 은 après consonne, 는 après voyelle. Souvent traduit par "quant à…" ou "pour ce qui est de…"', ko:'저는 학생이에요. (Moi, je suis étudiant.)' },
+        ],
+        tip:'La nuance 이/가 vs 은/는 : 이/가 introduit une information nouvelle ("c\'est X qui…"), 은/는 établit le contexte/topic ("quant à X…"). Ex: 고양이가 자요 (c\'est le chat qui dort, pas le chien) vs 고양이는 자요 (le chat, lui, dort).'
+      },
+      { type:'vocab', title:'20 phrases avec particules annotées', icon:'book',
+        rows:[
+          ['저는 프랑스 사람이에요','jeo-neun...','Moi [TOPIC], je suis français(e)'],
+          ['고양이가 귀여워요','go-yang-i-ga...','Le chat [SUJET] est mignon'],
+          ['오빠는 키가 커요','op-pa-neun...','Mon frère [TOPIC], il est grand'],
+          ['누가 왔어요?','nu-ga...','Qui [SUJET] est venu ?'],
+          ['사과는 맛있어요','sa-gwa-neun...','La pomme [TOPIC], c\'est bon'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Particules sujet/topic', icon:'check',
+        questions:[
+          { q:'Quelle particule après une voyelle pour le sujet ?', opts:['은','는','이','가'], ans:3 },
+          { q:'Ordre correct en coréen ?', opts:['먹어요 저는 밥을','저는 밥을 먹어요','밥을 먹어요 저는','저는 먹어요 밥을'], ans:1 },
+          { q:'은/는 indique…', opts:['L\'objet direct','Le lieu','Le topic/thème','Le temps'], ans:2 },
+          { q:'"Le chien [SUJET] est grand" = ?', opts:['개는 커요','개가 커요','개를 커요','개에 커요'], ans:1 },
+        ]
+      }
+    ]
+  },
+  '11.2':{
+    title:'Particules objet & lieu (을/를, 에, 에서)',
+    sub:'Complément d\'objet · lieu d\'existence · lieu d\'action · construire des phrases',
+    duration:'15 min', words:'Grammaire', lk:'ks_a1_11_2',
+    sections:[
+      { type:'rule', title:'3 particules essentielles', icon:'zap',
+        rules:[
+          { label:'을/를 — Objet direct', text:'Marque le complément d\'objet direct. 을 après consonne, 를 après voyelle.', ko:'저는 밥을 먹어요. (Je mange du riz.) / 음악을 들어요. (J\'écoute de la musique.)' },
+          { label:'에 — Lieu d\'existence / Direction', text:'Marque où quelque chose SE TROUVE ou une direction (destination).', ko:'집에 있어요. (Je suis à la maison.) / 학교에 가요. (Je vais à l\'école.)' },
+          { label:'에서 — Lieu d\'action', text:'Marque l\'endroit où une ACTION se déroule.', ko:'카페에서 공부해요. (J\'étudie au café.) / 서울에서 살아요. (J\'habite à Séoul.)' },
+        ],
+        tip:'에 vs 에서 : 에 = où tu ES / où tu VAS. 에서 = où tu FAIS quelque chose. 집에 있어요 (je suis à la maison) vs 집에서 먹어요 (je mange à la maison).'
+      },
+      { type:'vocab', title:'Exemples contrastés', icon:'book',
+        rows:[
+          ['학교에 가요','ha-gyo-e ga-yo','Je vais à l\'école [DIRECTION]'],
+          ['학교에서 공부해요','ha-gyo-e-seo gong-bu-hae-yo','J\'étudie à l\'école [ACTION]'],
+          ['집에 있어요','ji-be i-sseo-yo','Je suis à la maison [EXISTENCE]'],
+          ['집에서 쉬어요','ji-be-seo swi-eo-yo','Je me repose à la maison [ACTION]'],
+          ['밥을 먹어요','ba-beul meo-geo-yo','Je mange du riz [OBJET]'],
+          ['물을 마셔요','mu-reul ma-syeo-yo','Je bois de l\'eau [OBJET]'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Particules objet/lieu', icon:'check',
+        questions:[
+          { q:'물___ 마셔요. (objet direct, 물 finit par voyelle)', opts:['을','를','에','에서'], ans:1 },
+          { q:'카페___ 공부해요. (action au café)', opts:['에','에서','를','이'], ans:1 },
+          { q:'서울___ 가요. (direction vers Séoul)', opts:['에서','에','을','은'], ans:1 },
+          { q:'밥___ 먹어요. (objet, 밥 finit par consonne)', opts:['를','에','을','은'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '11.3':{
+    title:'Conjugaison au présent (-아/어요)',
+    sub:'Harmonie vocalique · règles · verbes réguliers · top 30 verbes',
+    duration:'18 min', words:'Grammaire', lk:'ks_a1_11_3',
+    sections:[
+      { type:'rule', title:'Règle d\'harmonie vocalique', icon:'zap',
+        rules:[
+          { label:'Radical + 아요 / 어요', text:'Enlève 다 du verbe infinitif = radical. Si la DERNIÈRE voyelle du radical est 아 ou 오 → ajoute 아요. Sinon → ajoute 어요.', ko:'가다 → 가 + 아요 = 가요 (aller)\n먹다 → 먹 + 어요 = 먹어요 (manger)' },
+          { label:'하다 → 해요', text:'Tous les verbes en 하다 deviennent 해요 au présent. C\'est une contraction de 하여요.', ko:'공부하다 → 공부해요 / 일하다 → 일해요' },
+          { label:'Contraction des voyelles', text:'가 + 아요 → 가요 (contraction). 오 + 아요 → 와요. 되 + 어요 → 돼요.', ko:'오다 → 와요 / 되다 → 돼요' },
+        ],
+        tip:'La règle de base : voyelle claire (아/오) → 아요. Voyelle sombre (tout le reste) → 어요. Les verbes en 하다 sont faciles : toujours 해요 !'
+      },
+      { type:'vocab', title:'Top 20 verbes au présent', icon:'book',
+        rows:[
+          ['가요 (가다)','ga-yo','(On) va'],
+          ['와요 (오다)','wa-yo','(On) vient'],
+          ['먹어요 (먹다)','meo-geo-yo','(On) mange'],
+          ['마셔요 (마시다)','ma-syeo-yo','(On) boit'],
+          ['자요 (자다)','ja-yo','(On) dort'],
+          ['봐요 (보다)','bwa-yo','(On) regarde'],
+          ['해요 (하다)','hae-yo','(On) fait'],
+          ['공부해요 (공부하다)','gong-bu-hae-yo','(On) étudie'],
+          ['살아요 (살다)','sa-ra-yo','(On) vit/habite'],
+          ['알아요 (알다)','a-ra-yo','(On) sait'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Conjugaison présent', icon:'check',
+        questions:[
+          { q:'"먹다" au présent poli = ?', opts:['먹아요','먹어요','먹해요','먹요'], ans:1 },
+          { q:'"공부하다" au présent = ?', opts:['공부하아요','공부어요','공부해요','공부아요'], ans:2 },
+          { q:'"오다" au présent = ?', opts:['오아요','오어요','와요','오요'], ans:2 },
+          { q:'Quelle voyelle → terminaison 아요 ?', opts:['이','우','아 ou 오','어'], ans:2 },
+        ]
+      }
+    ]
+  },
+  '11.4':{
+    title:'La négation (안, -지 않아요, 없어요)',
+    sub:'안 + verbe · -지 않아요 · 없어요 vs 아니에요 · erreurs fréquentes',
+    duration:'14 min', words:'Grammaire', lk:'ks_a1_11_4',
+    sections:[
+      { type:'rule', title:'3 façons de nier', icon:'zap',
+        rules:[
+          { label:'안 + verbe (négation courte)', text:'Placer 안 directement devant le verbe/adjectif. Simple et courant à l\'oral.', ko:'안 먹어요. (Je ne mange pas.) / 안 가요. (Je ne vais pas.)' },
+          { label:'-지 않아요 (négation longue)', text:'Ajouter -지 않아요 après le radical. Plus formel, utilisé à l\'écrit.', ko:'먹지 않아요. / 가지 않아요.' },
+          { label:'없어요 vs 아니에요', text:'없어요 = n\'existe pas / il n\'y en a pas. 아니에요 = ce n\'est pas X (après un nom).', ko:'돈이 없어요. (Je n\'ai pas d\'argent.) / 학생이 아니에요. (Je ne suis pas étudiant.)' },
+        ],
+        tip:'Avec 하다 : 안 공부해요 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> mais aussi 공부 안 해요 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> (le 안 se met entre le nom et 해요). 공부하지 않아요 = forme longue.'
+      },
+      { type:'vocab', title:'Exemples de négations', icon:'book',
+        rows:[
+          ['안 먹어요','an meo-geo-yo','Je ne mange pas (court)'],
+          ['먹지 않아요','meok-ji a-na-yo','Je ne mange pas (long)'],
+          ['모르겠어요','mo-reu-ge-sseo-yo','Je ne sais pas (incertitude)'],
+          ['없어요','eop-sseo-yo','Il n\'y en a pas / Je n\'ai pas'],
+          ['아니에요','a-ni-e-yo','Ce n\'est pas (copule)'],
+          ['안 돼요','an dwae-yo','C\'est pas possible / Interdit'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Négation', icon:'check',
+        questions:[
+          { q:'"Je ne vais pas" (forme courte) = ?', opts:['가지 않아요','안 가요','가 아니에요','없어요'], ans:1 },
+          { q:'"Il n\'y a pas de pain" = ?', opts:['빵이 아니에요','빵 안 있어요','빵이 없어요','빵 아니에요'], ans:2 },
+          { q:'"Je ne suis pas étudiant(e)" = ?', opts:['학생이 없어요','학생 안 이에요','학생이 아니에요','학생 아니요'], ans:2 },
+          { q:'Forme longue de "안 먹어요" = ?', opts:['먹지 않아요','않아요 먹','먹 아니에요','먹이 없어요'], ans:0 },
+        ]
+      }
+    ]
+  },
+
+  /* ═══════════════════════════════
+     UNITÉ 12 — Météo & Saisons
+  ═══════════════════════════════ */
+  '12.1':{
+    title:'La météo coréenne — 날씨',
+    sub:'날씨가 어때요? · 맑아요/흐려요 · 비가 와요 · 눈이 와요 · 바람',
+    duration:'13 min', words:'30 mots', lk:'ks_a1_12_1',
+    sections:[
+      { type:'intro', title:'날씨 — Quel temps fait-il ?', icon:'star',
+        text:'La météo est un sujet de conversation universel en coréen. La question de base est 날씨가 어때요? (Comment est la météo ?). Découvrons les expressions essentielles.'
+      },
+      { type:'vocab', title:'Conditions météo', icon:'book',
+        rows:[
+          ['날씨가 어때요?','nal-ssi-ga ŏ-ttae-yo','Quel temps fait-il ?'],
+          ['맑아요','mal-ga-yo','Il fait beau / Ciel clair'],
+          ['흐려요','heu-ryŏ-yo','Il fait nuageux'],
+          ['비가 와요','bi-ga wa-yo','Il pleut (la pluie vient)'],
+          ['눈이 와요','nun-i wa-yo','Il neige (la neige vient)'],
+          ['바람이 불어요','ba-ram-i bul-ŏ-yo','Il y a du vent'],
+          ['안개가 껴요','an-gae-ga kkŏ-yo','Il y a du brouillard'],
+          ['번개가 쳐요','bŏn-gae-ga chŏ-yo','Il y a des éclairs'],
+          ['천둥이 쳐요','chŏn-dung-i chŏ-yo','Il y a du tonnerre'],
+          ['날씨 예보','nal-ssi ye-bo','Bulletin météo'],
+        ]
+      },
+      { type:'vocab', title:'Températures & sensations', icon:'book',
+        rows:[
+          ['더워요','dŏ-wŏ-yo','Il fait chaud'],
+          ['추워요','chu-wŏ-yo','Il fait froid'],
+          ['따뜻해요','tta-ttŭ-tae-yo','Il fait doux/chaud (agréable)'],
+          ['시원해요','si-wŏn-hae-yo','Il fait frais (agréable)'],
+          ['습해요','seup-ae-yo','Il fait humide'],
+          ['건조해요','gŏn-jo-hae-yo','Il fait sec'],
+          ['기온','gi-on','Température'],
+          ['영하','yŏng-ha','En dessous de zéro'],
+          ['무더워요','mu-dŏ-wŏ-yo','Il fait moite/torride'],
+          ['태풍','tae-pung','Typhon'],
+        ]
+      },
+      { type:'rule', title:'Structure des phrases météo', icon:'zap',
+        rules:[
+          { label:'비가 와요 / 눈이 와요', text:'En coréen, la pluie et la neige "viennent" (오다) et ne "tombent" pas. C\'est une structure fixe à mémoriser !', ko:'비가 와요 (Il pleut) · 눈이 와요 (Il neige) · 비가 왔어요 (Il a plu)' },
+          { label:'덥다 → 더워요', text:'Les adjectifs en -ㅂ deviennent -워요 au présent poli. Pensez à la règle d\'irrégularité ㅂ.', ko:'춥다 → 추워요 · 덥다 → 더워요 · 무덥다 → 무더워요' },
+        ],
+        tip:'Pour décrire la météo idéale : 날씨가 맑고 따뜻해요 (Le temps est beau et doux). On utilise -고 pour connecter deux adjectifs.'
+      },
+      { type:'quiz', title:'Mini-quiz — Météo', icon:'check',
+        questions:[
+          { q:'"Il pleut" en coréen = ?', opts:['비가 떨어요','비가 와요','비가 있어요','비 내려요'], ans:1 },
+          { q:'"Il fait froid" en coréen = ?', opts:['춥다요','추워요','차가워요','차요'], ans:1 },
+          { q:'"Quel temps fait-il?" = ?', opts:['날씨 뭐예요?','날씨가 어때요?','날씨 있어요?','오늘 날씨?'], ans:1 },
+          { q:'La saison des pluies s\'appelle ?', opts:['봄비','황사','장마','태풍'], ans:2 },
+        ]
+      }
+    ]
+  },
+
+  '12.2':{
+    title:'Les 4 saisons & Vêtements — 계절과 옷',
+    sub:'봄/여름/가을/겨울 · 덥다/춥다/따뜻하다/시원하다 · vêtements saisonniers',
+    duration:'14 min', words:'35 mots', lk:'ks_a1_12_2',
+    sections:[
+      { type:'vocab', title:'Les 4 saisons coréennes — 사계절', icon:'book',
+        rows:[
+          ['봄','bom','Printemps (mars-mai) — doux, cerisiers'],
+          ['여름','yŏ-reum','Été (juin-août) — très chaud, pluies monsoon'],
+          ['가을','ga-eul','Automne (sept-nov) — frais, feuilles colorées'],
+          ['겨울','gyŏ-ul','Hiver (déc-fév) — froid et sec, neige possible'],
+          ['계절','gye-jŏl','Saison'],
+          ['봄비','bom-bi','Pluie de printemps'],
+          ['장마','jang-ma','Saison des pluies (juin-juillet)'],
+          ['황사','hwang-sa','Tempête de sable jaune (printemps)'],
+          ['단풍','dan-pung','Feuilles d\'automne rouges/orange'],
+          ['벚꽃','bŏt-kkot','Fleurs de cerisier (봄의 상징)'],
+        ]
+      },
+      { type:'vocab', title:'Vêtements selon la saison — 계절별 옷', icon:'book',
+        rows:[
+          ['봄/가을 옷','bom/ga-eul ot','Vêtements printemps/automne'],
+          ['점퍼','jŏm-pŏ','Veste légère'],
+          ['가디건','ga-di-gŏn','Cardigan'],
+          ['여름 옷','yŏ-reum ot','Vêtements d\'été'],
+          ['반팔','ban-pal','Manches courtes / T-shirt'],
+          ['반바지','ban-ba-ji','Short'],
+          ['겨울 옷','gyŏ-ul ot','Vêtements d\'hiver'],
+          ['패딩','pae-ding','Doudoune (très populaire en Corée)'],
+          ['목도리','mok-do-ri','Écharpe'],
+          ['장갑','jang-gap','Gants'],
+          ['귀마개','gwi-ma-gae','Cache-oreilles'],
+          ['우산','u-san','Parapluie (essentiel en été !)'],
+        ]
+      },
+      { type:'rule', title:'Parler des saisons', icon:'zap',
+        rules:[
+          { label:'Exprimer sa saison préférée', text:'Je préfère l\'automne → 가을을 제일 좋아해요. Pourquoi ? 왜요? Parce que c\'est frais → 시원하기 때문이에요.', ko:'어떤 계절을 좋아해요? (Quelle saison préfères-tu ?) · 여름을 좋아해요 (J\'aime l\'été)' },
+          { label:'Décrire la météo d\'une saison', text:'Au printemps, il fait doux → 봄에는 따뜻해요. En été, il fait très chaud → 여름에는 너무 더워요.', ko:'겨울에는 많이 추워요. (En hiver, il fait très froid.)' },
+        ],
+        tip:'장마 (saison des pluies, juillet) est une période unique à la Corée. Il peut pleuvoir des jours entiers ! L\'expression 장마철이에요 (c\'est la saison des pluies) est très utilisée.'
+      },
+      { type:'quiz', title:'Mini-quiz — Saisons', icon:'check',
+        questions:[
+          { q:'La saison des fleurs de cerisier = ?', opts:['겨울','가을','봄','여름'], ans:2 },
+          { q:'"Doudoune" en coréen = ?', opts:['점퍼','패딩','가디건','목도리'], ans:1 },
+          { q:'"En hiver il fait froid" = ?', opts:['겨울에 더워요','겨울에는 추워요','겨울이에요 춥다','겨울 시원해요'], ans:1 },
+          { q:'Quel mois est la장마 (saison des pluies) ?', opts:['3월','5월','7월','11월'], ans:2 },
+        ]
+      }
+    ]
+  },
+
+  /* ═══════════════════════════════
+     UNITÉ 13 — Positions & Lieux
+  ═══════════════════════════════ */
+  '13.1':{
+    title:'Positions : dedans, dehors, dessus… — 위치',
+    sub:'안 · 밖 · 위 · 아래 · 앞 · 뒤 · 옆 · 사이 — avec 에 있어요',
+    duration:'12 min', words:'20 mots', lk:'ks_a1_13_1',
+    sections:[
+      { type:'intro', title:'위치 — Où se trouve quelque chose ?', icon:'star',
+        text:'En coréen, pour dire où est un objet, on utilise : [Objet] + 이/가 + [Lieu] + 에 + 있어요. Exemple : 책이 책상 위에 있어요 = Le livre est sur le bureau.'
+      },
+      { type:'vocab', title:'Les 8 positions fondamentales', icon:'book',
+        rows:[
+          ['안','an','Dedans / À l\'intérieur de'],
+          ['밖','bak','Dehors / À l\'extérieur de'],
+          ['위','wi','Dessus / Sur / En haut'],
+          ['아래 / 밑','a-rae / mit','Dessous / Sous / En bas'],
+          ['앞','ap','Devant'],
+          ['뒤','dwi','Derrière'],
+          ['옆','yŏp','À côté de'],
+          ['사이','sa-i','Entre'],
+          ['근처','geun-chŏ','Près de / Dans les environs'],
+          ['맞은편','ma-jeun-pyŏn','En face de'],
+        ]
+      },
+      { type:'rule', title:'Structure complète avec 있어요', icon:'zap',
+        rules:[
+          { label:'[Sujet]이/가 + [Point de référence] + [Position]에 + 있어요', text:'C\'est la structure de base. L\'objet dont on parle est le sujet, le point de référence est l\'endroit de référence.', ko:'고양이가 소파 위에 있어요. (Le chat est sur le canapé.) · 가방이 의자 아래에 있어요. (Le sac est sous la chaise.)' },
+          { label:'Question : 어디에 있어요?', text:'Pour demander où se trouve quelque chose/quelqu\'un : 어디에 있어요? (Où est-ce ?)  · 화장실이 어디에 있어요? (Où sont les toilettes ?)' , ko:'지하철역이 어디에 있어요? (Où est la station de métro ?)'},
+        ],
+        tip:'안/밖, 위/아래, 앞/뒤 — mémorisez ces 3 paires de contraires et vous couvrez 90% des situations !'
+      },
+      { type:'quiz', title:'Mini-quiz — Positions', icon:'check',
+        questions:[
+          { q:'"Le chat est sous la table" = ?', opts:['고양이가 탁자 위에 있어요','고양이가 탁자 안에 있어요','고양이가 탁자 아래에 있어요','고양이가 탁자 옆에 있어요'], ans:2 },
+          { q:'"À côté de" en coréen = ?', opts:['앞','뒤','옆','사이'], ans:2 },
+          { q:'"Où est la pharmacie ?" = ?', opts:['약국 있어요?','약국이 어디에 있어요?','약국 어때요?','약국에 가요?'], ans:1 },
+          { q:'"Le livre est in the bag" = ?', opts:['책이 가방 안에 있어요','책이 가방 위에 있어요','가방이 책 안에 있어요','책 가방 있어요'], ans:0 },
+        ]
+      }
+    ]
+  },
+
+  '13.2':{
+    title:'Dire où se trouve quelque chose — 있어요/없어요',
+    sub:'___ 에 있어요 · ___ 에 없어요 · 15 situations réelles',
+    duration:'11 min', words:'15 structures', lk:'ks_a1_13_2',
+    sections:[
+      { type:'vocab', title:'있어요 vs 없어요 — Exister ou pas', icon:'book',
+        rows:[
+          ['있어요','i-ssŏ-yo','Il y a / C\'est là / J\'ai'],
+          ['없어요','ŏp-ssŏ-yo','Il n\'y a pas / Ce n\'est pas là / Je n\'ai pas'],
+          ['여기 있어요','yŏ-gi i-ssŏ-yo','C\'est ici'],
+          ['저기 있어요','jŏ-gi i-ssŏ-yo','C\'est là-bas'],
+          ['거기 있어요','gŏ-gi i-ssŏ-yo','C\'est là (près de toi)'],
+          ['어디에 있어요?','ŏ-di-e i-ssŏ-yo','Où est-ce ? / Où êtes-vous ?'],
+          ['근처에 있어요','geun-chŏ-e i-ssŏ-yo','C\'est dans les environs'],
+          ['가까이 있어요','ga-kka-i i-ssŏ-yo','C\'est proche'],
+          ['멀리 있어요','mŏl-li i-ssŏ-yo','C\'est loin'],
+          ['바로 앞에 있어요','ba-ro a-pe i-ssŏ-yo','C\'est juste devant'],
+        ]
+      },
+      { type:'rule', title:'있어요 — 3 usages', icon:'zap',
+        rules:[
+          { label:'Exister / Être quelque part', text:'Dire qu\'un objet ou une personne est à un endroit.', ko:'편의점이 저기 있어요. (Il y a un CU là-bas.) · 지영이 집에 있어요. (Jiyeong est à la maison.)' },
+          { label:'Avoir (posséder)', text:'있어요 exprime aussi la possession ! 저는 + [chose] + 이/가 + 있어요 = J\'ai quelque chose.', ko:'저는 핸드폰이 있어요. (J\'ai un téléphone.) · 저는 여동생이 있어요. (J\'ai une petite sœur.)' },
+          { label:'없어요 = l\'inverse', text:'없어요 = ne pas avoir / ne pas être là. S\'utilise pour nier à la fois la possession et la présence.', ko:'시간이 없어요. (Je n\'ai pas le temps.) · 저 지금 집에 없어요. (Je ne suis pas chez moi maintenant.)' },
+        ],
+        tip:'있어요/없어요 sont deux des verbes les plus importants du coréen. Ils remplacent "il y a", "avoir" et "être quelque part" — tous en un !'
+      },
+      { type:'quiz', title:'Mini-quiz — 있어요/없어요', icon:'check',
+        questions:[
+          { q:'"Je n\'ai pas d\'argent" = ?', opts:['돈이 있어요','돈이 없어요','돈 아니에요','돈 안 있어요'], ans:1 },
+          { q:'"Où est le restaurant ?" = ?', opts:['식당 있어요?','식당이 어때요?','식당이 어디에 있어요?','식당 어디요?'], ans:2 },
+          { q:'"C\'est juste devant" = ?', opts:['바로 뒤에 있어요','바로 옆에 있어요','바로 앞에 있어요','바로 안에 있어요'], ans:2 },
+          { q:'"J\'ai une sœur" = ?', opts:['언니가 없어요','저는 언니가 있어요','저는 언니예요','언니 있어요?'], ans:1 },
+        ]
+      }
+    ]
+  },
+
+  /* ═══════════════════════════════
+     UNITÉ 14 — Maison & Quotidien
+  ═══════════════════════════════ */
+  '14.1':{
+    title:'La maison coréenne — 집과 가구',
+    sub:'거실/침실/부엌/화장실/욕실 · 소파/침대/책상/냉장고 · 어디 있어요?',
+    duration:'13 min', words:'25 mots', lk:'ks_a1_14_1',
+    sections:[
+      { type:'intro', title:'집 — La maison coréenne', icon:'star',
+        text:'Les appartements coréens (아파트) sont très répandus à Séoul. Une tradition importante : on enlève TOUJOURS ses chaussures à l\'entrée (현관). Le chauffage par le sol (온돌, ondol) est unique à la Corée.'
+      },
+      { type:'vocab', title:'Les pièces — 방 이름', icon:'book',
+        rows:[
+          ['거실','gŏ-sil','Salon'],
+          ['침실 / 방','chim-sil / bang','Chambre'],
+          ['부엌','bu-ŏk','Cuisine'],
+          ['화장실','hwa-jang-sil','Toilettes / Salle de bain'],
+          ['욕실','yok-sil','Salle de bain (avec baignoire)'],
+          ['서재','sŏ-jae','Bureau / Bibliothèque'],
+          ['현관','hyŏn-gwan','Entrée (enlever les chaussures !)'],
+          ['베란다','be-ran-da','Balcon'],
+          ['지하실','ji-ha-sil','Sous-sol'],
+          ['옥상','ok-sang','Toit-terrasse'],
+        ]
+      },
+      { type:'vocab', title:'Meubles & Appareils — 가구와 전자제품', icon:'book',
+        rows:[
+          ['침대','chim-dae','Lit'],
+          ['소파','so-pa','Canapé'],
+          ['책상','chaek-sang','Bureau (meuble)'],
+          ['의자','ui-ja','Chaise'],
+          ['식탁','sik-tak','Table à manger'],
+          ['냉장고','naeng-jang-go','Réfrigérateur'],
+          ['세탁기','se-tak-gi','Machine à laver'],
+          ['에어컨','e-ŏ-kon','Climatisation'],
+          ['텔레비전','tel-le-bi-jŏn','Télévision'],
+          ['전자레인지','jŏn-ja-re-in-ji','Micro-ondes'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — La maison', icon:'check',
+        questions:[
+          { q:'Qu\'est-ce que l\'온돌 (ondol) ?', opts:['Un type d\'appartement','Un chauffage par le sol','Un meuble traditionnel','Un plat coréen'], ans:1 },
+          { q:'"Cuisine" en coréen = ?', opts:['거실','부엌','침실','욕실'], ans:1 },
+          { q:'"Réfrigérateur" en coréen = ?', opts:['세탁기','에어컨','냉장고','전자레인지'], ans:2 },
+          { q:'Où enlève-t-on ses chaussures dans une maison coréenne ?', opts:['거실','화장실','현관','침실'], ans:2 },
+        ]
+      }
+    ]
+  },
+
+  '14.2':{
+    title:'Ma routine quotidienne — 일상 생활',
+    sub:'일어나다 · 씻다 · 먹다 · 공부하다 · 자다 · 몇 시에?',
+    duration:'12 min', words:'20 verbes', lk:'ks_a1_14_2',
+    sections:[
+      { type:'vocab', title:'Verbes de routine — 일상 동사', icon:'book',
+        rows:[
+          ['일어나다 → 일어나요','ir-ŏ-na-yo','Se lever'],
+          ['씻다 → 씻어요','ssi-ssŏ-yo','Se laver'],
+          ['옷을 입다 → 입어요','i-bŏ-yo','S\'habiller (mettre un vêtement)'],
+          ['아침을 먹다 → 먹어요','mŏ-gŏ-yo','Prendre le petit-déjeuner'],
+          ['학교에 가다 → 가요','ga-yo','Aller à l\'école'],
+          ['회사에 가다 → 가요','ga-yo','Aller au travail'],
+          ['공부하다 → 공부해요','gong-bu-hae-yo','Étudier'],
+          ['일하다 → 일해요','il-hae-yo','Travailler'],
+          ['점심을 먹다 → 먹어요','mŏ-gŏ-yo','Déjeuner'],
+          ['운동하다 → 운동해요','un-dong-hae-yo','Faire du sport'],
+          ['집에 오다 → 와요','wa-yo','Rentrer à la maison'],
+          ['저녁을 먹다 → 먹어요','mŏ-gŏ-yo','Dîner'],
+          ['TV를 보다 → 봐요','bwa-yo','Regarder la TV'],
+          ['샤워하다 → 샤워해요','sya-wŏ-hae-yo','Prendre une douche'],
+          ['자다 → 자요','ja-yo','Dormir'],
+        ]
+      },
+      { type:'rule', title:'Dire l\'heure d\'une activité : 몇 시에?', icon:'zap',
+        rules:[
+          { label:'[Heure] 에 [Verbe]', text:'Pour dire à quelle heure on fait quelque chose : utiliser 에 après l\'heure.', ko:'7시에 일어나요. (Je me lève à 7h.) · 12시에 점심을 먹어요. (Je déjeune à midi.)' },
+          { label:'몇 시에 + verbe?', text:'Pour demander à quelle heure : 몇 시에 + verbe?', ko:'몇 시에 자요? (À quelle heure tu dors ?) · 몇 시에 일어나요? (À quelle heure tu te lèves ?)' },
+        ],
+        tip:'La Corée est un pays de noctambules ! Les gens mangent souvent leur dîner après 20h et se couchent tard. Le term 야식 (yashik) désigne le repas de nuit, très populaire.'
+      },
+      { type:'quiz', title:'Mini-quiz — Routine', icon:'check',
+        questions:[
+          { q:'"Je me lève à 7h" = ?', opts:['일곱 시에 자요','일곱 시에 일어나요','일곱 시에 먹어요','일곱 시에 가요'], ans:1 },
+          { q:'"Faire du sport" en coréen = ?', opts:['공부해요','일해요','운동해요','씻어요'], ans:2 },
+          { q:'"À quelle heure tu déjeunes ?" = ?', opts:['몇 시에 점심을 먹어요?','언제 밥 있어요?','점심 몇이에요?','몇 시 점심이에요?'], ans:0 },
+          { q:'"Je rentre à la maison" = ?', opts:['집에 가요','집에 와요','집에 있어요','집 가요'], ans:1 },
+        ]
+      }
+    ]
+  },
+
+  /* ═══════════════════════════════
+     UNITÉ 15 — Émotions & Corps
+  ═══════════════════════════════ */
+  '15.1':{
+    title:'Les émotions en coréen — 감정',
+    sub:'기쁘다 · 슬프다 · 화나다 · 피곤하다 · 외롭다 · 기분이 어때요?',
+    duration:'13 min', words:'20 émotions', lk:'ks_a1_15_1',
+    sections:[
+      { type:'intro', title:'감정 — Comment tu te sens ?', icon:'star',
+        text:'Question clé : 기분이 어때요? (Comment tu te sens ? / Quel est ton humeur ?). Réponses : 기분이 좋아요 (Je me sens bien) / 기분이 나빠요 (Je me sens mal).'
+      },
+      { type:'vocab', title:'Émotions positives', icon:'book',
+        rows:[
+          ['기쁘다 → 기뻐요','gi-ppŏ-yo','Être joyeux/se · content(e)'],
+          ['행복하다 → 행복해요','haeng-bo-kae-yo','Être heureux/se'],
+          ['신나다 → 신나요','sin-na-yo','Être excité(e) · enthousiaste'],
+          ['설레다 → 설레요','sŏl-le-yo','Avoir le cœur qui bat (impatience joyeuse)'],
+          ['편하다 → 편해요','pyŏn-hae-yo','Être à l\'aise · se sentir bien'],
+          ['자랑스럽다 → 자랑스러워요','ja-rang-seu-rŏ-wŏ-yo','Être fier/fière'],
+          ['감동받다 → 감동받아요','gam-dong-ba-da-yo','Être ému(e) · touché(e)'],
+          ['궁금하다 → 궁금해요','gung-geum-hae-yo','Être curieux/se · vouloir savoir'],
+        ]
+      },
+      { type:'vocab', title:'Émotions difficiles & neutres', icon:'book',
+        rows:[
+          ['슬프다 → 슬퍼요','seul-pŏ-yo','Être triste'],
+          ['화나다 → 화났어요','hwa-na-ssŏ-yo','Être en colère'],
+          ['무섭다 → 무서워요','mu-sŏ-wŏ-yo','Avoir peur · être effrayé(e)'],
+          ['걱정하다 → 걱정해요','gŏk-jŏng-hae-yo','S\'inquiéter'],
+          ['피곤하다 → 피곤해요','pi-gon-hae-yo','Être fatigué(e)'],
+          ['지루하다 → 지루해요','ji-ru-hae-yo','S\'ennuyer'],
+          ['외롭다 → 외로워요','oe-ro-wŏ-yo','Être seul(e) · se sentir isolé(e)'],
+          ['긴장하다 → 긴장해요','gin-jang-hae-yo','Être nerveux/se · stressé(e)'],
+          ['실망하다 → 실망해요','sil-mang-hae-yo','Être déçu(e)'],
+          ['부끄럽다 → 부끄러워요','bu-kkeu-rŏ-wŏ-yo','Être gêné(e) · avoir honte'],
+        ]
+      },
+      { type:'rule', title:'설레다 — Le mot intraduisible', icon:'globe',
+        rules:[
+          { label:'설레다 / 설레요', text:'Ce mot n\'a pas d\'équivalent exact en français. Il décrit le sentiment mêlé d\'excitation et d\'impatience agréable — avant un premier rendez-vous, un voyage, une nouvelle aventure. C\'est l\'un des mots coréens les plus célèbres.', ko:'내일 여행이라서 설레요! (Je suis tout(e) excité(e) pour le voyage de demain !) · 그 사람 생각하면 설레요. (En pensant à cette personne, mon cœur bat fort.)' },
+        ],
+        tip:'힘내세요! (Courage !) est l\'expression de soutien la plus courante en coréen — littéralement "Mets de la force !". On l\'utilise pour encourager quelqu\'un de fatigué ou découragé.'
+      },
+      { type:'quiz', title:'Mini-quiz — Émotions', icon:'check',
+        questions:[
+          { q:'"Je suis triste" en coréen = ?', opts:['슬퍼요','기뻐요','화났어요','피곤해요'], ans:0 },
+          { q:'"Courage !" en coréen = ?', opts:['괜찮아요!','잘 해요!','힘내세요!','좋아요!'], ans:2 },
+          { q:'설레다 décrit quel sentiment ?', opts:['La tristesse','La peur','L\'ennui','L\'excitation/impatience joyeuse'], ans:3 },
+          { q:'"Comment tu te sens ?" = ?', opts:['기분이 있어요?','기분이 어때요?','기분 괜찮아요?','기분 어디예요?'], ans:1 },
+        ]
+      }
+    ]
+  },
+
+  '15.2':{
+    title:'Le corps humain & La santé — 몸과 건강',
+    sub:'머리/눈/코/입/귀/손/발 · 아파요 · 어디 아파요? · 약국 · 병원',
+    duration:'14 min', words:'30 mots', lk:'ks_a1_15_2',
+    sections:[
+      { type:'vocab', title:'Parties du corps — 신체 부위', icon:'book',
+        rows:[
+          ['머리','mŏ-ri','Tête / Cheveux'],
+          ['얼굴','ŏl-gul','Visage'],
+          ['눈','nun','Œil / Yeux (aussi : neige !)'],
+          ['코','ko','Nez'],
+          ['입','ip','Bouche'],
+          ['귀','gwi','Oreille'],
+          ['목','mok','Cou / Gorge'],
+          ['어깨','ŏ-kkae','Épaule'],
+          ['팔','pal','Bras'],
+          ['손','son','Main'],
+          ['배','bae','Ventre (aussi : bateau, poire !)'],
+          ['등','deung','Dos'],
+          ['허리','hŏ-ri','Taille / Lombaires'],
+          ['다리','da-ri','Jambe (aussi : pont !)'],
+          ['발','bal','Pied'],
+        ]
+      },
+      { type:'rule', title:'[Corps] + 가/이 + 아파요', icon:'zap',
+        rules:[
+          { label:'Structure pour dire qu\'on a mal', text:'[Partie du corps] + 이/가 + 아파요 = J\'ai mal à ___. C\'est la structure la plus utile chez le médecin !', ko:'머리가 아파요. (J\'ai mal à la tête.) · 배가 아파요. (J\'ai mal au ventre.) · 목이 아파요. (J\'ai mal à la gorge.)' },
+          { label:'Symptômes courants', text:'Fièvre, toux, rhume — les mots essentiels à l\'hôpital ou à la pharmacie en Corée.', ko:'열이 있어요 (J\'ai de la fièvre) · 기침이 나요 (Je tousse) · 콧물이 나요 (J\'ai le nez qui coule) · 토해요 (Je vomis)' },
+        ],
+        tip:'En Corée, les pharmacies (약국) sont très accessibles et les pharmaciens donnent des conseils médicaux. Pour les symptômes légers, allez d\'abord en 약국 avant l\'hôpital !'
+      },
+      { type:'vocab', title:'À la pharmacie & urgences', icon:'book',
+        rows:[
+          ['아파요','a-pa-yo','J\'ai mal / Je suis malade'],
+          ['어디가 아파요?','ŏ-di-ga a-pa-yo','Où avez-vous mal ?'],
+          ['열이 있어요','yŏ-ri i-ssŏ-yo','J\'ai de la fièvre'],
+          ['기침이 나요','gi-chim-i na-yo','Je tousse'],
+          ['콧물이 나요','kon-mul-i na-yo','J\'ai le nez qui coule'],
+          ['약을 주세요','ya-geul ju-se-yo','Donnez-moi un médicament'],
+          ['병원에 가야 해요','byŏng-won-e ga-ya-hae-yo','Je dois aller à l\'hôpital'],
+          ['구급차를 불러주세요','gu-geup-cha-reul bul-lŏ-ju-se-yo','Appelez une ambulance !'],
+          ['알레르기가 있어요','al-le-reu-gi-ga i-ssŏ-yo','J\'ai une allergie'],
+          ['처방전','chŏ-bang-jŏn','Ordonnance médicale'],
+        ]
+      },
+      { type:'quiz', title:'Mini-quiz — Corps & Santé', icon:'check',
+        questions:[
+          { q:'"J\'ai mal à la gorge" = ?', opts:['목이 아파요','코가 아파요','귀가 아파요','머리가 아파요'], ans:0 },
+          { q:'"J\'ai de la fièvre" = ?', opts:['기침이 나요','열이 있어요','콧물이 나요','아파요'], ans:1 },
+          { q:'"Appelez une ambulance !" = ?', opts:['경찰 불러주세요','구급차를 불러주세요','약을 주세요','병원이 어디예요?'], ans:1 },
+          { q:'"Main" en coréen = ?', opts:['발','팔','손','다리'], ans:2 },
+        ]
+      }
+    ]
+  }
+};
+// ─────────────────────────────────────────
+var lid = (new URLSearchParams(location.search).get('l')||'6.1');
+var lesson = LESSONS[lid];
+var sections = lesson ? lesson.sections : [];
+var totalSec = sections.length;
+var viewedSec = 0;
+var quizState = {};
+
+function init(){
+  if(!lesson){ document.getElementById('lessonBody').innerHTML='<p style="padding:20px;color:red">Leçon introuvable.</p>'; return; }
+  document.title = 'Leçon '+lid+' · Korean Stories';
+  document.getElementById('topTitle').textContent = 'Leçon '+lid+' — '+lesson.title;
+  document.getElementById('lhNum').textContent = 'Leçon '+lid;
+  document.getElementById('lhTitle').textContent = lesson.title;
+  document.getElementById('lhSub').textContent = lesson.sub;
+  document.getElementById('lhDuration').textContent = lesson.duration||'12 min';
+  document.getElementById('lhWords').textContent = lesson.words||'Vocabulaire';
+
+  var html = '';
+  sections.forEach(function(sec,i){ html += renderSection(sec,i); });
+  document.getElementById('lessonBody').innerHTML = html;
+  updateProgress();
+  // Mark done after reading
+  setTimeout(function(){ markViewed(0); },1200);
+}
+
+function renderSection(sec,i){
+  var icons = {
+    book:'<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>',
+    clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+    zap:'<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+    message:'<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+    check:'<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>',
+    globe:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',
+    alert:'<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    star:'<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+  };
+  var icon = icons[sec.icon]||icons.book;
+
+  if(sec.type==='vocab'){
+    var rows = sec.rows.map(function(r){
+      return '<tr><td><span class="ko">'+r[0]+'</span><br><span class="rom">'+r[1]+'</span></td><td class="fr">'+r[2]+'</td></tr>';
+    }).join('');
+    return '<div class="section" id="sec'+i+'" onscroll="markViewed('+i+')">'
+      +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
+      +'<table class="vocab-table"><thead><tr><th>Coréen</th><th>Traduction</th></tr></thead><tbody>'+rows+'</tbody></table>'
+      +'</div>';
+  }
+  if(sec.type==='rule'){
+    var rulesHtml = (sec.rules||[]).map(function(r){
+      return '<div class="rule-box"><div class="rule-label">'+r.label+'</div><div class="rule-text">'+r.text+'</div><span class="rule-ko">'+r.ko+'</span></div>';
+    }).join('');
+    var tipHtml = sec.tip ? '<div class="tip-box"><strong>Astuce :</strong> '+sec.tip+'</div>' : '';
+    return '<div class="section" id="sec'+i+'">'
+      +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
+      +rulesHtml+tipHtml+'</div>';
+  }
+  if(sec.type==='examples'){
+    var exHtml = (sec.items||[]).map(function(ex){
+      return '<div class="ex-card"><span class="ex-ko">'+ex.ko+'</span>'
+        +(ex.rom?'<div class="ex-rom">'+ex.rom+'</div>':'')
+        +'<div class="ex-fr">'+ex.fr+'</div></div>';
+    }).join('');
+    return '<div class="section" id="sec'+i+'">'
+      +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
+      +exHtml+'</div>';
+  }
+  if(sec.type==='quiz'){
+    return '<div class="section" id="sec'+i+'">'
+      +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
+      +'<div class="quiz-wrap" id="quiz'+i+'"></div>'
+      +'</div>';
+  }
+  if(sec.type==='culture'){
+    var notesHtml = (sec.notes||[]).map(function(n){
+      return '<div class="cb-item"><div class="cb-title">'+n.title+'</div><div class="cb-text">'+n.text+'</div></div>';
+    }).join('');
+    return '<div class="section" id="sec'+i+'">'
+      +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
+      +'<span class="culture-badge">Culture coréenne</span>'
+      +'<div class="culture-box">'+notesHtml+'</div>'
+      +'</div>';
+  }
+  if(sec.type==='errors'){
+    var errHtml = (sec.items||[]).map(function(e){
+      return '<div class="err-item">'
+        +'<div class="err-wrong">'+e.wrong+'</div>'
+        +'<div class="err-correct">'+e.correct+'</div>'
+        +'<div class="err-expl">'+e.expl+'</div>'
+        +'</div>';
+    }).join('');
+    return '<div class="section" id="sec'+i+'">'
+      +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
+      +'<span class="error-badge">Erreurs fréquentes</span>'
+      +'<div class="error-box">'+errHtml+'</div>'
+      +'</div>';
+  }
+  if(sec.type==='method'){
+    var methHtml = (sec.steps||[]).map(function(s){
+      return '<div style="margin-bottom:8px"><strong>'+s.label+'</strong> — '+s.text+(s.ko?'<br><span class="ko" style="font-size:14px">'+s.ko+'</span>':'')+'</div>';
+    }).join('');
+    return '<div class="section" id="sec'+i+'">'
+      +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
+      +'<div class="method-box">'+methHtml+(sec.tip?'<div style="margin-top:10px;padding-top:10px;border-top:1px solid #bbf7d0"><strong>Méthode :</strong> '+sec.tip+'</div>':'')+'</div>'
+      +'</div>';
+  }
+  return '';
+}
+
+function initQuiz(si){
+  var sec = sections[si];
+  if(!sec||sec.type!=='quiz') return;
+  var qs = sec.questions;
+  quizState[si] = { idx:0, score:0, total:qs.length };
+  renderQuestion(si);
+}
+
+function renderQuestion(si){
+  var sec = sections[si];
+  var st = quizState[si];
+  var wrap = document.getElementById('quiz'+si);
+  if(!wrap) return;
+  if(st.idx >= st.total){
+    // Done
+    markViewed(si);
+    var pct = Math.round(st.score/st.total*100);
+    var emoji = pct>=80?'Excellent !':pct>=50?'Bien !':'Continue !';
+    wrap.innerHTML = '<div class="quiz-done show">'
+      +'<div class="quiz-score">'+st.score+' / '+st.total+'</div>'
+      +'<div class="quiz-score-lbl">'+emoji+' '+pct+'% de réussite</div>'
+      +(pct>=80?'<p style="margin-top:12px;font-size:13px;color:var(--green);font-weight:600">Excellent ! Leçon validée !</p>':'<p style="margin-top:12px;font-size:13px;color:var(--gray)">Continue à t\'entraîner !</p>')
+      +'</div>';
+    saveDone();
+    return;
+  }
+  var q = sec.questions[st.idx];
+  var letters = ['A','B','C','D'];
+  var optsHtml = q.opts.map(function(o,oi){
+    return '<button class="qopt" onclick="checkAnswer('+si+','+oi+')" id="qo'+si+'_'+oi+'">'
+      +'<span class="opt-letter">'+letters[oi]+'</span>'+o+'</button>';
+  }).join('');
+  wrap.innerHTML = '<div class="quiz-q">Question '+(st.idx+1)+' / '+st.total+' : <span class="qko">'+q.q+'</span></div>'
+    +'<div class="quiz-opts">'+optsHtml+'</div>'
+    +'<div class="quiz-fb" id="qfb'+si+'"></div>'
+    +'<button class="quiz-next" id="qnext'+si+'" onclick="nextQuestion('+si+')">Question suivante →</button>';
+}
+
+function checkAnswer(si,chosen){
+  var sec = sections[si];
+  var st = quizState[si];
+  var q = sec.questions[st.idx];
+  var opts = document.querySelectorAll('[id^="qo'+si+'_"]');
+  opts.forEach(function(btn){ btn.onclick=null; btn.style.cursor='default'; });
+  var fb = document.getElementById('qfb'+si);
+  var nxt = document.getElementById('qnext'+si);
+  if(chosen===q.ans){
+    st.score++;
+    document.getElementById('qo'+si+'_'+chosen).classList.add('correct');
+    fb.textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct ! Bien joué.';
+    fb.className='quiz-fb show ok';
+  } else {
+    document.getElementById('qo'+si+'_'+chosen).classList.add('wrong');
+    document.getElementById('qo'+si+'_'+q.ans).classList.add('correct');
+    fb.textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Pas tout à fait. La bonne réponse était : '+q.opts[q.ans];
+    fb.className='quiz-fb show ko';
+  }
+  var isLast = (st.idx+1 >= st.total);
+  nxt.textContent = isLast ? 'Voir le résultat' : 'Question suivante →';
+  nxt.classList.add('show');
+}
+
+function nextQuestion(si){
+  quizState[si].idx++;
+  renderQuestion(si);
+}
+
+function markViewed(i){
+  if(i>=totalSec) return;
+  // init quiz on first view
+  if(sections[i]&&sections[i].type==='quiz'&&!quizState[i]){
+    quizState[i]={idx:0,score:0,total:sections[i].questions.length};
+    renderQuestion(i);
+  }
+  viewedSec = Math.max(viewedSec, i+1);
+  updateProgress();
+}
+
+function updateProgress(){
+  var pct = totalSec>0 ? Math.round(viewedSec/totalSec*100) : 0;
+  var fill = document.getElementById('lpFill');
+  var txt = document.getElementById('lpTxt');
+  if(fill) fill.style.width = pct+'%';
+  if(txt) txt.textContent = viewedSec+' / '+totalSec+' sections';
+}
+
+function saveDone(){
+  try{
+    if(lesson&&lesson.lk) localStorage.setItem(lesson.lk, '1');
+  }catch(e){}
+}
+
+// Initialize quiz sections when they come into view
+function onScroll(){
+  sections.forEach(function(sec,i){
+    if(sec.type!=='quiz') return;
+    var el = document.getElementById('sec'+i);
+    if(!el) return;
+    var rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight*0.85 && !quizState[i]){
+      markViewed(i);
+    }
+    // mark non-quiz sections as viewed when scrolled to
+    if(sec.type!=='quiz') return;
+  });
+  // mark non-quiz sections as viewed on scroll
+  sections.forEach(function(sec,i){
+    if(sec.type==='quiz') return;
+    var el = document.getElementById('sec'+i);
+    if(!el) return;
+    var rect = el.getBoundingClientRect();
+    if(rect.bottom < window.innerHeight*0.9){
+      markViewed(i);
+    }
+  });
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// CULTURAL NOTES + COMMON ERRORS — méthode école coréenne
+// (Inspiré de TTMIK, Sogang, Yonsei, Seoul National Univ)
+// ═══════════════════════════════════════════════════════════
+var LESSON_EXTRAS = {
+
+'6.1': {
+  culture:{
+    title:'Culture coréenne — Salutations',
+    notes:[
+      { title:'고개를 숙이다 — L\'inclinaison', text:'En Corée, la salutation s\'accompagne d\'une inclinaison (인사). Une inclinaison légère (~15°) est standard entre égaux ou dans les commerces. Une inclinaison profonde (45°+) exprime un grand respect ou des excuses sincères. Contrairement au Japon, elle n\'est pas strictement codifiée — le geste naturel compte plus.' },
+      { title:'여보세요 — UNIQUEMENT au téléphone', text:'Ne dites JAMAIS 여보세요 en face à face ! Ce mot est réservé aux appels téléphoniques. Son origine : 여보 = "chéri/e" + 세요 (forme polie). Il servait à attirer l\'attention dans les premières lignes téléphoniques.' },
+      { title:'밥 먹었어요? — "Tu as mangé ?" = "Ça va ?"', text:'Cette question du quotidien illustre l\'importance de la nourriture (밥) dans la culture coréenne. Ce n\'est pas vraiment une question sur la nourriture — c\'est une façon affectueuse de dire "Je pense à toi". Répondez 네, 먹었어요! même si ce n\'est pas totalement vrai.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Leçon 6.1',
+    items:[
+      { wrong:'안녕! (à un supérieur ou inconnu)', correct:'안녕하세요!', expl:'안녕 est du 반말 (informel). Avec un supérieur, un inconnu, en magasin ou dans les transports, utilisez toujours 안녕하세요.' },
+      { wrong:'여보세요! (en face à face)', correct:'안녕하세요!', expl:'여보세요 s\'utilise UNIQUEMENT au téléphone. L\'utiliser en face à face est très bizarre et fera rire les Coréens.' },
+      { wrong:'안녕히 가세요 (à celui qui reste)', correct:'안녕히 계세요', expl:'가세요 = "allez bien" (pour celui qui PART). 계세요 = "restez bien" (pour celui qui RESTE). Beaucoup d\'apprenants confondent les deux !' },
+    ]
+  }
+},
+
+'6.2': {
+  culture:{
+    title:'Culture coréenne — Hiérarchie et langage',
+    notes:[
+      { title:'나이가 어떻게 되세요? — L\'âge comme boussole sociale', text:'Les Coréens demandent souvent l\'âge dès la première rencontre — pas par indiscrétion, mais pour calibrer le niveau de langue ! L\'âge détermine qui dit 존댓말 à qui. Cette question est parfaitement normale et ne doit pas choquer.' },
+      { title:'빠른 년생 — Le système d\'âge coréen', text:'Jusqu\'en 2023, la Corée utilisait le "âge coréen" où tout le monde vieillit au Nouvel An. Exemple : né en décembre 2000, vous aviez déjà 2 ans le 1er janvier 2001 ! Depuis 2023, la Corée est passée à l\'âge international, mais la confusion perdure dans les conversations.' },
+      { title:'야, 형, 오빠, 언니, 누나 — Le tutoiement affectif', text:'En 반말, on utilise des termes d\'adresse spéciaux : 형 (grand frère, entre hommes), 오빠 (grand frère, dit par une femme), 언니 (grande sœur, entre femmes), 누나 (grande sœur, dit par un homme). Ces termes remplacent souvent les prénoms en 반말.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Leçon 6.2',
+    items:[
+      { wrong:'가요 (avec un ami proche)', correct:'가 (반말)', expl:'En 반말, on supprime le -요. 가요 → 가. Ce n\'est pas impoli — c\'est simplement le registre approprié entre amis proches.' },
+      { wrong:'Passer au 반말 sans permission', correct:'반말해도 돼요?', expl:'En Corée, passer au tutoiement sans permission est perçu comme arrogant ou irrespectueux. Demandez toujours : 반말해도 돼요? (Je peux te tutoyer ?)' },
+      { wrong:'이름이 뭐예요? (à quelqu\'un de plus âgé)', correct:'성함이 어떻게 되세요?', expl:'뭐예요 est assez direct. Avec une personne plus âgée, utilisez 성함 (forme honorifique de "nom") et 어떻게 되세요 (forme plus polie de "c\'est quoi ?").' },
+    ]
+  }
+},
+
+'6.3': {
+  culture:{
+    title:'Culture coréenne — La politesse',
+    notes:[
+      { title:'Merci moins fréquent qu\'en France', text:'Dans les relations proches, les Coréens disent moins souvent 감사합니다 ou 고마워요 qu\'on ne le ferait en français. Trop le répéter peut créer une distance. Avec des proches, un simple sourire ou une action (cuisiner, aider) exprime la gratitude. En revanche, dans les commerces et avec les étrangers, 감사합니다 est toujours apprécié.' },
+      { title:'죄송합니다 vs 미안해요 — la nuance', text:'죄송합니다 est une excuse profonde, formelle, presque solennelle. 미안해요 est sincère mais plus léger. Dans un contexte professionnel ou pour une erreur grave, utilisez 죄송합니다. Entre amis, 미안해 suffit amplement.' },
+      { title:'괜찮아요 — le mot le plus utile du coréen', text:'괜찮아요 signifie à la fois "Ça va", "C\'est OK", "Pas de problème", "Je m\'en sors" et "C\'est bon". C\'est sans doute le mot le plus utilisé au quotidien. Apprenez-le bien !' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Leçon 6.3',
+    items:[
+      { wrong:'천만에요 (réponse à merci, usage courant)', correct:'아니에요 / 괜찮아요', expl:'천만에요 existe mais est très formel et un peu désuet. Dans 90% des situations, 아니에요 ou 괜찮아요 sont bien plus naturels.' },
+      { wrong:'미안해요 (pour une erreur grave au travail)', correct:'죄송합니다', expl:'Au travail ou dans un contexte formel, une erreur sérieuse demande 죄송합니다. 미안해요 paraîtrait trop léger.' },
+    ]
+  }
+},
+
+'7.1': {
+  culture:{
+    title:'Culture coréenne — Les présentations',
+    notes:[
+      { title:'명함 — La carte de visite est sacrée', text:'En Corée, la carte de visite (명함) se reçoit et se donne à DEUX MAINS, avec une légère inclinaison. On la lit attentivement avant de la ranger. La jeter ou écrire dessus devant la personne est très impoli. Dans les cercles professionnels, ne pas avoir de carte est mal vu.' },
+      { title:'L\'ordre nom/prénom est inversé', text:'En coréen, le nom de famille vient EN PREMIER. 김민준 = Kim (nom de famille) + Min-jun (prénom). Quand un Coréen se présente en français, il adapte souvent l\'ordre, mais en coréen l\'ordre original est maintenu. Les 3 noms de famille les plus courants : 김 (Kim), 이 (Lee), 박 (Park) — représentent ~45% de la population !' },
+      { title:'직업 — La profession est très importante socialement', text:'En Corée, la profession est un marqueur social fort. 학생이에요 (Je suis étudiant) ou 회사원이에요 (Je suis employé de bureau) sont des informations qu\'on donne très tôt dans une conversation. Cette transparence fait partie de la culture confucéenne coréenne.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Leçon 7.1',
+    items:[
+      { wrong:'저는 마리아이에요 (voyelle finale)', correct:'저는 마리아예요', expl:'마리아 se termine par la voyelle 아 → on utilise 예요 (pas 이에요). Règle : consonne finale → 이에요, voyelle finale → 예요.' },
+      { wrong:'저는 프랑스이에요 (nationalité)', correct:'저는 프랑스 사람이에요', expl:'Pour la nationalité, on ne dit pas simplement le pays — on ajoute 사람 (personne). 프랑스 사람 = personne française. On peut aussi dire 프랑스인이에요.' },
+      { wrong:'나는 학생이에요 (présentation formelle)', correct:'저는 학생이에요', expl:'나 est le "je" informel. En 존댓말, on utilise toujours 저. Lors d\'une présentation, contexte naturellement formel, 저는 est obligatoire.' },
+    ]
+  }
+},
+
+'7.2': {
+  culture:{
+    title:'Culture coréenne — La conversation',
+    notes:[
+      { title:'네 vs 예 — deux façons de dire "Oui"', text:'네 est la forme standard de "oui". 예 est une forme légèrement plus formelle/respectueuse, souvent utilisée avec des personnes plus âgées ou dans des contextes très formels. En pratique, 네 fonctionne partout — mais 예 montre un niveau de politesse supplémentaire.' },
+      { title:'아니요 vs 아니 — le "Non"', text:'아니요 est le "non" poli (avec -요). 아니 est la forme 반말. Attention : 아니에요 signifie "ce n\'est pas" (négation de 이에요/예요) — c\'est différent du simple refus 아니요.' },
+      { title:'네? / 예? — la politesse dans la confusion', text:'Quand on n\'a pas compris, un Coréen dit souvent 네? avec une intonation montante, ou 뭐라고요? (Qu\'est-ce que vous avez dit ?). Dire simplement 어? (Hein ?) est très informel et peut paraître impoli avec des aînés.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Leçon 7.2',
+    items:[
+      { wrong:'아니요, 맞아요 (contradiction)', correct:'네, 맞아요', expl:'아니요 = Non, 맞아요 = c\'est correct. Les deux ensemble ne font pas sens. Attention aux questions négatives en coréen : la logique de réponse est différente du français.' },
+      { wrong:'뭐? (à un supérieur)', correct:'뭐라고요? / 다시 말씀해 주세요.', expl:'뭐? tout seul est très brusque en 반말. Avec un supérieur, demandez poliment de répéter : 다시 말씀해 주세요 (Pourriez-vous répéter ?).' },
+    ]
+  }
+},
+
+'7.3': {
+  culture:{
+    title:'Méthode TTMIK — Comprendre 이/가 et 은/는',
+    notes:[
+      { title:'La distinction 이/가 vs 은/는 est cruciale', text:'C\'est LE point de grammaire le plus étudié en coréen A1. La méthode Talk To Me In Korean explique : 이/가 (sujet neutre, information nouvelle) vs 은/는 (thème du discours, contraste, information connue). En pratique au niveau A1, retenez d\'abord la règle consonne/voyelle.' },
+      { title:'은/는 = "quant à moi…" en français', text:'저는 peut souvent se traduire par "Quant à moi..." ou "Pour ma part...". Exemple : 저는 학생이에요 = "Quant à moi, je suis étudiant" (implication : et les autres ?). 이/가 est plus neutre : 제가 학생이에요 = "C\'est moi qui suis l\'étudiant" (identification directe).' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Particule sujet/thème',
+    items:[
+      { wrong:'저가 (je + sujet focus)', correct:'제가', expl:'저 + 가 se contracte en 제가. De même, 나 + 가 = 내가. Ces contractions sont obligatoires — 저가 n\'existe pas.' },
+      { wrong:'이/가 ou 은/는 (panique totale)', correct:'Utilisez 은/는 par défaut en A1', expl:'La nuance entre 이/가 et 은/는 s\'acquiert progressivement. En A1, utilisez 은/는 pour présenter le sujet d\'une phrase — vous serez compris. La subtilité viendra avec la pratique.' },
+      { wrong:'나는 (présentation formelle)', correct:'저는', expl:'나 = "moi" en 반말. Pour toute présentation formelle ou conversation polie, utilisez 저. 나는 est réservé aux conversations informelles avec des amis proches.' },
+    ]
+  }
+},
+
+'7.4': {
+  culture:{
+    title:'Méthode Sogang — Thème vs Sujet',
+    notes:[
+      { title:'L\'approche communicative de l\'université Sogang', text:'La méthode Sogang (une des meilleures méthodes coréennes) insiste sur la communication situationnelle : apprendre 은/는 et 이/가 dans des contextes réels (se présenter, parler de goûts, décrire une situation) plutôt que par des règles abstraites. Objectif A1 : maîtriser 은/는 pour les présentations et 이/가 pour identifier quelque chose.' },
+      { title:'Contexte de contraste — la force de 은/는', text:'은/는 est aussi une particule de CONTRASTE. 저는 커피를 좋아해요. 근데 차는 별로예요. (J\'aime le café. Mais le thé, pas vraiment.) Notez comment 차는 (thé + 는) marque le contraste avec 커피를 mentionné avant.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Leçon 7.4',
+    items:[
+      { wrong:'커피가 좋아해요 (objet avec sujet)', correct:'커피를 좋아해요', expl:'좋아하다 (aimer) est un verbe transitif — il prend un OBJET (을/를), pas un sujet (이/가). 좋아요 (c\'est bien) est différent de 좋아해요 (j\'aime).' },
+      { wrong:'나는 프랑스 사람은 (double thème)', correct:'저는 프랑스 사람이에요', expl:'On ne met pas 은/는 sur la fois le sujet ET le complément dans la même phrase simple. 나는... 사람이에요 — la copule 이에요 suffit pour relier les deux.' },
+    ]
+  }
+},
+
+'8.1': {
+  culture:{
+    title:'Méthode — Comprendre les particules objet',
+    notes:[
+      { title:'을/를 vs en français — pas de traduction directe', text:'En français, l\'objet direct n\'est pas marqué : "Je mange du riz" vs "Le riz, je le mange". En coréen, 을/를 marque SYSTÉMATIQUEMENT l\'objet direct : 밥을 먹어요 (riz + objet + manger). Cette marque est très utile car l\'ordre des mots en coréen est flexible grâce aux particules.' },
+      { title:'L\'ordre SOV en coréen', text:'Coréen = Sujet + Objet + Verbe. 저는(S) 밥을(O) 먹어요(V). Le verbe est TOUJOURS en fin de phrase. C\'est la différence fondamentale avec le français (SVO). Les particules permettent justement de changer l\'ordre des mots sans changer le sens : 밥을 저는 먹어요 = même sens que 저는 밥을 먹어요.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Particules objet',
+    items:[
+      { wrong:'음악이 들어요 (sujet à la place d\'objet)', correct:'음악을 들어요', expl:'듣다 (écouter) prend un objet : 음악을. Ne confondez pas objet (을/를) et sujet (이/가). La musique n\'écoute pas, elle EST écoutée → objet.' },
+      { wrong:'한국어가 좋아해요', correct:'한국어를 좋아해요 / 한국어가 좋아요', expl:'좋아해요 (j\'aime = verbe) → objet → 를. 좋아요 (c\'est bien = adjectif) → sujet → 가/이. Deux structures différentes, deux particules différentes.' },
+    ]
+  }
+},
+
+'8.2': {
+  culture:{
+    title:'Culture coréenne — Se repérer à Séoul',
+    notes:[
+      { title:'에 vs 에서 — la clé de la navigation urbaine', text:'에 = destination/existence (où on VA, où quelque chose SE TROUVE). 에서 = lieu d\'action (où on FAIT quelque chose). 학교에 가요 (Je vais à l\'école) vs 학교에서 공부해요 (J\'étudie à l\'école). À Séoul, vous utiliserez constamment ces deux particules !' },
+      { title:'주소 — Les adresses coréennes sont à l\'envers', text:'En Corée, l\'adresse va du GRAND au PETIT : Pays → Province → Ville → Quartier → Rue → Numéro. C\'est l\'inverse de la France. Sur les formulaires coréens, faites attention à l\'ordre !' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — 에 vs 에서',
+    items:[
+      { wrong:'집에서 있어요 (lieu d\'existence)', correct:'집에 있어요', expl:'있다 (être/exister quelque part) utilise 에 (pas 에서). 에서 accompagne les verbes d\'ACTION. 있다 est un verbe d\'état → 에.' },
+      { wrong:'학교에 공부해요 (action dans un lieu)', correct:'학교에서 공부해요', expl:'공부하다 (étudier) est une action qui se déroule dans un lieu → 에서. 학교에 = aller à l\'école (destination). 학교에서 = à l\'école (action).' },
+      { wrong:'프랑스에 왔어요 (origine)', correct:'프랑스에서 왔어요', expl:'Le point d\'ORIGINE utilise 에서 : ~에서 오다 = venir de ~. 프랑스에서 왔어요 = Je viens de France.' },
+    ]
+  }
+},
+
+'8.3': {
+  culture:{
+    title:'Méthode Yonsei — La conjugaison au présent',
+    notes:[
+      { title:'La règle des trois étapes (université Yonsei)', text:'L\'université Yonsei enseigne la conjugaison en 3 étapes clés : 1) Retirer 다 pour obtenir le radical. 2) Identifier la voyelle finale du radical (ㅏ/ㅗ → 아요 ; autres → 어요). 3) Appliquer les contractions et irréguliers. Cette méthode systématique permet de conjuguer n\'importe quel verbe.' },
+      { title:'Le présent coréen = présent + futur proche', text:'En coréen A1, la forme en -아요/-어요 exprime : le présent habituel (매일 가요 = j\'y vais tous les jours), le présent en cours (지금 먹어요 = je mange maintenant), ET le futur proche (내일 가요 = j\'y vais demain). Un seul temps pour trois usages français !' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Conjugaison présent',
+    items:[
+      { wrong:'먹아요 (ㅓ vowel stem + 아요)', correct:'먹어요', expl:'먹다 → radical 먹. La voyelle interne ㅓ n\'est pas ㅏ/ㅗ → on utilise 어요. Seuls ㅏ et ㅗ donnent 아요. Tous les autres donnent 어요.' },
+      { wrong:'하아요 / 하어요 (verbe 하다)', correct:'해요', expl:'하다 est un cas spécial : 하 + 여요 → 하여요 → contraction → 해요. 해요 est la seule forme correcte du présent de 하다.' },
+      { wrong:'오아요 (verbe 오다)', correct:'와요', expl:'오다 → 오 + 아요 → 오아요 → contraction → 와요. Les contractions de voyelles (오+아→와, 하+여→해, 보+아→봐) sont importantes à mémoriser.' },
+    ]
+  }
+},
+
+'8.4': {
+  culture:{
+    title:'Méthode — La négation en coréen',
+    notes:[
+      { title:'Deux façons de nier — 안 et -지 않아요', text:'안 + verbe = négation courte (안 가요, 안 먹어요). Verbe + -지 않아요 = négation longue, plus formelle (가지 않아요, 먹지 않아요). Les deux sont correctes. La négation courte est plus naturelle à l\'oral ; la longue est plus précise et souvent utilisée à l\'écrit.' },
+      { title:'못 = ne pas pouvoir (incapacité)', text:'Attention : 못 ≠ 안. 못 가요 = Je ne peux pas y aller (impossibilité physique ou circonstancielle). 안 가요 = Je n\'y vais pas (choix). Cette distinction est très importante en communication !' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Négation',
+    items:[
+      { wrong:'안 해요 (pour 하다 compound verbs)', correct:'못 해요 / 공부 안 해요', expl:'Pour les verbes composés avec 하다 (공부하다, 운동하다), la négation courte s\'insère entre les deux éléments : 공부 안 해요 (pas 안 공부해요). Et 못 s\'utilise la même façon : 공부 못 해요.' },
+      { wrong:'안 먹지 않아요 (double négation)', correct:'안 먹어요 OU 먹지 않아요', expl:'En coréen, on n\'utilise pas les deux formes de négation en même temps. Choisissez l\'une ou l\'autre : soit 안 + verbe, soit verbe + 지 않아요.' },
+    ]
+  }
+},
+
+'9.1': {
+  culture:{
+    title:'Culture coréenne — Les nombres dans la vie quotidienne',
+    notes:[
+      { title:'Deux systèmes de nombres — quand utiliser lequel ?', text:'Sino-coréen (일이삼사…) : âge formel (나이 en documents), argent, dates, numéros de téléphone, minutes, étages, année. Natif coréen (하나둘셋넷…) : âge courant en conversation (스물다섯 살 = 25 ans), heures (두 시 = 2h), compteurs d\'objets/personnes. La confusion est LA faute la plus fréquente des apprenants !' },
+      { title:'살 vs 세 — deux mots pour l\'âge', text:'살 (compteur natif) = âge en conversation courante : 스물다섯 살이에요 (j\'ai 25 ans). 세 (compteur sino) = âge sur les documents officiels, dans un contexte médical : 이십오 세. Les Coréens utilisent 살 dans 90% des situations.' },
+      { title:'L\'âge coréen traditionnel', text:'Jusqu\'en 2023, les Coréens avaient un "âge coréen" (한국 나이) où tous les bébés naissent avec 1 an et vieillissent au Nouvel An. Depuis le 28 juin 2023, la loi impose l\'usage de l\'âge international pour tous les actes officiels, mais l\'âge coréen reste utilisé dans les conversations quotidiennes.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Les nombres',
+    items:[
+      { wrong:'두 시 삼십 분 (heure mixte incorrect)', correct:'두 시 삼십 분 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> / 두 시 반', expl:'En réalité, c\'est CORRECT ! Heure = natif (두), minutes = sino (삼십). Mais le mot "et demi" est 반 (natif) et est très courant : 두 시 반 = 2h30. Les deux formes coexistent.' },
+      { wrong:'이십오 살이에요 (sino pour l\'âge conversationnel)', correct:'스물다섯 살이에요', expl:'Dans une conversation, l\'âge se dit avec les nombres NATIFS : 스물다섯 살. 이십오 세 existe mais sonne très formel/médical.' },
+      { wrong:'하나 개, 두울 개 (formes longues devant compteur)', correct:'한 개, 두 개', expl:'하나/둘/셋/넷/스물se contractent OBLIGATOIREMENT devant un compteur : 한/두/세/네/스무. C\'est une des règles les plus importantes du niveau A1.' },
+    ]
+  }
+},
+
+'9.2': {
+  culture:{
+    title:'Culture coréenne — L\'heure et la ponctualité',
+    notes:[
+      { title:'빨리빨리 — La culture de la vitesse', text:'빨리빨리 (vite vite) est un trait culturel coréen fort. La Corée est un des pays les plus dynamiques au monde en termes de rythme de vie. Les Coréens sont généralement ponctuels, surtout en contexte professionnel. Arriver en retard à un rendez-vous d\'affaires est très mal vu.' },
+      { title:'새벽, 아침, 낮, 저녁, 밤 — les moments de la journée', text:'새벽 = aube (2h-5h), 아침 = matin (6h-10h), 낮 = milieu de journée (10h-15h), 오후 = après-midi (12h-18h), 저녁 = soirée (18h-21h), 밤 = nuit (21h+). Ces termes sont très utilisés pour préciser l\'heure dans les conversations.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — L\'heure',
+    items:[
+      { wrong:'두 시 이십이 (heure avec sino)', correct:'두 시 이십이 분', expl:'Il faut TOUJOURS ajouter 분 (minutes) après le nombre de minutes ! 두 시 이십이 분 = 2h22. Omettre 분 est la faute la plus commune.' },
+      { wrong:'삼 시예요 (heure avec sino)', correct:'세 시예요', expl:'Les heures utilisent les nombres NATIFS : 한(1), 두(2), 세(3), 네(4)... jusqu\'à 열두(12). Ne jamais dire 일 시, 이 시, 삼 시 pour les heures.' },
+    ]
+  }
+},
+
+'9.3': {
+  culture:{
+    title:'Culture coréenne — Le calendrier et les fêtes',
+    notes:[
+      { title:'설날 et 추석 — les deux grandes fêtes', text:'설날 (Nouvel An lunaire, janvier/février) et 추석 (Fête des récoltes, septembre/octobre) sont les deux fêtes nationales les plus importantes. On retourne dans la famille, on porte le 한복 (habit traditionnel), on prépare des plats traditionnels. Les transports sont saturés — pensez à réserver tôt !' },
+      { title:'Le calendrier lunaire en parallèle', text:'La Corée utilise le calendrier solaire occidental pour la vie quotidienne, mais maintient un calendrier lunaire (음력) pour les fêtes traditionnelles, les anniversaires de certains aînés, et les cérémonies ancestrales (제사). Certains Coréens connaissent leur date de naissance en calendrier lunaire.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Dates et jours',
+    items:[
+      { wrong:'이월 이십 팔일 (lecture des dates)', correct:'이월 이십팔 일', expl:'La date se lit : mois (월) + nombre + 일 (jour). Pas d\'espace entre le nombre et 일. 28 = 이십팔, donc : 이십팔 일 (pas 이십 팔일).' },
+      { wrong:'월요일에 가요 → "je vais lundi" (prochain)', correct:'Précisez : 이번 주 월요일에 가요', expl:'En coréen, 월요일에 peut référer à n\'importe quel lundi. Pour clarifier "ce lundi", dites 이번 주 월요일 (ce lundi). Pour "lundi prochain", dites 다음 주 월요일.' },
+    ]
+  }
+},
+
+'9.4': {
+  culture:{
+    title:'Culture coréenne — Faire du shopping',
+    notes:[
+      { title:'시장 vs 편의점 vs 백화점', text:'La Corée offre trois types de commerces omniprésents : 시장 (marché traditionnel, prix négociables, ambiance animée), 편의점 (convenience store ouvert 24h/24 — GS25, CU, 7-Eleven, partout !), 백화점 (grand magasin de luxe, prix fixes). Les prix en 시장 se négocient parfois, mais jamais en 편의점 ou 백화점.' },
+      { title:'깎아 주세요 — La négociation au marché', text:'Au 시장, vous pouvez dire 깎아 주세요 (Faites-moi un prix / Réduisez un peu) ou 좀 싸게 해 주세요 (Faites un peu moins cher). Cette pratique est acceptée dans les marchés traditionnels mais absolument pas dans les grandes enseignes.' },
+      { title:'카드 돼요? — Paiement par carte', text:'La Corée est une société très peu cash. Presque tout se paye par carte (카드). Il est normal de demander 카드 돼요? (On peut payer par carte ?) même pour de petits montants. Les applications de paiement mobile (카카오페이, 네이버페이) sont aussi très répandues.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Achats',
+    items:[
+      { wrong:'이거 얼마해요? (combien ça fait)', correct:'이게 얼마예요? / 이거 얼마예요?', expl:'얼마예요 est la formulation standard. 얼마해요 existe mais est moins courant. Les deux sont compréhensibles. La forme la plus naturelle en boutique : 이거 얼마예요? (C\'est combien ça ?).' },
+      { wrong:'주세요 sans quantité ni article', correct:'[article] [quantité] 주세요', expl:'주세요 seul ne suffit pas. Il faut préciser CE QU\'on veut : 이거 주세요 (donnez-moi ça), 커피 한 잔 주세요 (un café SVP), 이거 두 개 주세요 (deux de ça SVP).' },
+    ]
+  }
+},
+
+'10.1': {
+  culture:{
+    title:'Culture coréenne — La santé et le corps',
+    notes:[
+      { title:'한의학 — La médecine traditionnelle coréenne', text:'La médecine traditionnelle coréenne (한의학) coexiste avec la médecine occidentale. Les cliniques de 한의원 (médecine traditionnelle) sont très fréquentées pour les douleurs chroniques, le stress, la fatigue. L\'acupuncture (침), les ventouses (부항), les herbes médicinales (한약) font partie du quotidien.' },
+      { title:'아파요 — La plainte la plus utile en voyage', text:'아파요 (ça fait mal / je suis malade) + partie du corps est votre phrase de survie médicale. 머리가 아파요 (j\'ai mal à la tête), 배가 아파요 (j\'ai mal au ventre), 목이 아파요 (j\'ai mal à la gorge). En combinant ce pattern avec le vocabulaire du corps, vous pouvez communiquer n\'importe quelle douleur.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Leçon 10.1',
+    items:[
+      { wrong:'머리 아파요 (sans particule)', correct:'머리가 아파요', expl:'아파요 (faire mal) nécessite le sujet avec 이/가 : [partie du corps]가/이 아파요. La partie du corps est le SUJET qui "fait mal".' },
+      { wrong:'아프다 → 아파요 (confusion forme base)', correct:'아프다 → 아파요 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> (irrégulier ㅡ)', expl:'아프다 est un irrégulier ㅡ : on retire ㅡ et on ajoute 아요 → 아파요. C\'est déjà correct ! Mais beaucoup oublient cette règle pour d\'autres verbes en ㅡ (바쁘다→바빠요, 예쁘다→예뻐요).' },
+    ]
+  }
+},
+
+'10.2': {
+  culture:{
+    title:'Culture coréenne — La famille',
+    notes:[
+      { title:'Le vocabulaire familial change selon le locuteur !', text:'En coréen, les termes de parenté varient selon QUI parle : un homme appelle sa grande sœur 누나, une femme l\'appelle 언니. Un homme appelle son grand frère 형, une femme l\'appelle 오빠. Ces termes s\'utilisent aussi avec des amis proches (아, 오빠 ! = "oh, mon grand !").' },
+      { title:'가족 — L\'importance de la famille dans la culture', text:'La famille (가족) est au cœur de la culture coréenne confucéenne. Les repas familiaux pour 설날 et 추석 sont sacrés. Les questions sur la famille sont courantes dès les premières conversations : 가족이 몇 명이에요? (Combien êtes-vous dans la famille ?) est une question tout à fait normale.' },
+      { title:'존댓말 dans la famille', text:'La hiérarchie de langue s\'applique aussi en famille ! On parle en 존댓말 à ses parents et grands-parents, et en 반말 à ses cadets. Même les couples mariés peuvent utiliser 존댓말 par respect mutuel, surtout dans les premières années.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — La famille',
+    items:[
+      { wrong:'오빠 (dit par un homme à son frère aîné)', correct:'형 (homme→frère aîné)', expl:'오빠 est utilisé par les FEMMES pour s\'adresser à un frère/ami plus âgé masculin. Un homme utilise 형 pour son frère aîné. Confondre 오빠 et 형 est une erreur classique !' },
+      { wrong:'언니 (dit par un homme à sa sœur aînée)', correct:'누나 (homme→sœur aînée)', expl:'언니 = sœur aînée, dit par une FEMME. Un homme dit 누나 pour sa sœur aînée. 언니 est exclusivement féminin.' },
+    ]
+  }
+},
+
+'11.1': {
+  culture:{
+    title:'Culture coréenne — Couleurs et symbolique',
+    notes:[
+      { title:'Les couleurs ont une symbolique forte en Corée', text:'Blanc (흰색/백색) = pureté, deuil (porter du blanc aux enterrements en Corée traditionnelle). Rouge (빨간색) = bonne chance, mais écrire un nom en rouge est un mauvais présage (associé à la mort). Bleu (파란색) = calme, confiance. En affaires, évitez de signer avec un stylo rouge !' },
+      { title:'피부색 — L\'industrie de la beauté', text:'La Corée est la capitale mondiale de la cosmétique (K-beauty). Comprendre les termes de teinte et de couleur est utile dans les nombreuses boutiques de beauté (올리브영, 이니스프리, 에뛰드...). 화이트닝 (whitening), 톤업 (tone-up), 글로우 (glow) sont des termes omniprésents.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Adjectifs',
+    items:[
+      { wrong:'크다 → 크어요 (conjugaison ㅡ)', correct:'크다 → 커요', expl:'Irrégulier ㅡ : retirer ㅡ + 어요. 크 → 크+어요 → 크어요 → contraction → 커요. Attention : certains élèves disent 크어요 ce qui est incorrect.' },
+      { wrong:'예쁘다 → 예쁘어요 (irrégulier ㅡ)', correct:'예쁘다 → 예뻐요', expl:'예쁘 → retirer ㅡ → 예쁘 + 어요 → 예쁘어요 → 예뻐요 (contraction). C\'est l\'irrégulier ㅡ : toujours vérifier si le radical se termine par ㅡ !' },
+    ]
+  }
+},
+
+'11.2': {
+  culture:{
+    title:'Culture coréenne — Au restaurant',
+    notes:[
+      { title:'식당 문화 — Manger ensemble en Corée', text:'En Corée, on mange ensemble (같이 먹어요 !) et on PARTAGE les plats. Le concept de 회식 (repas d\'équipe après le travail) est fondamental dans la culture professionnelle. Refuser une invitation à 회식 peut être mal perçu. Le repas est un acte social fort.' },
+      { title:'여기요! — Comment appeler le serveur', text:'En Corée, on appelle le serveur avec 여기요! (ici !) ou 저기요! (là-bas !). Dans les restaurants modernes, il y a souvent un bouton sur la table. Lever la main sans parler est aussi accepté. N\'attendez pas qu\'on vienne à vous spontanément !' },
+      { title:'계산서 주세요 vs 더치페이', text:'En Corée, l\'aîné (선배) ou l\'hôte paye généralement pour le groupe (한턱 = offrir à manger). C\'est une tradition forte. Mais chez les jeunes, le 더치페이 (Dutch pay = partage de l\'addition) devient courant, surtout entre amis du même âge.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs à éviter — Au restaurant',
+    items:[
+      { wrong:'주세요 (sans préciser l\'article ou la quantité)', correct:'[plat] 주세요 ou [plat] 하나 주세요', expl:'주세요 seul n\'a pas de sens. Précisez toujours ce que vous voulez. 비빔밥 주세요 (un bibimbap SVP) ou 비빔밥 두 개 주세요 (deux bibimbap SVP).' },
+      { wrong:'많이 드세요 (à un ami en 반말)', correct:'많이 먹어 (반말)', expl:'드세요 est la forme honorifique de 먹어요. À un ami ou à quelqu\'un de plus jeune en 반말, on dit simplement 많이 먹어 (mange bien !).' },
+    ]
+  }
+},
+
+'11.3': {
+  culture:{
+    title:'Méthode — Consolider le niveau A1',
+    notes:[
+      { title:'Révision TOPIK I — Ce que vous savez déjà', text:'Le TOPIK I (Test de coréen officiel, niveaux 1-2) teste exactement ce que vous avez appris en A1 : salutations, nombres, l\'heure, les particules de base, les verbes courants, et le vocabulaire quotidien. Si vous maîtrisez les leçons 6.1 à 11.2, vous êtes prêt(e) à tenter le TOPIK I niveau 1 !' },
+      { title:'Créer des habitudes de pratique — méthode école coréenne', text:'Les écoles de langue coréenne (어학당) recommandent : 30 min de révision par jour, écouter des médias coréens (웹드라마, K-pop avec paroles), tenir un journal en coréen (일기), et parler avec des Coréens en échange linguistique (언어 교환). La constance prime sur l\'intensité.' },
+    ]
+  },
+  errors:{
+    title:'Erreurs systématiques à corriger en A1',
+    items:[
+      { wrong:'Utiliser le même ordre de mots qu\'en français', correct:'Respecter l\'ordre SOV du coréen', expl:'En coréen : Sujet + Objet + Verbe. JAMAIS Sujet + Verbe + Objet. 저는 밥을 먹어요 (Je riz mange) et non 저는 먹어요 밥을. Le verbe est TOUJOURS à la fin !' },
+      { wrong:'Oublier les particules complètement', correct:'Prendre l\'habitude d\'ajouter les particules', expl:'En A1, même si la conversation reste compréhensible sans particules, prenez l\'habitude de les ajouter. Elles deviennent essentielles au niveau A2-B1 pour les nuances de sens.' },
+    ]
+  }
+},
+
+'11.4': {
+  culture:{
+    title:'Félicitations et prochaines étapes',
+    notes:[
+      { title:'Vous avez terminé le niveau A1 !', text:'축하해요! (Félicitations !) Vous connaissez maintenant les salutations, les présentations, les particules essentielles (은/는, 이/가, 을/를, 에, 에서), la conjugaison au présent, les nombres, l\'heure, et un vocabulaire de base couvrant les situations quotidiennes. C\'est une vraie fondation pour apprendre le coréen !' },
+      { title:'Niveau A2 — Ce qui vous attend', text:'En A2, vous apprendrez : le passé (-았/었어요), le futur (-을 거예요), les propositions relatives (~는/은/을 + nom), plus de particules (한테, 부터, 까지, 만...), et des verbes irréguliers. La progression est naturelle depuis l\'A1. Continuez avec Korean Stories !' },
+    ]
+  },
+  errors:{
+    title:'Les 5 règles d\'or à retenir du niveau A1',
+    items:[
+      { wrong:'Mélanger 은/는 et 이/가 aléatoirement', correct:'은/는 = thème/contraste, 이/가 = sujet neutre', expl:'En A1, retenez la règle phonétique : consonne finale → 은/이, voyelle finale → 는/가. La nuance thème/sujet s\'affinera avec la pratique.' },
+      { wrong:'Oublier que le verbe va toujours EN FIN', correct:'[Sujet] + [Compléments] + [Verbe]', expl:'C\'est LA règle n°1 du coréen. Le verbe termine TOUJOURS la phrase. Internalisez cette structure dès maintenant.' },
+      { wrong:'Confondre sino-coréen et natif pour les heures/âge', correct:'Heure = natif (한,두,세...) / Minutes = sino (일,이,삼...)', expl:'Heure → nombres natifs (한 시, 두 시). Minutes → sino-coréens (십오 분, 삼십 분). Âge (conversation) → natifs (스물다섯 살).' },
+    ]
+  }
+},
+
+  /* ══ Unité 12 ══ */
+  '12.1':{
+    culture:{ title:'날씨 en Corée — Phénomènes uniques', items:[
+      { ko:'황사 (hwang-sa)', fr:'Tempête de sable jaune — nuages de poussière qui viennent de Chine au printemps. Les Coréens portent des masques. Écoute souvent sur les infos : 오늘 황사가 심해요 !' },
+      { ko:'장마 (jang-ma)', fr:'La saison des pluies — de fin juin à fin juillet. Il peut pleuvoir sans interruption pendant des jours. Expression connue : 장마철이에요 (c\'est la saison des pluies).' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — Météo', items:[
+      { wrong:'비가 떨어요 (×)', correct:'비가 와요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'La pluie "vient" (오다) en coréen, elle ne "tombe" pas. Idem pour la neige : 눈이 와요.' },
+      { wrong:'오늘 날씨 어떻게? (×)', correct:'오늘 날씨가 어때요? (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'Pour demander comment est quelque chose, on utilise 어때요? (어떻다), pas 어떻게 (qui signifie "comment faire quelque chose").' },
+    ]}
+  },
+  '12.2':{
+    culture:{ title:'Les saisons coréennes — Ce qu\'il faut savoir', items:[
+      { ko:'봄꽃 축제 (Festival des fleurs de printemps)', fr:'Les 벚꽃 (fleurs de cerisier) attirent des millions de personnes en mars-avril. Le plus célèbre : le festival de Yeouido à Séoul. Les Coréens font des pique-niques sous les cerisiers (꽃놀이).' },
+      { ko:'패딩 (padding = doudoune)', fr:'En hiver coréen, la doudoune est absolument obligatoire ! La Corée a une vraie "culture패딩" — les grandes marques comme 노스페이스 (The North Face) sont ultra populaires.' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — Saisons', items:[
+      { wrong:'봄에 따뜻다 (×)', correct:'봄에는 따뜻해요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'Les adjectifs coréens se conjuguent ! 따뜻하다 → 따뜻해요 (présent poli). Le topic 는 après 에 marque un contraste : "En ce qui concerne le printemps, il fait doux."' },
+      { wrong:'여름이에요 더워요 (×)', correct:'여름에는 더워요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'Pour dire "en [saison] il fait X", on utilise [saison] + 에는 + adjectif. Le 에는 indique le moment/contexte.' },
+    ]}
+  },
+  /* ══ Unité 13 ══ */
+  '13.1':{
+    culture:{ title:'위치 — La notion d\'espace en coréen', items:[
+      { ko:'안 vs 속', fr:'안 signifie "à l\'intérieur d\'un espace défini". 속 (sok) indique "au cœur de" ou "dans" pour des choses moins concrètes (속마음 = le fond du cœur). Pour les objets physiques, utilisez 안 en A1.' },
+      { ko:'여기 / 거기 / 저기', fr:'Système à 3 niveaux : 여기 (ici, près de moi), 거기 (là, près de toi), 저기 (là-bas, loin des deux). Similaire à ce/cet/ce... là-bas en français mais plus systématique.' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — Positions', items:[
+      { wrong:'책은 책상 위 있어요 (×)', correct:'책이 책상 위에 있어요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'La particule 에 est indispensable après la position : 위에, 아래에, 앞에, 뒤에, 옆에. Sans 에, la phrase est incomplète.' },
+      { wrong:'어디 있어요? (incomplet)', correct:'화장실이 어디에 있어요? (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'Il faut préciser QUOI on cherche avec le sujet + 이/가 + 어디에 있어요?. La question simple 어디 있어요? est compréhensible mais incorrecte formellement.' },
+    ]}
+  },
+  '13.2':{
+    culture:{ title:'있어요 — Un verbe, trois usages clés', items:[
+      { ko:'있어요 = être là / avoir / il y a', fr:'있어요 est l\'un des verbes les plus polyvalents du coréen. Contrairement au français, un seul verbe couvre "il y a", "j\'ai" et "être quelque part". Maîtrise-le et tu couvres une immense partie du quotidien !' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — 있어요/없어요', items:[
+      { wrong:'저는 친구가 이에요 (×)', correct:'저는 친구가 있어요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'Pour dire "j\'ai un ami", on utilise 있어요, pas 이에요 (이에요 = être, copule). 저는 친구가 있어요 = J\'ai un ami.' },
+      { wrong:'가방이 아니에요 (× pour dire "je n\'ai pas de sac")', correct:'가방이 없어요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'아니에요 = ce n\'est pas X. 없어요 = ça n\'existe pas / je n\'ai pas. Pour la négation de possession ou d\'existence → 없어요.' },
+    ]}
+  },
+  /* ══ Unité 14 ══ */
+  '14.1':{
+    culture:{ title:'La maison coréenne — Traditions uniques', items:[
+      { ko:'신발을 벗으세요 (Enlevez vos chaussures)', fr:'C\'est une règle absolue dans toutes les maisons coréennes ! La zone 현관 (entrée) marque la séparation entre l\'intérieur et l\'extérieur. Enlever ses chaussures est un signe de respect et de propreté.' },
+      { ko:'온돌 (Ondol) — Chauffage par le sol', fr:'Unique à la Corée, l\'ondol chauffe le sol par en-dessous. Conséquence : les Coréens s\'assoient souvent par terre sur des coussins (방석), mangent sur de petites tables basses, et dorment sur des matelas fins (요/이불) posés au sol.' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — Maison', items:[
+      { wrong:'화장실 = salle de bain uniquement (×)', correct:'화장실 = toilettes ET salle de bain (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'화장실 signifie les deux en coréen. Pour distinguer : 욕실 (salle de bain avec baignoire/douche), 화장실 (toilettes). Dans un appartement, souvent combinés.' },
+    ]}
+  },
+  '14.2':{
+    culture:{ title:'La vie quotidienne coréenne', items:[
+      { ko:'야식 (Ya-shik) — Repas de nuit', fr:'La Corée est une culture de noctambules ! Le 야식 (repas tard le soir, souvent 치킨 + 맥주 = poulet frit + bière) est un rituel. Les livraisons de nourriture (배달 음식) fonctionnent jusqu\'à 4h du matin à Séoul.' },
+      { ko:'빨리빨리 (Ppalli-ppalli)', fr:'Littéralement "vite vite" — la culture coréenne de l\'urgence et de l\'efficacité. Les Coréens bougent vite, travaillent vite, et s\'attendent à une réponse rapide. Connaître ce mot te permettra de comprendre beaucoup de comportements coréens.' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — Routine', items:[
+      { wrong:'학교에 공부해요 (×)', correct:'학교에서 공부해요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'Pour les actions qui se déroulent quelque part, on utilise 에서 (lieu d\'action). 에 = destination ou lieu d\'existence. 에서 = lieu où on fait quelque chose.' },
+      { wrong:'일어나요 오전 7시 (×)', correct:'오전 7시에 일어나요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'En coréen, l\'ordre est : heure + 에 + verbe. L\'heure se place avant le verbe, et la particule 에 est obligatoire après l\'heure.' },
+    ]}
+  },
+  /* ══ Unité 15 ══ */
+  '15.1':{
+    culture:{ title:'Émotions en culture coréenne', items:[
+      { ko:'눈치 (Nunchi)', fr:'L\'art de lire les émotions des autres sans qu\'ils les expriment. En Corée, savoir faire preuve de 눈치 (percevoir l\'ambiance, ne pas gêner) est une qualité sociale très valorisée. "눈치가 없어요" = "Il ne lit pas bien l\'ambiance" — peut être blessant à dire.' },
+      { ko:'한 (Han) — L\'émotion coréenne intraduisible', fr:'한 est un sentiment collectif mêlant tristesse, résignation, mélancolie et espoir. Présent dans la musique traditionnelle (판소리), la littérature et le cinéma coréen. Difficile à expliquer, mais essentiel pour comprendre la culture coréenne en profondeur.' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — Émotions', items:[
+      { wrong:'나는 기쁘다 (×)', correct:'나는 기뻐요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>) ou 저는 기뻐요 (plus poli) (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'Au présent poli, l\'adjectif doit être conjugué. 기쁘다 est la forme dictionnaire, 기뻐요 est la forme poli courante (règle : 기쁘 + -어요 → 기뻐요).' },
+      { wrong:'화가 나요 et 화났어요 — quelle différence ?', correct:'화가 나요 (sentiment présent, continu) vs 화났어요 (colère déclenchée, passé récent)', expl:'화가 나요 = "Je suis en colère" (état actuel). 화났어요 = "Je me suis mis(e) en colère" (événement). Les deux sont corrects selon le contexte.' },
+    ]}
+  },
+  '15.2':{
+    culture:{ title:'La santé en Corée', items:[
+      { ko:'약국 (Yakguk) — Votre meilleur allié', fr:'Les pharmacies coréennes (약국) sont incroyablement accessibles et les 약사 (pharmaciens) sont très compétents. Pour tout symptôme léger, allez d\'abord en 약국 — ils peuvent vous donner des médicaments et des conseils sans ordonnance pour la plupart des cas courants.' },
+      { ko:'한의학 (Han-eui-hak) — Médecine traditionnelle coréenne', fr:'La médecine traditionnelle coréenne (acupuncture, herbes médicinales, moxibustion) est très présente. Les 한의원 (cliniques de médecine traditionnelle) sont partout et couverts par l\'assurance maladie. Beaucoup de Coréens utilisent les deux médecines en parallèle.' },
+    ]},
+    errors:{ title:'Erreurs fréquentes — Corps & Santé', items:[
+      { wrong:'머리 아파요 (×)', correct:'머리가 아파요 (<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>)', expl:'La particule sujet 이/가 est obligatoire avec 아프다. La partie du corps EST le sujet de la douleur : 머리가 (sujet) 아파요 (est douloureux).' },
+      { wrong:'눈이 아파요 — quel 눈 ?', correct:'눈 = yeux, mais aussi 눈 = neige !', expl:'눈 (yeux) et 눈 (neige) s\'écrivent pareil ! Context : 눈이 아파요 = j\'ai mal aux yeux. 눈이 와요 = il neige. Attention à ne pas confondre !' },
+    ]}
+  }
+}; // fin LESSON_EXTRAS
+
+// Inject cultural extras into sections NOW (after LESSON_EXTRAS is defined)
+if(lesson && LESSON_EXTRAS[lid]){
+  sections = sections.slice();
+  var _ex = LESSON_EXTRAS[lid];
+  if(_ex.culture) sections.push(Object.assign({type:'culture',icon:'globe'},_ex.culture));
+  if(_ex.errors) sections.push(Object.assign({type:'errors',icon:'alert'},_ex.errors));
+  totalSec = sections.length;
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+init();
+</script>
+
+
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

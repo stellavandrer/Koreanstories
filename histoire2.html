@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
   <link rel="manifest" href="manifest.json"/>
@@ -19,20 +20,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
-    :root{
-      --navy:#0F1B2D;--navy2:#1a2f4a;
-      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
-      --white:#F7F8FA;--pure:#FFFFFF;
-      --gray:#8A9BB0;--border:#E2E8F0;
-      --green:#22c55e;--red:#ef4444;
-    }
-
-    /* ── TOP BAR ── */
-    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+/* ── TOP BAR ── */
+    
     .quit{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
     .quit:hover{border-color:var(--gold);color:var(--gold)}
     .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
@@ -95,9 +89,9 @@
     .tooltip-tip{font-size:11px;color:rgba(247,248,250,.35);margin-top:6px;line-height:1.5}
 
     /* ── VOCAB RECAP ── */
-    .recap{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:20px;margin-bottom:22px}
+    .recap{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;padding:20px;margin-bottom:22px}
     .recap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-    .recap-item{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
+    .recap-item{background:var(--white);border:1.5px solid var(--bd);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s}
     .recap-item:hover{border-color:#22c55e;background:rgba(34,197,94,.05);transform:translateY(-1px)}
     .recap-item.played{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.05)}
     .recap-kr{font-size:20px;font-weight:300;color:var(--navy);flex-shrink:0;min-width:36px;text-align:center}
@@ -136,18 +130,18 @@
     .res-btn.secondary:hover{border-color:var(--gold);color:var(--gold)}
 
     /* ── CHARACTER INTRO ── */
-    .chars-intro{background:var(--pure);border:1.5px solid var(--border);border-radius:22px;padding:20px;margin-bottom:22px}
+    .chars-intro{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;padding:20px;margin-bottom:22px}
     .char-row{display:flex;align-items:center;gap:14px;padding:10px 0}
-    .char-row+.char-row{border-top:1px solid var(--border)}
-    .char-ava{width:46px;height:46px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .char-row+.char-row{border-top:1px solid var(--bd)}
+    .char-ava{width:46px;height:46px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
     .char-name{font-size:14px;font-weight:700;color:var(--navy)}
     .char-desc{font-size:12px;color:var(--gray);margin-top:2px;line-height:1.5}
 
     /* ── BOTTOM NAV ── */
-    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:90;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
-    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
-    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
-    .bni.act,.bni:hover{color:var(--navy)}
+    
+    
+    
+    .bni.act,
     .bni.act svg{stroke:#22c55e}
   
     
@@ -156,28 +150,9 @@
        DARK MODE — GLOBAL SYSTEM
        Tous les composants adaptatifs pour le mode sombre
     ═══════════════════════════════════════════════════════════ */
-    [data-theme="dark"]{
-      --pure:#1e3352;
-      --white:#162844;
-      --border:rgba(255,255,255,.13);
-      --gray:#7a9ab8;
-      color-scheme:dark;
-    }
-    [data-theme="dark"] body{
-      background:#0f1e32!important;
-      color:#d8e8f5;
-    }
+
     /* ── navigation ── */
-    [data-theme="dark"] .bnav,
-    [data-theme="dark"] .bnav-wrap{
-      background:#0a1628!important;
-      border-top-color:rgba(255,255,255,.10)!important;
-    }
-    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni.act{color:#C9A96E!important}
-    [data-theme="dark"] .bni.act svg{stroke:#C9A96E!important}
-    [data-theme="dark"] .bni span{color:inherit!important}
+    
     /* ── cards génériques ── */
     [data-theme="dark"] .scard,
     [data-theme="dark"] .card,
@@ -187,18 +162,18 @@
     [data-theme="dark"] .result-card,
     [data-theme="dark"] .vocab-prev,
     [data-theme="dark"] .flip-front{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
     [data-theme="dark"] .scard-name,
     [data-theme="dark"] .scard-kr,
-    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .scard-pct{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .card-kr{color:var(--t)!important}
+    [data-theme="dark"] .scard-pct{color:var(--t2)!important}
     /* ── leçon — choice buttons ── */
     [data-theme="dark"] .ch{
-      background:#1e3352!important;
+      background:var(--surf)!important;
       border:1.5px solid rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      color:var(--t)!important;
     }
     [data-theme="dark"] .ch:hover:not(:disabled){
       border-color:#C9A96E!important;
@@ -216,98 +191,95 @@
     }
     /* ── leçon — keyboard keys ── */
     [data-theme="dark"] .kbkey{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
-    [data-theme="dark"] .kbkey .kk{color:#d8e8f5!important}
-    [data-theme="dark"] .kbkey .kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .kbkey .kk{color:var(--t)!important}
+    [data-theme="dark"] .kbkey .kr{color:var(--t2)!important}
     [data-theme="dark"] .kbrow{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
     [data-theme="dark"] .kb-target{
-      background:#162844!important;
+      background:var(--s2)!important;
       border-color:rgba(255,255,255,.14)!important;
     }
     [data-theme="dark"] .tw-blank{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
     /* ── leçon — UI text ── */
-    [data-theme="dark"] .q-prompt{color:#d8e8f5!important}
+    [data-theme="dark"] .q-prompt{color:var(--t)!important}
     [data-theme="dark"] .q-big{
-      color:#d8e8f5!important;
-      border-color:rgba(255,255,255,.12)!important;
-      background:#1e3352!important;
+      color:var(--t)!important;
+      border-color:var(--bd)!important;
+      background:var(--surf)!important;
     }
-    [data-theme="dark"] .q-cnt{color:rgba(200,220,240,.4)!important}
-    [data-theme="dark"] .q-hint{color:rgba(200,220,240,.35)!important}
+    [data-theme="dark"] .q-cnt{color:var(--t3)!important}
+    [data-theme="dark"] .q-hint{color:var(--t3)!important}
     [data-theme="dark"] .fb{color:rgba(200,220,240,.55)}
     [data-theme="dark"] .fb.ok{color:#4ade80!important}
     [data-theme="dark"] .fb.ko{color:#f87171!important}
-    [data-theme="dark"] .wrap{background:#0f1e32!important}
-    [data-theme="dark"] .mhdr{background:#0a1628!important}
-    [data-theme="dark"] .tbar{
-      background:#0a1628!important;
-      border-color:rgba(255,255,255,.08)!important;
-    }
+    [data-theme="dark"] .wrap{background:var(--bg)}
+    [data-theme="dark"] .mhdr{background:var(--surf)}
+    [data-theme="dark"] .tbar{background:var(--surf);border-color:var(--bd)}
     [data-theme="dark"] .ptrack{background:rgba(255,255,255,.1)!important}
-    [data-theme="dark"] .mnm{color:rgba(215,232,248,.9)!important}
+    [data-theme="dark"] .mnm{color:var(--t)!important}
     [data-theme="dark"] .msay{color:rgba(200,220,240,.6)!important}
-    [data-theme="dark"] .res-msg{color:#d8e8f5!important}
+    [data-theme="dark"] .res-msg{color:var(--t)!important}
     [data-theme="dark"] .res-sec{
-      border-color:rgba(255,255,255,.15)!important;
-      color:rgba(200,220,240,.65)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t2)!important;
     }
     /* ── exercice.html ── */
     [data-theme="dark"] .mtab{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.15)!important;
-      color:rgba(200,220,240,.65)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t2)!important;
     }
     [data-theme="dark"] .mtab.act{
       background:#C9A96E!important;
       border-color:#C9A96E!important;
-      color:#0f1e32!important;
+      color:var(--navy)!important;
     }
     [data-theme="dark"] .word-token{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
     [data-theme="dark"] .word-token.placed{
       background:#C9A96E!important;
       border-color:#C9A96E!important;
-      color:#0f1e32!important;
+      color:var(--navy)!important;
     }
     [data-theme="dark"] .wb-target{
       background:rgba(255,255,255,.03)!important;
       border-color:rgba(255,255,255,.14)!important;
     }
     [data-theme="dark"] .pair-token{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
     [data-theme="dark"] .pair-token.selected{
       background:#C9A96E!important;
       border-color:#C9A96E!important;
-      color:#0f1e32!important;
+      color:var(--navy)!important;
     }
     [data-theme="dark"] .lc-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
     [data-theme="dark"] .sc-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
-    [data-theme="dark"] .sc-score-n{color:#d8e8f5!important}
-    [data-theme="dark"] .sc-start-title{color:#d8e8f5!important}
+    [data-theme="dark"] .sc-score-n{color:var(--t)!important}
+    [data-theme="dark"] .sc-start-title{color:var(--t)!important}
     [data-theme="dark"] .sc-start-sub{color:rgba(200,220,240,.5)!important}
     [data-theme="dark"] .fb-strip.ok{
       background:rgba(34,197,94,.1)!important;
@@ -320,15 +292,15 @@
       color:#f87171!important;
     }
     [data-theme="dark"] .next-btn{
-      background:#1e3352!important;
+      background:var(--surf)!important;
       border:1.5px solid rgba(255,255,255,.15)!important;
-      color:#d8e8f5!important;
+      color:var(--t)!important;
     }
     /* ── révision ── */
     [data-theme="dark"] .ans-btn{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
     [data-theme="dark"] .ans-btn.correct{
       background:rgba(34,197,94,.1)!important;
@@ -342,57 +314,46 @@
     }
     [data-theme="dark"] .qz-card,
     [data-theme="dark"] .qz-card-inner{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
     [data-theme="dark"] .qz-feedback.ok{color:#4ade80!important}
     [data-theme="dark"] .qz-feedback.ko{color:#f87171!important}
     /* ── vocabulaire ── */
-    [data-theme="dark"] .flip-front{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
-    [data-theme="dark"] .card-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .filters{
-      background:#0f1e32!important;
-      border-color:rgba(255,255,255,.08)!important;
-    }
-    [data-theme="dark"] .fchip{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.13)!important;
-      color:rgba(200,220,240,.65)!important;
-    }
-    [data-theme="dark"] .fchip.act{
-      background:#C9A96E!important;
-      border-color:#C9A96E!important;
-      color:#0f1e32!important;
-    }
+    [data-theme="dark"] .flip-front{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .card-kr{color:var(--t)!important}
+    [data-theme="dark"] .filters{background:var(--s2);border-color:var(--bd)}
+    [data-theme="dark"] .fchip{background:var(--surf);border-color:var(--bd);color:var(--t2)}
+    [data-theme="dark"] .fchip.act{background:var(--goldbg);border-color:var(--goldbd);color:var(--gold)}
     /* ── histoires ── */
-    [data-theme="dark"] .node-title{color:#d8e8f5!important}
-    [data-theme="dark"] .node-num{color:rgba(200,220,240,.35)!important}
-    [data-theme="dark"] .node-kr{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .node-title{color:var(--t)!important}
+    [data-theme="dark"] .node-num{color:var(--t3)!important}
+    [data-theme="dark"] .node-kr{color:var(--t2)!important}
     [data-theme="dark"] .node-bubble.state-locked{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.15)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
     }
     [data-theme="dark"] .node-bubble.state-soon{
-      background:#1e3352!important;
+      background:var(--surf)!important;
       border-color:rgba(167,139,250,.2)!important;
     }
     [data-theme="dark"] .done-mini{
-      background:#1e3352!important;
+      background:var(--surf)!important;
       border-color:rgba(34,197,94,.2)!important;
     }
-    [data-theme="dark"] .done-mini-title{color:#d8e8f5!important}
-    [data-theme="dark"] .done-mini-sub{color:rgba(200,220,240,.4)!important}
+    [data-theme="dark"] .done-mini-title{color:var(--t)!important}
+    [data-theme="dark"] .done-mini-sub{color:var(--t3)!important}
     [data-theme="dark"] .locked-hint{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
-      color:rgba(200,220,240,.45)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
+      color:var(--t2)!important;
     }
     [data-theme="dark"] .locked-section{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
-    [data-theme="dark"] .locked-section h3{color:#d8e8f5!important}
-    [data-theme="dark"] .locked-section p{color:rgba(200,220,240,.55)!important}
+    [data-theme="dark"] .locked-section h3{color:var(--t)!important}
+    [data-theme="dark"] .locked-section p{color:var(--t2)!important}
     [data-theme="dark"] .connector.locked{
       background:repeating-linear-gradient(
         to bottom,
@@ -402,56 +363,56 @@
     }
     /* ── app.html ── */
     [data-theme="dark"] .dori-tip{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
     [data-theme="dark"] .welcome-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
     [data-theme="dark"] .lbrow{background:rgba(255,255,255,.04)!important}
-    [data-theme="dark"] .lbl-name{color:#d8e8f5!important}
+    [data-theme="dark"] .lbl-name{color:var(--t)!important}
     /* ── profil ── */
     [data-theme="dark"] .stat-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
     [data-theme="dark"] .settings-list{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
-    [data-theme="dark"] .setting-name{color:#d8e8f5!important}
-    [data-theme="dark"] .setting-sub{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .setting-name{color:var(--t)!important}
+    [data-theme="dark"] .setting-sub{color:var(--t2)!important}
     /* ── sections labels ── */
-    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .sec-lbl{color:var(--t3)!important}
     [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)!important}
     /* ── histoire pages ── */
     [data-theme="dark"] .dial-box{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.10)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
-    [data-theme="dark"] .dial-text{color:#d8e8f5!important}
-    [data-theme="dark"] .dial-who{color:rgba(200,220,240,.45)!important}
+    [data-theme="dark"] .dial-text{color:var(--t)!important}
+    [data-theme="dark"] .dial-who{color:var(--t2)!important}
     [data-theme="dark"] .voc-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
-    [data-theme="dark"] .voc-kr{color:#d8e8f5!important}
-    [data-theme="dark"] .voc-fr{color:rgba(200,220,240,.55)!important}
+    [data-theme="dark"] .voc-kr{color:var(--t)!important}
+    [data-theme="dark"] .voc-fr{color:var(--t2)!important}
     /* ── hangeul page ── */
     [data-theme="dark"] .char-card{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.12)!important;
+      background:var(--surf)!important;
+      border-color:var(--bd)!important;
     }
-    [data-theme="dark"] .char-glyph{color:#d8e8f5!important}
-    [data-theme="dark"] .char-rom{color:rgba(200,220,240,.55)!important}
+    [data-theme="dark"] .char-glyph{color:var(--t)!important}
+    [data-theme="dark"] .char-rom{color:var(--t2)!important}
     /* ── generic inputs ── */
     [data-theme="dark"] input:not([type="range"]),
     [data-theme="dark"] textarea,
     [data-theme="dark"] select{
-      background:#1e3352!important;
-      border-color:rgba(255,255,255,.18)!important;
-      color:#d8e8f5!important;
+      background:var(--surf)!important;
+      border-color:var(--bd2)!important;
+      color:var(--t)!important;
     }
 
     /* ── CHARACTER AVATARS (SVG initials) ── */
@@ -459,21 +420,33 @@
     .ava-mina{background:linear-gradient(135deg,#FFDCEA,#FFC0DA);color:#9d274e;border:none}
     .ava-joon{background:linear-gradient(135deg,#BFDBFE,#93C5FD);color:#1d4ed8;border:none}
 
-  </style>
+  
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 </head>
 <body>
+<div class="bar">
+    <a href="histoires.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Histoires
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
 
 <!-- TOP BAR -->
-<div class="topbar">
-  <a href="app.html" class="quit">
-    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    Accueil
-  </a>
-  <span class="tb-title">Histoire 2</span>
-  <div class="xp-pill">
-    <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    +30 XP
-  </div>
+
 </div>
 
 <!-- PROGRESS BAR -->
@@ -592,7 +565,7 @@
       <div class="line">
         <div class="avatar" style="background:#FFF0F6;border-color:#FFDCEA;font-size:20px"><div class="ava-init ava-mina">M</div></div>
         <div class="bubble">
-          <div class="bubble-kr">오천 원이에요. 🪙</div>
+          <div class="bubble-kr">오천 원이에요. </div>
           <div class="bubble-rom">O-cheon wo-ni-e-yo.</div>
           <div class="bubble-fr">C'est cinq mille wons.</div>
           <button class="bubble-audio" onclick="speak('오천 원이에요',this)">
@@ -606,7 +579,7 @@
       <div class="line right">
         <div class="avatar" style="background:#EFF6FF;border-color:#BFDBFE;font-size:20px"><div class="ava-init ava-joon">J</div></div>
         <div class="bubble">
-          <div class="bubble-kr"><span class="kw" data-id="bissayo">비싸요</span>&thinsp;! 😮</div>
+          <div class="bubble-kr"><span class="kw" data-id="bissayo">비싸요</span>&thinsp;! </div>
           <div class="bubble-rom">Bis-sa-yo !</div>
           <div class="bubble-fr">C'est cher !</div>
           <button class="bubble-audio" onclick="speak('비싸요',this)">
@@ -701,32 +674,7 @@
 </main>
 
 <!-- BOTTOM NAV -->
-<nav class="bnav">
-  <a href="app.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span>Accueil</span>
-  </a>
-  <a href="vocabulaire.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-    <span>Vocab</span>
-  </a>
-  <a href="histoires.html" class="bni act">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/></svg>
-    <span>Histoire</span>
-  </a>
-  <a href="exercice.html" class="bni">
-    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></svg>
-    <span>Exercices</span>
-  </a>
-  <a href="revision.html" class="bni">
-    <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-    <span>Révision</span>
-  </a>
-  <a href="profil.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>Profil</span>
-  </a>
-</nav>
+
 
 <script>
   // ── Words data ──
@@ -855,7 +803,7 @@
       else if(b === btn && !isOk) b.classList.add('ko');
     });
     if(fbEl) {
-      fbEl.textContent = isOk ? 'Correct ! 맞아요 ✓' : 'La bonne réponse : ' + correct;
+      fbEl.textContent = isOk ? 'Correct ! 맞아요 <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>' : 'La bonne réponse : ' + correct;
       fbEl.className = 'quiz-fb ' + (isOk ? 'ok' : 'ko');
     }
     if(nxtEl) nxtEl.disabled = false;
@@ -953,7 +901,7 @@ function finishQuiz() {
       const alreadyDone = localStorage.getItem('ks_h2') === 'done';
       const finalXP = alreadyDone ? Math.min(10, earnedXP) : earnedXP;
       localStorage.setItem('ks_xp', String(prevXP + finalXP));
-      if(!alreadyDone) localStorage.setItem('ks_h2', 'done');
+      if(!alreadyDone) localStorage.setItem('ks_h2', 'done');localStorage.setItem('ks_a15', 'done');
       if(xpVal) xpVal.textContent = finalXP;
       // Daily goal
       const today = new Date().toISOString().slice(0,10);
@@ -976,5 +924,16 @@ function finishQuiz() {
 </script>
 
   <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
 </body>
 </html>

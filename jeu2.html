@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Speed Round Hangeul · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr)}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .btn-row{display:flex;gap:12px;margin-top:20px;justify-content:center;flex-wrap:wrap}
+    .success-screen{display:none;text-align:center;padding:40px 20px}
+    .success-screen.show{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes flashGreen{0%,100%{background:var(--s2)}50%{background:#DCFCE7}}
+    @keyframes flashRed{0%,100%{background:var(--s2)}50%{background:#FEE2E2}}
+    @keyframes popIn{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+
+    /* Timer bar */
+    .timer-bar-wrap{height:10px;background:var(--bd);border-radius:100px;overflow:hidden;margin-bottom:20px}
+    .timer-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,#22C55E,#FFD800,var(--gold),var(--red));transition:width .1s linear}
+
+    /* Start screen */
+    .start-screen{text-align:center;padding:20px 0}
+    .start-screen.hide{display:none}
+
+    /* Game area */
+    .game-area{display:none}
+    .game-area.show{display:block}
+
+    .score-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .score-box{text-align:center}
+    .score-val{font-size:28px;font-weight:800;color:var(--gold)}
+    .score-lbl{font-size:10px;color:var(--t2);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+
+    .char-display{background:var(--navy);border-radius:20px;padding:40px 20px;text-align:center;margin-bottom:20px;position:relative;overflow:hidden;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .char-display::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(184,146,78,.06),transparent 70%)}
+    .big-char{font-size:96px;color:var(--gold);font-weight:700;line-height:1;display:block;animation:popIn .2s ease}
+    .char-type{font-size:11px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.3);text-transform:uppercase;margin-bottom:8px}
+
+    .choices-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .choice-btn{padding:16px 12px;background:var(--surf);border:2px solid var(--bd);border-radius:14px;font-size:18px;font-weight:800;color:var(--t);cursor:pointer;transition:all var(--tr);text-align:center}
+    .choice-btn:hover{border-color:var(--goldbd);background:var(--goldbg);transform:translateY(-1px)}
+    .choice-btn.flash-correct{background:#DCFCE7;border-color:#22C55E;color:#15803D}
+    .choice-btn.flash-wrong{background:#FEE2E2;border-color:#EF4444;color:#DC2626}
+
+    .streak-bar{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+    .streak-dot{width:12px;height:12px;border-radius:50%;background:var(--bd);transition:all .2s}
+    .streak-dot.correct{background:var(--green)}
+    .streak-dot.wrong{background:var(--red)}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+  <div class="xp-pill">
+    <svg viewBox="0 0 10 10"><polygon points="5,1 6.5,4 10,4.5 7.5,7 8,10 5,8.5 2,10 2.5,7 0,4.5 3.5,4"/></svg>
+    +12 XP
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">Jeu</div>
+  <h1 class="hero-title">Speed Round Hangeul <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></h1>
+  <p class="hero-sub">30 secondes pour lire le maximum de caractères Hangeul !</p>
+</div>
+
+<div class="wrap">
+
+  <!-- Start screen -->
+  <div class="start-screen" id="start-screen">
+    <div style="font-size:72px;margin-bottom:16px"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:22px;margin-bottom:12px">Prêt à sprinter ?</h2>
+    <p style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:24px;max-width:320px;margin-left:auto;margin-right:auto">Un caractère apparaît, 4 réponses possibles. Choisis vite ! Tu as <strong>30 secondes</strong>. Chaque bonne réponse = 1 point.</p>
+
+    <div style="background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:24px;text-align:left">
+      <div style="font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Ton meilleur score</div>
+      <div style="font-size:28px;font-weight:800;color:var(--gold)" id="best-display">—</div>
+    </div>
+
+    <button class="btn btn-gold" style="font-size:18px;padding:16px 40px" onclick="startGame()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Commencer !</button>
+  </div>
+
+  <!-- Game area -->
+  <div class="game-area" id="game-area">
+    <div class="score-row">
+      <div class="score-box">
+        <div class="score-val" id="score-val">0</div>
+        <div class="score-lbl">Score</div>
+      </div>
+      <div class="score-box">
+        <div class="score-val" id="timer-val" style="color:var(--t)">30</div>
+        <div class="score-lbl">Secondes</div>
+      </div>
+      <div class="score-box">
+        <div class="score-val" id="total-val">0</div>
+        <div class="score-lbl">Tentatives</div>
+      </div>
+    </div>
+
+    <div class="timer-bar-wrap">
+      <div class="timer-bar" id="timer-bar" style="width:100%"></div>
+    </div>
+
+    <div class="char-display">
+      <div class="char-type" id="char-type">CARACTÈRE</div>
+      <span class="big-char" id="big-char">ㅏ</span>
+    </div>
+
+    <div class="choices-grid" id="choices-grid"></div>
+
+    <div class="streak-bar" id="streak-bar"></div>
+  </div>
+
+  <!-- End screen -->
+  <div class="success-screen" id="end-screen">
+    <div style="font-size:64px;margin-bottom:16px" id="end-emoji"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+    <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--t);margin-bottom:8px" id="end-title">Temps écoulé !</div>
+    <div style="font-size:14px;color:var(--t2);margin-bottom:24px" id="end-sub">Tu as fait de ton mieux !</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px">
+      <div style="background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:28px;font-weight:800;color:var(--gold)" id="end-score">0</div>
+        <div style="font-size:10px;color:var(--t2);font-weight:700;margin-top:4px">Score</div>
+      </div>
+      <div style="background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:28px;font-weight:800;color:var(--gold)" id="end-total">0</div>
+        <div style="font-size:10px;color:var(--t2);font-weight:700;margin-top:4px">Tentatives</div>
+      </div>
+      <div style="background:var(--goldbg);border:1px solid var(--goldbd);border-radius:14px;padding:16px;text-align:center">
+        <div style="font-size:28px;font-weight:800;color:var(--gold)" id="end-best">0</div>
+        <div style="font-size:10px;color:var(--t2);font-weight:700;margin-top:4px">Record</div>
+      </div>
+    </div>
+
+    <div style="background:var(--goldbg);border:1px solid var(--goldbd);border-radius:14px;padding:20px;margin-bottom:20px">
+      <div style="font-size:32px;margin-bottom:6px"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div style="font-size:22px;font-weight:800;color:var(--gold)" id="xp-earned">+12 XP gagnés !</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="startGame()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Rejouer</button>
+      <a href="cours.html" class="btn" style="background:var(--surf);border:2px solid var(--bd2);color:var(--t2)">← Parcours</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const chars = [
+  {kr:'ㅏ',rom:'a',type:'Voyelle'},
+  {kr:'ㅑ',rom:'ya',type:'Voyelle'},
+  {kr:'ㅓ',rom:'eo',type:'Voyelle'},
+  {kr:'ㅕ',rom:'yeo',type:'Voyelle'},
+  {kr:'ㅗ',rom:'o',type:'Voyelle'},
+  {kr:'ㅣ',rom:'i',type:'Voyelle'},
+  {kr:'ㄱ',rom:'g',type:'Consonne'},
+  {kr:'ㄴ',rom:'n',type:'Consonne'},
+  {kr:'ㄷ',rom:'d',type:'Consonne'},
+  {kr:'ㄹ',rom:'r/l',type:'Consonne'},
+  {kr:'ㅁ',rom:'m',type:'Consonne'},
+  {kr:'ㅂ',rom:'b',type:'Consonne'},
+  {kr:'ㅅ',rom:'s',type:'Consonne'},
+  {kr:'ㅇ',rom:'ng',type:'Consonne'},
+  {kr:'ㅎ',rom:'h',type:'Consonne'},
+  {kr:'ㅋ',rom:'k',type:'Consonne'},
+  {kr:'ㅌ',rom:'t',type:'Consonne'},
+  {kr:'ㅍ',rom:'p',type:'Consonne'},
+  {kr:'ㅜ',rom:'u',type:'Voyelle'},
+  {kr:'ㅡ',rom:'eu',type:'Voyelle'},
+];
+
+let score = 0, total = 0, timeLeft = 30;
+let timerInterval = null;
+let currentChar = null;
+let streakHistory = [];
+let answered = false;
+
+function getBest() {
+  try { return parseInt(localStorage.getItem('ks_h12_best')) || 0; } catch(e) { return 0; }
+}
+function setBest(v) {
+  try { localStorage.setItem('ks_h12_best', v); } catch(e) {}
+}
+
+// Show best on start
+const b = getBest();
+document.getElementById('best-display').textContent = b > 0 ? b + ' points' : '—';
+
+function shuffle(arr) {
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+function getWrongOptions(correct) {
+  const others = chars.filter(c=>c.rom !== correct.rom);
+  return shuffle(others).slice(0,3).map(c=>c.rom);
+}
+
+function loadQuestion() {
+  answered = false;
+  currentChar = chars[Math.floor(Math.random()*chars.length)];
+  const charEl = document.getElementById('big-char');
+  charEl.style.animation = 'none';
+  charEl.offsetHeight; // reflow
+  charEl.style.animation = 'popIn .2s ease';
+  charEl.textContent = currentChar.kr;
+  document.getElementById('char-type').textContent = currentChar.type.toUpperCase();
+
+  const wrongs = getWrongOptions(currentChar);
+  const options = shuffle([currentChar.rom, ...wrongs]);
+
+  const grid = document.getElementById('choices-grid');
+  grid.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = opt;
+    btn.onclick = () => handleAnswer(opt, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function handleAnswer(chosen, btn) {
+  if(answered || timeLeft <= 0) return;
+  answered = true;
+  total++;
+  document.getElementById('total-val').textContent = total;
+
+  const correct = chosen === currentChar.rom;
+  btn.classList.add(correct ? 'flash-correct' : 'flash-wrong');
+
+  // Show correct if wrong
+  if(!correct) {
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      if(b.textContent === currentChar.rom) b.classList.add('flash-correct');
+    });
+  }
+
+  if(correct) {
+    score++;
+    document.getElementById('score-val').textContent = score;
+    streakHistory.push('correct');
+  } else {
+    streakHistory.push('wrong');
+  }
+
+  updateStreak();
+  setTimeout(loadQuestion, correct ? 300 : 600);
+}
+
+function updateStreak() {
+  const bar = document.getElementById('streak-bar');
+  bar.innerHTML = '';
+  const recent = streakHistory.slice(-20);
+  recent.forEach(r => {
+    const d = document.createElement('div');
+    d.className = 'streak-dot ' + r;
+    bar.appendChild(d);
+  });
+}
+
+function startGame() {
+  score = 0; total = 0; timeLeft = 30; streakHistory = [];
+  answered = false;
+  clearInterval(timerInterval);
+
+  document.getElementById('start-screen').classList.add('hide');
+  document.getElementById('end-screen').classList.remove('show');
+  document.getElementById('game-area').classList.add('show');
+  document.getElementById('score-val').textContent = '0';
+  document.getElementById('total-val').textContent = '0';
+  document.getElementById('streak-bar').innerHTML = '';
+
+  loadQuestion();
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer-val').textContent = timeLeft;
+    document.getElementById('timer-bar').style.width = (timeLeft/30*100)+'%';
+
+    if(timeLeft <= 5) {
+      document.getElementById('timer-val').style.color = 'var(--red)';
+    }
+    if(timeLeft <= 0) {
+      clearInterval(timerInterval);
+      endGame();
+    }
+  }, 1000);
+}
+
+function endGame() {
+  document.getElementById('game-area').classList.remove('show');
+  document.getElementById('timer-val').style.color = 'var(--t)';
+
+  const best = Math.max(score, getBest());
+  setBest(best);
+
+  document.getElementById('end-score').textContent = score;
+  document.getElementById('end-total').textContent = total;
+  document.getElementById('end-best').textContent = best;
+
+  const isNew = score > getBest() - (score === best ? 0 : 1);
+  document.getElementById('end-emoji').textContent = score >= 15 ? '' : score >= 10 ? '<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>' : '';
+  document.getElementById('end-title').textContent = score >= 15 ? 'Incroyable !' : score >= 10 ? 'Bien joué !' : 'Continue tes efforts !';
+  document.getElementById('end-sub').textContent = `${score} bonne${score>1?'s':''} réponse${score>1?'s':''} sur ${total} tentative${total>1?'s':''}`;
+  document.getElementById('xp-earned').textContent = score > 0 ? `+${Math.min(score,12)} XP gagnés !` : 'Essaie encore !';
+
+  document.getElementById('best-display').textContent = best + ' points';
+  document.getElementById('end-screen').classList.add('show');
+
+  try { localStorage.setItem('ks_h12','done'); } catch(e) {}
+}
+</script>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

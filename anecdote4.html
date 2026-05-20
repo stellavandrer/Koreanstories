@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <title>Chimaek & Culture food coréenne · Korean Stories</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
+    a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
+    
+    
+    
+    .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+    
+    
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
+    .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
+    .hero-meta{display:flex;justify-content:center;gap:16px;margin-top:18px}
+    .hero-meta span{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(237,242,250,.45)}
+    .hero-meta svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+    .wrap{max-width:560px;margin:0 auto;padding:24px 16px 40px;animation:fadeUp .3s ease both}
+    .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
+    .card-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .card-title svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+    .tip{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;color:var(--t)}
+    .tip strong{color:var(--gold)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none}
+    .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
+    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
+    .btn-row{display:flex;gap:12px;margin-top:20px;justify-content:center;flex-wrap:wrap}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .narrative{font-size:14px;color:var(--t2);line-height:1.85;margin-bottom:14px}
+    .narrative strong{color:var(--t);font-weight:700}
+    .highlight-word{display:inline-flex;align-items:baseline;gap:5px;background:rgba(184,146,78,.1);border:1px solid rgba(184,146,78,.2);border-radius:6px;padding:1px 7px}
+    .highlight-word .hw-kr{font-size:15px;color:var(--gold);font-weight:700}
+    .highlight-word .hw-fr{font-size:12px;color:var(--t2)}
+    .vocab-mini{display:flex;flex-direction:column;gap:8px}
+    .vocab-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd)}
+    .vocab-row:last-child{border-bottom:none}
+    .vocab-kr{font-size:18px;color:var(--gold);font-weight:700;min-width:90px}
+    .vocab-rom{font-size:11px;color:var(--t3);font-weight:600}
+    .vocab-fr{font-size:13px;color:var(--t)}
+    .funfact-list{display:flex;flex-direction:column;gap:12px}
+    .funfact{display:flex;gap:12px;align-items:flex-start;background:var(--s2);border-radius:12px;padding:14px;border:1px solid var(--bd)}
+    .funfact .ff-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+    .funfact .ff-text{font-size:13px;color:var(--t2);line-height:1.7}
+    .funfact .ff-text strong{color:var(--t);font-weight:700}
+    .equation-box{display:flex;align-items:center;justify-content:center;gap:10px;padding:18px;background:var(--s2);border-radius:14px;border:1px solid var(--bd);margin:14px 0}
+    .equation-box .eq-item{text-align:center}
+    .equation-box .eq-kr{font-size:20px;color:var(--gold);font-weight:800}
+    .equation-box .eq-fr{font-size:11px;color:var(--t3);margin-top:2px}
+    .equation-box .eq-op{font-size:24px;color:var(--t3);font-weight:800;padding:0 4px}
+    .equation-box .eq-result{font-size:22px;color:var(--t);font-weight:800}
+    .equation-box .eq-result-fr{font-size:11px;color:var(--gold)}
+  </style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+  <div class="xp-pill">+8 XP</div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">Anecdote</div>
+  <h1 class="hero-title">Chimaek & Culture food coréenne</h1>
+  <p class="hero-sub">Du poulet frit à la bière, plongez dans les rituels culinaires de la Corée du Sud.</p>
+  <div class="hero-meta">
+    <span><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="5"/><polyline points="6,3 6,6 8,8"/></svg> ~7 min</span>
+    <span><svg viewBox="0 0 12 12"><path d="M6 2l1.5 3 3.5.5-2.5 2.5.6 3.5L6 10l-3.1 1.5.6-3.5L1 5.5l3.5-.5z"/></svg> Culture & Vocabulaire</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- Section 1 — Chimaek -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M8 2c0 0-5 3-5 7a5 5 0 0010 0c0-4-5-7-5-7z"/></svg>
+      Chimaek : le combo national
+    </div>
+    <div class="equation-box">
+      <div class="eq-item"><div class="eq-kr">치킨</div><div class="eq-fr">chicken</div></div>
+      <div class="eq-op">+</div>
+      <div class="eq-item"><div class="eq-kr">맥주</div><div class="eq-fr">maekju (bière)</div></div>
+      <div class="eq-op">=</div>
+      <div class="eq-item"><div class="eq-result">치맥</div><div class="eq-result-fr">Chimaek !</div></div>
+    </div>
+    <p class="narrative">Le <strong>치맥 (chimaek)</strong> est bien plus qu'un repas : c'est un véritable <strong>rituel social</strong> coréen. Chaque vendredi soir — mais aussi les soirs de matchs de football ou de baseball — des millions de Coréens commandent du chimaek en livraison.</p>
+    <p class="narrative">La culture de la <strong>livraison (배달 beodal)</strong> est poussée à l'extrême en Corée du Sud. Le pays possède l'un des systèmes de livraison les plus rapides et les plus développés au monde, avec des applications comme <strong>배달의민족 (Baedaluiminjok)</strong> — littéralement "la nation de la livraison" — qui regroupe des dizaines de milliers de restaurants.</p>
+    <p class="narrative">Commander du chimaek, c'est partager un moment, regarder un drama ou un match, et profiter de la douceur du soir coréen.</p>
+  </div>
+
+  <!-- Section 2 — Manger ensemble -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M3 14v-4a5 5 0 0110 0v4"/><circle cx="8" cy="5" r="3"/></svg>
+      Manger ensemble : une affaire sérieuse
+    </div>
+    <p class="narrative">En Corée, le repas est un <strong>acte de lien social</strong> profondément ancré dans la culture. Pendant longtemps, manger seul en public était considéré comme tabou ou triste — les Coréens appelaient cela <span class="highlight-word"><span class="hw-kr">혼밥</span><span class="hw-fr">honbap = manger seul</span></span>.</p>
+    <p class="narrative">Mais depuis les années 2010, avec la montée de la <strong>génération solo</strong> (célibataires vivant seuls à Séoul), la culture du 혼밥 s'est normalisée. Des chaînes de restaurants ont même créé des espaces spécialement conçus pour manger seul, avec des séparations et des comptoirs individuels.</p>
+    <p class="narrative">La tradition coréenne veut qu'on partage tous les plats : les <span class="highlight-word"><span class="hw-kr">반찬</span><span class="hw-fr">banchan = accompagnements</span></span> sont placés au centre de la table et partagés par tous. Il n'y a pas d'"assiette individuelle" dans le sens occidental.</p>
+    <div class="tip">
+      <strong>À noter :</strong> L'aîné ou la personne la plus âgée commence à manger en premier. Attendre que la personne plus âgée prenne sa première bouchée est une marque de respect importante (경의 gyeongui).
+    </div>
+  </div>
+
+  <!-- Section 3 — Vocabulaire food -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><path d="M2 14V6l6-4 6 4v8"/><rect x="6" y="10" width="4" height="4"/></svg>
+      Vocabulaire food essentiel
+    </div>
+    <div class="vocab-mini">
+      <div class="vocab-row">
+        <div>
+          <div class="vocab-kr">맛있어요</div>
+          <div class="vocab-rom">masisseoyo</div>
+        </div>
+        <div class="vocab-fr">C'est délicieux !</div>
+      </div>
+      <div class="vocab-row">
+        <div>
+          <div class="vocab-kr">매워요</div>
+          <div class="vocab-rom">maewoyo</div>
+        </div>
+        <div class="vocab-fr">C'est épicé</div>
+      </div>
+      <div class="vocab-row">
+        <div>
+          <div class="vocab-kr">달아요</div>
+          <div class="vocab-rom">darayo</div>
+        </div>
+        <div class="vocab-fr">C'est sucré</div>
+      </div>
+      <div class="vocab-row">
+        <div>
+          <div class="vocab-kr">짜요</div>
+          <div class="vocab-rom">jjayo</div>
+        </div>
+        <div class="vocab-fr">C'est salé</div>
+      </div>
+      <div class="vocab-row">
+        <div>
+          <div class="vocab-kr">배달</div>
+          <div class="vocab-rom">beodal</div>
+        </div>
+        <div class="vocab-fr">Livraison</div>
+      </div>
+      <div class="vocab-row">
+        <div>
+          <div class="vocab-kr">포장</div>
+          <div class="vocab-rom">pojang</div>
+        </div>
+        <div class="vocab-fr">À emporter</div>
+      </div>
+      <div class="vocab-row">
+        <div>
+          <div class="vocab-kr">드세요</div>
+          <div class="vocab-rom">deuseyo</div>
+        </div>
+        <div class="vocab-fr">Servez-vous / Mangez ! (invitation polie)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4 — Fun facts -->
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 5v4M8 11v.5"/></svg>
+      Le saviez-vous ?
+    </div>
+    <div class="funfact-list">
+      <div class="funfact">
+        <div class="ff-icon"></div>
+        <div class="ff-text">La Corée du Sud possède l'un des plus grands nombres de <strong>restaurants par habitant</strong> au monde. À Séoul, certains quartiers comme Hongdae ou Itaewon comptent parfois plusieurs dizaines de restaurants dans un seul pâté de maisons.</div>
+      </div>
+      <div class="funfact">
+        <div class="ff-icon"></div>
+        <div class="ff-text">Le <strong>김치 (kimchi)</strong> — légumes fermentés, généralement du chou pimenté — a été inscrit au patrimoine culturel immatériel de l'UNESCO en 2013. La Corée du Nord et du Sud l'ont toutes deux revendiqué. En 2013, la version sud-coréenne "Kimjang" (préparation communautaire du kimchi) a été officiellement reconnue.</div>
+      </div>
+      <div class="funfact">
+        <div class="ff-icon"></div>
+        <div class="ff-text">Avant de manger, les Coréens disent <strong style="font-size:15px">잘 먹겠습니다</strong> <em>(jal meokgesseumnida)</em> — littéralement "Je vais bien manger". C'est une formule de gratitude envers la personne qui a cuisiné ou payé. Après le repas, on dit <strong style="font-size:15px">잘 먹었습니다</strong> <em>(jal meogeosseumnida)</em> — "J'ai bien mangé".</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-gold" onclick="completeLesson()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Lu !</button>
+  </div>
+
+</div>
+
+<script>
+function completeLesson() {
+  try { localStorage.setItem('ks_a16', 'done'); } catch(e) {}
+  window.location.href = 'cours.html';
+}
+</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

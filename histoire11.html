@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<script src="gate.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1"/>
   <link rel="manifest" href="manifest.json"/>
@@ -19,19 +20,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#F7F8FA;color:#0F1B2D;min-height:100svh;padding-bottom:80px;overflow-x:hidden}
-    :root{
-      --navy:#0F1B2D;--navy2:#1a2f4a;
-      --gold:#C9A96E;--gold2:#E8D5B0;--goldp:rgba(201,169,110,0.10);
-      --white:#F7F8FA;--pure:#FFFFFF;
-      --gray:#8A9BB0;--border:#E2E8F0;
-      --green:#22c55e;--red:#ef4444;
-      --rose:#F43F5E;--rosep:rgba(244,63,94,0.12);
-    }
-    .topbar{position:sticky;top:0;z-index:100;height:56px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:var(--navy)}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+
     .quit{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.12);background:none;cursor:pointer;text-decoration:none;font-size:12px;font-weight:600;color:rgba(247,248,250,.55);transition:all .2s}
     .quit:hover{border-color:#FB7185;color:#FB7185}
     .quit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
@@ -84,7 +78,7 @@
     .t-tip{font-size:11px;color:rgba(247,248,250,.45);line-height:1.6}
 
     /* Culture card */
-    .culture-card{background:var(--pure);border:1.5px solid var(--border);border-radius:20px;padding:20px;margin-bottom:22px}
+    .culture-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:20px;margin-bottom:22px}
     .culture-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--navy);margin-bottom:10px}
     .culture-text{font-size:12px;color:var(--gray);line-height:1.75}
     .cc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
@@ -92,7 +86,7 @@
 
     /* Vocab grid */
     .vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
-    .recap-item{background:var(--pure);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:4px}
+    .recap-item{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:12px 14px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:4px}
     .recap-item:hover{border-color:#FB7185;transform:translateY(-1px)}
     .recap-audio-dot{width:6px;height:6px;border-radius:50%;background:#F43F5E;opacity:.5;margin-bottom:2px}
     .recap-kr{font-size:18px;font-weight:300;color:var(--navy)}
@@ -131,12 +125,12 @@
     .teaser-arr{margin-left:auto;flex-shrink:0}
 
     /* Bottom nav */
-    .bnav{position:fixed;bottom:0;left:0;right:0;z-index:90;height:64px;background:var(--pure);border-top:1px solid var(--border);display:flex;align-items:stretch}
-    .bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--gray);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;padding:6px 0}
-    .bni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round}
-    .bni.act{color:var(--navy)}
+    
+    
+    
+    
     .bni.act svg{stroke:#F43F5E}
-    .bni:hover{color:var(--navy)}
+    
 
     /* Dark mode FAB */
     .dm-fab{position:fixed;bottom:76px;right:16px;width:40px;height:40px;border-radius:50%;background:var(--navy);border:1.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:99;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.25)}
@@ -144,38 +138,45 @@
     .dm-fab:hover{border-color:rgba(244,63,94,.4)}
 
     /* Dark mode */
-    [data-theme="dark"]{--pure:#1e3352;--white:#162844;--border:rgba(255,255,255,.13);--gray:#7a9ab8;color-scheme:dark}
-    [data-theme="dark"] body{background:#0f1e32!important;color:#d8e8f5}
-    [data-theme="dark"] .bnav{background:#0a1628!important;border-top-color:rgba(255,255,255,.10)!important}
-    [data-theme="dark"] .bni{color:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni svg{stroke:rgba(200,220,240,.38)!important}
-    [data-theme="dark"] .bni.act{color:#FB7185!important}
-    [data-theme="dark"] .bni.act svg{stroke:#FB7185!important}
-    [data-theme="dark"] .culture-card,[data-theme="dark"] .recap-item{background:#1e3352!important;border-color:rgba(255,255,255,.12)!important}
-    [data-theme="dark"] .culture-title,[data-theme="dark"] .recap-kr{color:#d8e8f5!important}
+
+    
+    [data-theme="dark"] .culture-card,[data-theme="dark"] .recap-item{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .culture-title,[data-theme="dark"] .recap-kr{color:var(--t)!important}
     [data-theme="dark"] .recap-item:hover{border-color:#FB7185!important}
-    [data-theme="dark"] .q-choice{background:rgba(255,255,255,.05)!important;border-color:rgba(255,255,255,.12)!important;color:rgba(200,220,240,.7)!important}
+    [data-theme="dark"] .q-choice{background:rgba(255,255,255,.05)!important;border-color:var(--bd)!important;color:rgba(200,220,240,.7)!important}
     [data-theme="dark"] .q-choice.correct{border-color:#4ade80!important;background:rgba(34,197,94,.12)!important;color:#4ade80!important}
     [data-theme="dark"] .q-choice.wrong{border-color:#f87171!important;background:rgba(239,68,68,.1)!important;color:#f87171!important}
-    [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)!important}
+    [data-theme="dark"] .sec-lbl{color:var(--t3)!important}
     [data-theme="dark"] .quiz-result{background:#1a2535}
     [data-theme="dark"] .qr-btn{background:#243045}
     [data-theme="dark"] .dm-fab{background:#1a2535;border-color:#243045}
-  </style>
+  
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 </head>
 <body>
+<div class="bar">
+    <a href="histoires.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Histoires
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
 
 <!-- TOP BAR -->
-<div class="topbar">
-  <a href="histoires.html" class="quit">
-    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    Histoires
-  </a>
-  <span class="tb-title">집들이에서</span>
-  <div class="xp-pill">
-    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-    +30 XP
-  </div>
+
 </div>
 
 <!-- HERO -->
@@ -214,14 +215,14 @@
 <!-- CHARACTERS -->
 <span class="sec-lbl">Personnages</span>
 <div style="display:flex;gap:10px;margin-bottom:22px">
-  <div style="flex:1;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+  <div style="flex:1;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
     <div style="width:36px;height:36px;border-radius:50%;background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#A78BFA;flex-shrink:0">H</div>
     <div>
       <div style="font-size:13px;font-weight:700;color:var(--navy)">Hana</div>
       <div style="font-size:11px;color:var(--gray);margin-top:2px">Elle vient de déménager dans son premier appartement à Mapo-gu. Elle est aux anges et invite ses amis pour fêter ça !</div>
     </div>
   </div>
-  <div style="flex:1;background:var(--pure);border:1.5px solid var(--border);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
+  <div style="flex:1;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px;display:flex;align-items:center;gap:10px">
     <div style="width:36px;height:36px;border-radius:50%;background:rgba(244,63,94,.1);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#F43F5E;flex-shrink:0">M</div>
     <div>
       <div style="font-size:13px;font-weight:700;color:var(--navy)">Mina + Joon</div>
@@ -452,28 +453,7 @@
 
 </main>
 
-<nav class="bnav">
-  <a href="app.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span>Accueil</span>
-  </a>
-  <a href="histoires.html" class="bni act">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-    <span>Histoires</span>
-  </a>
-  <a href="vocabulaire.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-    <span>Vocab</span>
-  </a>
-  <a href="revision.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 000 5H6"/><path d="M18 9h1.5a2.5 2.5 0 010 5H18"/><path d="M8 9h8M8 15h8M9 9v13M15 9v13M9 3h6v6H9z"/></svg>
-    <span>Révision</span>
-  </a>
-  <a href="profil.html" class="bni">
-    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>Profil</span>
-  </a>
-</nav>
+
 
 <button class="dm-fab" id="dmFab" title="Mode sombre">
   <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -589,7 +569,7 @@ function answer(btn,chosen,correct){
 function showResult(){
   quizBody.style.display='none'; quizResult.style.display='block'; qProgFill.style.width='100%';
   const xp=qScore*6;
-  const stars=qScore>=5?'★★★':qScore>=3?'★★☆':'★☆☆';
+  const stars=qScore>=5?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>':qScore>=3?'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>':'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
   const titles=['Courage !','Bon début !','En progrès !','Bien joué !','Parfait !'];
   const subs=['Relis le dialogue et clique les mots — la 집들이 t\'attend !','Continue à explorer les mots surlignés !','Tu es sur la bonne voie — encore un effort !','Super ! Tu serais un(e) invité(e) parfait(e) à une 집들이 coréenne !','Bravo ! Prêt(e) pour inaugurer un appartement à Séoul !'];
   document.getElementById('qrStars').textContent=stars;
@@ -612,5 +592,16 @@ document.getElementById('dmFab').addEventListener('click',function(){
 });
 </script>
 <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}</script>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
 </body>
 </html>

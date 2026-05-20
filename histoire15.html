@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chez le médecin à Séoul — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .story-hero{background:linear-gradient(135deg,#0f4c81,#1e6fa8);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#93c5fd;margin-bottom:.4rem}
+    .story-title{font-size:1.15rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.8}
+    .dialogue{background:var(--surf);border-radius:14px;border:1px solid var(--bd);padding:1rem;margin:.7rem 0}
+    .d-row{margin:.6rem 0}
+    .d-who{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);margin-bottom:.2rem;display:flex;align-items:center;gap:.4rem}
+    .d-who-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+    .dot-emma{background:#3b82f6}
+    .dot-doctor{background:#16A34A}
+    .dot-nurse{background:#f59e0b}
+    .d-bubble{padding:.6rem .9rem;border-radius:0 12px 12px 12px;font-size:.92rem;margin-bottom:.2rem}
+    .bubble-emma{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2)}
+    .bubble-doctor{background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);border-radius:12px 0 12px 12px}
+    .bubble-nurse{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+    .ko-line{font-weight:600;color:var(--navy)}
+    .fr-line{font-size:.78rem;color:var(--tx-muted);margin-top:.1rem;font-style:italic}
+    .vocab-section{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0}
+    table{width:100%;border-collapse:collapse;font-size:.88rem}
+    th{background:rgba(22,163,74,.1);color:#16A34A;padding:.4rem .6rem;text-align:left;font-size:.78rem;font-weight:700}
+    td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    .ko{color:#16A34A;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.6rem 0}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    .symptom-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.6rem 0}
+    .sym-card{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.6rem;text-align:center}
+    .sym-ko{font-size:.95rem;font-weight:700;color:#16A34A}
+    .sym-fr{font-size:.75rem;color:var(--tx-muted);margin-top:.1rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Chez le médecin à Séoul</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2> Emma tombe malade à Séoul</h2>
+      <span class="pill">Histoire immersive</span> <span class="xp-badge">+12 XP</span>
+
+      <div class="story-hero">
+        <div class="story-tag"> Clinique de Hongdae · Mardi matin</div>
+        <div class="story-title">Chez le médecin — 병원에서</div>
+        <div class="story-sub">Emma a de la fièvre depuis hier. Son ami Ji-woo l'accompagne à la clinique.</div>
+      </div>
+
+      <h3> À la réception</h3>
+      <div class="dialogue">
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-nurse"></span>Infirmière</div>
+          <div class="d-bubble bubble-nurse">
+            <div class="ko-line">안녕하세요. 어디가 불편하세요?</div>
+            <div class="fr-line">Bonjour. Qu'est-ce qui ne va pas ?</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-emma"></span>Emma</div>
+          <div class="d-bubble bubble-emma">
+            <div class="ko-line">어제부터 열이 나고 머리가 아파요. 목도 아파요.</div>
+            <div class="fr-line">Depuis hier, j'ai de la fièvre et mal à la tête. J'ai aussi mal à la gorge.</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-nurse"></span>Infirmière</div>
+          <div class="d-bubble bubble-nurse">
+            <div class="ko-line">알겠어요. 잠깐만 기다려 주세요. 곧 의사 선생님이 보실 거예요.</div>
+            <div class="fr-line">D'accord. Veuillez patienter un moment. Le médecin va vous voir bientôt.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 2v20M2 12h20"/></svg> Dans le cabinet du médecin</h3>
+      <div class="dialogue">
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-doctor"></span>Médecin</div>
+          <div class="d-bubble bubble-doctor">
+            <div class="ko-line">어떻게 오셨어요?</div>
+            <div class="fr-line">Qu'est-ce qui vous amène ?</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-emma"></span>Emma</div>
+          <div class="d-bubble bubble-emma">
+            <div class="ko-line">열이 38도예요. 콧물도 나고, 몸이 많이 안 좋아요.</div>
+            <div class="fr-line">J'ai 38 degrés de fièvre. J'ai le nez qui coule et je me sens vraiment mal.</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-doctor"></span>Médecin</div>
+          <div class="d-bubble bubble-doctor">
+            <div class="ko-line">언제부터 증상이 있었어요?</div>
+            <div class="fr-line">Depuis quand avez-vous ces symptômes ?</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-emma"></span>Emma</div>
+          <div class="d-bubble bubble-emma">
+            <div class="ko-line">어제 저녁부터요. 오늘 아침에 더 나빠진 것 같아요.</div>
+            <div class="fr-line">Depuis hier soir. Ce matin, ça semble avoir empiré.</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-doctor"></span>Médecin</div>
+          <div class="d-bubble bubble-doctor">
+            <div class="ko-line">감기인 것 같아요. 약 처방해 드릴게요. 하루에 세 번, 식후에 드세요.</div>
+            <div class="fr-line">Ça ressemble à un rhume. Je vais vous prescrire des médicaments. Prenez-les trois fois par jour, après les repas.</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-emma"></span>Emma</div>
+          <div class="d-bubble bubble-emma">
+            <div class="ko-line">며칠 정도 걸려요?</div>
+            <div class="fr-line">Ça prend combien de temps ?</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-doctor"></span>Médecin</div>
+          <div class="d-bubble bubble-doctor">
+            <div class="ko-line">3~4일 쉬면 나을 것 같아요. 물 많이 드시고, 따뜻하게 계세요.</div>
+            <div class="fr-line">Si vous vous reposez 3-4 jours, vous devriez aller mieux. Buvez beaucoup d'eau et restez au chaud.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3> À la pharmacie</h3>
+      <div class="dialogue">
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-nurse"></span>Pharmacien</div>
+          <div class="d-bubble bubble-nurse">
+            <div class="ko-line">처방전 있으세요?</div>
+            <div class="fr-line">Vous avez une ordonnance ?</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-emma"></span>Emma</div>
+          <div class="d-bubble bubble-emma">
+            <div class="ko-line">네, 여기 있어요. 그리고 진통제도 주실 수 있어요?</div>
+            <div class="fr-line">Oui, la voilà. Et pourriez-vous aussi me donner des analgésiques ?</div>
+          </div>
+        </div>
+        <div class="d-row">
+          <div class="d-who"><span class="d-who-dot dot-nurse"></span>Pharmacien</div>
+          <div class="d-bubble bubble-nurse">
+            <div class="ko-line">네, 드릴게요. 빨리 나으세요!</div>
+            <div class="fr-line">Bien sûr. Rétablissez-vous vite !</div>
+          </div>
+        </div>
+      </div>
+
+      <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Vocabulaire médical essentiel</h3>
+      <div class="symptom-grid">
+        <div class="sym-card"><div class="sym-ko">열이 나요</div><div class="sym-fr">J'ai de la fièvre</div></div>
+        <div class="sym-card"><div class="sym-ko">머리가 아파요</div><div class="sym-fr">J'ai mal à la tête</div></div>
+        <div class="sym-card"><div class="sym-ko">배가 아파요</div><div class="sym-fr">J'ai mal au ventre</div></div>
+        <div class="sym-card"><div class="sym-ko">목이 아파요</div><div class="sym-fr">J'ai mal à la gorge</div></div>
+        <div class="sym-card"><div class="sym-ko">콧물이 나요</div><div class="sym-fr">J'ai le nez qui coule</div></div>
+        <div class="sym-card"><div class="sym-ko">기침이 나요</div><div class="sym-fr">Je tousse</div></div>
+      </div>
+
+      <div class="vocab-section">
+        <table>
+          <tr><th>Coréen</th><th>Sens</th></tr>
+          <tr><td class="ko">병원</td><td>Hôpital / Clinique</td></tr>
+          <tr><td class="ko">약국</td><td>Pharmacie</td></tr>
+          <tr><td class="ko">처방전</td><td>Ordonnance</td></tr>
+          <tr><td class="ko">증상</td><td>Symptôme(s)</td></tr>
+          <tr><td class="ko">약을 먹다</td><td>Prendre des médicaments</td></tr>
+          <tr><td class="ko">식후에</td><td>Après les repas</td></tr>
+          <tr><td class="ko">빨리 나으세요</td><td>Rétablissez-vous vite !</td></tr>
+          <tr><td class="ko">건강 보험</td><td>Assurance maladie</td></tr>
+        </table>
+      </div>
+
+      <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> <strong>Saviez-vous ?</strong> En Corée, les consultations médicales sont très accessibles grâce au système d'assurance nationale (건강 보험). Pour les étrangers, il est recommandé de souscrire l'assurance avant d'arriver. Beaucoup de cliniques de Séoul ont des interprètes anglais.</div>
+
+      <button class="btn-done" id="doneBtn" onclick="completeLesson()">Histoire lue — +12 XP</button>
+    </div>
+  </main>
+</div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){
+  if(typeof ksAddXP==='function')ksAddXP(12);
+  if(typeof ksMarkDone==='function')ksMarkDone('ks_b31');
+  const b=document.getElementById('doneBtn');
+  if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+  setTimeout(()=>window.location.href='cours.html',1200);
+}
+function toggleTheme(){
+  const d=document.documentElement;
+  const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',t);
+  try{localStorage.setItem('ks_theme',t);}catch(e){}
+}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body>
+</html>

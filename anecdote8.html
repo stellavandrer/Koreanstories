@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Noraebang — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .hero{background:linear-gradient(135deg,#7c3aed,#a855f7);border-radius:16px;padding:1.5rem;margin:.8rem 0;text-align:center;color:#fff}
+    .hero-emoji{font-size:3rem;margin-bottom:.5rem}
+    .hero-title{font-size:1.3rem;font-weight:800;margin-bottom:.3rem}
+    .hero-sub{font-size:.88rem;opacity:.85}
+    .ko{color:#16A34A;font-weight:700}
+    .vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.6rem 0}
+    .vocab-item{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.7rem;text-align:center}
+    .v-ko{font-size:1.05rem;font-weight:700;color:#7c3aed}
+    .v-fr{font-size:.78rem;color:var(--tx-muted);margin-top:.2rem}
+    .fact-row{display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0;border-bottom:1px solid var(--bd)}
+    .fact-row:last-child{border-bottom:none}
+    .fact-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem}
+    .fact-txt p{margin:.1rem 0;font-size:.9rem}
+    .fact-txt strong{color:var(--navy)}
+    .etiquette li{font-size:.9rem;padding:.2rem 0}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done:hover{background:#15803d}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th{background:rgba(124,58,237,.1);color:#7c3aed;padding:.5rem .7rem;text-align:left;font-size:.8rem;font-weight:700}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">Noraebang 노래방</span>
+    <button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Le Noraebang — bien plus qu'un karaoké</h2>
+      <span class="pill">Culture coréenne</span> <span class="xp-badge">+8 XP</span>
+
+      <div class="hero">
+        <div class="hero-emoji"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <div class="hero-title">노래방 (Noraebang)</div>
+        <div class="hero-sub">노래 = chanson · 방 = salle · Une salle privée pour chanter entre amis</div>
+      </div>
+
+      <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> C'est quoi exactement ?</h3>
+      <div class="card">
+        <div class="fact-row">
+          <div class="fact-icon"></div>
+          <div class="fact-txt">
+            <p><strong>Salles privées</strong> — contrairement au karaoké occidental en salle commune, le noraebang se loue à l'heure pour votre groupe uniquement. Personne d'autre ne vous juge !</p>
+          </div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-icon"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="fact-txt">
+            <p><strong>Ouvert 24h/24</strong> — on y va à toute heure : après le travail, après les restaurants, ou à 3h du matin après une soirée.</p>
+          </div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-icon"></div>
+          <div class="fact-txt">
+            <p><strong>Prix abordables</strong> — environ 10 000–20 000₩ (7–14€) par heure pour la salle entière, peu importe le nombre de personnes.</p>
+          </div>
+        </div>
+        <div class="fact-row">
+          <div class="fact-icon"></div>
+          <div class="fact-txt">
+            <p><strong>Service en chambre</strong> — la plupart proposent de la nourriture et des boissons à commander depuis la salle. Tamtam de bière et de chips inclus !</p>
+          </div>
+        </div>
+      </div>
+
+      <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Vocabulaire indispensable</h3>
+      <div class="vocab-grid">
+        <div class="vocab-item"><div class="v-ko">노래방</div><div class="v-fr">salle de karaoké</div></div>
+        <div class="vocab-item"><div class="v-ko">마이크</div><div class="v-fr">microphone</div></div>
+        <div class="vocab-item"><div class="v-ko">노래하다</div><div class="v-fr">chanter</div></div>
+        <div class="vocab-item"><div class="v-ko">신청하다</div><div class="v-fr">faire une demande (une chanson)</div></div>
+        <div class="vocab-item"><div class="v-ko">번호</div><div class="v-fr">numéro (de chanson)</div></div>
+        <div class="vocab-item"><div class="v-ko">탬버린</div><div class="v-fr">tambourin (omniprésent !)</div></div>
+        <div class="vocab-item"><div class="v-ko">점수</div><div class="v-fr">score</div></div>
+        <div class="vocab-item"><div class="v-ko">박수</div><div class="v-fr">applaudissements</div></div>
+      </div>
+
+      <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Phrases utiles au noraebang</h3>
+      <div class="card">
+        <table>
+          <tr><th>Coréen</th><th>Sens</th></tr>
+          <tr><td class="ko">방 예약하고 싶어요.</td><td>Je veux réserver une salle.</td></tr>
+          <tr><td class="ko">두 시간 주세요.</td><td>Deux heures, s'il vous plaît.</td></tr>
+          <tr><td class="ko">이 노래 신청해요!</td><td>Je vais demander cette chanson !</td></tr>
+          <tr><td class="ko">같이 불러요!</td><td>Chantons ensemble !</td></tr>
+          <tr><td class="ko">한 곡 더요!</td><td>Encore une chanson !</td></tr>
+          <tr><td class="ko">점수가 몇 점이에요?</td><td>Quel est le score ?</td></tr>
+        </table>
+      </div>
+
+      <h3><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  L'étiquette du noraebang</h3>
+      <div class="card">
+        <ul class="etiquette">
+          <li><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> <strong>On encourage toujours</strong> — même si la personne chante faux, on applaudit. Le tambourin est là pour ça !</li>
+          <li><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.7 19.79 19.79 0 01.22 1.11 2 2 0 012.22 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg> <strong>Pas de vidéo sans permission</strong> — filmer les autres dans leur moment de vulnérabilité est mal vu.</li>
+          <li> <strong>Frappez avant d'entrer</strong> — les salles ont des portes, on respecte la bulle privée du groupe.</li>
+          <li><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> <strong>Un mix de genres</strong> — K-pop, ballades, oldies, K-rock, trot… tout est bienvenu !</li>
+          <li> <strong>Sortie en group</strong> — on termine souvent la nuit au noraebang après le restaurant et les bars. C'est la culture 2차 (deuxième round).</li>
+        </ul>
+      </div>
+
+      <h3><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Le noraebang et la société coréenne</h3>
+      <div class="card">
+        <p style="font-size:.9rem;line-height:1.65;margin:0">Le noraebang est <strong>un lieu de décompression sociale</strong> dans une culture où le travail est très intense. Les collègues de bureau y vont après les longues journées de travail (회식, les dîners d'équipe se terminent souvent au noraebang). C'est aussi <strong>un rite de passage amical</strong> — aller au noraebang avec quelqu'un signifie que vous êtes à l'aise avec lui. Pour les Coréens, il n'y a pas de honte à chanter faux — ce qui compte, c'est <em>l'effort et le fun partagé</em>.</p>
+      </div>
+
+      <button class="btn-done" id="doneBtn" onclick="completeLesson()">Lu et compris — +8 XP</button>
+    </div>
+  </main>
+</div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){
+  if(typeof ksAddXP==='function')ksAddXP(8);
+  if(typeof ksMarkDone==='function')ksMarkDone('ks_b32');
+  const b=document.getElementById('doneBtn');
+  if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+  setTimeout(()=>window.location.href='cours.html',1200);
+}
+function toggleTheme(){
+  const d=document.documentElement;
+  const t=d.getAttribute('data-theme')==='dark'?'light':'dark';
+  d.setAttribute('data-theme',t);
+  try{localStorage.setItem('ks_theme',t);}catch(e){}
+}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body>
+</html>

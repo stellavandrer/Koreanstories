@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta name="description" content="Apprendre le coréen avec Korean Stories — cours, histoires et exercices interactifs."/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Premium A1 — Korean Stories</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Inter','Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+.tnav-back{display:flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--bd);border-radius:100px;color:var(--gold);font-size:13px;font-weight:600;padding:7px 14px;cursor:pointer;transition:all .2s}
+.tnav-back:hover{border-color:var(--gold);background:var(--gl)}
+.tnav-title{font-family:'Playfair Display',serif;font-size:15px;font-style:italic}
+.tnav-xp{font-size:12px;font-weight:700;color:var(--gold);background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.25);padding:5px 12px;border-radius:20px}
+.unit-tabs{display:flex;gap:8px;padding:14px 18px;overflow-x:auto;border-bottom:1px solid var(--bd);scrollbar-width:none}
+.unit-tabs::-webkit-scrollbar{display:none}
+.utab{flex-shrink:0;padding:7px 14px;border-radius:100px;border:1.5px solid var(--bd);font-size:12px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .2s;background:none}
+.utab.active{border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,0.1)}
+.hero{padding:20px 18px 8px;text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.2);border-radius:100px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.hero h2{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:4px}
+.hero h2 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:13px;color:var(--t2)}
+.prog-wrap{padding:12px 18px 0}
+.prog-row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px;color:var(--t2)}
+.prog-row strong{color:var(--text)}
+.prog-bar{height:5px;background:var(--bd);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:var(--gold);border-radius:3px;transition:width .4s ease}
+.quiz-area{padding:20px 18px;max-width:520px;margin:0 auto}
+.q-num{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.q-text{font-size:18px;font-weight:700;line-height:1.4;margin-bottom:6px}
+.q-kr{font-family:'Noto Sans KR',sans-serif;font-size:36px;font-weight:700;color:var(--gold);text-align:center;padding:20px;background:var(--bg3);border-radius:16px;border:1px solid var(--bd);margin-bottom:20px;cursor:pointer}
+.q-kr:hover{background:rgba(201,169,110,0.08)}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.opt{padding:15px 18px;border-radius:14px;border:1.5px solid var(--bd);background:var(--bg3);font-size:15px;font-weight:500;cursor:pointer;transition:all .2s;text-align:left}
+.opt:hover:not(:disabled){border-color:var(--gold);background:rgba(201,169,110,0.08)}
+.opt.correct{border-color:var(--green)!important;background:rgba(34,197,94,0.12)!important;color:var(--green)}
+.opt.wrong{border-color:var(--pink)!important;background:rgba(244,114,182,0.12)!important;color:var(--pink)}
+.opt:disabled{cursor:default}
+.feedback{margin-top:14px;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;display:none;line-height:1.5}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:var(--green)}
+.feedback.ko{background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.3);color:var(--pink)}
+.next-btn{width:100%;margin-top:14px;padding:15px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#E8C98A);color:#0F1B2D;font-weight:800;font-size:15px;border:none;cursor:pointer;display:none}
+.next-btn.show{display:block}
+.speak-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.25);border-radius:100px;color:var(--gold);font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;margin-bottom:16px}
+.speak-btn:hover{background:rgba(201,169,110,0.2)}
+/* RESULT */
+.result-screen{display:none;flex-direction:column;align-items:center;text-align:center;padding:40px 18px;gap:18px}
+.result-screen.show{display:flex}
+.score-ring{position:relative;width:120px;height:120px}
+.score-ring svg{transform:rotate(-90deg)}
+.score-ring-val{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;font-weight:800;color:var(--gold)}
+.result-title{font-family:'Playfair Display',serif;font-size:26px}
+.result-title em{color:var(--gold);font-style:italic}
+.result-sub{font-size:14px;color:var(--t2);max-width:280px;line-height:1.6}
+.badge-card{background:linear-gradient(135deg,rgba(201,169,110,0.2),rgba(201,169,110,0.05));border:2px solid rgba(201,169,110,0.4);border-radius:20px;padding:20px 28px;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;max-width:320px}
+.badge-icon{font-size:44px}
+.badge-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--gold)}
+.badge-desc{font-size:12px;color:var(--t2)}
+.xp-pill{display:flex;align-items:center;gap:8px;background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);border-radius:100px;padding:10px 20px;font-size:16px;font-weight:800;color:var(--gold)}
+.res-btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:320px}
+.btn-main{width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#E8C98A);color:#0F1B2D;font-weight:800;font-size:15px;border:none;cursor:pointer}
+.btn-sec{width:100%;padding:13px;border-radius:14px;background:var(--bg3);border:1.5px solid var(--bd);color:var(--t2);font-weight:600;font-size:14px;cursor:pointer}
+.stats-row{display:flex;gap:16px;justify-content:center}
+.sstat{text-align:center}
+.sstat-val{font-size:24px;font-weight:800}
+.sstat-lab{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}
+
+    /* ── BOTTOM NAV ── */
+    
+    
+    
+    
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    @media(min-width:640px){body{padding-bottom:0}}
+
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <link rel="stylesheet" href="design.css"/>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+<div class="bar">
+    <a href="cours.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="unit-tabs" id="unitTabs"></div>
+<div class="hero">
+  <div class="hero-tag">· Quiz interactif</div>
+  <h2>Quiz <em>A1</em></h2>
+  <p class="hero-sub" id="unitSub">15 questions · badge téléchargeable</p>
+</div>
+<div class="prog-wrap">
+  <div class="prog-row"><span>Question <strong id="qNum">1</strong> / <strong id="qTotal">15</strong></span><span id="scoreLabel" style="color:var(--green);font-weight:700"></span></div>
+  <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+</div>
+
+<div class="quiz-area" id="quizArea">
+  <div class="q-num" id="qNumLabel">Question 1</div>
+  <div id="qKrWrap" style="display:none">
+    <button class="speak-btn" onclick="speakCurrent()"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round"><polyline points="9 18 15 12 9 6"/></svg> Écouter</button>
+    <div class="q-kr" id="qKr" onclick="speakCurrent()">—</div>
+  </div>
+  <div class="q-text" id="qText">Chargement…</div>
+  <div class="opts" id="opts"></div>
+  <div class="feedback" id="feedback"></div>
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Question suivante →</button>
+</div>
+
+<div class="result-screen" id="resultScreen">
+  <div class="score-ring">
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#C9A96E" stroke-width="10"
+        stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"
+        id="scoreCircle" style="transition:stroke-dashoffset 1.2s ease"/>
+    </svg>
+    <div class="score-ring-val" id="scoreVal">0%</div>
+  </div>
+  <div class="result-title" id="resultTitle">Résultat</div>
+  <div class="result-sub" id="resultSub"></div>
+  <div class="stats-row" id="statsRow"></div>
+  <div class="badge-card" id="badgeCard" style="display:none">
+    <div class="badge-icon" id="badgeIcon"><svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='var(--gold)' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='8' r='6'/><path d='M15.477 12.89L17 22l-5-3-5 3 1.523-9.11'/></svg></div>
+    <div class="badge-name" id="badgeName"></div>
+    <div class="badge-desc" id="badgeDesc">Badge débloqué — score ≥ 80%</div>
+  </div>
+  <div class="xp-pill" id="xpPill">+0 XP</div>
+  <div class="res-btns">
+    <button class="btn-main" onclick="restartQuiz()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/></svg>Recommencer</button>
+    <button class="btn-sec" onclick="goBack()">← Retour au cours</button>
+  </div>
+</div>
+
+<script>
+const QUIZ_DATA = {
+  u_d1:{name:'Voyelles',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Expert Voyelles',questions:[
+    {t:'kr',q:'Que signifie cette voyelle ?',kr:'ㅏ',opts:['ah (a)','"eu" fermé','ou','oh'],ans:0,exp:'ㅏ se prononce "a" — comme dans "papa"'},
+    {t:'fr',q:'Quelle voyelle coréenne correspond à "ou" ?',opts:['ㅏ','ㅗ','ㅜ','ㅣ'],ans:2,exp:'ㅜ = "ou" — comme dans "loup"'},
+    {t:'kr',q:'Que signifie ce mot ?',kr:'우리',opts:['toi','nous','eux','lui'],ans:1,exp:'우리 = nous / notre (mot très fréquent)'},
+    {t:'kr',q:'Que signifie ce mot ?',kr:'어디',opts:['quand ?','qui ?','où ?','quoi ?'],ans:2,exp:'어디 = où ? (question très utile !)'},
+    {t:'fr',q:'Comment dit-on "enfant" en coréen ?',opts:['이야기','아이','우리','어디'],ans:1,exp:'아이 = enfant — composé de ㅏ + ㅣ'},
+    {t:'kr',q:'La voyelle ㅣ se prononce :',kr:'ㅣ',opts:['ou','eu','o','i'],ans:3,exp:'ㅣ = "i" — comme dans "vie"'},
+    {t:'fr',q:'Comment dit-on "histoire" en coréen ?',opts:['아이','이야기','어디','우리'],ans:1,exp:'이야기 = histoire / récit'},
+    {t:'kr',q:'Que signifie ㅡ ?',kr:'ㅡ',opts:['ou','eu fermé','a','i'],ans:1,exp:'ㅡ = "eu" fermé, pas de lèvres arrondies'},
+    {t:'fr',q:'Quelle voyelle correspond à "o" ?',opts:['ㅏ','ㅜ','ㅗ','ㅡ'],ans:2,exp:'ㅗ = "o" — lèvres arrondies, langue en bas'},
+    {t:'kr',q:'Que signifie ce mot ?',kr:'아이스크림',opts:['banane','glace','chocolat','gâteau'],ans:1,exp:'아이스크림 = ice cream — mot emprunté à l\'anglais'},
+    {t:'fr',q:'ㅐ et ㅔ se prononcent tous les deux :',opts:['"a"','"ou"','"é"','"i"'],ans:2,exp:'ㅐ et ㅔ → "é" — distinction quasi disparue en coréen moderne'},
+    {t:'fr',q:'Quelle voyelle est dans le mot 우리 ?',opts:['ㅏ','ㅜ et ㅣ','ㅗ','ㅡ'],ans:1,exp:'우(ㅜ) + 리(ㅣ) = 우리'},
+    {t:'kr',q:'Que signifie 오이 ?',kr:'오이',opts:['banane','tomate','concombre','carotte'],ans:2,exp:'오이 = concombre — ㅗ(o) + ㅣ(i)'},
+    {t:'fr',q:'Comment prononce-t-on ㅓ ?',opts:['"a"','"ou"','"o"','entre "eu" et "o"'],ans:3,exp:'ㅓ = entre "eu" et "o" — voyelle centrale-ouverte'},
+    {t:'fr',q:'Combien y a-t-il de voyelles de base en coréen ?',opts:['6','8','10','21'],ans:2,exp:'Il y a 10 voyelles simples en coréen (dont 8 couramment enseignées en A1)'}
+  ]},
+  u_d2:{name:'Consonnes ①',badge:'●',badgeName:'Maître consonnes 1',questions:[
+    {t:'kr',q:'Que signifie ce mot ?',kr:'가다',opts:['venir','partir','rester','manger'],ans:1,exp:'가다 = aller — verbe de base très fréquent'},
+    {t:'kr',q:'Que signifie 나라 ?',kr:'나라',opts:['mer','forêt','pays','ville'],ans:2,exp:'나라 = pays — ex: 한국 = Corée (pays de Han)'},
+    {t:'fr',q:'Comment dit-on "eau" en coréen ?',opts:['밥','달','물','눈'],ans:2,exp:'물 = eau — ex: 물 주세요 = de l\'eau svp'},
+    {t:'kr',q:'Que signifie 밥 ?',kr:'밥',opts:['riz/repas','pain','soupe','légume'],ans:0,exp:'밥 = riz cuit / repas — mot central de la culture coréenne'},
+    {t:'fr',q:'Comment dit-on "chanson" en coréen ?',opts:['나라','노래','마음','다리'],ans:1,exp:'노래 = chanson — norebang = karaoké (chambre de chansons)'},
+    {t:'kr',q:'Que signifie 달 ?',kr:'달',opts:['soleil','étoile','lune','ciel'],ans:2,exp:'달 = lune — 달이 밝아요 = la lune est brillante'},
+    {t:'fr',q:'Comment dit-on "cœur / esprit" ?',opts:['마음','나무','눈','다리'],ans:0,exp:'마음 = cœur / esprit / âme — ex: 마음이 넓어요 = il a le cœur large'},
+    {t:'kr',q:'Que signifie 나무 ?',kr:'나무',opts:['fleur','arbre','herbe','feuille'],ans:1,exp:'나무 = arbre — 나무가 커요 = l\'arbre est grand'},
+    {t:'fr',q:'Comment dit-on "bibliothèque" ?',opts:['도서관','라디오','모자','고모'],ans:0,exp:'도서관 = bibliothèque — 도서관에서 공부해요 = j\'étudie à la bibliothèque'},
+    {t:'kr',q:'La consonne ㄹ ressemble à quel son français ?',kr:'ㄹ',opts:['l uniquement','r uniquement','entre l et r','d'],ans:2,exp:'ㄹ est entre "l" et "r" — selon sa position dans le mot'},
+    {t:'fr',q:'Quelle consonne fait le son "g" ?',opts:['ㄴ','ㅁ','ㄷ','ㄱ'],ans:3,exp:'ㄱ = g/k selon la position — 가다 = aller'},
+    {t:'kr',q:'Que signifie 고모 ?',kr:'고모',opts:['oncle','cousine','tante (côté père)','grand-mère'],ans:2,exp:'고모 = tante du côté du père — le coréen distingue très précisément les liens familiaux'},
+    {t:'fr',q:'Comment dit-on "ramyeon" (nouilles) ?',opts:['모자','달','라면','눈'],ans:2,exp:'라면 = ramyeon / nouilles instantanées — repas iconique coréen'},
+    {t:'kr',q:'눈 peut signifier :',kr:'눈',opts:['pluie et vent','neige et œil','soleil et lune','eau et feu'],ans:1,exp:'눈 = neige (sens 1) ET œil (sens 2) — même orthographe, contexte différent'},
+    {t:'fr',q:'Combien de consonnes y a-t-il en coréen ?',opts:['10','14','19','24'],ans:2,exp:'Il y a 19 consonnes en coréen — dont 14 simples et 5 tendues'}
+  ]},
+  u_a1_6:{name:'Salutations',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'First Contact',questions:[
+    {t:'kr',q:'Que signifie cette expression ?',kr:'안녕하세요',opts:['Merci','Bonjour','Au revoir','Excusez-moi'],ans:1,exp:'안녕하세요 = Bonjour (poli) — expression la plus utile en coréen !'},
+    {t:'fr',q:'Comment dit-on "merci beaucoup" (très formel) ?',opts:['고맙습니다','반갑습니다','감사합니다','죄송합니다'],ans:2,exp:'감사합니다 = merci beaucoup (formel) — sinogramme 感謝'},
+    {t:'kr',q:'Quelle formule dit-on quand ON PART ?',kr:'???',opts:['안녕히 계세요','안녕히 가세요','감사합니다','실례합니다'],ans:1,exp:'안녕히 가세요 = au revoir (dit à celui qui part) — "partez en paix"'},
+    {t:'fr',q:'Comment dit-on "enchanté(e)" ?',opts:['감사합니다','죄송합니다','반갑습니다','괜찮아요'],ans:2,exp:'반갑습니다 = enchanté(e) — 반갑다 = être content de voir quelqu\'un'},
+    {t:'kr',q:'Que signifie 괜찮아요 ?',kr:'괜찮아요',opts:["Je suis désolé","C'est pas grave/ça va","Merci","Excusez-moi"],ans:1,exp:'괜찮아요 = ça va / ce n\'est pas grave — très polyvalent'},
+    {t:'fr',q:'Comment dit-on "désolé(e)" entre amis ?',opts:['죄송합니다','미안해요','실례합니다','감사합니다'],ans:1,exp:'미안해요 = désolé(e) (poli, amical) — 죄송합니다 est plus formel'},
+    {t:'kr',q:'네 signifie :',kr:'네',opts:['Non','Peut-être','Oui','Pardon'],ans:2,exp:'네 = oui — 아니요 = non (ne pas confondre !)'},
+    {t:'fr',q:'Quelle formule utilise-t-on dans un magasin ?',opts:['안녕히 가세요','처음 뵙겠습니다','어서 오세요','실례합니다'],ans:2,exp:'어서 오세요 = bienvenue ! / entrez ! — expression de commerçant'},
+    {t:'kr',q:'Que signifie 실례합니다 ?',kr:'실례합니다',opts:['Merci','Bonjour','Excusez-moi','Au revoir'],ans:2,exp:'실례합니다 = excusez-moi — quand on veut attirer l\'attention poliment'},
+    {t:'fr',q:'Comment dit-on "comment allez-vous ?" ?',opts:['몇 살이에요?','잘 지냈어요?','어디 가요?','이름이 뭐예요?'],ans:1,exp:'잘 지냈어요? = comment allez-vous ? / avez-vous bien été ?'},
+    {t:'fr',q:'La formule 처음 뵙겠습니다 est utilisée :',opts:['Entre amis','Lors d\'une première rencontre formelle','Au restaurant','Pour partir'],ans:1,exp:'처음 뵙겠습니다 = enchanté (très formel, première rencontre) — 처음 = première fois'},
+    {t:'kr',q:'아니요 signifie :',kr:'아니요',opts:['Oui','Merci','Non','Bonjour'],ans:2,exp:'아니요 = non (poli) — 아니 = non (familier)'},
+    {t:'fr',q:'Quelle est la différence entre 안녕히 가세요 et 안녕히 계세요 ?',opts:['Matin vs soir','Formel vs informel','Dit à celui qui PART vs à celui qui RESTE','Homme vs femme'],ans:2,exp:'가세요 (partez) → dit à celui qui part ; 계세요 (restez) → dit quand c\'est soi qui part'},
+    {t:'fr',q:'Comment dit-on "merci" de façon légèrement moins formelle ?',opts:['감사합니다','고맙습니다','죄송합니다','괜찮아요'],ans:1,exp:'고맙습니다 = merci — un peu moins formel que 감사합니다 mais toujours poli'},
+    {t:'fr',q:'Quelle formule utilise-t-on pour s\'excuser d\'être en retard ?',opts:['감사합니다','반갑습니다','죄송합니다','괜찮아요'],ans:2,exp:'죄송합니다 = je suis désolé(e) (formel) — 늦어서 죄송합니다 = désolé d\'être en retard'}
+  ]},
+  u_a1_7:{name:'Se présenter',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Premiers pas en coréen',questions:[
+    {t:'kr',q:'Comment dit-on "je suis étudiant(e)" ?',kr:'저는 ___이에요',opts:['나는 학생가','저는 학생이에요','저는 학생에요','나 학생'],ans:1,exp:'저는 학생이에요 — 이에요 après consonne finale, 예요 après voyelle'},
+    {t:'fr',q:'Comment demande-t-on le nom de quelqu\'un ?',opts:['몇 살이에요?','어디 사세요?','이름이 뭐예요?','어디예요?'],ans:2,exp:'이름이 뭐예요? = comment vous appelez-vous ? — 이름 = prénom/nom'},
+    {t:'kr',q:'Que signifie 동생 ?',kr:'동생',opts:['grand frère','petite amie','petit(e) frère/sœur','cousin(e)'],ans:2,exp:'동생 = cadet(te) — frère ou sœur plus jeune (sans distinction de genre)'},
+    {t:'fr',q:'Comment dit-on "grand frère" (pour une fille) ?',opts:['형','오빠','누나','언니'],ans:1,exp:'오빠 = grand frère (dit par une fille) — 형 est dit par un garçon'},
+    {t:'kr',q:'Que signifie 선생님 ?',kr:'선생님',opts:['médecin','professeur','étudiant','cuisinier'],ans:1,exp:'선생님 = professeur — 님 est un suffixe honorifique'},
+    {t:'fr',q:'Comment dit-on "j\'aime" ?',opts:['싫어해요','알아요','좋아해요','먹어요'],ans:2,exp:'좋아해요 = j\'aime (quelque chose) — 좋다 = être bien/aimé'},
+    {t:'fr',q:'Comment dit-on "grande sœur" (pour un garçon) ?',opts:['언니','누나','오빠','형'],ans:1,exp:'누나 = grande sœur (dit par un garçon) — 언니 est dit par une fille'},
+    {t:'kr',q:'저는 프랑스 사람이에요 signifie :',kr:'저는 프랑스 사람이에요',opts:['J\'aime la France','Je vis en France','Je suis français(e)','Je parle français'],ans:2,exp:'사람 = personne — 프랑스 사람 = personne française'},
+    {t:'fr',q:'회사원 signifie :',opts:['médecin','étudiant','employé de bureau','cuisinier'],ans:2,exp:'회사원 = employé(e) de bureau — 회사 = entreprise'},
+    {t:'kr',q:'몇 살이에요? signifie :',kr:'몇 살이에요?',opts:['Où habitez-vous ?','Quel âge avez-vous ?','Que faites-vous ?','Comment vous appelez-vous ?'],ans:1,exp:'몇 살이에요? = quel âge avez-vous ? — 살 = année (pour l\'âge)'},
+    {t:'fr',q:'Comment dit-on "père" de façon formelle ?',opts:['아빠','오빠','아버지','형'],ans:2,exp:'아버지 = père (formel) — 아빠 = papa (familier)'},
+    {t:'fr',q:'La structure de base pour se présenter est :',opts:['저는 + 이름 + 이에요/예요','나는 + 직업 + 해요','저 + 이름 + 있어요','이름 + 나는 + 이에요'],ans:0,exp:'저는 [nom] 이에요/예요 — 이에요 après consonne, 예요 après voyelle'},
+    {t:'kr',q:'어디 사세요? signifie :',kr:'어디 사세요?',opts:['Que faites-vous ?','Où travaillez-vous ?','Où habitez-vous ?','Combien ça coûte ?'],ans:2,exp:'어디 사세요? = où habitez-vous ? — 살다 = vivre/habiter'},
+    {t:'fr',q:'Comment dit-on "je n\'aime pas" ?',opts:['좋아해요','알아요','모르겠어요','싫어해요'],ans:3,exp:'싫어해요 = je n\'aime pas — opposé de 좋아해요'},
+    {t:'fr',q:'Quelle est la différence entre 형 et 오빠 ?',opts:['Âge différent','형 = dit par un homme, 오빠 = dit par une femme','Formel vs informel','Nord vs Sud Corée'],ans:1,exp:'형 = grand frère dit par un homme ; 오빠 = grand frère dit par une femme'}
+  ]},
+  u_a1_9:{name:'Nourriture',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Gourmet coréen',questions:[
+    {t:'kr',q:'Que signifie 주세요 ?',kr:'주세요',opts:["Au revoir","S'il vous plaît / donnez-moi","Merci","Combien ?"],ans:1,exp:'주세요 = s\'il vous plaît / donnez-moi — 주다 = donner'},
+    {t:'fr',q:'Comment demande-t-on le prix ?',opts:['있어요?','주세요','얼마예요?','맛있어요?'],ans:2,exp:'얼마예요? = combien ça coûte ? — 얼마 = combien'},
+    {t:'kr',q:'맛있어요 signifie :',kr:'맛있어요',opts:["C'est épicé","C'est délicieux","C'est cher","C'est froid"],ans:1,exp:'맛있어요 = c\'est délicieux — 맛 = goût + 있다 = avoir/exister'},
+    {t:'fr',q:'Comment dit-on "l\'addition s\'il vous plaît" ?',opts:['물 주세요','메뉴 주세요','계산서 주세요','영수증 주세요'],ans:2,exp:'계산서 주세요 = l\'addition svp — 계산 = calcul'},
+    {t:'kr',q:'비싸요 signifie :',kr:'비싸요',opts:["C'est gratuit","C'est bon marché","C'est cher","C'est lourd"],ans:2,exp:'비싸요 = c\'est cher — opposé : 싸요 = c\'est pas cher'},
+    {t:'fr',q:'Quel est ce plat coréen célèbre ?',opts:['김치찌개','비빔밥','떡볶이','냉면'],ans:2,exp:'떡볶이 = gâteaux de riz épicés — plat de rue iconique coréen'},
+    {t:'kr',q:'있어요? (à la fin d\'une commande) signifie :',kr:'있어요?',opts:['C\'est bon ?','Est-ce que vous avez... ?','C\'est fini ?','C\'est tout ?'],ans:1,exp:'있어요? = est-ce que vous avez... ? — 있다 = exister/avoir'},
+    {t:'fr',q:'Comment dit-on "un, s\'il vous plaît" ?',opts:['일 주세요','하나 주세요','둘 주세요','처음 주세요'],ans:1,exp:'하나 주세요 = un, s\'il vous plaît — hana = 1 en coréen natif'},
+    {t:'kr',q:'Que signifie 김치 ?',kr:'김치',opts:['soupe','riz','kimchi','poulpe'],ans:2,exp:'김치 = kimchi — légumes fermentés, accompagnement incontournable'},
+    {t:'fr',q:'Comment dit-on "vous avez une réduction ?" ?',opts:['더 주세요','할인 있어요?','싸요?','얼마예요?'],ans:1,exp:'할인 있어요? = vous avez une réduction ? — 할인 = réduction/rabais'},
+    {t:'fr',q:'맵지 않아요? signifie :',opts:["C'est délicieux ?","C'est cher ?","Ce n'est pas épicé ?","C'est froid ?"],ans:2,exp:'맵지 않아요? = ce n\'est pas épicé ? — 맵다 = être épicé'},
+    {t:'kr',q:'삼겹살 est :',kr:'삼겹살',opts:['soupe de bœuf','poitrine de porc grillée','poulet frit','poisson grillé'],ans:1,exp:'삼겹살 = poitrine de porc grillée — plat coréen par excellence (BBQ)'},
+    {t:'fr',q:'냉면est :',opts:['soupe chaude','riz gluant','nouilles froides','purée d\'igname'],ans:2,exp:'냉면 = nouilles froides — 냉 = froid + 면 = nouilles'},
+    {t:'fr',q:'Comment dit-on "il n\'y en a pas" ?',opts:['있어요','주세요','없어요','괜찮아요'],ans:2,exp:'없어요 = il n\'y en a pas / je n\'ai pas — 없다 = ne pas exister'},
+    {t:'fr',q:'싸요 signifie :',opts:["C'est cher","C'est bon","C'est pas cher","C'est épicé"],ans:2,exp:'싸요 = c\'est bon marché / pas cher — opposé de 비싸요'}
+  ]},
+  u_a1_10:{name:'Se déplacer',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Seoul Navigator',questions:[
+    {t:'kr',q:'지하철 signifie :',kr:'지하철',opts:['bus','taxi','métro','avion'],ans:2,exp:'지하철 = métro — 지하 = souterrain + 철 = fer/ferrée'},
+    {t:'fr',q:'Comment demande-t-on "où est... ?" ?',opts:['얼마예요?','어디예요?','몇 번이에요?','있어요?'],ans:1,exp:'어디예요? = où est... ? — 어디 = où'},
+    {t:'kr',q:'왼쪽 signifie :',kr:'왼쪽',opts:['devant','derrière','droite','gauche'],ans:3,exp:'왼쪽 = gauche — 오른쪽 = droite (les retenir ensemble !)'},
+    {t:'fr',q:'Comment dit-on "tout droit" ?',opts:['왼쪽','오른쪽','직진','환승'],ans:2,exp:'직진 = tout droit — 직 = direct + 진 = avancer'},
+    {t:'kr',q:'환승 signifie :',kr:'환승',opts:['terminus','arrêt','correspondance','départ'],ans:2,exp:'환승 = correspondance / transfert — quand on change de ligne'},
+    {t:'fr',q:'Comment dit-on "c\'est loin" ?',opts:['가깝다','멀다','크다','작다'],ans:1,exp:'멀다 = c\'est loin — 가깝다 = c\'est proche (retenir les deux ensemble)'},
+    {t:'kr',q:'타다 signifie :',kr:'타다',opts:['descendre','payer','monter/prendre (transport)','attendre'],ans:2,exp:'타다 = monter dans / prendre un transport — 내리다 = descendre'},
+    {t:'fr',q:'Comment demande-t-on le numéro de bus ?',opts:['어디예요?','몇 번 버스예요?','얼마예요?','있어요?'],ans:1,exp:'몇 번 버스예요? = c\'est le bus numéro combien ? — 몇 번 = quel numéro ?'},
+    {t:'fr',q:'택시 est :',opts:['métro','bus','taxi','tramway'],ans:2,exp:'택시 = taxi — mot emprunté à l\'anglais "taxi"'},
+    {t:'kr',q:'가깝다 signifie :',kr:'가깝다',opts:["c'est loin","c'est proche","c'est grand","c'est petit"],ans:1,exp:'가깝다 = c\'est proche / pas loin — ex: 여기서 가까워요 = c\'est proche d\'ici'},
+    {t:'fr',q:'Comment dit-on "tournez à droite" ?',opts:['왼쪽으로 가세요','직진하세요','오른쪽으로 가세요','내려가세요'],ans:2,exp:'오른쪽으로 가세요 = tournez à droite — 으로 = vers (direction)'},
+    {t:'kr',q:'기차역 signifie :',kr:'기차역',opts:['aéroport','gare','arrêt de bus','port'],ans:1,exp:'기차역 = gare — 기차 = train + 역 = station'},
+    {t:'fr',q:'내리다 signifie :',opts:['monter','payer','attendre','descendre'],ans:3,exp:'내리다 = descendre (d\'un bus/métro) — 다음 역에서 내려요 = je descends à la prochaine'},
+    {t:'fr',q:'La T-money est :',opts:['une monnaie coréenne','une carte de transport de Séoul','une appli de navigation','un titre de séjour'],ans:1,exp:'T-money = carte rechargeable pour métro, bus et taxi à Séoul'},
+    {t:'fr',q:'Comment dit-on "tournez à gauche" ?',opts:['직진하세요','오른쪽으로 가세요','왼쪽으로 가세요','앞으로 가세요'],ans:2,exp:'왼쪽으로 가세요 = tournez à gauche — 왼쪽 = gauche'}
+  ]},
+  u_a1_11:{name:'Grammaire A1',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Fondations A1',questions:[
+    {t:'fr',q:'En coréen, l\'ordre de base de la phrase est :',opts:['SVO (comme le français)','VSO','SOV','OVS'],ans:2,exp:'SOV = Sujet + Objet + Verbe — ex: 나는 밥을 먹어요 = Je riz mange'},
+    {t:'fr',q:'La particule 을/를 indique :',opts:["le sujet","l'objet direct","le lieu","le temps"],ans:1,exp:'을/를 = particule d\'objet — 을 après consonne, 를 après voyelle'},
+    {t:'kr',q:'Quelle particule complète cette phrase ? 저___ 학생이에요',kr:'저___ 학생이에요',opts:['이','은/는','을','에'],ans:1,exp:'저는 학생이에요 = je suis étudiant — 은/는 est la particule de thème après 저 (je)'},
+    {t:'fr',q:'La particule 에서 indique :',opts:["l'existence dans un lieu","l'action dans un lieu","la destination","la possession"],ans:1,exp:'에서 = lieu d\'action — 카페에서 공부해요 = j\'étudie au café'},
+    {t:'kr',q:'Comment nie-t-on 먹어요 ?',kr:'먹어요 → ???',opts:['안 먹어요','없 먹어요','못 먹어요 (impossibilité)','아니 먹어요'],ans:0,exp:'안 먹어요 = je ne mange pas (simple négation) — 안 se place avant le verbe'},
+    {t:'fr',q:'La particule 에 (sans 서) indique :',opts:["l'action dans un lieu","la destination / l'existence","l'objet direct","le sujet"],ans:1,exp:'에 = destination ou lieu d\'existence — 학교에 가요 = je vais à l\'école'},
+    {t:'kr',q:'이/가 est :',kr:'이/가',opts:['particule de thème','particule de sujet','particule d\'objet','particule de lieu'],ans:1,exp:'이/가 = particule de sujet grammatical — 이 après consonne, 가 après voyelle'},
+    {t:'fr',q:'Comment dit-on "il n\'y a pas" / "je n\'ai pas" ?',opts:['있어요','아니에요','없어요','안 해요'],ans:2,exp:'없어요 = il n\'y a pas / je n\'ai pas — 없다 est le verbe d\'inexistence'},
+    {t:'fr',q:'Le verbe 하다 au présent poli devient :',opts:['하요','해요','했어요','할 거예요'],ans:1,exp:'하다 → 해요 (présent poli) — règle des verbes en 하다 : drop 다, add 여요 → 해요'},
+    {t:'kr',q:'아니에요 signifie :',kr:'아니에요',opts:["Je n'ai pas","Il n'y a pas","Ce n'est pas...","Je ne vais pas"],ans:2,exp:'아니에요 = ce n\'est pas... — 학생이 아니에요 = je ne suis pas étudiant'},
+    {t:'fr',q:'La différence entre 은/는 et 이/가 est :',opts:['Aucune différence','은/는 = thème (contraste/généralité) ; 이/가 = sujet grammatical','은/는 = masculin ; 이/가 = féminin','은/는 = oral ; 이/가 = écrit'],ans:1,exp:'은/는 met en valeur le sujet comme thème (contraste) — 이/가 désigne le sujet grammatical simple'},
+    {t:'kr',q:'Complétez : 카페___ 공부해요',kr:'카페___ 공부해요',opts:['에서','에','을','는'],ans:0,exp:'카페에서 공부해요 = j\'étudie au café — 에서 = lieu d\'action (on fait quelque chose là)'},
+    {t:'fr',q:'먹지 않아요 et 안 먹어요 :',opts:['Signifient des choses différentes','La 1ère est plus formelle','La 2ème est plus formelle','Sont identiques'],ans:1,exp:'먹지 않아요 = forme longue (plus formelle/littéraire) ; 안 먹어요 = forme courte (plus naturelle à l\'oral)'},
+    {t:'fr',q:'가요 est la forme polie de :',opts:['가다','오다','하다','있다'],ans:0,exp:'가다 → 가요 (présent poli) — verbe aller, très fréquent'},
+    {t:'fr',q:'Pour dire "j\'étudie coréen", on dit :',opts:['저는 한국어를 공부해요','저는 한국어가 공부해요','저는 한국어는 공부해요','저는 한국어에서 공부해요'],ans:0,exp:'한국어를 공부해요 — 를 = particule d\'objet direct (ce qu\'on fait = le coréen)'}
+  ]},
+  u_a1_12:{name:'Météo',badge:'●',badgeName:'날씨 박사',questions:[
+    {t:'kr',q:'날씨가 어때요? signifie :',kr:'날씨가 어때요?',opts:['Il fait beau ?','Quel temps fait-il ?','Il fait chaud ?','Tu vas bien ?'],ans:1,exp:'날씨가 어때요? = quel temps fait-il ? — 날씨 = météo/temps'},
+    {t:'fr',q:'Comment dit-on "il pleut" ?',opts:['눈이 와요','바람이 불어요','비가 와요','구름이 와요'],ans:2,exp:'비가 와요 = il pleut — 비 = pluie + 오다 = venir'},
+    {t:'kr',q:'더워요 signifie :',kr:'더워요',opts:['Il fait froid','Il fait frais','Il fait chaud','Il fait doux'],ans:2,exp:'더워요 = il fait chaud — 춥다/추워요 = il fait froid (contraire)'},
+    {t:'fr',q:'Quel mot signifie "automne" ?',opts:['봄','여름','가을','겨울'],ans:2,exp:'가을 = automne — les 4 saisons : 봄(printemps) 여름(été) 가을(automne) 겨울(hiver)'},
+    {t:'kr',q:'눈이 와요 signifie :',kr:'눈이 와요',opts:['Il pleut','Il neige','Il vente','Il fait soleil'],ans:1,exp:'눈이 와요 = il neige — attention : 눈 = aussi "œil" selon le contexte !'},
+    {t:'fr',q:'따뜻해요 signifie :',opts:['Il fait froid','Il fait chaud (agréable/doux)','Il est nuageux','Il pleut'],ans:1,exp:'따뜻해요 = il fait doux/chaud (agréable) — ex: 봄에 따뜻해요 = il fait doux au printemps'},
+    {t:'kr',q:'여름 signifie :',kr:'여름',opts:['printemps','automne','hiver','été'],ans:3,exp:'여름 = été — 여름 방학 = vacances d\'été'},
+    {t:'fr',q:'Comment dit-on "il y a du vent" ?',opts:['비가 와요','눈이 와요','구름이 와요','바람이 불어요'],ans:3,exp:'바람이 불어요 = il y a du vent — 바람 = vent + 불다 = souffler'},
+    {t:'kr',q:'흐려요 signifie :',kr:'흐려요',opts:['Il fait beau','Il neige','Il est nuageux','Il fait frais'],ans:2,exp:'흐려요 = il est nuageux/couvert — 하늘이 흐려요 = le ciel est nuageux'},
+    {t:'fr',q:'시원해요 signifie :',opts:['Il fait chaud','Il fait très froid','Il fait frais (agréable)','Il pleut'],ans:2,exp:'시원해요 = il fait frais (agréable) — ex: 가을에 시원해요 = il fait frais en automne'},
+    {t:'fr',q:'La mousson coréenne s\'appelle :',opts:['비가 많이 와요','장마','여름비','한국비'],ans:1,exp:'장마 = mousson / saison des pluies (juin-juillet en Corée)'},
+    {t:'kr',q:'봄 signifie :',kr:'봄',opts:['été','hiver','automne','printemps'],ans:3,exp:'봄 = printemps — 봄이 왔어요 = le printemps est arrivé'},
+    {t:'fr',q:'Comment dit-on "il fait beau" ?',opts:['흐려요','맑아요','더워요','바람이 불어요'],ans:1,exp:'맑아요 = il fait beau/clair — 맑다 = être clair/serein'},
+    {t:'fr',q:'Quel est le mot coréen pour "météo/temps" ?',opts:['계절','날씨','바람','기온'],ans:1,exp:'날씨 = météo / temps qu\'il fait — 날 = jour + 씨 = nature/caractère'},
+    {t:'fr',q:'겨울 signifie :',opts:['printemps','été','automne','hiver'],ans:3,exp:'겨울 = hiver — 겨울은 추워요 = l\'hiver est froid'}
+  ]},
+
+  u_d3:{name:'Consonnes II',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Maitre consonnes 2',questions:[
+    {t:'kr',q:'수박 signifie :',kr:'수박',opts:['banane','pastèque','raisin','orange'],ans:1,exp:'수박 = pastèque — mot parfait pour pratiquer ㅅ et ㅂ'},
+    {t:'fr',q:'La consonne ㅂ se prononce :',opts:['"p" ou "b" selon la position','"f"','"v"','"m"'],ans:0,exp:'ㅂ = p/b selon la position — ex: 바 = "ba", 입 = "ip"'},
+    {t:'kr',q:'Que signifie 바나나 ?',kr:'바나나',opts:['ananas','mangue','banane','cerise'],ans:2,exp:'바나나 = banane — mot emprunté, facile à retenir !'},
+    {t:'fr',q:'Comment prononce-t-on ㄹ ?',opts:['"r" dur','entre "l" et "r" selon la position','"l" uniquement','"d"'],ans:1,exp:'ㄹ = entre "l" et "r" — "l" en fin de syllabe, "r" entre voyelles'},
+    {t:'kr',q:'나라 signifie :',kr:'나라',opts:['montagne','mer','pays','forêt'],ans:2,exp:'나라 = pays — 우리나라 = notre pays'},
+    {t:'fr',q:'ㅅ avant une voyelle se prononce :',opts:['"sh"','"t"','"s"','"z"'],ans:2,exp:'ㅅ = "s" devant une voyelle — ex: 시 = "si", 수 = "su"'},
+    {t:'kr',q:'어디 signifie :',kr:'어디',opts:['ici','là-bas','où ?','quand ?'],ans:2,exp:'어디 = où ? — très utile !'},
+    {t:'fr',q:'Quelle consonne fait le son "s" ?',opts:['ㄴ','ㅂ','ㅅ','ㄷ'],ans:2,exp:'ㅅ = "s" — ex: 사랑 = amour, 수박 = pastèque'},
+    {t:'kr',q:'이리 signifie :',kr:'이리',opts:['par ici','là-bas','pourquoi','comment'],ans:0,exp:'이리 = par ici — 이리 와 = viens ici (informel)'},
+    {t:'fr',q:'Le bloc syllabique coréen se compose de :',opts:['voyelle seule possible','consonne + voyelle (+ consonne optionnelle)','toujours 3 éléments','voyelle + consonne uniquement'],ans:1,exp:'Syllabe = consonne initiale + voyelle (+ batchim optionnel)'},
+    {t:'kr',q:'우리 signifie :',kr:'우리',opts:['toi/vous','lui/elle','nous/notre','eux/elles'],ans:2,exp:'우리 = nous / notre — ex: 우리 가족 = notre famille'},
+    {t:'fr',q:'La lettre ㄹ en début de syllabe ressemble à :',opts:['"r" roulé','"l" comme "lune"','entre les deux','"d"'],ans:2,exp:'ㄹ varie : position initiale entre "r" léger et "l", en finale il sonne "l"'},
+    {t:'kr',q:'바다 signifie :',kr:'바다',opts:['montagne','rivière','mer','lac'],ans:2,exp:'바다 = mer — 바다에 가고 싶어요 = je veux aller à la mer'},
+    {t:'fr',q:'ㅂ en fin de syllabe se prononce :',opts:['"b"','"p" non relâché','"f"','"v"'],ans:1,exp:'ㅂ final = son "p" fermé, non relâché — ex: 입 (bouche) = "ip"'},
+    {t:'fr',q:'Combien de consonnes simples y a-t-il en coréen ?',opts:['10','14','19','21'],ans:1,exp:'14 consonnes simples + 5 tendues = 19 au total'}
+  ]},
+  u_d4:{name:'Sons aspirés',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Maitre phonétique',questions:[
+    {t:'fr',q:'La différence entre ㄱ et ㅋ est :',opts:['aucune','ㅋ est aspiré (souffle)','ㅋ est plus doux','ㅋ est plus fort'],ans:1,exp:'ㅋ = k aspiré — mettre la main devant la bouche : on sent le souffle'},
+    {t:'kr',q:'치즈 signifie :',kr:'치즈',opts:['glace','gâteau','fromage','chocolat'],ans:2,exp:'치즈 = fromage — de "cheese" — ㅊ = "ch" aspiré'},
+    {t:'fr',q:'ㅍ est la version aspirée de :',opts:['ㅂ','ㄷ','ㄱ','ㅅ'],ans:0,exp:'ㅍ = p aspiré — les paires: ㄱ/ㅋ, ㄷ/ㅌ, ㅂ/ㅍ, ㅈ/ㅊ'},
+    {t:'kr',q:'Que signifie 파티 ?',kr:'파티',opts:['musique','fête / party','repas','voyage'],ans:1,exp:'파티 = fête (de "party") — ㅍ = "p" aspiré'},
+    {t:'fr',q:'Un son "tendu" en coréen est :',opts:['plus doux','prononcé avec tension des cordes vocales','aspiré','plus lent'],ans:1,exp:'Sons tendus (ㄲ ㄸ ㅃ ㅆ ㅉ) = gorge tendue, glotte fermée — son sec'},
+    {t:'kr',q:'ㅎ se prononce :',kr:'ㅎ',opts:['k','g','h','ng'],ans:2,exp:'ㅎ = "h" aspiré — 하 = ha, 히 = hi'},
+    {t:'fr',q:'ㅌ est la version aspirée de :',opts:['ㄱ','ㄷ','ㅂ','ㅈ'],ans:1,exp:'ㅌ = t aspiré — 타다 = monter/brûler'},
+    {t:'kr',q:'크다 signifie :',kr:'크다',opts:['être petit','être rapide','être grand','être beau'],ans:2,exp:'크다 = être grand — 커요 (forme polie)'},
+    {t:'fr',q:'La différence entre 불 (feu) et 풀 (herbe) est :',opts:['le sens uniquement','ㅂ vs ㅍ : simple vs aspiré','la voyelle','la position'],ans:1,exp:'불 (ㅂ=simple) vs 풀 (ㅍ=aspiré) — paire minimale classique'},
+    {t:'kr',q:'ㄲ est :',kr:'ㄲ',opts:['k aspiré','k tendu','k simple','ng'],ans:1,exp:'ㄲ = k tendu — son serré et sec'},
+    {t:'fr',q:'ㅊ est la version aspirée de :',opts:['ㄱ','ㄷ','ㅈ','ㅂ'],ans:2,exp:'ㅊ = ch aspiré — 처음 = première fois'},
+    {t:'kr',q:'해 signifie :',kr:'해',opts:['lune','étoile','soleil','nuage'],ans:2,exp:'해 = soleil / année — ㅎ + ㅐ'},
+    {t:'fr',q:'Comment distinguer ㅂ, ㅍ, ㅃ ?',opts:['Impossible','simple / aspiré / tendu','grave / aigu / médium','oral / nasal / latéral'],ans:1,exp:'ㅂ = simple, ㅍ = aspiré, ㅃ = tendu — 3 niveaux'},
+    {t:'kr',q:'있다 contient ㅆ qui se prononce :',kr:'있다',opts:['"s" simple','"ss" tendu','"sh"','"z"'],ans:1,exp:'ㅆ = "ss" tendu — 있다 = exister/avoir'},
+    {t:'fr',q:'Combien y a-t-il de consonnes aspirées en coréen ?',opts:['3','4','5','6'],ans:1,exp:'4 aspirées : ㅋ ㅌ ㅍ ㅊ — plus ㅎ toujours aspiré'}
+  ]},
+  u_d5:{name:'Voyelles composées',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Hangeul Maitrise',questions:[
+    {t:'fr',q:'ㅘ est composé de :',opts:['ㅗ + ㅏ','ㅜ + ㅏ','ㅗ + ㅓ','ㅜ + ㅓ'],ans:0,exp:'ㅘ = ㅗ + ㅏ = "wa" — comme dans "waouh"'},
+    {t:'kr',q:'봐요 se prononce :',kr:'봐요',opts:['"bo-ayo"','"bwayo"','"bouayo"','"bayayo"'],ans:1,exp:'봐요 = "bwayo" — 보다 = voir'},
+    {t:'fr',q:'Le batchim est :',opts:['la voyelle','la consonne finale','le début de syllabe','un accent'],ans:1,exp:'Batchim = consonne finale — ex: 밥 = "bap", 국 = "guk"'},
+    {t:'kr',q:'원 signifie :',kr:'원',opts:['won (monnaie)','maison','personne','fleur'],ans:0,exp:'원 = won — la monnaie coréenne !'},
+    {t:'fr',q:'Combien y a-t-il de voyelles en coréen au total ?',opts:['10','14','21','24'],ans:2,exp:'21 voyelles : 10 simples + 11 composées'},
+    {t:'kr',q:'빨리 signifie :',kr:'빨리',opts:['lentement','peut-être','vite','doucement'],ans:2,exp:'빨리 = vite — 빨리 빨리! = culture de la rapidité !'},
+    {t:'fr',q:'ㅝ est composé de :',opts:['ㅗ + ㅓ','ㅜ + ㅓ','ㅜ + ㅏ','ㅗ + ㅏ'],ans:1,exp:'ㅝ = ㅜ + ㅓ = "weo" — ex: 뭐 = quoi ?'},
+    {t:'kr',q:'또 signifie :',kr:'또',opts:['jamais','encore / de nouveau','maintenant','souvent'],ans:1,exp:'또 = encore — 또 봐요 = à bientôt !'},
+    {t:'fr',q:'Il y a combien de sons de batchim distincts ?',opts:['3','5','7','9'],ans:2,exp:'7 sons batchim : ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ'},
+    {t:'kr',q:'뭐 signifie :',kr:'뭐',opts:['où ?','qui ?','quoi ?','quand ?'],ans:2,exp:'뭐 = quoi ? (informel) — 뭐예요? = c'est quoi ?'},
+    {t:'fr',q:'La syllabe 닭 (poulet) se termine par quel son ?',opts:['son "g"','son "k"','son "ng"','son "l"'],ans:1,exp:'닭 = "dak" — ㄺ (batchim composé) → son "k"'},
+    {t:'kr',q:'사랑 signifie :',kr:'사랑',opts:['espoir','chance','amour','paix'],ans:2,exp:'사랑 = amour — 사랑해요 = je t'aime <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'},
+    {t:'fr',q:'ㅢ se prononce :',opts:['"wi"','"ui" long','entre "eu" et "i"','"oui"'],ans:2,exp:'ㅢ ≈ "eui" — ex: 의사 = médecin'},
+    {t:'fr',q:'Dans 한국어, le batchim de 국 est :',opts:['ㄴ','ㄱ','ㄷ','ㅇ'],ans:1,exp:'국 = guk — batchim = ㄱ'},
+    {t:'fr',q:'Toutes les consonnes finales se réduisent à :',opts:['5 sons','7 sons','10 sons','14 sons'],ans:1,exp:'7 sons de batchim : ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ'}
+  ]},
+  u_a1_8:{name:'Nombres & Temps',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Compteur coreen',questions:[
+    {t:'fr',q:'Il existe combien de systèmes de numération en coréen ?',opts:['1','2','3','4'],ans:1,exp:'2 systèmes : sino-coréen (일/이/삼) pour prix/dates, natif (하나/둘/셋) pour âge/objets'},
+    {t:'kr',q:'삼십오 (35) en chiffres est :',kr:'삼십오',opts:['25','35','53','305'],ans:1,exp:'삼(3)+십(10)+오(5) = 35 — système sino-coréen'},
+    {t:'fr',q:'Pour compter des objets on utilise :',opts:['일/이/삼','하나/둘/셋','셋/둘/하나','일 개/이 개'],ans:1,exp:'하나/둘/셋 = système natif + 개 (compteur) — 두 개 = deux objets'},
+    {t:'kr',q:'몇 시예요? signifie :',kr:'몇 시예요?',opts:['Quelle date ?','Quelle heure est-il ?','Quel jour ?','Combien ça coûte ?'],ans:1,exp:'몇 시예요? = quelle heure est-il ? — 시 = heure'},
+    {t:'fr',q:'Pour dire l'heure, on utilise le système :',opts:['sino-coréen','natif (하나/둘)','les deux','aucun'],ans:1,exp:'Heure → natif : 두 시 = 2h — mais minutes → sino-coréen'},
+    {t:'kr',q:'오천 원 en chiffres est :',kr:'오천 원',opts:['500₩','5 000₩','50 000₩','500 000₩'],ans:1,exp:'오(5)+천(1000) = 5 000₩ — 만 = 10 000'},
+    {t:'fr',q:'Comment dit-on "lundi" ?',opts:['일요일','토요일','월요일','화요일'],ans:2,exp:'월요일 = lundi — 월 = lune (comme Monday = Moon day)'},
+    {t:'kr',q:'생일이 언제예요? signifie :',kr:'생일이 언제예요?',opts:['Quel âge ?','Quand est votre anniversaire ?','Quelle heure ?','Quel jour ?'],ans:1,exp:'생일 = anniversaire, 언제 = quand'},
+    {t:'fr',q:'열두 시 반 signifie :',opts:['12h00','12h15','12h30','12h45'],ans:2,exp:'열두 시 반 = 12h30 — 반 = demi'},
+    {t:'kr',q:'내일 signifie :',kr:'내일',opts:['hier','aujourd'hui','demain','après-demain'],ans:2,exp:'내일 = demain — 오늘 = aujourd'hui, 어제 = hier'},
+    {t:'fr',q:'5월 5일 se lit :',opts:['오월 오일','다섯 월 다섯 일','오번 오일','오 월 오 번'],ans:0,exp:'5월 5일 = 오월 오일 = le 5 mai — mois et jours = sino-coréen'},
+    {t:'fr',q:'Comment dit-on "dimanche" ?',opts:['토요일','월요일','금요일','일요일'],ans:3,exp:'일요일 = dimanche — 일 = soleil'},
+    {t:'kr',q:'두 시 오십 분 signifie :',kr:'두 시 오십 분',opts:['2h05','2h15','2h50','20h50'],ans:2,exp:'두 시(2h) + 오십 분(50min) = 2h50'},
+    {t:'fr',q:'만 (萬) vaut :',opts:['1 000','5 000','10 000','100 000'],ans:2,exp:'만 = 10 000 — les prix coréens s'expriment en 만 원'},
+    {t:'fr',q:'오전 / 오후 signifient :',opts:['matin / soir','AM / PM','hier / demain','maintenant / bientôt'],ans:1,exp:'오전 = AM (avant-midi), 오후 = PM (après-midi)'}
+  ]},
+  u_a1_13:{name:'Positions & Lieux',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Expert positions',questions:[
+    {t:'kr',q:'위 signifie :',kr:'위',opts:['dessous','devant','dessus','derrière'],ans:2,exp:'위 = dessus — 책상 위에 있어요 = c'est sur le bureau'},
+    {t:'fr',q:'La structure pour "c'est dans le sac" est :',opts:['가방 있어요 안에','안에 가방 있어요','가방 안에 있어요','있어요 가방 안에'],ans:2,exp:'가방 안에 있어요 — Lieu + 에 + 있어요'},
+    {t:'kr',q:'밖 signifie :',kr:'밖',opts:['dedans','derrière','dehors','devant'],ans:2,exp:'밖 = dehors — 밖에 있어요 = c'est dehors'},
+    {t:'fr',q:'앞 et 뒤 sont :',opts:['droite et gauche','dessus et dessous','devant et derrière','dedans et dehors'],ans:2,exp:'앞 = devant, 뒤 = derrière'},
+    {t:'kr',q:'옆 signifie :',kr:'옆',opts:['dessus','dessous','à côté','derrière'],ans:2,exp:'옆 = à côté — 옆에 있어요 = c'est à côté'},
+    {t:'fr',q:'"Le chat est sous la table" se dit :',opts:['테이블 위에 고양이 있어요','고양이 테이블 아래에','테이블 아래에 고양이 있어요','고양이 밖에 있어요'],ans:2,exp:'테이블 아래에 고양이 있어요 — 아래 = dessous'},
+    {t:'kr',q:'어디에 있어요? signifie :',kr:'어디에 있어요?',opts:["Qu'est-ce ?","Quand ?","Où est-ce ?","Comment ?"],ans:2,exp:'어디에 있어요? = où est-ce ? — question essentielle'},
+    {t:'fr',q:'오른쪽 signifie :',opts:['gauche','derrière','droite','devant'],ans:2,exp:'오른쪽 = droite — 왼쪽 = gauche'},
+    {t:'kr',q:'안 signifie :',kr:'안',opts:['dehors','dessous','dedans','derrière'],ans:2,exp:'안 = dedans — 가방 안에 = dans le sac'},
+    {t:'fr',q:'사이 signifie :',opts:['à côté','entre / au milieu','au-dessus','loin'],ans:1,exp:'사이 = entre — 두 건물 사이에 = entre les deux bâtiments'},
+    {t:'kr',q:'뒤에 있어요 signifie :',kr:'뒤에 있어요',opts:["C'est devant","C'est derrière","C'est à côté","C'est dessus"],ans:1,exp:'뒤에 있어요 = c'est derrière'},
+    {t:'fr',q:'La particule 에 après un lieu indique :',opts:["l'action","la direction ou l'existence","l'appartenance","le temps"],ans:1,exp:'에 = destination ou existence — 집에 있어요 = je suis à la maison'},
+    {t:'kr',q:'근처 signifie :',kr:'근처',opts:['loin','à l'étranger','aux alentours','en bas'],ans:2,exp:'근처 = à proximité — 근처에 뭐가 있어요? = qu'y a-t-il près d'ici ?'},
+    {t:'fr',q:'"C'est juste en face" se dit :',opts:['옆에 있어요','바로 앞에 있어요','멀리 있어요','뒤에 있어요'],ans:1,exp:'바로 앞에 있어요 = juste en face — 바로 = juste/exactement'},
+    {t:'fr',q:'La différence entre 에 et 에서 est :',opts:['aucune','에 = existence/destination, 에서 = action','에 = action, 에서 = existence','에 = loin, 에서 = près'],ans:1,exp:'집에 있어요 (exister) vs 집에서 공부해요 (action dans ce lieu)'}
+  ]},
+  u_a1_14:{name:'Maison & Quotidien',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Expert maison',questions:[
+    {t:'kr',q:'거실 signifie :',kr:'거실',opts:['chambre','cuisine','salon','salle de bain'],ans:2,exp:'거실 = salon — 거실에서 TV 봐요 = je regarde la TV au salon'},
+    {t:'fr',q:'냉장고 signifie :',opts:['machine à laver','réfrigérateur','climatiseur','micro-ondes'],ans:1,exp:'냉장고 = réfrigérateur — 냉 = froid + 장고 = armoire'},
+    {t:'kr',q:'침대 signifie :',kr:'침대',opts:['table','armoire','lit','chaise'],ans:2,exp:'침대 = lit — 침대에서 자요 = je dors dans le lit'},
+    {t:'fr',q:'일어나다 signifie :',opts:['se coucher','manger','se lever','sortir'],ans:2,exp:'일어나다 = se lever — 몇 시에 일어나요? = tu te lèves à quelle heure ?'},
+    {t:'kr',q:'화장실 signifie :',kr:'화장실',opts:['cuisine','chambre','salon','toilettes'],ans:3,exp:'화장실 = toilettes / salle de bain — 화장실 어디예요? = où sont les toilettes ?'},
+    {t:'fr',q:'씻어요 signifie :',opts:['je mange','je me lève','je me lave','je sors'],ans:2,exp:'씻어요 = je me lave — 씻다 = se laver'},
+    {t:'kr',q:'부엌 signifie :',kr:'부엌',opts:['chambre','cuisine','grenier','couloir'],ans:1,exp:'부엌 = cuisine — 부엌에서 요리해요 = je cuisine'},
+    {t:'fr',q:'자다 signifie :',opts:['manger','étudier','dormir','travailler'],ans:2,exp:'자다 = dormir — 몇 시에 자요? = tu te couches à quelle heure ?'},
+    {t:'kr',q:'온돌 est :',kr:'온돌',opts:['un plat coréen','le chauffage sous-plancher traditionnel','un meuble','un style architectural'],ans:1,exp:'온돌 = chauffage sous-plancher traditionnel coréen'},
+    {t:'fr',q:'공부하다 signifie :',opts:['cuisiner','nettoyer','étudier','regarder'],ans:2,exp:'공부하다 = étudier — 공부해요 = j'étudie'},
+    {t:'kr',q:'소파 signifie :',kr:'소파',opts:['tapis','rideau','canapé','lampe'],ans:2,exp:'소파 = canapé (de "sofa") — 소파에 앉아요 = je suis assis sur le canapé'},
+    {t:'fr',q:'청소해요 signifie :',opts:['je cuisine','je nettoie','j'étudie','je mange'],ans:1,exp:'청소해요 = je nettoie — 청소 = nettoyage'},
+    {t:'kr',q:'책상 signifie :',kr:'책상',opts:['bibliothèque','chaise','bureau','placard'],ans:2,exp:'책상 = bureau (meuble) — 책상에서 공부해요'},
+    {t:'fr',q:'매일 signifie :',opts:['parfois','jamais','chaque jour','le week-end'],ans:2,exp:'매일 = chaque jour — 매일 운동해요 = je fais du sport tous les jours'},
+    {t:'fr',q:'"Je prends le petit-déjeuner" se dit :',opts:['저녁을 먹어요','점심을 먹어요','아침을 먹어요','간식을 먹어요'],ans:2,exp:'아침을 먹어요 = petit-déjeuner — 아침 = matin'}
+  ]},
+  u_a1_15:{name:'Emotions & Corps',badge:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',badgeName:'Gardien sante',questions:[
+    {t:'kr',q:'기쁘다 signifie :',kr:'기쁘다',opts:['être triste','être fatigué','être joyeux','être en colère'],ans:2,exp:'기쁘다 = être joyeux — 기뻐요! = je suis content(e)!'},
+    {t:'fr',q:'"J'ai mal à la tête" se dit :',opts:['배가 아파요','다리가 아파요','머리가 아파요','눈이 아파요'],ans:2,exp:'머리가 아파요 — 머리 = tête + 아파요 = ça fait mal'},
+    {t:'kr',q:'슬프다 signifie :',kr:'슬프다',opts:['être heureux','être triste','être surpris','être fatigué'],ans:1,exp:'슬프다 = être triste — 슬퍼요 = je suis triste'},
+    {t:'fr',q:'어디 아파요? signifie :',opts:['Comment tu t'appelles ?','Où avez-vous mal ?','Es-tu fatigué ?','Quelle température ?'],ans:1,exp:'어디 아파요? = où avez-vous mal ? — question clé chez le médecin'},
+    {t:'kr',q:'피곤하다 signifie :',kr:'피곤하다',opts:['être surpris','être heureux','être en colère','être fatigué'],ans:3,exp:'피곤하다 = être fatigué — 피곤해요...'},
+    {t:'fr',q:'"Main" en coréen est :',opts:['발','눈','손','귀'],ans:2,exp:'손 = main — 손을 씻어요 = je me lave les mains'},
+    {t:'kr',q:'화나다 signifie :',kr:'화나다',opts:['être triste','être heureux','être en colère','avoir peur'],ans:2,exp:'화나다 = être en colère — 화났어요 = je suis énervé(e)'},
+    {t:'fr',q:'"Pied" en coréen est :',opts:['손','머리','배','발'],ans:3,exp:'발 = pied — 발이 아파요 = j'ai mal au pied'},
+    {t:'kr',q:'무섭다 signifie :',kr:'무섭다',opts:['être triste','avoir honte','avoir peur','être fatigué'],ans:2,exp:'무섭다 = avoir peur — 무서워요! = j'ai peur !'},
+    {t:'fr',q:'감기 걸렸어요 signifie :',opts:["J'ai chaud","J'ai un rhume","J'ai faim","J'ai mal au dos"],ans:1,exp:'감기 걸렸어요 = j'ai attrapé un rhume — 감기 = rhume'},
+    {t:'kr',q:'행복하다 signifie :',kr:'행복하다',opts:['être triste','être en colère','être heureux','être surpris'],ans:2,exp:'행복하다 = être heureux — 행복해요 = je suis heureux/heureuse'},
+    {t:'fr',q:'"J'ai de la fièvre" se dit :',opts:['감기 걸렸어요','열이 있어요','배가 아파요','기침이 나요'],ans:1,exp:'열이 있어요 = j'ai de la fièvre — 열 = chaleur/fièvre'},
+    {t:'kr',q:'배 아파요 signifie :',kr:'배 아파요',opts:["Mal à la tête","Mal au dos","Mal au ventre","Mal à la gorge"],ans:2,exp:'배 아파요 = j'ai mal au ventre — 배 = ventre'},
+    {t:'fr',q:'외롭다 signifie :',opts:['être fatigué','être en colère','se sentir seul(e)','avoir honte'],ans:2,exp:'외롭다 = se sentir seul(e) — 외로워요'},
+    {t:'fr',q:'기분이 어때요? signifie :',opts:['Où avez-vous mal ?','Comment tu te sens ?','Quelle est ton émotion ?','Es-tu fatigué ?'],ans:1,exp:'기분이 어때요? = comment tu te sens ? — 기분 = humeur'}
+  ]}
+
+};
+
+const UNIT_ORDER = ['u_d1','u_d2','u_d3','u_d4','u_d5','u_a1_6','u_a1_7','u_a1_8','u_a1_9','u_a1_10','u_a1_11','u_a1_12','u_a1_13','u_a1_14','u_a1_15'];
+
+let currentUnit = 'u_d1';
+let questions = [];
+let qIdx = 0;
+let score = 0;
+let answered = false;
+let totalXP = parseInt(localStorage.getItem('ks_prem_quiz_xp')||'0');
+let currentKr = '';
+
+function goBack(){
+  if(window.parent&&typeof window.parent.closeCPanel==='function'){window.parent.closeCPanel();}
+  else{history.back();}
+}
+
+function speakCurrent(){
+  if(!currentKr)return;
+  const u=new SpeechSynthesisUtterance(currentKr);
+  u.lang='ko-KR';u.rate=0.8;
+  speechSynthesis.cancel();speechSynthesis.speak(u);
+}
+
+function buildTabs(){
+  const wrap=document.getElementById('unitTabs');wrap.innerHTML='';
+  UNIT_ORDER.forEach(uid=>{
+    if(!QUIZ_DATA[uid])return;
+    const btn=document.createElement('button');
+    btn.className='utab'+(uid===currentUnit?' active':'');
+    btn.textContent=QUIZ_DATA[uid].name;
+    btn.onclick=()=>startQuiz(uid);
+    wrap.appendChild(btn);
+  });
+}
+
+function startQuiz(uid){
+  currentUnit=uid;buildTabs();
+  const data=QUIZ_DATA[uid];
+  questions=[...data.questions].sort(()=>Math.random()-.5).slice(0,15);
+  qIdx=0;score=0;answered=false;
+  document.getElementById('unitSub').textContent=data.name+' · '+questions.length+' questions';
+  document.getElementById('resultScreen').classList.remove('show');
+  document.getElementById('quizArea').style.display='block';
+  document.getElementById('xpBadge').textContent=totalXP+' XP';
+  showQuestion();
+}
+
+function showQuestion(){
+  if(qIdx>=questions.length){showResult();return;}
+  const q=questions[qIdx];
+  answered=false;
+  const pct=Math.round(qIdx/questions.length*100);
+  document.getElementById('qNum').textContent=qIdx+1;
+  document.getElementById('qTotal').textContent=questions.length;
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('qNumLabel').textContent='Question '+(qIdx+1)+' / '+questions.length;
+  document.getElementById('scoreLabel').textContent=score>0?score+' <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>':'';
+  // Korean display
+  currentKr='';
+  const krWrap=document.getElementById('qKrWrap');
+  if(q.kr){
+    currentKr=q.kr;
+    document.getElementById('qKr').textContent=q.kr;
+    krWrap.style.display='block';
+  } else {
+    krWrap.style.display='none';
+  }
+  document.getElementById('qText').textContent=q.q;
+  // Options
+  const optsEl=document.getElementById('opts');
+  optsEl.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';btn.textContent=opt;
+    btn.onclick=()=>selectAnswer(i,btn,q);
+    optsEl.appendChild(btn);
+  });
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('feedback').textContent='';
+  document.getElementById('nextBtn').className='next-btn';
+}
+
+function selectAnswer(i,btn,q){
+  if(answered)return;
+  answered=true;
+  const correct=q.ans;
+  const opts=document.querySelectorAll('.opt');
+  opts.forEach(o=>o.disabled=true);
+  if(i===correct){
+    btn.classList.add('correct');score++;
+    const fb=document.getElementById('feedback');
+    fb.className='feedback ok show';
+    fb.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct ! '+q.exp;
+  } else {
+    btn.classList.add('wrong');
+    opts[correct].classList.add('correct');
+    const fb=document.getElementById('feedback');
+    fb.className='feedback ko show';
+    fb.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> La bonne réponse était : <strong>'+q.opts[correct]+'</strong><br>'+q.exp;
+  }
+  qIdx++;
+  document.getElementById('nextBtn').className='next-btn show';
+}
+
+function nextQuestion(){showQuestion();}
+
+function showResult(){
+  document.getElementById('quizArea').style.display='none';
+  const total=questions.length;
+  const pct=Math.round(score/total*100);
+  const xp=score*8;
+  totalXP+=xp;
+  localStorage.setItem('ks_prem_quiz_xp',totalXP);
+  document.getElementById('xpBadge').textContent=totalXP+' XP';
+  // Animate ring
+  setTimeout(()=>{
+    const circ=document.getElementById('scoreCircle');
+    const offset=314-(314*pct/100);
+    circ.style.strokeDashoffset=offset;
+    let n=0;const iv=setInterval(()=>{
+      n+=2;document.getElementById('scoreVal').textContent=Math.min(n,pct)+'%';
+      if(n>=pct)clearInterval(iv);
+    },20);
+  },200);
+  const data=QUIZ_DATA[currentUnit];
+  let title,sub;
+  if(pct>=90){title='Excellent !';sub='Maîtrise parfaite — tu es prêt(e) pour le niveau suivant !';}
+  else if(pct>=80){title='Très bien !';sub='Belle performance — quelques révisions et tu seras parfait(e) !';}
+  else if(pct>=60){title='Bien joué !';sub='Bonne base — continue à pratiquer pour consolider !';}
+  else{title='Continue !';sub='Pas de découragement — reviens après avoir révisé les leçons !';}
+  document.getElementById('resultTitle').innerHTML=title.replace('!','<em>!</em>');
+  document.getElementById('resultSub').textContent=sub;
+  document.getElementById('statsRow').innerHTML=
+    '<div class="sstat"><div class="sstat-val" style="color:var(--green)">'+score+'</div><div class="sstat-lab">Bonnes</div></div>'+
+    '<div class="sstat"><div class="sstat-val" style="color:var(--pink)">'+(total-score)+'</div><div class="sstat-lab">Erreurs</div></div>'+
+    '<div class="sstat"><div class="sstat-val" style="color:var(--gold)">'+pct+'%</div><div class="sstat-lab">Score</div></div>';
+  document.getElementById('xpPill').textContent='+'+xp+' XP gagné !';
+  if(pct>=80){
+    document.getElementById('badgeCard').style.display='flex';
+    document.getElementById('badgeIcon').textContent=data.badge||'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    document.getElementById('badgeName').textContent=data.badgeName||'Badge '+data.name;
+  }
+  document.getElementById('resultScreen').classList.add('show');
+}
+
+function restartQuiz(){startQuiz(currentUnit);}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const params=new URLSearchParams(window.location.search);
+  const u=params.get('u');
+  if(u&&QUIZ_DATA[u])currentUnit=u;
+  buildTabs();
+  startQuiz(currentUnit);
+});
+</script>
+
+<script>
+(function(){
+  var SVG_MOON='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  var SVG_SUN='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+  function sync(){var b=document.getElementById('darkFab');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.innerHTML=d?SVG_SUN:SVG_MOON;b.style.opacity=d?'1':'.7';}
+  window.toggleDarkGlobal=function(){var d=document.documentElement.getAttribute('data-theme')==='dark';var t=d?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('ks_theme',t);}catch(e){}sync();};
+  sync();
+})();
+</script>
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span><span class="bni-dot"></span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>K-Drama Dialogues — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .3rem}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7c3aed;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .prog-bar{height:5px;background:var(--bd);border-radius:5px;margin:.8rem 0}
+    .prog-fill{height:100%;background:linear-gradient(90deg,#7c3aed,#a855f7);border-radius:5px;transition:width .4s}
+    .scene-header{background:linear-gradient(135deg,#1a0533,#2d0a6b);border-radius:14px;padding:1rem 1.2rem;margin:.6rem 0;color:#fff}
+    .scene-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c084fc;margin-bottom:.3rem}
+    .scene-title{font-size:1rem;font-weight:700}
+    .dialogue-box{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.6rem 0}
+    .speech{display:flex;gap:.7rem;margin:.5rem 0;align-items:flex-start}
+    .speech-who{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);min-width:3rem;padding-top:.3rem}
+    .speech-bubble{background:rgba(124,58,237,.07);border-radius:0 10px 10px 10px;padding:.6rem .9rem;font-size:.95rem;flex:1}
+    .speech-bubble.gap{background:rgba(22,163,74,.08);border:1.5px dashed #16A34A;color:transparent;position:relative}
+    .speech-bubble.gap::after{content:'?';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#16A34A;font-weight:800;font-size:1.2rem}
+    .speech-fr{font-size:.78rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .prompt{font-size:.95rem;font-weight:600;color:var(--navy);margin:.8rem 0 .4rem}
+    .opts{display:flex;flex-direction:column;gap:.4rem}
+    .opt{padding:.65rem .9rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;font-size:.92rem;background:var(--bg);text-align:left;transition:all .15s;font-weight:600;color:#16A34A}
+    .opt:hover{border-color:#7c3aed;background:rgba(124,58,237,.05)}
+    .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A}
+    .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .feedback{margin-top:.6rem;padding:.5rem .8rem;border-radius:8px;font-size:.85rem;display:none}
+    .feedback.show{display:block}
+    .feedback.ok{background:rgba(22,163,74,.1);color:#15803d}
+    .feedback.ko{background:rgba(239,68,68,.08);color:#dc2626}
+    .btn-next{width:100%;padding:.75rem;background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;border:none;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:.7rem;display:none}
+    .btn-next.show{display:block}
+    .round-display{display:none}
+    .round-display.active{display:block}
+    .score-panel{display:none;text-align:center;padding:2rem 1rem}
+    .score-panel.show{display:block}
+    .score-big{font-size:3rem;font-weight:800;color:#7c3aed}
+    .score-msg{font-size:1.1rem;font-weight:600;color:var(--navy);margin:.5rem 0}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:.8rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+  <nav class="bar">
+    <button class="back-btn" onclick="history.back()">←</button>
+    <span class="bar-title">K-Drama Dialogues </span>
+    <span class="xp-badge" style="margin-left:auto">+12 XP</span>
+  </nav>
+<div class="shell">
+  <main class="main">
+    <div style="padding:1rem">
+      <h2> Complète les dialogues</h2>
+      <span class="pill">Jeu interactif</span>
+      <p style="color:var(--tx-muted);font-size:.88rem;margin:.4rem 0 .6rem">8 scènes de K-Drama — choisissez la bonne réplique !</p>
+      <div class="prog-bar"><div class="prog-fill" id="pf" style="width:0%"></div></div>
+      <p id="pLabel" style="font-size:.78rem;color:var(--tx-muted);text-align:right;margin-top:-.3rem">Scène 1 / 8</p>
+
+      <!-- ROUND 1 -->
+      <div class="round-display active" id="r0">
+        <div class="scene-header"><div class="scene-tag"> Scène 1 — Au café</div><div class="scene-title">Première rencontre maladroite</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Jiwoo</div><div><div class="speech-bubble">안녕하세요! 여기 자주 오세요?</div><div class="speech-fr">Bonjour ! Vous venez souvent ici ?</div></div></div>
+          <div class="speech"><div class="speech-who">Emma</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">Quelle réplique naturelle pour répondre "Oui, j'adore ce café" ?</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(0,this,'ok')">네, 이 카페 정말 좋아해요.</button>
+          <button class="opt" onclick="ans(0,this,'ko')">네, 여기 가고 싶지 않아요.</button>
+          <button class="opt" onclick="ans(0,this,'ko')">아니요, 먹고 싶어요.</button>
+        </div>
+        <div class="feedback" id="fb0"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Parfait !</strong> 정말 좋아해요 = j'aime vraiment. Expression naturelle d'affection.</div>
+        <button class="btn-next" id="nb0" onclick="next(1)">Scène suivante →</button>
+      </div>
+
+      <!-- ROUND 2 -->
+      <div class="round-display" id="r1">
+        <div class="scene-header"><div class="scene-tag"> Scène 2 — Le soir sur le toit</div><div class="scene-title">Aveu romantique</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Minho</div><div><div class="speech-bubble">오늘 정말 즐거웠어요. 다음에 또 만나고 싶어요.</div><div class="speech-fr">J'ai vraiment passé un bon moment aujourd'hui. Je voudrais te revoir.</div></div></div>
+          <div class="speech"><div class="speech-who">Suha</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">Suha veut dire "Moi aussi, je t'ai attendu" :</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(1,this,'ko')">저도 기다리고 싶지 않아요.</button>
+          <button class="opt" onclick="ans(1,this,'ok')">저도 기다렸어요.</button>
+          <button class="opt" onclick="ans(1,this,'ko')">저도 기다릴 것 같아요.</button>
+        </div>
+        <div class="feedback" id="fb1"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Exact !</strong> 기다렸어요 = j'ai attendu. Passé de 기다리다.</div>
+        <button class="btn-next" id="nb1" onclick="next(2)">Scène suivante →</button>
+      </div>
+
+      <!-- ROUND 3 -->
+      <div class="round-display" id="r2">
+        <div class="scene-header"><div class="scene-tag"> Scène 3 — À l'hôpital</div><div class="scene-title">Moment de doute</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Médecin</div><div><div class="speech-bubble">결과가 나왔어요. 걱정되세요?</div><div class="speech-fr">Les résultats sont là. Vous êtes inquiet(e) ?</div></div></div>
+          <div class="speech"><div class="speech-who">Patient</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">Le patient répond "Je pense que ça va aller" :</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(2,this,'ko')">괜찮고 싶어요.</button>
+          <button class="opt" onclick="ans(2,this,'ko')">괜찮아 주세요.</button>
+          <button class="opt" onclick="ans(2,this,'ok')">괜찮을 것 같아요.</button>
+        </div>
+        <div class="feedback" id="fb2"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Correct !</strong> 괜찮을 것 같아요 = Je pense que ça va aller. -(으)ㄹ 것 같아요 pour une supposition future.</div>
+        <button class="btn-next" id="nb2" onclick="next(3)">Scène suivante →</button>
+      </div>
+
+      <!-- ROUND 4 -->
+      <div class="round-display" id="r3">
+        <div class="scene-header"><div class="scene-tag"> Scène 4 — Au restaurant</div><div class="scene-title">Demander au serveur</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Serveur</div><div><div class="speech-bubble">주문하시겠어요?</div><div class="speech-fr">Vous souhaitez commander ?</div></div></div>
+          <div class="speech"><div class="speech-who">Client</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">Le client veut dire "Donnez-moi le menu des plats du jour" :</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(3,this,'ko')">오늘의 메뉴 먹고 싶어요.</button>
+          <button class="opt" onclick="ans(3,this,'ok')">오늘의 메뉴 주세요.</button>
+          <button class="opt" onclick="ans(3,this,'ko')">오늘의 메뉴 먹을 것 같아요.</button>
+        </div>
+        <div class="feedback" id="fb3"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Parfait !</strong> 주세요 pour une commande directe. Simple et naturel au restaurant.</div>
+        <button class="btn-next" id="nb3" onclick="next(4)">Scène suivante →</button>
+      </div>
+
+      <!-- ROUND 5 -->
+      <div class="round-display" id="r4">
+        <div class="scene-header"><div class="scene-tag"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Scène 5 — Au noraebang</div><div class="scene-title">Entre amis</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Yuna</div><div><div class="speech-bubble">다 같이 한 곡 더 불러요!</div><div class="speech-fr">Chantons tous encore une chanson !</div></div></div>
+          <div class="speech"><div class="speech-who">Taehun</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">Taehun veut dire "Je suis fatigué, je veux rentrer à la maison" :</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(4,this,'ko')">피곤해 주세요. 집에 가요.</button>
+          <button class="opt" onclick="ans(4,this,'ok')">피곤해요. 집에 가고 싶어요.</button>
+          <button class="opt" onclick="ans(4,this,'ko')">집에 갈 것 같아요.</button>
+        </div>
+        <div class="feedback" id="fb4"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Exact !</strong> 가고 싶어요 pour exprimer son propre désir de partir.</div>
+        <button class="btn-next" id="nb4" onclick="next(5)">Scène suivante →</button>
+      </div>
+
+      <!-- ROUND 6 -->
+      <div class="round-display" id="r5">
+        <div class="scene-header"><div class="scene-tag"><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.7 19.79 19.79 0 01.22 1.11 2 2 0 012.22 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg> Scène 6 — Coup de téléphone</div><div class="scene-title">Urgence de travail</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Chef</div><div><div class="speech-bubble">보고서 언제 줄 수 있어요?</div><div class="speech-fr">Quand pouvez-vous remettre le rapport ?</div></div></div>
+          <div class="speech"><div class="speech-who">Employé</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">L'employé dit "Je pense que je peux le terminer demain matin" :</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(5,this,'ko')">내일 아침에 끝내고 싶어요.</button>
+          <button class="opt" onclick="ans(5,this,'ok')">내일 아침에 끝낼 수 있을 것 같아요.</button>
+          <button class="opt" onclick="ans(5,this,'ko')">내일 아침에 끝내 주세요.</button>
+        </div>
+        <div class="feedback" id="fb5"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Bravo !</strong> 끝낼 수 있을 것 같아요 combine capacité (-ㄹ 수 있다) et estimation (것 같다).</div>
+        <button class="btn-next" id="nb5" onclick="next(6)">Scène suivante →</button>
+      </div>
+
+      <!-- ROUND 7 -->
+      <div class="round-display" id="r6">
+        <div class="scene-header"><div class="scene-tag"> Scène 7 — Dans le taxi</div><div class="scene-title">Après une longue nuit</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Chauffeur</div><div><div class="speech-bubble">어디 가세요?</div><div class="speech-fr">Où allez-vous ?</div></div></div>
+          <div class="speech"><div class="speech-who">Passager</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">Le passager donne son adresse ET demande de rouler vite :</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(6,this,'ko')">강남역이에요. 빨리 가고 싶어요.</button>
+          <button class="opt" onclick="ans(6,this,'ok')">강남역이에요. 빨리 가 주세요.</button>
+          <button class="opt" onclick="ans(6,this,'ko')">강남역일 것 같아요.</button>
+        </div>
+        <div class="feedback" id="fb6"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Parfait !</strong> 빨리 가 주세요 = Roulez vite s'il vous plaît. Requête directe au chauffeur.</div>
+        <button class="btn-next" id="nb6" onclick="next(7)">Scène suivante →</button>
+      </div>
+
+      <!-- ROUND 8 -->
+      <div class="round-display" id="r7">
+        <div class="scene-header"><div class="scene-tag">· Scène 8 — Confession finale</div><div class="scene-title">Le grand moment</div></div>
+        <div class="dialogue-box">
+          <div class="speech"><div class="speech-who">Hyunwoo</div><div><div class="speech-bubble">솔직히 말할게요. 전부터 좋아했어요.</div><div class="speech-fr">Je vais être honnête. Je t'aimais depuis un moment.</div></div></div>
+          <div class="speech"><div class="speech-who">Nara</div><div><div class="speech-bubble gap">___________</div></div></div>
+        </div>
+        <p class="prompt">Nara répond "Je le savais. Moi aussi, je t'aime bien" :</p>
+        <div class="opts">
+          <button class="opt" onclick="ans(7,this,'ko')">알았어요. 저도 좋아할 것 같아요.</button>
+          <button class="opt" onclick="ans(7,this,'ko')">알았어요. 저도 좋아하고 싶어요.</button>
+          <button class="opt" onclick="ans(7,this,'ok')">알았어요. 저도 좋아해요.</button>
+        </div>
+        <div class="feedback" id="fb7"><strong><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  완벽해요 !</strong> 좋아해요 = j'aime bien. Simple et direct pour la confession !</div>
+        <button class="btn-next" id="nb7" onclick="showScore()">Voir mon score →</button>
+      </div>
+
+      <div class="score-panel" id="scorePanel">
+        <div style="font-size:2.5rem;margin-bottom:.5rem"></div>
+        <div class="score-big" id="scoreBig">0/8</div>
+        <div class="score-msg" id="scoreMsg"></div>
+        <p style="font-size:.85rem;color:var(--tx-muted);margin:.4rem 0 1rem" id="scoreSub"></p>
+        <button class="btn-done" id="doneBtn" onclick="completeLesson()">Valider — +12 XP</button>
+      </div>
+    </div>
+  </main>
+</div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+let score=0;
+function ans(idx,btn,result){
+  const card=document.getElementById('r'+idx);
+  if(card.querySelector('.ok,.ko'))return;
+  btn.classList.add(result);
+  if(result==='ok')score++;
+  else card.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('onclick').includes("'ok'"))o.classList.add('ok');});
+  card.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+  const fb=document.getElementById('fb'+idx);
+  fb.className='feedback show '+(result==='ok'?'ok':'ko');
+  if(result==='ko')fb.textContent='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  La bonne réponse est surlignée en vert.';
+  document.getElementById('nb'+idx).classList.add('show');
+}
+function next(n){
+  document.querySelector('.round-display.active').classList.remove('active');
+  document.getElementById('r'+n).classList.add('active');
+  const pct=Math.round(n/8*100);
+  document.getElementById('pf').style.width=pct+'%';
+  document.getElementById('pLabel').textContent='Scène '+(n+1)+' / 8';
+}
+function showScore(){
+  document.querySelector('.round-display.active').classList.remove('active');
+  document.getElementById('pf').style.width='100%';
+  document.getElementById('pLabel').textContent='Terminé !';
+  document.getElementById('scorePanel').classList.add('show');
+  document.getElementById('scoreBig').textContent=score+'/8';
+  const pct=score/8;
+  document.getElementById('scoreMsg').textContent=pct===1?'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg> Scénario parfait ! Tu es un(e) vrai(e) acteur/actrice de K-Drama !':pct>=.6?' Excellent niveau ! Tu maîtrises les dialogues coréens !':'<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Bien essayé ! Relis les leçons 24-26 et recommence !';
+  document.getElementById('scoreSub').textContent='Tu as complété les 8 scènes de K-Drama.';
+}
+function completeLesson(){
+  if(typeof ksAddXP==='function')ksAddXP(12);
+  if(typeof ksMarkDone==='function')ksMarkDone('ks_b30');
+  const b=document.getElementById('doneBtn');
+  if(b){b.textContent='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+  setTimeout(()=>window.location.href='cours.html',1200);
+}
+</script>
+</body>
+</html>

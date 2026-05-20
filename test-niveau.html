@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Test de niveau coréen — Korean Stories</title>
+<meta name="description" content="Découvre ton niveau de coréen en 10 questions. De débutant absolu à A2 — résultat instantané et parcours personnalisé."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);min-height:100svh;overflow-x:hidden}
+
+/* ── TOPBAR ── */
+
+.tb-title{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:white;position:absolute;left:50%;transform:translateX(-50%)}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:calc(100svh - 54px);flex-direction:column}
+.screen.active{display:flex}
+
+/* ── INTRO ── */
+#introScreen{
+  align-items:center;justify-content:center;
+  padding:32px 20px;text-align:center;
+  background:radial-gradient(ellipse at 50% 20%,rgba(201,169,110,.12) 0%,transparent 60%);
+  position:relative;overflow:hidden;
+}
+.intro-kr-bg{
+  position:absolute;inset:0;pointer-events:none;
+  font-family:'Playfair Display',serif;
+  color:rgba(201,169,110,.04);
+  font-size:clamp(120px,25vw,220px);
+  display:flex;align-items:center;justify-content:center;
+  user-select:none;line-height:1;
+}
+.intro-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.25);
+  border-radius:100px;padding:6px 16px;
+  font-size:11px;font-weight:700;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:22px;
+}
+.intro-badge span{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.intro-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(30px,7vw,46px);
+  line-height:1.1;margin-bottom:16px;
+}
+.intro-h1 em{color:var(--gold);font-style:italic}
+.intro-sub{font-size:14px;color:rgba(247,248,250,.55);line-height:1.7;max-width:380px;margin:0 auto 32px}
+.steps-row{display:flex;gap:12px;margin-bottom:36px;flex-wrap:wrap;justify-content:center}
+.step-chip{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:100px;padding:8px 16px;font-size:12px;font-weight:600;color:rgba(247,248,250,.7);
+}
+.step-chip .ico{width:22px;height:22px;border-radius:50%;background:rgba(201,169,110,.15);display:flex;align-items:center;justify-content:center;font-size:11px}
+.btn-start{
+  background:linear-gradient(135deg,var(--gold),#E8C97E);
+  color:var(--navy);border:none;border-radius:100px;
+  padding:17px 40px;font-size:15px;font-weight:800;
+  cursor:pointer;letter-spacing:.01em;
+  box-shadow:0 8px 32px rgba(201,169,110,.3);
+  transition:all .25s;font-family:'Inter',sans-serif;
+}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(201,169,110,.44)}
+.btn-start:active{transform:scale(.97)}
+.intro-note{margin-top:16px;font-size:11px;color:rgba(247,248,250,.25)}
+
+/* ── QUIZ ── */
+#quizScreen{padding:0;flex:1}
+.quiz-top{
+  background:rgba(15,27,45,.6);
+  padding:16px 20px 14px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  position:sticky;top:54px;z-index:10;
+  backdrop-filter:blur(8px);
+}
+.quiz-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.q-phase{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold)}
+.q-counter{font-size:12px;color:rgba(247,248,250,.4);font-weight:600}
+.prog-bar{height:4px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),#FFD700);border-radius:100px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+
+.quiz-body{flex:1;padding:24px 20px 40px;max-width:520px;margin:0 auto;width:100%}
+.q-label{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px}
+.q-text{font-size:18px;font-weight:700;line-height:1.4;margin-bottom:8px;color:white}
+.q-kr-box{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;padding:22px;text-align:center;margin-bottom:22px;
+  cursor:pointer;transition:all .2s;
+}
+.q-kr-box:hover{background:rgba(201,169,110,.08);border-color:rgba(201,169,110,.3)}
+.q-kr{font-family:'Noto Sans KR',sans-serif;font-size:clamp(36px,10vw,52px);font-weight:700;color:var(--gold);line-height:1}
+.q-tts{font-size:11px;color:rgba(247,248,250,.3);margin-top:8px;display:flex;align-items:center;justify-content:center;gap:5px}
+.q-tts svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+
+.opts-grid{display:flex;flex-direction:column;gap:10px}
+.opt{
+  padding:15px 18px;border-radius:14px;
+  border:1.5px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  font-size:14px;font-weight:500;color:white;
+  cursor:pointer;transition:all .2s;text-align:left;
+  display:flex;align-items:center;gap:12px;
+  font-family:'Inter',sans-serif;
+}
+.opt:hover:not(:disabled){border-color:var(--gold);background:rgba(201,169,110,.08)}
+.opt-letter{
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s;
+}
+.opt.correct{border-color:var(--green)!important;background:rgba(34,197,94,.12)!important}
+.opt.correct .opt-letter{background:var(--green);border-color:var(--green);color:white}
+.opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;opacity:.7}
+.opt.wrong .opt-letter{background:var(--red);border-color:var(--red);color:white}
+.opt:disabled{cursor:default}
+
+.feedback-wrap{
+  margin-top:14px;padding:14px 16px;border-radius:12px;
+  font-size:13px;line-height:1.6;display:none;
+}
+.feedback-wrap.show{display:block}
+.feedback-wrap.ok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#86efac}
+.feedback-wrap.ko{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#fca5a5}
+.next-btn{
+  width:100%;margin-top:16px;padding:15px;border-radius:14px;
+  background:linear-gradient(135deg,var(--gold),#E8C97E);
+  color:var(--navy);font-weight:800;font-size:15px;border:none;cursor:pointer;
+  display:none;font-family:'Inter',sans-serif;transition:all .2s;
+}
+.next-btn.show{display:block}
+.next-btn:hover{transform:translateY(-1px)}
+
+/* ── TRANSITION ── */
+#transScreen{
+  align-items:center;justify-content:center;text-align:center;
+  padding:40px 24px;
+}
+.trans-icon{width:72px;height:72px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.12);border:1.5px solid rgba(201,169,110,.25);border-radius:20px;animation:pop .4s cubic-bezier(.34,1.56,.64,1) both}
+.trans-icon svg{width:38px;height:38px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.trans-title{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:10px}
+.trans-title em{color:var(--gold);font-style:italic}
+.trans-sub{font-size:14px;color:rgba(247,248,250,.5);line-height:1.6;max-width:320px;margin:0 auto 28px}
+.trans-bar{width:160px;height:4px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;margin:0 auto}
+.trans-fill{height:100%;background:var(--gold);border-radius:100px;width:0;transition:width 1.5s linear}
+
+/* ── RESULT ── */
+#resultScreen{
+  align-items:center;text-align:center;
+  padding:28px 20px 60px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(201,169,110,.15) 0%,transparent 55%);
+}
+.result-emoji{width:80px;height:80px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.12);border:1.5px solid rgba(201,169,110,.25);border-radius:24px;animation:levelPop .6s cubic-bezier(.34,1.56,.64,1) both}
+.result-emoji svg{width:44px;height:44px;stroke:var(--gold);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@keyframes levelPop{from{transform:scale(.3) rotate(-10deg);opacity:0}to{transform:none;opacity:1}}
+.result-level-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,169,110,.15);border:1.5px solid rgba(201,169,110,.35);
+  border-radius:100px;padding:8px 22px;
+  font-size:12px;font-weight:800;color:var(--gold);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px;
+}
+.result-h1{font-family:'Playfair Display',serif;font-size:clamp(26px,7vw,38px);line-height:1.1;margin-bottom:12px}
+.result-h1 em{color:var(--gold);font-style:italic}
+.result-desc{font-size:14px;color:rgba(247,248,250,.55);line-height:1.7;max-width:360px;margin:0 auto 28px}
+
+/* Score ring */
+.score-ring-wrap{position:relative;width:120px;height:120px;margin:0 auto 24px}
+.score-ring-wrap svg{width:120px;height:120px;transform:rotate(-90deg)}
+.score-ring-val{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:white;
+}
+.score-ring-lbl{font-size:10px;color:rgba(247,248,250,.4);font-family:'Inter',sans-serif;font-weight:600;margin-top:1px}
+
+/* Stats */
+.result-stats{display:flex;gap:12px;margin-bottom:28px;justify-content:center}
+.rs{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 20px;min-width:90px}
+.rs-val{font-family:'Playfair Display',serif;font-size:24px;line-height:1;margin-bottom:4px}
+.rs-lbl{font-size:10px;color:rgba(247,248,250,.4);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+
+/* Skills */
+.skills-wrap{width:100%;max-width:380px;margin:0 auto 28px;text-align:left}
+.skill-row{margin-bottom:12px}
+.skill-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+.skill-name{font-weight:600;color:rgba(247,248,250,.75)}
+.skill-pct{font-weight:700;color:var(--gold)}
+.skill-bar{height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden}
+.skill-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD700);transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+/* CTA */
+.result-ctas{display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px}
+.cta-main{
+  background:linear-gradient(135deg,var(--gold),#E8C97E);
+  color:var(--navy);border:none;border-radius:14px;
+  padding:16px 24px;font-size:14px;font-weight:800;
+  cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .25s;font-family:'Inter',sans-serif;
+}
+.cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,169,110,.35)}
+.cta-sec{
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);
+  color:rgba(247,248,250,.7);border-radius:14px;
+  padding:14px 24px;font-size:13px;font-weight:600;
+  cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .2s;font-family:'Inter',sans-serif;
+}
+.cta-sec:hover{border-color:rgba(255,255,255,.3);color:white}
+
+/* confetti */
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:999;animation:confettiFall linear forwards}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ── Phase transitions ── */
+.screen{animation:fadeIn .3s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.opt-enter{animation:optIn .25s ease both}
+@keyframes optIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+
+    /* ── BOTTOM NAV ── */
+    
+    
+    
+    
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+    @media(min-width:640px){body{padding-bottom:0}}
+
+/* ── BNAV DOT NOTIFICATION ── */
+
+</style>
+  <script src="ks.js" defer></script>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+</head>
+<body>
+
+<div class="shell">
+<!-- ══ SIDEBAR desktop ══════════════════════════ -->
+<aside class="side">
+  <div class="side-head">
+    <div class="side-logo">Korean <em>Stories</em></div>
+    <div class="side-xp">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xpSide">0</span> XP
+    </div>
+  </div>
+  <nav class="side-nav">
+    <a href="app.html" class="sn on"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+    <a href="cours.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+    <a href="lecture.html" class="sn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+    <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Classement</a>
+    <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+    <a href="ressources.html" class="sn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+  </nav>
+  <div class="side-theme">
+    <span class="side-theme-lbl">Mode sombre</span>
+    <button class="theme-pill" onclick="toggleTheme()" aria-label="Basculer le thème"></button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ════════════════════════════════════ -->
+<div class="main">
+
+<!-- ══ TOPBAR ═══════════════════════════════════ -->
+  <div class="bar">
+    <a href="app.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Accueil
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div class="page-enter">
+</div>
+
+<!-- INTRO -->
+<div class="screen active" id="introScreen">
+  <div class="intro-kr-bg">한</div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
+    <div class="intro-badge"><span></span>Gratuit · 2 minutes · Sans inscription</div>
+    <h1 class="intro-h1">Quel est ton<br/>niveau de <em>coréen</em> ?</h1>
+    <p class="intro-sub">10 questions progressives pour découvrir où tu en es — et obtenir un parcours sur-mesure.</p>
+    <div class="steps-row">
+      <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>Hangeul</div>
+      <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>Vocabulaire</div>
+      <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>Grammaire</div>
+    </div>
+    <button class="btn-start" onclick="startTest()">Commencer le test →</button>
+    <p class="intro-note">Aucune inscription requise · résultat immédiat</p>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="quizScreen">
+  <div class="quiz-top">
+    <div class="quiz-meta">
+      <span class="q-phase" id="qPhase">Hangeul</span>
+      <span class="q-counter" id="qCounter">1 / 10</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+  <div class="quiz-body">
+    <div class="q-label" id="qLabel"></div>
+    <div class="q-text" id="qText"></div>
+    <div class="q-kr-box" id="qKrBox" onclick="speakCurrent()" style="display:none">
+      <div class="q-kr" id="qKr"></div>
+      <div class="q-tts"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>Appuie pour écouter</div>
+    </div>
+    <div class="opts-grid" id="optsGrid"></div>
+    <div class="feedback-wrap" id="feedbackWrap"></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Continuer →</button>
+  </div>
+</div>
+
+<!-- TRANSITION -->
+<div class="screen" id="transScreen">
+  <div class="trans-icon" id="transIcon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+  <div class="trans-title" id="transTitle">Partie <em>suivante</em></div>
+  <div class="trans-sub" id="transSub"></div>
+  <div class="trans-bar"><div class="trans-fill" id="transFill"></div></div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="resultScreen">
+  <div class="result-emoji" id="resultEmoji"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+  <div class="result-level-tag" id="resultTag">Niveau détecté</div>
+  <h1 class="result-h1" id="resultH1">Résultat</h1>
+  <p class="result-desc" id="resultDesc"></p>
+  <div class="score-ring-wrap">
+    <svg viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#C9A96E" stroke-width="10"
+        stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"
+        id="scoreCircle" style="transition:stroke-dashoffset 1.4s ease .3s"/>
+    </svg>
+    <div class="score-ring-val"><div id="scoreVal">0%</div><div class="score-ring-lbl">Score</div></div>
+  </div>
+  <div class="result-stats" id="resultStats"></div>
+  <div class="skills-wrap" id="skillsWrap"></div>
+  <div class="result-ctas" id="resultCtas"></div>
+</div>
+
+<script>
+const QUESTIONS = [
+  /* ── PHASE 1 : HANGEUL (3 questions) ── */
+  {phase:'Hangeul',label:'Alphabet coréen',
+   q:'Quelle lettre coréenne corresponds au son "a" (comme dans papa) ?',
+   kr:'ㅏ',opts:['ㅏ','ㅓ','ㅗ','ㅜ'],ans:0,
+   exp:'ㅏ = "a" — la voyelle de base la plus fréquente'},
+  {phase:'Hangeul',label:'Alphabet coréen',
+   q:'Que signifie ce mot coréen ?',
+   kr:'나라',opts:['mer','pays','étoile','fleur'],ans:1,
+   exp:'나라 = pays — ㄴ+ㅏ+ㄹ+ㅏ'},
+  {phase:'Hangeul',label:'Alphabet coréen',
+   q:'Comment s\'écrit "Kim chi" en coréen ?',
+   opts:['김치','기무치','킴치','긤치'],ans:0,
+   exp:'김치 = kimchi — 김(kim) + 치(chi)'},
+
+  /* ── PHASE 2 : VOCABULAIRE (4 questions) ── */
+  {phase:'Vocabulaire',label:'Mots essentiels',
+   q:'Que signifie 안녕하세요 ?',
+   kr:'안녕하세요',opts:['Merci','Bonjour','Au revoir','Excusez-moi'],ans:1,
+   exp:'안녕하세요 = Bonjour (formel) — la salutation la plus utilisée'},
+  {phase:'Vocabulaire',label:'Mots essentiels',
+   q:'Comment dit-on "je t\'aime" en coréen ?',
+   opts:['감사합니다','사랑해요','괜찮아요','미안해요'],ans:1,
+   exp:'사랑해요 = je t\'aime <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> — 사랑 = amour + 해요'},
+  {phase:'Vocabulaire',label:'Mots essentiels',
+   q:'Que signifie 맛있어요 ?',
+   kr:'맛있어요',opts:["C'est épicé","C'est cher","C'est délicieux","C'est froid"],ans:2,
+   exp:'맛있어요 = c\'est délicieux — 맛 = goût + 있어요 = il y a'},
+  {phase:'Vocabulaire',label:'Mots essentiels',
+   q:'어디예요? signifie :',
+   kr:'어디예요?',opts:['Qui est-ce ?','Quand ?','Combien ?','Où est-ce ?'],ans:3,
+   exp:'어디예요? = où est-ce ? — 어디 = où, très utile en voyage'},
+
+  /* ── PHASE 3 : GRAMMAIRE (3 questions) ── */
+  {phase:'Grammaire',label:'Structure de la langue',
+   q:'En coréen, l\'ordre des mots dans une phrase est :',
+   opts:['Sujet + Verbe + Objet (comme en français)','Verbe + Sujet + Objet','Sujet + Objet + Verbe','Objet + Verbe + Sujet'],ans:2,
+   exp:'SOV : 나는 밥을 먹어요 = Je + riz + mange — le verbe toujours en dernier !'},
+  {phase:'Grammaire',label:'Structure de la langue',
+   q:'Complète la phrase : 저는 학생___에요',
+   kr:'저는 학생___ 에요',opts:['가','이','을','에'],ans:1,
+   exp:'저는 학생이에요 = je suis étudiant — 이에요 après consonne finale, 예요 après voyelle'},
+  {phase:'Grammaire',label:'Structure de la langue',
+   q:'저는 학교에 가요 signifie :',
+   kr:'저는 학교에 가요',opts:['Je suis à l\'école','Je vais à l\'école','Je reviens de l\'école','J\'étudie à l\'école'],ans:1,
+   exp:'에 가요 = aller à... — 학교 = école, 가요 = aller (présent poli)'},
+];
+
+let qIdx = 0;
+let scores = {Hangeul:0, Vocabulaire:0, Grammaire:0};
+let phaseCounts = {Hangeul:0, Vocabulaire:0, Grammaire:0};
+let currentKr = '';
+let answered = false;
+let phaseShown = {};
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+}
+
+function startTest(){showScreen('quizScreen');showQuestion();}
+
+function speakCurrent(){
+  if(!currentKr)return;
+  const u=new SpeechSynthesisUtterance(currentKr);
+  u.lang='ko-KR';u.rate=0.85;
+  speechSynthesis.cancel();speechSynthesis.speak(u);
+}
+
+function showQuestion(){
+  if(qIdx>=QUESTIONS.length){showResults();return;}
+  const q=QUESTIONS[qIdx];
+  answered=false;
+  // Phase transition
+  if(!phaseShown[q.phase]){
+    phaseShown[q.phase]=true;
+    if(qIdx>0){
+      showPhaseTransition(q.phase,()=>renderQuestion(q));
+      return;
+    }
+  }
+  renderQuestion(q);
+}
+
+function showPhaseTransition(phase,cb){
+  const icons={
+    Hangeul:'<svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>',
+    Vocabulaire:'<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
+    Grammaire:'<svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>'
+  };
+  const subs={
+    Hangeul:'Voyons si tu connais l\'alphabet coréen',
+    Vocabulaire:'Passons au vocabulaire du quotidien',
+    Grammaire:'On passe à la structure de la langue'
+  };
+  document.getElementById('transIcon').innerHTML=icons[phase]||'<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
+  document.getElementById('transTitle').innerHTML='Phase <em>'+phase+'</em>';
+  document.getElementById('transSub').textContent=subs[phase]||'';
+  showScreen('transScreen');
+  const fill=document.getElementById('transFill');
+  fill.style.width='0%';
+  setTimeout(()=>{fill.style.width='100%'},50);
+  setTimeout(()=>{showScreen('quizScreen');renderQuestion(QUESTIONS[qIdx]);},1800);
+}
+
+function renderQuestion(q){
+  const total=QUESTIONS.length;
+  const pct=Math.round(qIdx/total*100);
+  document.getElementById('qPhase').textContent=q.phase;
+  document.getElementById('qCounter').textContent=(qIdx+1)+' / '+total;
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('qLabel').textContent=q.label;
+  document.getElementById('qText').textContent=q.q;
+  currentKr=q.kr||'';
+  const krBox=document.getElementById('qKrBox');
+  if(q.kr){document.getElementById('qKr').textContent=q.kr;krBox.style.display='block';}
+  else{krBox.style.display='none';}
+  const grid=document.getElementById('optsGrid');
+  grid.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt opt-enter';
+    btn.style.animationDelay=(i*.06)+'s';
+    btn.innerHTML='<span class="opt-letter">'+letters[i]+'</span><span>'+opt+'</span>';
+    btn.onclick=()=>selectAnswer(i,btn,q);
+    grid.appendChild(btn);
+  });
+  document.getElementById('feedbackWrap').className='feedback-wrap';
+  document.getElementById('feedbackWrap').innerHTML='';
+  document.getElementById('nextBtn').className='next-btn';
+}
+
+function selectAnswer(i,btn,q){
+  if(answered)return;
+  answered=true;
+  const correct=q.ans;
+  const phase=q.phase;
+  phaseCounts[phase]=(phaseCounts[phase]||0)+1;
+  document.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+  if(i===correct){
+    btn.classList.add('correct');
+    scores[phase]=(scores[phase]||0)+1;
+    const fb=document.getElementById('feedbackWrap');
+    fb.className='feedback-wrap ok show';
+    fb.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Excellent ! '+q.exp;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.opt')[correct].classList.add('correct');
+    const fb=document.getElementById('feedbackWrap');
+    fb.className='feedback-wrap ko show';
+    fb.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> La bonne réponse : <strong>'+q.opts[correct]+'</strong> — '+q.exp;
+  }
+  qIdx++;
+  document.getElementById('nextBtn').className='next-btn show';
+}
+
+function nextQuestion(){showQuestion();}
+
+function showResults(){
+  const total=QUESTIONS.length;
+  const totalScore=Object.values(scores).reduce((a,b)=>a+b,0);
+  const pct=Math.round(totalScore/total*100);
+  const hPct=phaseCounts.Hangeul?Math.round((scores.Hangeul/phaseCounts.Hangeul)*100):0;
+  const vPct=phaseCounts.Vocabulaire?Math.round((scores.Vocabulaire/phaseCounts.Vocabulaire)*100):0;
+  const gPct=phaseCounts.Grammaire?Math.round((scores.Grammaire/phaseCounts.Grammaire)*100):0;
+
+  let level,emoji,desc,cta,ctaUrl;
+  if(pct<=20){
+    level='Débutant absolu';emoji='<svg viewBox="0 0 24 24"><path d="M12 22V12M5 3s.5 7 7 9M19 3s-.5 7-7 9"/></svg>';
+    desc='Tu pars de zéro — c\'est le meilleur point de départ. Le Hangeul t\'attend et tu vas voir, c\'est bien plus simple qu\'on ne le pense. 10 leçons et tu lis du coréen.';
+    cta='Commencer par le Hangeul';ctaUrl='lecon.html';
+  } else if(pct<=40){
+    level='Bases du Hangeul';emoji='<svg viewBox="0 0 24 24"><path d="M12 22V12M5 3s.5 7 7 9M19 3s-.5 7-7 9"/><line x1="12" y1="17" x2="12" y2="22"/></svg>';
+    desc='Tu connais quelques bases. Il faut consolider l\'alphabet avant d\'aller plus loin. Les 5 unités Hangeul de ton parcours vont tout mettre en place.';
+    cta='Revoir le Hangeul';ctaUrl='cours.html';
+  } else if(pct<=60){
+    level='Niveau A1 Débutant';emoji='<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    desc='Bravo ! Tu as les fondations. Tu reconnais les sons, tu connais quelques mots-clés. Le niveau A1 est fait pour toi — plonge dans les 15 unités.';
+    cta='Démarrer l\'A1';ctaUrl='cours.html';
+  } else if(pct<=80){
+    level='Niveau A1 Solide';emoji='<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+    desc='Très bien ! Tu as une bonne base A1 — vocabulaire, alphabet et une touche de grammaire. Continue avec le contenu premium pour consolider.';
+    cta='Continuer en A1';ctaUrl='cours.html';
+  } else {
+    level='Niveau A1/A2';emoji='<svg viewBox="0 0 24 24"><polyline points="8 21 12 21 16 21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M5 8H3a2 2 0 000 4c0 1.5.8 2.8 2 3.5M19 8h2a2 2 0 010 4c0 1.5-.8 2.8-2 3.5"/><path d="M5 3h14v11a5 5 0 01-10 0V3"/></svg>';
+    desc='Impressionnant ! Tu as clairement déjà étudié le coréen. Tu es prêt(e) pour du contenu avancé — explore les unités A2 et le contenu premium.';
+    cta='Explorer l\'A2';ctaUrl='cours.html';
+  }
+
+  showScreen('resultScreen');
+  document.getElementById('resultEmoji').innerHTML=emoji;
+  document.getElementById('resultTag').textContent=level;
+  document.getElementById('resultH1').innerHTML='Tu es <em>'+level+'</em>';
+  document.getElementById('resultDesc').textContent=desc;
+
+  // Animate ring
+  setTimeout(()=>{
+    const off=314-(314*pct/100);
+    document.getElementById('scoreCircle').style.strokeDashoffset=off;
+    let n=0;const iv=setInterval(()=>{
+      n+=2;document.getElementById('scoreVal').textContent=Math.min(n,pct)+'%';
+      if(n>=pct)clearInterval(iv);
+    },18);
+  },200);
+
+  // Stats
+  document.getElementById('resultStats').innerHTML=
+    '<div class="rs"><div class="rs-val" style="color:var(--gold)">'+totalScore+'/'+total+'</div><div class="rs-lbl">Score</div></div>'+
+    '<div class="rs"><div class="rs-val" style="color:var(--green)">'+pct+'%</div><div class="rs-lbl">Réussite</div></div>';
+
+  // Skills bars
+  const skillsHtml=`
+    <div class="skill-row"><div class="skill-top"><span class="skill-name">Hangeul</span><span class="skill-pct">${hPct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${hPct}"></div></div></div>
+    <div class="skill-row"><div class="skill-top"><span class="skill-name">Vocabulaire</span><span class="skill-pct">${vPct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${vPct}"></div></div></div>
+    <div class="skill-row"><div class="skill-top"><span class="skill-name">Grammaire</span><span class="skill-pct">${gPct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${gPct}"></div></div></div>`;
+  document.getElementById('skillsWrap').innerHTML=skillsHtml;
+  setTimeout(()=>{
+    document.querySelectorAll('.skill-fill').forEach(el=>{el.style.width=el.dataset.w+'%'});
+  },600);
+
+  // CTAs
+  document.getElementById('resultCtas').innerHTML=`
+    <a href="${ctaUrl}" class="cta-main">${cta}</a>
+    <button class="cta-sec" onclick="restartTest()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/></svg>Recommencer le test</button>
+    <a href="index.html" class="cta-sec">← Retour à l'accueil</a>`;
+
+  // Confetti
+  if(pct>=60)launchConfetti();
+
+  // Save result
+  try{localStorage.setItem('ks_test_niveau',JSON.stringify({level,pct,date:Date.now()}))}catch(e){}
+}
+
+function restartTest(){
+  qIdx=0;scores={Hangeul:0,Vocabulaire:0,Grammaire:0};phaseCounts={Hangeul:0,Vocabulaire:0,Grammaire:0};
+  phaseShown={};currentKr='';answered=false;
+  showScreen('introScreen');
+}
+
+function launchConfetti(){
+  const colors=['#C9A96E','#FFD700','#E8D5B0','#fff','#f59e0b','#22c55e'];
+  for(let i=0;i<60;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='confetti-piece';
+      el.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${2+Math.random()*2}s;animation-delay:0s;border-radius:${Math.random()>0.5?'50%':'2px'}`;
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),4000);
+    },i*40);
+  }
+}
+</script>
+
+<script>
+(function(){
+  var SVG_MOON='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+  var SVG_SUN='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+  try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+  function sync(){var b=document.getElementById('darkFab');if(!b)return;var d=document.documentElement.getAttribute('data-theme')==='dark';b.innerHTML=d?SVG_SUN:SVG_MOON;b.style.opacity=d?'1':'.7';}
+  window.toggleDarkGlobal=function(){var d=document.documentElement.getAttribute('data-theme')==='dark';var t=d?'light':'dark';document.documentElement.setAttribute('data-theme',t);try{localStorage.setItem('ks_theme',t);}catch(e){}sync();};
+  sync();
+})();
+</script>
+<button id="darkFab" onclick="toggleDarkGlobal()" title="Mode sombre" aria-label="Basculer mode sombre" style="position:fixed;bottom:82px;right:14px;z-index:150;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:all .2s;opacity:.75"></button>
+<script>
+</script>
+</div><!-- .page-enter -->
+
+</div><!-- .main -->
+</div><!-- .shell -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni act">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="cours.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+    <span>Cours</span>
+  </a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni">
+    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <span>Défi</span><span class="bni-dot"></span>
+  </a>
+  <a href="classement.html" class="bni">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Classement</span>
+  </a>
+  <a href="profil.html" class="bni">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Profil</span>
+  </a>
+</nav>
+
+</body>
+</html>
