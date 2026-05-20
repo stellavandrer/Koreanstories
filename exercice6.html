@@ -159,7 +159,7 @@
         document.getElementById('scoreArea').style.display='block';
         document.getElementById('scoreNum').textContent=score;
         const msgs=['Continue à pratiquer ! ','Bien joué ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>','Excellent ! Maître des particules ! <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 9H4a2 2 0 01-2-2V5h4"/><path d="M18 9h2a2 2 0 002-2V5h-4"/><path d="M12 17v4"/><path d="M8 21h8"/><path d="M6 2h12v7a6 6 0 01-12 0V2z"/></svg>'];
-        document.getElementById('scoreMsg').textContent=score<8?msgs[0]:score<13?msgs[1]:msgs[2];
+        document.getElementById('scoreMsg').innerHTML=score<8?msgs[0]:score<13?msgs[1]:msgs[2];
         document.getElementById('scoreArea').scrollIntoView({behavior:'smooth'});
       },600);
     }
