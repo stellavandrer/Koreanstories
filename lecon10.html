@@ -557,7 +557,7 @@
       
       <div class="res-msg" id="resMsg"></div>
       <div class="res-btns" id="resBtns">
-        <button class="res-prim" id="nextLecBtn" onclick="window.location.href='app.html'">
+        <button class="res-prim" id="nextLecBtn" onclick="window.location.href='lecon11.html'">
           Retour accueil
           <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
         </button>
@@ -858,7 +858,7 @@ function showResults(){
   document.getElementById('resOf').textContent='/ '+TOTAL_Q+' bonnes rép.';
   if(sk>=1){const ss=document.getElementById('resStreakStat');const sn=document.getElementById('resStreakN');if(ss)ss.style.display='block';if(sn){ const numEl = sn.querySelector('#resStreakNum'); if(numEl) numEl.textContent = sk; else sn.textContent = sk;}}
   // Update next btn
-  const nb=document.getElementById('nextLecBtn');if(nb){nb.onclick=function(){window.location.href='app.html'};nb.childNodes[0].textContent='Retour accueil';}
+  const nb=document.getElementById('nextLecBtn');if(nb){nb.onclick=function(){window.location.href='lecon11.html'};nb.childNodes[0].textContent='Leçon 11';}
   let n=0;const el=document.getElementById('resScore');const xpEl=document.getElementById('resXP');
   const ti=setInterval(()=>{n=Math.min(n+1,score);if(el)el.textContent=n;if(n>=score)clearInterval(ti);},90);
   let nx=0;const tx=setInterval(()=>{nx=Math.min(nx+Math.ceil(xp/20),xp);if(xpEl)xpEl.textContent='+'+nx;if(nx>=xp)clearInterval(tx);},50);
