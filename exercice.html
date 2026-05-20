@@ -1110,7 +1110,7 @@
 
 <!-- ══ TOPBAR ═══════════════════════════════════ -->
   <div class="bar">
-    <a href="cours.html" class="bar-back">
+    <a href="cours.html" class="bar-back" id="backBtn">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
     </a>
     <div class="bar-logo">Korean <em>Stories</em></div>
@@ -2090,9 +2090,11 @@
 
         // UTILITY FUNCTIONS
         function updateXPDisplay() {
-            document.getElementById('xpBadge').textContent = gameState.xp + ' XP';
+            const xpBadge = document.getElementById('xpBadge') || document.getElementById('xpEl');
+            if(xpBadge) xpBadge.textContent = gameState.xp + ' XP';
             const fill = Math.min((gameState.xp / 500) * 100, 100);
-            document.getElementById('xpFill').style.width = fill + '%';
+            const xpFillEl = document.getElementById('xpFill');
+            if(xpFillEl) xpFillEl.style.width = fill + '%';
         }
 
         const HEART_SVG = `<svg viewBox="0 0 20 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;display:inline-block;margin:0 1px;color:#e05c5c"><path d="M10 17s-7.5-5.4-7.5-10A4.5 4.5 0 0110 3.9 4.5 4.5 0 0117.5 7c0 4.6-7.5 10-7.5 10z"/></svg>`;

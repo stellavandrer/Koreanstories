@@ -473,7 +473,7 @@ function init() {
   if (u && UNITS[u]) currentUnit = u;
   buildTabs();
   loadUnit(currentUnit);
-  document.getElementById('xpBadge').textContent = totalXP + ' XP';
+  const _xpb=document.getElementById('xpBadge')||document.getElementById('xpEl'); if(_xpb)_xpb.textContent=totalXP+' XP';
 }
 
 function buildTabs() {
@@ -565,7 +565,7 @@ function showCompletion() {
   const xpEarned = doneEasy * 5 + doneHard * 2;
   totalXP += xpEarned;
   localStorage.setItem('ks_prem_ecrit_xp', totalXP);
-  document.getElementById('xpBadge').textContent = totalXP + ' XP';
+  const _xpb=document.getElementById('xpBadge')||document.getElementById('xpEl'); if(_xpb)_xpb.textContent=totalXP+' XP';
 
   let msg = accuracy >= 80 ? 'Excellent ! Tu maîtrises ce vocabulaire.' : accuracy >= 50 ? 'Bien joué ! Continue à pratiquer.' : 'Continue — chaque révision t\'améliore !';
   document.getElementById('compSub').textContent = msg;

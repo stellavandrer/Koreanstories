@@ -1396,8 +1396,8 @@
   (function(){
     const streak = parseInt(ls('ks_streak')||'0');
     const xp     = parseInt(ls('ks_xp')||'0');
-    const sv = document.getElementById('streakVal');
-    const xv = document.getElementById('xpVal');
+    const sv = document.getElementById('streakEl') || document.getElementById('streakVal');
+    const xv = document.getElementById('xpEl') || document.getElementById('xpVal');
     if(sv) sv.textContent = streak;
     // XP count-up animé au chargement
     if(xv) {
@@ -1409,6 +1409,9 @@
         if(n >= xp) clearInterval(t);
       }, 30);
     }
+    // Also update sidebar XP
+    const xvSide = document.getElementById('xpSide');
+    if(xvSide) xvSide.textContent = xp;
 
     // Lives (max 5, lose 1 per wrong answer tracked via ks_lives)
     const maxL = 5;

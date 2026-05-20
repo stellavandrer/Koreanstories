@@ -456,7 +456,7 @@ function startQuiz(uid){
   document.getElementById('unitSub').textContent=data.name+' · '+questions.length+' questions';
   document.getElementById('resultScreen').classList.remove('show');
   document.getElementById('quizArea').style.display='block';
-  document.getElementById('xpBadge').textContent=totalXP+' XP';
+  const _xpb=document.getElementById('xpBadge')||document.getElementById('xpEl'); if(_xpb)_xpb.textContent=totalXP+' XP';
   showQuestion();
 }
 
@@ -526,7 +526,7 @@ function showResult(){
   const xp=score*8;
   totalXP+=xp;
   localStorage.setItem('ks_prem_quiz_xp',totalXP);
-  document.getElementById('xpBadge').textContent=totalXP+' XP';
+  const _xpb=document.getElementById('xpBadge')||document.getElementById('xpEl'); if(_xpb)_xpb.textContent=totalXP+' XP';
   // Animate ring
   setTimeout(()=>{
     const circ=document.getElementById('scoreCircle');
