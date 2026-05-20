@@ -31,6 +31,67 @@ function ksIsDone(key) {
   try { return localStorage.getItem(key) === 'done'; } catch(e) { return false; }
 }
 
+/* ── Korean TTS — meilleure voix disponible ───────────────────────── */
+var _ksBestVoice = null;
+var _ksVoiceReady = false;
+
+function _ksLoadVoice() {
+  var voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return;
+
+  // Priorité : voix les plus naturelles connues
+  var priority = [
+    'yuna',           // Apple (iOS/macOS) — excellente
+    'google 한국의',   // Chrome Android/Desktop — très bien
+    'google korean',
+    'heami',          // Microsoft Windows
+    'seoyeon',        // Amazon / certains Android
+  ];
+
+  var koVoices = voices.filter(v => v.lang.toLowerCase().startsWith('ko'));
+
+  // Cherche dans l'ordre de priorité
+  for (var i = 0; i < priority.length; i++) {
+    var found = koVoices.find(v => v.name.toLowerCase().includes(priority[i]));
+    if (found) { _ksBestVoice = found; _ksVoiceReady = true; return; }
+  }
+
+  // Sinon prend la première voix coréenne disponible
+  if (koVoices.length) { _ksBestVoice = koVoices[0]; _ksVoiceReady = true; }
+}
+
+// Les voix peuvent se charger après le script
+if (window.speechSynthesis) {
+  _ksLoadVoice();
+  window.speechSynthesis.onvoiceschanged = _ksLoadVoice;
+}
+
+/**
+ * speak(text, btn) — prononce un mot coréen avec la meilleure voix disponible.
+ * Remplace les appels locaux speak() sur toutes les pages.
+ */
+function speak(text, btn) {
+  try {
+    window.speechSynthesis.cancel();
+    document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
+    if (btn) btn.classList.add('playing');
+
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang  = 'ko-KR';
+    u.rate  = 0.78;   // légèrement plus lent = plus clair
+    u.pitch = 1.0;
+
+    if (_ksBestVoice) u.voice = _ksBestVoice;
+
+    if (btn) {
+      u.onend  = function() { btn.classList.remove('playing'); };
+      u.onerror = function() { btn.classList.remove('playing'); };
+    }
+    window.speechSynthesis.speak(u);
+  } catch(e) { if (btn) btn.classList.remove('playing'); }
+}
+window.speak = speak;  // accessible depuis les onclick inline
+
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   // Populate XP pills
