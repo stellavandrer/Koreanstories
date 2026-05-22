@@ -248,6 +248,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 @media(min-width:640px){body{padding-bottom:0}}
 </style>
 <script src="ks.js" defer></script>
+<script src="ks-srs.js"></script>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 </head>
 <body>
@@ -1094,7 +1095,13 @@ function init(){
   function sb(id,pid,pct){document.getElementById(id).style.width=pct+'%';document.getElementById(pid).textContent=pct+'%';}
   sb('pfHangeul','pctHangeul',Math.min(100,lessons*4));
   sb('pfA1','pctA1',Math.min(100,lessons*2));
-  sb('pfVocab','pctVocab',Math.min(100,Math.round(xp/10)));
+  // Vocabulaire : maîtrise réelle issue du moteur SRS (repli xp/10 si absent)
+  let vocPct=Math.min(100,Math.round(xp/10));
+  if(window.KSSRS){
+    const _s=KSSRS.stats();
+    vocPct=_s.available>0?Math.round(_s.mastered/_s.available*100):0;
+  }
+  sb('pfVocab','pctVocab',vocPct);
   drawXP();drawHeatmap();drawBadges(xp,streak);
 }
 function switchProfile(){
