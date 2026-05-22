@@ -3,6 +3,43 @@
  * Loaded by all pages for consistent behavior.
  */
 
+/* ── Global UX polish — injected on every page ────────────────────── */
+(function injectPolish() {
+  if (document.getElementById('ks-polish-css')) return;
+  var css = [
+    /* iOS: no font auto-inflation, no blue tap flash */
+    'html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}',
+    '*{-webkit-tap-highlight-color:transparent}',
+    /* Brand-coloured text selection */
+    '::selection{background:rgba(201,169,110,.28)}',
+    /* Keyboard focus ring (accessibility) — only on keyboard nav */
+    ':focus-visible{outline:2px solid #C9A96E;outline-offset:2px;border-radius:3px}',
+    'a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}',
+    /* Tactile press feedback on interactive elements (mobile + desktop) */
+    'a:active,button:active,[role="button"]:active,[onclick]:active{',
+      'transition:transform .04s ease}',
+    /* Discreet custom scrollbar on desktop pointers */
+    '@media(pointer:fine){',
+      '::-webkit-scrollbar{width:10px;height:10px}',
+      '::-webkit-scrollbar-track{background:transparent}',
+      '::-webkit-scrollbar-thumb{background:rgba(140,140,140,.34);',
+        'border-radius:8px;border:2px solid transparent;background-clip:padding-box}',
+      '::-webkit-scrollbar-thumb:hover{background:rgba(140,140,140,.55);background-clip:padding-box}',
+    '}',
+    /* Respect the OS "reduce motion" setting */
+    '@media(prefers-reduced-motion:reduce){',
+      '*,*::before,*::after{',
+        'animation-duration:.001ms!important;animation-iteration-count:1!important;',
+        'transition-duration:.001ms!important;scroll-behavior:auto!important}',
+    '}',
+    ''
+  ].join('');
+  var s = document.createElement('style');
+  s.id = 'ks-polish-css';
+  s.textContent = css;
+  (document.head || document.documentElement).appendChild(s);
+})();
+
 /* ── Dark Mode Toggle ─────────────────────────────────────────────── */
 function toggleTheme() {
   const html = document.documentElement;
