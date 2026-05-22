@@ -98,7 +98,7 @@
     if(typeof ksMarkDone==='function')ksMarkDone('ks_a33');
     const b=document.getElementById('doneBtn');
     if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
-    setTimeout(()=>window.location.href='quiz3.html',1200);
+    KSResults.show({title:'Exercice terminé !',xp:10,nextHref:'quiz3.html',nextLabel:'Checkpoint Particules →'});
   }
 
   const QS = [
@@ -167,5 +167,6 @@
 
   render();
   </script>
+<script src="ks-results.js"></script>
 </body>
 </html>

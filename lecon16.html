@@ -130,11 +130,10 @@ tr:hover td{background:var(--s2)}
 </nav>
 <script>
 function completeLesson(){
-  if(typeof ksAddXP==='function')ksAddXP(15);
-  if(typeof ksMarkDone==='function')ksMarkDone('ks_a32');
-  const b=document.getElementById('doneBtn');
-  if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
-  setTimeout(()=>window.location.href='exercice6.html',1200);
+  if(typeof ksAddXP==='function') ksAddXP(15);
+  if(typeof ksMarkDone==='function') ksMarkDone('ks_a32');
+  KSResults.show({title:'Particules 을/를 et 에 !',xp:15,nextHref:'exercice6.html',nextLabel:'Exercice →'});
 }
 </script>
+<script src="ks-results.js"></script>
 </body></html>

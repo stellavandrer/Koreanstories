@@ -291,7 +291,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 
-  <div class="btn-row">
+  <div class="btn-row" style="display:none">
     <a href="lecon12.html" class="btn btn-gold">Leçon suivante →</a>
   </div>
 
@@ -342,11 +342,10 @@ function renderQ() {
   if (current >= questions.length) {
     document.getElementById('score-num').textContent = score + '/5';
     document.getElementById('score-msg').innerHTML = score >= 4 ? ' Excellent ! Tu maîtrises les particules !' : score >= 3 ? ' Bien ! Relis les règles pour consolider.' : '<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Continue à pratiquer !';
-    document.getElementById('score-box').classList.add('show');
     document.getElementById('quiz-area').innerHTML = '';
-    if (score >= 3) {
-      try { localStorage.setItem('ks_a18', '1'); } catch(e) {}
-    }
+    try { localStorage.setItem('ks_a18','done'); } catch(e) {}
+    if(typeof ksAddXP==='function') ksAddXP(15);
+    KSResults.show({title:'Lieux & Particules terminé !',score:score,total:5,xp:15,nextHref:'lecon12.html',nextLabel:'Leçon 12 →'});
     return;
   }
   const q = questions[current];
@@ -395,5 +394,6 @@ renderQ();
   <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Classement</span></a>
   <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
 </nav>
+<script src="ks-results.js"></script>
 </body>
 </html>

@@ -92,6 +92,14 @@ function speak(text, btn) {
 }
 window.speak = speak;  // accessible depuis les onclick inline
 
+/* ── Page navigate-out helper (fade) ──────────────────────────────── */
+function ksNavigate(href) {
+  document.body.style.transition = 'opacity .22s ease';
+  document.body.style.opacity = '0';
+  setTimeout(() => window.location.href = href, 220);
+}
+window.ksNavigate = ksNavigate;
+
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   // Populate XP pills

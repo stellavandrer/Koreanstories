@@ -159,23 +159,11 @@
   <script src="ks.js"></script>
   <script>
   function completeLesson(){
-    if(typeof ksAddXP==='function')ksAddXP(15);
-    if(typeof ksMarkDone==='function')ksMarkDone('ks_b01');
-    const b=document.getElementById('doneBtn');
-    if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
-    setTimeout(()=>window.location.href='lecon22.html',1200);
-  }
-  </script>
-<script>
-function ans(btn,result){
-  const p=btn.closest('.mini-quiz');
-  if(p.querySelector('.ok,.ko'))return;
-  btn.classList.add(result);
-  if(result==='ko'){
-    const opts=p.querySelectorAll('.q-opt');
-    opts.forEach(o=>{if(o!==btn&&!o.classList.contains('ok')&&!o.classList.contains('ko')){o.classList.add('ok');}});
-  }
+  if(typeof ksAddXP==='function') ksAddXP(15);
+  if(typeof ksMarkDone==='function') ksMarkDone('ks_b01');
+  KSResults.show({title:'Futur -(으)ㄹ 거예요 !',xp:15,nextHref:'lecon22.html',nextLabel:'Leçon 22 →'});
 }
 </script>
+<script src="ks-results.js"></script>
 </body>
 </html>

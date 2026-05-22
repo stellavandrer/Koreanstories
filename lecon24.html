@@ -216,11 +216,9 @@
 <script src="ks.js"></script>
 <script>
 function completeLesson(){
-  if(typeof ksAddXP==='function')ksAddXP(15);
-  if(typeof ksMarkDone==='function')ksMarkDone('ks_b25');
-  const b=document.getElementById('doneBtn');
-  if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
-  setTimeout(()=>window.location.href='lecon25.html',1200);
+  if(typeof ksAddXP==='function') ksAddXP(15);
+  if(typeof ksMarkDone==='function') ksMarkDone('ks_b25');
+  KSResults.show({title:'Désir & Envie terminé !',xp:15,nextHref:'lecon25.html',nextLabel:'Leçon 25 →'});
 }
 function ans(btn,result){
   const p=btn.closest('.mini-quiz');
@@ -235,5 +233,6 @@ function toggleTheme(){
 }
 try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
 </script>
+<script src="ks-results.js"></script>
 </body>
 </html>
