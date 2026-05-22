@@ -1798,7 +1798,7 @@
         '정말 대단해요 ! Huit leçons ! Les voyelles doubles arrivent — <em>ㅘ, ㅝ et ㅕ</em> — tu vas dire 봐요 (regarde !) !',
         '거의 다 왔어요 ! Neuf leçons ! Plus qu\'une — les consonnes tendues <em>ㄲ, ㄸ, ㅃ, ㅆ, ㅉ</em>. Finish strong !',
         _h4m && localStorage.getItem('ks_h5')==='done'
-          ? '완벽해요 ! Hangeul + 5 histoires ! Tu es au niveau A1+ ! <em>지하철에서</em> t'attend — prends le métro !'
+          ? '완벽해요 ! Hangeul + 5 histoires ! Tu es au niveau A1+ ! <em>지하철에서</em> t\'attend — prends le métro !'
           : _h4m
           ? '대단해요 ! Hangeul + 4 histoires ! Maintenant <em>편의점에서</em> — prochaine aventure : l\'épicerie !'
           : _h3m
@@ -2425,7 +2425,7 @@ function renderStreakCard(){
   if(row){
     row.innerHTML = MILESTONES.map(function(m){
       var earned = streak >= m.days;
-      return '<div class="mbadge '+(earned?'earned':'locked')+'" title="'+m.label+(earned?' — obtenu':' — encore '+(m.days-streak)+' jour'+(m.days-streak>1?'s':'')+'")+'">'
+      return '<div class="mbadge '+(earned?'earned':'locked')+'" title="'+m.label+(earned?' — obtenu':' — encore '+(m.days-streak)+' jour'+(m.days-streak>1?'s':''))+'">'
         +'<div class="mbadge-icon">'+m.icon+'</div>'
         +'<div class="mbadge-lbl">'+m.label+'</div>'
       +'</div>';
