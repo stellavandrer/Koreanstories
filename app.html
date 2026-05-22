@@ -2724,19 +2724,21 @@ function renderWeeklyChart(){
     reordered.push(d);
   }
 
-  // Try to get stored activity data
-  var activity;
-  try{ activity = JSON.parse(localStorage.getItem('ks_activity')||'{}'); }catch(e){ activity={}; }
+  // Activité réelle par jour — reconstruite depuis les clés ks_xp_day_<date>
+  var activity = {};
+  try{
+    for(var ai=0; ai<localStorage.length; ai++){
+      var ak = localStorage.key(ai);
+      if(ak && ak.indexOf('ks_xp_day_')===0){
+        var ad = ak.slice(10);
+        if(/^\d{4}-\d{2}-\d{2}$/.test(ad)) activity[ad] = parseInt(localStorage.getItem(ak))||0;
+      }
+    }
+  }catch(e){ activity={}; }
 
-  // Simulate some data for first-time users based on XP
-  var totalXp = parseInt(localStorage.getItem('ks_xp')||'0');
-  var dayVals = reordered.map(function(d, i){
+  var dayVals = reordered.map(function(d){
     var key = d.toISOString().slice(0,10);
-    if(activity[key] !== undefined) return activity[key];
-    // Simulate: distribute XP across days for demo
-    if(totalXp === 0) return 0;
-    var weights = [0.1,0.15,0.05,0.2,0.18,0.12,0.2];
-    return Math.round(totalXp * weights[i] / 10) * 10;
+    return activity[key] || 0;
   });
 
   var maxVal = Math.max.apply(null, dayVals.concat([1]));
