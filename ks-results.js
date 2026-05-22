@@ -5,13 +5,6 @@
 (function (global) {
   'use strict';
 
-  /* ── Mina assets ─────────────────────────────────────────────────── */
-  var MINA_BASE = "Personnage/Mina/PNG/Utilisation dans l'app/";
-  var MINA = {
-    bravo:  MINA_BASE + 'mina_utilisationapp_bravo.png',
-    astuce: MINA_BASE + 'mina_utilisationapp_astuce.png',
-  };
-
   /* ── CSS injection ───────────────────────────────────────────────── */
   var CSS = [
     /* Page fade-in on load */
@@ -58,11 +51,13 @@
     '.ks-stat-l{font-size:10px;font-weight:600;',
       'color:rgba(247,248,250,.32);text-transform:uppercase;letter-spacing:.06em}',
 
-    /* Mina */
-    '.ks-mina{height:108px;margin-bottom:12px;',
-      'filter:drop-shadow(0 6px 20px rgba(0,0,0,.35));',
-      'animation:ksMinaIn .5s ease .18s both;}',
-    '@keyframes ksMinaIn{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}',
+    /* Achievement emblem */
+    '.ks-emblem{width:94px;height:94px;margin:0 auto 14px;',
+      'animation:ksEmblemIn .55s cubic-bezier(.34,1.5,.6,1) .15s both}',
+    '@keyframes ksEmblemIn{from{transform:scale(.35) rotate(-14deg);opacity:0}',
+      'to{transform:none;opacity:1}}',
+    '.ks-emblem svg{width:100%;height:100%;display:block;',
+      'filter:drop-shadow(0 8px 22px rgba(201,169,110,.45))}',
 
     /* Message */
     '.ks-msg{font-size:14px;color:rgba(247,248,250,.5);line-height:1.75;',
@@ -134,6 +129,39 @@
   var RETRY_SVG = '<svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 013.51 15"/></svg>';
   var HOME_SVG  = '<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
 
+  /* Self-contained achievement emblem — no external assets */
+  function emblemSVG(stars) {
+    var win = stars >= 2;
+    var g1  = win ? '#F1DBAC' : '#C4D4E4';
+    var g2  = win ? '#C9A96E' : '#8AA4BE';
+    var ring = win ? '#A8884C' : '#6E89A6';
+    var uid = 'ksE' + Math.random().toString(36).slice(2, 7);
+    var icon = win
+      /* trophy */
+      ? '<g transform="translate(24 23) scale(2)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>' +
+          '<path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>' +
+          '<path d="M5 21h14"/>' +
+          '<path d="M9.5 16.5V19h5v-2.5"/>' +
+          '<path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>' +
+        '</g>'
+      /* sunburst — keep shining */
+      : '<g transform="translate(24 24) scale(2)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<circle cx="12" cy="12" r="4.2" fill="#fff" stroke="none"/>' +
+          '<path d="M12 2.4v3M12 18.6v3M3.4 12h3M17.6 12h3M5.9 5.9l2.1 2.1M16 16l2.1 2.1M18.1 5.9 16 8M8 16l-2.1 2.1"/>' +
+        '</g>';
+    return '<svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="' + uid + '" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="' + g1 + '"/>' +
+        '<stop offset="1" stop-color="' + g2 + '"/>' +
+      '</linearGradient></defs>' +
+      '<circle cx="48" cy="48" r="44" fill="url(#' + uid + ')"/>' +
+      '<circle cx="48" cy="48" r="44" fill="none" stroke="' + ring + '" stroke-width="2.5"/>' +
+      '<circle cx="48" cy="48" r="37" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.8"/>' +
+      icon +
+    '</svg>';
+  }
+
   /* ── Build / get overlay element ─────────────────────────────────── */
   function getOverlay() {
     var el = document.getElementById('ks-res');
@@ -150,7 +178,7 @@
           '<div class="ks-title"  id="ks-title"></div>' +
           '<div class="ks-sub"    id="ks-sub">완료 — Complété</div>' +
           '<div class="ks-stats"  id="ks-stats"></div>' +
-          '<img class="ks-mina"   id="ks-mina" src="" alt="" style="display:none">' +
+          '<div class="ks-emblem" id="ks-emblem"></div>' +
           '<div class="ks-msg"    id="ks-msg"></div>' +
           '<div class="ks-btns"   id="ks-btns"></div>' +
         '</div>';
@@ -212,18 +240,15 @@
       stars = 3; /* reading lesson always 3 stars */
     }
 
-    /* Mina + message */
-    var minaImg, msg;
+    /* Encouraging message by score */
+    var msg;
     if (stars === 3) {
-      minaImg = MINA.bravo;
       msg = score !== null
         ? '<strong>Score parfait !</strong> Tu maîtrises parfaitement ce sujet — continue comme ça !'
         : '<strong>Excellent !</strong> Tu as terminé cette leçon. Le coréen avance à grands pas !';
     } else if (stars === 2) {
-      minaImg = MINA.bravo;
       msg = 'Bien joué ! Tu progresses bien — relis les points clés pour <strong>consolider</strong>.';
     } else {
-      minaImg = MINA.astuce;
       msg = 'Continue à pratiquer ! Recommence pour bien ancrer les notions. <strong>화이팅 !</strong>';
     }
 
@@ -260,9 +285,9 @@
     }
     document.getElementById('ks-stats').innerHTML = statsHtml;
 
-    /* ── Mina ── */
-    var minaEl = document.getElementById('ks-mina');
-    if (minaEl) { minaEl.src = minaImg; minaEl.style.display = ''; }
+    /* ── Achievement emblem ── */
+    var embEl = document.getElementById('ks-emblem');
+    if (embEl) embEl.innerHTML = emblemSVG(stars);
 
     /* ── Message ── */
     document.getElementById('ks-msg').innerHTML = msg;
