@@ -301,7 +301,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <div class="hero-rank" id="heroRankEl">초보자 · Débutant·e</div>
   <div class="hero-sub" id="heroSubEl">Apprenant·e coréen · Niveau A1</div>
   <div class="hero-bio" onclick="openEdit()" id="heroBioEl">✨ En route vers la Corée !</div>
-  <div class="hero-streak">🔥 <span id="streakVal">7</span> jours de suite</div>
+  <div class="hero-streak">🔥 <span id="streakVal">0</span> jours de suite</div>
   <button onclick="switchProfile()" style="margin-top:10px;background:none;border:1.5px solid rgba(255,255,255,.18);border-radius:20px;color:rgba(255,255,255,.5);font-size:12px;padding:5px 14px;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.borderColor='rgba(255,255,255,.18)';this.style.color='rgba(255,255,255,.5)'">Changer de profil</button>
 </div>
 
@@ -1083,8 +1083,18 @@ function init(){
   if(heroSub&&_ksUser&&_ksUser.email&&!_ksUser.guest)heroSub.textContent=_ksUser.email+' · Niveau A1';
   if(p.bio)document.getElementById('heroBioEl').textContent=p.bio;
   const xp=parseInt(localStorage.getItem('ks_xp'))||0;
-  const streak=parseInt(localStorage.getItem('ks_streak'))||7;
-  const lessons=parseInt(localStorage.getItem('ks_lessons'))||0;
+  const streak=parseInt(localStorage.getItem('ks_streak'))||0;
+  // Compte réel des activités terminées — ks_lessons n'était jamais écrit
+  let lessons=0;
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(/^ks_(h\d|a[\d_]|b[\d_]|c\d|d\d)/.test(k)){
+        const v=localStorage.getItem(k);
+        if(v==='done'||v==='1')lessons++;
+      }
+    }
+  }catch(e){}
   document.getElementById('statXP').textContent=xp;
   document.getElementById('statLecons').textContent=lessons;
   document.getElementById('statJours').textContent=streak;
