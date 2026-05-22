@@ -1466,7 +1466,7 @@
 
     // Daily goal (basé sur XP du jour = XP total - XP avant aujourd'hui)
     // On stocke ks_xp_day_start au chargement si la date a changé
-    const GOAL = 50; // XP objectif quotidien
+    const GOAL = (parseInt(ls('ks_goal'),10) || 50); // XP objectif quotidien (personnalisé via onboarding)
     const today2 = new Date().toISOString().slice(0,10);
     let dayStart = 0;
     try {
@@ -2020,7 +2020,7 @@
       const deskStreakEl = document.getElementById('deskStreak');
       if(deskStreakEl) deskStreakEl.childNodes.forEach(n => { if(n.nodeType===3 && n.textContent.trim()) n.textContent = ' jour'+(sk!==1?'s':''); });
       // Goal bar on desktop
-      const GOAL_XP = 50;
+      const GOAL_XP = (parseInt(ls('ks_goal'),10) || 50);
       const pct = Math.min(xpVal / GOAL_XP * 100, 100);
       const deskHdrEl = document.getElementById('deskHdr');
       if(deskHdrEl && window.innerWidth >= 900) deskHdrEl.style.display = 'flex';

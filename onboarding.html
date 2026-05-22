@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+  <script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Korean Stories — Bienvenue à bord</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0F1B2D;--navy2:#152638;--gold:#C9A96E;--gold2:#D5BA8A;--bd:rgba(255,255,255,.1)}
+    html,body{height:100%}
+    body{font-family:'Inter',sans-serif;background:var(--navy);color:#fff;
+      min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden;
+      animation:bodyIn .35s ease both}
+    @keyframes bodyIn{from{opacity:0}to{opacity:1}}
+
+    /* Background decoration */
+    .bg-orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+    .bg-orb1{width:560px;height:560px;background:radial-gradient(circle,rgba(201,169,110,.08) 0%,transparent 70%);top:-220px;right:-200px}
+    .bg-orb2{width:420px;height:420px;background:radial-gradient(circle,rgba(79,142,247,.06) 0%,transparent 70%);bottom:-140px;left:-140px}
+
+    /* ── Progress header ── */
+    .ob-head{position:relative;z-index:2;padding:20px 20px 0;width:100%;max-width:480px;margin:0 auto;flex-shrink:0}
+    .ob-bar-row{display:flex;align-items:center;gap:12px}
+    .ob-back{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;
+      color:rgba(247,248,250,.4);transition:color .2s,background .2s;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center}
+    .ob-back:hover{color:#fff;background:rgba(255,255,255,.06)}
+    .ob-back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .ob-back[disabled]{opacity:0;pointer-events:none}
+    .ob-segs{flex:1;display:flex;gap:6px}
+    .ob-seg{flex:1;height:6px;border-radius:100px;background:rgba(255,255,255,.09);overflow:hidden}
+    .ob-seg-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));
+      border-radius:100px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+    .ob-skip{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;
+      font-size:12px;font-weight:600;color:rgba(247,248,250,.35);padding:6px 4px;
+      transition:color .2s;flex-shrink:0}
+    .ob-skip:hover{color:rgba(247,248,250,.7)}
+
+    /* ── Main ── */
+    .ob-main{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
+      width:100%;max-width:480px;margin:0 auto;padding:24px 20px 0}
+
+    .step{display:none;flex-direction:column;flex:1;animation:stepIn .4s cubic-bezier(.34,1.1,.64,1) both}
+    .step.on{display:flex}
+    @keyframes stepIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+    .step-kicker{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+      color:var(--gold);margin-bottom:10px}
+    .step-title{font-family:'Playfair Display',serif;font-size:clamp(22px,5.5vw,28px);
+      font-weight:700;line-height:1.25;margin-bottom:8px}
+    .step-title em{color:var(--gold);font-style:italic}
+    .step-sub{font-size:13.5px;color:rgba(247,248,250,.5);line-height:1.6;margin-bottom:24px}
+
+    /* Option cards */
+    .opts{display:flex;flex-direction:column;gap:10px}
+    .opt{display:flex;align-items:center;gap:14px;width:100%;padding:15px 16px;
+      background:rgba(255,255,255,.04);border:1.6px solid rgba(255,255,255,.09);
+      border-radius:15px;cursor:pointer;text-align:left;font-family:'Inter',sans-serif;
+      transition:border-color .18s,background .18s,transform .12s;color:inherit}
+    .opt:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
+    .opt:active{transform:scale(.985)}
+    .opt.sel{background:linear-gradient(135deg,rgba(201,169,110,.16),rgba(201,169,110,.07));
+      border-color:var(--gold)}
+    .opt-ic{width:44px;height:44px;border-radius:12px;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,.06);color:rgba(247,248,250,.6);transition:all .18s}
+    .opt.sel .opt-ic{background:rgba(201,169,110,.2);color:var(--gold)}
+    .opt-ic svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .opt-txt{flex:1;min-width:0}
+    .opt-label{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:2px}
+    .opt.sel .opt-label{color:var(--gold)}
+    .opt-desc{font-size:12px;color:rgba(247,248,250,.42);line-height:1.45}
+    .opt-check{width:22px;height:22px;border-radius:50%;flex-shrink:0;
+      border:2px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;
+      transition:all .18s}
+    .opt.sel .opt-check{background:var(--gold);border-color:var(--gold)}
+    .opt-check svg{width:12px;height:12px;stroke:var(--navy);fill:none;stroke-width:3.5;
+      stroke-linecap:round;stroke-linejoin:round;opacity:0;transition:opacity .18s}
+    .opt.sel .opt-check svg{opacity:1}
+
+    /* Recommended pill */
+    .opt-pill{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      background:rgba(201,169,110,.18);color:var(--gold);padding:3px 8px;border-radius:100px;
+      margin-left:6px;vertical-align:middle}
+
+    /* ── Recap step ── */
+    .recap-hero{text-align:center;margin-bottom:20px}
+    .recap-mina{width:96px;height:96px;border-radius:24px;object-fit:cover;
+      margin:0 auto 14px;display:block;
+      box-shadow:0 16px 40px rgba(0,0,0,.4);background:var(--navy2)}
+    .recap-list{display:flex;flex-direction:column;gap:10px;margin-bottom:8px}
+    .recap-item{display:flex;align-items:center;gap:13px;padding:14px 16px;
+      background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:14px}
+    .recap-ic{width:38px;height:38px;border-radius:11px;flex-shrink:0;
+      background:rgba(201,169,110,.14);color:var(--gold);
+      display:flex;align-items:center;justify-content:center}
+    .recap-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .recap-k{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+      color:rgba(247,248,250,.35);margin-bottom:2px}
+    .recap-v{font-size:14px;font-weight:700;color:#fff}
+
+    /* ── Footer button ── */
+    .ob-foot{position:sticky;bottom:0;z-index:3;width:100%;max-width:480px;margin:0 auto;
+      padding:16px 20px calc(20px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg,transparent,var(--navy) 32%)}
+    .ob-cta{width:100%;padding:16px;border-radius:15px;border:none;cursor:pointer;
+      background:var(--gold);color:var(--navy);font-family:'Inter',sans-serif;
+      font-size:15px;font-weight:800;transition:background .2s,transform .1s,opacity .2s;
+      box-shadow:0 8px 26px rgba(201,169,110,.32);
+      display:flex;align-items:center;justify-content:center;gap:8px}
+    .ob-cta:hover:not(:disabled){background:var(--gold2)}
+    .ob-cta:active:not(:disabled){transform:scale(.98)}
+    .ob-cta:disabled{opacity:.32;cursor:not-allowed;box-shadow:none}
+    .ob-cta svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+
+    @media(min-width:520px){
+      .ob-main{padding-top:32px}
+      .step-sub{margin-bottom:28px}
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orb bg-orb1"></div>
+<div class="bg-orb bg-orb2"></div>
+
+<!-- ── Progress header ── -->
+<div class="ob-head">
+  <div class="ob-bar-row">
+    <button class="ob-back" id="obBack" onclick="prevStep()" aria-label="Retour" disabled>
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="ob-segs" id="obSegs"></div>
+    <button class="ob-skip" id="obSkip" onclick="finishOnboarding(true)">Passer</button>
+  </div>
+</div>
+
+<!-- ── Steps ── -->
+<div class="ob-main">
+
+  <!-- STEP 1 — Motivation -->
+  <div class="step on" data-step="0">
+    <div class="step-kicker">Étape 1 sur 4</div>
+    <h1 class="step-title">Qu'est-ce qui t'amène au <em>coréen</em>&thinsp;?</h1>
+    <p class="step-sub">Ça nous aide à personnaliser ton aventure. Choisis ce qui te parle le plus.</p>
+    <div class="opts" id="optsMotiv" data-key="ks_motivation">
+      <button class="opt" data-val="kpop">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">K-pop & K-dramas</span><span class="opt-desc">Comprendre mes chansons et séries préférées</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="voyage">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Voyager en Corée</span><span class="opt-desc">Me débrouiller pour mon prochain voyage</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="proches">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Parler avec des proches</span><span class="opt-desc">Communiquer avec ma famille ou mes amis</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="culture">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Culture & traditions</span><span class="opt-desc">Découvrir l'histoire et la richesse coréenne</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="travail">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Travail & études</span><span class="opt-desc">Booster ma carrière ou mes études</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="defi">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Défi personnel</span><span class="opt-desc">Apprendre une langue juste pour le plaisir</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2 — Objectif quotidien -->
+  <div class="step" data-step="1">
+    <div class="step-kicker">Étape 2 sur 4</div>
+    <h1 class="step-title">Quel est ton <em>objectif</em> quotidien&thinsp;?</h1>
+    <p class="step-sub">La régularité bat l'intensité. Choisis un rythme que tu pourras tenir — tu pourras le changer plus tard.</p>
+    <div class="opts" id="optsGoal" data-key="ks_goal">
+      <button class="opt" data-val="30">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Décontracté</span><span class="opt-desc">5 min par jour · 30 XP</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="50">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Régulier<span class="opt-pill">Recommandé</span></span><span class="opt-desc">10 min par jour · 50 XP</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="80">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Sérieux</span><span class="opt-desc">15 min par jour · 80 XP</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="120">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Intense</span><span class="opt-desc">20 min par jour · 120 XP</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — Niveau -->
+  <div class="step" data-step="2">
+    <div class="step-kicker">Étape 3 sur 4</div>
+    <h1 class="step-title">Quel est ton <em>niveau</em> actuel&thinsp;?</h1>
+    <p class="step-sub">Pour te placer au bon endroit dans le parcours. Aucune mauvaise réponse&thinsp;!</p>
+    <div class="opts" id="optsLevel" data-key="ks_level">
+      <button class="opt" data-val="zero" data-start="lecon.html">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Grand débutant</span><span class="opt-desc">Je pars de zéro, je ne connais rien</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="bases" data-start="lecon.html">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Quelques bases</span><span class="opt-desc">Je connais quelques mots (annyeong, etc.)</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="hangeul" data-start="lecon5.html">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Je lis déjà le Hangeul</span><span class="opt-desc">Je veux passer à la grammaire et au vocabulaire</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+      <button class="opt" data-val="test" data-start="test-niveau.html">
+        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+        <span class="opt-txt"><span class="opt-label">Je ne sais pas — fais-moi passer un test</span><span class="opt-desc">Un test rapide déterminera mon niveau</span></span>
+        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 4 — Récap -->
+  <div class="step" data-step="3">
+    <div class="step-kicker">Tout est prêt</div>
+    <div class="recap-hero">
+      <img class="recap-mina" id="recapMina" src="Personnage/Mina/PNG/Utilisation dans l'app/mina_utilisationapp_bravo.png" alt="Mina" onerror="this.style.display='none'"/>
+      <h1 class="step-title" id="recapTitle">Ton plan est prêt&thinsp;!</h1>
+      <p class="step-sub" style="margin-bottom:18px">Mina t'accompagne à chaque étape. Tu peux commencer dès maintenant.</p>
+    </div>
+    <div class="recap-list" id="recapList"></div>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<div class="ob-foot">
+  <button class="ob-cta" id="obCta" onclick="nextStep()" disabled>
+    <span id="obCtaTxt">Continuer</span>
+    <svg id="obCtaArrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+<script>
+/* ── If already onboarded / logged in, skip ── */
+(function(){
+  try{
+    if(localStorage.getItem('ks_onboarded')==='done'){
+      window.location.replace('app.html'); return;
+    }
+  }catch(e){}
+})();
+
+var TOTAL_STEPS = 4;
+var current = 0;
+var answers = { ks_motivation:null, ks_goal:null, ks_level:null, ks_start:'lecon.html' };
+
+/* ── Build progress segments ── */
+(function(){
+  var segs = document.getElementById('obSegs');
+  for(var i=0;i<TOTAL_STEPS;i++){
+    segs.innerHTML += '<div class="ob-seg"><div class="ob-seg-fill" id="seg'+i+'"></div></div>';
+  }
+})();
+
+function updateProgress(){
+  for(var i=0;i<TOTAL_STEPS;i++){
+    var f = document.getElementById('seg'+i);
+    if(i<current) f.style.width='100%';
+    else if(i===current) f.style.width='100%';
+    else f.style.width='0%';
+  }
+  document.getElementById('obBack').disabled = (current===0);
+  document.getElementById('obSkip').style.display = (current===TOTAL_STEPS-1) ? 'none' : '';
+}
+
+/* ── Option selection ── */
+function wireOpts(containerId){
+  var box = document.getElementById(containerId);
+  var key = box.dataset.key;
+  box.querySelectorAll('.opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      box.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel')});
+      opt.classList.add('sel');
+      answers[key] = opt.dataset.val;
+      if(opt.dataset.start) answers.ks_start = opt.dataset.start;
+      refreshCta();
+    });
+  });
+}
+wireOpts('optsMotiv');
+wireOpts('optsGoal');
+wireOpts('optsLevel');
+
+/* ── CTA state ── */
+function refreshCta(){
+  var cta = document.getElementById('obCta');
+  if(current===0)      cta.disabled = !answers.ks_motivation;
+  else if(current===1) cta.disabled = !answers.ks_goal;
+  else if(current===2) cta.disabled = !answers.ks_level;
+  else                 cta.disabled = false;
+}
+
+/* ── Navigation ── */
+function showStep(n){
+  document.querySelectorAll('.step').forEach(function(s){
+    s.classList.toggle('on', parseInt(s.dataset.step)===n);
+  });
+  current = n;
+  updateProgress();
+  refreshCta();
+  var txt = document.getElementById('obCtaTxt');
+  var arrow = document.getElementById('obCtaArrow');
+  if(n===TOTAL_STEPS-1){
+    txt.textContent = "Commencer l'aventure";
+    arrow.style.display='none';
+    buildRecap();
+  } else {
+    txt.textContent = 'Continuer';
+    arrow.style.display='';
+  }
+  window.scrollTo(0,0);
+}
+
+function nextStep(){
+  if(current < TOTAL_STEPS-1){
+    showStep(current+1);
+  } else {
+    finishOnboarding(false);
+  }
+}
+function prevStep(){
+  if(current>0) showStep(current-1);
+}
+
+/* ── Recap ── */
+function buildRecap(){
+  var u=null; try{u=JSON.parse(localStorage.getItem('ks_user')||'null')}catch(e){}
+  var first = (u && u.name) ? u.name.split(' ')[0] : null;
+  document.getElementById('recapTitle').innerHTML = first
+    ? 'Parfait, <em>'+first+'</em>&thinsp;!'
+    : 'Ton plan est <em>prêt</em>&thinsp;!';
+
+  var MOTIV = {kpop:'K-pop & K-dramas',voyage:'Voyager en Corée',proches:'Parler avec des proches',
+    culture:'Culture & traditions',travail:'Travail & études',defi:'Défi personnel'};
+  var GOAL = {'30':'5 min/jour · 30 XP','50':'10 min/jour · 50 XP','80':'15 min/jour · 80 XP','120':'20 min/jour · 120 XP'};
+  var LEVEL = {zero:'Grand débutant',bases:'Quelques bases',hangeul:'Je lis le Hangeul',test:'Test de niveau à passer'};
+
+  var icTarget='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>';
+  var icClock='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+  var icBook='<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>';
+
+  document.getElementById('recapList').innerHTML =
+    recapItem(icTarget,'Ta motivation', MOTIV[answers.ks_motivation]||'—') +
+    recapItem(icClock,'Objectif quotidien', GOAL[answers.ks_goal]||'—') +
+    recapItem(icBook,'Point de départ', LEVEL[answers.ks_level]||'—');
+}
+function recapItem(ic,k,v){
+  return '<div class="recap-item"><div class="recap-ic">'+ic+'</div>'+
+    '<div><div class="recap-k">'+k+'</div><div class="recap-v">'+v+'</div></div></div>';
+}
+
+/* ── Finish ── */
+function finishOnboarding(skipped){
+  try{
+    localStorage.setItem('ks_onboarded','done');
+    if(answers.ks_motivation) localStorage.setItem('ks_motivation',answers.ks_motivation);
+    if(answers.ks_goal)       localStorage.setItem('ks_goal',answers.ks_goal);
+    if(answers.ks_level)      localStorage.setItem('ks_level',answers.ks_level);
+  }catch(e){}
+  /* Fade out then go */
+  document.body.style.transition='opacity .25s ease';
+  document.body.style.opacity='0';
+  var dest = (!skipped && answers.ks_level==='test') ? 'test-niveau.html' : 'app.html';
+  setTimeout(function(){ window.location.href = dest; }, 250);
+}
+
+updateProgress();
+</script>
+</body>
+</html>

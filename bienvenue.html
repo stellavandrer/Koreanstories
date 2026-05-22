@@ -153,7 +153,9 @@
 
   function continueAsGuest(){
     try{ localStorage.setItem('ks_user', JSON.stringify({name:null,guest:true})); }catch(e){}
-    window.location.href = 'app.html';
+    var dest = 'app.html';
+    try{ if(localStorage.getItem('ks_onboarded')!=='done') dest='onboarding.html'; }catch(e){}
+    window.location.href = dest;
   }
 </script>
 </body>
