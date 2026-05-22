@@ -281,6 +281,37 @@ button{font-family:inherit;border:none;cursor:pointer;-webkit-tap-highlight-colo
 .fab:active{transform:scale(.95)!important}
 .fab svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
 
+/* ── RECHERCHE ───────────────────────────────── */
+.course-search{max-width:620px;margin:0 auto 14px;padding:0 16px;width:100%}
+.cs-box{display:flex;align-items:center;gap:9px;background:var(--surf);
+  border:1.5px solid var(--bd);border-radius:13px;padding:10px 13px;
+  box-shadow:var(--sh);transition:border-color var(--tr)}
+.cs-box:focus-within{border-color:var(--gold)}
+.cs-box>svg{width:17px;height:17px;stroke:var(--t3);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.cs-box input{flex:1;border:none;background:none;outline:none;
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--t);min-width:0}
+.cs-box input::placeholder{color:var(--t3)}
+.cs-box input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
+.cs-clear{background:none;border:none;cursor:pointer;padding:3px;display:none;
+  flex-shrink:0;line-height:0}
+.cs-clear svg{width:15px;height:15px;stroke:var(--t3);fill:none;stroke-width:2.4;stroke-linecap:round}
+.cs-clear:hover svg{stroke:var(--t)}
+/* Pendant une recherche : on masque le décor du parcours */
+.roadmap.searching .lvc,
+.roadmap.searching .ms,
+.roadmap.searching .sc-row,
+.roadmap.searching .pdfs-section,
+.roadmap.searching .soon,
+.roadmap.searching .rm-end,
+.roadmap.searching .act-group-hdr,
+.roadmap.searching .path-line{display:none!important}
+.search-empty{display:none;text-align:center;padding:36px 20px;max-width:620px;margin:0 auto}
+.search-empty svg{width:34px;height:34px;stroke:var(--t3);fill:none;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
+.search-empty-t{font-family:'Playfair Display',serif;font-size:17px;color:var(--t);margin-bottom:3px}
+.search-empty-s{font-size:12.5px;color:var(--t2)}
+
 /* ── ROADMAP ─────────────────────────────────── */
 .roadmap{max-width:620px;margin:0 auto;padding:0 16px 40px;width:100%}
 .lv-sec{position:relative;margin-bottom:8px;scroll-margin-top:64px}
@@ -559,7 +590,7 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
 
 /* ── RESPONSIVE TABLET 640px ─────────────────── */
 @media(min-width:640px){
-  .page,.roadmap{padding-left:24px;padding-right:24px}
+  .page,.roadmap,.course-search{padding-left:24px;padding-right:24px}
   .m-tabs-row,.m-filter-row{padding-left:24px;padding-right:24px}
   .hero-av{width:68px;height:68px;font-size:32px}
   .hero-name{font-size:21px}
@@ -578,6 +609,7 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
   .bar{padding:0 28px}
 
   .page,.roadmap{max-width:680px;padding-left:36px;padding-right:36px}
+  .course-search{max-width:680px;padding-left:36px;padding-right:36px}
   .page{padding-top:24px}
 
   /* Hero: 2 col on desktop */
@@ -612,6 +644,7 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
 }
 @media(min-width:1200px){
   .page,.roadmap{max-width:720px;padding-left:48px;padding-right:48px}
+  .course-search{max-width:720px;padding-left:48px;padding-right:48px}
 }
 
 /* ── PREMIUM EXTRAS ──────────────────────────── */
@@ -776,6 +809,17 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
     </a>
   </div>
 
+  <!-- RECHERCHE -->
+  <div class="course-search">
+    <div class="cs-box">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input id="csInput" type="search" placeholder="Rechercher une leçon, une histoire…" autocomplete="off" spellcheck="false" aria-label="Rechercher dans le parcours"/>
+      <button class="cs-clear" id="csClear" type="button" aria-label="Effacer la recherche">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
   <!-- MOBILE TABS -->
   <div class="m-tabs">
     <div class="m-tabs-row" id="tabsEl"></div>
@@ -788,6 +832,13 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
 
   <!-- ROADMAP -->
   <div class="roadmap" id="roadmap"></div>
+
+  <!-- AUCUN RÉSULTAT DE RECHERCHE -->
+  <div class="search-empty" id="searchEmpty">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <div class="search-empty-t">Aucun résultat</div>
+    <div class="search-empty-s">Essaie un autre mot-clé.</div>
+  </div>
 
   </div><!-- page-enter -->
 </div><!-- .main -->
@@ -1555,27 +1606,72 @@ function shk(el){
   );
 }
 
-/* ── ACTIVE FILTER STATE ─────────────────────── */
+/* ── FILTRE + RECHERCHE ──────────────────────── */
 let _activeFilter='all';
+let _searchQuery='';
+
+/* Calcule la visibilité de chaque nœud selon le filtre de type ET la recherche */
+function applyVisibility(){
+  const q=_searchQuery.trim().toLowerCase();
+  const searching=q.length>0;
+  const roadmap=document.getElementById('roadmap');
+  if(roadmap) roadmap.classList.toggle('searching',searching);
+
+  let visible=0;
+  document.querySelectorAll('.nrow').forEach(r=>{
+    const typeOk=_activeFilter==='all'||r.dataset.t===_activeFilter;
+    let textOk=true;
+    if(searching){
+      const t=(r.querySelector('.nc-title')||{}).textContent||'';
+      const s=(r.querySelector('.nc-sub')||{}).textContent||'';
+      textOk=(t+' '+s).toLowerCase().indexOf(q)!==-1;
+    }
+    const show=typeOk&&textOk;
+    r.classList.toggle('hide',!show);
+    if(show)visible++;
+  });
+
+  // En-têtes de groupe — masquer ceux sans nœud visible (hors recherche : le CSS s'en charge)
+  if(!searching){
+    document.querySelectorAll('.act-group-hdr').forEach(hdr=>{
+      let next=hdr.nextElementSibling,hasVisible=false;
+      while(next&&!next.classList.contains('act-group-hdr')&&!next.classList.contains('ms')){
+        if(next.classList.contains('nrow')&&!next.classList.contains('hide'))hasVisible=true;
+        next=next.nextElementSibling;
+      }
+      hdr.style.display=hasVisible?'':'none';
+    });
+  }
+
+  const empty=document.getElementById('searchEmpty');
+  if(empty) empty.style.display=(searching&&visible===0)?'':'none';
+}
+
 function setFilter(key,allMobChips,allMobItems,allSideItems){
   _activeFilter=key;
-  // mobile chips
   allMobChips.forEach(c=>c.classList.remove('on'));
   allMobItems.forEach(c=>c.classList.remove('on'));
-  // sidebar items
   allSideItems.forEach(c=>c.classList.remove('on'));
-  document.querySelectorAll('.nrow').forEach(r=>r.classList.toggle('hide',key!=='all'&&r.dataset.t!==key));
-  // Hide group headers that have no visible nodes after them
-  document.querySelectorAll('.act-group-hdr').forEach(hdr=>{
-    let next=hdr.nextElementSibling;
-    let hasVisible=false;
-    while(next&&!next.classList.contains('act-group-hdr')&&!next.classList.contains('ms')){
-      if(next.classList.contains('nrow')&&!next.classList.contains('hide'))hasVisible=true;
-      next=next.nextElementSibling;
-    }
-    hdr.style.display=hasVisible?'':'none';
-  });
+  applyVisibility();
 }
+
+/* Barre de recherche */
+(function wireSearch(){
+  const inp=document.getElementById('csInput');
+  const clr=document.getElementById('csClear');
+  if(!inp) return;
+  inp.addEventListener('input',function(){
+    _searchQuery=inp.value;
+    if(clr) clr.style.display=inp.value?'':'none';
+    applyVisibility();
+  });
+  if(clr) clr.addEventListener('click',function(){
+    inp.value='';_searchQuery='';
+    clr.style.display='none';
+    applyVisibility();
+    inp.focus();
+  });
+})();
 
 /* ── BUILD FILTER ───────────────────────────── */
 function buildFilter(){
