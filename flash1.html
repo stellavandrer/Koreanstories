@@ -319,7 +319,7 @@ function initTabs() {
   categories.forEach((cat, i) => {
     const tab = document.createElement('button');
     tab.className = 'tab' + (i === currentCat ? ' active' : '');
-    tab.textContent = cat.emoji + ' ' + cat.name;
+    tab.innerHTML = cat.emoji + ' ' + cat.name;
     tab.onclick = () => switchCategory(i);
     tabsEl.appendChild(tab);
   });
@@ -341,7 +341,7 @@ function renderCard() {
   const card = cat.cards[currentCard];
   const total = cat.cards.length;
 
-  document.getElementById('catLabel').textContent = cat.emoji + ' ' + cat.name + ' — ' + cat.name;
+  document.getElementById('catLabel').innerHTML = cat.emoji + ' ' + cat.name + ' — ' + cat.name;
   const known = Object.values(verdicts).filter(v => v === 'known').length;
   document.getElementById('knownCount').textContent = known + ' connu(s)';
 

@@ -2412,7 +2412,7 @@ function renderStreakCard(){
   if(next){
     var pct = Math.round((streak - prev) / (next.days - prev) * 100);
     if(progLbl)  progLbl.textContent  = 'Prochaine étape : '+next.days+' jours';
-    if(progNext) progNext.textContent = (next.xpBonus ? '+'+next.xpBonus+' XP' : next.icon)+' à '+(next.days-streak)+' jour'+(next.days-streak>1?'s':'');
+    if(progNext) progNext.innerHTML = (next.xpBonus ? '+'+next.xpBonus+' XP' : next.icon)+' à '+(next.days-streak)+' jour'+(next.days-streak>1?'s':'');
     setTimeout(function(){ if(progFill) progFill.style.width = pct+'%'; },300);
   } else {
     if(progLbl)  progLbl.textContent  = 'Série maximale — tu es une légende !';
@@ -2465,7 +2465,7 @@ function openCele(milestone){
   var sub   = document.getElementById('celeSub');
   var bonus = document.getElementById('celeXpBonus');
   var amt   = document.getElementById('celeBonusAmt');
-  if(badge) badge.textContent = milestone.icon;
+  if(badge) badge.innerHTML = milestone.icon;
   if(title) title.textContent = milestone.title;
   if(sub)   sub.innerHTML     = milestone.sub;
   if(bonus) bonus.style.display = milestone.xpBonus > 0 ? 'inline-flex' : 'none';

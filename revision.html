@@ -1240,7 +1240,7 @@ function showResult() {
   else if(pct >= 70) { emoji='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'; title='Très bien !'; }
   else if(pct >= 50) { emoji='↑'; title='Bien joué !'; }
 
-  document.getElementById('resEmoji').textContent = emoji;
+  document.getElementById('resEmoji').innerHTML = emoji;
   document.getElementById('resTitle').textContent = title;
   document.getElementById('resSub').textContent = pct+'% · Meilleure série : '+bestStreak;
   document.getElementById('resScore').textContent = score;
