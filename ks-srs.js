@@ -252,6 +252,32 @@
     };
   }
 
+  /* ── Connexion leçons → SRS ──────────────────────────────────────── */
+  /* Insère dans le moteur les mots des leçons/histoires terminées qui
+     n'y sont pas encore. Idempotent (les mots déjà présents sont
+     intacts). Les échéances sont étalées (~12 mots/jour, dès aujourd'hui)
+     pour qu'un apprenant avec beaucoup de leçons terminées ne se
+     retrouve pas avec une montagne de révisions le même jour.
+     Retourne le nombre de mots nouvellement insérés. */
+  function syncLessons() {
+    var unseeded = available().filter(function (w) { return !getState(w.id); });
+    if (!unseeded.length) return 0;
+    var BATCH = 12, base = new Date();
+    unseeded.forEach(function (w, i) {
+      var d = new Date(base);
+      d.setDate(d.getDate() + Math.floor(i / BATCH));   /* dès aujourd'hui, étalé */
+      setState(w.id, {
+        reps: 0,
+        ef: 2.5,
+        interval: 0,
+        due: d.toISOString().slice(0, 10),
+        lastReview: null,
+        seeded: true            /* mot entré via une leçon, pas encore révisé */
+      });
+    });
+    return unseeded.length;
+  }
+
   global.KSSRS = {
     words: WORDS,
     PREFIX: PREFIX,
@@ -263,7 +289,12 @@
     due: due,
     fresh: fresh,
     mastered: mastered,
-    stats: stats
+    stats: stats,
+    syncLessons: syncLessons
   };
+
+  /* Auto-synchronisation : à chaque chargement, les leçons terminées
+     depuis la dernière visite alimentent automatiquement la file SRS. */
+  try { syncLessons(); } catch (e) {}
 
 })(window);

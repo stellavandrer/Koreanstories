@@ -339,7 +339,7 @@
         </div>
         <div class="srs-stat-pill new-w">
           <div class="srs-stat-n" id="statNew">0</div>
-          <div class="srs-stat-l">Nouveaux</div>
+          <div class="srs-stat-l">À venir</div>
         </div>
         <div class="srs-stat-pill mastered">
           <div class="srs-stat-n" id="statMastered">0</div>
@@ -676,9 +676,11 @@ function renderSRSPanel() {
   const due = getDueWords(available);
   const newWords = getNewWords(available);
   const mastered = getMasteredCount(available);
+  // « À venir » : mots déjà dans le moteur dont l'échéance est future
+  const upcoming = available.filter(w => { const s = getSRS(w.id); return s && s.due > TODAY; }).length;
 
   document.getElementById('statDue').textContent = due.length;
-  document.getElementById('statNew').textContent = Math.min(newWords.length, 20);
+  document.getElementById('statNew').textContent = upcoming;
   document.getElementById('statMastered').textContent = mastered;
 
   // Indicateur de point rouge sur le tab SRS
