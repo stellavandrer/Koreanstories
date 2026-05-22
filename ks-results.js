@@ -264,6 +264,9 @@
             var prev = parseInt(localStorage.getItem('ks_xp') || '0');
             localStorage.setItem('ks_xp', String(prev + xp));
           }
+          /* Record daily XP so the profile chart & heatmap stay accurate */
+          var dk = 'ks_xp_day_' + new Date().toISOString().slice(0, 10);
+          localStorage.setItem(dk, String((parseInt(localStorage.getItem(dk) || '0') || 0) + xp));
         }
       } catch(e) {}
     }

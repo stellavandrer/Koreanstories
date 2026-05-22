@@ -925,8 +925,22 @@ function setXPPeriod(d){
   document.getElementById('xpPeriodSub').textContent=d===7?'cette semaine':'ce mois';
   drawXP();
 }
+// XP par jour — reconstruit depuis les clés ks_xp_day_<date>
+function getXpHist(){
+  const h={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.indexOf('ks_xp_day_')===0){
+        const d=k.slice(10);
+        if(/^\d{4}-\d{2}-\d{2}$/.test(d)) h[d]=parseInt(localStorage.getItem(k))||0;
+      }
+    }
+  }catch(e){}
+  return h;
+}
 function drawXP(){
-  let hist={};try{hist=JSON.parse(localStorage.getItem('ks_xp_hist'))||{}}catch(e){}
+  const hist=getXpHist();
   const now=new Date();
   const days=[];
   for(let i=xpP-1;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10));}
@@ -949,7 +963,7 @@ function drawXP(){
 
 // ═══ HEATMAP ═══
 function drawHeatmap(){
-  let hist={};try{hist=JSON.parse(localStorage.getItem('ks_xp_hist'))||{}}catch(e){}
+  const hist=getXpHist();
   const grid=document.getElementById('heatmapGrid');grid.innerHTML='';
   const now=new Date();let active=0;
   for(let w=11;w>=0;w--){
