@@ -60,6 +60,15 @@ function ksGetXP()     { try { return parseInt(localStorage.getItem('ks_xp') || 
 function ksGetStreak() { try { return parseInt(localStorage.getItem('ks_streak') || '0'); } catch(e) { return 0; } }
 function ksAddXP(n)    { try { const v = ksGetXP() + n; localStorage.setItem('ks_xp', v); return v; } catch(e) {} }
 
+/* ── Best-streak tracking — capture le record de série sur chaque page ── */
+(function trackBestStreak() {
+  try {
+    var cur  = parseInt(localStorage.getItem('ks_streak') || '0') || 0;
+    var best = parseInt(localStorage.getItem('ks_beststreak') || '0') || 0;
+    if (cur > best) localStorage.setItem('ks_beststreak', String(cur));
+  } catch (e) {}
+})();
+
 /* ── Completion tracking ───────────────────────────────────────────── */
 function ksMarkDone(key) {
   try { localStorage.setItem(key, 'done'); } catch(e) {}
