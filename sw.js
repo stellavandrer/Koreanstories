@@ -1,7 +1,8 @@
-// Korean Stories — Service Worker v2.0
-// Cache-first pour les assets, network-first pour le HTML
+// Korean Stories — Service Worker v2.1
+// Network-first pour HTML/JS/CSS (toujours à jour),
+// cache-first pour les images & polices (rarement modifiées).
 
-const CACHE = 'ks-v2.0';
+const CACHE = 'ks-v2.1';
 
 const CORE = [
   // App shell
@@ -80,9 +81,12 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // HTML → network-first (toujours à jour) avec fallback cache
+  // HTML, JS et CSS → network-first (toujours à jour) avec fallback cache.
+  // Indispensable : sans ça, les modules JS (ks.js, ks-srs.js…) restent
+  // figés sur une vieille version chez les utilisateurs ayant la PWA.
   const isHTML = e.request.headers.get('accept')?.includes('text/html');
-  if (isHTML) {
+  const isCode = /\.(?:js|css)(?:\?|$)/i.test(url.pathname);
+  if (isHTML || isCode) {
     e.respondWith(
       fetch(e.request).then(res => {
         if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
@@ -92,7 +96,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Images + assets statiques → cache-first
+  // Images + polices + autres assets statiques → cache-first
   e.respondWith(
     caches.match(e.request).then(cached => {
       if (cached) return cached;
