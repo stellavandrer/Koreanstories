@@ -942,6 +942,7 @@
 </style>
   <script src="ks.js" defer></script>
   <script src="ks-srs.js"></script>
+  <script src="ks-curriculum.js"></script>
 </head>
 <body>
 
@@ -1823,6 +1824,35 @@
       if(contSub) contSub.textContent = `Découvre les sons ${activeLec.chars} et lis de nouveaux mots coréens.`;
     }
 
+    // ── Carte « Reprendre » pilotée par le curriculum complet (ks-curriculum.js) ──
+    // Surcharge la logique ci-dessus pour guider sur TOUT le parcours (Hangeul → A1 → A2…)
+    if(window.KSCurriculum){
+      const _nxt = KSCurriculum.next();
+      const _pr  = KSCurriculum.progress();
+      const _arrow = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>';
+      const _dot = '<span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;animation:blink 2s infinite"></span> ';
+      const _tagEl = document.querySelector('.cont-tag');
+      const _cl = document.querySelector('.cprog-lbl');
+      const _cp = document.querySelector('.cprog-pct');
+      if(_cl) _cl.textContent = 'Progression du parcours';
+      if(_cp) _cp.textContent = _pr.done + ' / ' + _pr.total;
+      const _cf = document.getElementById('cprogFill');
+      if(_cf) setTimeout(()=>{ _cf.style.width = (_pr.total ? Math.round(_pr.done/_pr.total*100) : 0)+'%'; }, 320);
+      if(_nxt){
+        const _verb = {lecon:'Continuer la leçon',exercice:'Faire l\'exercice',quiz:'Passer le quiz',histoire:'Lire l\'histoire'}[_nxt.t] || 'Continuer';
+        const _tlbl = {lecon:'Leçon',exercice:'Exercice',quiz:'Quiz',histoire:'Histoire'}[_nxt.t] || 'Activité';
+        if(_tagEl)    _tagEl.innerHTML = _dot + _tlbl + ' · ' + _nxt.lvlName;
+        if(contTitle) contTitle.textContent = _nxt.title;
+        if(contSub)   contSub.textContent = _nxt.sub;
+        if(contBtn){ contBtn.href = _nxt.href; contBtn.innerHTML = _verb + _arrow; }
+      } else {
+        if(_tagEl)    _tagEl.innerHTML = _dot + 'Parcours terminé';
+        if(contTitle) contTitle.textContent = 'Bravo — tu as tout terminé !';
+        if(contSub)   contSub.textContent = 'Tu as parcouru tout le curriculum. Continue à réviser pour ancrer tes acquis !';
+        if(contBtn){ contBtn.href = 'revision.html'; contBtn.innerHTML = 'Réviser mon vocabulaire' + _arrow; }
+      }
+    }
+
     // Pourcentage progression leçons
     const lecPct = Math.round(doneCount / LECONS.length * 100);
     const minaMsg = document.querySelector('.mina-txt');
@@ -1917,7 +1947,15 @@
     setTimeout(() => {
       const { doneCount, lecPct } = renderLecons();
       const cp = document.getElementById('cprogFill');
-      if(cp) cp.style.width = (doneCount / LECONS.length * 100)+'%';
+      // Barre de progression : curriculum complet si dispo, sinon Hangeul
+      if(cp){
+        if(window.KSCurriculum){
+          const _p = KSCurriculum.progress();
+          cp.style.width = (_p.total ? Math.round(_p.done/_p.total*100) : 0)+'%';
+        } else {
+          cp.style.width = (doneCount / LECONS.length * 100)+'%';
+        }
+      }
       // Section label contextuel
       const leconsSeclbl = document.getElementById('leconsSeclbl');
       if(leconsSeclbl) {
