@@ -333,10 +333,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="goal-current" id="goalLabel">10 min/jour</div>
     </div>
     <div class="goal-options">
-      <button class="goal-btn" data-min="5" onclick="setGoal(5)">5 min<span>기초</span></button>
-      <button class="goal-btn act" data-min="10" onclick="setGoal(10)">10 min<span>보통</span></button>
-      <button class="goal-btn" data-min="20" onclick="setGoal(20)">20 min<span>열심히</span></button>
-      <button class="goal-btn" data-min="30" onclick="setGoal(30)">30 min<span>마스터</span></button>
+      <button class="goal-btn" data-xp="30" onclick="setGoal(30)">5 min<span>기초</span></button>
+      <button class="goal-btn act" data-xp="50" onclick="setGoal(50)">10 min<span>보통</span></button>
+      <button class="goal-btn" data-xp="80" onclick="setGoal(80)">15 min<span>열심히</span></button>
+      <button class="goal-btn" data-xp="120" onclick="setGoal(120)">20 min<span>마스터</span></button>
     </div>
   </div>
 
@@ -906,10 +906,13 @@ const RANKS=[
 function getRank(xp){let r=RANKS[0];RANKS.forEach(rk=>{if(xp>=rk.min)r=rk;});return r;}
 
 // ═══ GOAL ═══
-function setGoal(min){
-  localStorage.setItem('ks_goal',min);
-  document.getElementById('goalLabel').textContent=min+' min/jour';
-  document.querySelectorAll('.goal-btn').forEach(b=>b.classList.toggle('act',parseInt(b.dataset.min)===min));
+// ks_goal = objectif XP quotidien (unité commune avec app.html & onboarding)
+function setGoal(xp){
+  const MIN={30:'5 min',50:'10 min',80:'15 min',120:'20 min'};
+  xp=parseInt(xp)||50;
+  localStorage.setItem('ks_goal',xp);
+  document.getElementById('goalLabel').textContent=(MIN[xp]||'10 min')+'/jour';
+  document.querySelectorAll('.goal-btn').forEach(b=>b.classList.toggle('act',parseInt(b.dataset.xp)===xp));
 }
 
 // ═══ XP CHART ═══
@@ -1061,7 +1064,10 @@ function downloadCard(){const a=document.createElement('a');a.download='korean-s
 // ═══ INIT ═══
 function init(){
   loadAV();renderHA();
-  const g=parseInt(localStorage.getItem('ks_goal'))||10;setGoal(g);
+  // Migration : ancien format (minutes) → XP ; sinon valeur XP, défaut 50
+  const _gv=parseInt(localStorage.getItem('ks_goal'))||0;
+  const _min2xp={5:30,10:50,15:80,20:120};
+  setGoal(_min2xp[_gv]||(_gv>=30?_gv:50));
   const p=getPD();
   /* Fallback: use name from ks_user (set at gate) if ks_profile has none */
   let _ksUser=null;try{_ksUser=JSON.parse(localStorage.getItem('ks_user')||'null');}catch(e){}
