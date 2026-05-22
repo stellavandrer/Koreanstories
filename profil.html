@@ -994,12 +994,29 @@ const BDEFS=[
   {id:'vocab50',ico:'📚',name:'Vocabulaire x50',desc:'Apprends 50 mots'},
   {id:'perfect',ico:'💎',name:'Perfection',desc:'Score parfait sur une leçon'},
 ];
-function drawBadges(xp,streak){
-  const earned=new Set(JSON.parse(localStorage.getItem('ks_badges')||'[]'));
+function drawBadges(xp,streak,lessons){
+  lessons=lessons||0;
+  // Conditions dérivées de données réelles (ks_badges n'était jamais écrit)
+  let hangeulDone=0;
+  try{for(let i=1;i<=10;i++){if(localStorage.getItem('ks_l'+i)==='done')hangeulDone++;}}catch(e){}
+  let vocab=0;
+  if(window.KSSRS){try{vocab=KSSRS.stats().available;}catch(e){}}
+  let perfect=false;
+  try{perfect=localStorage.getItem('ks_badge_perfect')==='1';}catch(e){}
+  const COND={
+    first:   lessons>=1,
+    streak3: streak>=3,
+    streak7: streak>=7,
+    xp100:   xp>=100,
+    xp500:   xp>=500,
+    hangeul: hangeulDone>=10,
+    vocab50: vocab>=50,
+    perfect: perfect
+  };
   let count=0;
   document.getElementById('badgesGrid').innerHTML='';
   BDEFS.forEach(b=>{
-    const ok=earned.has(b.id)||(b.id==='xp100'&&xp>=100)||(b.id==='xp500'&&xp>=500)||(b.id==='streak3'&&streak>=3)||(b.id==='streak7'&&streak>=7);
+    const ok=!!COND[b.id];
     if(ok)count++;
     const el=document.createElement('div');
     el.className='badge'+(ok?' earned':' locked');
@@ -1126,7 +1143,7 @@ function init(){
     vocPct=_s.available>0?Math.round(_s.mastered/_s.available*100):0;
   }
   sb('pfVocab','pctVocab',vocPct);
-  drawXP();drawHeatmap();drawBadges(xp,streak);
+  drawXP();drawHeatmap();drawBadges(xp,streak,lessons);
 }
 function switchProfile(){
   if(!confirm('Changer de profil effacera le profil actuel sur cet appareil. Continuer ?')) return;

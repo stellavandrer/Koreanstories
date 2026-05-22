@@ -240,6 +240,11 @@
       stars = 3; /* reading lesson always 3 stars */
     }
 
+    /* Perfect-score achievement badge */
+    if (score !== null && total !== null && score >= total) {
+      try { localStorage.setItem('ks_badge_perfect', '1'); } catch (e) {}
+    }
+
     /* Encouraging message by score */
     var msg;
     if (stars === 3) {
