@@ -125,6 +125,38 @@
     .cont-btn:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,169,110,.3)}
     .cont-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0}
 
+    /* ── CARTE RÉVISION DU JOUR ── */
+    .rev-card{
+      display:none;align-items:center;gap:15px;text-decoration:none;
+      background:var(--surf);border:1.5px solid var(--bd);
+      border-left:4px solid #F59E0B;
+      border-radius:18px;padding:15px 18px;margin-bottom:26px;
+      box-shadow:var(--sh);transition:transform .18s,box-shadow .18s;
+    }
+    .rev-card.show{display:flex}
+    .rev-card:hover{transform:translateY(-1px);box-shadow:var(--sh2)}
+    .rev-card-ic{
+      width:46px;height:46px;border-radius:13px;flex-shrink:0;
+      background:rgba(245,158,11,.13);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .rev-card-ic svg{width:23px;height:23px;stroke:#F59E0B;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .rev-card-body{flex:1;min-width:0}
+    .rev-card-t{font-family:'Playfair Display',serif;font-size:16px;color:var(--t);line-height:1.3}
+    .rev-card-t strong{color:#D97706}
+    .rev-card-s{font-size:11.5px;color:var(--t2);margin-top:2px;line-height:1.5}
+    .rev-card-btn{
+      flex-shrink:0;background:#F59E0B;color:#fff;
+      padding:11px 16px;border-radius:100px;
+      font-size:13px;font-weight:700;
+      display:inline-flex;align-items:center;gap:6px;
+    }
+    .rev-card-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+    @media(max-width:380px){
+      .rev-card{flex-wrap:wrap}
+      .rev-card-btn{width:100%;justify-content:center;margin-top:2px}
+    }
+
     /* ── MINA MESSAGE ── */
     .mina-msg{
       background:var(--surf);border:1.5px solid var(--bd);
@@ -1068,6 +1100,18 @@
       </a>
     </div>
 
+    <!-- RÉVISION DU JOUR (affichée uniquement si des mots sont dus) -->
+    <a class="rev-card" id="revCard" href="revision.html">
+      <div class="rev-card-ic">
+        <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      </div>
+      <div class="rev-card-body">
+        <div class="rev-card-t" id="revCardT">Mots à réviser</div>
+        <div class="rev-card-s" id="revCardS">Renforce ta mémoire — révision espacée</div>
+      </div>
+      <span class="rev-card-btn">Réviser <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </a>
+
     <!-- CONSEIL DU JOUR -->
     <div class="mina-msg">
       <div class="mina-av"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg></div>
@@ -1848,6 +1892,15 @@
         } else {
           rb.textContent = 'Révision';
         }
+      }
+      // Carte « Révision du jour » — visible seulement si des mots sont dus
+      const revCard = document.getElementById('revCard');
+      if(revCard && srs.due > 0){
+        const t = document.getElementById('revCardT');
+        const s = document.getElementById('revCardS');
+        if(t) t.innerHTML = '<strong>' + srs.due + ' mot' + (srs.due>1?'s':'') + '</strong> à réviser aujourd’hui';
+        if(s) s.textContent = 'Renforce ta mémoire avant d’oublier — quelques minutes suffisent.';
+        revCard.classList.add('show');
       }
     } else {
       // Repli si le module SRS n'est pas chargé
