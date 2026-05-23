@@ -150,6 +150,19 @@ function ksNavigate(href) {
 }
 window.ksNavigate = ksNavigate;
 
+/* ── Bfcache : empêche la page de rester invisible quand on revient ── */
+/* Quand le navigateur restaure la page depuis son cache (bouton retour),
+   l'opacité avait été mise à 0 pour le fondu — il faut la remettre. */
+window.addEventListener('pageshow', function (e) {
+  if (e.persisted || (document.body && document.body.style.opacity === '0')) {
+    try {
+      document.body.style.transition = '';
+      document.body.style.opacity = '';
+    } catch (err) {}
+    ksNavigate._going = false;
+  }
+});
+
 /* ── Lesson quit-confirmation + smooth page transitions ───────────── */
 (function () {
   'use strict';

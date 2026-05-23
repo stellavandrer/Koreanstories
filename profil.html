@@ -306,7 +306,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <div class="hero-sub" id="heroSubEl">Apprenant·e coréen · Niveau A1</div>
   <div class="hero-bio" onclick="openEdit()" id="heroBioEl">✨ En route vers la Corée !</div>
   <div class="hero-streak">🔥 <span id="streakVal">0</span> jours de suite</div>
-  <button onclick="switchProfile()" style="margin-top:10px;background:none;border:1.5px solid rgba(255,255,255,.18);border-radius:20px;color:rgba(255,255,255,.5);font-size:12px;padding:5px 14px;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.borderColor='rgba(255,255,255,.18)';this.style.color='rgba(255,255,255,.5)'">Changer de profil</button>
+  <button onclick="switchProfile()" style="margin-top:10px;background:none;border:1.5px solid rgba(255,255,255,.18);border-radius:20px;color:rgba(255,255,255,.5);font-size:12px;padding:5px 14px;cursor:pointer;font-family:inherit;transition:.2s;display:inline-flex;align-items:center;gap:5px" onmouseover="this.style.borderColor='rgba(248,113,113,.5)';this.style.color='#f87171'" onmouseout="this.style.borderColor='rgba(255,255,255,.18)';this.style.color='rgba(255,255,255,.5)'"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Se déconnecter</button>
   <a href="reglages.html" style="display:inline-block;margin-top:10px;margin-left:8px;background:none;border:1.5px solid rgba(255,255,255,.18);border-radius:20px;color:rgba(255,255,255,.5);font-size:12px;padding:5px 14px;cursor:pointer;font-family:inherit;text-decoration:none;transition:.2s" onmouseover="this.style.borderColor='rgba(255,255,255,.4)';this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.borderColor='rgba(255,255,255,.18)';this.style.color='rgba(255,255,255,.5)'">Réglages</a>
 </div>
 
@@ -1151,7 +1151,7 @@ function init(){
   drawXP();drawHeatmap();drawBadges(xp,streak,lessons);
 }
 function switchProfile(){
-  if(!confirm('Changer de profil ? Tu reviendras à l\'écran de connexion. Ta progression cloud reste sauvegardée.')) return;
+  if(!confirm('Se déconnecter ? Tu reviendras à l\'écran de connexion. Ta progression cloud reste sauvegardée — tu la retrouveras à la reconnexion.')) return;
   function finish(){
     try{localStorage.removeItem('ks_user');localStorage.removeItem('ks_profile');}catch(e){}
     window.location.href='bienvenue.html';
