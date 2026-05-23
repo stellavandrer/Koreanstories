@@ -135,6 +135,29 @@
   /* Alias de clés (une activité peut avoir été validée sous une ancienne clé) */
   var KEY_ALIAS = {'ks_a01':'ks_l5','ks_a05':'ks_l6','ks_a09':'ks_l7','ks_a12':'ks_l8','ks_a14':'ks_l10','ks_a22':'ks_l9','ks_a03':'ks_h1','ks_a15':'ks_h2','ks_a27':'ks_h3','ks_h01':'ks_l1','ks_h04':'ks_l2','ks_h07':'ks_l3','ks_h09':'ks_l4'};
 
+  /* Activités annoncées mais dont la page n'existe pas encore.
+     On les expose pour que cours.html / app.html puissent les marquer
+     "Bientôt" au lieu de laisser l'utilisateur tomber sur un 404.
+     À chaque page créée, retirer son nom de cette liste. */
+  var COMING_SOON = {
+    'anecdote13.html':1,'anecdote14.html':1,'anecdote15.html':1,'anecdote16.html':1,
+    'anecdote17.html':1,'anecdote18.html':1,'anecdote19.html':1,
+    'chanson5.html':1,'chanson6.html':1,
+    'conseil7.html':1,'conseil8.html':1,
+    'exercice19.html':1,'exercice20.html':1,'exercice21.html':1,
+    'exercice22.html':1,'exercice23.html':1,'exercice24.html':1,
+    'histoire22.html':1,'histoire23.html':1,'histoire24.html':1,
+    'histoire25.html':1,'histoire26.html':1,'histoire27.html':1,
+    'histoire28.html':1,'histoire29.html':1,'histoire30.html':1,
+    'jeu11.html':1,'jeu12.html':1,
+    'lecon40b.html':1,'lecon40c.html':1,'lecon40d.html':1,
+    'lecon52.html':1,'lecon53.html':1,'lecon54.html':1,
+    'lecon55.html':1,'lecon56.html':1,'lecon57.html':1,
+    'lecon58.html':1,'lecon59.html':1,'lecon60.html':1,
+    'pro5.html':1,'pro6.html':1,
+    'quiz9.html':1
+  };
+
   function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 
   /* Une activité est terminée si sa clé (ou son alias) vaut done / 1 / true */
@@ -149,28 +172,47 @@
     return false;
   }
 
-  /* Première activité non terminée — null si tout est fait */
+  function isComingSoon(href) {
+    if (!href) return false;
+    /* Strip query / fragment */
+    var clean = href.split('?')[0].split('#')[0];
+    /* Strip leading "./" or "/" */
+    clean = clean.replace(/^\.?\//, '');
+    return !!COMING_SOON[clean];
+  }
+
+  /* Première activité non terminée — null si tout est fait.
+     Saute les activités "bientôt" pour ne pas envoyer l'utilisateur
+     sur un 404 depuis la carte "Reprendre" du dashboard. */
   function next() {
     for (var i = 0; i < ACTIVITIES.length; i++) {
-      if (!isDone(ACTIVITIES[i].key)) return ACTIVITIES[i];
+      var a = ACTIVITIES[i];
+      if (isComingSoon(a.href)) continue;
+      if (!isDone(a.key)) return a;
     }
     return null;
   }
 
-  /* Progression globale sur les activités cœur */
+  /* Progression globale sur les activités cœur.
+     On exclut les "bientôt" du total pour que le % reflète ce qui
+     est réellement faisable aujourd'hui. */
   function progress() {
-    var done = 0;
+    var done = 0, total = 0;
     for (var i = 0; i < ACTIVITIES.length; i++) {
+      if (isComingSoon(ACTIVITIES[i].href)) continue;
+      total++;
       if (isDone(ACTIVITIES[i].key)) done++;
     }
-    return { done: done, total: ACTIVITIES.length };
+    return { done: done, total: total };
   }
 
   global.KSCurriculum = {
-    activities: ACTIVITIES,
-    isDone: isDone,
-    next: next,
-    progress: progress
+    activities:    ACTIVITIES,
+    isDone:        isDone,
+    isComingSoon:  isComingSoon,
+    comingSoon:    COMING_SOON,
+    next:          next,
+    progress:      progress
   };
 
 })(window);
