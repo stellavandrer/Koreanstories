@@ -212,6 +212,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     [data-theme="dark"] .terms-row label{color:#7a9ab8}
   </style>
   <script src="ks.js" defer></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
 </head>
 <body>
 
@@ -363,25 +367,41 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </div>
 
 <script>
-  /* ── Korean Stories · Auth localStorage ── */
+  /* ── Korean Stories · Inscription via Firebase Auth ── */
 
-  function hashPw(pw) {
-    let h = 5381;
-    for (let i = 0; i < pw.length; i++) { h = ((h << 5) + h) ^ pw.charCodeAt(i); h >>>= 0; }
-    return h.toString(36) + pw.length.toString(36);
-  }
-
-  function getAccounts() {
-    try { return JSON.parse(localStorage.getItem('ks_accounts') || '{}'); } catch(e) { return {}; }
-  }
-
-  /* Auto-redirect if already logged in */
+  /* Auto-redirect if already logged in (Firebase ou ks_user existant) */
   (function() {
-    try {
-      const u = JSON.parse(localStorage.getItem('ks_user') || 'null');
-      if (u && u.email && !u.guest) { window.location.href = 'app.html'; }
-    } catch(e) {}
+    function check(){
+      try {
+        if (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) {
+          window.location.href = 'app.html'; return;
+        }
+        const u = JSON.parse(localStorage.getItem('ks_user') || 'null');
+        if (u && u.email && !u.guest && u.uid && u.uid.indexOf('u_') !== 0) {
+          /* uid Firebase (pas u_local) → déjà connecté */
+          window.location.href = 'app.html';
+        }
+      } catch(e) {}
+    }
+    /* Firebase met un instant à restaurer la session — on vérifie tôt et tard */
+    setTimeout(check, 100);
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function(u){ if(u) window.location.href = 'app.html'; });
+    }
   })();
+
+  /* Snapshot des données ks_* actuelles — pour migration au signup */
+  function snapshotLocal() {
+    var m = {};
+    var EXCLUDE = {'ks_theme':1,'ks_access':1,'ks_user':1,'ks_accounts':1,'ks_profile':1};
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf('ks_') === 0 && !EXCLUDE[k]) m[k] = localStorage.getItem(k);
+      }
+    } catch (e) {}
+    return m;
+  }
 
   window.signUpEmail = function() {
     const firstName = document.getElementById('firstName').value.trim();
@@ -393,33 +413,57 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
     if (!firstName)     { showErr('Entre ton prénom.'); return; }
     if (!email)         { showErr('Entre ton adresse email.'); return; }
-    if (pw.length < 8)  { showErr('Le mot de passe doit faire au moins 8 caractères.'); return; }
+    if (pw.length < 6)  { showErr('Le mot de passe doit faire au moins 6 caractères.'); return; }
     if (pw !== pw2)     { showErr('Les mots de passe ne correspondent pas.'); return; }
     if (!terms)         { showErr('Tu dois accepter les conditions d\'utilisation.'); return; }
 
-    const accounts = getAccounts();
-    if (accounts[email]) {
-      showErr('Cet email est déjà utilisé. <a href="login.html" style="color:inherit;font-weight:700">Se connecter →</a>');
+    if (typeof firebase === 'undefined' || !firebase.auth) {
+      showErr('La synchronisation est temporairement indisponible. Réessaie dans un instant.');
       return;
     }
 
     const fullName = lastName ? firstName + ' ' + lastName : firstName;
-    const uid      = 'u_' + Date.now().toString(36);
+    setLoading(true);
 
-    accounts[email] = { name: fullName, hash: hashPw(pw), uid: uid, createdAt: Date.now() };
-    try { localStorage.setItem('ks_accounts', JSON.stringify(accounts)); } catch(e) {}
-
-    try {
-      localStorage.setItem('ks_user', JSON.stringify({
-        email: email,
-        name:  fullName,
-        uid:   uid,
-        guest: false
-      }));
-    } catch(e) {}
-
-    showOk('Compte créé ! Bienvenue ' + firstName + ' 🎉 Redirection…');
-    setTimeout(() => { window.location.href = 'onboarding.html'; }, 1000);
+    firebase.auth().createUserWithEmailAndPassword(email, pw)
+      .then(function(cred){
+        return cred.user.updateProfile({ displayName: fullName }).then(function(){ return cred; });
+      })
+      .then(function(cred){
+        /* Migration : upload la progression locale actuelle */
+        var snap = snapshotLocal();
+        return firebase.firestore().collection('users').doc(cred.user.uid).set({
+          name: fullName,
+          email: email,
+          data: snap,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true }).then(function(){ return cred; });
+      })
+      .then(function(cred){
+        try {
+          localStorage.setItem('ks_user', JSON.stringify({
+            email: email, name: fullName, uid: cred.user.uid, guest: false
+          }));
+        } catch(e) {}
+        showOk('Compte créé ! Bienvenue ' + firstName + ' 🎉 Synchronisation activée. Redirection…');
+        setTimeout(() => { window.location.href = 'onboarding.html'; }, 1100);
+      })
+      .catch(function(err){
+        setLoading(false);
+        var code = err && err.code || '';
+        if (code === 'auth/email-already-in-use') {
+          showErr('Cet email est déjà utilisé. <a href="login.html" style="color:inherit;font-weight:700">Se connecter →</a>');
+        } else if (code === 'auth/invalid-email') {
+          showErr('Adresse email invalide.');
+        } else if (code === 'auth/weak-password') {
+          showErr('Mot de passe trop simple — choisis-en un plus solide.');
+        } else if (code === 'auth/network-request-failed') {
+          showErr('Pas de connexion — vérifie ton internet et réessaie.');
+        } else {
+          showErr('Inscription impossible : ' + (err && err.message || code || 'erreur inconnue'));
+        }
+      });
   };
 
   window.signUpGoogle = function() {

@@ -185,6 +185,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .review-line{font-size:13px;color:rgba(247,248,250,.5);font-style:italic;text-align:center;margin-bottom:32px}
   </style>
   <script src="ks.js" defer></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
 </head>
 <body>
 
@@ -273,25 +277,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </div>
 
 <script>
-  /* ── Korean Stories · Auth localStorage ── */
+  /* ── Korean Stories · Connexion via Firebase Auth ── */
 
-  /* Simple hash (not cryptographic — fine for a private learning site) */
-  function hashPw(pw) {
-    let h = 5381;
-    for (let i = 0; i < pw.length; i++) { h = ((h << 5) + h) ^ pw.charCodeAt(i); h >>>= 0; }
-    return h.toString(36) + pw.length.toString(36);
-  }
-
-  function getAccounts() {
-    try { return JSON.parse(localStorage.getItem('ks_accounts') || '{}'); } catch(e) { return {}; }
-  }
-
-  /* Auto-redirect if already logged in */
+  /* Auto-redirect if already logged in (Firebase) */
   (function() {
-    try {
-      const u = JSON.parse(localStorage.getItem('ks_user') || 'null');
-      if (u && u.email && !u.guest) { window.location.href = 'app.html'; }
-    } catch(e) {}
+    if (typeof firebase !== 'undefined' && firebase.auth) {
+      firebase.auth().onAuthStateChanged(function(u){ if(u) window.location.href = 'app.html'; });
+    }
   })();
 
   window.signInEmail = function() {
@@ -300,29 +292,52 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     if (!email) { showErr('Entre ton adresse email.'); return; }
     if (!pw)    { showErr('Entre ton mot de passe.'); return; }
 
-    const accounts = getAccounts();
-    const account  = accounts[email];
-
-    if (!account) {
-      showErr('Aucun compte avec cet email. <a href="signup.html" style="color:inherit;font-weight:700">Créer un compte →</a>');
-      return;
-    }
-    if (account.hash !== hashPw(pw)) {
-      showErr('Mot de passe incorrect.');
+    if (typeof firebase === 'undefined' || !firebase.auth) {
+      showErr('La synchronisation est temporairement indisponible. Réessaie dans un instant.');
       return;
     }
 
-    try {
-      localStorage.setItem('ks_user', JSON.stringify({
-        email:  email,
-        name:   account.name,
-        uid:    account.uid,
-        guest:  false
-      }));
-    } catch(e) {}
+    setLoading(true);
 
-    showOk('Connexion réussie ! Bienvenue ' + account.name + ' 👋');
-    setTimeout(() => { window.location.href = 'app.html'; }, 900);
+    firebase.auth().signInWithEmailAndPassword(email, pw)
+      .then(function(cred){
+        /* Tire la progression cloud avant de rediriger pour que l'app
+           se charge déjà avec les vraies données de l'utilisateur. */
+        return firebase.firestore().collection('users').doc(cred.user.uid).get().then(function(doc){
+          var name = (cred.user.displayName) || (doc.exists && doc.data().name) || email.split('@')[0];
+          if (doc.exists) {
+            var data = doc.data().data || {};
+            var EXCLUDE = {'ks_theme':1,'ks_access':1,'ks_user':1,'ks_accounts':1,'ks_profile':1};
+            for (var k in data) {
+              if (k.indexOf('ks_') === 0 && !EXCLUDE[k] && typeof data[k] === 'string') {
+                try { localStorage.setItem(k, data[k]); } catch(e) {}
+              }
+            }
+          }
+          try {
+            localStorage.setItem('ks_user', JSON.stringify({
+              email: email, name: name, uid: cred.user.uid, guest: false
+            }));
+          } catch(e) {}
+          showOk('Connexion réussie ! Bienvenue ' + name + ' 👋 Synchronisation activée.');
+          setTimeout(function(){ window.location.href = 'app.html'; }, 900);
+        });
+      })
+      .catch(function(err){
+        setLoading(false);
+        var code = err && err.code || '';
+        if (code === 'auth/user-not-found' || code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/invalid-login-credentials') {
+          showErr('Email ou mot de passe incorrect. <a href="signup.html" style="color:inherit;font-weight:700">Créer un compte →</a>');
+        } else if (code === 'auth/invalid-email') {
+          showErr('Adresse email invalide.');
+        } else if (code === 'auth/too-many-requests') {
+          showErr('Trop d\'essais — patiente quelques minutes avant de réessayer.');
+        } else if (code === 'auth/network-request-failed') {
+          showErr('Pas de connexion — vérifie ton internet et réessaie.');
+        } else {
+          showErr('Connexion impossible : ' + (err && err.message || code || 'erreur inconnue'));
+        }
+      });
   };
 
   window.signInGoogle = function() {

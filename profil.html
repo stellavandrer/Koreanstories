@@ -250,6 +250,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 <script src="ks.js" defer></script>
 <script src="ks-srs.js"></script>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
 </head>
 <body>
 <div class="shell">
@@ -1147,10 +1151,14 @@ function init(){
   drawXP();drawHeatmap();drawBadges(xp,streak,lessons);
 }
 function switchProfile(){
-  if(!confirm('Changer de profil effacera le profil actuel sur cet appareil. Continuer ?')) return;
-  try{localStorage.removeItem('ks_user');localStorage.removeItem('ks_profile');}catch(e){}
-  try{sessionStorage.removeItem('ks_access');}catch(e){}
-  window.location.href='bienvenue.html';
+  if(!confirm('Changer de profil ? Tu reviendras à l\'écran de connexion. Ta progression cloud reste sauvegardée.')) return;
+  function finish(){
+    try{localStorage.removeItem('ks_user');localStorage.removeItem('ks_profile');}catch(e){}
+    window.location.href='bienvenue.html';
+  }
+  if(typeof firebase!=='undefined' && firebase.auth){
+    firebase.auth().signOut().then(finish).catch(finish);
+  } else { finish(); }
 }
 document.addEventListener('DOMContentLoaded',init);
 </script>
