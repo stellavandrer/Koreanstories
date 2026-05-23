@@ -36,7 +36,8 @@
     .rg-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;
       box-shadow:var(--sh);overflow:hidden}
     .rg-row{display:flex;align-items:center;gap:13px;padding:15px 16px}
-    .rg-row+.rg-row{border-top:1px solid var(--bd)}
+    .rg-card > .rg-row + .rg-row,
+    .rg-card > .rg-form + .rg-row{border-top:1px solid var(--bd)}
     .rg-ic{width:38px;height:38px;border-radius:11px;flex-shrink:0;
       display:flex;align-items:center;justify-content:center;background:var(--s2)}
     .rg-ic svg{width:19px;height:19px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -67,6 +68,32 @@
       margin-top:10px;display:none}
     .rg-msg.ok{display:block;background:rgba(34,197,94,.12);color:#15803D}
     .rg-msg.err{display:block;background:rgba(220,38,38,.1);color:#DC2626}
+
+    /* ── Formulaires inline (changer email / mot de passe) ── */
+    .rg-form{display:none;padding:14px 18px 16px;background:var(--s2);
+      border-top:1px solid var(--bd);animation:rgSlide .25s ease}
+    .rg-form.on{display:block}
+    @keyframes rgSlide{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+    .rg-form-lbl{font-size:11px;font-weight:700;text-transform:uppercase;
+      letter-spacing:.06em;color:var(--t3);margin:0 0 6px 4px}
+    .rg-form input{
+      width:100%;padding:11px 14px;font-size:14px;font-family:inherit;
+      background:var(--surf);color:var(--t);
+      border:1.5px solid var(--bd2);border-radius:10px;outline:none;
+      transition:border-color .18s;box-sizing:border-box;margin-bottom:10px;
+    }
+    .rg-form input:focus{border-color:var(--gold)}
+    .rg-form input::placeholder{color:var(--t3)}
+    .rg-form-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+    .rg-form-msg{font-size:12.5px;font-weight:600;margin-top:10px;text-align:left;
+      padding:9px 12px;border-radius:8px;display:none}
+    .rg-form-msg.ok{display:block;background:rgba(34,197,94,.12);color:#15803D}
+    .rg-form-msg.err{display:block;background:rgba(220,38,38,.1);color:#DC2626}
+    .rg-form-link{font-size:11.5px;color:var(--gold);font-weight:600;cursor:pointer;
+      margin-top:8px;display:inline-block;border:none;background:none;padding:0}
+    .rg-form-link:hover{text-decoration:underline}
+    .rg-guest-msg{font-size:11.5px;color:var(--t3);text-align:center;
+      padding:14px 16px;font-style:italic}
 
     .rg-foot{text-align:center;font-size:11px;color:var(--t3);margin:26px 0 8px;line-height:1.7}
     #rgFile{display:none}
@@ -131,6 +158,7 @@
     <!-- COMPTE -->
     <span class="rg-sec-lbl">Compte</span>
     <div class="rg-card">
+      <!-- Identité -->
       <div class="rg-row">
         <div class="rg-ic" style="color:var(--gold)">
           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -139,11 +167,90 @@
           <div class="rg-row-t" id="accName">Apprenant·e</div>
           <div class="rg-row-s" id="accSub">Compte local</div>
         </div>
+      </div>
+
+      <!-- Adresse e-mail (utilisateurs connectés) -->
+      <div class="rg-row js-auth-row" style="display:none">
+        <div class="rg-ic" style="color:#2563EB">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Adresse e-mail</div>
+          <div class="rg-row-s" id="accEmail">—</div>
+        </div>
+        <div class="rg-act"><button class="rg-btn" onclick="toggleEmailForm()">Modifier</button></div>
+      </div>
+      <div class="rg-form" id="emailForm">
+        <div class="rg-form-lbl">Nouvelle adresse e-mail</div>
+        <input type="email" id="newEmail" placeholder="nouveau@email.com" autocomplete="email"/>
+        <div class="rg-form-lbl">Mot de passe actuel (vérification)</div>
+        <input type="password" id="emailPwd" placeholder="••••••••" autocomplete="current-password"/>
+        <div class="rg-form-actions">
+          <button class="rg-btn" onclick="toggleEmailForm()">Annuler</button>
+          <button class="rg-btn gold" onclick="changeEmail()">Enregistrer</button>
+        </div>
+        <div class="rg-form-msg" id="emailMsg"></div>
+      </div>
+
+      <!-- Mot de passe (utilisateurs connectés) -->
+      <div class="rg-row js-auth-row" style="display:none">
+        <div class="rg-ic" style="color:#7C3AED">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Mot de passe</div>
+          <div class="rg-row-s">Modifie ou réinitialise ton mot de passe</div>
+        </div>
+        <div class="rg-act"><button class="rg-btn" onclick="togglePwdForm()">Modifier</button></div>
+      </div>
+      <div class="rg-form" id="pwdForm">
+        <div class="rg-form-lbl">Mot de passe actuel</div>
+        <input type="password" id="curPwd" placeholder="••••••••" autocomplete="current-password"/>
+        <div class="rg-form-lbl">Nouveau mot de passe (8 caractères minimum)</div>
+        <input type="password" id="newPwd" placeholder="••••••••" autocomplete="new-password"/>
+        <div class="rg-form-lbl">Confirmer le nouveau mot de passe</div>
+        <input type="password" id="newPwd2" placeholder="••••••••" autocomplete="new-password"/>
+        <div class="rg-form-actions">
+          <button class="rg-btn" onclick="togglePwdForm()">Annuler</button>
+          <button class="rg-btn gold" onclick="changePassword()">Enregistrer</button>
+        </div>
+        <button class="rg-form-link" onclick="sendPasswordReset()" type="button">Mot de passe oublié ? Recevoir un lien de réinitialisation par e-mail</button>
+        <div class="rg-form-msg" id="pwdMsg"></div>
+      </div>
+
+      <!-- Action principale (déconnexion ou inscription) -->
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#DC2626">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t" id="accActionT">Se déconnecter</div>
+          <div class="rg-row-s" id="accActionS">Ta progression cloud reste sauvegardée</div>
+        </div>
         <div class="rg-act">
           <button class="rg-btn" id="accBtn" onclick="accountAction()">Se déconnecter</button>
         </div>
       </div>
     </div>
+
+    <!-- NEWSLETTER -->
+    <span class="rg-sec-lbl">Newsletter</span>
+    <div class="rg-card">
+      <div class="rg-row">
+        <div class="rg-ic" style="color:var(--gold)">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Recevoir les actualités</div>
+          <div class="rg-row-s" id="nlSubLbl">Nouvelles leçons, ressources gratuites, conseils — 1 à 2 fois par mois</div>
+        </div>
+        <div class="rg-act">
+          <button class="rg-switch" id="nlSwitch" onclick="toggleNewsletter()" aria-label="Newsletter"></button>
+        </div>
+      </div>
+      <div class="rg-guest-msg" id="nlGuestMsg" style="display:none">Crée un compte pour t'inscrire à la newsletter avec ton adresse e-mail.</div>
+    </div>
+    <p class="rg-note" id="nlNote">Pas de spam, désabonnement en un clic. Adresse stockée chez nous via <a href="mailto:contact@koreanstories.fr" style="color:var(--gold);text-decoration:none;font-weight:600">contact@koreanstories.fr</a>.</p>
 
     <!-- APPARENCE -->
     <span class="rg-sec-lbl">Apparence</span>
@@ -269,15 +376,26 @@
   var user=null;
   try{ user=JSON.parse(ls('ks_user')||'null'); }catch(e){}
   var isGuest = !user || user.guest===true || (!user.email && !user.uid);
-  var nameEl=document.getElementById('accName'), subEl=document.getElementById('accSub'), btnEl=document.getElementById('accBtn');
+  var nameEl=document.getElementById('accName'),
+      subEl=document.getElementById('accSub'),
+      btnEl=document.getElementById('accBtn'),
+      emailEl=document.getElementById('accEmail'),
+      actionTEl=document.getElementById('accActionT'),
+      actionSEl=document.getElementById('accActionS');
+
   if(isGuest){
     nameEl.textContent='Mode invité';
     subEl.textContent='Crée un compte pour nommer ton profil';
     btnEl.textContent='Créer un compte';
+    if(actionTEl) actionTEl.textContent='Créer un compte';
+    if(actionSEl) actionSEl.textContent='Pour sauvegarder ta progression dans le cloud';
   } else {
     nameEl.textContent=user.name||'Apprenant·e';
     subEl.textContent=user.email||'Compte local';
     btnEl.textContent='Se déconnecter';
+    if(emailEl) emailEl.textContent=user.email||'—';
+    /* Afficher les lignes réservées aux utilisateurs connectés */
+    document.querySelectorAll('.js-auth-row').forEach(function(r){ r.style.display=''; });
   }
   window.accountAction=function(){
     if(isGuest){ ksGo('signup.html'); return; }
@@ -293,6 +411,206 @@
       finish();
     }
   };
+
+  /* ─────────────────────────────────────────────────────────────
+     Changer e-mail / mot de passe via Firebase Auth
+     ───────────────────────────────────────────────────────────── */
+  function fbUser(){
+    return (typeof firebase!=='undefined' && firebase.auth)
+      ? firebase.auth().currentUser : null;
+  }
+  function setFormMsg(id, kind, text){
+    var m=document.getElementById(id);
+    if(!m) return;
+    m.className='rg-form-msg '+kind;
+    m.textContent=text;
+  }
+  function fbErrMessage(err){
+    var c = err && err.code || '';
+    switch(c){
+      case 'auth/wrong-password':       return 'Mot de passe actuel incorrect.';
+      case 'auth/invalid-credential':   return 'Mot de passe actuel incorrect.';
+      case 'auth/too-many-requests':    return 'Trop de tentatives. Réessaie dans quelques minutes.';
+      case 'auth/email-already-in-use': return 'Cette adresse est déjà utilisée par un autre compte.';
+      case 'auth/invalid-email':        return 'Adresse e-mail invalide.';
+      case 'auth/weak-password':        return 'Mot de passe trop court (8 caractères minimum).';
+      case 'auth/requires-recent-login':return 'Pour ta sécurité, reconnecte-toi avant de modifier ces données.';
+      case 'auth/user-not-found':       return 'Compte introuvable.';
+      case 'auth/network-request-failed':return 'Pas de connexion internet.';
+      default: return (err && err.message) ? err.message : 'Une erreur est survenue.';
+    }
+  }
+  function reauth(currentPwd){
+    var u = fbUser();
+    if(!u || !u.email) return Promise.reject({code:'auth/user-not-found'});
+    var cred = firebase.auth.EmailAuthProvider.credential(u.email, currentPwd);
+    return u.reauthenticateWithCredential(cred);
+  }
+
+  window.toggleEmailForm=function(){
+    var f=document.getElementById('emailForm');
+    f.classList.toggle('on');
+    document.getElementById('pwdForm').classList.remove('on');
+    setFormMsg('emailMsg','','');
+    if(f.classList.contains('on')){
+      setTimeout(function(){ document.getElementById('newEmail').focus(); }, 50);
+    }
+  };
+  window.togglePwdForm=function(){
+    var f=document.getElementById('pwdForm');
+    f.classList.toggle('on');
+    document.getElementById('emailForm').classList.remove('on');
+    setFormMsg('pwdMsg','','');
+    if(f.classList.contains('on')){
+      setTimeout(function(){ document.getElementById('curPwd').focus(); }, 50);
+    }
+  };
+
+  window.changeEmail=function(){
+    var u = fbUser();
+    if(!u){ setFormMsg('emailMsg','err','Tu dois être connecté·e.'); return; }
+    var newEmail=(document.getElementById('newEmail').value||'').trim();
+    var pwd     =document.getElementById('emailPwd').value||'';
+    var EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!EMAIL_RE.test(newEmail)){ setFormMsg('emailMsg','err','Adresse e-mail invalide.'); return; }
+    if(!pwd){ setFormMsg('emailMsg','err','Entre ton mot de passe actuel pour confirmer.'); return; }
+    if(newEmail===u.email){ setFormMsg('emailMsg','err','C\'est déjà ton adresse actuelle.'); return; }
+
+    setFormMsg('emailMsg','','Vérification…');
+    reauth(pwd)
+      .then(function(){ return u.updateEmail(newEmail); })
+      .then(function(){
+        /* Met à jour le ks_user local pour que le reste du site voie le nouvel email */
+        try{
+          var u2=JSON.parse(ls('ks_user')||'null')||{};
+          u2.email=newEmail;
+          localStorage.setItem('ks_user', JSON.stringify(u2));
+        }catch(e){}
+        if(emailEl) emailEl.textContent=newEmail;
+        if(subEl)   subEl.textContent=newEmail;
+        document.getElementById('newEmail').value='';
+        document.getElementById('emailPwd').value='';
+        setFormMsg('emailMsg','ok','Adresse e-mail mise à jour ✓');
+        /* Optionnel : envoyer un mail de vérification au nouveau */
+        if(typeof u.sendEmailVerification==='function'){
+          try{ u.sendEmailVerification(); }catch(e){}
+        }
+      })
+      .catch(function(err){ setFormMsg('emailMsg','err', fbErrMessage(err)); });
+  };
+
+  window.changePassword=function(){
+    var u = fbUser();
+    if(!u){ setFormMsg('pwdMsg','err','Tu dois être connecté·e.'); return; }
+    var cur=document.getElementById('curPwd').value||'';
+    var nw =document.getElementById('newPwd').value||'';
+    var nw2=document.getElementById('newPwd2').value||'';
+    if(!cur){ setFormMsg('pwdMsg','err','Entre ton mot de passe actuel.'); return; }
+    if(nw.length<8){ setFormMsg('pwdMsg','err','Le nouveau mot de passe doit faire au moins 8 caractères.'); return; }
+    if(nw!==nw2){ setFormMsg('pwdMsg','err','Les deux nouveaux mots de passe ne correspondent pas.'); return; }
+    if(nw===cur){ setFormMsg('pwdMsg','err','Le nouveau mot de passe doit être différent de l\'ancien.'); return; }
+
+    setFormMsg('pwdMsg','','Vérification…');
+    reauth(cur)
+      .then(function(){ return u.updatePassword(nw); })
+      .then(function(){
+        document.getElementById('curPwd').value='';
+        document.getElementById('newPwd').value='';
+        document.getElementById('newPwd2').value='';
+        setFormMsg('pwdMsg','ok','Mot de passe mis à jour ✓');
+      })
+      .catch(function(err){ setFormMsg('pwdMsg','err', fbErrMessage(err)); });
+  };
+
+  window.sendPasswordReset=function(){
+    var u = fbUser();
+    var email = (u && u.email) || (user && user.email) || '';
+    if(!email){ setFormMsg('pwdMsg','err','Pas d\'adresse e-mail associée à ce compte.'); return; }
+    if(typeof firebase==='undefined' || !firebase.auth){
+      setFormMsg('pwdMsg','err','Firebase indisponible. Vérifie ta connexion.'); return;
+    }
+    setFormMsg('pwdMsg','','Envoi du lien…');
+    firebase.auth().sendPasswordResetEmail(email)
+      .then(function(){ setFormMsg('pwdMsg','ok','Lien envoyé à '+email+'. Vérifie ta boîte mail (et le dossier spam).'); })
+      .catch(function(err){ setFormMsg('pwdMsg','err', fbErrMessage(err)); });
+  };
+
+  /* ─────────────────────────────────────────────────────────────
+     Newsletter — toggle d'opt-in/opt-out
+     ───────────────────────────────────────────────────────────── */
+  var nlSwitch = document.getElementById('nlSwitch');
+  var nlGuestMsg = document.getElementById('nlGuestMsg');
+  var nlSubLbl = document.getElementById('nlSubLbl');
+
+  function syncNewsletterUI(){
+    var optedIn = ls('ks_newsletter_opt')==='yes';
+    nlSwitch.classList.toggle('on', optedIn);
+    if(isGuest){
+      nlSwitch.style.display='none';
+      if(nlGuestMsg) nlGuestMsg.style.display='block';
+    } else {
+      if(nlSubLbl){
+        nlSubLbl.textContent = optedIn
+          ? 'Inscrit·e avec ' + (user.email||'') + ' — clique pour te désinscrire.'
+          : 'Nouvelles leçons, ressources gratuites, conseils — 1 à 2 fois par mois';
+      }
+    }
+  }
+  syncNewsletterUI();
+
+  window.toggleNewsletter=function(){
+    if(isGuest) return;
+    var optedIn = ls('ks_newsletter_opt')==='yes';
+    if(optedIn){
+      /* Désinscription locale (purement client — on garde l'email côté
+         serveur jusqu'au prochain envoi pour purge manuelle). */
+      try{ localStorage.setItem('ks_newsletter_opt','no'); }catch(e){}
+      syncNewsletterUI();
+      return;
+    }
+    /* Opt-in : on inscrit l'email Firebase auprès de FormSubmit. */
+    var email = user && user.email;
+    if(!email) return;
+    nlSwitch.disabled = true;
+    /* Backup local au cas où le réseau échoue */
+    try{
+      var list=JSON.parse(ls('ks_newsletter')||'[]');
+      if(list.indexOf(email)===-1) list.push(email);
+      localStorage.setItem('ks_newsletter', JSON.stringify(list));
+    }catch(e){}
+
+    fetch('https://formsubmit.co/ajax/contact@koreanstories.fr', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({
+        email: email,
+        source: 'reglages',
+        _subject: 'Korean Stories — Inscription newsletter (depuis Réglages)',
+        _captcha: 'false',
+        _template:'table'
+      })
+    })
+    .then(function(res){ if(!res.ok) throw new Error('HTTP '+res.status); })
+    .then(function(){
+      try{ localStorage.setItem('ks_newsletter_opt','yes'); }catch(e){}
+      syncNewsletterUI();
+    })
+    .catch(function(){
+      /* On marque quand même comme opt-in localement — le backup
+         localStorage permet une retransmission au prochain chargement. */
+      try{ localStorage.setItem('ks_newsletter_opt','yes'); }catch(e){}
+      syncNewsletterUI();
+    })
+    .then(function(){ nlSwitch.disabled = false; });
+  };
+
+  /* Si Firebase s'authentifie après le chargement, on rafraîchit la
+     ligne email — sinon le user.email vient de localStorage. */
+  if(typeof firebase!=='undefined' && firebase.auth){
+    firebase.auth().onAuthStateChanged(function(fbU){
+      if(fbU && fbU.email && emailEl) emailEl.textContent = fbU.email;
+    });
+  }
 
   /* ── XP pills ── */
   var xp=parseInt(ls('ks_xp')||'0',10)||0;
