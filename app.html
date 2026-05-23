@@ -85,6 +85,9 @@
     .gbar{height:7px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
     .gfill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .9s cubic-bezier(.4,0,.2,1)}
     .goal-note{font-size:11px;color:rgba(247,248,250,.28);margin-top:5px}
+    .goal-week{margin-top:13px;padding-top:13px;border-top:1px solid rgba(255,255,255,.07)}
+    .goal-week .goal-num{color:#C4B5FD}
+    .goal-week .gfill{background:linear-gradient(90deg,#A78BFA,#C4B5FD)}
 
     /* ── MAIN ── */
     main{max-width:560px;margin:0 auto;padding:22px 16px 12px}
@@ -1044,6 +1047,13 @@
       </div>
       <div class="gbar"><div class="gfill" id="goalFill" style="width:0%"></div></div>
       <div class="goal-note" id="goalNote">Commence une leçon pour gagner tes premiers XP aujourd'hui </div>
+      <div class="goal-week">
+        <div class="goal-top">
+          <span class="goal-lbl">Cette semaine</span>
+          <span class="goal-num" id="weekGoalNum">0 / 250 XP</span>
+        </div>
+        <div class="gbar"><div class="gfill" id="weekGoalFill" style="width:0%"></div></div>
+      </div>
     </div>
   </div>
 
@@ -1541,6 +1551,31 @@
       if(!ls(goalKey)) {
         try { localStorage.setItem(goalKey,'done'); } catch(e){}
         setTimeout(() => launchConfetti(2500), 600);
+      }
+    }
+
+    // ── Objectif hebdomadaire (cible = 5× l'objectif quotidien) ──
+    const WEEK_GOAL = GOAL * 5;
+    let weekXp = 0;
+    try {
+      const _now = new Date();
+      for(let i=0; i<7; i++){
+        const _d = new Date(_now); _d.setDate(_now.getDate() - i);
+        const _v = parseInt(ls('ks_xp_day_' + _d.toISOString().slice(0,10)) || '0', 10);
+        weekXp += isNaN(_v) ? 0 : _v;
+      }
+    } catch(e){}
+    const wPct = Math.min(100, Math.round(weekXp / WEEK_GOAL * 100));
+    const wnEl = document.getElementById('weekGoalNum');
+    if(wnEl) wnEl.textContent = weekXp + ' / ' + WEEK_GOAL + ' XP';
+    setTimeout(()=>{ const wf = document.getElementById('weekGoalFill'); if(wf) wf.style.width = wPct + '%'; }, 380);
+    // Célébration hebdo — une seule fois par semaine ISO
+    if(weekXp >= WEEK_GOAL) {
+      const _y=new Date(), _start=new Date(_y); _start.setDate(_y.getDate() - (((_y.getDay()+6)%7)));  // lundi
+      const _wkey = 'ks_weekcelebrated_' + _start.toISOString().slice(0,10);
+      if(!ls(_wkey)) {
+        try { localStorage.setItem(_wkey,'done'); } catch(e){}
+        setTimeout(() => launchConfetti(3000), 900);
       }
     }
   })();
