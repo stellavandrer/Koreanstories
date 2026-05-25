@@ -397,3 +397,88 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
 /* ── UTILITY ─────────────────────────────────────────────────────── */
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* ── DARK MODE — LISIBILITÉ DES BADGES & ALERTES ─────────────────────
+   Beaucoup de leçons / quiz utilisent des badges "OK/correct" avec un
+   texte vert sombre (#16A34A, #15803d) sur un fond vert très clair
+   (rgba(22,163,74,.1)). En mode sombre, ce fond reste sombre et le
+   texte sombre devient illisible. Ces overrides ciblent les classes
+   couramment utilisées dans tout le site et éclaircissent à la fois
+   le fond et le texte pour rester contrastés. */
+
+/* Réponses correctes (vert) — utilisé partout dans les quiz */
+[data-theme=dark] .opt.ok,
+[data-theme=dark] .mq .opt.ok,
+[data-theme=dark] .ch.ok,
+[data-theme=dark] .qchoice.ok,
+[data-theme=dark] .q-choice.correct,
+[data-theme=dark] .q-opt.ok,
+[data-theme=dark] .choice-btn.ok,
+[data-theme=dark] .qopt.correct{
+  background:rgba(34,197,94,.18)!important;
+  border-color:rgba(74,222,128,.55)!important;
+  color:#4ade80!important;
+}
+
+/* Réponses incorrectes (rouge) — pour cohérence */
+[data-theme=dark] .opt.ko,
+[data-theme=dark] .mq .opt.ko,
+[data-theme=dark] .ch.ko,
+[data-theme=dark] .qchoice.ko,
+[data-theme=dark] .q-choice.incorrect,
+[data-theme=dark] .q-opt.ko,
+[data-theme=dark] .choice-btn.ko{
+  background:rgba(220,38,38,.18)!important;
+  border-color:rgba(248,113,113,.55)!important;
+  color:#f87171!important;
+}
+
+/* Pilules / badges colorés sur les pages cours */
+[data-theme=dark] .pill,
+[data-theme=dark] .xp-badge{
+  background:rgba(124,58,237,.18)!important;
+  color:#c4b5fd!important;
+}
+
+/* Cards / messages "ok" (vert pâle + texte vert sombre) — message
+   d'export Réglages, badge "Lu/Fait", etc. */
+[data-theme=dark] .rg-msg.ok{
+  background:rgba(34,197,94,.18)!important;
+  color:#4ade80!important;
+}
+
+/* Badge bleu (compréhension, lecture, etc.) */
+[data-theme=dark] .scard-word.played,
+[data-theme=dark] .cc-tag{
+  color:#93c5fd!important;
+  background:rgba(56,189,248,.16)!important;
+}
+
+/* Badges A1 / niveaux colorés sur lecture.html, grammaire.html */
+[data-theme=dark] .story-card[data-level="A1"] .story-lvl-badge,
+[data-theme=dark] .tag-a1{
+  background:rgba(34,197,94,.18)!important;
+  color:#86efac!important;
+}
+
+/* Avatars-emoji (histoire9, histoire10) */
+[data-theme=dark] .avatar.doc,
+[data-theme=dark] .avatar.emp{
+  color:#4ade80!important;
+}
+
+/* Encadrés "mnémotechnique" bleu pâle qu'on trouve sur lecon.html
+   et hangeul.html — le texte navy était illisible. */
+[data-theme=dark] .mnem-tip,
+[data-theme=dark] .modal-mnem{
+  background:rgba(79,142,247,.16)!important;
+  border-color:rgba(147,197,253,.4)!important;
+  color:#d8e8f5!important;
+}
+
+/* Mode invité / révision badges sur revision.html */
+[data-theme=dark] .qz-mode-badge.srs{
+  background:rgba(96,165,250,.18)!important;
+  border-color:rgba(96,165,250,.4)!important;
+  color:#93c5fd!important;
+}
