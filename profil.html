@@ -629,19 +629,58 @@ function buildSVG(cfg){
   const sx = id===0 ? 0.94 : (id===1 ? 1.08 : 1.0);
   const neckW = id===1 ? 20 : (id===0 ? 14 : 17);
   return `<svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
-<defs><radialGradient id="skG${cfg.skin}" cx="42%" cy="38%"><stop offset="0%" stop-color="${lk(sk,.08)}"/><stop offset="100%" stop-color="${sk}"/></radialGradient></defs>
-<ellipse cx="80" cy="197" rx="${Math.round(36*sx)}" ry="6" fill="rgba(0,0,0,0.07)"/>
+<defs>
+  <radialGradient id="skG${cfg.skin}" cx="42%" cy="38%">
+    <stop offset="0%" stop-color="${lk(sk,.06)}"/>
+    <stop offset="100%" stop-color="${sk}"/>
+  </radialGradient>
+  <radialGradient id="halo" cx="50%" cy="38%">
+    <stop offset="0%" stop-color="rgba(201,169,110,0.25)"/>
+    <stop offset="65%" stop-color="rgba(201,169,110,0.08)"/>
+    <stop offset="100%" stop-color="rgba(201,169,110,0)"/>
+  </radialGradient>
+</defs>
+
+<!-- Auréole inspirée des portraits Joseon / royauté coréenne -->
+<circle cx="80" cy="80" r="74" fill="url(#halo)"/>
+<circle cx="80" cy="80" r="66" fill="none" stroke="rgba(201,169,110,0.18)" stroke-width="0.8"/>
+
+<!-- Ombre au sol -->
+<ellipse cx="80" cy="197" rx="${Math.round(34*sx)}" ry="5" fill="rgba(0,0,0,0.08)"/>
+
 ${hBack(cfg.hair,hc,hd)}
 <g transform="translate(80 0) scale(${sx} 1) translate(-80 0)">
 ${outf(cfg.outfit,sk,cfg.skin)}
 </g>
-<path d="M ${80-neckW/2},132 Q ${80-neckW/3},128 80,127 Q ${80+neckW/3},128 ${80+neckW/2},132 L ${80+neckW/2},144 Q ${80+neckW/3},146 80,146 Q ${80-neckW/3},146 ${80-neckW/2},144 Z" fill="url(#skG${cfg.skin})"/>
 
-<circle cx="80" cy="82" r="50" fill="url(#skG${cfg.skin})"/>
-${cfg.blush?'<ellipse cx="52" cy="100" rx="12" ry="8" fill="rgba(240,120,100,0.22)"/><ellipse cx="108" cy="100" rx="12" ry="8" fill="rgba(240,120,100,0.22)"/>':''}
+<!-- Cou -->
+<path d="M ${80-neckW/2},132 Q ${80-neckW/3},128 80,127 Q ${80+neckW/3},128 ${80+neckW/2},132 L ${80+neckW/2},144 Q ${80+neckW/3},146 80,146 Q ${80-neckW/3},146 ${80-neckW/2},144 Z" fill="url(#skG${cfg.skin})"/>
+<!-- Petite ombre sous le menton -->
+<ellipse cx="80" cy="130" rx="14" ry="2" fill="${dk(sk,.08)}" opacity="0.4"/>
+
+<!-- Visage : ovale légèrement allongé, style portrait Joseon -->
+<ellipse cx="80" cy="82" rx="48" ry="51" fill="url(#skG${cfg.skin})"/>
+<!-- Ombrage doux aux tempes (technique traditionnelle Minhwa) -->
+<ellipse cx="38" cy="84" rx="9" ry="22" fill="${dk(sk,.06)}" opacity="0.35"/>
+<ellipse cx="122" cy="84" rx="9" ry="22" fill="${dk(sk,.06)}" opacity="0.35"/>
+
+<!-- Joues teintées (subtil, pas kawaii) -->
+${cfg.blush?'<ellipse cx="52" cy="100" rx="9" ry="5" fill="rgba(200,90,80,0.18)"/><ellipse cx="108" cy="100" rx="9" ry="5" fill="rgba(200,90,80,0.18)"/>':''}
+
+<!-- Sourcils — traits de pinceau fins, style calligraphie coréenne -->
+<path d="M 48,74 Q 60,71 70,74" stroke="#2A1810" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.9"/>
+<path d="M 90,74 Q 100,71 112,74" stroke="#2A1810" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.9"/>
+
+<!-- Yeux -->
 ${eyez(cfg.eyes)}
-<ellipse cx="80" cy="106" rx="2" ry="1.2" fill="rgba(0,0,0,0.10)"/>
+
+<!-- Nez — minimaliste, style portrait traditionnel -->
+<path d="M 79,95 Q 78,101 76,106 Q 78,108 80,108 Q 82,108 84,106 Q 82,101 81,95" stroke="${dk(sk,.10)}" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.55"/>
+<ellipse cx="80" cy="108" rx="3.5" ry="1" fill="${dk(sk,.06)}" opacity="0.35"/>
+
+<!-- Bouche -->
 ${mouthSVG(cfg.eyes)}
+
 ${hFront(cfg.hair,hc,hd)}
 ${accs(cfg.acc,hc)}
 </svg>`;
@@ -752,76 +791,100 @@ function hFront(s,hc,hd){
 }
 
 function eyez(s){
-  // Full round eye with highlight
-  const E=(cx,cy,iris='#4A90D9')=>`<ellipse cx="${cx}" cy="${cy}" rx="12" ry="13" fill="white"/>
-    <circle cx="${cx}" cy="${cy+1}" r="8" fill="${iris}"/>
-    <circle cx="${cx}" cy="${cy+1}" r="5.5" fill="#1a1a1a"/>
-    <circle cx="${cx+3}" cy="${cy-2}" r="3" fill="white"/>
-    <circle cx="${cx-2}" cy="${cy+1}" r="1.5" fill="rgba(255,255,255,.5)"/>`;
-  // Sparkle eye (star-like highlights)
-  const ES=(cx,cy)=>`<ellipse cx="${cx}" cy="${cy}" rx="12" ry="13" fill="white"/>
-    <circle cx="${cx}" cy="${cy+1}" r="8" fill="#5B8DEF"/>
-    <circle cx="${cx}" cy="${cy+1}" r="5" fill="#1a1a1a"/>
-    <circle cx="${cx+3}" cy="${cy-3}" r="3.5" fill="white"/>
-    <circle cx="${cx-2.5}" cy="${cy+2}" r="2" fill="white"/>
-    <circle cx="${cx+4}" cy="${cy+3}" r="1.2" fill="rgba(255,255,255,.8)"/>`;
+  /* Yeux en amande, style portrait Joseon — dignes et raffinés.
+     Plus de gros yeux kawaii. Largeur 22, hauteur 9 (ratio traditionnel). */
+  const E=(cx,cy)=>`<ellipse cx="${cx}" cy="${cy}" rx="11" ry="4.5" fill="white"/>
+    <ellipse cx="${cx}" cy="${cy}" rx="3.8" ry="3.8" fill="#1A0F08"/>
+    <circle cx="${cx-1.2}" cy="${cy-1.5}" r="1" fill="white"/>
+    <path d="M ${cx-11},${cy} Q ${cx-5},${cy-4.5} ${cx},${cy-4.5} Q ${cx+5},${cy-4.5} ${cx+11},${cy} Q ${cx+5},${cy+4.5} ${cx},${cy+4.5} Q ${cx-5},${cy+4.5} ${cx-11},${cy} Z" fill="none" stroke="#2A1810" stroke-width="1.4" stroke-linecap="round"/>`;
+  /* Yeux clos — un seul trait courbé (style "sourire des yeux") */
+  const closed=(cx,cy)=>`<path d="M ${cx-10},${cy} Q ${cx},${cy+3.5} ${cx+10},${cy}" stroke="#2A1810" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
+  /* Yeux joyeux — courbés vers le haut (forme U inversé) */
+  const joy=(cx,cy)=>`<path d="M ${cx-10},${cy+2} Q ${cx},${cy-4} ${cx+10},${cy+2}" stroke="#2A1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="${cx}" cy="${cy-1}" rx="2.5" ry="2" fill="#1A0F08"/>`;
+  /* Yeux surpris — un peu plus ronds */
+  const surprise=(cx,cy)=>`<ellipse cx="${cx}" cy="${cy}" rx="9" ry="7" fill="white" stroke="#2A1810" stroke-width="1.4"/>
+    <ellipse cx="${cx}" cy="${cy+0.5}" rx="4.5" ry="4.5" fill="#1A0F08"/>
+    <circle cx="${cx-1.5}" cy="${cy-2}" r="1.4" fill="white"/>`;
   switch(s){
-    case 0:return ES(60,88)+ES(100,88); // Étoiles - sparkle
-    case 1:return `<path d="M 48,90 Q 60,83 72,90" stroke="#2a2a2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="60" cy="92" rx="10" ry="5" fill="#2a2a2a"/><circle cx="62" cy="89" r="2.5" fill="white"/>
-      <path d="M 88,90 Q 100,83 112,90" stroke="#2a2a2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="100" cy="92" rx="10" ry="5" fill="#2a2a2a"/><circle cx="102" cy="89" r="2.5" fill="white"/>
-      <text x="116" y="78" font-size="9" fill="#C9A96E" opacity=".6" font-family="sans-serif">z</text>
-      <text x="122" y="74" font-size="7" fill="#C9A96E" opacity=".4" font-family="sans-serif">z</text>`; // Endormis
-    case 2:return `<ellipse cx="60" cy="88" rx="12" ry="13" fill="white"/>
-      <circle cx="60" cy="89" r="8" fill="#2a2a2a"/><circle cx="62" cy="85" r="3" fill="white"/>
-      <path d="M 47,78 L 70,83" stroke="#2a2a2a" stroke-width="2.5" stroke-linecap="round"/>
-      <ellipse cx="100" cy="88" rx="12" ry="13" fill="white"/>
-      <circle cx="100" cy="89" r="8" fill="#2a2a2a"/><circle cx="102" cy="85" r="3" fill="white"/>
-      <path d="M 113,78 L 90,83" stroke="#2a2a2a" stroke-width="2.5" stroke-linecap="round"/>`; // Déterminés
-    case 3:return E(60,88)+`<path d="M 88,90 Q 100,83 112,90" stroke="#2a2a2a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <line x1="90" y1="86" x2="89" y2="82" stroke="#2a2a2a" stroke-width="1.5"/>
-      <line x1="100" y1="84" x2="100" y2="80" stroke="#2a2a2a" stroke-width="1.5"/>
-      <line x1="110" y1="86" x2="111" y2="82" stroke="#2a2a2a" stroke-width="1.5"/>`; // Clin d'œil
-    case 4:return E(60,88,'#5B8DEF')+E(100,88,'#5B8DEF'); // Joyeux - normal eyes (mouth will be open)
-    case 5:return `<ellipse cx="60" cy="88" rx="14" ry="15" fill="white"/>
-      <circle cx="60" cy="89" r="10" fill="#4478CC"/><circle cx="60" cy="89" r="7" fill="#1a1a1a"/>
-      <circle cx="63" cy="85" r="4" fill="white"/>
-      <ellipse cx="100" cy="88" rx="14" ry="15" fill="white"/>
-      <circle cx="100" cy="89" r="10" fill="#4478CC"/><circle cx="100" cy="89" r="7" fill="#1a1a1a"/>
-      <circle cx="103" cy="85" r="4" fill="white"/>`; // Surpris - big eyes
-    case 6:return E(60,88,'#6BA5E8')+E(100,88,'#6BA5E8'); // Doux - same as standard but softer iris
-    default:return E(60,88)+E(100,88);
+    case 0:return E(58,88)+E(102,88); // Standard amandes
+    case 1:return closed(58,90)+closed(102,90); // Endormis
+    case 2:return `<ellipse cx="58" cy="88" rx="11" ry="4" fill="white"/>
+      <ellipse cx="58" cy="88" rx="4" ry="4" fill="#1A0F08"/>
+      <path d="M 47,88 L 69,86" stroke="#2A1810" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <path d="M 47,90 Q 58,92 69,90" stroke="#2A1810" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      <ellipse cx="102" cy="88" rx="11" ry="4" fill="white"/>
+      <ellipse cx="102" cy="88" rx="4" ry="4" fill="#1A0F08"/>
+      <path d="M 91,88 L 113,86" stroke="#2A1810" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <path d="M 91,90 Q 102,92 113,90" stroke="#2A1810" stroke-width="1.4" stroke-linecap="round" fill="none"/>`; // Déterminés
+    case 3:return E(58,88)+closed(102,90); // Clin d'œil
+    case 4:return joy(58,89)+joy(102,89); // Joyeux
+    case 5:return surprise(58,88)+surprise(102,88); // Surpris
+    case 6:return `<ellipse cx="58" cy="88" rx="11" ry="4" fill="white"/>
+      <ellipse cx="58" cy="88" rx="3.5" ry="3.5" fill="#1A0F08"/>
+      <circle cx="56.8" cy="86.5" r="0.9" fill="white"/>
+      <path d="M 47,88 Q 58,84.5 69,88 Q 58,91.5 47,88 Z" fill="none" stroke="#2A1810" stroke-width="1.3"/>
+      <ellipse cx="102" cy="88" rx="11" ry="4" fill="white"/>
+      <ellipse cx="102" cy="88" rx="3.5" ry="3.5" fill="#1A0F08"/>
+      <circle cx="100.8" cy="86.5" r="0.9" fill="white"/>
+      <path d="M 91,88 Q 102,84.5 113,88 Q 102,91.5 91,88 Z" fill="none" stroke="#2A1810" stroke-width="1.3"/>`; // Doux
+    default:return E(58,88)+E(102,88);
   }
 }
 
-// Mouth adapts to expression
+// Bouche — style traditionnel coréen : petites lèvres rouges, raffinées
 function mouthSVG(eyeStyle){
+  /* Lèvre standard : forme cœur subtile, comme dans les portraits Joseon */
+  const refined = `<path d="M 73,118 Q 76,114 80,117 Q 84,114 87,118 Q 84,121 80,121 Q 76,121 73,118 Z" fill="rgba(170,55,70,0.55)" stroke="rgba(140,40,55,0.4)" stroke-width="0.6"/>`;
   switch(eyeStyle){
-    case 1:return '<path d="M 72,116 Q 80,119 88,116" stroke="rgba(180,70,85,0.55)" stroke-width="2" fill="none" stroke-linecap="round"/>'; // Sleepy - small flat
-    case 2:return '<path d="M 68,117 Q 80,121 92,117" stroke="rgba(160,50,70,0.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/>'; // Determined
-    case 4:return '<path d="M 65,114 Q 80,128 95,114" stroke="rgba(180,60,80,0.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="80" cy="120" rx="9" ry="6" fill="rgba(200,80,100,0.35)"/>'; // Happy open
-    case 5:return '<ellipse cx="80" cy="119" rx="7" ry="5" fill="rgba(180,60,80,0.5)"/>'; // Surprised - O mouth
-    default:return '<path d="M 68,115 Q 80,124 92,115" stroke="rgba(180,70,85,0.65)" stroke-width="2.5" fill="none" stroke-linecap="round"/>'; // Default smile
+    case 1: // Endormis — petite ligne paisible
+      return '<path d="M 75,118 Q 80,119 85,118" stroke="rgba(170,60,75,0.55)" stroke-width="1.5" fill="none" stroke-linecap="round"/>';
+    case 2: // Déterminés — ligne ferme
+      return '<path d="M 73,118 Q 80,119 87,118" stroke="rgba(150,40,55,0.7)" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+    case 4: // Joyeux — sourire ouvert, lèvres pleines
+      return `<path d="M 70,116 Q 80,124 90,116" stroke="rgba(150,45,60,0.7)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M 72,117 Q 80,122 88,117 Q 80,119 72,117 Z" fill="rgba(190,70,90,0.45)"/>`;
+    case 5: // Surpris — petit O
+      return `<ellipse cx="80" cy="119" rx="3" ry="3.5" fill="rgba(150,50,65,0.55)"/>
+        <ellipse cx="80" cy="120" rx="2" ry="2" fill="rgba(80,20,30,0.4)"/>`;
+    default: // Standard — lèvres en cœur
+      return refined;
   }
 }
 
 function outf(s,sk,si){
   const id=`skG${si}`;
   switch(s){
-    case 0:return `<rect x="72" y="130" width="16" height="16" rx="6" fill="url(#${id})"/>
-      <path d="M 42,148 Q 40,138 80,134 Q 120,138 118,148 L 120,172 Q 80,176 40,172 Z" fill="#E8A4C8"/>
-      <path d="M 42,150 L 16,164 L 20,174 L 44,162 Z" fill="#E8A4C8"/>
-      <path d="M 118,150 L 144,164 L 140,174 L 116,162 Z" fill="#E8A4C8"/>
-      <rect x="14" y="171" width="9" height="5" rx="2" fill="white" opacity=".8"/>
-      <rect x="137" y="171" width="9" height="5" rx="2" fill="white" opacity=".8"/>
-      <path d="M 72,136 Q 80,131 88,136 L 90,150 Q 80,146 70,150 Z" fill="white" opacity=".75"/>
-      <path d="M 78,148 L 80,162 L 82,148 Z" fill="#C87AAC"/>
-      <path d="M 40,170 Q 38,175 34,200 L 126,200 Q 122,175 120,170 Z" fill="#7EC8E3"/>
-      <line x1="58" y1="174" x2="54" y2="200" stroke="rgba(0,0,0,.07)" stroke-width="2"/>
-      <line x1="73" y1="174" x2="71" y2="200" stroke="rgba(0,0,0,.07)" stroke-width="2"/>
-      <line x1="88" y1="174" x2="90" y2="200" stroke="rgba(0,0,0,.07)" stroke-width="2"/>
-      <line x1="103" y1="174" x2="107" y2="200" stroke="rgba(0,0,0,.07)" stroke-width="2"/>`;
+    case 0:return `<!-- Hanbok traditionnel — jeogori (haut) + chima (jupe) -->
+      <rect x="72" y="130" width="16" height="16" rx="6" fill="url(#${id})"/>
+      <!-- Chima (jupe ample) en bleu indigo traditionnel -->
+      <path d="M 38,168 Q 30,178 26,200 L 134,200 Q 130,178 122,168 Z" fill="#3D6B9E"/>
+      <path d="M 38,168 Q 50,170 80,170 Q 110,170 122,168 L 124,178 Q 80,182 36,178 Z" fill="#2F5582" opacity=".55"/>
+      <!-- Jeogori (veste courte) en rose pastel / rouge persimmon -->
+      <path d="M 42,148 Q 40,138 80,134 Q 120,138 118,148 L 122,172 Q 80,176 38,172 Z" fill="#E8A4B8"/>
+      <!-- Manches amples du jeogori -->
+      <path d="M 42,150 Q 24,156 12,168 L 18,176 Q 30,170 44,164 Z" fill="#E8A4B8"/>
+      <path d="M 118,150 Q 136,156 148,168 L 142,176 Q 130,170 116,164 Z" fill="#E8A4B8"/>
+      <!-- Poignets blancs (gomeungit) -->
+      <rect x="10" y="172" width="11" height="5" rx="2" fill="#F8F4ED"/>
+      <rect x="139" y="172" width="11" height="5" rx="2" fill="#F8F4ED"/>
+      <!-- Col (git) en blanc, avec liseré -->
+      <path d="M 64,138 Q 80,128 96,138 L 92,148 Q 80,144 68,148 Z" fill="#F8F4ED"/>
+      <path d="M 64,138 Q 80,134 96,138" stroke="#C9A96E" stroke-width="0.8" fill="none" opacity=".8"/>
+      <!-- Otgoreum (ruban traditionnel au chest, signature du hanbok) -->
+      <path d="M 78,150 Q 76,154 78,158 L 80,162 L 82,158 Q 84,154 82,150 Z" fill="#B33D54"/>
+      <path d="M 78,162 L 76,178 L 82,176 Z" fill="#B33D54"/>
+      <path d="M 82,162 L 86,176 L 84,180 Z" fill="#B33D54"/>
+      <!-- Liseré doré sur le bas du jeogori -->
+      <path d="M 38,170 Q 80,174 122,170" stroke="#C9A96E" stroke-width="1" fill="none" opacity=".7"/>
+      <!-- Motif floral subtil sur la chima -->
+      <circle cx="56" cy="190" r="1.8" fill="#E8A4B8" opacity=".5"/>
+      <circle cx="80" cy="192" r="1.8" fill="#E8A4B8" opacity=".5"/>
+      <circle cx="104" cy="190" r="1.8" fill="#E8A4B8" opacity=".5"/>
+      <!-- Plis verticaux discrets de la chima -->
+      <line x1="50" y1="180" x2="46" y2="200" stroke="rgba(0,0,0,.08)" stroke-width="1.5"/>
+      <line x1="80" y1="180" x2="80" y2="200" stroke="rgba(0,0,0,.08)" stroke-width="1.5"/>
+      <line x1="110" y1="180" x2="114" y2="200" stroke="rgba(0,0,0,.08)" stroke-width="1.5"/>`;
     case 1:return `<rect x="72" y="130" width="16" height="16" rx="6" fill="url(#${id})"/>
       <path d="M 68,132 L 80,144 L 92,132 L 88,132 L 80,140 L 72,132 Z" fill="white"/>
       <path d="M 40,150 Q 38,140 80,136 Q 122,140 120,150 L 122,200 L 38,200 Z" fill="#2E4A7C"/>
