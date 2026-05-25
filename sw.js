@@ -1,8 +1,10 @@
-// Korean Stories — Service Worker v2.1
+// Korean Stories — Service Worker v2.2
 // Network-first pour HTML/JS/CSS (toujours à jour),
 // cache-first pour les images & polices (rarement modifiées).
+// Bypass pour les APIs externes type DiceBear (l'interception
+// no-cors pose problème dans certains navigateurs).
 
-const CACHE = 'ks-v2.1';
+const CACHE = 'ks-v2.2';
 
 const CORE = [
   // App shell
@@ -62,6 +64,13 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
+
+  // DiceBear (avatars) → bypass total, on laisse le navigateur gérer
+  // directement. L'interception SW pose problème avec les requêtes
+  // no-cors d'images depuis ce CDN.
+  if (url.hostname.includes('dicebear.com')) {
+    return;
+  }
 
   // Réseau d'abord pour fonts & API externes
   const isExternal = url.origin !== self.location.origin ||
