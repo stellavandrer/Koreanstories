@@ -105,20 +105,18 @@
     }
     .flash-tip em{color:var(--gold);font-style:normal;font-weight:600}
 
-    /* Encadré "mnémo" — fond bleu pâle, texte adaptatif selon le thème */
+    /* Encadré "mnémo" — la carte de leçon est navy sombre dans les
+       DEUX thèmes (light + dark), donc le texte doit TOUJOURS être
+       clair, comme .flash-tip ci-dessus. */
     .mnem-tip{
-      margin-top:10px;background:rgba(79,142,247,.08);
-      border:1.5px solid rgba(79,142,247,.2);border-radius:14px;
-      padding:10px 14px;font-size:12px;color:var(--t);
+      margin-top:10px;background:rgba(79,142,247,.12);
+      border:1.5px solid rgba(147,197,253,.35);border-radius:14px;
+      padding:10px 14px;font-size:12px;color:rgba(247,248,250,.92);
       line-height:1.55;display:flex;align-items:flex-start;gap:8px;text-align:left;
     }
-    .mnem-tip em{color:#4f8ef7;font-style:italic;font-weight:600}
+    .mnem-tip em{color:#93c5fd;font-style:italic;font-weight:600}
     .mnem-ico{flex-shrink:0;display:flex;align-items:center}
-    [data-theme="dark"] .mnem-tip{
-      background:rgba(79,142,247,.10);
-      border-color:rgba(79,142,247,.28);
-      color:#d8e8f5;
-    }
+    .mnem-ico svg{stroke:#93c5fd}
 
     /* ── COMBO ── */
     .combo{text-align:center;margin-bottom:20px}
