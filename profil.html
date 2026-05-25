@@ -472,7 +472,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <button class="cc-tab" onclick="switchTab(2)">Pilosité</button>
     <button class="cc-tab" onclick="switchTab(3)">Tenue</button>
     <button class="cc-tab" onclick="switchTab(4)">Fond</button>
-    <button class="cc-tab" onclick="switchTab(5)">Looks coréens</button>
   </div>
   <div class="cc-body" id="ccBody"></div>
   <button class="cc-save" onclick="saveAndClose()">Sauvegarder mon avatar</button>
@@ -542,9 +541,10 @@ const DICEBEAR_BASE = 'https://api.dicebear.com/9.x/personas/svg';
    invalides étaient silencieusement ignorées par DiceBear, d'où
    l'impression de "bug" quand on cliquait sur certaines options. */
 const OPTS = {
-  // 20 coiffures valides (toutes celles du schéma Personas 9.x)
-  hair:        ['shortCombover','shortComboverChops','long','extraLong','bobCut','bobBangs','curly','curlyHighTop','curlyBun','buzzcut','bald','balding','cap','bunUndercut','fade','beanie','straightBun','sideShave','mohawk','pigtails'],
-  hairLbl:     ['Combover','Combover chops','Longs','Très longs','Bob','Bob frangé','Bouclés','Bouclés hauts','Chignon bouclé','Très court','Crâne rasé','Dégarni','Casquette','Chignon undercut','Fade','Bonnet','Chignon lisse','Sideshave','Mohawk','Couettes'],
+  /* 20 coiffures valides, réordonnées : masculines/courtes en premier
+     pour rééquilibrer l'impression de "trop féminin". */
+  hair:        ['shortCombover','shortComboverChops','buzzcut','fade','sideShave','mohawk','bald','balding','cap','beanie','curlyHighTop','bunUndercut','curly','curlyBun','bobCut','bobBangs','straightBun','long','extraLong','pigtails'],
+  hairLbl:     ['Combover','Combover chops','Très court','Fade','Sideshave','Mohawk','Crâne rasé','Dégarni','Casquette','Bonnet','Bouclés hauts','Chignon undercut','Bouclés','Chignon bouclé','Bob','Bob frangé','Chignon lisse','Longs','Très longs','Couettes'],
   // 16 couleurs de cheveux (palette enrichie : tons naturels + fantaisie + K-pop)
   hairColor:   ['0e0e0e','362c47','6c4545','85614b','5C3317','b85c00','EFCB68','f4cf61','f29c65','f27d65','e15c66','e16381','c92c2b','7B2FBE','1D6FD4','dee1f5'],
   hairColorLbl:['Noir','Brun foncé','Auburn','Brun','Châtain','Acajou','Blond doré','Blond','Pêche clair','Pêche','Rose','Rose vif','Rouge vif','Violet','Bleu','Gris'],
@@ -553,57 +553,25 @@ const OPTS = {
   skinColorLbl:['Très foncée','Foncée','Caramel','Médium foncée','Médium','Médium claire','Claire','Très claire','Porcelaine'],
   eyes:        ['open','happy','wink','glasses','sleep','sunglasses'],
   eyesLbl:     ['Standard','Souriants',"Clin d'œil",'Lunettes','Endormis','Lunettes soleil'],
-  mouth:       ['smile','bigSmile','smirk','lips','surprise','frown','pacifier'],
-  mouthLbl:    ['Sourire','Grand sourire','Sourire en coin','Lèvres','Surpris','Renfrogné','Tétine'],
+  /* 6 bouches : tétine retirée (option enfantine peu pertinente) */
+  mouth:       ['smile','bigSmile','smirk','lips','surprise','frown'],
+  mouthLbl:    ['Sourire','Grand sourire','Sourire en coin','Lèvres','Surpris','Sérieux'],
   nose:        ['mediumRound','smallRound','wrinkles'],
   noseLbl:     ['Moyen','Petit','Marqué'],
   body:        ['rounded','squared','small','checkered'],
   bodyLbl:     ['T-shirt rond','T-shirt carré','Débardeur','Carreaux'],
   facialHair:  ['none','beardMustache','goatee','pyramid','shadow','soulPatch','walrus'],
   facialHairLbl:['Aucune','Barbe complète','Bouc','Pyramide','Ombre','Touffe','Moustache'],
-  // 16 couleurs de vêtements — palette enrichie incluant tons hanbok traditionnels
-  clothingColor:    ['456dff','54d7c7','7555ca','6dbb58','e24553','f3b63a','f55d81','C9A96E','0A1220','F5EFE0','6B1F2D','1F3A2F','E8A4B8','3D6B9E','B33D54','1A1A1A'],
-  clothingColorLbl: ['Bleu','Turquoise','Violet','Vert','Rouge','Orange','Rose vif','Or','Navy','Ivoire','Bourgogne','Forêt','Rose hanbok','Indigo','Persimmon','Noir'],
+  /* 24 couleurs de vêtements — élargie avec tons masculins (gris, kaki,
+     bleu pétrole, marron…) en plus des tons hanbok. */
+  clothingColor:    ['456dff','54d7c7','7555ca','6dbb58','e24553','f3b63a','f55d81','C9A96E','0A1220','F5EFE0','6B1F2D','1F3A2F','E8A4B8','3D6B9E','B33D54','1A1A1A','4A5568','718096','2D3748','8B6F47','5F4A3A','2E5C5C','3A4F6C','9B2C2C'],
+  clothingColorLbl: ['Bleu','Turquoise','Violet','Vert','Rouge','Orange','Rose vif','Or','Navy','Ivoire','Bourgogne','Forêt','Rose hanbok','Indigo','Persimmon','Noir','Gris ardoise','Gris clair','Anthracite','Camel','Brun','Bleu pétrole','Bleu acier','Rouge sombre'],
   backgroundColor:  ['transparent','b6e3f4','c0aede','d1d4f9','ffd5dc','ffdfbf','0a1220','c9a96e','f5efe0','f8e7d6','d4e9d4','e6d4f0','3D6B9E','B33D54','1F3A2F'],
   backgroundColorLbl:['Transparent','Bleu ciel','Lavande','Pervenche','Rose','Pêche','Navy','Or','Ivoire','Crème','Menthe','Lilas','Indigo','Persimmon','Forêt'],
 };
 
-/* Presets "Looks coréens" — combinent plusieurs options pour
-   recréer des tenues traditionnelles ou modernes inspirées de Corée.
-   DiceBear Personas ne fournit pas de hanbok natif : on l'évoque
-   par les couleurs et la coiffure. */
-const PRESETS = [
-  {
-    name: 'Hanbok rose',
-    desc: 'Jeogori rose, chignon traditionnel',
-    av: { hair:'straightBun', hairColor:'0e0e0e', clothingColor:'E8A4B8', backgroundColor:'3D6B9E', body:'rounded' }
-  },
-  {
-    name: 'Hanbok royal',
-    desc: 'Persimmon & or, style Joseon',
-    av: { hair:'bunUndercut', hairColor:'0e0e0e', clothingColor:'B33D54', backgroundColor:'f5efe0', body:'rounded' }
-  },
-  {
-    name: 'Hanbok indigo',
-    desc: 'Tenue masculine traditionnelle',
-    av: { hair:'shortCombover', hairColor:'0e0e0e', clothingColor:'3D6B9E', backgroundColor:'f5efe0', body:'squared', facialHair:'none' }
-  },
-  {
-    name: 'K-pop idol',
-    desc: 'Cheveux colorés, look moderne',
-    av: { hair:'curlyHighTop', hairColor:'7B2FBE', clothingColor:'1A1A1A', backgroundColor:'ffd5dc', body:'rounded' }
-  },
-  {
-    name: 'Étudiant·e',
-    desc: 'Uniforme scolaire coréen',
-    av: { hair:'bobCut', hairColor:'0e0e0e', clothingColor:'0A1220', backgroundColor:'b6e3f4', body:'squared' }
-  },
-  {
-    name: 'Hallyu chic',
-    desc: 'Élégance contemporaine',
-    av: { hair:'long', hairColor:'85614b', clothingColor:'C9A96E', backgroundColor:'0a1220', body:'rounded' }
-  },
-];
+/* (Bloc PRESETS retiré à la demande de l'utilisateur — les presets
+   "Looks coréens" ne lui plaisaient pas.) */
 
 function buildAvatarURL(cfg){
   cfg = cfg || {};
@@ -690,26 +658,6 @@ function colorGrid(key, hexes, labels){
   return h + '</div>';
 }
 
-function presetCardsHTML(){
-  var h = '<div class="cc-sec">Looks coréens</div>'
-        + '<p style="font-size:11.5px;color:var(--gray);margin:-4px 4px 12px;line-height:1.5">Tenues inspirées de Corée — un clic applique l\'ensemble (coiffure + couleur + vêtement + fond). Tu peux toujours raffiner ensuite.</p>'
-        + '<div class="opt-grid" style="grid-template-columns:repeat(2,1fr)">';
-  PRESETS.forEach(function(p, i){
-    h += '<div class="opt-card" style="text-align:left" onclick="applyPreset('+i+')">'
-       + '<div class="opt-lbl" style="font-weight:700;font-size:12px;color:var(--navy)">'+p.name+'</div>'
-       + '<div style="font-size:10.5px;color:var(--gray);margin-top:3px;line-height:1.35">'+p.desc+'</div>'
-       + '</div>';
-  });
-  return h + '</div>';
-}
-
-function applyPreset(i){
-  var p = PRESETS[i];
-  if (!p) return;
-  Object.keys(p.av).forEach(function(k){ tmpAV[k] = p.av[k]; });
-  rfresh();
-}
-
 const tabHTML = [
   // 0 — Visage
   function(){
@@ -730,15 +678,11 @@ const tabHTML = [
   // 3 — Tenue
   function(){
     return '<div class="cc-sec">Forme du haut</div>' + optGrid('body', OPTS.body, OPTS.bodyLbl)
-         + '<div class="cc-sec">Couleur du vêtement (16 teintes)</div>' + colorGrid('clothingColor', OPTS.clothingColor, OPTS.clothingColorLbl);
+         + '<div class="cc-sec">Couleur du vêtement (24 teintes)</div>' + colorGrid('clothingColor', OPTS.clothingColor, OPTS.clothingColorLbl);
   },
   // 4 — Fond
   function(){
     return '<div class="cc-sec">Couleur de fond</div>' + colorGrid('backgroundColor', OPTS.backgroundColor, OPTS.backgroundColorLbl);
-  },
-  // 5 — Looks coréens (presets)
-  function(){
-    return presetCardsHTML();
   }
 ];
 
