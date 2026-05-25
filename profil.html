@@ -29,7 +29,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .av-wrap{position:relative;width:120px;height:120px;margin:0 auto 14px;cursor:pointer}
 .av-ring{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#C9A96E,#FFD700,#C9A96E);padding:3px;position:relative}
 .av-inner{width:100%;height:100%;border-radius:50%;background:#1a2f4a;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.av-inner svg{width:100%;height:100%;display:block}
+.av-inner svg,.av-inner img{width:100%;height:100%;display:block;object-fit:cover}
 .av-edit{position:absolute;bottom:2px;right:2px;width:30px;height:30px;border-radius:50%;background:var(--gold);border:2px solid #0F1B2D;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
 .av-edit:hover{transform:scale(1.1)}
 .av-edit svg{width:14px;height:14px;stroke:#0F1B2D;fill:none;stroke-width:2.5;stroke-linecap:round}
@@ -132,7 +132,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .cc-close svg{width:14px;height:14px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
 .cc-preview-bar{display:flex;align-items:center;gap:16px;padding:0 20px 12px;flex-shrink:0}
 .cc-avatar-prev{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#1a2f4a,#0F2240);flex-shrink:0;border:3px solid var(--gold);overflow:hidden;display:flex;align-items:center;justify-content:center}
-.cc-avatar-prev svg{width:100%;height:100%}
+.cc-avatar-prev svg,.cc-avatar-prev img{width:100%;height:100%;display:block;object-fit:cover}
 .cc-prev-info{flex:1}
 .cc-prev-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
 .cc-prev-tip{font-size:11px;color:var(--gray);line-height:1.4}
@@ -164,17 +164,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .cc-save{width:calc(100% - 40px);margin:8px 20px 20px;background:linear-gradient(135deg,#C9A96E,#FFD700);border:none;border-radius:16px;padding:15px;font-size:15px;font-weight:700;color:#0F1B2D;cursor:pointer;font-family:'Inter',sans-serif;transition:transform .18s,box-shadow .18s}
 .cc-save:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,169,110,.4)}
 
-/* — Palette grid (nouveau système d'avatar) — */
-.palette-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:4px}
-.palette-card{background:var(--bg);border:1.5px solid var(--bd);border-radius:16px;padding:12px;text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px}
-.palette-card:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
-.palette-card.sel{border-color:var(--gold);background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(201,169,110,.03));box-shadow:0 0 0 2px rgba(201,169,110,.25),0 8px 24px rgba(0,0,0,.08)}
-.palette-preview{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.palette-preview::before{content:'';position:absolute;inset:6px;border-radius:50%;border:1px solid currentColor;opacity:.22}
-.palette-name{font-size:12px;font-weight:700;color:var(--navy);line-height:1.2;margin-top:2px}
-.palette-tag{font-size:10px;font-weight:600;color:var(--gray);letter-spacing:.05em;text-transform:uppercase}
-[data-theme=dark] .palette-card{background:var(--s2)}
-[data-theme=dark] .palette-name{color:rgba(247,248,250,.92)}
+/* Styles spécifiques au créateur DiceBear (les .opt-grid / .color-grid / .cc-tab existaient déjà). */
 
 /* EDIT MODAL */
 .edit-overlay{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -476,6 +466,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="cc-prev-tip">Personnalise ton avatar comme tu te sens.<br>Toutes les options sont libres et inclusives.</div>
     </div>
   </div>
+  <div class="cc-tabs">
+    <button class="cc-tab act" onclick="switchTab(0)">Visage</button>
+    <button class="cc-tab" onclick="switchTab(1)">Cheveux</button>
+    <button class="cc-tab" onclick="switchTab(2)">Pilosité</button>
+    <button class="cc-tab" onclick="switchTab(3)">Tenue</button>
+    <button class="cc-tab" onclick="switchTab(4)">Fond</button>
+  </div>
   <div class="cc-body" id="ccBody"></div>
   <button class="cc-save" onclick="saveAndClose()">Sauvegarder mon avatar</button>
 </div>
@@ -527,110 +524,143 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 <div class="badge-toast" id="badgeToast"></div>
 
 <script>
-// ═══ AVATAR — INITIALE STYLE ÉDITORIAL ═══
-// Refonte 100% du système : adieu chibi, place à une initiale en
-// Playfair Display dorée sur fond coloré, façon Notion / Linear / Stripe.
-// L'utilisateur choisit une "palette" parmi 8 combinaisons soignées.
-// L'initiale vient automatiquement du nom du profil.
+// ═══ AVATAR — DiceBear Personas (illustrations professionnelles) ═══
+// On utilise l'API DiceBear (open source, gratuit, CDN mondial) pour
+// rendre des avatars de qualité illustration éditoriale au lieu de
+// dessiner à la main en SVG. Style "personas" choisi pour son rendu
+// flat moderne, qui colle avec l'identité du site.
+//
+// Chaque option ci-dessous mappe vers un paramètre d'URL de l'API
+// (https://api.dicebear.com/9.x/personas/svg?...). On expose 6 axes
+// de personnalisation au créateur de personnage.
 
-const PALETTES = [
-  {bg:'#0A1220', fg:'#C9A96E', name:'Navy & Or',         tag:'Classique'},
-  {bg:'#C9A96E', fg:'#0A1220', name:'Or & Navy',         tag:'Doré'},
-  {bg:'#F5EFE0', fg:'#0A1220', name:'Ivoire & Navy',     tag:'Lumineux'},
-  {bg:'#1F3A2F', fg:'#D4BE82', name:'Forêt & Or',        tag:'Naturel'},
-  {bg:'#6B1F2D', fg:'#F5EFE0', name:'Bourgogne & Crème', tag:'Profond'},
-  {bg:'#1D3B6E', fg:'#C9A96E', name:'Bleu royal & Or',   tag:'Régal'},
-  {bg:'#181818', fg:'#C9A96E', name:'Noir & Or',         tag:'Minimal'},
-  {bg:'#E8C5C5', fg:'#6B1F2D', name:'Rose poudré',       tag:'Doux'},
-];
+const DICEBEAR_BASE = 'https://api.dicebear.com/9.x/personas/svg';
 
-function getInitial(){
-  try{
-    var p = JSON.parse(localStorage.getItem('ks_profile')||'null') || {};
-    var u = JSON.parse(localStorage.getItem('ks_user')||'null') || {};
-    var name = ((p.name || u.name || u.email || 'A') + '').trim();
-    return (name.charAt(0) || 'A').toUpperCase();
-  }catch(e){ return 'A'; }
+const OPTS = {
+  hair:        ['shortCombover','shortComboverChops','bobCut','bobBangs','buzzcut','bald','curlyBun','curlyHighTop','longCurly','dreadlocks','mohawk','sideShave','straight','straightBun','pomp'],
+  hairLbl:     ['Combover','Combover chops','Bob','Bob frangé','Très court','Crâne rasé','Chignon bouclé','Bouclés hauts','Longs bouclés','Dreadlocks','Mohawk','Sideshave','Lisses','Chignon lisse','Pompadour'],
+  hairColor:   ['0e0e0e','6c4545','362c47','f4cf61','c92c2b','dee1f5','85614b'],
+  hairColorLbl:['Noir','Auburn','Brun foncé','Blond','Roux','Gris','Brun'],
+  skinColor:   ['623d36','b16a5b','d78774','e5a07e','eeb4a4','f5d7b1'],
+  skinColorLbl:['Très foncée','Foncée','Caramel','Médium','Claire','Très claire'],
+  eyes:        ['open','happy','glasses','sleep','sunglasses','wink'],
+  eyesLbl:     ['Standard','Souriants','Lunettes','Endormis','Lunettes soleil',"Clin d'œil"],
+  mouth:       ['smile','bigSmile','openSmile','lips','smirk','surprise'],
+  mouthLbl:    ['Sourire','Grand sourire','Sourire ouvert','Lèvres','Sourire en coin','Surpris'],
+  body:        ['rounded','squared','small','checkered'],
+  bodyLbl:     ['T-shirt arrondi','T-shirt carré','Débardeur','Carreaux'],
+  facialHair:  ['none','beardMustache','goatee','pyramid','shadow','soulPatch','walrus'],
+  facialHairLbl:['Aucune','Barbe complète','Bouc','Pyramide','Ombre','Touffe','Moustache'],
+  backgroundColor:  ['transparent','b6e3f4','c0aede','d1d4f9','ffd5dc','ffdfbf','0a1220','c9a96e','f5efe0'],
+  backgroundColorLbl:['Transparent','Bleu ciel','Lavande','Pervenche','Rose','Pêche','Navy','Or','Ivoire'],
+};
+
+function buildAvatarURL(cfg){
+  cfg = cfg || {};
+  var params = new URLSearchParams();
+  params.set('seed', cfg.seed || 'koreanstories');
+  /* Paramètres qui prennent une valeur unique */
+  ['hair','hairColor','skinColor','eyes','mouth','body','backgroundColor'].forEach(function(k){
+    if (cfg[k] && cfg[k] !== 'none') params.set(k, cfg[k]);
+  });
+  /* Barbe : "none" = pas de pilosité (probabilité 0) */
+  if (cfg.facialHair && cfg.facialHair !== 'none'){
+    params.set('facialHair', cfg.facialHair);
+    params.set('facialHairProbability', '100');
+  } else {
+    params.set('facialHairProbability', '0');
+  }
+  return DICEBEAR_BASE + '?' + params.toString();
 }
 
 function buildSVG(cfg){
-  cfg = cfg || {};
-  var initial = getInitial();
-  var bg = cfg.bg || PALETTES[0].bg;
-  var fg = cfg.fg || PALETTES[0].fg;
-  /* viewBox carré 200×200 — sera affiché dans un cercle via le CSS
-     parent (.av-inner border-radius:50% + overflow:hidden). */
-  return '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">' +
-    '<rect width="200" height="200" fill="'+bg+'"/>' +
-    /* Cercle de contour subtil pour ajouter de la profondeur */
-    '<circle cx="100" cy="100" r="92" fill="none" stroke="'+fg+'" stroke-width="1.2" opacity="0.22"/>' +
-    /* Petit décor : deux barres horizontales au-dessus et en-dessous de l'initiale,
-       comme une initiale enluminée de manuscrit. */
-    '<line x1="62" y1="58" x2="138" y2="58" stroke="'+fg+'" stroke-width="0.8" opacity="0.35"/>' +
-    '<line x1="62" y1="158" x2="138" y2="158" stroke="'+fg+'" stroke-width="0.8" opacity="0.35"/>' +
-    /* Initiale en Playfair Display italique */
-    '<text x="100" y="138" text-anchor="middle" font-family="Playfair Display, Georgia, serif" font-style="italic" font-weight="700" font-size="115" fill="'+fg+'">' + initial + '</text>' +
-    '</svg>';
+  /* Retourne du HTML <img> pour rester compatible avec les usages
+     .innerHTML existants (hero avatar, preview du créateur, etc.). */
+  var url = buildAvatarURL(cfg);
+  return '<img src="'+url+'" alt="Mon avatar" style="width:100%;height:100%;display:block" loading="eager"/>';
 }
 
-/* — Bloc supprimé : ancien système de dessin chibi (constants HLBL, HICO,
-     EYLBL, EYICO, OUTLBL, OUTICO, ACCLBL, ACCICO, IDLBL, IDICO, IDDESC,
-     SKINS, HCLR, fonctions hBack, hFront, eyez, mouthSVG, outf, accs,
-     dk, lk, ancienne buildSVG). Tout cela a été remplacé par buildSVG
-     minimaliste basé sur PALETTES + getInitial() au-dessus. — */
-
 // ═══ État avatar ═══
-// AV ne contient plus que {bg, fg} (palette choisie). Pour compatibilité
-// avec les profils existants, les anciens champs (skin, hair, etc.) sont
-// ignorés silencieusement par buildSVG.
-let AV = { bg: PALETTES[0].bg, fg: PALETTES[0].fg };
-function loadAV(){ try{ const s=localStorage.getItem('ks_avatar'); if(s) AV={...AV, ...JSON.parse(s)} }catch(e){} }
+let AV = {
+  hair: 'shortCombover',
+  hairColor: '6c4545',
+  skinColor: 'e5a07e',
+  eyes: 'open',
+  mouth: 'smile',
+  body: 'rounded',
+  facialHair: 'none',
+  backgroundColor: 'f5efe0',
+};
+function loadAV(){ try{ const s=localStorage.getItem('ks_avatar'); if(s){ const p=JSON.parse(s); /* Filtrer pour ne garder que nos champs (purge des anciennes config chibi) */ ['hair','hairColor','skinColor','eyes','mouth','body','facialHair','backgroundColor'].forEach(function(k){ if(p[k]) AV[k]=p[k]; }); } }catch(e){} }
 function saveAV(){ try{ localStorage.setItem('ks_avatar', JSON.stringify(AV)) }catch(e){} }
 
-// ═══ CREATOR UI — Palette picker minimaliste ═══
+// ═══ CREATOR UI — multi-onglets ═══
 let tmpAV={};
+let curTab=0;
 
-function paletteCardsHTML(){
-  /* Grille 2 colonnes : chaque carte est une preview live de la palette
-     avec l'initiale de l'utilisateur. */
-  var initial = getInitial();
-  var h = '<div class="cc-sec">Choisis ta palette</div>'
-        + '<p style="font-size:11.5px;color:var(--gray);margin:-4px 4px 14px;line-height:1.5">Ton avatar est ton initiale ('
-        + initial + ') en Playfair italique. Sélectionne une palette qui te ressemble — tu peux en changer à tout moment.</p>'
-        + '<div class="palette-grid">';
-  PALETTES.forEach(function(p, i){
-    var sel = (tmpAV.bg===p.bg && tmpAV.fg===p.fg) ? ' sel' : '';
-    h += '<div class="palette-card'+sel+'" onclick="setPalette('+i+')">'
-       + '<div class="palette-preview" style="background:'+p.bg+';color:'+p.fg+'">'
-       + '<span style="font-family:Playfair Display,serif;font-style:italic;font-weight:700;font-size:42px">'+initial+'</span>'
-       + '</div>'
-       + '<div class="palette-name">'+p.name+'</div>'
-       + '<div class="palette-tag">'+p.tag+'</div>'
-       + '</div>';
-  });
+function optGrid(key, values, labels){
+  var h = '<div class="opt-grid">';
+  for (var i=0; i<values.length; i++){
+    var sel = (tmpAV[key]===values[i]) ? ' sel' : '';
+    h += '<div class="opt-card'+sel+'" onclick="setOpt(\''+key+'\',\''+values[i]+'\')"><div class="opt-lbl">'+labels[i]+'</div></div>';
+  }
   return h + '</div>';
 }
 
+function colorGrid(key, hexes, labels){
+  var h = '<div class="color-grid">';
+  for (var i=0; i<hexes.length; i++){
+    var sel = (tmpAV[key]===hexes[i]) ? ' sel' : '';
+    var bg = (hexes[i]==='transparent') ? 'repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50%/16px 16px' : '#'+hexes[i];
+    h += '<div class="color-dot'+sel+'" style="background:'+bg+'" onclick="setOpt(\''+key+'\',\''+hexes[i]+'\')" title="'+labels[i]+'"></div>';
+  }
+  return h + '</div>';
+}
+
+const tabHTML = [
+  // 0 — Visage
+  function(){
+    return '<div class="cc-sec">Teinte de peau</div>' + colorGrid('skinColor', OPTS.skinColor, OPTS.skinColorLbl)
+         + '<div class="cc-sec">Style des yeux</div>' + optGrid('eyes', OPTS.eyes, OPTS.eyesLbl)
+         + '<div class="cc-sec">Bouche</div>' + optGrid('mouth', OPTS.mouth, OPTS.mouthLbl);
+  },
+  // 1 — Cheveux
+  function(){
+    return '<div class="cc-sec">Coiffure</div>' + optGrid('hair', OPTS.hair, OPTS.hairLbl)
+         + '<div class="cc-sec">Couleur des cheveux</div>' + colorGrid('hairColor', OPTS.hairColor, OPTS.hairColorLbl);
+  },
+  // 2 — Pilosité
+  function(){
+    return '<div class="cc-sec">Barbe / moustache</div>' + optGrid('facialHair', OPTS.facialHair, OPTS.facialHairLbl);
+  },
+  // 3 — Tenue
+  function(){
+    return '<div class="cc-sec">Haut</div>' + optGrid('body', OPTS.body, OPTS.bodyLbl);
+  },
+  // 4 — Fond
+  function(){
+    return '<div class="cc-sec">Couleur de fond</div>' + colorGrid('backgroundColor', OPTS.backgroundColor, OPTS.backgroundColorLbl);
+  }
+];
+
 function rfresh(){
   document.getElementById('ccPreview').innerHTML=buildSVG(tmpAV);
-  document.getElementById('ccBody').innerHTML=paletteCardsHTML();
+  document.getElementById('ccBody').innerHTML=tabHTML[curTab]();
 }
-function switchTab(){/* Plus d'onglets — un seul écran. Garde la fonction pour compatibilité. */}
-function setPalette(i){
-  var p = PALETTES[i];
-  tmpAV.bg = p.bg;
-  tmpAV.fg = p.fg;
-  rfresh();
+function switchTab(i){
+  curTab = i;
+  document.querySelectorAll('.cc-tab').forEach(function(t,j){ t.classList.toggle('act', j===i); });
+  document.getElementById('ccBody').innerHTML=tabHTML[curTab]();
 }
+function setOpt(key, val){ tmpAV[key]=val; rfresh(); }
 
 function openCreator(){
   tmpAV={...AV};
-  /* Compatibilité ancien format : si l'utilisateur avait une config chibi,
-     on lui assigne la palette par défaut. */
-  if(!tmpAV.bg || !tmpAV.fg){ tmpAV.bg = PALETTES[0].bg; tmpAV.fg = PALETTES[0].fg; }
+  curTab = 0;
+  document.querySelectorAll('.cc-tab').forEach(function(t,j){ t.classList.toggle('act', j===0); });
   document.getElementById('ccPreview').innerHTML=buildSVG(tmpAV);
   const p=getPD();document.getElementById('ccPrevName').textContent=p.name||'Mon avatar';
-  document.getElementById('ccBody').innerHTML=paletteCardsHTML();
+  document.getElementById('ccBody').innerHTML=tabHTML[0]();
   document.getElementById('ccOverlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -842,12 +872,13 @@ function drawCard(){
   ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='11px Inter,sans-serif';ctx.fillText('koreanstories.fr',32,52);
   ctx.strokeStyle='rgba(201,169,110,.22)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(32,62);ctx.lineTo(W-32,62);ctx.stroke();
 
-  const svgStr=buildSVG(AV);
-  const blob=new Blob([svgStr],{type:'image/svg+xml'});
-  const url=URL.createObjectURL(blob);
-  const img=new Image();
-  img.onload=()=>{
-    ctx.drawImage(img,30,76,158,198);URL.revokeObjectURL(url);
+  /* Pour le canvas de partage on charge directement le SVG DiceBear
+     en tant qu'image — crossOrigin pour pouvoir l'incorporer au canvas. */
+  const url = buildAvatarURL(AV);
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    ctx.drawImage(img, 30, 76, 158, 198);
     const p=getPD();
     const _ku=(() => {try{return JSON.parse(localStorage.getItem('ks_user')||'null');}catch(e){return null;}})();
     const name=p.name||(_ku&&_ku.name)||'Apprenant';
