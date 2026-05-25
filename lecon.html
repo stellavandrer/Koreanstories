@@ -682,7 +682,13 @@
 <!-- LESSON -->
 <div class="wrap">
   <div id="lc"></div>
-  <div class="results" id="results">
+</div>
+
+<!-- IMPORTANT : .results doit être HORS de .wrap.
+     .wrap a animation:fadeUp avec transform, ce qui crée un
+     containing block et casse le position:fixed de .results
+     (qui se retrouve confiné dans .wrap au lieu du viewport). -->
+<div class="results" id="results">
     <div class="res-inner">
       <!-- Stars -->
       <div class="res-stars">
@@ -730,7 +736,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <script>
 // ── Assets ──
