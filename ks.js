@@ -112,29 +112,85 @@ if (window.speechSynthesis) {
   window.speechSynthesis.onvoiceschanged = _ksLoadVoice;
 }
 
-/**
- * speak(text, btn) — prononce un mot coréen avec la meilleure voix disponible.
- * Remplace les appels locaux speak() sur toutes les pages.
- */
-function speak(text, btn) {
+/* ── Audio Korean : MP3 pré-générés (qualité native, Edge TTS) ──────
+   Manifest = mapping { "texte coréen" : "audio/abc123.mp3" } généré
+   par generate_audio.py. Chargé une seule fois au premier appel à
+   speak(). Si le mot est dans le manifest → on joue le MP3.
+   Sinon → fallback sur speechSynthesis du navigateur. */
+var _ksAudioManifest = null;
+var _ksAudioManifestLoading = null;
+var _ksCurrentAudio = null;
+
+function _ksLoadManifest() {
+  if (_ksAudioManifest) return Promise.resolve(_ksAudioManifest);
+  if (_ksAudioManifestLoading) return _ksAudioManifestLoading;
+  _ksAudioManifestLoading = fetch('audio/manifest.json', {cache:'default'})
+    .then(function(r){ return r.ok ? r.json() : {}; })
+    .then(function(m){ _ksAudioManifest = m || {}; return _ksAudioManifest; })
+    .catch(function(){ _ksAudioManifest = {}; return _ksAudioManifest; });
+  return _ksAudioManifestLoading;
+}
+/* Précharge le manifest dès le chargement de la page (non bloquant) */
+if (typeof window !== 'undefined') { try { _ksLoadManifest(); } catch(e){} }
+
+function _ksFallbackTTS(text, btn) {
+  /* Voix du navigateur — pour les mots qui n'ont pas de MP3
+     (onomatopées, ou textes ajoutés après la dernière génération). */
   try {
     window.speechSynthesis.cancel();
-    document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
-    if (btn) btn.classList.add('playing');
-
     var u = new SpeechSynthesisUtterance(text);
     u.lang  = 'ko-KR';
-    u.rate  = 0.78;   // légèrement plus lent = plus clair
+    u.rate  = 0.78;
     u.pitch = 1.0;
-
     if (_ksBestVoice) u.voice = _ksBestVoice;
-
     if (btn) {
       u.onend  = function() { btn.classList.remove('playing'); };
       u.onerror = function() { btn.classList.remove('playing'); };
     }
     window.speechSynthesis.speak(u);
   } catch(e) { if (btn) btn.classList.remove('playing'); }
+}
+
+/**
+ * speak(text, btn) — joue le MP3 natif s'il existe, sinon utilise
+ * la synthèse vocale du navigateur en fallback.
+ */
+function speak(text, btn) {
+  if (!text) return;
+  /* Stop tout audio en cours */
+  if (_ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} _ksCurrentAudio = null; }
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  document.querySelectorAll('.speak-btn.playing').forEach(function(b){ b.classList.remove('playing'); });
+  if (btn) btn.classList.add('playing');
+
+  var cleaned = text.trim();
+  /* Retire d'éventuels guillemets enveloppants pour matcher le manifest */
+  if ((cleaned.charAt(0)==='"' && cleaned.charAt(cleaned.length-1)==='"') ||
+      (cleaned.charAt(0)==="'" && cleaned.charAt(cleaned.length-1)==="'")) {
+    cleaned = cleaned.substring(1, cleaned.length-1).trim();
+  }
+
+  _ksLoadManifest().then(function(manifest){
+    var src = manifest[cleaned];
+    if (!src) {
+      /* Pas de MP3 enregistré → fallback navigateur */
+      _ksFallbackTTS(text, btn);
+      return;
+    }
+    /* On a un MP3 → on le joue */
+    var audio = new Audio(src);
+    _ksCurrentAudio = audio;
+    audio.onended = function(){ if (btn) btn.classList.remove('playing'); if (_ksCurrentAudio===audio) _ksCurrentAudio=null; };
+    audio.onerror = function(){
+      /* Le MP3 a échoué (réseau ?) → on retombe sur la voix navigateur */
+      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
+      _ksFallbackTTS(text, btn);
+    };
+    audio.play().catch(function(){
+      _ksCurrentAudio = null;
+      _ksFallbackTTS(text, btn);
+    });
+  });
 }
 window.speak = speak;  // accessible depuis les onclick inline
 
