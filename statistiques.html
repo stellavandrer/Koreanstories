@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <title>Mes statistiques · Korean Stories</title>
+  <meta name="description" content="Statistiques détaillées de ta progression — activités par type, niveau CEFR, vocabulaire SRS."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css"/>
+  <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <script src="ks.js" defer></script>
+  <script src="ks-srs.js" defer></script>
+  <script defer src="ks-curriculum.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+    #pageWrap{animation:pageIn .38s ease both}
+    @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    /* Hero */
+    .st-hero{background:var(--navy);padding:24px 20px 32px;text-align:center;position:relative;overflow:hidden}
+    .st-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:24px;background:var(--bg);border-radius:24px 24px 0 0}
+    .st-hero-in{position:relative;z-index:1;max-width:560px;margin:0 auto}
+    .st-hero-icon{width:54px;height:54px;border-radius:16px;margin:0 auto 12px;background:linear-gradient(135deg,#F1DBAC,#C9A96E);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(201,169,110,.4)}
+    .st-hero-icon svg{width:28px;height:28px;stroke:#0F1B2D;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .st-hero h1{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,28px);color:#fff;line-height:1.2;margin-bottom:4px}
+    .st-hero h1 em{color:var(--gold);font-style:italic}
+    .st-hero-sub{font-size:13px;color:rgba(247,248,250,.45)}
+
+    main{max-width:560px;margin:0 auto;padding:22px 20px 0}
+    .sec-lbl{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin:24px 0 12px;display:block}
+    .sec-lbl:first-child{margin-top:4px}
+
+    /* Big stats grid */
+    .big-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .big-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:16px;box-shadow:var(--sh)}
+    .big-card .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+    .big-card .ic svg{width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .big-card .n{font-family:'Playfair Display',serif;font-size:30px;color:var(--t);line-height:1;font-weight:700}
+    .big-card .l{font-size:11.5px;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-top:4px}
+    .big-card.gold .ic{background:rgba(201,169,110,.13);color:var(--gold)}
+    .big-card.gold .n{color:var(--gold)}
+    .big-card.fire .ic{background:rgba(255,107,53,.14);color:#FF6B35}
+    .big-card.fire .n{color:#FF6B35}
+    .big-card.green .ic{background:rgba(34,197,94,.13);color:#16a34a}
+    .big-card.green .n{color:#16a34a}
+    .big-card.blue .ic{background:rgba(91,142,245,.13);color:#5B8EF5}
+    .big-card.blue .n{color:#5B8EF5}
+
+    /* Activity breakdown */
+    .act-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh)}
+    .act-row{margin-bottom:14px}
+    .act-row:last-child{margin-bottom:0}
+    .act-row-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+    .act-row-lbl{font-size:13px;font-weight:700;color:var(--t)}
+    .act-row-lbl .ico{display:inline-block;width:16px;height:16px;vertical-align:middle;margin-right:6px;color:var(--t2)}
+    .act-row-val{font-size:13px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+    .act-row-val .total{color:var(--t3);font-weight:500}
+    .act-bar{height:8px;background:var(--s3);border-radius:100px;overflow:hidden}
+    .act-bar-fill{height:100%;border-radius:100px;transition:width .9s cubic-bezier(.4,0,.2,1);background:linear-gradient(90deg,var(--gold),#E8C97E)}
+    .act-bar-fill.complete{background:linear-gradient(90deg,#22c55e,#16a34a)}
+
+    /* Level grid */
+    .lvl-row{display:flex;align-items:center;gap:14px;padding:13px 16px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;margin-bottom:8px;box-shadow:var(--sh)}
+    .lvl-tag{flex-shrink:0;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);width:50px;text-align:center}
+    .lvl-body{flex:1;min-width:0}
+    .lvl-name{font-size:13px;font-weight:700;color:var(--t);margin-bottom:6px}
+    .lvl-meta{font-size:11px;color:var(--t2);margin-top:4px}
+    .lvl-meta strong{color:var(--gold)}
+    .lvl-bar{height:6px;background:var(--s3);border-radius:100px;overflow:hidden}
+    .lvl-bar-fill{height:100%;border-radius:100px;transition:width 1s ease;background:linear-gradient(90deg,#C9A96E,#FFD700)}
+    .lvl-pct{flex-shrink:0;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);min-width:50px;text-align:right}
+
+    /* SRS card */
+    .srs-stats{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh)}
+    .srs-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bd)}
+    .srs-row:last-child{border-bottom:none}
+    .srs-row-lbl{font-size:13px;color:var(--t2);display:flex;align-items:center;gap:8px}
+    .srs-row-lbl .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+    .srs-row-val{font-family:'Playfair Display',serif;font-size:18px;color:var(--t);font-weight:700}
+
+    /* Best day */
+    .best-day-card{background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(201,169,110,.03));border:1.5px solid rgba(201,169,110,.3);border-radius:18px;padding:18px;text-align:center}
+    .best-day-card .d-date{font-size:11.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+    .best-day-card .d-xp{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);font-weight:700;line-height:1}
+    .best-day-card .d-sub{font-size:12px;color:var(--t2);margin-top:6px}
+
+    .empty{padding:32px 18px;text-align:center;font-size:13px;color:var(--t3)}
+  </style>
+</head>
+<body>
+
+<div id="pageWrap">
+
+<!-- TOPBAR -->
+<header class="bar">
+  <button class="bar-back" onclick="history.back()" aria-label="Retour"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <div class="bar-logo">Korean <em>Stories</em></div>
+  <div class="bar-r">
+    <div class="bar-xp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span id="xpEl">0</span></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="st-hero">
+  <div class="st-hero-in">
+    <div class="st-hero-icon">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </div>
+    <h1>Mes <em>statistiques</em></h1>
+    <p class="st-hero-sub">Vue détaillée de ta progression coréenne</p>
+  </div>
+</div>
+
+<main>
+  <!-- VUE D'ENSEMBLE -->
+  <span class="sec-lbl">Vue d'ensemble</span>
+  <div class="big-grid">
+    <div class="big-card gold">
+      <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="n" id="ovXP">0</div>
+      <div class="l">XP total</div>
+    </div>
+    <div class="big-card fire">
+      <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg></div>
+      <div class="n" id="ovStreak">0</div>
+      <div class="l">Jours d'affilée</div>
+    </div>
+    <div class="big-card green">
+      <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="n" id="ovActs">0</div>
+      <div class="l">Activités finies</div>
+    </div>
+    <div class="big-card blue">
+      <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="n" id="ovDays">0</div>
+      <div class="l">Jours actifs</div>
+    </div>
+  </div>
+
+  <!-- ACTIVITÉS PAR TYPE -->
+  <span class="sec-lbl">Activités par type</span>
+  <div class="act-card" id="actBreakdown">
+    <div class="empty">Calcul en cours…</div>
+  </div>
+
+  <!-- PROGRESSION PAR NIVEAU -->
+  <span class="sec-lbl">Progression par niveau CEFR</span>
+  <div id="lvlList">
+    <div class="empty">Calcul en cours…</div>
+  </div>
+
+  <!-- VOCABULAIRE SRS -->
+  <span class="sec-lbl">Vocabulaire (SRS)</span>
+  <div class="srs-stats" id="srsBreakdown">
+    <div class="empty">Calcul en cours…</div>
+  </div>
+
+  <!-- MEILLEUR JOUR -->
+  <span class="sec-lbl">Meilleur jour</span>
+  <div class="best-day-card" id="bestDayCard">
+    <div class="d-date" id="bdDate">—</div>
+    <div class="d-xp" id="bdXp">0 XP</div>
+    <div class="d-sub">le jour où tu as le plus appris</div>
+  </div>
+
+  <div class="rg-foot" style="margin:32px 0 16px;text-align:center;font-size:11px;color:var(--t3);line-height:1.7">
+    Korean <em style="color:var(--gold);font-style:italic">Stories</em><br/>
+    Chaque session compte 화이팅 !
+  </div>
+</main>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="profil.html" class="bni act"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+
+<script>
+(function () {
+  /* ─── UTILS ─── */
+  function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function fmt(n){ return (n||0).toLocaleString('fr-FR'); }
+
+  /* ─── VUE D'ENSEMBLE ─── */
+  var xp = parseInt(ls('ks_xp')||'0', 10) || 0;
+  var streak = parseInt(ls('ks_streak')||'0', 10) || 0;
+  document.getElementById('xpEl').textContent = fmt(xp);
+  document.getElementById('ovXP').textContent = fmt(xp);
+  document.getElementById('ovStreak').textContent = streak;
+
+  /* Compte les activités finies (clés ks_* === 'done') */
+  var doneCount = 0, allKeys = [];
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      allKeys.push(k);
+      if (k.indexOf('ks_') === 0 && localStorage.getItem(k) === 'done') doneCount++;
+    }
+  } catch (e) {}
+  document.getElementById('ovActs').textContent = doneCount;
+
+  /* Jours actifs via heatmap data ks_heatmap_YYYY-MM-DD ou similaire.
+     Sinon estimation depuis xp/cadence quotidienne. */
+  var activeDays = 0;
+  try {
+    var hm = JSON.parse(ls('ks_heatmap') || 'null');
+    if (hm && typeof hm === 'object') {
+      activeDays = Object.keys(hm).filter(function (d) { return hm[d] > 0; }).length;
+    }
+  } catch (e) {}
+  if (!activeDays) {
+    // Fallback : approxime depuis le streak (au moins ces jours sont actifs)
+    activeDays = Math.max(streak, doneCount > 0 ? 1 : 0);
+  }
+  document.getElementById('ovDays').textContent = activeDays;
+
+  /* ─── ACTIVITÉS PAR TYPE ─── */
+  /* On dérive depuis les préfixes de clés et le curriculum si disponible.
+     Sinon on compte par catégorie de clé. */
+  function buildActivityBreakdown() {
+    var types = {
+      lecons:    { l: 'Leçons',         total: 0, done: 0, color: '#B8924E', svg: '<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>' },
+      exercices: { l: 'Exercices',      total: 0, done: 0, color: '#2563EB', svg: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>' },
+      quiz:      { l: 'Quiz',           total: 0, done: 0, color: '#9A3412', svg: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>' },
+      histoires: { l: 'Histoires',      total: 0, done: 0, color: '#4F46E5', svg: '<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>' },
+      anecdotes: { l: 'Anecdotes',      total: 0, done: 0, color: '#DB2777', svg: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>' },
+      conseils:  { l: 'Conseils',       total: 0, done: 0, color: '#D97706', svg: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>' },
+      jeux:      { l: 'Jeux',           total: 0, done: 0, color: '#16A34A', svg: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>' },
+      chansons:  { l: 'K-Pop',          total: 0, done: 0, color: '#7C3AED', svg: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>' },
+      pro:       { l: 'Professionnel',  total: 0, done: 0, color: '#0EA5E9', svg: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>' },
+      flashcards:{ l: 'Flashcards',     total: 0, done: 0, color: '#0369A1', svg: '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>' },
+    };
+    /* Utilise le curriculum si chargé */
+    if (window.KSCurriculum && KSCurriculum.activities) {
+      KSCurriculum.activities.forEach(function (a) {
+        var t = a.t;
+        var key = (t === 'lecon')?'lecons':(t==='exercice')?'exercices':(t==='quiz')?'quiz':(t==='histoire')?'histoires':(t==='anecdote')?'anecdotes':(t==='conseil')?'conseils':(t==='jeu')?'jeux':(t==='chanson')?'chansons':(t==='pro')?'pro':(t==='flashcards')?'flashcards':null;
+        if (!key || !types[key]) return;
+        types[key].total++;
+        if (KSCurriculum.isDone && KSCurriculum.isDone(a.key)) types[key].done++;
+      });
+    } else {
+      /* Sinon, on devine depuis les clés terminées */
+      allKeys.forEach(function (k) {
+        if (localStorage.getItem(k) !== 'done') return;
+        if (k.match(/^ks_l\d+$|^ks_h\d+$/)) types.lecons.done++;
+        else if (k.indexOf('ks_c0') === 0 || k.indexOf('ks_d0') === 0) types.lecons.done++;
+      });
+    }
+
+    var html = '';
+    Object.keys(types).forEach(function (key) {
+      var t = types[key];
+      if (t.total === 0 && t.done === 0) return; // skip categories with no data
+      var pct = t.total > 0 ? Math.round((t.done / t.total) * 100) : 0;
+      var isComplete = t.done >= t.total && t.total > 0;
+      html += '<div class="act-row">'
+            + '<div class="act-row-top">'
+            +   '<span class="act-row-lbl"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="'+t.color+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+t.svg+'</svg></span>'+t.l+'</span>'
+            +   '<span class="act-row-val">'+t.done+'<span class="total"> / '+t.total+'</span></span>'
+            + '</div>'
+            + '<div class="act-bar"><div class="act-bar-fill'+(isComplete?' complete':'')+'" style="width:'+pct+'%;background:linear-gradient(90deg,'+t.color+',color-mix(in srgb, '+t.color+' 70%, white))"></div></div>'
+            + '</div>';
+    });
+    if (!html) html = '<div class="empty">Aucune activité terminée pour le moment. Commence une leçon pour voir tes stats apparaître ici !</div>';
+    document.getElementById('actBreakdown').innerHTML = html;
+  }
+
+  /* ─── PROGRESSION PAR NIVEAU CEFR ─── */
+  function buildLevelProgress() {
+    var levels = [
+      { id: 'hangeul', name: 'Hangeul', sub: 'L\'alphabet coréen', tag: '한' },
+      { id: 'a1',      name: 'Niveau A1', sub: 'Débutant', tag: 'A1' },
+      { id: 'a2',      name: 'Niveau A2', sub: 'Élémentaire', tag: 'A2' },
+      { id: 'b1',      name: 'Niveau B1', sub: 'Intermédiaire', tag: 'B1' },
+      { id: 'b2',      name: 'Niveau B2', sub: 'Avancé', tag: 'B2' }
+    ];
+    var counts = { hangeul: {d:0,t:0}, a1: {d:0,t:0}, a2: {d:0,t:0}, b1: {d:0,t:0}, b2: {d:0,t:0} };
+    if (window.KSCurriculum && KSCurriculum.activities) {
+      KSCurriculum.activities.forEach(function (a) {
+        if (!counts[a.lvl]) return;
+        counts[a.lvl].t++;
+        if (KSCurriculum.isDone(a.key)) counts[a.lvl].d++;
+      });
+    }
+    var html = '';
+    levels.forEach(function (lv) {
+      var c = counts[lv.id];
+      var pct = c.t > 0 ? Math.round((c.d / c.t) * 100) : 0;
+      html += '<div class="lvl-row">'
+            + '<div class="lvl-tag">'+lv.tag+'</div>'
+            + '<div class="lvl-body">'
+            +   '<div class="lvl-name">'+lv.name+' <span style="font-weight:normal;color:var(--t3);font-size:11px">· '+lv.sub+'</span></div>'
+            +   '<div class="lvl-bar"><div class="lvl-bar-fill" style="width:'+pct+'%"></div></div>'
+            +   '<div class="lvl-meta">'+(c.t>0 ? '<strong>'+c.d+'</strong> / '+c.t+' activités' : 'Pas encore débloqué')+'</div>'
+            + '</div>'
+            + '<div class="lvl-pct">'+pct+'%</div>'
+            + '</div>';
+    });
+    document.getElementById('lvlList').innerHTML = html;
+  }
+
+  /* ─── VOCABULAIRE SRS ─── */
+  function buildSRSBreakdown() {
+    if (!window.KSSRS || !KSSRS.stats) {
+      document.getElementById('srsBreakdown').innerHTML = '<div class="empty">Données SRS pas encore chargées.</div>';
+      return;
+    }
+    var s = KSSRS.stats();
+    document.getElementById('srsBreakdown').innerHTML =
+      '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#22c55e"></span>Mots maîtrisés</span><span class="srs-row-val">'+s.mastered+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#5B8EF5"></span>En cours d\'apprentissage</span><span class="srs-row-val">'+s.learning+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#C9A96E"></span>À découvrir (nouveaux)</span><span class="srs-row-val">'+s.fresh+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#FF6B35"></span>À réviser aujourd\'hui</span><span class="srs-row-val">'+s.due+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl">Total débloqué</span><span class="srs-row-val">'+s.available+' / '+s.total+'</span></div>';
+  }
+
+  /* ─── MEILLEUR JOUR ─── */
+  function buildBestDay() {
+    try {
+      var hm = JSON.parse(ls('ks_heatmap') || 'null');
+      if (!hm) { document.getElementById('bdDate').textContent = 'Pas encore'; document.getElementById('bdXp').textContent = '—'; return; }
+      var best = { date: null, xp: 0 };
+      Object.keys(hm).forEach(function (d) {
+        if (hm[d] > best.xp) { best = { date: d, xp: hm[d] }; }
+      });
+      if (!best.date) { document.getElementById('bdDate').textContent = 'Pas encore'; document.getElementById('bdXp').textContent = '—'; return; }
+      var parts = best.date.split('-');
+      var dateObj = new Date(parts[0], parts[1]-1, parts[2]);
+      var fmtDate = dateObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      document.getElementById('bdDate').textContent = fmtDate;
+      document.getElementById('bdXp').textContent = '+' + best.xp + ' XP';
+    } catch (e) {
+      document.getElementById('bdDate').textContent = 'Pas encore';
+      document.getElementById('bdXp').textContent = '—';
+    }
+  }
+
+  /* Lance tout */
+  function run() {
+    buildActivityBreakdown();
+    buildLevelProgress();
+    buildSRSBreakdown();
+    buildBestDay();
+  }
+  /* Attend que les libs (curriculum, srs) soient chargées */
+  function ready() {
+    if (window.KSCurriculum && window.KSSRS) run();
+    else setTimeout(ready, 100);
+  }
+  ready();
+})();
+</script>
+</body>
+</html>
