@@ -478,3 +478,93 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
   border-color:rgba(96,165,250,.4)!important;
   color:#93c5fd!important;
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   DARK MODE — overrides pour les classes utilisées dans plusieurs
+   leçons / histoires qui ont un fond semi-transparent doré/violet/
+   coloré et un texte var(--navy). En light mode le fond pâle se voit
+   bien, en dark mode le fond devient sombre et le texte var(--navy)
+   devient invisible. On force texte clair + un fond plus contrasté.
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Boutons "Écouter" dans les leçons Hangeul */
+[data-theme=dark] .speak-btn{
+  background:rgba(201,169,110,.18)!important;
+  border-color:rgba(201,169,110,.4)!important;
+  color:#E8D6A4!important;
+}
+[data-theme=dark] .speak-btn:hover,
+[data-theme=dark] .speak-btn.playing{
+  background:var(--gold)!important;
+  color:var(--navy)!important;
+}
+
+/* Indices / hints / titres de questions dans les leçons */
+[data-theme=dark] .tw-hint,
+[data-theme=dark] .q-prompt,
+[data-theme=dark] .combo-note em,
+[data-theme=dark] .modal-char,
+[data-theme=dark] .qr-subtitle{
+  color:var(--t)!important;
+}
+
+/* Cartes de récap de mots dans les histoires */
+[data-theme=dark] .recap-kr,
+[data-theme=dark] .recap-fr{
+  color:var(--t)!important;
+}
+
+/* Definitions / cards de vocabulaire dans cours/grammaire */
+[data-theme=dark] .gcard-title,
+[data-theme=dark] .scard-name,
+[data-theme=dark] .card-kr,
+[data-theme=dark] .card-fr,
+[data-theme=dark] .stat-n,
+[data-theme=dark] .goal-title,
+[data-theme=dark] .vt-title,
+[data-theme=dark] .ccard-char{
+  color:var(--t)!important;
+}
+
+/* Chips/filters actifs dans cours et grammaire */
+[data-theme=dark] .chip.active,
+[data-theme=dark] .fchip.act{
+  background:var(--gold)!important;
+  border-color:var(--gold)!important;
+  color:var(--navy)!important;
+}
+[data-theme=dark] .chip:hover,
+[data-theme=dark] .fchip:hover{
+  color:var(--gold)!important;
+  border-color:var(--gold)!important;
+}
+
+/* Boutons gold qui ont déjà du texte navy — c'est l'usage attendu :
+   bouton doré + initial navy = lisible dans les 2 thèmes. On le
+   laisse tel quel mais on affirme le contraste maximum. */
+[data-theme=dark] .btn-gold,
+[data-theme=dark] .res-prim,
+[data-theme=dark] .gotit-btn,
+[data-theme=dark] .start-btn,
+[data-theme=dark] .quiz-next,
+[data-theme=dark] .primary,
+[data-theme=dark] .nav.dark .nav-cta{
+  color:#0a1220!important; /* navy fixe, pas var(--navy) qui pourrait changer */
+}
+
+/* Tooltips "word-tip" dans les histoires — fond navy fixe, texte
+   doit toujours être clair dans les 2 thèmes. */
+.word-tip{ color:#f7f8fa!important; }
+
+/* Encadrés "premium / pro" sur les pages auth */
+[data-theme=dark] .auth-mobile-logo,
+[data-theme=dark] .auth-left-logo{
+  color:var(--t)!important;
+}
+
+/* Hover sur les cards de leçon — éviter que le texte devienne navy
+   en dark mode quand on survole. */
+[data-theme=dark] .ccard:hover .ccard-char,
+[data-theme=dark] .ccard.active .ccard-char{
+  color:#fff!important;
+}
