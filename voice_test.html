@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Comparaison voix coréennes — Korean Stories</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>
+  body{font-family:-apple-system,system-ui,sans-serif;max-width:720px;margin:0 auto;padding:30px 20px;background:#0a1220;color:#f5efe0}
+  h1{font-family:Georgia,serif;font-style:italic;color:#C9A96E;margin-bottom:8px}
+  .lead{color:rgba(247,248,250,.55);font-size:14px;line-height:1.6;margin-bottom:30px}
+  .sample{background:#152030;border:1px solid rgba(201,169,110,.18);border-radius:16px;padding:20px;margin-bottom:18px}
+  .sample h2{font-size:22px;color:#C9A96E;margin:0 0 4px;font-family:Georgia,serif}
+  .sample p{color:rgba(247,248,250,.5);margin:0 0 14px;font-size:13px;font-style:italic}
+  .row{display:grid;grid-template-columns:1fr;gap:8px}
+  .opt{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px}
+  .opt strong{flex:1;font-size:13px;color:#f5efe0}
+  .opt em{font-size:11px;color:rgba(247,248,250,.4);font-style:normal}
+  .opt audio{flex-shrink:0;max-width:280px}
+  .pick{margin-top:36px;text-align:center;padding:24px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.3);border-radius:16px}
+  .pick h3{color:#C9A96E;margin:0 0 14px}
+  .pick p{font-size:13px;color:rgba(247,248,250,.6);line-height:1.7;margin:0}
+  .pick strong{color:#f5efe0}
+</style>
+</head>
+<body>
+<h1>Quelle voix te plaît le plus ?</h1>
+<p class="lead">Écoute les 4 voix sur 3 exemples et dis-moi laquelle tu préfères. Je régénèrerai ensuite l'ensemble des ~1000 audios du site avec ton choix.</p>
+
+<div class="sample">
+  <h2>안녕하세요 만나서 반가워요</h2>
+  <p>Bonjour, enchanté(e) de vous rencontrer</p>
+  <div class="row">
+    <div class="opt"><strong>Option 1 — SunHi <em>(femme, actuelle)</em></strong><audio controls src="voice_test/0_ko-KR-SunHiNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 2 — InJoon <em>(homme)</em></strong><audio controls src="voice_test/0_ko-KR-InJoonNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 3 — Hyunsu Multilingue <em>(homme, plus expressif)</em></strong><audio controls src="voice_test/0_ko-KR-HyunsuMultilingualNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 4 — Google Translate <em>(femme, alternative gratuite)</em></strong><audio controls src="voice_test/0_google.mp3"></audio></div>
+  </div>
+</div>
+
+<div class="sample">
+  <h2>한국어를 공부하고 있어요</h2>
+  <p>J'étudie le coréen</p>
+  <div class="row">
+    <div class="opt"><strong>Option 1 — SunHi</strong><audio controls src="voice_test/1_ko-KR-SunHiNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 2 — InJoon</strong><audio controls src="voice_test/1_ko-KR-InJoonNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 3 — Hyunsu Multilingue</strong><audio controls src="voice_test/1_ko-KR-HyunsuMultilingualNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 4 — Google Translate</strong><audio controls src="voice_test/1_google.mp3"></audio></div>
+  </div>
+</div>
+
+<div class="sample">
+  <h2>비빔밥을 먹고 싶어요</h2>
+  <p>Je veux manger du bibimbap</p>
+  <div class="row">
+    <div class="opt"><strong>Option 1 — SunHi</strong><audio controls src="voice_test/2_ko-KR-SunHiNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 2 — InJoon</strong><audio controls src="voice_test/2_ko-KR-InJoonNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 3 — Hyunsu Multilingue</strong><audio controls src="voice_test/2_ko-KR-HyunsuMultilingualNeural.mp3"></audio></div>
+    <div class="opt"><strong>Option 4 — Google Translate</strong><audio controls src="voice_test/2_google.mp3"></audio></div>
+  </div>
+</div>
+
+<div class="pick">
+  <h3>Mon avis</h3>
+  <p>
+    <strong>Google Translate</strong> est souvent la plus naturelle pour le coréen — c'est une voix neuronale Google haute qualité.
+    <strong>Hyunsu Multilingue</strong> est aussi très expressive (homme).
+    <strong>SunHi</strong> (l'actuelle) est correcte mais plus lisse / studio.
+    <br/><br/>
+    Si tu veux <strong>encore plus naturel</strong>, on peut aussi tester <strong>Naver Papago</strong> (qualité native coréenne premium) mais il faudrait un compte développeur Naver gratuit (~10 min de setup).
+  </p>
+</div>
+
+</body>
+</html>
