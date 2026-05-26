@@ -77,33 +77,48 @@ function ksIsDone(key) {
   try { return localStorage.getItem(key) === 'done'; } catch(e) { return false; }
 }
 
-/* ── Korean TTS — meilleure voix disponible ───────────────────────── */
-var _ksBestVoice = null;
+/* ── Korean TTS — meilleure voix disponible (fallback) ─────────────
+   Priorités séparées par genre pour matcher le choix utilisateur :
+   si elle a choisi InJoon/Hyunsu (homme), le fallback essaie aussi
+   de jouer une voix masculine du navigateur. */
+var _ksFemaleVoice = null;
+var _ksMaleVoice = null;
 var _ksVoiceReady = false;
 
 function _ksLoadVoice() {
   var voices = window.speechSynthesis.getVoices();
   if (!voices.length) return;
 
-  // Priorité : voix les plus naturelles connues
-  var priority = [
-    'yuna',           // Apple (iOS/macOS) — excellente
-    'google 한국의',   // Chrome Android/Desktop — très bien
-    'google korean',
-    'heami',          // Microsoft Windows
-    'seoyeon',        // Amazon / certains Android
-  ];
+  var koVoices = voices.filter(function(v){ return v.lang.toLowerCase().indexOf('ko') === 0; });
+  if (!koVoices.length) return;
 
-  var koVoices = voices.filter(v => v.lang.toLowerCase().startsWith('ko'));
+  /* Voix coréennes connues triées par genre (basé sur les noms exposés
+     par chaque OS/navigateur). */
+  var femalePriority = ['yuna', 'sora', 'sun-hi', 'heami', 'sun', 'seoyeon', 'google 한국의', 'google korean'];
+  var malePriority   = ['injoon', 'jinho', 'in-joon', 'donghyun', 'jihun', 'minjun', 'hyunsu'];
 
-  // Cherche dans l'ordre de priorité
-  for (var i = 0; i < priority.length; i++) {
-    var found = koVoices.find(v => v.name.toLowerCase().includes(priority[i]));
-    if (found) { _ksBestVoice = found; _ksVoiceReady = true; return; }
+  function pick(prio) {
+    for (var i = 0; i < prio.length; i++) {
+      var found = koVoices.find(function(v){ return v.name.toLowerCase().indexOf(prio[i]) >= 0; });
+      if (found) return found;
+    }
+    return null;
   }
 
-  // Sinon prend la première voix coréenne disponible
-  if (koVoices.length) { _ksBestVoice = koVoices[0]; _ksVoiceReady = true; }
+  _ksFemaleVoice = pick(femalePriority) || koVoices[0];
+  _ksMaleVoice   = pick(malePriority);
+  /* Si aucune voix masculine trouvée sur cet OS, on garde la féminine
+     (le navigateur ne propose souvent qu'une seule voix coréenne). */
+  if (!_ksMaleVoice) _ksMaleVoice = _ksFemaleVoice;
+  _ksVoiceReady = true;
+}
+
+/* Renvoie la voix navigateur qui matche le mieux la préférence
+   d'avatar de l'utilisateur (homme/femme). */
+function _ksVoiceForChoice() {
+  var pref = (typeof ksGetVoice === 'function') ? ksGetVoice() : 'sunhi';
+  /* sunhi = femme, injoon/hyunsu = homme */
+  return (pref === 'sunhi') ? _ksFemaleVoice : _ksMaleVoice;
 }
 
 // Les voix peuvent se charger après le script
@@ -150,14 +165,23 @@ if (typeof window !== 'undefined') { try { _ksLoadManifest(); } catch(e){} }
 
 function _ksFallbackTTS(text, btn) {
   /* Voix du navigateur — pour les mots qui n'ont pas de MP3
-     (onomatopées, ou textes ajoutés après la dernière génération). */
+     (onomatopées, ou textes ajoutés après la dernière génération).
+     On essaie de matcher le genre choisi par l'utilisateur. */
   try {
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     u.lang  = 'ko-KR';
     u.rate  = 0.78;
     u.pitch = 1.0;
-    if (_ksBestVoice) u.voice = _ksBestVoice;
+    var v = _ksVoiceForChoice();
+    if (v) u.voice = v;
+    /* Si on a choisi une voix masculine mais qu'on n'en a aucune,
+       on baisse un peu le pitch pour faire "plus masculin". */
+    var pref = (typeof ksGetVoice === 'function') ? ksGetVoice() : 'sunhi';
+    if (pref !== 'sunhi' && v && _ksFemaleVoice && v === _ksFemaleVoice) {
+      u.pitch = 0.7;  // approximation grossière
+      u.rate  = 0.85;
+    }
     if (btn) {
       u.onend  = function() { btn.classList.remove('playing'); };
       u.onerror = function() { btn.classList.remove('playing'); };
