@@ -574,18 +574,7 @@ function updateProgress(lineEl) {
 }
 
 // ── AUDIO ────────────────────────────────────────────────────────────────
-function speak(text, btn) {
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
-    if(btn) {
-      btn.classList.add('playing');
-      u.onend = ()=>btn.classList.remove('playing');
-    }
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
-  } catch(e){}
-}
+  /* speak() locale retirée — utilise window.speak (ks.js) avec MP3 manifest */
 
 function playAudio(text, el) {
   try {

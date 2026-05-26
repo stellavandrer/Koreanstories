@@ -864,7 +864,7 @@ function getVisibleWords(filter) {
 // ── Audio ──
 let _curAudio=null;
 function _stopAll(){if(_curAudio){_curAudio.pause();_curAudio=null;}document.querySelectorAll('.card-audio.playing').forEach(b=>b.classList.remove('playing'));}
-function speak(text,btn){_stopAll();if(btn)btn.classList.add('playing');const url=`https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ko&client=tw-ob`;const a=new Audio(url);_curAudio=a;a.onended=()=>{if(btn)btn.classList.remove('playing');_curAudio=null;};a.onerror=()=>{_curAudio=null;if(btn)btn.classList.remove('playing');};a.play().catch(()=>{_curAudio=null;});}
+  /* speak() locale retirée — utilise window.speak (ks.js) avec MP3 manifest */
 
 // ── Progression (localStorage maîtrise) ──
 function getMastery(id) {

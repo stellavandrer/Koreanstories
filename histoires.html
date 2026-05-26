@@ -549,9 +549,7 @@ const allLecsDone = [1,2,3,4,5,6,7,8,9,10].every(n => ls('ks_l'+n)==='done');
 // ─────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────
-function speak(t) {
-  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang='ko-KR'; u.rate=0.82; speechSynthesis.speak(u); }catch(e){}
-}
+  /* speak() locale retirée — utilise window.speak (ks.js) avec MP3 manifest */
 
 function getState(s) {
   if(ls(s.key)==='done') return 'done';

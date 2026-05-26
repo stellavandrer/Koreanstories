@@ -803,16 +803,7 @@
   WORD_DEFS['mina'] = {kr:'미나', rom:'Mi-na', fr:'Prénom : Mina', audio:'미나', tip:'미나 = nom coréen populaire chez les filles. 미 = beauté.'};
 
   // ── Audio ──
-  function speak(text, btn) {
-    try {
-      speechSynthesis.cancel();
-      document.querySelectorAll('.bubble-audio.playing,.recap-item.playing').forEach(e=>e.classList.remove('playing'));
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
-      if(btn) { btn.classList.add('playing'); u.onend = ()=>btn.classList.remove('playing'); }
-      speechSynthesis.speak(u);
-    } catch(e){}
-  }
+  /* speak() locale retirée — utilise window.speak (ks.js) avec MP3 manifest */
 
   // ── Tooltip ──
   const tooltip = document.getElementById('tooltip');

@@ -154,8 +154,7 @@
     </div>
   </div>
 <script>
-
-function speak(t,btn){try{window.speechSynthesis.cancel();if(btn)btn.classList.add('playing');const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';u.rate=0.82;if(btn){u.onend=()=>btn.classList.remove('playing');u.onerror=()=>btn.classList.remove('playing');}window.speechSynthesis.speak(u);}catch(e){if(btn)btn.classList.remove('playing');}}
+  /* speak() locale retirée — utilise window.speak (ks.js) avec MP3 manifest */
 
 const WEATHER=[
   {em:'',kor:'맑아요',rom:'mal-ga-yo',mean:'Il fait beau / ensoleillé'},

@@ -570,22 +570,7 @@
     </div>
   </div>
 <script>
-
-
-function speak(text, btn) {
-  try {
-    window.speechSynthesis.cancel();
-    document.querySelectorAll('.speak-btn.playing').forEach(b => b.classList.remove('playing'));
-    if(btn) btn.classList.add('playing');
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR'; u.rate = 0.82; u.pitch = 1;
-    if(btn) {
-      u.onend = () => btn.classList.remove('playing');
-      u.onerror = () => btn.classList.remove('playing');
-    }
-    window.speechSynthesis.speak(u);
-  } catch(e) { if(btn) btn.classList.remove('playing'); }
-}
+  /* speak() locale retirée — utilise window.speak (ks.js) avec MP3 manifest */
 function _ws(t,btn){/* deprecated */}
 
 // ── Leçon 8 : ㅌ(t) ㅍ(p) ㅑ(ya) → 타·파·야 + mots 파티·야채 ──
