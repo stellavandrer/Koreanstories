@@ -372,6 +372,19 @@
       <button class="srs-start-btn" id="srsStartBtn" onclick="startSRS()">
         Commencer la révision SRS →
       </button>
+
+      <!-- ── Mots récemment ratés ────────────────────────────── -->
+      <div id="recentFailsBlock" style="display:none;margin-top:24px">
+        <div class="section-label" style="display:flex;align-items:center;justify-content:space-between">
+          <span>Mots récemment ratés <span id="rfCount" style="color:var(--gold)"></span></span>
+          <button id="rfClearBtn" onclick="clearRecentFails()" style="background:none;border:none;color:var(--t3);font-size:11px;cursor:pointer;text-decoration:underline;font-family:inherit">Effacer</button>
+        </div>
+        <p style="font-size:11.5px;color:var(--t2);margin:-4px 0 12px;line-height:1.5">Ceux que tu as ratés ces 7 derniers jours. Une révision ciblée vaut mieux qu'une révision générale.</p>
+        <div id="recentFailsList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+        <button class="srs-start-btn" id="rfReviewBtn" onclick="startRecentFailsReview()" style="background:linear-gradient(135deg,#FF8B5C,#FF6B3D);border-color:#FF8B5C">
+          Revoir ces mots maintenant →
+        </button>
+      </div>
     </div>
 
     <!-- QUIZ LIBRE PANEL -->
@@ -761,6 +774,78 @@ function updateHeroBadge() {
 }
 
 // ════════════════════════════════════════════════
+//   MOTS RÉCEMMENT RATÉS — affichage + révision ciblée
+// ════════════════════════════════════════════════
+function getRecentFails() {
+  try {
+    const raw = JSON.parse(localStorage.getItem('ks_srs_recent_fails') || '[]');
+    // Garde les 7 derniers jours
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 7);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    return raw.filter(f => f.date >= cutoffStr);
+  } catch (e) { return []; }
+}
+
+function renderRecentFails() {
+  const fails = getRecentFails();
+  const block = document.getElementById('recentFailsBlock');
+  if (!block) return;
+  if (!fails.length) { block.style.display = 'none'; return; }
+  // Résout les ids vers les objets mots
+  const wordsById = {};
+  WORDS.forEach(w => { wordsById[w.id] = w; });
+  const items = fails.map(f => wordsById[f.id]).filter(Boolean);
+  if (!items.length) { block.style.display = 'none'; return; }
+  block.style.display = '';
+  document.getElementById('rfCount').textContent = `· ${items.length}`;
+  const list = document.getElementById('recentFailsList');
+  list.innerHTML = items.map(w => `
+    <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surf);border:1px solid var(--bd);border-radius:12px">
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);line-height:1.2">${w.ko}</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:2px">${w.fr}</div>
+      </div>
+      <button onclick="playAudio('${w.audio || w.ko}')" style="background:rgba(201,169,110,.15);border:1px solid rgba(201,169,110,.3);width:32px;height:32px;border-radius:50%;cursor:pointer;color:var(--gold);display:flex;align-items:center;justify-content:center" aria-label="Écouter">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+      </button>
+    </div>
+  `).join('');
+}
+
+function clearRecentFails() {
+  if (!confirm('Effacer la liste des mots récemment ratés ?')) return;
+  try { localStorage.setItem('ks_srs_recent_fails', '[]'); } catch (e) {}
+  renderRecentFails();
+}
+
+function startRecentFailsReview() {
+  const fails = getRecentFails();
+  if (!fails.length) return;
+  const wordsById = {};
+  WORDS.forEach(w => { wordsById[w.id] = w; });
+  const pool = fails.map(f => wordsById[f.id]).filter(Boolean);
+  if (!pool.length) return;
+  isSRSMode = true;
+  srsSessionResults = [];
+  questions = pool;
+  qIndex = 0; score = 0; streak = 0; bestStreak = 0; earnedXP = 0; answered = false;
+  const badge = document.getElementById('qzModeBadge');
+  badge.textContent = 'Ratés';
+  badge.className = 'qz-mode-badge srs';
+  document.getElementById('screenStart').style.display = 'none';
+  document.getElementById('screenQuiz').style.display = '';
+  renderQuestion();
+}
+
+// Lance le rendu au chargement
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderRecentFails);
+} else {
+  renderRecentFails();
+}
+
+// ════════════════════════════════════════════════
 //   START SRS SESSION
 // ════════════════════════════════════════════════
 function startSRS() {
@@ -953,6 +1038,26 @@ function checkAnswer(choice, correct, btn) {
     const newData = sm2(quality, prevData.reps, prevData.ef, prevData.interval);
     setSRS(correct.id, newData);
     incrementDayCount();
+
+    // Tracking des échecs récents → pour la section "Mots récemment ratés"
+    if (!isRight) {
+      try {
+        const fails = JSON.parse(localStorage.getItem('ks_srs_recent_fails') || '[]');
+        // Évite les doublons : enlève l'ancienne entrée si elle existe
+        const filtered = fails.filter(f => f.id !== correct.id);
+        filtered.unshift({ id: correct.id, date: new Date().toISOString().slice(0, 10) });
+        // Garde les 50 derniers échecs max
+        const trimmed = filtered.slice(0, 50);
+        localStorage.setItem('ks_srs_recent_fails', JSON.stringify(trimmed));
+      } catch (e) {}
+    } else {
+      // Si correct, retire ce mot de la liste des récemment ratés
+      try {
+        const fails = JSON.parse(localStorage.getItem('ks_srs_recent_fails') || '[]');
+        const filtered = fails.filter(f => f.id !== correct.id);
+        localStorage.setItem('ks_srs_recent_fails', JSON.stringify(filtered));
+      } catch (e) {}
+    }
 
     // Enregistrer pour le breakdown
     srsSessionResults.push({
