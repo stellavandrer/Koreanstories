@@ -95,6 +95,17 @@
     .rg-guest-msg{font-size:11.5px;color:var(--t3);text-align:center;
       padding:14px 16px;font-style:italic}
 
+    /* Sélecteur de voix audio */
+    .rg-voice{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 8px 30px;background:var(--bg);border:1.5px solid var(--bd);border-radius:14px;cursor:pointer;transition:all .2s;font-family:inherit}
+    .rg-voice:hover{border-color:var(--gold)}
+    .rg-voice.on{background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(201,169,110,.03));border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,169,110,.25)}
+    .rg-voice-t{font-size:13px;font-weight:700;color:var(--t)}
+    .rg-voice-s{font-size:10.5px;color:var(--t2)}
+    .rg-voice-play{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:24px;height:24px;border-radius:50%;border:none;background:var(--gold);color:#0a1220;font-size:10px;cursor:pointer;line-height:1;padding-left:1px;transition:all .15s}
+    .rg-voice-play:hover{transform:translateX(-50%) scale(1.15)}
+    .rg-voice-play.playing{background:#22c55e;animation:vplay 1s ease infinite}
+    @keyframes vplay{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
+
     .rg-foot{text-align:center;font-size:11px;color:var(--t3);margin:26px 0 8px;line-height:1.7}
     #rgFile{display:none}
   </style>
@@ -268,6 +279,38 @@
         </div>
       </div>
     </div>
+
+    <!-- VOIX AUDIO -->
+    <span class="rg-sec-lbl">Voix audio</span>
+    <div class="rg-card">
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#0EA5E9">
+          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Voix de prononciation</div>
+          <div class="rg-row-s" id="voiceCurrent">SunHi · femme, naturelle</div>
+        </div>
+      </div>
+      <div style="padding:0 16px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+        <button class="rg-voice" data-voice="sunhi" onclick="pickVoice('sunhi')">
+          <div class="rg-voice-t">SunHi</div>
+          <div class="rg-voice-s">Femme</div>
+          <button class="rg-voice-play" onclick="event.stopPropagation();previewVoice('sunhi')" aria-label="Écouter">▶</button>
+        </button>
+        <button class="rg-voice" data-voice="injoon" onclick="pickVoice('injoon')">
+          <div class="rg-voice-t">InJoon</div>
+          <div class="rg-voice-s">Homme</div>
+          <button class="rg-voice-play" onclick="event.stopPropagation();previewVoice('injoon')" aria-label="Écouter">▶</button>
+        </button>
+        <button class="rg-voice" data-voice="hyunsu" onclick="pickVoice('hyunsu')">
+          <div class="rg-voice-t">Hyunsu</div>
+          <div class="rg-voice-s">Expressif</div>
+          <button class="rg-voice-play" onclick="event.stopPropagation();previewVoice('hyunsu')" aria-label="Écouter">▶</button>
+        </button>
+      </div>
+    </div>
+    <p class="rg-note">Voix neuronales Microsoft Edge TTS. Le choix s'applique à tout le site, sur tous les appareils synchronisés.</p>
 
     <!-- SAUVEGARDE -->
     <span class="rg-sec-lbl">Sauvegarde de ma progression</span>
@@ -622,6 +665,51 @@
     document.getElementById('themeSwitch').classList.toggle('on',dark);
   }
   syncTheme();
+  /* ── Voix audio ─────────────────────────────────────────────── */
+  var VOICE_LABELS = {
+    sunhi:  'SunHi · femme, naturelle',
+    injoon: 'InJoon · homme, classique',
+    hyunsu: 'Hyunsu · homme, expressif'
+  };
+  function syncVoiceUI(){
+    var v = (typeof ksGetVoice==='function') ? ksGetVoice() : (ls('ks_voice')||'sunhi');
+    document.querySelectorAll('.rg-voice').forEach(function(b){
+      b.classList.toggle('on', b.dataset.voice === v);
+    });
+    var lbl = document.getElementById('voiceCurrent');
+    if (lbl) lbl.textContent = VOICE_LABELS[v] || VOICE_LABELS.sunhi;
+  }
+  syncVoiceUI();
+  window.pickVoice = function(v){
+    if (typeof ksSetVoice === 'function') ksSetVoice(v);
+    else { try { localStorage.setItem('ks_voice', v); } catch(e){} }
+    syncVoiceUI();
+  };
+  /* Aperçu : joue un mot test avec la voix demandée, sans changer
+     la préférence persistante de l'utilisateur. */
+  var _previewAudio = null;
+  window.previewVoice = function(v){
+    if (_previewAudio) { try { _previewAudio.pause(); }catch(e){} _previewAudio=null; }
+    document.querySelectorAll('.rg-voice-play').forEach(function(b){ b.classList.remove('playing'); });
+    var btn = document.querySelector('.rg-voice[data-voice="'+v+'"] .rg-voice-play');
+    if (btn) btn.classList.add('playing');
+    /* Phrase de démo : "안녕하세요 만나서 반가워요" (hash md5[:12]) */
+    var demoText = '안녕하세요 만나서 반가워요';
+    /* Hash = md5 court — calcul JS pour ne pas dépendre du manifest */
+    fetch('audio/manifest.json',{cache:'default'})
+      .then(function(r){ return r.json(); })
+      .then(function(m){
+        var hash = m[demoText];
+        if (!hash) { if (btn) btn.classList.remove('playing'); return; }
+        var audio = new Audio('audio/'+v+'/'+hash);
+        _previewAudio = audio;
+        audio.onended = function(){ if (btn) btn.classList.remove('playing'); };
+        audio.onerror = function(){ if (btn) btn.classList.remove('playing'); };
+        audio.play().catch(function(){ if (btn) btn.classList.remove('playing'); });
+      })
+      .catch(function(){ if (btn) btn.classList.remove('playing'); });
+  };
+
   window.toggleThemeSetting=function(){
     if(typeof toggleTheme==='function') toggleTheme();
     else{

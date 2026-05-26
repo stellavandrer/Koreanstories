@@ -113,13 +113,28 @@ if (window.speechSynthesis) {
 }
 
 /* ── Audio Korean : MP3 pré-générés (qualité native, Edge TTS) ──────
-   Manifest = mapping { "texte coréen" : "audio/abc123.mp3" } généré
-   par generate_audio.py. Chargé une seule fois au premier appel à
-   speak(). Si le mot est dans le manifest → on joue le MP3.
-   Sinon → fallback sur speechSynthesis du navigateur. */
+   3 voix disponibles : sunhi (femme, défaut), injoon (homme),
+   hyunsu (homme expressif). Le choix utilisateur est dans
+   localStorage.ks_voice. Manifest = mapping { texte : "{hash}.mp3" }.
+   Chemin final : audio/{voice}/{hash}.mp3. Fallback speechSynthesis
+   si le MP3 manque ou que le réseau coupe. */
 var _ksAudioManifest = null;
 var _ksAudioManifestLoading = null;
 var _ksCurrentAudio = null;
+var KS_VOICES = ['sunhi', 'injoon', 'hyunsu'];
+
+function ksGetVoice() {
+  try {
+    var v = localStorage.getItem('ks_voice');
+    return KS_VOICES.indexOf(v) >= 0 ? v : 'sunhi';
+  } catch (e) { return 'sunhi'; }
+}
+function ksSetVoice(v) {
+  if (KS_VOICES.indexOf(v) < 0) return;
+  try { localStorage.setItem('ks_voice', v); } catch (e) {}
+}
+window.ksGetVoice = ksGetVoice;
+window.ksSetVoice = ksSetVoice;
 
 function _ksLoadManifest() {
   if (_ksAudioManifest) return Promise.resolve(_ksAudioManifest);
@@ -171,13 +186,14 @@ function speak(text, btn) {
   }
 
   _ksLoadManifest().then(function(manifest){
-    var src = manifest[cleaned];
-    if (!src) {
+    var hash = manifest[cleaned];
+    if (!hash) {
       /* Pas de MP3 enregistré → fallback navigateur */
       _ksFallbackTTS(text, btn);
       return;
     }
-    /* On a un MP3 → on le joue */
+    /* Construit le chemin avec la voix préférée de l'utilisateur. */
+    var src = 'audio/' + ksGetVoice() + '/' + hash;
     var audio = new Audio(src);
     _ksCurrentAudio = audio;
     audio.onended = function(){ if (btn) btn.classList.remove('playing'); if (_ksCurrentAudio===audio) _ksCurrentAudio=null; };
