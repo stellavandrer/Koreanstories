@@ -155,10 +155,7 @@ tr:hover td{background:var(--s2)}
   <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
 </nav>
 <script>
-function completeLesson(){
-  if(typeof ksAddXP==='function') ksAddXP(15);
-  if(typeof ksMarkDone==='function') ksMarkDone('ks_b16');
-  KSResults.show({title:'Voyage en Corée terminé !',xp:15,nextHref:'cours.html',nextLabel:'Retour au parcours'});
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b16',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b16');location.href='cours.html';}});
 }
 </script>
 <script src="ks-results.js"></script>

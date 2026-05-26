@@ -320,11 +320,7 @@ function showScore(){
     document.getElementById('scoreSub').textContent='Relisez les leçons 24-26 et réessayez !';
   }
 }
-function completeLesson(){
-  if(typeof ksAddXP==='function')ksAddXP(10);
-  if(typeof ksMarkDone==='function')ksMarkDone('ks_b29');
-  const b=document.getElementById('doneBtn');
-  if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b29',xp:10});else{if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_b29');location.href='cours.html';}}
   KSResults.show({title:'Exercice terminé !',xp:10,nextHref:'lecon45.html',nextLabel:'Leçon suivante →'});
 }
 </script>

@@ -197,10 +197,7 @@
 </nav>
 <script src="ks.js"></script>
 <script>
-function completeLesson(){
-  if(typeof ksAddXP==='function') ksAddXP(15);
-  if(typeof ksMarkDone==='function') ksMarkDone('ks_b27');
-  KSResults.show({title:'Requêtes polies terminé !',xp:15,nextHref:'lecon27.html',nextLabel:'Leçon 27 →'});
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b27',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b27');location.href='cours.html';}});
 }
 function ans(btn,result){
   const p=btn.closest('.mini-quiz');

@@ -173,7 +173,7 @@ function pick(btn,n,r){
   document.getElementById('progFill').style.width=(done/8*100)+'%';
   document.getElementById('fb'+n).style.display='block';
 }
-function completeLesson(){if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_c20');const b=document.getElementById('doneBtn');if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}setTimeout(()=>window.location.href='cours.html',1200);}
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c20',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_c20');location.href='cours.html';}}setTimeout(()=>window.location.href='cours.html',1200);}
 try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
 </script>
 </body></html>

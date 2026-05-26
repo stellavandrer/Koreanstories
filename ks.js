@@ -387,6 +387,186 @@ window.addEventListener('pageshow', function (e) {
   }, false);
 })();
 
+/* ─────────────────────────────────────────────────────────────────────
+   Écran de fin universel — ksFinish(opts)
+   Appelé à la fin d'une leçon / exercice / quiz / histoire / anecdote.
+   Affiche un overlay plein écran avec :
+     • 3 étoiles (filled si score>=80%, mid-fill si score>=50%, sinon 1)
+     • Titre + phrase d'encouragement coréen/français
+     • XP gagnés
+     • Bouton "Continuer →" qui amène à l'activité suivante du parcours
+       (via KSCurriculum.next() — auto-chargé si besoin)
+     • Lien "Retour au parcours" pour revenir à cours.html
+
+   Usage minimal :  ksFinish({ key:'ks_c02', xp:15 })
+   Avec score :     ksFinish({ key:'ks_c02', xp:15, score:9, total:10 })
+   ───────────────────────────────────────────────────────────────────── */
+
+/* Charge ks-curriculum.js de manière paresseuse si pas déjà là. */
+function _ksEnsureCurriculum() {
+  if (typeof window.KSCurriculum !== 'undefined') return Promise.resolve();
+  if (window._ksCurriculumLoading) return window._ksCurriculumLoading;
+  window._ksCurriculumLoading = new Promise(function (resolve) {
+    var s = document.createElement('script');
+    s.src = 'ks-curriculum.js';
+    s.onload = function () { resolve(); };
+    s.onerror = function () { resolve(); }; // on tolère l'absence
+    document.head.appendChild(s);
+  });
+  return window._ksCurriculumLoading;
+}
+
+/* Phrases d'encouragement variées (mix coréen + français). */
+var _KS_ENCOURAGE = [
+  { kr: '잘했어요 !',  fr: 'Bien joué !' },
+  { kr: '완벽해요 !',  fr: 'Parfait !' },
+  { kr: '훌륭해요 !',  fr: 'Excellent !' },
+  { kr: '대단해요 !',  fr: 'Tu es au top.' },
+  { kr: '멋있어요 !',  fr: 'Magnifique session.' },
+  { kr: '화이팅 !',    fr: 'Continue, tu progresses bien.' },
+  { kr: '최고예요 !',  fr: 'Tu déchires.' },
+  { kr: '계속 가요 !', fr: 'Encore une et tu seras imbattable.' }
+];
+
+function _ksInjectFinishCSS() {
+  if (document.getElementById('ks-finish-css')) return;
+  var s = document.createElement('style');
+  s.id = 'ks-finish-css';
+  s.textContent = [
+    '#ks-finish{position:fixed;inset:0;z-index:99500;display:none;',
+      'flex-direction:column;align-items:center;justify-content:center;',
+      'padding:24px 20px;',
+      'background:linear-gradient(160deg,#0a1628 0%,#0F1B2D 50%,#1a2f4a 100%);',
+      'overflow-y:auto;animation:ksfIn .35s ease both}',
+    '#ks-finish.on{display:flex}',
+    '@keyframes ksfIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}',
+    '.ksf-inner{width:100%;max-width:380px;text-align:center}',
+    '.ksf-stars{display:flex;gap:6px;justify-content:center;margin-bottom:18px}',
+    '.ksf-star{width:32px;height:32px;opacity:.22;transform:scale(.7);',
+      'transition:all .45s cubic-bezier(.34,1.56,.64,1);display:inline-flex}',
+    '.ksf-star svg{width:32px;height:32px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1}',
+    '.ksf-star.lit{opacity:1;transform:scale(1);filter:drop-shadow(0 2px 8px rgba(201,169,110,.55))}',
+    '.ksf-kr{font-family:"Playfair Display",Georgia,serif;font-size:34px;',
+      'font-weight:700;color:#C9A96E;margin:0 0 4px;line-height:1.1;letter-spacing:-.01em}',
+    '.ksf-title{font-family:"Inter",sans-serif;font-size:14px;letter-spacing:.18em;',
+      'text-transform:uppercase;color:rgba(247,248,250,.45);margin:0 0 22px;font-weight:600}',
+    '.ksf-stats{display:flex;gap:10px;width:100%;margin-bottom:22px}',
+    '.ksf-stat{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);',
+      'border-radius:14px;padding:14px 8px}',
+    '.ksf-stat-n{font-family:"Playfair Display",serif;font-size:24px;color:#C9A96E;line-height:1}',
+    '.ksf-stat-l{font-size:10.5px;color:rgba(247,248,250,.5);text-transform:uppercase;',
+      'letter-spacing:.08em;font-weight:600;margin-top:4px}',
+    '.ksf-msg{font-size:14px;color:rgba(247,248,250,.7);line-height:1.65;',
+      'margin-bottom:24px;max-width:320px;margin-left:auto;margin-right:auto}',
+    '.ksf-msg em{color:#fff;font-style:normal;font-weight:600}',
+    '.ksf-next{width:100%;padding:15px 18px;border:none;border-radius:14px;',
+      'background:#C9A96E;color:#0a1220;font-family:"Inter",sans-serif;',
+      'font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;',
+      'display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;',
+      'box-shadow:0 8px 24px rgba(201,169,110,.22)}',
+    '.ksf-next:hover{background:#D4B582;transform:translateY(-1px);',
+      'box-shadow:0 12px 32px rgba(201,169,110,.32)}',
+    '.ksf-next svg{width:16px;height:16px;stroke:currentColor;fill:none;',
+      'stroke-width:2.5;stroke-linecap:round}',
+    '.ksf-next-sub{font-size:11px;font-weight:600;opacity:.65;display:block;',
+      'margin-top:3px;letter-spacing:.04em}',
+    '.ksf-row{display:flex;gap:10px;width:100%;margin-top:10px}',
+    '.ksf-sec{flex:1;padding:12px;border-radius:14px;background:rgba(255,255,255,.05);',
+      'border:1.5px solid rgba(255,255,255,.1);color:rgba(247,248,250,.65);',
+      'font-family:"Inter",sans-serif;font-size:13px;font-weight:600;',
+      'cursor:pointer;text-decoration:none;text-align:center;transition:all .2s;',
+      'display:flex;align-items:center;justify-content:center;gap:6px}',
+    '.ksf-sec:hover{border-color:rgba(201,169,110,.4);color:#C9A96E}',
+    '.ksf-sec svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}',
+    ''
+  ].join('');
+  (document.head || document.documentElement).appendChild(s);
+}
+
+function _ksRenderFinishOverlay(opts, next) {
+  _ksInjectFinishCSS();
+  var existing = document.getElementById('ks-finish');
+  if (existing) existing.remove();
+
+  /* Étoiles : 3 si pas de score, sinon basé sur le %. */
+  var stars = 3;
+  if (typeof opts.score === 'number' && typeof opts.total === 'number' && opts.total > 0) {
+    var pct = opts.score / opts.total;
+    stars = pct >= 0.85 ? 3 : pct >= 0.6 ? 2 : 1;
+  }
+
+  /* Phrase d'encouragement aléatoire (déterministe sur la clé pour
+     éviter un message différent à chaque refresh). */
+  var seed = (opts.key || 'x').split('').reduce(function (a, c) { return a + c.charCodeAt(0); }, 0);
+  var enc = _KS_ENCOURAGE[seed % _KS_ENCOURAGE.length];
+
+  /* Construction du bouton "Continuer" */
+  var nextHref = next && next.href ? next.href : 'cours.html';
+  var nextLabel = next && next.title ? next.title : 'Mon parcours';
+  var nextSubLbl = next && next.lvlName ? next.lvlName : '';
+
+  /* XP & streak depuis localStorage */
+  var xp = (typeof ksGetXP === 'function') ? ksGetXP() : 0;
+  var streak = (typeof ksGetStreak === 'function') ? ksGetStreak() : 0;
+  var gainedXP = opts.xp || 0;
+
+  var starSvg = '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  var arrowSvg = '<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>';
+  var homeSvg = '<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
+  var bookSvg = '<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>';
+
+  var html =
+    '<div class="ksf-inner">' +
+      '<div class="ksf-stars">' +
+        '<span class="ksf-star' + (stars >= 1 ? ' lit' : '') + '">' + starSvg + '</span>' +
+        '<span class="ksf-star' + (stars >= 2 ? ' lit' : '') + '">' + starSvg + '</span>' +
+        '<span class="ksf-star' + (stars >= 3 ? ' lit' : '') + '">' + starSvg + '</span>' +
+      '</div>' +
+      '<h2 class="ksf-kr">' + enc.kr + '</h2>' +
+      '<div class="ksf-title">' + (opts.title || (typeof opts.score === 'number' ? 'Score ' + opts.score + ' / ' + opts.total : 'Activité terminée')) + '</div>' +
+      '<div class="ksf-stats">' +
+        '<div class="ksf-stat"><div class="ksf-stat-n">+' + gainedXP + '</div><div class="ksf-stat-l">XP gagnés</div></div>' +
+        '<div class="ksf-stat"><div class="ksf-stat-n">' + xp + '</div><div class="ksf-stat-l">XP total</div></div>' +
+        (streak > 0 ? '<div class="ksf-stat"><div class="ksf-stat-n" style="color:#FF8050">' + streak + '</div><div class="ksf-stat-l">Jours</div></div>' : '') +
+      '</div>' +
+      '<p class="ksf-msg">' + enc.fr + (opts.mina ? '<br/><em>' + opts.mina + '</em>' : '') + '</p>' +
+      '<a class="ksf-next" href="' + nextHref + '">' +
+        '<span>Continuer' + (nextLabel && nextLabel !== 'Mon parcours' ? ' — ' + nextLabel : '') + (nextSubLbl ? '<span class="ksf-next-sub">' + nextSubLbl + '</span>' : '') + '</span>' +
+        arrowSvg +
+      '</a>' +
+      '<div class="ksf-row">' +
+        '<a class="ksf-sec" href="cours.html">' + bookSvg + 'Mon parcours</a>' +
+        '<a class="ksf-sec" href="app.html">' + homeSvg + 'Accueil</a>' +
+      '</div>' +
+    '</div>';
+
+  var overlay = document.createElement('div');
+  overlay.id = 'ks-finish';
+  overlay.innerHTML = html;
+  document.body.appendChild(overlay);
+  /* Force reflow puis affiche pour déclencher l'animation. */
+  // eslint-disable-next-line no-unused-expressions
+  overlay.offsetHeight;
+  overlay.classList.add('on');
+}
+
+function ksFinish(opts) {
+  opts = opts || {};
+  /* 1. Marque l'activité comme terminée */
+  if (opts.key && typeof ksMarkDone === 'function') ksMarkDone(opts.key);
+  /* 2. Crédite l'XP */
+  if (opts.xp && typeof ksAddXP === 'function') ksAddXP(opts.xp);
+  /* 3. Charge le curriculum si besoin puis affiche l'overlay */
+  _ksEnsureCurriculum().then(function () {
+    var nextAct = null;
+    if (window.KSCurriculum && typeof window.KSCurriculum.next === 'function') {
+      try { nextAct = window.KSCurriculum.next(); } catch (e) {}
+    }
+    _ksRenderFinishOverlay(opts, nextAct);
+  });
+}
+window.ksFinish = ksFinish;
+
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   // Populate XP pills

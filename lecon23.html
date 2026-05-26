@@ -172,10 +172,7 @@
   </nav>
   <script src="ks.js"></script>
   <script>
-  function completeLesson(){
-  if(typeof ksAddXP==='function') ksAddXP(15);
-  if(typeof ksMarkDone==='function') ksMarkDone('ks_b24');
-  KSResults.show({title:'Capacité & Obligation terminé !',xp:15,nextHref:'lecon24.html',nextLabel:'Leçon 24 →'});
+  function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b24',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b24');location.href='cours.html';}});
 }
 </script>
 <script src="ks-results.js"></script>

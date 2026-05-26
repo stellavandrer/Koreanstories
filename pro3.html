@@ -176,11 +176,7 @@
   </nav>
   <script src="ks.js"></script>
   <script>
-  function completeLesson(){
-    if(typeof ksAddXP==='function')ksAddXP(8);
-    if(typeof ksMarkDone==='function')ksMarkDone('ks_b20');
-    const b=document.getElementById('doneBtn');
-    if(b){b.innerHTML='Complété ! <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';b.style.opacity='.7';b.disabled=true;}
+  function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b20',xp:8});else{if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_b20');location.href='cours.html';}}
     setTimeout(()=>window.location.href='cours.html',1200);
   }
   </script>

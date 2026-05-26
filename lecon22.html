@@ -168,10 +168,7 @@
   </nav>
   <script src="ks.js"></script>
   <script>
-  function completeLesson(){
-  if(typeof ksAddXP==='function') ksAddXP(15);
-  if(typeof ksMarkDone==='function') ksMarkDone('ks_b23');
-  KSResults.show({title:'Progressif terminé !',xp:15,nextHref:'lecon23.html',nextLabel:'Leçon 23 →'});
+  function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b23',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b23');location.href='cours.html';}});
 }
 </script>
 <script src="ks-results.js"></script>
