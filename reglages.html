@@ -281,6 +281,25 @@
     </div>
 
     <!-- VOIX AUDIO -->
+    <!-- COMMUNAUTÉ -->
+    <span class="rg-sec-lbl">Communauté</span>
+    <div class="rg-card">
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#22c55e">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Apparaître dans le classement</div>
+          <div class="rg-row-s" id="ldbSubLbl">Ton pseudo, ton avatar et tes XP visibles par les autres apprenants — ton e-mail reste privé.</div>
+        </div>
+        <div class="rg-act">
+          <button class="rg-switch" id="ldbSwitch" onclick="toggleLeaderboard()" aria-label="Classement public"></button>
+        </div>
+      </div>
+      <div class="rg-guest-msg" id="ldbGuestMsg" style="display:none">Crée un compte pour rejoindre la communauté Korean Stories.</div>
+    </div>
+    <p class="rg-note">Tu peux te désinscrire à tout moment. Désactiver ce toggle retire ton profil de la liste publique immédiatement.</p>
+
     <span class="rg-sec-lbl">Voix audio</span>
     <div class="rg-card">
       <div class="rg-row">
@@ -665,6 +684,40 @@
     document.getElementById('themeSwitch').classList.toggle('on',dark);
   }
   syncTheme();
+  /* ── Classement communauté (opt-in) ─────────────────────────── */
+  function syncLeaderboardUI(){
+    var optedIn = ls('ks_leaderboard_opt')==='yes';
+    var sw = document.getElementById('ldbSwitch');
+    var guest = document.getElementById('ldbGuestMsg');
+    var sub = document.getElementById('ldbSubLbl');
+    if(!sw) return;
+    if(isGuest){
+      sw.style.display='none';
+      if(guest) guest.style.display='block';
+    } else {
+      sw.classList.toggle('on', optedIn);
+      if(sub){
+        sub.textContent = optedIn
+          ? 'Tu es visible dans le classement avec ton pseudo et ton avatar.'
+          : 'Ton pseudo, ton avatar et tes XP visibles par les autres apprenants — ton e-mail reste privé.';
+      }
+    }
+  }
+  syncLeaderboardUI();
+
+  window.toggleLeaderboard = function(){
+    if(isGuest) return;
+    var optedIn = ls('ks_leaderboard_opt')==='yes';
+    var newVal = !optedIn;
+    /* Mise à jour locale immédiate */
+    try{ localStorage.setItem('ks_leaderboard_opt', newVal ? 'yes' : 'no'); }catch(e){}
+    syncLeaderboardUI();
+    /* Push / suppression côté Firestore */
+    if(window.KSSync && typeof KSSync.setLeaderboardOpt === 'function'){
+      KSSync.setLeaderboardOpt(newVal);
+    }
+  };
+
   /* ── Voix audio ─────────────────────────────────────────────── */
   var VOICE_LABELS = {
     sunhi:  'SunHi · femme, naturelle',

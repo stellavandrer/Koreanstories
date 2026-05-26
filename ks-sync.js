@@ -175,6 +175,96 @@
     }
   });
 
+  /* ─────────────────────────────────────────────────────────────────
+     Classement communauté — opt-in
+     Si l'utilisateur active "Apparaître dans le classement", on
+     publie un mini-profil (pseudo + XP + streak + avatar) dans une
+     collection /leaderboard que tout le monde peut lire. Les emails
+     et la progression détaillée restent privés dans /users.
+     ───────────────────────────────────────────────────────────────── */
+
+  function leaderboardOptedIn() {
+    try { return localStorage.getItem('ks_leaderboard_opt') === 'yes'; }
+    catch (e) { return false; }
+  }
+
+  function publicSnapshot(user) {
+    /* Construit le mini-profil public à partir des données locales. */
+    var snap = {
+      uid: user.uid,
+      name: '',
+      xp: 0,
+      streak: 0,
+      avatar: null,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    try {
+      var u = JSON.parse(localStorage.getItem('ks_user') || '{}');
+      var p = JSON.parse(localStorage.getItem('ks_profile') || '{}');
+      var av = JSON.parse(localStorage.getItem('ks_avatar') || '{}');
+      snap.name = (p.name || u.name || 'Apprenant·e').toString().slice(0, 40);
+      snap.xp = parseInt(localStorage.getItem('ks_xp') || '0', 10) || 0;
+      snap.streak = parseInt(localStorage.getItem('ks_streak') || '0', 10) || 0;
+      /* Avatar : on garde uniquement les champs nécessaires pour
+         reconstituer l'image DiceBear côté lecteur. */
+      if (av && Object.keys(av).length) {
+        snap.avatar = {
+          hair: av.hair || null,
+          hairColor: av.hairColor || null,
+          skinColor: av.skinColor || null,
+          eyes: av.eyes || null,
+          mouth: av.mouth || null,
+          body: av.body || null,
+          facialHair: av.facialHair || null,
+          backgroundColor: av.backgroundColor || null
+        };
+      }
+    } catch (e) {}
+    return snap;
+  }
+
+  function pushPublic(uid) {
+    var u = auth.currentUser;
+    if (!u) return Promise.resolve('no-user');
+    if (!leaderboardOptedIn()) return Promise.resolve('opted-out');
+    var snap = publicSnapshot(u);
+    return db.collection('leaderboard').doc(uid).set(snap, { merge: true })
+      .then(function () { return 'pushed-public'; })
+      .catch(function (err) { console.warn('[ks-sync] public push:', err && err.message || err); return 'err'; });
+  }
+
+  function removePublic(uid) {
+    return db.collection('leaderboard').doc(uid).delete()
+      .then(function () { return 'removed'; })
+      .catch(function (err) { console.warn('[ks-sync] public remove:', err && err.message || err); return 'err'; });
+  }
+
+  /* Synchro automatique du profil public à chaque push debounce. */
+  var _origSchedulePush = schedulePush;
+  schedulePush = function () {
+    _origSchedulePush();
+    if (auth.currentUser && leaderboardOptedIn()) {
+      /* Petit délai supplémentaire pour pousser le public après les
+         données privées (pour éviter de garder un XP obsolète public
+         le temps que le ks_xp local soit synchronisé). */
+      setTimeout(function () { pushPublic(auth.currentUser.uid); }, 1700);
+    }
+  };
+
+  /* Fetch des leaders publics (top N par XP). */
+  function fetchLeaderboard(limit) {
+    limit = limit || 50;
+    return db.collection('leaderboard')
+      .orderBy('xp', 'desc')
+      .limit(limit)
+      .get()
+      .then(function (snapshot) {
+        var arr = [];
+        snapshot.forEach(function (doc) { arr.push(doc.data()); });
+        return arr;
+      });
+  }
+
   /* ── API publique ───────────────────────────────────────────────── */
   window.KSSync = {
     push:     function () { var u = auth.currentUser; return u ? pushNow(u.uid) : Promise.resolve(false); },
@@ -182,6 +272,17 @@
     isAuthed: function () { return !!auth.currentUser; },
     user:     function () { return auth.currentUser; },
     auth:     auth,
-    db:       db
+    db:       db,
+
+    /* Classement communauté */
+    leaderboardOptedIn: leaderboardOptedIn,
+    setLeaderboardOpt: function (yes) {
+      try { localStorage.setItem('ks_leaderboard_opt', yes ? 'yes' : 'no'); } catch (e) {}
+      var u = auth.currentUser;
+      if (!u) return Promise.resolve('not-signed-in');
+      return yes ? pushPublic(u.uid) : removePublic(u.uid);
+    },
+    pushPublic: function () { var u = auth.currentUser; return u ? pushPublic(u.uid) : Promise.resolve('not-signed-in'); },
+    fetchLeaderboard: fetchLeaderboard
   };
 })();

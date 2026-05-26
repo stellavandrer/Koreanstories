@@ -1,0 +1,48 @@
+// Règles Firestore — Korean Stories
+// À copier-coller dans Firebase Console → Firestore Database → Rules
+//
+// Deux collections :
+//   /users/{userId}        → données privées (XP, leçons faites, etc.)
+//                            chacun lit/écrit uniquement les siennes
+//   /leaderboard/{userId}  → mini-profil public opt-in (pseudo + xp + avatar)
+//                            tout utilisateur authentifié peut LIRE
+//                            seul le propriétaire peut ÉCRIRE le sien
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Données privées ──────────────────────────────────
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+
+    // ── Classement public (opt-in) ───────────────────────
+    match /leaderboard/{userId} {
+      // Tout utilisateur authentifié peut LIRE la liste
+      allow read: if request.auth != null;
+
+      // Seul le propriétaire peut écrire SON propre document.
+      // On valide aussi que les champs publics restent dans des
+      // limites raisonnables (anti-abus).
+      allow write: if request.auth != null
+                   && request.auth.uid == userId
+                   && (request.resource == null
+                       || (request.resource.data.keys().hasOnly(
+                             ['uid','name','xp','streak','avatar','updatedAt'])
+                           && request.resource.data.name is string
+                           && request.resource.data.name.size() <= 40
+                           && (request.resource.data.xp is int
+                               || request.resource.data.xp is number)
+                           && request.resource.data.xp <= 10000000
+                           && (request.resource.data.streak is int
+                               || request.resource.data.streak is number)
+                           && request.resource.data.streak <= 10000));
+
+      // Suppression : seulement par le propriétaire
+      allow delete: if request.auth != null
+                    && request.auth.uid == userId;
+    }
+  }
+}

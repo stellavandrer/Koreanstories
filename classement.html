@@ -54,6 +54,39 @@
     .sec-lbl:first-child{margin-top:4px}
 
     /* ── DÉFI DE LA SEMAINE ── */
+    /* ── Classement communauté ── */
+    .lb-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;
+      box-shadow:var(--sh);overflow:hidden}
+    .lb-loading{padding:24px 16px;text-align:center;font-size:13px;color:var(--t3)}
+    .lb-empty{padding:24px 18px;text-align:center;font-size:13px;color:var(--t2);line-height:1.6}
+    .lb-empty strong{color:var(--gold)}
+    .lb-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid var(--bd);
+      text-decoration:none;color:inherit;transition:background .15s}
+    .lb-row:first-child{border-top:none}
+    .lb-row:hover{background:var(--s2)}
+    .lb-row.me{background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(201,169,110,.03));
+      border-left:3px solid var(--gold)}
+    .lb-rank{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--t3);
+      width:32px;text-align:center;flex-shrink:0;line-height:1}
+    .lb-row.top1 .lb-rank{color:#FFD700;font-size:22px}
+    .lb-row.top2 .lb-rank{color:#C0C0C0;font-size:20px}
+    .lb-row.top3 .lb-rank{color:#CD7F32;font-size:20px}
+    .lb-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;overflow:hidden;
+      background:#152030;display:flex;align-items:center;justify-content:center;
+      border:1.5px solid rgba(201,169,110,.18)}
+    .lb-avatar img{width:100%;height:100%;display:block;object-fit:cover}
+    .lb-name{flex:1;font-size:14px;font-weight:700;color:var(--t);min-width:0;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .lb-name .me-tag{font-size:10px;color:var(--gold);font-weight:600;
+      letter-spacing:.06em;text-transform:uppercase;margin-left:6px}
+    .lb-streak{font-size:11.5px;color:#FF8050;font-weight:700;display:flex;
+      align-items:center;gap:3px;flex-shrink:0}
+    .lb-streak svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .lb-xp{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
+      color:var(--gold);min-width:60px;text-align:right;flex-shrink:0}
+    .lb-foot{font-size:11.5px;color:var(--t3);margin-top:9px;text-align:center;line-height:1.6}
+    .lb-foot a{color:var(--gold);text-decoration:none;font-weight:600}
+
     .week-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;
       padding:18px;box-shadow:var(--sh)}
     .week-verdict{font-family:'Playfair Display',serif;font-size:16px;color:var(--t);
@@ -178,6 +211,13 @@
   </div>
 
   <main>
+    <!-- CLASSEMENT COMMUNAUTÉ -->
+    <span class="sec-lbl">Classement communauté · Top 50</span>
+    <div class="lb-card" id="lbCard">
+      <div class="lb-loading" id="lbLoading">Chargement du classement…</div>
+    </div>
+    <p class="lb-foot" id="lbFoot"></p>
+
     <!-- DÉFI DE LA SEMAINE -->
     <span class="sec-lbl">Défi de la semaine</span>
     <div class="week-card">
@@ -397,6 +437,100 @@
   ['xpEl','xpSide'].forEach(function(id){
     var el=document.getElementById(id); if(el) el.textContent=fmt(xp);
   });
+})();
+
+/* ─────────────────────────────────────────────────────────────────────
+   Classement communauté — fetch + render top 50
+   Attends que ks-sync.js soit chargé (Firebase), puis tire la liste
+   /leaderboard ordonnée par xp desc. Met en avant l'utilisateur·rice
+   courant·e si elle figure dans le top.
+   ───────────────────────────────────────────────────────────────────── */
+(function () {
+  var lbCard = document.getElementById('lbCard');
+  var lbFoot = document.getElementById('lbFoot');
+  if (!lbCard) return;
+
+  function dicebearURL(av) {
+    /* Reconstruit l'URL DiceBear à partir des champs publics. */
+    var params = new URLSearchParams();
+    params.set('seed', 'koreanstories');
+    if (av) {
+      ['hair','hairColor','skinColor','eyes','mouth','body','backgroundColor'].forEach(function (k) {
+        if (av[k]) params.set(k, av[k]);
+      });
+      if (av.facialHair && av.facialHair !== 'none') {
+        params.set('facialHair', av.facialHair);
+        params.set('facialHairProbability', '100');
+      } else {
+        params.set('facialHairProbability', '0');
+      }
+    }
+    return 'https://api.dicebear.com/9.x/personas/svg?' + params.toString();
+  }
+
+  function escapeHtml(s) {
+    return (s || '').toString().replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function render(list, myUid) {
+    if (!list || !list.length) {
+      lbCard.innerHTML = '<div class="lb-empty">Personne dans le classement pour le moment.<br/>Active <strong>« Apparaître dans le classement »</strong> dans <a href="reglages.html" style="color:var(--gold)">Réglages</a> pour être le premier !</div>';
+      if (lbFoot) lbFoot.textContent = '';
+      return;
+    }
+    var html = '';
+    list.forEach(function (u, i) {
+      var rank = i + 1;
+      var isMe = u.uid === myUid;
+      var topCls = rank === 1 ? ' top1' : rank === 2 ? ' top2' : rank === 3 ? ' top3' : '';
+      var meCls = isMe ? ' me' : '';
+      var streakChip = (u.streak > 0)
+        ? '<span class="lb-streak"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>' + u.streak + '</span>'
+        : '';
+      var avatarImg = u.avatar
+        ? '<img src="' + escapeHtml(dicebearURL(u.avatar)) + '" alt="" loading="lazy"/>'
+        : '<span style="font-family:Playfair Display,serif;font-style:italic;color:#C9A96E;font-size:18px">' + escapeHtml((u.name || 'A').charAt(0).toUpperCase()) + '</span>';
+      html += '<div class="lb-row' + topCls + meCls + '">'
+            + '<div class="lb-rank">' + rank + '</div>'
+            + '<div class="lb-avatar">' + avatarImg + '</div>'
+            + '<div class="lb-name">' + escapeHtml(u.name || 'Apprenant·e')
+            + (isMe ? '<span class="me-tag">Toi</span>' : '') + '</div>'
+            + streakChip
+            + '<div class="lb-xp">' + (u.xp || 0).toLocaleString('fr-FR') + '</div>'
+            + '</div>';
+    });
+    lbCard.innerHTML = html;
+    /* Empreinte en bas */
+    var optedIn = false;
+    try { optedIn = localStorage.getItem('ks_leaderboard_opt') === 'yes'; } catch (e) {}
+    if (lbFoot) {
+      lbFoot.innerHTML = optedIn
+        ? 'Tu apparais dans le classement. Tu peux te retirer dans <a href="reglages.html">Réglages → Communauté</a>.'
+        : 'Pas dans le classement ? Active la visibilité dans <a href="reglages.html">Réglages → Communauté</a>.';
+    }
+  }
+
+  function load() {
+    if (!window.KSSync || typeof KSSync.fetchLeaderboard !== 'function') {
+      /* ks-sync pas encore chargé — réessaie dans 500ms */
+      setTimeout(load, 500);
+      return;
+    }
+    var u = KSSync.user();
+    var myUid = u ? u.uid : null;
+    KSSync.fetchLeaderboard(50)
+      .then(function (list) { render(list, myUid); })
+      .catch(function (err) {
+        console.warn('[leaderboard] fetch error:', err);
+        lbCard.innerHTML = '<div class="lb-empty">Impossible de charger le classement pour le moment.<br/>Vérifie ta connexion ou réessaie dans un instant.</div>';
+      });
+  }
+
+  /* Lance au plus tôt — laisse Firebase finir de s'initialiser. */
+  if (document.readyState === 'complete') load();
+  else window.addEventListener('load', load);
 })();
 </script>
 </body>
