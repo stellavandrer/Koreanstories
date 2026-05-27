@@ -151,8 +151,8 @@
     'histoire28.html':1,'histoire29.html':1,'histoire30.html':1,
     'jeu11.html':1,'jeu12.html':1,
     'lecon40b.html':1,'lecon40c.html':1,'lecon40d.html':1,
-    /* lecon52.html : créée — retirée de COMING_SOON */
-    'lecon53.html':1,'lecon54.html':1,
+    /* lecon52, 53 : créées — retirées de COMING_SOON */
+    'lecon54.html':1,
     'lecon55.html':1,'lecon56.html':1,'lecon57.html':1,
     'lecon58.html':1,'lecon59.html':1,'lecon60.html':1,
     'pro5.html':1,'pro6.html':1,
