@@ -281,6 +281,21 @@
     </div>
 
     <!-- VOIX AUDIO -->
+    <!-- TOUR / AIDE -->
+    <span class="rg-sec-lbl">Aide</span>
+    <div class="rg-card">
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#0EA5E9">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Refaire le tour du tableau de bord</div>
+          <div class="rg-row-s">Le mini-tutoriel qui présente les zones clés</div>
+        </div>
+        <div class="rg-act"><button class="rg-btn" onclick="restartTour()">Lancer</button></div>
+      </div>
+    </div>
+
     <!-- COMMUNAUTÉ -->
     <span class="rg-sec-lbl">Communauté</span>
     <div class="rg-card">
@@ -684,6 +699,12 @@
     document.getElementById('themeSwitch').classList.toggle('on',dark);
   }
   syncTheme();
+  /* ── Tour guidé ─────────────────────────────────────────────── */
+  window.restartTour = function () {
+    try { localStorage.removeItem('ks_tour_dashboard'); } catch (e) {}
+    ksGo('app.html');
+  };
+
   /* ── Classement communauté (opt-in) ─────────────────────────── */
   function syncLeaderboardUI(){
     var optedIn = ls('ks_leaderboard_opt')==='yes';
