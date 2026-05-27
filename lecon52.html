@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>-ㄴ/는 편이다 & -(으)ㄹ 만하다 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.12);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#7C3AED;font-weight:700}
+    .table-wrap{overflow-x:auto;margin:.6rem 0}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.5rem .7rem;text-align:left;font-size:.8rem;font-weight:700}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    .ex{background:rgba(124,58,237,.06);border-left:3px solid #7C3AED;border-radius:0 10px 10px 0;padding:.7rem 1rem;margin:.5rem 0}
+    .ko-big{font-size:1.1rem;font-weight:700;color:#7C3AED}
+    .fr{font-size:.88rem;color:var(--tx-muted);margin-top:.2rem}
+    .rule{background:var(--surf);border:2px solid #7C3AED;border-radius:12px;padding:1rem;margin:.8rem 0;text-align:center}
+    .formula{font-size:1.05rem;font-weight:800;color:#7C3AED}
+    .tip{background:rgba(124,58,237,.06);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#7C3AED}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">-편이다 &amp; -ㄹ 만하다</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.73 0 5.18 1.22 6.83 3.14"/></svg> Nuancer ses opinions en B1</h2>
+  <span class="pill">Grammaire B1</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Deux structures pour adoucir tes affirmations et donner des avis nuancés — essentielles pour ne plus parler "noir ou blanc".</p>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Comparaison directe avec le français</h3>
+  <div class="card"><div class="table-wrap"><table>
+    <tr><th>Français</th><th>Coréen</th></tr>
+    <tr><td><em>Je suis plutôt grand·e</em></td><td class="ko">키가 큰 <strong>편이에요</strong></td></tr>
+    <tr><td><em>Ce restaurant vaut la peine d'être essayé</em></td><td class="ko">먹을 <strong>만한</strong> 식당이에요</td></tr>
+    <tr><td><em>J'étudie plutôt sérieusement</em></td><td class="ko">열심히 공부하는 <strong>편이에요</strong></td></tr>
+    <tr><td><em>Ça vaut la peine d'aller voir</em></td><td class="ko">가 볼 <strong>만해요</strong></td></tr>
+  </table></div>
+  <p style="font-size:.85rem;margin-top:.6rem;color:var(--tx-muted)">En français on dit "plutôt", "assez", "ça vaut la peine" — en coréen, deux structures dédiées plus précises.</p></div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> -ㄴ/는 편이다 : "plutôt"</h3>
+  <div class="rule"><div class="formula">Verbe + 는 편이다 · Adj + (으)ㄴ 편이다</div><p style="font-size:.85rem;color:var(--tx-muted);margin:.3rem 0 0">→ "Plutôt…" / "Du côté de…" (adoucit une affirmation)</p></div>
+  <div class="card"><div class="table-wrap"><table>
+    <tr><th>Type</th><th>Forme</th><th>Exemple</th></tr>
+    <tr><td>Verbe (présent)</td><td class="ko">-는 편이다</td><td class="ko">자주 가는 편이에요</td></tr>
+    <tr><td>Adjectif</td><td class="ko">-(으)ㄴ 편이다</td><td class="ko">조용한 편이에요</td></tr>
+    <tr><td>Verbe (passé)</td><td class="ko">-(으)ㄴ 편이다</td><td class="ko">잘 공부한 편이에요</td></tr>
+    <tr><td>Adjectif négatif</td><td class="ko">-지 않은 편이다</td><td class="ko">비싸지 않은 편이에요</td></tr>
+  </table></div></div>
+  <div class="card">
+    <div class="ex"><div class="ko-big">저는 키가 큰 편이에요.</div><div class="fr">Je suis plutôt grand·e.</div></div>
+    <div class="ex"><div class="ko-big">한국 음식을 자주 먹는 편이에요.</div><div class="fr">Je mange plutôt souvent de la cuisine coréenne.</div></div>
+    <div class="ex"><div class="ko-big">서울은 물가가 비싼 편이에요.</div><div class="fr">À Séoul, les prix sont plutôt élevés.</div></div>
+    <div class="ex"><div class="ko-big">시험을 잘 본 편이에요.</div><div class="fr">J'ai plutôt bien réussi mon examen.</div></div>
+    <div class="ex"><div class="ko-big">한국어가 어렵지 않은 편이에요.</div><div class="fr">Le coréen n'est pas si difficile (plutôt pas).</div></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> -(으)ㄹ 만하다 : "ça vaut la peine"</h3>
+  <div class="rule"><div class="formula">Verbe + (으)ㄹ 만하다</div><p style="font-size:.85rem;color:var(--tx-muted);margin:.3rem 0 0">→ "Ça vaut la peine de…" / "Mériter d'être…" (recommandation modérée)</p></div>
+  <div class="card">
+    <div class="ex"><div class="ko-big">이 영화는 볼 만해요.</div><div class="fr">Ce film vaut la peine d'être vu.</div></div>
+    <div class="ex"><div class="ko-big">이 책은 읽을 만해요.</div><div class="fr">Ce livre vaut la peine d'être lu.</div></div>
+    <div class="ex"><div class="ko-big">부산은 가 볼 만한 도시예요.</div><div class="fr">Busan est une ville qui vaut le détour.</div></div>
+    <div class="ex"><div class="ko-big">이 식당은 추천할 만해요.</div><div class="fr">Ce restaurant mérite d'être recommandé.</div></div>
+    <div class="ex"><div class="ko-big">먹어 볼 만한 한국 음식 있어요?</div><div class="fr">Y a-t-il un plat coréen qui vaille la peine d'être essayé ?</div></div>
+  </div>
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> -ㄹ 만한 + nom est très utile : "un X qui vaut la peine" (먹을 만한 식당, 가 볼 만한 곳, 들을 만한 음악).</div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pièges fréquents pour francophones</h3>
+  <div class="card">
+    <div class="ex">
+      <div class="ko-big" style="color:#dc2626;text-decoration:line-through">큰 편이다 (pour un verbe d'action)</div>
+      <div class="fr"><strong>Verbe vs adjectif</strong>. -ㄴ 편이다 pour adjectifs, -는 편이다 pour verbes au présent. <span class="ko">크다</span> est un adjectif → <span class="ko">큰 편이에요</span> ✓. <span class="ko">먹다</span> est un verbe → <span class="ko">먹는 편이에요</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="ko-big" style="color:#dc2626;text-decoration:line-through">매일 운동하는 편이에요 (à un sportif pro)</div>
+      <div class="fr"><strong>-편이다 = nuancer une généralité, pas affirmer un absolu</strong>. Ne l'utilise pas quand tu fais quelque chose TOUS les jours sans exception. Pour ça, dis simplement <span class="ko">매일 운동해요</span>.</div>
+    </div>
+    <div class="ex">
+      <div class="ko-big">만하다 ≠ 만 (la particule)</div>
+      <div class="fr"><strong>Ne pas confondre</strong> avec la particule <span class="ko">만</span> (seulement). -(으)ㄹ <strong>만하다</strong> est une structure verbale ("valoir la peine"), <span class="ko">만</span> seul = "seulement" (저만 = "moi seulement").</div>
+    </div>
+    <div class="ex">
+      <div class="ko-big">먹을 만하다 vs 먹을 수 있다</div>
+      <div class="fr"><strong>Possibilité vs recommandation</strong>. <span class="ko">먹을 수 있어요</span> = je peux manger (capacité). <span class="ko">먹을 만해요</span> = ça vaut le coup d'être mangé (jugement de valeur).</div>
+    </div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Mini-quiz — 7 questions</h3>
+  <div class="card mq" id="q1"><p style="font-weight:600">"Je suis plutôt grand·e" — verbe 크다 (adjectif) ?</p>
+    <div class="opt" onclick="a(this,'ok')">키가 큰 편이에요</div>
+    <div class="opt" onclick="a(this,'ko')">키가 크는 편이에요</div>
+    <div class="opt" onclick="a(this,'ko')">키가 클 편이에요</div>
+  </div>
+  <div class="card mq" id="q2"><p style="font-weight:600">"Je vais souvent au café" — verbe 가다 ?</p>
+    <div class="opt" onclick="a(this,'ko')">카페에 가는 편이에요</div>
+    <div class="opt" onclick="a(this,'ok')">카페에 자주 가는 편이에요</div>
+    <div class="opt" onclick="a(this,'ko')">카페에 갈 편이에요</div>
+  </div>
+  <div class="card mq" id="q3"><p style="font-weight:600">"Ce film vaut la peine d'être vu" ?</p>
+    <div class="opt" onclick="a(this,'ok')">이 영화는 볼 만해요</div>
+    <div class="opt" onclick="a(this,'ko')">이 영화는 보는 편이에요</div>
+    <div class="opt" onclick="a(this,'ko')">이 영화는 볼 수 있어요</div>
+  </div>
+  <div class="card mq" id="q4"><p style="font-weight:600">"Un livre qui mérite d'être lu" ?</p>
+    <div class="opt" onclick="a(this,'ok')">읽을 만한 책</div>
+    <div class="opt" onclick="a(this,'ko')">읽는 편의 책</div>
+    <div class="opt" onclick="a(this,'ko')">읽을 수 있는 책</div>
+  </div>
+  <div class="card mq" id="q5"><p style="font-weight:600">"Le coréen n'est pas si difficile" (nuance) ?</p>
+    <div class="opt" onclick="a(this,'ok')">한국어가 어렵지 않은 편이에요</div>
+    <div class="opt" onclick="a(this,'ko')">한국어가 어렵지 않아요</div>
+    <div class="opt" onclick="a(this,'ko')">한국어가 어려울 만해요</div>
+  </div>
+  <div class="card mq" id="q6"><p style="font-weight:600">"Busan est une ville qui vaut le détour" ?</p>
+    <div class="opt" onclick="a(this,'ko')">부산은 가는 편의 도시예요</div>
+    <div class="opt" onclick="a(this,'ok')">부산은 가 볼 만한 도시예요</div>
+    <div class="opt" onclick="a(this,'ko')">부산은 갈 수 있는 도시예요</div>
+  </div>
+  <div class="card mq" id="q7"><p style="font-weight:600">"Les prix à Séoul sont plutôt élevés" — 비싸다 (adjectif) ?</p>
+    <div class="opt" onclick="a(this,'ok')">서울은 물가가 비싼 편이에요</div>
+    <div class="opt" onclick="a(this,'ko')">서울은 물가가 비싸는 편이에요</div>
+    <div class="opt" onclick="a(this,'ko')">서울은 물가가 비쌀 만해요</div>
+  </div>
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c27',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_c27');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
