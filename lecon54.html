@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Regret & hypothèse passée — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.12);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#7C3AED;font-weight:700}
+    .table-wrap{overflow-x:auto;margin:.6rem 0}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.5rem .7rem;text-align:left;font-size:.8rem;font-weight:700}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    .ex{background:rgba(124,58,237,.06);border-left:3px solid #7C3AED;border-radius:0 10px 10px 0;padding:.7rem 1rem;margin:.5rem 0}
+    .ko-big{font-size:1.1rem;font-weight:700;color:#7C3AED}
+    .fr{font-size:.88rem;color:var(--tx-muted);margin-top:.2rem}
+    .rule{background:var(--surf);border:2px solid #7C3AED;border-radius:12px;padding:1rem;margin:.8rem 0;text-align:center}
+    .formula{font-size:1.05rem;font-weight:800;color:#7C3AED}
+    .tip{background:rgba(124,58,237,.06);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#7C3AED}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Regret &amp; hypothèse passée</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg> Parler du passé avec nuance</h2>
+  <span class="pill">Grammaire B1</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">3 structures essentielles pour exprimer le <strong>regret</strong>, le <strong>"j'ai failli"</strong>, et l'<strong>hypothèse contre-factuelle</strong> (ce qui aurait pu être).</p>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Vue d'ensemble des 3 structures</h3>
+  <div class="card"><div class="table-wrap"><table>
+    <tr><th>Structure</th><th>Sens français</th><th>Exemple</th></tr>
+    <tr><td class="ko">-(으)ㄹ걸 그랬다</td><td>"J'aurais dû…" (regret)</td><td class="ko">갈걸 그랬어요</td></tr>
+    <tr><td class="ko">-(으)ㄹ 뻔했다</td><td>"J'ai failli…" (de peu)</td><td class="ko">넘어질 뻔했어요</td></tr>
+    <tr><td class="ko">-았/었더라면</td><td>"Si j'avais…" (contre-factuel)</td><td class="ko">갔더라면</td></tr>
+  </table></div>
+  <p style="font-size:.85rem;margin-top:.6rem;color:var(--tx-muted)">Ces 3 formes parlent du passé mais avec 3 émotions différentes : regret, soulagement, et hypothèse rétrospective.</p></div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> -(으)ㄹ걸 그랬다 : "J'aurais dû…"</h3>
+  <div class="rule"><div class="formula">Radical + (으)ㄹ걸 그랬다</div><p style="font-size:.85rem;color:var(--tx-muted);margin:.3rem 0 0">→ Regret d'une action non faite (que j'aurais dû faire)</p></div>
+  <div class="card">
+    <div class="ex"><div class="ko-big">한국어를 더 일찍 배울걸 그랬어요.</div><div class="fr">J'aurais dû apprendre le coréen plus tôt.</div></div>
+    <div class="ex"><div class="ko-big">우산을 가져올걸 그랬어요.</div><div class="fr">J'aurais dû prendre mon parapluie.</div></div>
+    <div class="ex"><div class="ko-big">그 영화를 볼걸 그랬어요.</div><div class="fr">J'aurais dû voir ce film.</div></div>
+    <div class="ex"><div class="ko-big">친구한테 미안하다고 말할걸 그랬어.</div><div class="fr">J'aurais dû dire pardon à mon ami(e). (반말)</div></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> -(으)ㄹ 뻔했다 : "J'ai failli…"</h3>
+  <div class="rule"><div class="formula">Radical + (으)ㄹ 뻔했다</div><p style="font-size:.85rem;color:var(--tx-muted);margin:.3rem 0 0">→ Action qui a presque eu lieu mais qui n'a PAS eu lieu</p></div>
+  <div class="card">
+    <div class="ex"><div class="ko-big">길에서 넘어질 뻔했어요.</div><div class="fr">J'ai failli tomber dans la rue.</div></div>
+    <div class="ex"><div class="ko-big">비행기를 놓칠 뻔했어요.</div><div class="fr">J'ai failli rater l'avion.</div></div>
+    <div class="ex"><div class="ko-big">지갑을 잃어버릴 뻔했어요.</div><div class="fr">J'ai failli perdre mon portefeuille.</div></div>
+    <div class="ex"><div class="ko-big">늦을 뻔했지만 다행히 일찍 도착했어요.</div><div class="fr">J'ai failli être en retard mais heureusement je suis arrivé(e) tôt.</div></div>
+  </div>
+  <div class="tip"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> -ㄹ 뻔하다 implique un soulagement : l'action n'a PAS eu lieu, on a évité de justesse.</div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg> -았/었더라면 : "Si j'avais…"</h3>
+  <div class="rule"><div class="formula">Radical + 았/었더라면</div><p style="font-size:.85rem;color:var(--tx-muted);margin:.3rem 0 0">→ Hypothèse passée contre-factuelle ("si seulement j'avais…")</p></div>
+  <div class="card">
+    <div class="ex"><div class="ko-big">한국어를 일찍 배웠더라면 더 좋았을 거예요.</div><div class="fr">Si j'avais appris le coréen plus tôt, ça aurait été mieux.</div></div>
+    <div class="ex"><div class="ko-big">시간이 있었더라면 같이 갔을 텐데.</div><div class="fr">Si j'avais eu le temps, je serais venu(e) avec toi.</div></div>
+    <div class="ex"><div class="ko-big">알았더라면 도와줬을 거예요.</div><div class="fr">Si j'avais su, je t'aurais aidé(e).</div></div>
+    <div class="ex"><div class="ko-big">비가 안 왔더라면 산책했을 거예요.</div><div class="fr">S'il n'avait pas plu, je serais sorti(e) me promener.</div></div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Pièges fréquents pour francophones</h3>
+  <div class="card">
+    <div class="ex">
+      <div class="ko-big">-걸 그랬다 vs -았/었더라면</div>
+      <div class="fr"><strong>Regret simple vs hypothèse complète</strong>. <span class="ko">갈걸 그랬어요</span> = "j'aurais dû y aller" (regret sec). <span class="ko">갔더라면 더 좋았을 거예요</span> = "si j'y étais allé, ça aurait été mieux" (hypothèse + conséquence imaginée).</div>
+    </div>
+    <div class="ex">
+      <div class="ko-big" style="color:#dc2626;text-decoration:line-through">넘어졌 뻔했어요 (au passé)</div>
+      <div class="fr"><strong>-(으)ㄹ 뻔하다 utilise la forme future</strong>. C'est <span class="ko">넘어질 뻔했어요</span>, pas <span class="ko">넘어졌</span>. Logique : "j'allais tomber" → forme future + 뻔했다 au passé.</div>
+    </div>
+    <div class="ex">
+      <div class="ko-big">-았/었더라면 → besoin d'une conséquence</div>
+      <div class="fr"><strong>Cette structure attend une suite</strong>. On ne dit pas juste <span class="ko">갔더라면.</span> (incomplet). Il faut une conséquence imaginée : <span class="ko">갔더라면 좋았을 거예요</span> (si j'y étais allé, ça aurait été bien).</div>
+    </div>
+    <div class="ex">
+      <div class="ko-big">Niveau de regret croissant</div>
+      <div class="fr"><strong>Échelle de regret</strong> : <span class="ko">-걸 그랬다</span> (regret simple, oral) → <span class="ko">-았/었어야 했다</span> (j'aurais dû — plus formel) → <span class="ko">-았/었더라면 -았/었을 텐데</span> (regret + condition + conséquence, le plus complet).</div>
+    </div>
+  </div>
+
+  <h3><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Mini-quiz — 7 questions</h3>
+  <div class="card mq" id="q1"><p style="font-weight:600">"J'aurais dû apprendre le coréen plus tôt" →</p>
+    <div class="opt" onclick="a(this,'ok')">한국어를 더 일찍 배울걸 그랬어요</div>
+    <div class="opt" onclick="a(this,'ko')">한국어를 더 일찍 배웠을 뻔했어요</div>
+    <div class="opt" onclick="a(this,'ko')">한국어를 더 일찍 배워요</div>
+  </div>
+  <div class="card mq" id="q2"><p style="font-weight:600">"J'ai failli tomber" →</p>
+    <div class="opt" onclick="a(this,'ko')">넘어졌 뻔했어요</div>
+    <div class="opt" onclick="a(this,'ok')">넘어질 뻔했어요</div>
+    <div class="opt" onclick="a(this,'ko')">넘어질걸 그랬어요</div>
+  </div>
+  <div class="card mq" id="q3"><p style="font-weight:600">"Si j'avais su, je t'aurais aidé(e)" →</p>
+    <div class="opt" onclick="a(this,'ko')">알면 도와줬을 거예요</div>
+    <div class="opt" onclick="a(this,'ok')">알았더라면 도와줬을 거예요</div>
+    <div class="opt" onclick="a(this,'ko')">알 뻔했어요</div>
+  </div>
+  <div class="card mq" id="q4"><p style="font-weight:600">"J'ai failli rater l'avion" →</p>
+    <div class="opt" onclick="a(this,'ok')">비행기를 놓칠 뻔했어요</div>
+    <div class="opt" onclick="a(this,'ko')">비행기를 놓칠걸 그랬어요</div>
+    <div class="opt" onclick="a(this,'ko')">비행기를 놓쳤더라면 했어요</div>
+  </div>
+  <div class="card mq" id="q5"><p style="font-weight:600">-걸 그랬다 exprime principalement :</p>
+    <div class="opt" onclick="a(this,'ok')">Un regret d'action non faite</div>
+    <div class="opt" onclick="a(this,'ko')">Un soulagement</div>
+    <div class="opt" onclick="a(this,'ko')">Une surprise</div>
+  </div>
+  <div class="card mq" id="q6"><p style="font-weight:600">"J'aurais dû dire pardon" (regret simple) →</p>
+    <div class="opt" onclick="a(this,'ok')">미안하다고 말할걸 그랬어요</div>
+    <div class="opt" onclick="a(this,'ko')">미안하다고 말할 뻔했어요</div>
+    <div class="opt" onclick="a(this,'ko')">미안하다고 말했더라면 했어요</div>
+  </div>
+  <div class="card mq" id="q7"><p style="font-weight:600">-았/었더라면 nécessite généralement :</p>
+    <div class="opt" onclick="a(this,'ok')">Une conséquence imaginée (sous forme -었을 거예요/-었을 텐데)</div>
+    <div class="opt" onclick="a(this,'ko')">Rien d'autre, peut être isolée</div>
+    <div class="opt" onclick="a(this,'ko')">Un verbe à l'impératif</div>
+  </div>
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c29',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_c29');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
