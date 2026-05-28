@@ -41,7 +41,34 @@
     return !!EXCLUDED[p];
   }
 
-  /* ── Distance de Levenshtein (similarité texte) ────────────────── */
+  /* ── Décomposition Hangul → Jamo ───────────────────────────────
+     Une syllabe coréenne 가 = ㄱ + ㅏ (2 jamo)
+     강 = ㄱ + ㅏ + ㅇ (3 jamo)
+     Comparer en jamo donne une mesure plus juste : si l'utilisateur
+     a dit "안녀" au lieu de "안녕", la syllabe entière est différente
+     mais les 4 jamo sur 5 sont corrects. */
+  var JAMO_INITIALS = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+  var JAMO_MEDIALS  = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+  var JAMO_FINALS   = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+
+  function decomposeHangul(s){
+    var out = '';
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charCodeAt(i);
+      if (c >= 0xAC00 && c <= 0xD7A3) {
+        var off = c - 0xAC00;
+        var ini = Math.floor(off / (21 * 28));
+        var med = Math.floor((off % (21 * 28)) / 28);
+        var fin = off % 28;
+        out += JAMO_INITIALS[ini] + JAMO_MEDIALS[med] + JAMO_FINALS[fin];
+      } else {
+        out += s.charAt(i);
+      }
+    }
+    return out;
+  }
+
+  /* ── Distance de Levenshtein ──────────────────────────────────── */
   function levenshtein(a, b){
     if (a === b) return 0;
     if (!a.length) return b.length;
@@ -59,9 +86,7 @@
     return m[b.length][a.length];
   }
 
-  /* Normalise le texte avant comparaison.
-     - Enlève ponctuation, espaces, parenthèses
-     - Lowercase pour les caractères latins éventuels */
+  /* Normalise — vire ponctuation et espaces */
   function normalize(s){
     return (s || '')
       .toLowerCase()
@@ -69,15 +94,26 @@
       .trim();
   }
 
-  /* Score de similarité 0-1 (1 = parfait) */
+  /* Score de similarité 0-1 (1 = parfait).
+     On compare en JAMO décomposés pour une mesure plus juste sur le
+     coréen — un seul caractère différent dans une syllabe ne fait
+     plus chuter le score brutalement. */
   function similarity(heard, expected){
-    var a = normalize(heard);
-    var b = normalize(expected);
+    var a = decomposeHangul(normalize(heard));
+    var b = decomposeHangul(normalize(expected));
     if (!b.length) return 0;
+    if (!a.length) return 0;
     if (a === b) return 1;
+    /* Pénalité de longueur : si l'utilisateur a dit beaucoup moins ou
+       beaucoup plus que ce qu'on attend, on pénalise sans laisser
+       Levenshtein être trop indulgent sur le ratio. */
+    var lenRatio = Math.min(a.length, b.length) / Math.max(a.length, b.length);
     var d = levenshtein(a, b);
     var maxLen = Math.max(a.length, b.length);
-    return Math.max(0, 1 - (d / maxLen));
+    var rawScore = Math.max(0, 1 - (d / maxLen));
+    /* On combine score brut avec ratio de longueur (50/50) pour
+       éviter qu'un "안녕" très court matche bien "안녕하세요". */
+    return rawScore * (0.5 + 0.5 * lenRatio);
   }
 
   /* ── CSS partagé ────────────────────────────────────────────── */
@@ -225,19 +261,23 @@
     });
   }
 
-  /* ── Reconnaissance ──────────────────────────────────────────── */
+  /* ── Reconnaissance ────────────────────────────────────────────
+     Stratégie stricte :
+     - Une seule alternative (la plus confiante) — pas de cherry-pick
+     - On combine similarité texte + confidence du moteur
+     - Seuils relevés : 90% success, 70% partial */
   var ACTIVE_REC = null;
   function startListening(expectedText, btn){
-    /* Coupe une éventuelle session précédente */
     if (ACTIVE_REC) { try { ACTIVE_REC.abort(); } catch(e){} ACTIVE_REC = null; }
-    /* Stoppe aussi tout audio en cours pour éviter les feedbacks */
     if (window._ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} }
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch(e){}
 
     var rec = new SR();
     rec.lang = 'ko-KR';
     rec.interimResults = false;
-    rec.maxAlternatives = 3;
+    /* UN SEUL résultat : on évite que le moteur "trouve" une variante
+       qui matche par hasard la phrase attendue. */
+    rec.maxAlternatives = 1;
     rec.continuous = false;
     ACTIVE_REC = rec;
 
@@ -245,24 +285,39 @@
     btn.classList.add('listening');
 
     rec.onresult = function(e){
-      var bestScore = 0;
-      var bestHeard = '';
-      for (var i = 0; i < e.results[0].length; i++) {
-        var h = e.results[0][i].transcript;
-        var sc = similarity(h, expectedText);
-        if (sc > bestScore) { bestScore = sc; bestHeard = h; }
+      var top = e.results[0][0];
+      var heard = (top && top.transcript) || '';
+      var confidence = (top && typeof top.confidence === 'number') ? top.confidence : 0;
+
+      /* Si rien d'audible, on échoue tout de suite. */
+      if (!heard.trim()) {
+        btn.classList.remove('listening');
+        btn.classList.add('fail');
+        setTimeout(function(){ btn.classList.remove('fail'); }, 2500);
+        recordAttempt(0);
+        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
+        return;
       }
-      var tier = bestScore >= 0.85 ? 'success' : bestScore >= 0.6 ? 'partial' : 'fail';
+
+      var sim = similarity(heard, expectedText);
+      /* La confidence du moteur module le score :
+         - Si confiance ≥ 70% on garde le score brut
+         - Sinon on le pondère (la reconnaissance n'était pas sûre) */
+      var confFactor = confidence > 0 ? Math.max(0.6, Math.min(1, confidence + 0.2)) : 0.85;
+      var finalScore = sim * confFactor;
+
+      /* Seuils plus stricts qu'avant */
+      var tier = finalScore >= 0.90 ? 'success' : finalScore >= 0.70 ? 'partial' : 'fail';
+
       btn.classList.remove('listening');
       btn.classList.add(tier);
       setTimeout(function(){ btn.classList.remove(tier); }, 2500);
-      recordAttempt(bestScore);
-      showFeedback({ score: bestScore, expected: expectedText, heard: bestHeard, tier: tier });
+      recordAttempt(finalScore);
+      showFeedback({ score: finalScore, expected: expectedText, heard: heard, tier: tier });
     };
 
     rec.onerror = function(e){
       btn.classList.remove('listening');
-      /* "no-speech" et "aborted" sont silencieux. Les autres affichent un feedback. */
       if (e.error === 'no-speech') {
         showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
       } else if (e.error === 'not-allowed') {

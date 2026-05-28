@@ -451,7 +451,8 @@ function recordAttempt(){
   var rec = new SR();
   rec.lang = 'ko-KR';
   rec.interimResults = false;
-  rec.maxAlternatives = 3;
+  /* Une seule alternative pour éviter le cherry-picking */
+  rec.maxAlternatives = 1;
   rec.continuous = false;
 
   micBtn.classList.remove('success','partial','fail');
@@ -459,24 +460,40 @@ function recordAttempt(){
   document.getElementById('micHint').textContent = 'Parle… je t\'écoute';
 
   rec.onresult = function(e){
-    var bestScore = 0, bestHeard = '';
-    for (var i = 0; i < e.results[0].length; i++) {
-      var h = e.results[0][i].transcript;
-      var sc = window.KSPronounce.similarity(h, p.ko);
-      if (sc > bestScore) { bestScore = sc; bestHeard = h; }
+    var top = e.results[0][0];
+    var heard = (top && top.transcript) || '';
+    var confidence = (top && typeof top.confidence === 'number') ? top.confidence : 0;
+
+    /* Aucun son audible → échec immédiat */
+    if (!heard.trim()) {
+      micBtn.classList.remove('listening');
+      micBtn.classList.add('fail');
+      document.getElementById('micHint').textContent = '';
+      showResult('fail', 0, '');
+      sessionStats.total++;
+      sessionStats.fail++;
+      updateSummary();
+      recordGlobalStat(0, 'fail');
+      return;
     }
-    var tier = bestScore >= 0.85 ? 'success' : bestScore >= 0.6 ? 'partial' : 'fail';
+
+    var sim = window.KSPronounce.similarity(heard, p.ko);
+    /* Confidence du moteur pondère le score brut */
+    var confFactor = confidence > 0 ? Math.max(0.6, Math.min(1, confidence + 0.2)) : 0.85;
+    var finalScore = sim * confFactor;
+    /* Seuils plus stricts : 90% success, 70% partial */
+    var tier = finalScore >= 0.90 ? 'success' : finalScore >= 0.70 ? 'partial' : 'fail';
+
     micBtn.classList.remove('listening');
     micBtn.classList.add(tier);
     document.getElementById('micHint').textContent = '';
-    showResult(tier, bestScore, bestHeard);
+    showResult(tier, finalScore, heard);
 
-    /* Stats session + globales */
     sessionStats.total++;
-    sessionStats.scoreSum += bestScore;
+    sessionStats.scoreSum += finalScore;
     sessionStats[tier]++;
     updateSummary();
-    recordGlobalStat(bestScore, tier);
+    recordGlobalStat(finalScore, tier);
   };
 
   rec.onerror = function(e){
