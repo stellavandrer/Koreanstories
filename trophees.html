@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Trophées — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:80px}
+    h2{color:var(--navy);margin:0 0 .3rem;font-size:1.3rem}
+    .sub{color:var(--tx-muted);font-size:.9rem;margin:0 0 1rem}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.8rem 0}
+    .stat{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.7rem;text-align:center}
+    .stat-val{font-size:1.6rem;font-weight:800;color:#C9A96E;line-height:1}
+    .stat-lbl{font-size:.7rem;color:var(--tx-muted);margin-top:.3rem;text-transform:uppercase;letter-spacing:.04em}
+    .cat-title{margin:1.3rem 0 .6rem;color:var(--tx);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:.5rem}
+    .cat-title::before{content:"";flex:1;height:1px;background:var(--bd)}
+    .cat-title::after{content:"";flex:1;height:1px;background:var(--bd)}
+    .trophy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.6rem}
+    .trophy{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:.8rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+    .trophy.locked{opacity:.45}
+    .trophy.earned{border-color:#C9A96E;background:linear-gradient(135deg,rgba(201,169,110,.07),rgba(201,169,110,.02))}
+    .trophy.earned::before{content:"";position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:#C9A96E;box-shadow:0 0 8px rgba(201,169,110,.6)}
+    .trophy:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.08)}
+    .t-ico{width:50px;height:50px;margin:0 auto .4rem;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.1);border-radius:50%}
+    .trophy.earned .t-ico{background:rgba(201,169,110,.18)}
+    .t-name{font-size:.85rem;font-weight:700;margin-bottom:.15rem;color:var(--tx)}
+    .t-desc{font-size:.72rem;color:var(--tx-muted);line-height:1.35}
+    .t-progress{margin-top:.5rem;height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
+    .t-progress-bar{height:100%;background:linear-gradient(90deg,#C9A96E,#E8C589);border-radius:2px;transition:width .4s}
+    .t-progress-text{font-size:.65rem;color:var(--tx-muted);margin-top:.2rem}
+    /* Modal détail */
+    .overlay{position:fixed;inset:0;background:rgba(8,14,24,.75);z-index:999;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
+    .overlay.open{opacity:1;pointer-events:auto}
+    .modal{background:var(--surf);border-radius:18px;padding:1.5rem;max-width:340px;width:100%;text-align:center;border:1px solid var(--bd)}
+    .modal .m-ico{width:80px;height:80px;margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.15);border-radius:50%}
+    .modal .m-ico.locked{opacity:.4}
+    .modal h3{margin:.3rem 0;font-size:1.2rem;color:var(--tx)}
+    .modal .m-status{display:inline-block;font-size:.75rem;font-weight:700;padding:.2rem .7rem;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;margin:.3rem 0}
+    .m-status.earned{background:rgba(201,169,110,.15);color:#C9A96E}
+    .m-status.locked{background:rgba(127,127,127,.1);color:var(--tx-muted)}
+    .modal .m-desc{font-size:.9rem;color:var(--tx-muted);line-height:1.5;margin:.6rem 0}
+    .modal .close-btn{margin-top:.8rem;background:#C9A96E;color:#0a1220;border:none;border-radius:10px;padding:.6rem 1.5rem;font-weight:700;cursor:pointer;font-size:.9rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Trophées</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+
+  <h2>Tes accomplissements</h2>
+  <p class="sub">Débloque des trophées en progressant. Chaque jalon récompense ta régularité, ta maîtrise et ta curiosité.</p>
+
+  <div class="summary">
+    <div class="stat"><div class="stat-val" id="sEarned">0</div><div class="stat-lbl">Débloqués</div></div>
+    <div class="stat"><div class="stat-val" id="sTotal">0</div><div class="stat-lbl">Total</div></div>
+    <div class="stat"><div class="stat-val" id="sPercent">0%</div><div class="stat-lbl">Complété</div></div>
+  </div>
+
+  <div class="cat-title">Régularité</div>
+  <div class="trophy-grid" id="catRegular"></div>
+
+  <div class="cat-title">XP & Niveau</div>
+  <div class="trophy-grid" id="catXP"></div>
+
+  <div class="cat-title">Maîtrise</div>
+  <div class="trophy-grid" id="catMastery"></div>
+
+  <div class="cat-title">Exploration</div>
+  <div class="trophy-grid" id="catExplo"></div>
+
+</div></main></div>
+
+<div class="overlay" id="ovr" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <div class="m-ico" id="mIco"></div>
+    <h3 id="mName"></h3>
+    <div class="m-status" id="mStatus"></div>
+    <p class="m-desc" id="mDesc"></p>
+    <p class="t-progress-text" id="mProgress"></p>
+    <button class="close-btn" onclick="closeM()">Fermer</button>
+  </div>
+</div>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function ls(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsi(k){var v=parseInt(ls(k)||'0',10);return isNaN(v)?0:v;}
+
+/* Compteurs dérivés du localStorage */
+function countDone(prefix){
+  var n=0;
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k && k.indexOf(prefix)===0 && (localStorage.getItem(k)==='done'||localStorage.getItem(k)==='1')){
+        n++;
+      }
+    }
+  }catch(e){}
+  return n;
+}
+function countActivities(){
+  /* Total d'activités complétées via ks_h*, ks_a*, ks_b*, ks_c*, ks_d* */
+  var n=0;
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(!k) continue;
+      var m=k.match(/^ks_[habcd][_0-9a-z]+$/);
+      if(m && (localStorage.getItem(k)==='done'||localStorage.getItem(k)==='1')) n++;
+    }
+  }catch(e){}
+  return n;
+}
+function getXP(){return lsi('ks_xp');}
+function getStreak(){return lsi('ks_streak');}
+function getBestStreak(){return lsi('ks_beststreak');}
+function getVocab(){
+  if(window.KSSRS){try{return KSSRS.stats().available||0;}catch(e){}}
+  return 0;
+}
+function getActiveDays(){
+  var n=0;
+  try{
+    var h=JSON.parse(localStorage.getItem('ks_heatmap')||'{}');
+    for(var k in h){if(h[k])n++;}
+  }catch(e){}
+  return n;
+}
+function countByPrefix(prefix){return countDone(prefix);}
+
+/* Icônes SVG */
+function ico(color,svg){return '<svg viewBox="0 0 24 24" style="width:30px;height:30px;fill:none;stroke:'+color+';stroke-width:2;stroke-linecap:round;stroke-linejoin:round">'+svg+'</svg>';}
+function bigIco(color,svg){return '<svg viewBox="0 0 24 24" style="width:48px;height:48px;fill:none;stroke:'+color+';stroke-width:2;stroke-linecap:round;stroke-linejoin:round">'+svg+'</svg>';}
+
+/* Définition des trophées avec catégorie, condition, progression */
+var TROPHIES = [
+  /* Régularité */
+  {cat:'regular',id:'first',name:'Premier Pas',desc:'Complète ta première activité',ico:ico('#22C55E','<path d="M6 21c0-6 5-9 9-12V3l-3 3-3-3v6"/><path d="M6 21h12"/>'),target:1,progress:countActivities},
+  {cat:'regular',id:'streak3',name:'Flamme x3',desc:'Maintiens un streak de 3 jours',ico:ico('#FF8B5C','<path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/>'),target:3,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'streak7',name:'Semaine de feu',desc:'Maintiens un streak de 7 jours',ico:ico('#F59E0B','<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>'),target:7,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'streak30',name:'Mois Marathon',desc:'Maintiens un streak de 30 jours',ico:ico('#EF4444','<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'),target:30,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'streak100',name:'Centurion',desc:'Maintiens un streak de 100 jours',ico:ico('#7C3AED','<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>'),target:100,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'active30',name:'Habitué·e',desc:'Sois actif·ve sur 30 jours différents',ico:ico('#06B6D4','<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'),target:30,progress:getActiveDays},
+
+  /* XP & Niveau */
+  {cat:'xp',id:'xp100',name:'100 XP Club',desc:'Atteins 100 XP au total',ico:ico('#C9A96E','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'),target:100,progress:getXP},
+  {cat:'xp',id:'xp500',name:'500 XP Club',desc:'Atteins 500 XP au total',ico:ico('#EAB308','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><circle cx="12" cy="12" r="3"/>'),target:500,progress:getXP},
+  {cat:'xp',id:'xp1000',name:'Milliardaire d\'XP',desc:'Atteins 1 000 XP au total',ico:ico('#F59E0B','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><circle cx="12" cy="12" r="5"/>'),target:1000,progress:getXP},
+  {cat:'xp',id:'xp5000',name:'Légende',desc:'Atteins 5 000 XP — sommet du parcours',ico:ico('#DB2777','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="5"/>'),target:5000,progress:getXP},
+
+  /* Maîtrise */
+  {cat:'mastery',id:'hangeul',name:'Hangeul Maîtrisé',desc:'Termine tout le module Hangeul (10 leçons)',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:28px;color:#3B82F6;line-height:1">한</span>',target:8,progress:function(){return countByPrefix('ks_h');}},
+  {cat:'mastery',id:'a1Done',name:'Niveau A1',desc:'Complète toutes les activités A1',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#3B82F6;line-height:1">A1</span>',target:25,progress:function(){return countByPrefix('ks_a');}},
+  {cat:'mastery',id:'a2Done',name:'Niveau A2',desc:'Complète toutes les activités A2',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#10B981;line-height:1">A2</span>',target:25,progress:function(){return countByPrefix('ks_b');}},
+  {cat:'mastery',id:'b1Done',name:'Niveau B1',desc:'Complète toutes les activités B1',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#F59E0B;line-height:1">B1</span>',target:20,progress:function(){return countByPrefix('ks_c');}},
+  {cat:'mastery',id:'b2Done',name:'Niveau B2',desc:'Complète toutes les activités B2',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#7C3AED;line-height:1">B2</span>',target:15,progress:function(){return countByPrefix('ks_d');}},
+  {cat:'mastery',id:'perfect',name:'Perfection',desc:'Obtiens un score parfait sur une leçon',ico:ico('#06B6D4','<path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>'),target:1,progress:function(){return ls('ks_badge_perfect')==='1'?1:0;}},
+
+  /* Exploration */
+  {cat:'explo',id:'vocab50',name:'Vocabulaire x50',desc:'Apprends 50 mots distincts en SRS',ico:ico('#8B5CF6','<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>'),target:50,progress:getVocab},
+  {cat:'explo',id:'vocab200',name:'Polyglotte en herbe',desc:'Apprends 200 mots distincts en SRS',ico:ico('#8B5CF6','<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="12" y2="18"/>'),target:200,progress:getVocab},
+  {cat:'explo',id:'activities50',name:'Explorateur·rice',desc:'Termine 50 activités sur le parcours',ico:ico('#10B981','<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>'),target:50,progress:countActivities},
+  {cat:'explo',id:'activities100',name:'Voyageur·euse aguerri',desc:'Termine 100 activités sur le parcours',ico:ico('#10B981','<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/><circle cx="12" cy="12" r="3"/>'),target:100,progress:countActivities},
+  {cat:'explo',id:'community',name:'Communauté',desc:'Active ton classement public dans Réglages',ico:ico('#DB2777','<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/>'),target:1,progress:function(){return ls('ks_leaderboard_opt')==='1'?1:0;}}
+];
+
+function isEarned(t){return t.progress()>=t.target;}
+
+function renderCat(catId,containerId){
+  var html='';
+  var c=0;
+  TROPHIES.filter(function(t){return t.cat===catId;}).forEach(function(t){
+    var earned=isEarned(t);
+    var prog=t.progress();
+    var pct=Math.min(100,Math.round((prog/t.target)*100));
+    if(earned)c++;
+    var progBar='';
+    if(!earned && t.target>1){
+      progBar='<div class="t-progress"><div class="t-progress-bar" style="width:'+pct+'%"></div></div>'+
+        '<div class="t-progress-text">'+prog+' / '+t.target+'</div>';
+    }
+    html+='<div class="trophy '+(earned?'earned':'locked')+'" onclick="openM(\''+t.id+'\')">'+
+      '<div class="t-ico">'+t.ico+'</div>'+
+      '<div class="t-name">'+t.name+'</div>'+
+      '<div class="t-desc">'+t.desc+'</div>'+
+      progBar+
+      '</div>';
+  });
+  document.getElementById(containerId).innerHTML=html;
+  return c;
+}
+
+function refresh(){
+  var earned=0;
+  earned+=renderCat('regular','catRegular');
+  earned+=renderCat('xp','catXP');
+  earned+=renderCat('mastery','catMastery');
+  earned+=renderCat('explo','catExplo');
+  var total=TROPHIES.length;
+  document.getElementById('sEarned').textContent=earned;
+  document.getElementById('sTotal').textContent=total;
+  document.getElementById('sPercent').textContent=Math.round(earned/total*100)+'%';
+}
+
+function openM(id){
+  var t=TROPHIES.find(function(x){return x.id===id;});
+  if(!t) return;
+  var earned=isEarned(t);
+  var prog=t.progress();
+  document.getElementById('mIco').innerHTML=t.ico.replace(/width:30px;height:30px/,'width:48px;height:48px').replace(/font-size:28px/,'font-size:42px');
+  document.getElementById('mIco').className='m-ico'+(earned?'':' locked');
+  document.getElementById('mName').textContent=t.name;
+  document.getElementById('mStatus').textContent=earned?'Débloqué':'À débloquer';
+  document.getElementById('mStatus').className='m-status '+(earned?'earned':'locked');
+  document.getElementById('mDesc').textContent=t.desc;
+  document.getElementById('mProgress').textContent=earned?'':'Progression : '+prog+' / '+t.target;
+  document.getElementById('ovr').classList.add('open');
+}
+function closeM(){document.getElementById('ovr').classList.remove('open');}
+
+document.addEventListener('DOMContentLoaded',function(){
+  /* Attendre que KSSRS soit dispo si nécessaire */
+  setTimeout(refresh,100);
+});
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+<script src="ks-srs.js"></script>
+</body></html>
