@@ -1,11 +1,12 @@
-// Korean Stories — Service Worker v2.3
+// Korean Stories — Service Worker v2.4
 // Network-first pour HTML/JS/CSS (toujours à jour),
 // cache-first pour les images & polices (rarement modifiées).
 // Bypass pour les APIs externes type DiceBear (l'interception
 // no-cors pose problème dans certains navigateurs).
 // v2.3 : ajout notificationclick handler.
+// v2.4 : bypass Unsplash pour bannières de leçons.
 
-const CACHE = 'ks-v2.3';
+const CACHE = 'ks-v2.4';
 
 const CORE = [
   // App shell
@@ -66,10 +67,12 @@ self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
 
-  // DiceBear (avatars) → bypass total, on laisse le navigateur gérer
-  // directement. L'interception SW pose problème avec les requêtes
-  // no-cors d'images depuis ce CDN.
-  if (url.hostname.includes('dicebear.com')) {
+  // DiceBear (avatars) + Unsplash (bannières leçons) → bypass total,
+  // on laisse le navigateur gérer directement. L'interception SW pose
+  // problème avec les requêtes no-cors d'images depuis ces CDN.
+  if (url.hostname.includes('dicebear.com') ||
+      url.hostname.includes('images.unsplash.com') ||
+      url.hostname.includes('source.unsplash.com')) {
     return;
   }
 

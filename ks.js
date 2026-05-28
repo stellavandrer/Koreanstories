@@ -645,4 +645,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     btn.setAttribute('data-dark-icon', isDark ? 'dark' : 'light');
   });
+
+  /* Charge la bannière visuelle de leçon (auto-skip si page exclue) */
+  (function(){
+    if (document.getElementById('ks-lesson-image-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-lesson-image-script';
+    s.src = 'ks-lesson-image.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });
