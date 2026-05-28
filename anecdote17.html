@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mukbang : pourquoi les Coréens filment leurs repas — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(219,39,119,.07);border-left:3px solid #DB2777;border-radius:0 8px 8px 0;padding:.7rem 1rem;font-size:.88rem;margin:.6rem 0}
+    .culture-box{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.6rem 0}
+    .culture-box h4{color:#DB2777;margin:0 0 .4rem;font-size:1rem}
+    .culture-box p{margin:.3rem 0;font-size:.9rem;line-height:1.55}
+    .quote{font-style:italic;color:var(--tx-muted);border-left:3px solid #DB2777;padding-left:.8rem;margin:.5rem 0;font-size:.88rem}
+    .stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.5rem 0}
+    .stat-card{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.7rem;text-align:center}
+    .stat-num{font-size:1.4rem;font-weight:800;color:#DB2777}
+    .stat-label{font-size:.78rem;color:var(--tx-muted);margin-top:.1rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Mukbang</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"/></svg> Mukbang : pourquoi filmer ses repas ?</h2>
+  <span class="pill">B1 · Anecdote culturelle</span> <span class="xp-badge">+8 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Le mot <span class="ko">먹방</span> (mukbang) vient de <span class="ko">먹는 방송</span> (émission où l'on mange). Né en Corée vers 2008, il est devenu un genre mondial. Mais pourquoi quelqu'un regarderait un inconnu manger pendant 1 heure ?</p>
+
+  <h3> 📈 Un phénomène massif</h3>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-num">2008</div><div class="stat-label">Naissance sur AfreecaTV</div></div>
+    <div class="stat-card"><div class="stat-num">100M+</div><div class="stat-label">Vues quotidiennes</div></div>
+    <div class="stat-card"><div class="stat-num">11M</div><div class="stat-label">Abonnés de Tzuyang (la star)</div></div>
+    <div class="stat-card"><div class="stat-num">2019</div><div class="stat-label">Mot inclus dans l'Oxford Dictionary</div></div>
+  </div>
+
+  <h3> 🤔 Pourquoi ça marche ?</h3>
+  <div class="culture-box">
+    <h4>1. La solitude alimentaire</h4>
+    <p>En Corée, manger seul (<span class="ko">혼밥</span>) reste tabou. La culture valorise le repas partagé. Or, en 2024, près de <strong>40 % des foyers</strong> sont composés d'une seule personne (vs 16 % en 2000). Les mukbangs comblent ce vide social : on dîne "avec" quelqu'un, même à distance.</p>
+    <p class="quote">"Je rentre tard du travail, je commande un BBC chicken, et j'ouvre une vidéo de Banzz. C'est comme si j'avais un ami à table."</p>
+  </div>
+
+  <div class="culture-box">
+    <h4>2. L'effet ASMR & relaxation</h4>
+    <p>Les bruits de mastication, le crunch, le slurp — capturés au micro de qualité — déclenchent une réponse sensorielle qui détend. Beaucoup regardent un mukbang pour s'endormir, comme d'autres écoutent la pluie.</p>
+  </div>
+
+  <div class="culture-box">
+    <h4>3. L'envie par procuration</h4>
+    <p>Au régime ? Sans budget ? Le mukbang permet de "manger" mentalement ce qu'on s'interdit. Une grande partie de l'audience suit pendant qu'elle mange une salade fade — voir une montagne de jokbal (pied de cochon braisé) la nourrit autrement.</p>
+  </div>
+
+  <div class="culture-box">
+    <h4>4. La performance et le spectacle</h4>
+    <p>Certains mukbangers consomment <strong>10 000 calories en une vidéo</strong>. C'est une prouesse physique fascinante, comme regarder un athlète. Le défi (manger 10 nouilles instantanées, finir un plateau XXL) devient sport.</p>
+  </div>
+
+  <h3> 💸 Comment ça paye ?</h3>
+  <div class="culture-box">
+    <p>Sur AfreecaTV, les spectateurs envoient des <span class="ko">별풍선</span> (star balloons), des micro-dons en direct. Un mukbanger populaire peut gagner <strong>5 000 à 50 000 $ par soirée</strong>. Sur YouTube, c'est la monétisation classique + sponsoring marques alimentaires.</p>
+    <p>Les stars comme <em>Banzz</em>, <em>Yang Soobin</em> ou <em>Tzuyang</em> sont devenues des célébrités à part entière, avec des restaurants, des lignes de produits, des contrats TV.</p>
+  </div>
+
+  <h3> ⚠️ Le revers de la médaille</h3>
+  <div class="culture-box">
+    <p>Le mukbang a des effets sanitaires inquiétants. Plusieurs créateurs ont arrêté à cause de problèmes digestifs, d'obésité, de troubles alimentaires (vomissements cachés). Le gouvernement coréen a même envisagé une régulation en 2018.</p>
+    <p>Côté spectateur : les études montrent une <em>augmentation de la consommation</em> chez ceux qui regardent des mukbangs en mangeant. Ce qui était censé combler la solitude peut nourrir d'autres déséquilibres.</p>
+  </div>
+
+  <h3> 🎬 Si tu veux essayer</h3>
+  <div class="tip">
+    <strong>Les chaînes mukbang à connaître :</strong><br/>
+    • <strong>Tzuyang</strong> — la reine, frappante par son volume vs son apparence<br/>
+    • <strong>Hamzy</strong> — esthétique léchée, plats coréens authentiques<br/>
+    • <strong>SIO</strong> — ambiance douce, ASMR de qualité<br/>
+    • <strong>Stephanie Soo</strong> — mukbang + storytelling true crime (étrange mais addictif)<br/>
+    Active les sous-titres coréens pour t'entraîner à reconnaître le vocabulaire de la nourriture.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +8 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c12',xp:8});else{if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_c12');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

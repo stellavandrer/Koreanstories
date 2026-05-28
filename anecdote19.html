@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Les superstitions coréennes — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(219,39,119,.07);border-left:3px solid #DB2777;border-radius:0 8px 8px 0;padding:.7rem 1rem;font-size:.88rem;margin:.6rem 0}
+    .myth-row{display:flex;align-items:flex-start;gap:.7rem;padding:.7rem;background:var(--surf);border:1px solid var(--bd);border-radius:10px;margin:.4rem 0}
+    .myth-icon{flex-shrink:0;width:2rem;height:2rem;background:rgba(219,39,119,.12);color:#DB2777;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800}
+    .myth-body{flex:1;min-width:0;font-size:.9rem;line-height:1.55}
+    .myth-body strong{display:block;margin-bottom:.2rem;color:var(--tx);font-size:.95rem}
+    .myth-body em{font-style:normal;color:#DB2777;font-weight:600}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Superstitions</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> 7 superstitions coréennes encore vivantes</h2>
+  <span class="pill">B1 · Anecdote culturelle</span> <span class="xp-badge">+8 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">La Corée du Sud est un pays ultra-moderne — mais les superstitions y restent étonnamment présentes. Voici 7 croyances que tu croiseras forcément, du chiffre 4 maudit au fameux <em>fan death</em>.</p>
+
+  <div class="myth-row">
+    <div class="myth-icon">4</div>
+    <div class="myth-body">
+      <strong>Le chiffre 4 porte malheur</strong>
+      Le caractère sino-coréen pour "4" (<span class="ko">사</span>) se prononce comme le mot "mort" (<span class="ko">死</span>). Dans beaucoup d'hôpitaux et de grands immeubles, l'étage 4 est remplacé par "F" dans les ascenseurs, ou simplement absent. Cette superstition existe aussi en Chine et au Japon, où elle s'appelle <em>tetraphobia</em>.
+    </div>
+  </div>
+
+  <div class="myth-row">
+    <div class="myth-icon">✏️</div>
+    <div class="myth-body">
+      <strong>N'écris jamais un nom à l'encre rouge</strong>
+      L'encre rouge était traditionnellement utilisée pour écrire le nom des morts dans les registres familiaux. Aujourd'hui encore, écrire le nom d'une personne vivante en rouge est perçu comme un mauvais présage — voire un souhait de mort dans certains contextes. Évite-le en cours de coréen !
+    </div>
+  </div>
+
+  <div class="myth-row">
+    <div class="myth-icon">🌬</div>
+    <div class="myth-body">
+      <strong>Le "fan death" — mourir d'un ventilateur</strong>
+      Croyance bien connue : dormir avec un ventilateur dans une chambre fermée provoquerait la mort par asphyxie ou hypothermie. Aucune preuve scientifique, et pourtant les ventilateurs vendus en Corée ont longtemps eu un timer obligatoire. La presse en parlait sérieusement encore dans les années 2000. Les jeunes générations en rient — mais nombreux sont ceux qui laissent une fenêtre entrouverte par sécurité.
+    </div>
+  </div>
+
+  <div class="myth-row">
+    <div class="myth-icon">🐷</div>
+    <div class="myth-body">
+      <strong>Rêver d'un cochon = jouer au loto</strong>
+      Voir un cochon en rêve est <em>le plus grand présage de richesse</em> dans la culture coréenne. Les rêves d'or, de feu, de dragon ou de cochon sont des "쾌몽" (rêves chanceux). Beaucoup de Coréens achètent un ticket de loterie le matin suivant ce type de rêve. Les rêves de cochon se vendent même : tu peux "donner" ton rêve à un proche contre un petit cadeau.
+    </div>
+  </div>
+
+  <div class="myth-row">
+    <div class="myth-icon">🥢</div>
+    <div class="myth-body">
+      <strong>Ne plante pas tes baguettes dans le riz</strong>
+      Cette posture ressemble aux baguettes d'encens plantées dans les offrandes aux ancêtres (<span class="ko">제사</span>). Le faire dans son bol de riz signifie "manger comme un mort" — donc inviter la mauvaise chance. À table, pose toujours tes baguettes à plat ou sur le repose-baguettes.
+    </div>
+  </div>
+
+  <div class="myth-row">
+    <div class="myth-icon">🐦</div>
+    <div class="myth-body">
+      <strong>Une pie le matin = bonne nouvelle</strong>
+      Entendre le chant d'une pie (<span class="ko">까치</span>) le matin est un présage que tu auras une visite ou une bonne nouvelle dans la journée. À l'inverse, le corbeau (<span class="ko">까마귀</span>) est un mauvais présage. Les contes populaires coréens regorgent de pies messagères.
+    </div>
+  </div>
+
+  <div class="myth-row">
+    <div class="myth-icon">💍</div>
+    <div class="myth-body">
+      <strong>Offrir des chaussures à son partenaire = il va te quitter</strong>
+      Très répandue chez les jeunes : offrir une paire de chaussures à son copain ou sa copine signifierait qu'il/elle va "marcher loin de toi". Pour contrer cette malédiction, le receveur doit donner un petit billet en retour, transformant le cadeau en "achat" symbolique.
+    </div>
+  </div>
+
+  <h3> 🤔 Croient-ils vraiment ?</h3>
+  <div class="tip">
+    <strong>Comme partout, ça dépend des personnes.</strong> Les Coréens éduqués savent que c'est de la superstition — mais les pratiquent quand même "au cas où". C'est culturel plus que dogmatique : tu ne montes pas au 4ème étage d'un hôpital, tu n'écris pas un nom en rouge, et tu ne plantes pas tes baguettes dans le riz. Ce sont des codes sociaux à respecter par politesse, comme ne pas ouvrir un parapluie dans une maison chez certains Français.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +8 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c12',xp:8});else{if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_c12');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

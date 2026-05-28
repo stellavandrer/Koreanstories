@@ -140,9 +140,7 @@
      "Bientôt" au lieu de laisser l'utilisateur tomber sur un 404.
      À chaque page créée, retirer son nom de cette liste. */
   var COMING_SOON = {
-    /* anecdote13, 14 : créées — retirées */
-    'anecdote15.html':1,'anecdote16.html':1,
-    'anecdote17.html':1,'anecdote18.html':1,'anecdote19.html':1,
+    /* anecdote13-19 : créées — toutes retirées */
     'chanson5.html':1,'chanson6.html':1,
     /* conseil7, 8 : créées — retirées */
     'exercice19.html':1,'exercice20.html':1,'exercice21.html':1,

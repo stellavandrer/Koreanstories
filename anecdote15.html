@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>K-Beauty : la routine en 10 étapes — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(219,39,119,.07);border-left:3px solid #DB2777;border-radius:0 8px 8px 0;padding:.7rem 1rem;font-size:.88rem;margin:.6rem 0}
+    .step-row{display:flex;align-items:flex-start;gap:.7rem;padding:.7rem;background:var(--surf);border:1px solid var(--bd);border-radius:10px;margin:.4rem 0}
+    .step-num{flex-shrink:0;width:1.8rem;height:1.8rem;background:#DB2777;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800}
+    .step-body{flex:1;min-width:0;font-size:.9rem;line-height:1.5}
+    .step-body strong{color:var(--tx);display:block;margin-bottom:.15rem}
+    .step-body em{font-style:normal;color:#DB2777;font-weight:600}
+    .culture-box{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.6rem 0}
+    .culture-box h4{color:#DB2777;margin:0 0 .4rem;font-size:1rem}
+    .culture-box p{margin:.3rem 0;font-size:.9rem;line-height:1.55}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">K-Beauty</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> K-Beauty : la routine en 10 étapes</h2>
+  <span class="pill">B1 · Anecdote culturelle</span> <span class="xp-badge">+8 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">La routine coréenne de soin de la peau (<span class="ko">스킨케어</span>) est devenue un phénomène mondial. Mais d'où vient-elle, et que contient-elle vraiment ? Voici la routine canonique en 10 étapes, et son contexte culturel.</p>
+
+  <h3> 💡 D'où vient cette obsession ?</h3>
+  <div class="culture-box">
+    <p>En Corée, la peau est le premier marqueur visible de l'attention qu'on porte à soi-même. Le concept de <span class="ko">동안</span> (visage jeune) est une valeur culturelle forte : avoir l'air "frais", reposé, lumineux est un signe de santé, de discipline, et même de réussite sociale.</p>
+    <p>L'industrie cosmétique coréenne pèse aujourd'hui plus de <strong>10 milliards de dollars</strong> et exporte dans 130 pays. La routine "10 étapes" a été popularisée à l'international en 2014 par la créatrice de Soko Glam.</p>
+  </div>
+
+  <h3> 🧴 La routine du soir, étape par étape</h3>
+  <div class="step-row"><div class="step-num">1</div><div class="step-body"><strong>Démaquillage à l'huile</strong>Une huile (<em>oil cleanser</em>) dissout le maquillage, la crème solaire et les impuretés grasses. Massage 1 minute, rincer à l'eau tiède.</div></div>
+  <div class="step-row"><div class="step-num">2</div><div class="step-body"><strong>Nettoyant moussant</strong>Le double cleansing : un nettoyant doux à base d'eau enlève les résidus que l'huile a délogés. Cette étape est la clé.</div></div>
+  <div class="step-row"><div class="step-num">3</div><div class="step-body"><strong>Exfoliation (1-2× / semaine)</strong>Exfoliant doux (acides AHA/BHA ou gommage) pour retirer les cellules mortes et révéler une peau éclatante.</div></div>
+  <div class="step-row"><div class="step-num">4</div><div class="step-body"><strong>Toner</strong>Une lotion fluide qui rééquilibre le pH de la peau après le nettoyage. À tapoter avec les mains, jamais frotter.</div></div>
+  <div class="step-row"><div class="step-num">5</div><div class="step-body"><strong>Essence</strong>L'étape signature K-Beauty. Plus légère qu'un sérum, elle prépare la peau à recevoir les actifs suivants. <em>SK-II Pitera</em> est l'icône absolue.</div></div>
+  <div class="step-row"><div class="step-num">6</div><div class="step-body"><strong>Sérum / Ampoule</strong>Concentré d'actifs ciblés : vitamine C pour l'éclat, niacinamide pour les pores, acide hyaluronique pour l'hydratation.</div></div>
+  <div class="step-row"><div class="step-num">7</div><div class="step-body"><strong>Masque en tissu (2-3× / semaine)</strong>Le fameux <em>sheet mask</em>. Imbibé d'essence, posé 15-20 min. C'est aussi un moment de détente — souvent en regardant un drama.</div></div>
+  <div class="step-row"><div class="step-num">8</div><div class="step-body"><strong>Soin contour des yeux</strong>Une crème ou un sérum spécifique pour la zone fragile autour des yeux. Tapoter du bout de l'annulaire.</div></div>
+  <div class="step-row"><div class="step-num">9</div><div class="step-body"><strong>Crème hydratante</strong>Scelle tous les actifs précédents et hydrate en surface. Choisie en fonction du type de peau (mate / sèche / mixte).</div></div>
+  <div class="step-row"><div class="step-num">10</div><div class="step-body"><strong>Soin de nuit (sleeping mask)</strong>Une couche finale plus riche qu'on ne rince pas. Régénération nocturne maximale.</div></div>
+
+  <h3> ☀️ Le matin : un ajout crucial</h3>
+  <div class="culture-box">
+    <p>La routine du matin saute l'huile et le masque, mais ajoute <strong>l'élément le plus important de toute la K-Beauty</strong> : la <span class="ko">자외선 차단제</span> (crème solaire). SPF50+ minimum, tous les jours, été comme hiver, dehors ou dedans.</p>
+    <p>"En Corée, on dit qu'on a 30 % de génétique et 70 % de protection solaire," résume une dermatologue de Cheongdam.</p>
+  </div>
+
+  <h3> 🎯 Faut-il vraiment faire les 10 étapes ?</h3>
+  <div class="tip">
+    <strong>La réponse honnête : non.</strong><br/>
+    Les Coréennes elles-mêmes ne font pas 10 étapes tous les jours. La routine canonique est un <em>menu</em>, pas une obligation. Les essentiels : <br/>
+    • Nettoyer matin & soir<br/>
+    • Hydrater<br/>
+    • Crème solaire le jour (non négociable)<br/>
+    Le reste est selon ton temps, tes besoins, ton budget. La régularité bat la complexité.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +8 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c12',xp:8});else{if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_c12');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
