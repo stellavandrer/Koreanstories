@@ -286,6 +286,33 @@
     return document.body;
   }
 
+  /* Remplace les couleurs neutres d'unDraw par notre palette gold/navy.
+     Ça nous donne un look unique (les concurrents utilisent les
+     illustrations en gris par défaut). */
+  function tintSVG(svgText){
+    return svgText
+      /* Bleu-gris foncé d'unDraw → notre or principal */
+      .replace(/#3f3d56/gi, '#C9A96E')
+      /* Gris clair primaire → or très clair, harmonise les fonds */
+      .replace(/#f2f2f2/gi, '#FFF3DD')
+      /* Gris secondaire → or pâle */
+      .replace(/#e6e6e6/gi, '#F5E5C0')
+      /* Gris tertiaire → or plus pâle */
+      .replace(/#e4e4e4/gi, '#F5E5C0')
+      /* Anthracite très foncé → navy de la marque */
+      .replace(/#2f2e41/gi, '#1A3050');
+  }
+
+  /* Cache local pour éviter de re-fetch entre pages */
+  var SVG_CACHE = {};
+
+  function loadSVG(name){
+    if (SVG_CACHE[name]) return Promise.resolve(SVG_CACHE[name]);
+    return fetch(BASE + name + '.svg')
+      .then(function(r){ if (!r.ok) throw new Error('404'); return r.text(); })
+      .then(function(txt){ SVG_CACHE[name] = tintSVG(txt); return SVG_CACHE[name]; });
+  }
+
   function inject(){
     var name = getIllustrationName();
     if (!name) return;
@@ -298,18 +325,25 @@
 
     var banner = document.createElement('div');
     banner.className = 'ks-banner';
-    banner.innerHTML =
-      '<img class="ks-banner-img" alt="Illustration" loading="lazy">' +
-      '<div class="ks-banner-loader">Chargement…</div>';
+    banner.innerHTML = '<div class="ks-banner-loader">Chargement…</div>';
     target.insertBefore(banner, target.firstChild);
 
-    var imgEl = banner.querySelector('img');
-    imgEl.onload = function(){ imgEl.classList.add('loaded'); };
-    imgEl.onerror = function(){
-      /* Si jsDelivr ne répond pas, on retire la bannière proprement */
+    loadSVG(name).then(function(svgText){
+      banner.innerHTML = svgText;
+      var svg = banner.querySelector('svg');
+      if (svg) {
+        svg.classList.add('ks-banner-img');
+        svg.removeAttribute('width');
+        svg.removeAttribute('height');
+        svg.style.cssText = 'width:auto;max-width:90%;max-height:170px;display:block';
+        /* Fade-in après un tick pour que l'opacité 0 → 1 transitionne */
+        requestAnimationFrame(function(){
+          svg.classList.add('loaded');
+        });
+      }
+    }).catch(function(){
       banner.remove();
-    };
-    imgEl.src = BASE + name + '.svg';
+    });
   }
 
   if (document.readyState === 'loading') {
