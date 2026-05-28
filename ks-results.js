@@ -187,14 +187,27 @@
     return el;
   }
 
-  /* ── Streak helper ───────────────────────────────────────────────── */
+  /* ── Streak helper ─────────────────────────────────────────────────
+     Si gap = 1 jour → +1 streak (normal)
+     Si gap = 2 jours et freeze dispo → consomme un freeze, +1 streak
+     Sinon → reset à 1 */
   function getStreak() {
     try {
       var t = new Date().toISOString().slice(0, 10);
       var l = localStorage.getItem('ks_lastplay');
       var s = parseInt(localStorage.getItem('ks_streak') || '0');
       if (l !== t) {
-        var nk = (l && (new Date(t) - new Date(l)) / 86400000 === 1) ? s + 1 : 1;
+        var gap = l ? (new Date(t) - new Date(l)) / 86400000 : 99;
+        var nk;
+        if (gap === 1) {
+          nk = s + 1;
+        } else if (gap === 2 && typeof ksUseFreeze === 'function' && ksUseFreeze()) {
+          nk = s + 1;
+          /* Note pour affichage UI : un freeze a sauvé le streak */
+          try { localStorage.setItem('ks_freeze_just_used', '1'); } catch(e) {}
+        } else {
+          nk = 1;
+        }
         localStorage.setItem('ks_streak', String(nk));
         localStorage.setItem('ks_lastplay', t);
         return nk;

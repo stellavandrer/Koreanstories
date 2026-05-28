@@ -280,6 +280,24 @@
       </div>
     </div>
 
+    <!-- STREAK FREEZE -->
+    <span class="rg-sec-lbl">Streak — Freeze</span>
+    <div class="rg-card">
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#0EA5E9">
+          <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Sauvetages disponibles ce mois</div>
+          <div class="rg-row-s" id="freezeInfo">Chargement…</div>
+        </div>
+        <div class="rg-act"><span class="rg-btn" id="freezeCount" style="cursor:default;background:rgba(14,165,233,.12);color:#0EA5E9">—</span></div>
+      </div>
+      <div style="font-size:.78rem;color:var(--rg-tx-muted);padding:.7rem 1rem 0;line-height:1.55">
+        Si tu rates UN jour, un freeze est automatiquement consommé pour protéger ton streak. Tu disposes de <strong>2 freezes par mois</strong>, renouvelés le 1er.
+      </div>
+    </div>
+
     <!-- VOIX AUDIO -->
     <!-- TOUR / AIDE -->
     <span class="rg-sec-lbl">Aide</span>
@@ -704,6 +722,19 @@
     try { localStorage.removeItem('ks_tour_dashboard'); } catch (e) {}
     ksGo('app.html');
   };
+
+  /* ── Streak freeze info ─────────────────────────────────────── */
+  function refreshFreezeUI(){
+    var info = document.getElementById('freezeInfo');
+    var count = document.getElementById('freezeCount');
+    if(!info || !count) return;
+    var n = (typeof ksFreezesLeft==='function') ? ksFreezesLeft() : 0;
+    count.textContent = n + ' / 2';
+    if(n === 2)      info.textContent = "Tu as tes 2 freezes du mois prêts à servir.";
+    else if(n === 1) info.textContent = "Un freeze a été utilisé ce mois — il t'en reste 1.";
+    else             info.textContent = "Tu as utilisé tes 2 freezes ce mois — reset le 1er.";
+  }
+  refreshFreezeUI();
 
   /* ── Classement communauté (opt-in) ─────────────────────────── */
   function syncLeaderboardUI(){

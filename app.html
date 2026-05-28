@@ -1538,12 +1538,24 @@
       else if(streak < 30)  badge.textContent = streak + ' jours — incroyable !';
       else                  badge.textContent = streak + ' jours — tu es une légende !';
     }
-    // ── Streak break detection ──
+    // ── Streak break detection (avec freeze) ──
     const todayChk = new Date().toISOString().slice(0,10);
     const lastPlay = ls('ks_lastplay');
     if(lastPlay && lastPlay !== todayChk && streak > 0) {
       const daysDiff = Math.round((new Date(todayChk) - new Date(lastPlay)) / 86400000);
-      if(daysDiff > 1) {
+      if(daysDiff === 2 && typeof ksUseFreeze === 'function' && ksFreezesLeft() > 0) {
+        // 1 jour raté + freeze dispo → on consomme et on préserve le streak
+        ksUseFreeze();
+        try { localStorage.setItem('ks_lastplay', new Date(new Date(todayChk).getTime() - 86400000).toISOString().slice(0,10)); } catch(e) {}
+        setTimeout(() => {
+          const notif = document.createElement('div');
+          notif.style.cssText = 'position:fixed;top:68px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0EA5E9,#06B6D4);border-radius:16px;padding:13px 20px;font-size:13px;font-weight:600;color:#fff;z-index:200;text-align:center;max-width:300px;box-shadow:0 8px 28px rgba(0,0,0,.3)';
+          notif.innerHTML = '❄ Freeze utilisé — ton streak est sauvé !<br><span style="font-size:11px;opacity:.85;font-weight:400">Il te reste '+ksFreezesLeft()+' freeze(s) ce mois</span>';
+          document.body.appendChild(notif);
+          setTimeout(() => { notif.style.transition='opacity .5s'; notif.style.opacity='0'; setTimeout(()=>notif.remove(),500); }, 4000);
+        }, 600);
+      }
+      else if(daysDiff > 1) {
         try { localStorage.setItem('ks_streak','0'); } catch(e) {}
         // Show gentle notification
         setTimeout(() => {
@@ -2598,7 +2610,9 @@ var MILESTONES = [
 // ─── Read streak from localStorage ─────────────────────
 function getStreak(){ try{ return parseInt(localStorage.getItem('ks_streak')||'0'); }catch(e){ return 0; } }
 function getXP(){ try{ return parseInt(localStorage.getItem('ks_xp')||'0'); }catch(e){ return 0; } }
-function getFreezeAvail(){ try{ return localStorage.getItem('ks_freeze')!=='used'; }catch(e){ return true; } }
+/* Compteur de freezes — 2 par mois renouvelés le 1er, gérés par ks.js */
+function getFreezeAvail(){ try{ return (typeof ksFreezesLeft === 'function') ? ksFreezesLeft() > 0 : true; }catch(e){ return true; } }
+function getFreezeCount(){ try{ return (typeof ksFreezesLeft === 'function') ? ksFreezesLeft() : 0; }catch(e){ return 0; } }
 function getSeenMilestones(){ try{ return JSON.parse(localStorage.getItem('ks_ms_seen')||'[]'); }catch(e){ return []; } }
 
 // ─── Streak card render ─────────────────────────────────
@@ -2618,12 +2632,13 @@ function renderStreakCard(){
     else { flame.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'; }
   }
 
-  // Freeze button
+  // Freeze button — affiche le nombre de freezes restants ce mois
   var fBtn = document.getElementById('freezeBtn');
   var fTxt = document.getElementById('freezeBtnTxt');
   if(fBtn && fTxt){
-    if(!getFreezeAvail()){ fBtn.classList.add('used'); fTxt.textContent='Freeze utilisé'; }
-    else { fTxt.textContent='Freeze ×1'; }
+    var fCount = getFreezeCount();
+    if(fCount <= 0){ fBtn.classList.add('used'); fTxt.textContent='Freeze épuisé'; }
+    else { fBtn.classList.remove('used'); fTxt.textContent='Freeze ×'+fCount; }
   }
 
   // Progress bar to next milestone
@@ -2705,19 +2720,15 @@ window.closeCele = function(e){
 };
 
 // ─── Streak freeze ──────────────────────────────────────
+// Note : les freezes sont auto-consommés si un jour est raté.
+// Ce bouton sert juste à voir le compteur — clic = info modal.
 window.activateFreeze = function(){
-  if(!getFreezeAvail()){ return; }
-  var streak = getStreak();
-  if(streak === 0){ showXpToast('Commence ta série d\'abord !', null, true); return; }
-  try{
-    localStorage.setItem('ks_freeze','used');
-    localStorage.setItem('ks_freeze_date', new Date().toISOString().slice(0,10));
-  }catch(e){}
-  var fBtn = document.getElementById('freezeBtn');
-  var fTxt = document.getElementById('freezeBtnTxt');
-  if(fBtn){ fBtn.classList.add('used'); }
-  if(fTxt){ fTxt.innerHTML='Freeze activé <svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>'; }
-  showXpToast('Série protégée !', null, true);
+  var n = getFreezeCount();
+  if(n <= 0){
+    showXpToast('Plus de freeze ce mois — reset le 1er', null, true);
+    return;
+  }
+  showXpToast('Il te reste '+n+' freeze(s) ce mois', null, true);
 };
 
 // ─── XP Toast ───────────────────────────────────────────

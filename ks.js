@@ -69,6 +69,46 @@ function ksAddXP(n)    { try { const v = ksGetXP() + n; localStorage.setItem('ks
   } catch (e) {}
 })();
 
+/* ── Streak Freeze — 2 sauvetages par mois ─────────────────────────
+   Si l'utilisateur rate UN jour, un freeze est consommé automatiquement
+   pour préserver le streak. Renouvelé au 1er de chaque mois.
+   - ks_freezes_left : nombre de freezes disponibles ce mois
+   - ks_freezes_month : YYYY-MM du dernier renouvellement
+   - ks_freezes_used_log : JSON [{date, streakAtTime}] pour historique */
+var KS_FREEZE_MAX = 2;
+function _ksFreezeMonth(){ return new Date().toISOString().slice(0,7); }
+function ksMaybeRenewFreezes(){
+  try {
+    var m = _ksFreezeMonth();
+    if (localStorage.getItem('ks_freezes_month') !== m) {
+      localStorage.setItem('ks_freezes_month', m);
+      localStorage.setItem('ks_freezes_left', String(KS_FREEZE_MAX));
+    }
+  } catch (e) {}
+}
+function ksFreezesLeft(){
+  ksMaybeRenewFreezes();
+  try { return parseInt(localStorage.getItem('ks_freezes_left') || String(KS_FREEZE_MAX)); }
+  catch (e) { return 0; }
+}
+function ksUseFreeze(){
+  ksMaybeRenewFreezes();
+  var n = ksFreezesLeft();
+  if (n <= 0) return false;
+  try {
+    localStorage.setItem('ks_freezes_left', String(n - 1));
+    /* Log d'historique pour affichage */
+    var log = [];
+    try { log = JSON.parse(localStorage.getItem('ks_freezes_used_log') || '[]'); } catch(_e){}
+    log.push({ date: new Date().toISOString().slice(0,10), streak: parseInt(localStorage.getItem('ks_streak')||'0') });
+    if (log.length > 20) log = log.slice(-20);
+    localStorage.setItem('ks_freezes_used_log', JSON.stringify(log));
+    return true;
+  } catch (e) { return false; }
+}
+/* Init au chargement de chaque page */
+ksMaybeRenewFreezes();
+
 /* ── Completion tracking ───────────────────────────────────────────── */
 function ksMarkDone(key) {
   try { localStorage.setItem(key, 'done'); } catch(e) {}
