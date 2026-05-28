@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Mes notes — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:80px}
+    h2{color:var(--navy);margin:0 0 .3rem;font-size:1.3rem}
+    .sub{color:var(--tx-muted);font-size:.9rem;margin:0 0 1.2rem}
+    .summary-bar{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin:.6rem 0 1rem}
+    .summary-count{font-size:.85rem;color:var(--tx-muted);font-weight:600}
+    .summary-count strong{color:var(--gold,#C9A96E);font-size:1rem}
+    .clear-btn{background:none;border:none;color:var(--tx-muted);cursor:pointer;
+               font-size:.78rem;font-weight:600;padding:.3rem .6rem;border-radius:8px}
+    .clear-btn:hover{color:#ef4444;background:rgba(239,68,68,.06)}
+
+    .note-list{display:flex;flex-direction:column;gap:.7rem}
+    .note-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;
+               padding:1rem;transition:all .2s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+    .note-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.06);
+                    border-color:rgba(201,169,110,.4)}
+    .note-meta{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+    .note-title{font-size:.95rem;font-weight:700;color:var(--tx);line-height:1.35;flex:1;min-width:0;
+                white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .note-time{font-size:.7rem;color:var(--tx-muted);flex-shrink:0;font-weight:600}
+    .note-excerpt{font-size:.85rem;color:var(--tx-muted);line-height:1.6;
+                  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+                  overflow:hidden;white-space:pre-wrap;word-break:break-word}
+
+    .empty{text-align:center;padding:3rem 1rem;color:var(--tx-muted)}
+    .empty-ico{width:64px;height:64px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;
+               background:rgba(201,169,110,.08);border-radius:50%;color:var(--gold,#C9A96E)}
+    .empty-ico svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .empty h3{margin:.6rem 0;font-size:1.05rem;color:var(--tx)}
+    .empty p{font-size:.88rem;line-height:1.55;margin:.5rem 0;max-width:340px;margin-left:auto;margin-right:auto}
+    .empty .cta{display:inline-block;margin-top:.8rem;padding:.6rem 1.2rem;border-radius:10px;
+                background:var(--gold,#C9A96E);color:#0a1220;font-weight:700;text-decoration:none;font-size:.9rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Mes notes</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+
+  <h2>Mes notes</h2>
+  <p class="sub">Toutes les notes que tu as prises pendant tes leçons, accessibles d'un clic.</p>
+
+  <div class="summary-bar">
+    <div class="summary-count"><strong id="totalCount">0</strong> note(s)</div>
+    <button class="clear-btn" id="clearBtn" onclick="clearAll()" style="display:none">Tout supprimer</button>
+  </div>
+
+  <div class="note-list" id="noteList"></div>
+
+  <div class="empty" id="emptyState" style="display:none">
+    <div class="empty-ico">
+      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </div>
+    <h3>Aucune note pour le moment</h3>
+    <p>Pendant tes leçons, touche le bouton <strong>Note</strong> en haut à droite pour écrire tes mémorisations, mnémoniques ou exemples persos. Tes notes apparaîtront ici.</p>
+    <a href="cours.html" class="cta">Aller au parcours →</a>
+  </div>
+
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function getNotes(){
+  try { return JSON.parse(localStorage.getItem('ks_notes')||'{}'); }
+  catch(e){ return {}; }
+}
+function setNotes(o){
+  try { localStorage.setItem('ks_notes', JSON.stringify(o)); } catch(e){}
+}
+function escapeHtml(s){
+  return String(s||'').replace(/[<>&"]/g, function(c){
+    return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];
+  });
+}
+function relativeTime(ts){
+  var d = Date.now() - ts;
+  var s = Math.floor(d/1000);
+  if (s < 60) return "à l'instant";
+  var m = Math.floor(s/60);
+  if (m < 60) return 'il y a ' + m + ' min';
+  var h = Math.floor(m/60);
+  if (h < 24) return 'il y a ' + h + 'h';
+  var dd = Math.floor(h/24);
+  if (dd < 7) return 'il y a ' + dd + ' j';
+  if (dd < 30) return 'il y a ' + Math.floor(dd/7) + ' sem';
+  if (dd < 365) return 'il y a ' + Math.floor(dd/30) + ' mois';
+  return 'il y a ' + Math.floor(dd/365) + ' an';
+}
+
+function clearAll(){
+  if (!confirm('Supprimer toutes les notes ? Cette action ne peut pas être annulée.')) return;
+  setNotes({});
+  render();
+}
+
+function render(){
+  var all = getNotes();
+  var entries = Object.keys(all).map(function(href){
+    return Object.assign({ href: href }, all[href]);
+  });
+  /* Tri par date (récent en haut) */
+  entries.sort(function(a,b){ return (b.updatedAt||0) - (a.updatedAt||0); });
+
+  var totalEl = document.getElementById('totalCount');
+  var listEl = document.getElementById('noteList');
+  var emptyEl = document.getElementById('emptyState');
+  var clearBtn = document.getElementById('clearBtn');
+
+  totalEl.textContent = entries.length;
+  if (entries.length === 0) {
+    listEl.style.display = 'none';
+    emptyEl.style.display = 'block';
+    clearBtn.style.display = 'none';
+    return;
+  }
+  listEl.style.display = 'flex';
+  emptyEl.style.display = 'none';
+  clearBtn.style.display = 'block';
+  listEl.innerHTML = entries.map(function(n){
+    return '<a class="note-card" href="' + n.href + '">' +
+      '<div class="note-meta">' +
+        '<div class="note-title">' + escapeHtml(n.title || n.href) + '</div>' +
+        '<div class="note-time">' + relativeTime(n.updatedAt || Date.now()) + '</div>' +
+      '</div>' +
+      '<div class="note-excerpt">' + escapeHtml(n.text || '') + '</div>' +
+    '</a>';
+  }).join('');
+}
+
+render();
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
