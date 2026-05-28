@@ -134,12 +134,13 @@
     s.textContent = [
       '.ks-banner{',
         'position:relative;',
-        'width:calc(100% + 2rem);',
-        'margin:-1rem -1rem 1.2rem -1rem;',
+        'width:100%;',
+        'margin:0 0 1.2rem;',
         'height:160px;',
         'overflow:hidden;',
-        'border-radius:0 0 18px 18px;',
-        'background:linear-gradient(135deg,#0F1B2D,#1a2f4a)',
+        'border-radius:14px;',
+        'background:linear-gradient(135deg,#0F1B2D,#1a2f4a);',
+        'box-shadow:0 4px 14px rgba(0,0,0,.08)',
       '}',
       '.ks-banner img{',
         'width:100%;height:100%;object-fit:cover;display:block;',
@@ -168,12 +169,18 @@
 
   /* ── Trouve le bon endroit pour injecter la bannière ─────────── */
   function findInsertionPoint(){
-    /* On cherche le premier conteneur de contenu après la nav.
-       Ordre de priorité : .main > main > .shell > body */
-    var main = document.querySelector('main .main, main, .main') || document.body;
-    /* On injecte AVANT le premier enfant de la zone padding */
-    var inner = main.querySelector('[style*="padding:1rem"], [style*="padding: 1rem"]');
-    return inner || main;
+    /* Priorités (du plus spécifique au plus général) :
+       1. <div style="padding:1rem"> dans main.main → modèle anecdote/conseil
+       2. .wrap (modèle lecon)
+       3. main
+       4. body */
+    var paddedDiv = document.querySelector('main .main > div[style*="padding"], main > div[style*="padding"]');
+    if (paddedDiv) return paddedDiv;
+    var wrap = document.querySelector('.wrap');
+    if (wrap) return wrap;
+    var main = document.querySelector('main, .main, .shell');
+    if (main) return main;
+    return document.body;
   }
 
   function inject(){
