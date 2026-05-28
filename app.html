@@ -155,6 +155,42 @@
     .cont-btn:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,169,110,.3)}
     .cont-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;flex-shrink:0}
 
+    /* ── OUTILS RAPIDES (4 chips) ── */
+    .qtools{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+      margin:0 0 20px;
+    }
+    .qtool{
+      background:var(--surf);border:1px solid var(--bd);
+      border-radius:14px;padding:11px 6px;text-align:center;
+      text-decoration:none;color:inherit;cursor:pointer;
+      display:flex;flex-direction:column;align-items:center;gap:6px;
+      transition:transform .15s,border-color .15s,background .15s;
+      font-family:inherit;-webkit-tap-highlight-color:transparent
+    }
+    .qtool:hover{transform:translateY(-2px);border-color:var(--gold);
+      background:rgba(201,169,110,.06)}
+    .qtool:active{transform:scale(.96)}
+    .qtool-ic{
+      width:32px;height:32px;border-radius:9px;
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(201,169,110,.13);color:var(--gold)
+    }
+    .qtool[data-color="#0D9488"] .qtool-ic{background:rgba(13,148,136,.12);color:#0D9488}
+    .qtool[data-color="#8B5CF6"] .qtool-ic{background:rgba(139,92,246,.12);color:#8B5CF6}
+    .qtool[data-color="#3B82F6"] .qtool-ic{background:rgba(59,130,246,.12);color:#3B82F6}
+    .qtool-ic svg{width:17px;height:17px;stroke-width:2}
+    .qtool-lbl{font-size:11px;font-weight:700;color:var(--t,#374151);
+      line-height:1.2;letter-spacing:.01em}
+    .qtool-count{
+      display:inline-block;margin-left:3px;color:var(--gold);font-weight:800
+    }
+    @media (max-width:380px){
+      .qtool-lbl{font-size:10px}
+      .qtool-ic{width:28px;height:28px}
+      .qtool-ic svg{width:15px;height:15px}
+    }
+
     /* ── CARTE RÉVISION DU JOUR ── */
     .rev-card{
       display:none;align-items:center;gap:15px;text-decoration:none;
@@ -1145,6 +1181,26 @@
 
   <!-- MAIN CONTENT -->
   <main>
+
+    <!-- OUTILS RAPIDES — accès rapide aux fonctionnalités persos -->
+    <div class="qtools" id="qTools">
+      <a href="prononciation.html" class="qtool" data-color="#0D9488">
+        <div class="qtool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></div>
+        <div class="qtool-lbl">Prononciation</div>
+      </a>
+      <a href="favoris.html" class="qtool" data-color="#C9A96E">
+        <div class="qtool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="qtool-lbl">Favoris<span class="qtool-count" id="qtFavCount"></span></div>
+      </a>
+      <a href="notes.html" class="qtool" data-color="#8B5CF6">
+        <div class="qtool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+        <div class="qtool-lbl">Notes<span class="qtool-count" id="qtNoteCount"></span></div>
+      </a>
+      <button class="qtool" data-color="#3B82F6" onclick="window.KSSearch&&window.KSSearch.open()" type="button">
+        <div class="qtool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="qtool-lbl">Rechercher</div>
+      </button>
+    </div>
 
     <!-- CONTINUE -->
     <span class="sec-lbl">Reprendre</span>
@@ -2877,7 +2933,23 @@ function initScrollAnimations(){
   initScrollAnimations();
   /* Fait du jour : attendre que ks-fact.js soit chargé */
   setTimeout(renderDailyFact, 300);
+  renderQuickTools();
 })();
+
+// ─── Outils rapides : compteurs favoris / notes ──────────
+function renderQuickTools(){
+  try {
+    var favs = JSON.parse(localStorage.getItem('ks_favorites')||'[]');
+    var favCt = document.getElementById('qtFavCount');
+    if (favCt && favs.length > 0) favCt.textContent = '(' + favs.length + ')';
+  } catch(e) {}
+  try {
+    var notes = JSON.parse(localStorage.getItem('ks_notes')||'{}');
+    var n = Object.keys(notes).length;
+    var noteCt = document.getElementById('qtNoteCount');
+    if (noteCt && n > 0) noteCt.textContent = '(' + n + ')';
+  } catch(e) {}
+}
 
 // ─── Fait coréen du jour ─────────────────────────────────
 function renderDailyFact(){
