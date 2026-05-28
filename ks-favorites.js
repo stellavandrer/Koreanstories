@@ -120,14 +120,16 @@
     s.id = 'ks-fav-css';
     s.textContent = [
       '.ks-fav-btn{',
-        'background:none;border:none;cursor:pointer;padding:6px 8px;',
+        'background:none;border:none;cursor:pointer;',
+        /* Tap target 40×40 minimum pour confort mobile (recommandation WCAG) */
+        'min-width:40px;min-height:40px;padding:8px;',
         'display:inline-flex;align-items:center;justify-content:center;',
         'color:currentColor;opacity:.55;transition:opacity .2s,transform .2s;',
-        'border-radius:8px',
+        'border-radius:10px;-webkit-tap-highlight-color:transparent',
       '}',
       '.ks-fav-btn:hover{opacity:1;background:rgba(201,169,110,.12)}',
       '.ks-fav-btn:active{transform:scale(.9)}',
-      '.ks-fav-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;',
+      '.ks-fav-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;',
         'stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:fill .2s}',
       '.ks-fav-btn.on{opacity:1;color:#C9A96E}',
       '.ks-fav-btn.on svg{fill:#C9A96E;stroke:#C9A96E}',
@@ -179,10 +181,19 @@
       btn.className = 'ks-fav-btn';
       btn.innerHTML = BTN_HTML;
       btn.onclick = function(){ toggleFavorite(); btn.classList.add('pop'); setTimeout(function(){btn.classList.remove('pop');}, 400); };
-      /* L'insérer AVANT le bouton thème si présent, sinon à la fin */
-      var themeBtn = bar.querySelector('.theme-btn');
-      if (themeBtn) bar.insertBefore(btn, themeBtn);
-      else bar.appendChild(btn);
+      /* Cherche le conteneur droit (.bar-r) — c'est la structure des
+         leçons type lecon5/lecon10. Sinon, on insère avant le bouton
+         de thème détecté (anecdote/conseil/histoire). Sinon à la fin. */
+      var barR = bar.querySelector('.bar-r');
+      var themeBtn = bar.querySelector('.theme-btn, .bar-theme');
+      if (barR) {
+        /* Insère AU DÉBUT de .bar-r (avant le thème) */
+        barR.insertBefore(btn, barR.firstChild);
+      } else if (themeBtn) {
+        bar.insertBefore(btn, themeBtn);
+      } else {
+        bar.appendChild(btn);
+      }
       updateButton();
       return;
     }

@@ -383,6 +383,36 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
+/* ── DÉFENSIVES MOBILES ──────────────────────────────────────────────
+   - Empêche tout débordement horizontal (en plus de body{overflow-x:hidden})
+   - Rend les tables défilables si elles sont trop larges
+   - Casse les mots longs (URLs, mots collés) plutôt que d'étendre la page
+   - Les images sont contraintes à la largeur du conteneur */
+img, video, iframe { max-width: 100%; height: auto; }
+table { max-width: 100%; }
+pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
+
+@media (max-width: 480px) {
+  /* Sur très petits écrans, les tables nowrap deviennent scrollables */
+  .table-scroll-wrap, table.scroll-on-mobile {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Les éléments avec white-space:nowrap héritent du wrap si trop large */
+  td, th { word-wrap: break-word; overflow-wrap: anywhere; }
+  /* Bottom-nav : texte 10px minimum pour rester lisible (8px était trop petit) */
+  .bni span { font-size: 10px !important; letter-spacing: 0 !important; }
+}
+
+/* Sur très petits écrans (iPhone SE, 320px), on cache le texte du bnav
+   et on garde uniquement les icônes pour ne pas écraser la mise en page */
+@media (max-width: 359px) {
+  .bni span { display: none }
+  .bni { padding: 10px 6px !important }
+  .bni svg { width: 24px; height: 24px }
+}
+
 /* ── RESPONSIVE DESKTOP ──────────────────────────────────────────── */
 @media(min-width:960px){
   body{padding-bottom:0}
