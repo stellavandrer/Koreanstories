@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aide & FAQ — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:80px}
+    h2{color:var(--navy);margin:0 0 .3rem;font-size:1.3rem}
+    h3{margin:1.4rem 0 .5rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gold,#C9A96E);display:flex;align-items:center;gap:.5rem}
+    h3::before{content:"";flex:1;height:1px;background:var(--bd)}
+    h3::after{content:"";flex:1;height:1px;background:var(--bd)}
+    .sub{color:var(--tx-muted);font-size:.9rem;margin:0 0 1rem}
+    .faq{background:var(--surf);border:1px solid var(--bd);border-radius:14px;margin:.5rem 0;overflow:hidden;transition:all .2s}
+    .faq summary{cursor:pointer;padding:1rem 1.1rem;font-size:.95rem;font-weight:600;color:var(--tx);list-style:none;display:flex;align-items:center;gap:.6rem;position:relative}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";font-size:1.4rem;font-weight:300;margin-left:auto;color:var(--gold,#C9A96E);transition:transform .25s}
+    .faq[open] summary::after{transform:rotate(45deg)}
+    .faq[open]{box-shadow:0 4px 14px rgba(0,0,0,.06)}
+    .faq-body{padding:0 1.1rem 1rem;font-size:.9rem;color:var(--tx-muted);line-height:1.6}
+    .faq-body p{margin:.4rem 0}
+    .faq-body strong{color:var(--tx)}
+    .faq-body ul{padding-left:1.3rem;margin:.4rem 0}
+    .faq-body li{margin:.2rem 0}
+    .ko{color:var(--gold,#C9A96E);font-weight:700}
+    .contact-card{background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(11,28,52,.04));border:1px solid rgba(201,169,110,.2);border-radius:16px;padding:1.2rem;margin:1.5rem 0;text-align:center}
+    .contact-card h4{margin:0 0 .4rem;font-size:1rem;color:var(--tx)}
+    .contact-btn{display:inline-block;background:var(--gold,#C9A96E);color:#0a1220;padding:.6rem 1.2rem;border-radius:10px;text-decoration:none;font-weight:700;font-size:.9rem;margin-top:.6rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Aide & FAQ</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+
+  <h2>Aide & questions fréquentes</h2>
+  <p class="sub">Toutes les réponses pour bien utiliser Korean Stories.</p>
+
+  <h3>Utiliser l'app</h3>
+
+  <details class="faq">
+    <summary>Par où commencer si je suis débutant·e ?</summary>
+    <div class="faq-body">
+      <p>Commence par le <strong>test de niveau</strong> à ton inscription. Korean Stories te place automatiquement au bon point de départ.</p>
+      <p>Si tu n'as jamais fait de coréen : le parcours te ramènera au <strong>module Hangeul</strong>. C'est l'alphabet — la fondation de tout. Compte 2-3 semaines pour le maîtriser sereinement.</p>
+      <p>Ensuite, le parcours t'amène progressivement aux niveaux <span class="ko">A1 → A2 → B1 → B2</span>.</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Combien de temps par jour ?</summary>
+    <div class="faq-body">
+      <p>L'idéal est <strong>15-20 minutes par jour</strong>. La régularité bat l'intensité.</p>
+      <p>L'objectif quotidien par défaut est de <strong>50 XP</strong>, ce qui correspond à 1-2 activités. Ne te mets pas la pression : même 10 minutes valent mieux que 0.</p>
+      <p>Si tu as plus de temps, enchaîne les défis hebdomadaires pour des XP bonus.</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Pourquoi mes leçons sont marquées \"Bientôt\" ?</summary>
+    <div class="faq-body">
+      <p>Korean Stories est en développement actif. Certaines activités sont annoncées dans le parcours mais leur contenu n'est pas encore prêt.</p>
+      <p>Les pages \"Bientôt\" sont des <em>placeholders</em> — elles n'apparaissent pas dans ton total de progression et tu n'as pas besoin de les faire pour avancer.</p>
+      <p>De nouvelles pages sont ajoutées chaque semaine. Reviens régulièrement !</p>
+    </div>
+  </details>
+
+  <h3>Progression & XP</h3>
+
+  <details class="faq">
+    <summary>Comment fonctionnent les XP ?</summary>
+    <div class="faq-body">
+      <p>Chaque activité (leçon, exercice, quiz, histoire) te donne entre <strong>5 et 50 XP</strong> selon sa difficulté et ta performance.</p>
+      <p>Les <strong>quiz</strong> donnent un bonus XP basé sur ton score : 100 % = bonus max, en-dessous de 50 % = pas de bonus.</p>
+      <p>Tes XP cumulés permettent de débloquer des <strong>rangs</strong> coréens (초보 → 입문 → 중급 → 고급 → 대가).</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Qu'est-ce qu'un \"streak\" ?</summary>
+    <div class="faq-body">
+      <p>Le streak est ton <strong>nombre de jours consécutifs</strong> de pratique. Il s'incrémente quand tu fais au moins une activité par jour.</p>
+      <p>Il se réinitialise si tu rates deux jours d'affilée. Mais tu disposes de <strong>2 \"freezes\" automatiques par mois</strong> qui sauvent ton streak quand tu rates UN jour.</p>
+      <p>Les freezes sont gérés automatiquement — pas besoin d'y penser.</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Mon streak a disparu, pourquoi ?</summary>
+    <div class="faq-body">
+      <p>Le streak est remis à zéro si tu rates 2 jours d'affilée ET que tu n'as plus de freeze disponible.</p>
+      <p>Sinon : vérifie que tu te connectes au compte avec lequel tu avais accumulé tes XP. Sans connexion, le streak est stocké localement et peut être perdu si tu changes de navigateur.</p>
+      <p>Crée un compte gratuit dans <strong>Réglages</strong> pour ne plus jamais perdre ta progression.</p>
+    </div>
+  </details>
+
+  <h3>Vocabulaire & SRS</h3>
+
+  <details class="faq">
+    <summary>Qu'est-ce que la \"révision SRS\" ?</summary>
+    <div class="faq-body">
+      <p>SRS = <em>Spaced Repetition System</em> (système de répétition espacée). C'est la <strong>méthode la plus efficace</strong> pour mémoriser durablement.</p>
+      <p>Chaque mot que tu apprends entre dans ta liste SRS. L'algorithme te le re-présente juste avant que tu l'oublies — d'abord après 1 jour, puis 3, puis 7, puis 14, puis 30...</p>
+      <p>Tu peux pratiquer ta révision dans le menu <strong>Révisions</strong>.</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Comment réviser les mots ratés ?</summary>
+    <div class="faq-body">
+      <p>Dans la page <strong>Révisions</strong>, tu trouveras une section <em>\"Mots récemment ratés\"</em> qui regroupe automatiquement tous les mots où tu as répondu incorrectement ces 7 derniers jours.</p>
+      <p>C'est l'outil idéal pour combler tes lacunes sans repartir de zéro.</p>
+    </div>
+  </details>
+
+  <h3>Audio & voix</h3>
+
+  <details class="faq">
+    <summary>Comment changer la voix audio ?</summary>
+    <div class="faq-body">
+      <p>Dans <strong>Réglages → Voix audio</strong>, tu peux choisir entre 3 voix :</p>
+      <ul>
+        <li><span class="ko">SunHi</span> — voix féminine douce (par défaut)</li>
+        <li><span class="ko">InJoon</span> — voix masculine claire</li>
+        <li><span class="ko">Hyunsu</span> — voix masculine expressive</li>
+      </ul>
+      <p>Les 3 voix sont générées par Microsoft Edge TTS et téléchargées progressivement au fur et à mesure de ta navigation.</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Pourquoi je n'entends rien quand je clique sur le bouton son ?</summary>
+    <div class="faq-body">
+      <p>Vérifie :</p>
+      <ul>
+        <li>Le son de ton appareil est activé</li>
+        <li>Le navigateur a l'autorisation de jouer du son (Chrome bloque parfois l'autoplay)</li>
+        <li>Tu es connecté·e à Internet (pour télécharger les fichiers audio la première fois)</li>
+      </ul>
+      <p>Si le problème persiste, l'app utilise automatiquement la <strong>synthèse vocale du navigateur</strong> en fallback.</p>
+    </div>
+  </details>
+
+  <h3>Compte & synchronisation</h3>
+
+  <details class="faq">
+    <summary>Dois-je créer un compte ?</summary>
+    <div class="faq-body">
+      <p>Non, l'app fonctionne très bien sans compte — toutes tes données sont stockées localement.</p>
+      <p>Mais on te recommande de créer un compte gratuit pour :</p>
+      <ul>
+        <li>Sauvegarder ta progression dans le cloud</li>
+        <li>Synchroniser entre ton téléphone et ton ordi</li>
+        <li>Participer au classement communautaire (optionnel)</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Comment changer mon adresse email ou mon mot de passe ?</summary>
+    <div class="faq-body">
+      <p>Dans <strong>Réglages → Compte</strong>, tu trouveras les options pour modifier ton email et changer ton mot de passe.</p>
+      <p>Une re-authentification est demandée pour ces actions sensibles. Si tu as oublié ton mot de passe, utilise le bouton \"Mot de passe oublié\" sur la page de connexion.</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Mes données sont-elles privées ?</summary>
+    <div class="faq-body">
+      <p>Oui. Par défaut, seules <strong>toi-même</strong> peux voir tes données (XP, streaks, leçons, vocabulaire).</p>
+      <p>Si tu actives le <strong>classement communautaire</strong> dans Réglages → Communauté, seuls ton prénom, XP, streak et avatar seront visibles aux autres utilisateurs.</p>
+      <p>Tu peux désactiver cette option à tout moment.</p>
+    </div>
+  </details>
+
+  <h3>Korean Stories en général</h3>
+
+  <details class="faq">
+    <summary>Qui est derrière Korean Stories ?</summary>
+    <div class="faq-body">
+      <p>Korean Stories est un projet personnel de passion pour la langue et la culture coréenne. L'app est pensée pour les francophones, avec des explications claires et un parcours progressif.</p>
+      <p>Toutes les leçons sont relues pour garantir l'exactitude du coréen.</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>L'app est-elle gratuite ?</summary>
+    <div class="faq-body">
+      <p>Oui, l'app est entièrement gratuite. Aucune option payante, aucune publicité.</p>
+      <p>Si tu veux soutenir le projet, le meilleur moyen est de partager Korean Stories avec d'autres apprenants !</p>
+    </div>
+  </details>
+
+  <details class="faq">
+    <summary>Comment installer Korean Stories comme app sur mon téléphone ?</summary>
+    <div class="faq-body">
+      <p><strong>Sur iPhone</strong> : ouvre Korean Stories dans Safari → bouton Partager (icône carré + flèche) → \"Sur l'écran d'accueil\".</p>
+      <p><strong>Sur Android</strong> : ouvre dans Chrome → menu (3 points) → \"Ajouter à l'écran d'accueil\" ou \"Installer l'app\".</p>
+      <p>Une fois installée, Korean Stories fonctionne comme une vraie app (icône, notifications, mode hors ligne).</p>
+    </div>
+  </details>
+
+  <div class="contact-card">
+    <h4>Une question qui n'est pas là ?</h4>
+    <p style="font-size:.85rem;color:var(--tx-muted);margin:.3rem 0">N'hésite pas à m'écrire — je réponds personnellement.</p>
+    <a href="mailto:contact@koreanstories.fr?subject=Korean%20Stories%20—%20Aide" class="contact-btn">Écrire à contact@koreanstories.fr</a>
+  </div>
+
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
