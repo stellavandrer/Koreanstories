@@ -975,6 +975,7 @@
   <script src="ks-weekly.js" defer></script>
   <script src="ks-tour.js" defer></script>
   <script src="ks-notifications.js" defer></script>
+  <script src="ks-fact.js" defer></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
@@ -1081,6 +1082,16 @@
       <div class="wkly-progress"><span id="wklyDone">0</span> / 5</div>
     </div>
     <div id="wklyList" class="wkly-list"></div>
+  </div>
+
+  <!-- FAIT DU JOUR -->
+  <div class="fact-card" id="factCard" style="background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(11,28,52,.04));border:1px solid rgba(201,169,110,.22);border-radius:18px;padding:14px 16px;margin:16px 14px 0;display:none">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span style="font-size:9px;font-weight:800;letter-spacing:.12em;color:var(--gold);text-transform:uppercase" id="factCat">Le saviez-vous</span>
+    </div>
+    <div id="factTitle" style="font-size:14px;font-weight:700;color:var(--tx);line-height:1.35;margin-bottom:5px"></div>
+    <div id="factBody" style="font-size:12.5px;color:var(--tx-muted);line-height:1.55"></div>
   </div>
 
   <!-- DAILY GOAL -->
@@ -2863,7 +2874,21 @@ function initScrollAnimations(){
   checkStreakMilestone();
   renderWeeklyChart();
   initScrollAnimations();
+  /* Fait du jour : attendre que ks-fact.js soit chargé */
+  setTimeout(renderDailyFact, 300);
 })();
+
+// ─── Fait coréen du jour ─────────────────────────────────
+function renderDailyFact(){
+  var card = document.getElementById('factCard');
+  if(!card || !window.KSFact) return;
+  var f = KSFact.today();
+  if(!f) return;
+  document.getElementById('factCat').textContent = f.cat;
+  document.getElementById('factTitle').textContent = f.t;
+  document.getElementById('factBody').textContent = f.b;
+  card.style.display='block';
+}
 
 // ─── Weekly activity chart ───────────────────────────────
 function renderWeeklyChart(){
