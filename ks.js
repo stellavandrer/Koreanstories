@@ -665,4 +665,14 @@ document.addEventListener('DOMContentLoaded', () => {
     s.defer = true;
     document.head.appendChild(s);
   })();
+
+  /* Charge la navigation intelligente (smart back + prev/next + scroll) */
+  (function(){
+    if (document.getElementById('ks-nav-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-nav-script';
+    s.src = 'ks-nav.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });
