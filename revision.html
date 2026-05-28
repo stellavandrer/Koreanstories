@@ -396,25 +396,38 @@
         <div id="favBlockList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
       </div>
 
-      <!-- ── Statistiques de prononciation ─────────────────────── -->
-      <div id="pronBlock" style="display:none;margin-top:24px">
-        <div class="section-label">Ma prononciation</div>
-        <p style="font-size:11.5px;color:var(--t2);margin:-4px 0 12px;line-height:1.5">Sur tes <span id="pronTotal" style="color:var(--gold);font-weight:700">0</span> tentatives au micro :</p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px">
-          <div style="background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.25);border-radius:12px;padding:10px;text-align:center">
-            <div style="font-size:18px;font-weight:800;color:#16A34A" id="pronGood">0</div>
-            <div style="font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Excellent</div>
+      <!-- ── Module Prononciation ─────────────────────────────── -->
+      <div id="pronCTABlock" style="margin-top:24px">
+        <div class="section-label">Mode prononciation</div>
+        <a href="prononciation.html" style="display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(201,169,110,.12),rgba(201,169,110,.04));border:1.5px solid rgba(201,169,110,.3);border-radius:14px;padding:14px 16px;text-decoration:none;color:inherit;transition:all .2s">
+          <div style="flex-shrink:0;width:48px;height:48px;border-radius:50%;background:var(--gold);color:#0a1220;display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
           </div>
-          <div style="background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.25);border-radius:12px;padding:10px;text-align:center">
-            <div style="font-size:18px;font-weight:800;color:#D97706" id="pronMid">0</div>
-            <div style="font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">À peaufiner</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:700;color:var(--t)">Entraîner ma prononciation</div>
+            <div style="font-size:11.5px;color:var(--t2);margin-top:2px;line-height:1.4" id="pronCTASub">53 phrases essentielles · feedback IA</div>
           </div>
-          <div style="background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.25);border-radius:12px;padding:10px;text-align:center">
-            <div style="font-size:18px;font-weight:800;color:#DC2626" id="pronBad">0</div>
-            <div style="font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">À retravailler</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+
+        <!-- Stats mini si déjà pratiqué -->
+        <div id="pronStatsBlock" style="display:none;margin-top:10px">
+          <p style="font-size:11.5px;color:var(--t2);margin:0 0 6px;line-height:1.5">Sur tes <span id="pronTotal" style="color:var(--gold);font-weight:700">0</span> tentatives :</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+            <div style="background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.25);border-radius:12px;padding:10px;text-align:center">
+              <div style="font-size:18px;font-weight:800;color:#16A34A" id="pronGood">0</div>
+              <div style="font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Excellent</div>
+            </div>
+            <div style="background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.25);border-radius:12px;padding:10px;text-align:center">
+              <div style="font-size:18px;font-weight:800;color:#D97706" id="pronMid">0</div>
+              <div style="font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">À peaufiner</div>
+            </div>
+            <div style="background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.25);border-radius:12px;padding:10px;text-align:center">
+              <div style="font-size:18px;font-weight:800;color:#DC2626" id="pronBad">0</div>
+              <div style="font-size:10px;color:var(--t2);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px">À retravailler</div>
+            </div>
           </div>
         </div>
-        <p style="font-size:11px;color:var(--t3);text-align:center;margin:8px 0 0;line-height:1.5">Sur les leçons : touche le micro <svg style="width:11px;height:11px;display:inline;vertical-align:middle;fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg> à côté du bouton audio pour t'entraîner.</p>
       </div>
 
       <!-- ── Prononciation non supportée ────────────────────────── -->
@@ -703,28 +716,27 @@ function init() {
   renderPronBlock();
 }
 
-/* ── Bloc "Ma prononciation" ──────────────────────────────────── */
+/* ── Bloc "Mode Prononciation" ───────────────────────────────── */
 function renderPronBlock() {
   var supported = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
-  var statsBlock = document.getElementById('pronBlock');
+  var ctaBlock = document.getElementById('pronCTABlock');
+  var statsBlock = document.getElementById('pronStatsBlock');
   var unsupBlock = document.getElementById('pronUnsupportedBlock');
   if (!supported) {
-    if (statsBlock) statsBlock.style.display = 'none';
+    if (ctaBlock) ctaBlock.style.display = 'none';
     if (unsupBlock) unsupBlock.style.display = 'block';
     return;
   }
+  /* Si stats existent, on les affiche sous le CTA */
   var stats = {};
   try { stats = JSON.parse(localStorage.getItem('ks_pron_stats') || '{}'); } catch(e){}
-  if (!stats.total) {
-    /* Pas encore d'essai : on cache le bloc */
-    if (statsBlock) statsBlock.style.display = 'none';
-    return;
+  if (stats.total && statsBlock) {
+    statsBlock.style.display = '';
+    document.getElementById('pronTotal').textContent = stats.total;
+    document.getElementById('pronGood').textContent = stats.success || 0;
+    document.getElementById('pronMid').textContent = stats.partial || 0;
+    document.getElementById('pronBad').textContent = stats.fail || 0;
   }
-  if (statsBlock) statsBlock.style.display = '';
-  document.getElementById('pronTotal').textContent = stats.total;
-  document.getElementById('pronGood').textContent = stats.success || 0;
-  document.getElementById('pronMid').textContent = stats.partial || 0;
-  document.getElementById('pronBad').textContent = stats.fail || 0;
 }
 
 /* ── Bloc "Leçons en favoris" ─────────────────────────────────── */

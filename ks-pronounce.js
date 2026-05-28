@@ -335,12 +335,11 @@
     obs.observe(document.body, { childList: true, subtree: true });
   }
 
-  /* ── Init ──────────────────────────────────────────────────────── */
+  /* ── Init : on injecte juste le CSS, PAS les boutons.
+     L'auto-injection est désactivée — le mode prononciation est
+     désormais un exercice dédié sur la page prononciation.html. */
   function init(){
-    if (isExcludedPage()) return;
     injectCSS();
-    injectMicButtons();
-    startObserving();
   }
 
   if (document.readyState === 'loading') {
@@ -349,11 +348,12 @@
     init();
   }
 
-  /* API publique */
+  /* API publique : utilisée par prononciation.html */
   window.KSPronounce = {
     supported: true,
     listen: startListening,
     similarity: similarity,
+    showFeedback: showFeedback,
     stats: function(){
       try { return JSON.parse(localStorage.getItem('ks_pron_stats')||'{}'); }
       catch(e){ return {}; }
