@@ -675,4 +675,14 @@ document.addEventListener('DOMContentLoaded', () => {
     s.defer = true;
     document.head.appendChild(s);
   })();
+
+  /* Charge le mode prononciation (micro à côté de chaque speak button) */
+  (function(){
+    if (document.getElementById('ks-pronounce-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-pronounce-script';
+    s.src = 'ks-pronounce.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });
