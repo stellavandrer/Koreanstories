@@ -1,10 +1,11 @@
-// Korean Stories — Service Worker v2.2
+// Korean Stories — Service Worker v2.3
 // Network-first pour HTML/JS/CSS (toujours à jour),
 // cache-first pour les images & polices (rarement modifiées).
 // Bypass pour les APIs externes type DiceBear (l'interception
 // no-cors pose problème dans certains navigateurs).
+// v2.3 : ajout notificationclick handler.
 
-const CACHE = 'ks-v2.2';
+const CACHE = 'ks-v2.3';
 
 const CORE = [
   // App shell
@@ -120,4 +121,18 @@ self.addEventListener('fetch', e => {
 // ── Message : force refresh du cache ──
 self.addEventListener('message', e => {
   if (e.data === 'SKIP_WAITING') self.skipWaiting();
+});
+
+// ── Notification click : ouvre l'app si déjà ouverte, sinon nouvelle fenêtre ──
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const targetUrl = (e.notification.data && e.notification.data.url) || '/app.html';
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientsArr => {
+      for (const c of clientsArr) {
+        if (c.url.includes('app.html') && 'focus' in c) return c.focus();
+      }
+      return self.clients.openWindow(targetUrl);
+    })
+  );
 });

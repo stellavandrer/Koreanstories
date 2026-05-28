@@ -16,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="design.css"/>
   <script src="ks.js" defer></script>
+  <script src="ks-notifications.js" defer></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -277,6 +278,43 @@
         <div class="rg-act">
           <button class="rg-switch" id="themeSwitch" onclick="toggleThemeSetting()" aria-label="Mode sombre"></button>
         </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <span class="rg-sec-lbl">Notifications</span>
+    <div class="rg-card">
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#0EA5E9">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Rappel quotidien</div>
+          <div class="rg-row-s" id="notifSubLbl">Une notification douce si tu n'as pas pratiqué</div>
+        </div>
+        <div class="rg-act">
+          <button class="rg-switch" id="notifSwitch" onclick="toggleNotif()">
+            <span class="rg-switch-ball"></span>
+          </button>
+        </div>
+      </div>
+      <div id="notifTimeRow" style="display:none;border-top:1px solid var(--rg-bd);padding:.7rem 1rem;display:none;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:.9rem;font-weight:600">Heure du rappel</div>
+          <div class="rg-row-s">Si tu n'as pas pratiqué passé cette heure</div>
+        </div>
+        <select id="notifHourSel" onchange="changeNotifHour()" style="background:var(--rg-surf);border:1px solid var(--rg-bd);color:var(--rg-tx);padding:.45rem .6rem;border-radius:8px;font-size:.9rem;cursor:pointer">
+          <option value="9">09:00</option><option value="12">12:00</option>
+          <option value="17">17:00</option><option value="18">18:00</option>
+          <option value="19" selected>19:00</option><option value="20">20:00</option>
+          <option value="21">21:00</option><option value="22">22:00</option>
+        </select>
+      </div>
+      <div id="notifTestRow" style="display:none;border-top:1px solid var(--rg-bd);padding:.7rem 1rem">
+        <button class="rg-btn" onclick="testNotif()" style="background:rgba(14,165,233,.12);color:#0EA5E9">Tester la notification</button>
+      </div>
+      <div id="notifGuestMsg" style="padding:.7rem 1rem;font-size:.8rem;color:var(--rg-tx-muted);display:none">
+        Les notifications nécessitent l'autorisation du navigateur. Tu peux la révoquer à tout moment.
       </div>
     </div>
 
@@ -722,6 +760,67 @@
     try { localStorage.removeItem('ks_tour_dashboard'); } catch (e) {}
     ksGo('app.html');
   };
+
+  /* ── Notifications ──────────────────────────────────────────── */
+  function refreshNotifUI(){
+    var sw  = document.getElementById('notifSwitch');
+    var sub = document.getElementById('notifSubLbl');
+    var row = document.getElementById('notifTimeRow');
+    var test= document.getElementById('notifTestRow');
+    var guest = document.getElementById('notifGuestMsg');
+    var sel = document.getElementById('notifHourSel');
+    if(!sw || !window.KSNotifications) return;
+    if(!KSNotifications.isSupported()){
+      sw.style.display='none';
+      sub.textContent = "Non supporté sur ce navigateur";
+      return;
+    }
+    var perm = KSNotifications.getPermission();
+    var enabled = KSNotifications.isEnabled();
+    var active = (perm === 'granted' && enabled);
+    sw.classList.toggle('on', active);
+    row.style.display = active ? 'flex' : 'none';
+    test.style.display = active ? 'block' : 'none';
+    if(perm === 'denied'){
+      sub.innerHTML = "Bloquées dans le navigateur — change dans <strong>les paramètres du site</strong>";
+      guest.style.display='block';
+    } else if(active){
+      sub.textContent = "Activé — rappel à " + String(KSNotifications.getHour()).padStart(2,'0') + ":00 si pas pratiqué";
+      guest.style.display='none';
+    } else {
+      sub.textContent = "Une notification douce si tu n'as pas pratiqué";
+      guest.style.display='none';
+    }
+    sel.value = String(KSNotifications.getHour());
+  }
+  window.toggleNotif = function(){
+    if(!KSNotifications.isSupported()){ return; }
+    var enabled = KSNotifications.isEnabled();
+    if(!enabled){
+      /* On veut activer → demander permission */
+      KSNotifications.requestPermission().then(function(perm){
+        if(perm === 'granted'){
+          KSNotifications.setEnabled(true);
+        } else {
+          KSNotifications.setEnabled(false);
+        }
+        refreshNotifUI();
+      });
+    } else {
+      KSNotifications.setEnabled(false);
+      refreshNotifUI();
+    }
+  };
+  window.changeNotifHour = function(){
+    var v = document.getElementById('notifHourSel').value;
+    KSNotifications.setHour(v);
+    refreshNotifUI();
+  };
+  window.testNotif = function(){
+    KSNotifications.fireTestNow();
+  };
+  /* Attend que ks-notifications.js soit chargé */
+  setTimeout(refreshNotifUI, 200);
 
   /* ── Streak freeze info ─────────────────────────────────────── */
   function refreshFreezeUI(){
