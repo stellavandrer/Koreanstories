@@ -655,4 +655,14 @@ document.addEventListener('DOMContentLoaded', () => {
     s.defer = true;
     document.head.appendChild(s);
   })();
+
+  /* Charge le système de favoris (bouton marque-page sur chaque leçon) */
+  (function(){
+    if (document.getElementById('ks-favorites-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-favorites-script';
+    s.src = 'ks-favorites.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });

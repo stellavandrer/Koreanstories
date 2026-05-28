@@ -385,6 +385,16 @@
           Revoir ces mots maintenant →
         </button>
       </div>
+
+      <!-- ── Leçons en favoris ──────────────────────────────── -->
+      <div id="favBlock" style="display:none;margin-top:24px">
+        <div class="section-label" style="display:flex;align-items:center;justify-content:space-between">
+          <span>Mes leçons en favoris <span id="favBlockCount" style="color:var(--gold)"></span></span>
+          <a href="favoris.html" style="color:var(--t3);font-size:11px;text-decoration:underline">Voir tout →</a>
+        </div>
+        <p style="font-size:11.5px;color:var(--t2);margin:-4px 0 12px;line-height:1.5">Les leçons que tu as sauvegardées pour les retrouver facilement.</p>
+        <div id="favBlockList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+      </div>
     </div>
 
     <!-- QUIZ LIBRE PANEL -->
@@ -660,6 +670,39 @@ function init() {
 
   switchTab(currentTab);
   updateHeroBadge();
+  renderFavBlock();
+}
+
+/* ── Bloc "Leçons en favoris" ─────────────────────────────────── */
+function renderFavBlock() {
+  var block = document.getElementById('favBlock');
+  if (!block) return;
+  var favs = [];
+  try { favs = JSON.parse(localStorage.getItem('ks_favorites') || '[]'); } catch(e) {}
+  if (!favs.length) { block.style.display = 'none'; return; }
+  block.style.display = '';
+  document.getElementById('favBlockCount').textContent = '· ' + favs.length;
+  var shown = favs.slice(0, 5);
+  var TYPE_LABELS = {lecon:'Leçon',exercice:'Exercice',quiz:'Quiz',histoire:'Histoire',anecdote:'Anecdote',conseil:'Conseil',chanson:'Chanson',pro:'Pro'};
+  var list = document.getElementById('favBlockList');
+  list.innerHTML = shown.map(function(f){
+    var type = f.type || 'autre';
+    var label = TYPE_LABELS[type] || 'Activité';
+    var lvl = f.level ? ' · ' + f.level : '';
+    var title = (f.title || f.href).replace(/[<>&"]/g, function(c){
+      return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];
+    });
+    return '<a href="' + f.href + '" style="display:flex;align-items:center;gap:12px;padding:11px 14px;background:var(--surf);border:1px solid var(--bd);border-radius:12px;text-decoration:none;color:inherit">' +
+      '<div style="flex-shrink:0;width:36px;height:36px;border-radius:10px;background:rgba(201,169,110,.13);display:flex;align-items:center;justify-content:center;color:var(--gold)">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>' +
+      '</div>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:2px">' + label + lvl + '</div>' +
+        '<div style="font-size:13px;color:var(--t);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + title + '</div>' +
+      '</div>' +
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t2)" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>' +
+    '</a>';
+  }).join('');
 }
 
 // ════════════════════════════════════════════════
