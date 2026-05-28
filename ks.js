@@ -685,4 +685,14 @@ document.addEventListener('DOMContentLoaded', () => {
     s.defer = true;
     document.head.appendChild(s);
   })();
+
+  /* Charge la recherche globale (bouton flottant + ⌘K) */
+  (function(){
+    if (document.getElementById('ks-search-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-search-script';
+    s.src = 'ks-search.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });
