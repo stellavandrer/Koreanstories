@@ -42,7 +42,8 @@
     { type:'page', title:'Hangeul — Alphabet',      sub:'Référence complète',        href:'hangeul.html',       icon:'letters' },
     { type:'page', title:'Ressources PDF',          sub:'Téléchargements',           href:'ressources.html',    icon:'download' },
     { type:'page', title:'Réglages',                sub:'Compte, voix, thème',       href:'reglages.html',      icon:'gear' },
-    { type:'page', title:'Aide & FAQ',              sub:'17 questions fréquentes',   href:'aide.html',          icon:'help' }
+    { type:'page', title:'Aide & FAQ',              sub:'17 questions fréquentes',   href:'aide.html',          icon:'help' },
+    { type:'action', title:'Voir les nouveautés',   sub:'Découvre les dernières fonctionnalités', href:'#whatsnew', icon:'gift' }
   ];
 
   /* ── Icônes SVG ─────────────────────────────────────────────── */
@@ -62,6 +63,7 @@
     letters:  '<line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>',
     download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
     edit:     '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+    gift:     '<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>',
     gear:     '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
     help:     '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
     lesson:   '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
@@ -488,6 +490,15 @@
         e.preventDefault();
         if (activeIndex >= 0 && lastResults[activeIndex]) {
           var target = lastResults[activeIndex];
+          if (target.href && target.href.charAt(0) === '#') {
+            closeModal();
+            if (target.href === '#whatsnew') {
+              setTimeout(function(){
+                if (window.KSWhatsNew && window.KSWhatsNew.show) window.KSWhatsNew.show();
+              }, 250);
+            }
+            return;
+          }
           pushRecent(target);
           location.href = target.href;
         }
@@ -502,6 +513,16 @@
       if (!item) return;
       e.preventDefault();
       var href = item.getAttribute('data-href');
+      /* Actions internes (commencent par #) */
+      if (href && href.charAt(0) === '#') {
+        closeModal();
+        if (href === '#whatsnew') {
+          setTimeout(function(){
+            if (window.KSWhatsNew && window.KSWhatsNew.show) window.KSWhatsNew.show();
+          }, 250);
+        }
+        return;
+      }
       var data = lastResults.find(function(r){ return r.href === href; });
       if (data) pushRecent(data);
       location.href = href;

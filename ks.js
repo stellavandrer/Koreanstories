@@ -705,4 +705,14 @@ document.addEventListener('DOMContentLoaded', () => {
     s.defer = true;
     document.head.appendChild(s);
   })();
+
+  /* Charge le "Quoi de neuf" — modal pour annoncer les nouveautés */
+  (function(){
+    if (document.getElementById('ks-whatsnew-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-whatsnew-script';
+    s.src = 'ks-whatsnew.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });

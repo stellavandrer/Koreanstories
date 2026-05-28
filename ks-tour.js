@@ -21,8 +21,13 @@
   var STEPS = [
     {
       title: 'Bienvenue sur ton tableau de bord !',
-      body:  'Je te montre rapidement les 4 zones clés en 30 secondes. Tu peux passer à tout moment.',
+      body:  'Je te montre rapidement les zones clés en 1 minute. Tu peux passer à tout moment.',
       target: null /* étape sans cible — modal centré */
+    },
+    {
+      title: 'Outils rapides',
+      body:  'Quatre raccourcis vers tes fonctionnalités persos : prononciation au micro, favoris, notes et recherche globale.',
+      target: '.qtools'
     },
     {
       title: 'Ta prochaine activité',
@@ -40,13 +45,18 @@
       target: '.goal-card'
     },
     {
-      title: 'Navigation',
-      body:  'En bas : Accueil, Cours (parcours), Histoires, Défi, Profil. Tout est à portée de pouce.',
+      title: 'Recherche globale',
+      body:  'Cherche n\'importe quelle leçon, exercice ou mot avec ⌘K (Mac) ou Ctrl+K (Windows) — ou clique sur le bouton flottant.',
+      target: '.ks-search-fab'
+    },
+    {
+      title: 'Navigation principale',
+      body:  'En bas : Accueil, Cours, Histoires, Défi, Records, Profil. Tout est à portée de pouce.',
       target: '.bnav'
     },
     {
       title: 'Tu es prêt·e ! 화이팅',
-      body:  'Tu peux retrouver ce tour à tout moment dans Réglages. Bon apprentissage !',
+      body:  'Sur chaque leçon : marque-page pour sauvegarder + crayon pour prendre des notes (en haut). Tu peux refaire ce tour dans Réglages → Aide.',
       target: null
     }
   ];

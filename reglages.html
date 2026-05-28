@@ -350,6 +350,16 @@
         </div>
         <div class="rg-act"><button class="rg-btn" onclick="restartTour()">Lancer</button></div>
       </div>
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#C9A96E">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Voir les nouveautés du site</div>
+          <div class="rg-row-s">Le modal qui liste les fonctionnalités récentes</div>
+        </div>
+        <div class="rg-act"><button class="rg-btn" onclick="showWhatsNew()">Afficher</button></div>
+      </div>
     </div>
 
     <!-- COMMUNAUTÉ -->
@@ -769,6 +779,21 @@
   window.restartTour = function () {
     try { localStorage.removeItem('ks_tour_dashboard'); } catch (e) {}
     ksGo('app.html');
+  };
+
+  /* ── Quoi de neuf ───────────────────────────────────────────── */
+  window.showWhatsNew = function () {
+    if (window.KSWhatsNew && window.KSWhatsNew.show) {
+      window.KSWhatsNew.show();
+    } else {
+      /* Si pas encore chargé, on charge à la demande */
+      var s = document.createElement('script');
+      s.src = 'ks-whatsnew.js';
+      s.onload = function(){
+        if (window.KSWhatsNew && window.KSWhatsNew.show) window.KSWhatsNew.show();
+      };
+      document.head.appendChild(s);
+    }
   };
 
   /* ── Notifications ──────────────────────────────────────────── */
