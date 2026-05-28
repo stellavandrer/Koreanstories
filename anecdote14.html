@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Les cafés coréens — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#DB2777;font-weight:700}
+    .tip{background:rgba(219,39,119,.07);border-left:3px solid #DB2777;border-radius:0 8px 8px 0;padding:.7rem 1rem;font-size:.88rem;margin:.6rem 0}
+    .culture-box{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.6rem 0}
+    .culture-box h4{color:#DB2777;margin:0 0 .4rem;font-size:1rem}
+    .culture-box p{margin:.3rem 0;font-size:.9rem;line-height:1.55}
+    .quote{font-style:italic;color:var(--tx-muted);border-left:3px solid #DB2777;padding-left:.8rem;margin:.5rem 0;font-size:.88rem}
+    .num{display:inline-block;width:1.6rem;height:1.6rem;background:#DB2777;color:#fff;border-radius:50%;text-align:center;line-height:1.6rem;font-weight:800;font-size:.85rem;margin-right:.4rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Culture coréenne</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg> Pourquoi y a-t-il autant de cafés à Séoul ?</h2>
+  <span class="pill">B1 · Anecdote culturelle</span> <span class="xp-badge">+8 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Séoul compte plus de <strong>18 000 cafés</strong> — soit un café tous les 50 mètres dans certains quartiers. Plus qu'à Paris, Tokyo ou New York en densité. Pourquoi ? Le café coréen n'est pas qu'une boisson, c'est <em>un espace social</em>.</p>
+
+  <h3> ☕ Une obsession récente</h3>
+  <div class="culture-box">
+    <p>Le boom du café coréen date des années 2000, avec l'arrivée de Starbucks en 1999. En 20 ans, la consommation par habitant a quadruplé. Aujourd'hui, un Coréen adulte boit en moyenne <strong>353 tasses de café par an</strong> — c'est plus que l'Italie.</p>
+    <p>Mais le phénomène dépasse la simple boisson : les cafés sont devenus le <span class="ko">제3의 공간</span> (le "troisième lieu"), entre la maison et le travail.</p>
+  </div>
+
+  <h3> 🏢 Les 4 raisons de cette explosion</h3>
+
+  <div class="culture-box">
+    <h4><span class="num">1</span>Les appartements sont petits</h4>
+    <p>La majorité des Séouliens vivent dans des appartements de 30-50 m². Recevoir des amis chez soi est rare — la culture est de se retrouver <em>dehors</em>. Le café devient le salon, la salle à manger, le bureau partagé.</p>
+    <p class="quote">"Mon salon, c'est Starbucks Gangnam," plaisante un habitant.</p>
+  </div>
+
+  <div class="culture-box">
+    <h4><span class="num">2</span>Les étudiants et le 카공족</h4>
+    <p>Le mot <span class="ko">카공족</span> (kagongjok) désigne les étudiants qui passent des heures dans les cafés pour étudier. Wi-Fi gratuit, prises électriques, climatisation, ambiance studieuse — pour 5 000 wons (3,50 €), tu as accès à un mini-bureau toute la journée.</p>
+    <p>Certains cafés affichent désormais une limite de 2 heures pour rééquilibrer, mais la pratique reste massive.</p>
+  </div>
+
+  <div class="culture-box">
+    <h4><span class="num">3</span>Le rituel professionnel</h4>
+    <p>Les Coréens travaillent en moyenne 1 901 heures par an (vs 1 511h en France). Le café devient une pause obligatoire : entre collègues après le déjeuner, en réunion informelle, entre deux rendez-vous. Refuser un café, c'est presque refuser un rapport social.</p>
+    <p class="quote">"커피 한 잔 할까요?" — la question qui ouvre 80 % des amitiés professionnelles.</p>
+  </div>
+
+  <div class="culture-box">
+    <h4><span class="num">4</span>L'esthétique et Instagram</h4>
+    <p>Le café coréen est aussi un projet visuel. Cafés-fleurs, cafés-galeries, cafés-rooftop, cafés sur le thème de Harry Potter ou des chats — chaque quartier rivalise de créativité. Aller au café, c'est aussi <em>créer du contenu</em> pour les réseaux.</p>
+    <p>Certains quartiers comme Yeonnam-dong ou Seongsu-dong sont entièrement dédiés à ces cafés-concepts.</p>
+  </div>
+
+  <h3> 🪑 Les types de cafés que tu croiseras</h3>
+  <div class="culture-box">
+    <p>• <strong>Les chaînes</strong> — Starbucks, Ediya, Mega, Compose Coffee. Standardisées, abordables (Mega vend des Americano à 1 500 wons, soit 1 €).</p>
+    <p>• <strong>Les cafés indépendants</strong> — torréfaction maison, ambiance soignée, prix premium (6 000-8 000 wons).</p>
+    <p>• <strong>Les cafés à thème</strong> — chats, chiens, ratons laveurs, ratons de meeting Squid Game, immersif K-drama. Souvent à entrée payante.</p>
+    <p>• <strong>Les cafés-dessert</strong> — bingsu (glace pilée), pâtisseries françaises, gâteaux design.</p>
+  </div>
+
+  <h3> 🎯 Pour aller plus loin</h3>
+  <div class="tip">
+    <strong>Si tu visites Séoul :</strong><br/>
+    Va passer une après-midi dans un café de <strong>Hongdae</strong> (créatif et jeune), <strong>Anguk</strong> (hanok traditionnel), ou <strong>Seongsu</strong> (le "Brooklyn coréen"). Commande un <span class="ko">아메리카노</span> et observe — tu comprendras la culture coréenne en une heure.<br/>
+    Note les expressions entendues : <span class="ko">"여기 앉아도 돼요?"</span> (Je peux m'asseoir ici ?), <span class="ko">"콘센트 어디에 있어요?"</span> (Où est la prise ?).
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +8 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c12',xp:8});else{if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_c12');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
