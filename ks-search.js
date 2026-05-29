@@ -34,6 +34,7 @@
     { type:'page', title:'Profil',                  sub:'XP, streaks, badges',       href:'profil.html',        icon:'user' },
     { type:'page', title:'Mes favoris',             sub:'Leçons sauvegardées',       href:'favoris.html',       icon:'bookmark' },
     { type:'page', title:'Mes notes',                sub:'Notes personnelles sur les leçons', href:'notes.html', icon:'edit' },
+    { type:'page', title:'Mes mots',                 sub:'Vocabulaire sauvegardé via le tap-translate', href:'mes-mots.html', icon:'words' },
     { type:'page', title:'Trophées',                sub:'Tous les accomplissements', href:'trophees.html',      icon:'medal' },
     { type:'page', title:'Statistiques',            sub:'Détails chiffrés',          href:'statistiques.html',  icon:'chart' },
     { type:'page', title:'Révisions',               sub:'SRS, mots ratés',           href:'revision.html',      icon:'refresh' },

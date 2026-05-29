@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Mes mots — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:80px}
+    h2{color:var(--navy);margin:0 0 .3rem;font-size:1.3rem}
+    .sub{color:var(--tx-muted);font-size:.9rem;margin:0 0 1.2rem;line-height:1.5}
+    .summary-bar{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin:.6rem 0 1rem}
+    .summary-count{font-size:.85rem;color:var(--tx-muted);font-weight:600}
+    .summary-count strong{color:var(--gold,#C9A96E);font-size:1rem}
+    .clear-btn{background:none;border:none;color:var(--tx-muted);cursor:pointer;font-size:.78rem;font-weight:600;padding:.3rem .6rem;border-radius:8px}
+    .clear-btn:hover{color:#ef4444;background:rgba(239,68,68,.06)}
+
+    .word-list{display:flex;flex-direction:column;gap:.5rem}
+    .word-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;
+               padding:.85rem 1rem;display:flex;align-items:center;gap:.8rem}
+    .word-ko-block{flex:1;min-width:0}
+    .word-ko{font-family:"Playfair Display",Georgia,serif;font-size:1.2rem;
+             font-weight:700;color:var(--gold,#C9A96E);line-height:1.2}
+    .word-rom{font-size:.72rem;color:var(--tx-muted);font-style:italic;margin-top:1px}
+    .word-fr{font-size:.85rem;color:var(--tx);font-weight:500;margin-top:3px}
+    .word-meta{display:flex;align-items:center;gap:.4rem;margin-top:3px}
+    .word-pos{font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+              padding:1px 5px;border-radius:4px;background:rgba(201,169,110,.13);color:var(--gold,#C9A96E)}
+    .word-when{font-size:.7rem;color:var(--tx-muted)}
+    .word-actions{display:flex;gap:.3rem;flex-shrink:0}
+    .word-btn{background:none;border:none;cursor:pointer;padding:.4rem;border-radius:8px;
+              color:var(--tx-muted);transition:all .15s}
+    .word-btn:hover{color:var(--gold,#C9A96E);background:rgba(201,169,110,.08)}
+    .word-btn.delete:hover{color:#ef4444;background:rgba(239,68,68,.08)}
+    .word-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+
+    .empty{text-align:center;padding:3rem 1rem;color:var(--tx-muted)}
+    .empty-ico{width:64px;height:64px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;
+               background:rgba(201,169,110,.08);border-radius:50%;color:var(--gold,#C9A96E)}
+    .empty-ico svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+    .empty h3{margin:.6rem 0;font-size:1.05rem;color:var(--tx)}
+    .empty p{font-size:.88rem;line-height:1.55;margin:.5rem 0;max-width:340px;margin-left:auto;margin-right:auto}
+    .empty .cta{display:inline-block;margin-top:.8rem;padding:.6rem 1.2rem;border-radius:10px;
+                background:var(--gold,#C9A96E);color:#0a1220;font-weight:700;text-decoration:none;font-size:.9rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Mes mots</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+
+  <h2>Mes mots sauvegardés</h2>
+  <p class="sub">Tous les mots coréens que tu as ajoutés depuis le pop-up traduction. Touche 🔊 pour écouter.</p>
+
+  <div class="summary-bar">
+    <div class="summary-count"><strong id="totalCount">0</strong> mot(s)</div>
+    <button class="clear-btn" id="clearBtn" onclick="clearAll()" style="display:none">Tout supprimer</button>
+  </div>
+
+  <div class="word-list" id="wordList"></div>
+
+  <div class="empty" id="emptyState" style="display:none">
+    <div class="empty-ico">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="11" y2="17"/></svg>
+    </div>
+    <h3>Aucun mot pour le moment</h3>
+    <p>Sur n'importe quelle leçon ou histoire, <strong>tape un mot coréen</strong> pour ouvrir le pop-up traduction, puis touche <strong>"Ajouter"</strong> pour le sauvegarder ici.</p>
+    <a href="cours.html" class="cta">Aller au parcours →</a>
+  </div>
+
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function getSaved(){
+  try { return JSON.parse(localStorage.getItem('ks_saved_words')||'[]'); }
+  catch(e){ return []; }
+}
+function setSaved(arr){
+  try { localStorage.setItem('ks_saved_words', JSON.stringify(arr)); } catch(e){}
+}
+function escapeHtml(s){
+  return String(s||'').replace(/[<>&"]/g, function(c){
+    return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];
+  });
+}
+function relativeTime(ts){
+  var d = Date.now() - ts;
+  var s = Math.floor(d/1000);
+  if (s < 60) return "à l'instant";
+  var m = Math.floor(s/60);
+  if (m < 60) return 'il y a ' + m + ' min';
+  var h = Math.floor(m/60);
+  if (h < 24) return 'il y a ' + h + 'h';
+  var dd = Math.floor(h/24);
+  if (dd < 7) return 'il y a ' + dd + ' j';
+  if (dd < 30) return 'il y a ' + Math.floor(dd/7) + ' sem';
+  if (dd < 365) return 'il y a ' + Math.floor(dd/30) + ' mois';
+  return 'il y a ' + Math.floor(dd/365) + ' an';
+}
+function removeWord(ko){
+  var arr = getSaved().filter(function(w){ return w.ko !== ko; });
+  setSaved(arr);
+  render();
+}
+function clearAll(){
+  if (!confirm('Supprimer tous les mots sauvegardés ?')) return;
+  setSaved([]);
+  render();
+}
+function playAudio(ko){
+  if (typeof speak === 'function') speak(ko, null);
+}
+function render(){
+  var words = getSaved();
+  document.getElementById('totalCount').textContent = words.length;
+  var list = document.getElementById('wordList');
+  var empty = document.getElementById('emptyState');
+  var clearBtn = document.getElementById('clearBtn');
+  if (words.length === 0) {
+    list.style.display = 'none';
+    empty.style.display = 'block';
+    clearBtn.style.display = 'none';
+    return;
+  }
+  list.style.display = 'flex';
+  empty.style.display = 'none';
+  clearBtn.style.display = 'block';
+  list.innerHTML = words.map(function(w){
+    return '<div class="word-card">' +
+      '<div class="word-ko-block">' +
+        '<div class="word-ko">' + escapeHtml(w.ko) + '</div>' +
+        (w.rom ? '<div class="word-rom">' + escapeHtml(w.rom) + '</div>' : '') +
+        '<div class="word-fr">' + escapeHtml(w.fr || '') + '</div>' +
+        '<div class="word-meta">' +
+          (w.pos ? '<span class="word-pos">' + escapeHtml(w.pos) + '</span>' : '') +
+          '<span class="word-when">' + relativeTime(w.addedAt || Date.now()) + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="word-actions">' +
+        '<button class="word-btn" onclick="playAudio(&quot;' + w.ko + '&quot;)" title="Écouter">' +
+          '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>' +
+        '</button>' +
+        '<button class="word-btn delete" onclick="removeWord(&quot;' + w.ko + '&quot;)" title="Retirer">' +
+          '<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>' +
+        '</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+render();
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

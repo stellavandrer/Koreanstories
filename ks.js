@@ -715,4 +715,14 @@ document.addEventListener('DOMContentLoaded', () => {
     s.defer = true;
     document.head.appendChild(s);
   })();
+
+  /* Charge le pop-up traduction au tap (avec son dictionnaire) */
+  (function(){
+    if (document.getElementById('ks-tap-translate-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-tap-translate-script';
+    s.src = 'ks-tap-translate.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });
