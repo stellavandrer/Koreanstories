@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Séoul by night — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#F59E0B;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(245,158,11,.13);color:#D97706;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(245,158,11,.13);color:#D97706;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .story-hero{background:linear-gradient(135deg,#312e81,#7e22ce);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center;position:relative;overflow:hidden}
+    .story-hero::before{content:'';position:absolute;top:10px;right:20px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,#fde047 0%,transparent 70%);opacity:.5}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#e9d5ff;margin-bottom:.4rem;position:relative}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem;position:relative}
+    .story-sub{font-size:.85rem;opacity:.85;position:relative}
+    .scene-intro{background:var(--surf);border-left:3px solid #F59E0B;border-radius:0 10px 10px 0;padding:.7rem 1rem;margin:.6rem 0;font-size:.88rem;color:var(--tx-muted);line-height:1.6;font-style:italic}
+    .bubble-row{display:flex;gap:.5rem;margin:.6rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-emma{background:#3b82f6}
+    .av-jiwoo{background:#10b981}
+    .av-sarah{background:#ec4899}
+    .av-tom{background:#7c3aed}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1px solid var(--bd);padding:.7rem .9rem;border-radius:0 14px 14px 14px;flex:1;min-width:0;max-width:88%}
+    .bubble-row.right .bubble{border-radius:14px 0 14px 14px;background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.2)}
+    .bubble-kr{font-weight:600;color:var(--navy);font-size:.95rem;line-height:1.5}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(245,158,11,.10);border:1.5px solid rgba(245,158,11,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#D97706;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(245,158,11,.1);color:#D97706;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#D97706;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Séoul by night</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Séoul by night — Itaewon & Hongdae</h2>
+  <span class="pill">B1 · Histoire</span> <span class="xp-badge">+18 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="story-hero">
+    <div class="story-tag">Vendredi soir · 22h</div>
+    <div class="story-title">서울의 밤 — La nuit de Séoul</div>
+    <div class="story-sub">Vendredi soir, Emma sort à Itaewon puis Hongdae avec ses amis. Rencontres internationales, mix d'informalité (반말) et de politesse (존댓말).</div>
+  </div>
+
+  <h3>Bar à Itaewon — 22h</h3>
+  <p class="scene-intro">Emma, Ji-woo, Sarah (anglaise) et Tom (australien) sont à un rooftop bar avec vue sur la Namsan Tower.</p>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-jiwoo">JW</div>
+    <div class="bubble">
+      <span class="speaker-name">Ji-woo (à Emma, 반말)</span>
+      <div class="bubble-kr">에마, 여기 뷰가 진짜 좋지 않아? 남산타워가 잘 보여.</div>
+      <div class="bubble-rom">Emma, yeogi byu-ga jinjja jochi anha ? Namsantawo-ga jal boyeo.</div>
+      <div class="bubble-fr">Emma, la vue est ouf ici, non ? On voit bien la Namsan Tower.</div>
+      <button class="bubble-audio" onclick="speak('에마 여기 뷰가 진짜 좋지 않아 남산타워가 잘 보여',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row right">
+    <div class="avatar-circle av-emma">EM</div>
+    <div class="bubble">
+      <span class="speaker-name">Emma</span>
+      <div class="bubble-kr">대박! 너무 예뻐. 이태원 야경이 이렇게 멋있을 줄 몰랐어.</div>
+      <div class="bubble-rom">Daebak ! Neomu yeppeo. Itaewon yagyeong-i ireoke meosisseul jul mollasseo.</div>
+      <div class="bubble-fr">Trop bien ! C'est magnifique. Je ne savais pas que la nuit à Itaewon était si belle.</div>
+      <button class="bubble-audio" onclick="speak('대박 너무 예뻐 이태원 야경이 이렇게 멋있을 줄 몰랐어',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-sarah">SR</div>
+    <div class="bubble">
+      <span class="speaker-name">Sarah</span>
+      <div class="bubble-kr">맞아요! 처음 왔을 때 정말 놀랐어요. 매번 와도 새로워요.</div>
+      <div class="bubble-rom">Majayo ! Cheoeum wasseul ttae jeongmal nollasseoyo. Maebeon wado saerowoyo.</div>
+      <div class="bubble-fr">C'est vrai ! La première fois que j'y suis venue j'étais bluffée. Même en revenant, c'est toujours nouveau.</div>
+      <button class="bubble-audio" onclick="speak('맞아요 처음 왔을 때 정말 놀랐어요 매번 와도 새로워요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <h3>En route vers Hongdae — Taxi</h3>
+  <p class="scene-intro">Vers minuit, ils prennent un taxi pour Hongdae, le quartier des étudiants et de la musique.</p>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-jiwoo">JW</div>
+    <div class="bubble">
+      <span class="speaker-name">Ji-woo (au chauffeur)</span>
+      <div class="bubble-kr">홍대 입구역 9번 출구까지 가 주세요.</div>
+      <div class="bubble-rom">Hongdae ipgu-yeok 9beon chulgu-kkaji ga juseyo.</div>
+      <div class="bubble-fr">Jusqu'à la sortie 9 de la station Hongik University, s'il vous plaît.</div>
+      <button class="bubble-audio" onclick="speak('홍대 입구역 9번 출구까지 가 주세요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row right">
+    <div class="avatar-circle av-emma">EM</div>
+    <div class="bubble">
+      <span class="speaker-name">Emma</span>
+      <div class="bubble-kr">홍대는 처음 가는데 너무 기대돼!</div>
+      <div class="bubble-rom">Hongdae-neun cheoeum ganeunde neomu gidae dwae !</div>
+      <div class="bubble-fr">C'est ma première fois à Hongdae, j'ai vraiment hâte !</div>
+      <button class="bubble-audio" onclick="speak('홍대는 처음 가는데 너무 기대돼',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <h3>Rue principale de Hongdae</h3>
+  <p class="scene-intro">Des groupes de jeunes chantent et dansent dans la rue. K-pop à fond.</p>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-tom">T</div>
+    <div class="bubble">
+      <span class="speaker-name">Tom</span>
+      <div class="bubble-kr">와, 거리에서 공연을 하네! 이런 분위기는 다른 데서 못 봐.</div>
+      <div class="bubble-rom">Wa, georieseo gongyeon-eul hane ! Ireon bunwigi-neun dareun deseo mot bwa.</div>
+      <div class="bubble-fr">Wow, ils font des concerts dans la rue ! On voit ça nulle part ailleurs.</div>
+      <button class="bubble-audio" onclick="speak('와 거리에서 공연을 하네 이런 분위기는 다른 데서 못 봐',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-jiwoo">JW</div>
+    <div class="bubble">
+      <span class="speaker-name">Ji-woo</span>
+      <div class="bubble-kr">홍대는 음악, 거리 예술, 그리고 클럽으로 유명해. 새벽까지 사람이 많아.</div>
+      <div class="bubble-rom">Hongdae-neun eumak, geori yesul, geurigo keulleop-euro yumyeonghae. Saebyeokkkaji saram-i manha.</div>
+      <div class="bubble-fr">Hongdae est connue pour la musique, l'art de rue et les clubs. Plein de monde jusqu'à l'aube.</div>
+      <button class="bubble-audio" onclick="speak('홍대는 음악 거리 예술 그리고 클럽으로 유명해 새벽까지 사람이 많아',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row right">
+    <div class="avatar-circle av-emma">EM</div>
+    <div class="bubble">
+      <span class="speaker-name">Emma</span>
+      <div class="bubble-kr">나 오늘 진짜 행복해. 한국 친구들 덕분에 새로운 세상을 보고 있어.</div>
+      <div class="bubble-rom">Na oneul jinjja haengbokae. Hanguk chingudeul deokbune saeroun sesang-eul bogo isseo.</div>
+      <div class="bubble-fr">Je suis vraiment heureuse aujourd'hui. Grâce à mes amis coréens, je découvre un nouveau monde.</div>
+      <button class="bubble-audio" onclick="speak('나 오늘 진짜 행복해 한국 친구들 덕분에 새로운 세상을 보고 있어',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <h3>Vocabulaire B1</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">야경</td><td>yagyeong</td><td>Vue de nuit</td></tr>
+      <tr><td class="ko">분위기</td><td>bunwigi</td><td>Ambiance</td></tr>
+      <tr><td class="ko">새벽</td><td>saebyeok</td><td>Aube / petit matin</td></tr>
+      <tr><td class="ko">거리 예술</td><td>geori yesul</td><td>Art de rue</td></tr>
+      <tr><td class="ko">공연</td><td>gongyeon</td><td>Spectacle / concert</td></tr>
+      <tr><td class="ko">유명하다</td><td>yumyeonghada</td><td>Être célèbre</td></tr>
+      <tr><td class="ko">매번</td><td>maebeon</td><td>À chaque fois</td></tr>
+      <tr><td class="ko">덕분에</td><td>deokbune</td><td>Grâce à</td></tr>
+      <tr><td class="ko">새로운 세상</td><td>saeroun sesang</td><td>Nouveau monde</td></tr>
+      <tr><td class="ko">대박</td><td>daebak</td><td>Énorme ! (argot)</td></tr>
+      <tr><td class="ko">기대되다</td><td>gidaedoeda</td><td>Avoir hâte</td></tr>
+    </table>
+  </div>
+
+  <h3>존댓말 vs 반말 dans cette histoire</h3>
+  <div class="tip">
+    Ji-woo et Emma se parlent en <strong>반말</strong> (informel) car ce sont des amis proches du même âge. Sarah utilise le <strong>존댓말</strong> (poli) car elle parle à un groupe mixte qu'elle connaît moins. Avec le chauffeur de taxi, Ji-woo passe automatiquement au <strong>존댓말</strong> formel. Cette flexibilité est une compétence B1 importante : savoir <em>quand</em> adapter son registre.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +18 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c30',xp:18});else{if(typeof ksAddXP==='function')ksAddXP(18);if(typeof ksMarkDone==='function')ksMarkDone('ks_c30');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

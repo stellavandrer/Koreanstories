@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Webtoon coréen — Lecture guidée — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .story-hero{background:linear-gradient(135deg,#581c87,#a855f7);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#e9d5ff;margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#7C3AED;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(124,58,237,.06);border-left:3px solid #7C3AED;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-hero{background:#7C3AED}
+    .av-villain{background:#dc2626}
+    .av-friend{background:#10b981}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(124,58,237,.06);border-color:rgba(124,58,237,.25)}
+    .bubble-kr{font-weight:600;color:var(--navy);font-size:.95rem;line-height:1.5}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(124,58,237,.10);border:1.5px solid rgba(124,58,237,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#7C3AED;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .sfx{display:inline-block;background:rgba(245,158,11,.15);color:#D97706;font-weight:800;padding:3px 10px;border-radius:6px;font-size:.85rem;letter-spacing:.05em;margin:.3rem .3rem}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#7C3AED;font-weight:700}
+    .analysis{background:rgba(124,58,237,.05);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:.9rem 1rem;margin:.6rem 0;font-size:.86rem;line-height:1.6}
+    .analysis-title{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#7C3AED;margin-bottom:.5rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Webtoon — Lecture guidée</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Webtoon coréen — Lecture guidée</h2>
+  <span class="pill">B2 · Histoire</span> <span class="xp-badge">+20 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native. Webtoon de fiction originale créé pour l'apprentissage.</div>
+
+  <div class="story-hero">
+    <div class="story-tag">Extrait fictif · Style fantastique webtoon</div>
+    <div class="story-title">달의 수호자 — Le Gardien de la Lune</div>
+    <div class="story-sub">Une lecture guidée d'un extrait de webtoon fictif. Argot, onomatopées (의성어), monologue intérieur. Très différent du coréen scolaire — c'est du <strong>vrai</strong> coréen jeune.</div>
+  </div>
+
+  <h3>Panneau 1 — La rencontre</h3>
+  <div class="panel">
+    <div class="panel-num">PANEL 01</div>
+    <div class="narration">
+      <div class="narration-kr">밤은 깊었고, 도시의 불빛마저 사라진 그곳에서 한 청년이 천천히 걸어왔다.</div>
+      La nuit était profonde, et dans cet endroit où même les lumières de la ville avaient disparu, un jeune homme s'avançait lentement.
+    </div>
+    <div class="bubble-row">
+      <div class="avatar-circle av-hero">JH</div>
+      <div class="bubble">
+        <span class="speaker-name">Jihan (pensée)</span>
+        <div class="bubble-kr">…이 기운, 분명히 여기야.</div>
+        <div class="bubble-rom">…I giun, bunmyeonghi yeogi-ya.</div>
+        <div class="bubble-fr">…Cette énergie, c'est forcément ici.</div>
+        <button class="bubble-audio" onclick="speak('이 기운 분명히 여기야',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div style="text-align:center;margin:.4rem 0"><span class="sfx">스윽…</span> <span class="sfx">두근두근</span></div>
+    <div class="analysis">
+      <div class="analysis-title">🔍 Analyse — les onomatopées (의성어)</div>
+      <strong>스윽</strong> = bruit léger d'un mouvement furtif. <strong>두근두근</strong> = battements de cœur rapides (excitation, peur). Les webtoons en regorgent — c'est presque une langue à part qu'aucun manuel n'enseigne. Repère-les : tu décodes l'ambiance.
+    </div>
+  </div>
+
+  <h3>Panneau 2 — L'ennemi apparaît</h3>
+  <div class="panel">
+    <div class="panel-num">PANEL 02</div>
+    <div style="text-align:center;margin:.4rem 0"><span class="sfx">우르릉…</span></div>
+    <div class="bubble-row right">
+      <div class="avatar-circle av-villain">DR</div>
+      <div class="bubble">
+        <span class="speaker-name">Daru</span>
+        <div class="bubble-kr">하…드디어 찾았네. 너 같은 놈을 얼마나 기다렸는지 몰라.</div>
+        <div class="bubble-rom">Ha… deudieo chajanne. Neo gateun nom-eul eolmana gidaryeotneunji molla.</div>
+        <div class="bubble-fr">Hah… enfin trouvé. Tu ne sais pas combien de temps j'ai attendu un type comme toi.</div>
+        <button class="bubble-audio" onclick="speak('드디어 찾았네 너 같은 놈을 얼마나 기다렸는지 몰라',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row">
+      <div class="avatar-circle av-hero">JH</div>
+      <div class="bubble">
+        <span class="speaker-name">Jihan</span>
+        <div class="bubble-kr">너였구나. 달의 결계를 깨뜨린 게.</div>
+        <div class="bubble-rom">Neoyeotguna. Dar-ui gyeolgye-reul kkaetteurin ge.</div>
+        <div class="bubble-fr">C'était toi. Celui qui a brisé le sceau de la Lune.</div>
+        <button class="bubble-audio" onclick="speak('너였구나 달의 결계를 깨뜨린 게',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="analysis">
+      <div class="analysis-title">🔍 Analyse — argot et nuances</div>
+      <strong>놈</strong> = "mec / type" — informel, parfois péjoratif. Pas dans un cours, mais omniprésent en webtoon. <strong>-구나</strong> en fin de phrase exprime une réalisation soudaine ("ah, c'est donc...").
+    </div>
+  </div>
+
+  <h3>Panneau 3 — Le combat commence</h3>
+  <div class="panel">
+    <div class="panel-num">PANEL 03</div>
+    <div style="text-align:center;margin:.4rem 0">
+      <span class="sfx">콰앙!</span> <span class="sfx">번쩍!</span>
+    </div>
+    <div class="narration">
+      <div class="narration-kr">달빛이 그의 손에서 폭발했다. 어둠이 비명을 질렀다.</div>
+      Le clair de lune explosa dans sa main. Les ténèbres hurlèrent.
+    </div>
+    <div class="bubble-row right">
+      <div class="avatar-circle av-villain">DR</div>
+      <div class="bubble">
+        <span class="speaker-name">Daru</span>
+        <div class="bubble-kr">크윽…이게 진짜 달의 수호자의 힘인가?</div>
+        <div class="bubble-rom">Keuk… ige jinjja dar-ui suhoja-ui him-inga ?</div>
+        <div class="bubble-fr">Argh… C'est vraiment ça, la puissance du Gardien de la Lune ?</div>
+        <button class="bubble-audio" onclick="speak('이게 진짜 달의 수호자의 힘인가',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <h3>Panneau 4 — Cliffhanger</h3>
+  <div class="panel">
+    <div class="panel-num">PANEL 04 — DERNIER</div>
+    <div class="bubble-row">
+      <div class="avatar-circle av-friend">SE</div>
+      <div class="bubble">
+        <span class="speaker-name">Voix (off)</span>
+        <div class="bubble-kr">지한아…! 잠깐, 그건 너의 진짜 모습이 아니야!</div>
+        <div class="bubble-rom">Jihan-a…! Jamkkan, geugeon neoui jinjja moseubi aniya !</div>
+        <div class="bubble-fr">Jihan…! Attends, ce n'est pas ta vraie nature !</div>
+        <button class="bubble-audio" onclick="speak('지한아 잠깐 그건 너의 진짜 모습이 아니야',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="narration">
+      <div class="narration-kr">계속됩니다.</div>
+      <em>À suivre.</em>
+    </div>
+  </div>
+
+  <h3>Vocabulaire webtoon B2</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">수호자</td><td>suhoja</td><td>Gardien / protecteur</td></tr>
+      <tr><td class="ko">결계</td><td>gyeolgye</td><td>Barrière / sceau magique</td></tr>
+      <tr><td class="ko">기운</td><td>giun</td><td>Énergie / aura</td></tr>
+      <tr><td class="ko">어둠</td><td>eodum</td><td>Ténèbres</td></tr>
+      <tr><td class="ko">달빛</td><td>dalbit</td><td>Clair de lune</td></tr>
+      <tr><td class="ko">깨뜨리다</td><td>kkaetteurida</td><td>Briser</td></tr>
+      <tr><td class="ko">폭발하다</td><td>pokbalhada</td><td>Exploser</td></tr>
+      <tr><td class="ko">진짜 모습</td><td>jinjja moseup</td><td>Vraie nature / apparence</td></tr>
+      <tr><td class="ko">놈</td><td>nom</td><td>Type / mec (informel)</td></tr>
+      <tr><td class="ko">드디어</td><td>deudieo</td><td>Enfin</td></tr>
+      <tr><td class="ko">계속되다</td><td>gyesokdoeda</td><td>Continuer / "à suivre"</td></tr>
+    </table>
+  </div>
+
+  <h3>Onomatopées clés des webtoons</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Type</th><th>Sens</th></tr>
+      <tr><td class="ko">두근두근</td><td>의태어</td><td>Battements de cœur</td></tr>
+      <tr><td class="ko">스윽</td><td>의성어</td><td>Glissement furtif</td></tr>
+      <tr><td class="ko">콰앙</td><td>의성어</td><td>Explosion / impact</td></tr>
+      <tr><td class="ko">번쩍</td><td>의태어</td><td>Éclair / flash de lumière</td></tr>
+      <tr><td class="ko">우르릉</td><td>의성어</td><td>Tonnerre / grondement</td></tr>
+      <tr><td class="ko">으르렁</td><td>의성어</td><td>Grognement</td></tr>
+      <tr><td class="ko">슉</td><td>의성어</td><td>Mouvement rapide</td></tr>
+    </table>
+  </div>
+
+  <h3>Pourquoi lire des webtoons en B2 ?</h3>
+  <div class="tip">
+    Les webtoons exposent à un coréen <strong>vivant et authentique</strong> que les manuels évitent : argot, particules emphatiques (-네, -구나, -잖아), monologue intérieur, onomatopées. Lire un webtoon par jour pendant un mois = +200 mots de vocabulaire actif et une oreille plus fine pour les K-dramas. Plateformes recommandées : <strong>Naver Webtoon</strong>, <strong>Lezhin</strong>, <strong>Daum Webtoon</strong>.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d22',xp:20});else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_d22');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

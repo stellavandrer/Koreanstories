@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Essai littéraire — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .story-hero{background:linear-gradient(135deg,#312e81,#1e1b4b);border-radius:16px;padding:1.5rem;color:#fff;margin:.8rem 0;text-align:center;position:relative;overflow:hidden}
+    .story-hero::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at top right,rgba(255,255,255,.08),transparent 70%);pointer-events:none}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c4b5fd;margin-bottom:.4rem;position:relative}
+    .story-title{font-family:"Playfair Display",Georgia,serif;font-size:1.4rem;font-weight:600;margin-bottom:.4rem;position:relative;font-style:italic}
+    .story-sub{font-size:.85rem;opacity:.85;position:relative;line-height:1.6}
+
+    /* Paragraphes — bilingue avec coréen prioritaire */
+    .paragraph{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem 1.2rem;margin:.7rem 0;position:relative}
+    .para-num{position:absolute;top:-9px;left:14px;background:#7C3AED;color:#fff;font-size:.62rem;font-weight:800;letter-spacing:.08em;padding:2px 8px;border-radius:100px}
+
+    .bubble-kr{font-family:"Playfair Display",Georgia,serif;font-weight:500;color:var(--navy);font-size:1.02rem;line-height:1.85;margin-bottom:.4rem}
+    .bubble-rom{font-size:.72rem;color:var(--tx-muted);font-style:italic;line-height:1.5;display:none}
+    .bubble-fr{font-size:.86rem;color:var(--tx-muted);line-height:1.75;padding-top:.5rem;border-top:1px dashed rgba(0,0,0,.08);font-style:italic}
+    .bubble-audio{background:rgba(124,58,237,.10);border:1.5px solid rgba(124,58,237,.3);border-radius:50%;width:30px;height:30px;cursor:pointer;color:#7C3AED;display:inline-flex;align-items:center;justify-content:center;margin-top:.5rem}
+    .bubble-audio svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+
+    .toggle-rom{background:none;border:none;color:#7C3AED;font-size:.72rem;font-weight:600;cursor:pointer;margin:.2rem 0;padding:.2rem .4rem;font-family:inherit;border-radius:5px}
+    .toggle-rom:hover{background:rgba(124,58,237,.08)}
+
+    .analysis{background:rgba(124,58,237,.05);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:.85rem 1rem;margin:.5rem 0;font-size:.83rem;line-height:1.7}
+    .analysis-title{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#7C3AED;margin-bottom:.4rem}
+    .analysis em{color:var(--navy);font-style:normal;font-weight:600}
+
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#7C3AED;font-weight:700}
+
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.7rem 1rem;font-size:.85rem;margin:.7rem 0;line-height:1.65}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.3rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Essai littéraire</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Essai littéraire — Prose contemplative</h2>
+  <span class="pill">B2 · Histoire</span> <span class="xp-badge">+20 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native. Texte original créé pour l'apprentissage, dans la tradition minimaliste de la prose coréenne contemporaine.</div>
+
+  <div class="story-hero">
+    <div class="story-tag">Court texte · 5 paragraphes · ~600 mots</div>
+    <div class="story-title">새벽의 부엌</div>
+    <div class="story-sub">"L'aube dans la cuisine" — une réflexion silencieuse sur le retour d'une fille au village de sa mère. Style épuré, phrases courtes, sensations physiques.</div>
+  </div>
+
+  <button class="toggle-rom" onclick="document.querySelectorAll('.bubble-rom').forEach(r=>r.style.display=r.style.display==='block'?'none':'block')">Afficher/masquer la romanisation</button>
+
+  <h3>1 — L'arrivée</h3>
+  <div class="paragraph">
+    <div class="para-num">PARAGRAPHE 01</div>
+    <div class="bubble-kr">기차에서 내렸을 때, 공기가 달랐다. 도시의 냄새가 어디론가 사라지고, 흙과 풀 냄새가 그 자리를 채웠다. 어머니의 마을이었다. 십이 년 만이었다.</div>
+    <div class="bubble-rom">Gicha-eseo naeryeosseul ttae, gonggi-ga dallatda. Dosi-ui naemsae-ga eodironga sarajigo, heulkgwa pul naemsae-ga geu jari-reul chaewotda. Eomeoni-ui maeur-iyeotda. Sib-i nyeon man-iyeotda.</div>
+    <div class="bubble-fr">Lorsque je descendis du train, l'air était différent. L'odeur de la ville avait disparu quelque part, et l'odeur de la terre et de l'herbe avait pris sa place. C'était le village de ma mère. Cela faisait douze ans.</div>
+    <button class="bubble-audio" onclick="speak('기차에서 내렸을 때 공기가 달랐다',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    <div class="analysis">
+      <div class="analysis-title">📖 Analyse stylistique</div>
+      Quatre phrases. Sujet souvent omis. Le narrateur est invisible au début — on ne sait pas <em>qui</em> arrive. La phrase finale, <em>"십이 년 만이었다"</em>, est un coup de poing temporel : douze ans s'effondrent en quatre syllabes. C'est cette <strong>économie de moyens</strong> qui caractérise la prose contemplative coréenne contemporaine.
+    </div>
+  </div>
+
+  <h3>2 — La maison</h3>
+  <div class="paragraph">
+    <div class="para-num">PARAGRAPHE 02</div>
+    <div class="bubble-kr">집은 그대로였다. 마당 한가운데 감나무는 더 굵어졌고, 부엌문은 여전히 약간 휘어 있었다. 손잡이를 잡으니 차가웠다. 그 차가움이 오래된 슬픔처럼 손바닥 안으로 천천히 스며들었다.</div>
+    <div class="bubble-rom">Jip-eun geudaero-yeotda. Madang han-gaunde gam-namu-neun deo gulgeojyeotgo, bueokmun-eun yeojeonhi yakgan hwieo isseotda. Sonjabi-reul jabeuni chagawotda. Geu chagaum-i oraedoen seulpeumcheoreom sonbadak an-euro cheoncheon-i seumideuleotda.</div>
+    <div class="bubble-fr">La maison était telle quelle. Au centre de la cour, le plaqueminier avait épaissi, et la porte de la cuisine penchait toujours légèrement. En saisissant la poignée, elle était froide. Cette froideur s'infiltra lentement dans ma paume comme une tristesse ancienne.</div>
+    <button class="bubble-audio" onclick="speak('집은 그대로였다 마당 한가운데 감나무는 더 굵어졌고',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    <div class="analysis">
+      <div class="analysis-title">📖 Analyse stylistique</div>
+      <em>"오래된 슬픔처럼"</em> = "comme une tristesse ancienne". La comparaison entre une sensation physique (le froid) et une émotion (la tristesse) est typique de cette tradition. L'auteur ne <strong>dit</strong> jamais directement "je suis triste" — il fait sentir au lecteur la tristesse à travers les sens. <em>스며들다</em> (s'infiltrer) est un verbe-clé : la mémoire et l'émotion s'infiltrent comme un liquide.
+    </div>
+  </div>
+
+  <h3>3 — La cuisine</h3>
+  <div class="paragraph">
+    <div class="para-num">PARAGRAPHE 03</div>
+    <div class="bubble-kr">새벽 다섯 시. 부엌에 들어섰을 때, 어머니의 그림자가 거기에 있는 것 같았다. 가스레인지 옆, 늘 그 자리. 흰 머릿수건을 두르고, 무를 썰던 그 자리. 나는 의자에 앉지 않았다. 그저 문 옆에 서서, 어머니가 거기에 있던 시간을 다시 한 번 살았다.</div>
+    <div class="bubble-rom">Saebyeok daseot si. Bueog-e deureoseosseul ttae, eomeoni-ui geurimja-ga geogie inneun geot gatatda. Gaseureinji yeop, neul geu jari. Huin meorisugeon-eul dureugo, mu-reul sseoldeon geu jari. Naneun uija-e anji anatda. Geujeo mun yeop-e seoseo, eomeoni-ga geogie itdeon sigan-eul dasi han beon saratda.</div>
+    <div class="bubble-fr">Cinq heures du matin. En entrant dans la cuisine, il me sembla que l'ombre de ma mère était là. À côté du fourneau, toujours à cette place. Coiffée du foulard blanc, à l'endroit où elle découpait les radis blancs. Je ne m'assis pas sur la chaise. Simplement, debout près de la porte, je vécus une fois encore le temps où elle était là.</div>
+    <button class="bubble-audio" onclick="speak('새벽 다섯 시 부엌에 들어섰을 때',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    <div class="analysis">
+      <div class="analysis-title">📖 Analyse stylistique</div>
+      <em>"늘 그 자리"</em> (toujours à cette place) répété deux fois — c'est la structure de la mémoire : une seule image qui revient. <em>"그저"</em> (simplement) marque la résignation contemplative. La dernière phrase, <em>"어머니가 거기에 있던 시간을 다시 한 번 살았다"</em>, est admirable : on ne <strong>se souvient</strong> pas du passé, on <strong>le revit</strong> physiquement. Verbe <em>살다</em> appliqué au temps = signature de cette tradition.
+    </div>
+  </div>
+
+  <h3>4 — La lumière</h3>
+  <div class="paragraph">
+    <div class="para-num">PARAGRAPHE 04</div>
+    <div class="bubble-kr">창문 사이로 첫 햇빛이 들어왔다. 마룻바닥에 길고 노란 줄이 그어졌다. 그것은 너무 평범하고, 너무 아름다웠다. 나는 그제서야 울었다. 소리 없이.</div>
+    <div class="bubble-rom">Changmun saero cheot haetbich-i deureowatda. Marutbadak-e gilgo noran jur-i geueojyeotda. Geugeoseun neomu pyeongbeomhago, neomu areumdawotda. Naneun geujeseoya uleotda. Sori eopsi.</div>
+    <div class="bubble-fr">Par la fenêtre, la première lumière du jour entra. Sur le plancher, une longue ligne jaune fut tracée. C'était si banal, et si beau. C'est alors seulement que je pleurai. Sans bruit.</div>
+    <button class="bubble-audio" onclick="speak('창문 사이로 첫 햇빛이 들어왔다',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    <div class="analysis">
+      <div class="analysis-title">📖 Analyse stylistique</div>
+      <em>"너무 평범하고, 너무 아름다웠다"</em> = "si banal, et si beau". L'oxymore est le sommet de la phrase. La phrase finale <em>"소리 없이"</em> (sans bruit), détachée comme un fragment, est plus forte que n'importe quelle description de larmes. C'est un procédé que les traductrices comme <strong>Deborah Smith</strong> ont rendu célèbre en anglais : laisser les <em>blancs</em> faire le travail.
+    </div>
+  </div>
+
+  <h3>5 — Le départ</h3>
+  <div class="paragraph">
+    <div class="para-num">PARAGRAPHE 05</div>
+    <div class="bubble-kr">기차역으로 돌아오는 길에, 새 한 마리가 머리 위로 지나갔다. 어디로 가는지 알 수 없었다. 나도 어디로 가는지 잘 몰랐다. 그래도 발걸음은 가벼웠다. 처음으로.</div>
+    <div class="bubble-rom">Gichayeog-euro doraoneun gir-e, sae han mari-ga meori wi-ro jinagatda. Eodi-ro ganeunji al su eopseotda. Nado eodi-ro ganeunji jal mollatda. Geuraedo balgeoreum-eun gabyeowotda. Cheoeum-euro.</div>
+    <div class="bubble-fr">Sur le chemin du retour vers la gare, un oiseau passa au-dessus de ma tête. Je ne savais pas où il allait. Moi non plus, je ne savais pas trop où j'allais. Et pourtant, mes pas étaient légers. Pour la première fois.</div>
+    <button class="bubble-audio" onclick="speak('기차역으로 돌아오는 길에 새 한 마리가 머리 위로 지나갔다',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    <div class="analysis">
+      <div class="analysis-title">📖 Analyse stylistique</div>
+      Construction par parallélisme : l'oiseau ne sait pas / le narrateur ne sait pas. Mais le <em>"그래도"</em> (et pourtant) rompt le parallèle — une libération minuscule. Le mot final <em>"처음으로"</em> (pour la première fois), isolé, dit tout ce qui a été soigné par cette visite. C'est la <strong>structure du soulagement</strong> dans la prose minimaliste coréenne : pas de résolution dramatique, juste une syllabe qui change.
+    </div>
+  </div>
+
+  <h3>Vocabulaire littéraire</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">스며들다</td><td>seumideulda</td><td>S'infiltrer / s'imprégner</td></tr>
+      <tr><td class="ko">그림자</td><td>geurimja</td><td>Ombre</td></tr>
+      <tr><td class="ko">새벽</td><td>saebyeok</td><td>Aube</td></tr>
+      <tr><td class="ko">감나무</td><td>gamnamu</td><td>Plaqueminier (kaki)</td></tr>
+      <tr><td class="ko">손바닥</td><td>sonbadak</td><td>Paume</td></tr>
+      <tr><td class="ko">머릿수건</td><td>meorisugeon</td><td>Foulard de tête</td></tr>
+      <tr><td class="ko">평범하다</td><td>pyeongbeomhada</td><td>Être ordinaire / banal</td></tr>
+      <tr><td class="ko">소리 없이</td><td>sori eopsi</td><td>Sans bruit / silencieusement</td></tr>
+      <tr><td class="ko">발걸음</td><td>balgeoreum</td><td>Pas / démarche</td></tr>
+      <tr><td class="ko">가볍다</td><td>gabyeopda</td><td>Être léger</td></tr>
+      <tr><td class="ko">처음으로</td><td>cheoeum-euro</td><td>Pour la première fois</td></tr>
+      <tr><td class="ko">그제서야</td><td>geujeseoya</td><td>C'est alors seulement</td></tr>
+    </table>
+  </div>
+
+  <h3>Les structures B2 — Style littéraire</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Structure</th><th>Sens</th></tr>
+      <tr><td class="ko">-처럼</td><td>Comme (comparaison)</td></tr>
+      <tr><td class="ko">-(으)ㄴ 채로</td><td>En l'état / en restant</td></tr>
+      <tr><td class="ko">-(으)며 / -면서</td><td>Tout en (simultanéité)</td></tr>
+      <tr><td class="ko">-는 듯하다</td><td>Sembler / faire l'effet de</td></tr>
+      <tr><td class="ko">-(으)ㄹ 수 없다</td><td>Ne pas pouvoir / impossible</td></tr>
+      <tr><td class="ko">-아/어 있다</td><td>État résultant</td></tr>
+      <tr><td class="ko">-던</td><td>Modificateur du passé habituel</td></tr>
+    </table>
+  </div>
+
+  <h3>La tradition minimaliste coréenne</h3>
+  <div class="tip">
+    Les écrivaines comme <strong>Han Kang</strong> (Prix Nobel 2024), <strong>Bae Suah</strong>, ou <strong>Hwang Jung-eun</strong> partagent ce style : <em>phrases courtes</em>, <em>peu de connecteurs</em>, <em>sensations physiques au lieu d'émotions nommées</em>, <em>silences entre les phrases</em>. C'est de la littérature qui demande au lecteur d'<strong>habiter</strong> les blancs. Lire 5 pages par jour de cette prose t'éduquera l'oreille mieux que 20 cours de grammaire.<br><br>
+    Recommandations : <em>흰</em> (Han Kang), <em>아무도 아닌</em> (Hwang Jung-eun), <em>알려지지 않은 예술가의 눈물과 자이툰 파스타</em> (Bae Suah).
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d24',xp:20});else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_d24');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

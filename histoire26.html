@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>La dispute et la réconciliation — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#F59E0B;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(245,158,11,.13);color:#D97706;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(245,158,11,.13);color:#D97706;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .story-hero{background:linear-gradient(135deg,#7f1d1d,#dc2626);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#fecaca;margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .scene-intro{background:var(--surf);border-left:3px solid #F59E0B;border-radius:0 10px 10px 0;padding:.7rem 1rem;margin:.6rem 0;font-size:.88rem;color:var(--tx-muted);line-height:1.6;font-style:italic}
+    .bubble-row{display:flex;gap:.5rem;margin:.6rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-min{background:#dc2626}
+    .av-ji{background:#10b981}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1px solid var(--bd);padding:.7rem .9rem;border-radius:0 14px 14px 14px;flex:1;min-width:0;max-width:88%}
+    .bubble-row.right .bubble{border-radius:14px 0 14px 14px;background:rgba(220,38,38,.05);border-color:rgba(220,38,38,.2)}
+    .bubble-kr{font-weight:600;color:var(--navy);font-size:.95rem;line-height:1.5}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(245,158,11,.10);border:1.5px solid rgba(245,158,11,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#D97706;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(245,158,11,.1);color:#D97706;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#D97706;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">La dispute</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>La dispute — réconciliation en coréen</h2>
+  <span class="pill">B1 · Histoire</span> <span class="xp-badge">+18 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="story-hero">
+    <div class="story-tag">Café à Hongdae · Vendredi 19h</div>
+    <div class="story-title">싸우고 화해하기 — Se disputer et se réconcilier</div>
+    <div class="story-sub">Min-ji est en retard d'une heure. Ji-woo l'attend depuis longtemps. La conversation commence mal et finit bien.</div>
+  </div>
+
+  <h3>Min-ji arrive en retard</h3>
+  <p class="scene-intro">Il est 19h. Min-ji entre dans le café enfin, à bout de souffle.</p>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-min">MJ</div>
+    <div class="bubble">
+      <span class="speaker-name">Min-ji</span>
+      <div class="bubble-kr">미안! 진짜 미안해. 지하철에 사고가 나서 늦었어.</div>
+      <div class="bubble-rom">Mian ! Jinjja mianhae. Jihacheor-e sago-ga naseo neujeosseo.</div>
+      <div class="bubble-fr">Désolée ! Vraiment désolée. Il y a eu un accident dans le métro, j'ai été en retard.</div>
+      <button class="bubble-audio" onclick="speak('미안 진짜 미안해 지하철에 사고가 나서 늦었어',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row right">
+    <div class="avatar-circle av-ji">JW</div>
+    <div class="bubble">
+      <span class="speaker-name">Ji-woo (fâché)</span>
+      <div class="bubble-kr">한 시간이나 늦었어. 전화도 안 했잖아.</div>
+      <div class="bubble-rom">Han sigan-ina neujeosseo. Jeonhwa-do an haetjana.</div>
+      <div class="bubble-fr">Tu as eu une heure de retard. Et tu n'as même pas appelé.</div>
+      <button class="bubble-audio" onclick="speak('한 시간이나 늦었어 전화도 안 했잖아',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-min">MJ</div>
+    <div class="bubble">
+      <span class="speaker-name">Min-ji</span>
+      <div class="bubble-kr">배터리가 없어서 그랬어. 일부러 그런 거 아니야.</div>
+      <div class="bubble-rom">Baeteori-ga eopseoseo geuraesseo. Ilbureo geureon geo aniya.</div>
+      <div class="bubble-fr">C'est parce que ma batterie était à plat. Je ne l'ai pas fait exprès.</div>
+      <button class="bubble-audio" onclick="speak('배터리가 없어서 그랬어 일부러 그런 거 아니야',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <h3>L'émotion monte</h3>
+  <div class="bubble-row right">
+    <div class="avatar-circle av-ji">JW</div>
+    <div class="bubble">
+      <span class="speaker-name">Ji-woo</span>
+      <div class="bubble-kr">매번 이래. 너랑 약속하면 늘 늦어서 화가 나.</div>
+      <div class="bubble-rom">Maebeon irae. Neorang yaksokhamyeon neul neujeoseo hwaga na.</div>
+      <div class="bubble-fr">C'est tout le temps comme ça. Quand on a rendez-vous, t'es toujours en retard et ça m'énerve.</div>
+      <button class="bubble-audio" onclick="speak('매번 이래 너랑 약속하면 늘 늦어서 화가 나',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-min">MJ</div>
+    <div class="bubble">
+      <span class="speaker-name">Min-ji</span>
+      <div class="bubble-kr">알아... 정말 미안해. 내가 시간 관리를 잘 못해서 그래.</div>
+      <div class="bubble-rom">Ara... Jeongmal mianhae. Naega sigan gwalli-reul jal mothaeseo geurae.</div>
+      <div class="bubble-fr">Je sais... Vraiment désolée. C'est parce que je gère mal mon temps.</div>
+      <button class="bubble-audio" onclick="speak('알아 정말 미안해 내가 시간 관리를 잘 못해서 그래',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <h3>La réconciliation</h3>
+  <p class="scene-intro">Min-ji baisse les yeux. Ji-woo voit qu'elle est vraiment désolée et soupire.</p>
+
+  <div class="bubble-row right">
+    <div class="avatar-circle av-ji">JW</div>
+    <div class="bubble">
+      <span class="speaker-name">Ji-woo (apaisé)</span>
+      <div class="bubble-kr">알았어. 화 풀어. 그냥 다음부터는 미리 연락해 줘. 그러면 괜찮아.</div>
+      <div class="bubble-rom">Arasseo. Hwa pureo. Geunyang daeumbuteoneun miri yeollakhae jwo. Geureomyeon gwaenchana.</div>
+      <div class="bubble-fr">OK. Calme-toi. Juste, préviens-moi à l'avance la prochaine fois. Comme ça, c'est bon.</div>
+      <button class="bubble-audio" onclick="speak('알았어 화 풀어 그냥 다음부터는 미리 연락해 줘 그러면 괜찮아',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row">
+    <div class="avatar-circle av-min">MJ</div>
+    <div class="bubble">
+      <span class="speaker-name">Min-ji</span>
+      <div class="bubble-kr">고마워. 진짜 약속할게. 다음번엔 절대 안 늦을게.</div>
+      <div class="bubble-rom">Gomawo. Jinjja yaksokhalge. Daeumbeon-en jeoldae an neujeulge.</div>
+      <div class="bubble-fr">Merci. Je te le promets pour de vrai. La prochaine fois, je ne serai absolument pas en retard.</div>
+      <button class="bubble-audio" onclick="speak('고마워 진짜 약속할게 다음번엔 절대 안 늦을게',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bubble-row right">
+    <div class="avatar-circle av-ji">JW</div>
+    <div class="bubble">
+      <span class="speaker-name">Ji-woo (souriant)</span>
+      <div class="bubble-kr">알았어. 그래도 너 진짜 운 좋은 줄 알아. 나니까 화 풀린 거야.</div>
+      <div class="bubble-rom">Arasseo. Geuraedo neo jinjja un joeun jul ara. Nanikka hwa pullin geoya.</div>
+      <div class="bubble-fr">D'accord. Mais sache que t'as vraiment de la chance. C'est parce que c'est moi que je me calme.</div>
+      <button class="bubble-audio" onclick="speak('알았어 그래도 너 진짜 운 좋은 줄 알아 나니까 화 풀린 거야',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+  </div>
+
+  <h3>Vocabulaire de l'émotion</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">싸우다</td><td>ssauda</td><td>Se disputer</td></tr>
+      <tr><td class="ko">화해하다</td><td>hwahaehada</td><td>Se réconcilier</td></tr>
+      <tr><td class="ko">화가 나다</td><td>hwaga nada</td><td>Être en colère</td></tr>
+      <tr><td class="ko">화를 풀다</td><td>hwareul pulda</td><td>Se calmer / passer sa colère</td></tr>
+      <tr><td class="ko">미안하다</td><td>mianhada</td><td>Être désolé</td></tr>
+      <tr><td class="ko">일부러</td><td>ilbureo</td><td>Exprès</td></tr>
+      <tr><td class="ko">매번</td><td>maebeon</td><td>À chaque fois</td></tr>
+      <tr><td class="ko">미리</td><td>miri</td><td>À l'avance</td></tr>
+      <tr><td class="ko">연락하다</td><td>yeollakhada</td><td>Contacter / prévenir</td></tr>
+      <tr><td class="ko">약속하다</td><td>yaksokhada</td><td>Promettre / prendre RDV</td></tr>
+      <tr><td class="ko">절대</td><td>jeoldae</td><td>Absolument (avec négation)</td></tr>
+    </table>
+  </div>
+
+  <h3>La structure "-아/어서" en contexte</h3>
+  <div class="tip">
+    Min-ji utilise <strong>"-아/어서"</strong> deux fois pour expliquer ses raisons : <span class="ko">사고가 나서 늦었어</span> (parce qu'il y a eu un accident...), <span class="ko">배터리가 없어서 그랬어</span> (parce que ma batterie était vide...). Cette structure est essentielle en B1 pour donner des explications. Note : on ne peut pas l'utiliser avec un impératif ou une proposition. Pour ça, on utiliserait <span class="ko">-니까</span>.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +18 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c31',xp:18});else{if(typeof ksAddXP==='function')ksAddXP(18);if(typeof ksMarkDone==='function')ksMarkDone('ks_c31');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

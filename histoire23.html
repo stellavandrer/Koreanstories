@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Podcast — Le coréen naturel — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .story-hero{background:linear-gradient(135deg,#1e1b4b,#7c3aed);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center;position:relative;overflow:hidden}
+    .story-hero::before{content:'';position:absolute;top:50%;right:25px;transform:translateY(-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.1)}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#e9d5ff;margin-bottom:.4rem;position:relative}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem;position:relative}
+    .story-sub{font-size:.85rem;opacity:.85;position:relative}
+
+    .podcast-meta{display:flex;gap:.7rem;align-items:center;background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.7rem 1rem;margin:.8rem 0;font-size:.85rem}
+    .pod-icon{width:38px;height:38px;border-radius:10px;background:rgba(124,58,237,.13);color:#7C3AED;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .pod-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+    .pod-info strong{display:block;color:var(--tx)}
+    .pod-info span{color:var(--tx-muted);font-size:.78rem}
+
+    .segment{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0}
+    .seg-time{font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7C3AED;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem}
+    .seg-time .dot{width:6px;height:6px;border-radius:50%;background:#7C3AED}
+
+    .bubble{padding:.8rem 1rem;border-radius:14px;background:rgba(124,58,237,.06);border:1px solid rgba(124,58,237,.2);margin:.5rem 0}
+    .bubble-kr{font-weight:600;color:var(--navy);font-size:.95rem;line-height:1.6}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.3rem}
+    .bubble-fr{font-size:.84rem;color:var(--tx-muted);margin-top:.4rem;padding-top:.4rem;border-top:1px dashed rgba(0,0,0,.08);line-height:1.55}
+    .bubble-audio{background:rgba(124,58,237,.10);border:1.5px solid rgba(124,58,237,.3);border-radius:50%;width:30px;height:30px;cursor:pointer;color:#7C3AED;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    .bubble-audio svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+
+    .note{background:rgba(245,158,11,.07);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.82rem;margin:.5rem 0;line-height:1.6}
+    .note strong{color:#D97706}
+
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#7C3AED;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Podcast — Coréen naturel</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Podcast simulé — Le coréen naturel</h2>
+  <span class="pill">B2 · Histoire</span> <span class="xp-badge">+20 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native. Podcast fictif créé pour l'apprentissage.</div>
+
+  <div class="story-hero">
+    <div class="story-tag">Podcast · Épisode #14 · 12 min</div>
+    <div class="story-title">우리, 진짜 한국 사람일까?</div>
+    <div class="story-sub">"Sommes-nous vraiment coréens ?" — une réflexion sur l'identité coréenne post-Hallyu. Débit naturel, fillers, pauses. Le vrai coréen tel qu'on l'entend dans la rue.</div>
+  </div>
+
+  <div class="podcast-meta">
+    <div class="pod-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+    </div>
+    <div class="pod-info">
+      <strong>오늘의 한국 — Korea Today</strong>
+      <span>Hôte : Hyejin · Diffusion : Mercredi 8h</span>
+    </div>
+  </div>
+
+  <h3>Segment 1 — Introduction</h3>
+  <div class="segment">
+    <div class="seg-time"><span class="dot"></span>00:00 — 02:15</div>
+    <div class="bubble">
+      <div class="bubble-kr">안녕하세요, 여러분! 오늘의 한국, 14번째 에피소드입니다. 어… 오늘은 좀 어려운 얘기를 해볼까 해요. 바로 우리, 한국 사람이라는 게 뭔지에 대해서요.</div>
+      <div class="bubble-rom">Annyeonghaseyo, yeoreobun! Oneul-ui hanguk, sipsa-beonjjae episodeu-imnida. Eo… oneur-eun jom eoryeoun yaegi-reul haebolkka haeyo. Baro uri, hanguk saram-iraneun ge mwoji-e daehaeseoyo.</div>
+      <div class="bubble-fr">Bonjour à toutes et tous ! Voici "La Corée aujourd'hui", épisode 14. Euh… aujourd'hui je vais aborder un sujet un peu difficile. Justement, ce que ça veut dire d'être Coréen.</div>
+      <button class="bubble-audio" onclick="speak('안녕하세요 여러분 오늘의 한국 14번째 에피소드입니다',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+    <div class="note"><strong>Détails de débit naturel :</strong> "어…" (euh…) = filler de réflexion. "~할까 해요" = "je pense que je vais ~". "바로" en début de phrase introduit l'objet précis du sujet.</div>
+  </div>
+
+  <h3>Segment 2 — Le constat</h3>
+  <div class="segment">
+    <div class="seg-time"><span class="dot"></span>02:15 — 05:40</div>
+    <div class="bubble">
+      <div class="bubble-kr">요즘 BTS, 블랙핑크, 오징어 게임 덕분에 전 세계가 한국에 관심이 많아졌잖아요. 근데 막상 한국에 살고 있는 우리는… 그냥 평범하게 살고 있거든요? 외국 친구가 "한국 진짜 멋있다!" 하면 솔직히 좀 어색해요.</div>
+      <div class="bubble-rom">Yojeum BTS, Blackpink, Ojingeo geim deokbune jeon segye-ga hanguk-e gwansim-i manhajyeotjanayo. Geunde maksang hanguk-e salgo inneun uri-neun… geunyang pyeongbeomhage salgo itgeodeunyo? Oeguk chingu-ga "Hanguk jinjja meositda!" hamyeon soljikhi jom eosaekhaeyo.</div>
+      <div class="bubble-fr">Ces temps-ci, grâce à BTS, Blackpink, Squid Game, le monde entier s'intéresse à la Corée, n'est-ce pas. Mais en fait, nous qui vivons en Corée… on vit juste normalement. Quand un ami étranger dit "la Corée c'est trop cool !", honnêtement, c'est un peu bizarre.</div>
+      <button class="bubble-audio" onclick="speak('요즘 BTS 블랙핑크 오징어 게임 덕분에 전 세계가 한국에 관심이 많아졌잖아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+    <div class="note"><strong>Particules de B2 :</strong> "-잖아요" = "comme tu sais / n'est-ce pas". "-거든요" = explication. "막상" = "en fait / quand on y vient". "솔직히" = "honnêtement". À utiliser pour sonner naturel.</div>
+  </div>
+
+  <h3>Segment 3 — Anecdote personnelle</h3>
+  <div class="segment">
+    <div class="seg-time"><span class="dot"></span>05:40 — 08:20</div>
+    <div class="bubble">
+      <div class="bubble-kr">제가 작년에 파리에 갔을 때 일인데요. 카페에서 한 프랑스 분이 저한테 "한국 분이세요?" 그러시는 거예요. 네, 라고 했더니 갑자기 한국말로 "안녕하세요!" 하시더라고요. 그 순간 정말 묘했어요. 자랑스럽기도 하고, 동시에 부담스럽기도 하고.</div>
+      <div class="bubble-rom">Jega jangnyeon-e pari-e gasseul ttae il-indeyo. Kape-eseo han peurangseu bun-i jeohante "Hanguk bun-iseyo?" geureosineun geo-yeyo. Ne, rago haetdeoni gapjagi hangung-mal-lo "Annyeonghaseyo!" hasideoragoyo. Geu sungan jeongmal myohaesseoyo. Jarangseureopgi-do hago, dongsie budamseureopgi-do hago.</div>
+      <div class="bubble-fr">Une chose qui m'est arrivée à Paris l'année dernière. Dans un café, un Français m'a demandé "Vous êtes Coréenne ?". Quand j'ai dit oui, soudain il m'a sorti "Bonjour !" en coréen. À cet instant, c'était vraiment étrange. À la fois fier, et en même temps un peu lourd.</div>
+      <button class="bubble-audio" onclick="speak('제가 작년에 파리에 갔을 때 일인데요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+    <div class="note"><strong>Structures B2 clés :</strong> "-(으)ㄴ/는데요" = soft introduction d'anecdote. "-더라고요" = je l'ai vécu / c'est arrivé. "-기도 하고 -기도 하다" = à la fois X et Y. Ces structures différencient un B1 d'un B2.</div>
+  </div>
+
+  <h3>Segment 4 — La conclusion</h3>
+  <div class="segment">
+    <div class="seg-time"><span class="dot"></span>08:20 — 12:00</div>
+    <div class="bubble">
+      <div class="bubble-kr">한국 사람이라는 게, 이제는 단순히 김치를 먹고 한국어를 쓰는 거에서 그치지 않는 것 같아요. 우리는 K-컬처라는 큰 그림자 안에서 살고 있고요. 그 그림자가 너무 빛나서, 우리 자신을 잘 못 볼 때도 있어요. 그래도 저는… 그게 나쁘지만은 않다고 생각해요. 어떻게 보세요, 여러분?</div>
+      <div class="bubble-rom">Hanguk saram-iraneun ge, ijeneun dansunhi gimchi-reul meokgo hangug-eo-reul sseuneun geo-eseo geuchiji anneun geot gatayo. Uri-neun K-keulcheo-raneun keun geurimja ane-seo salgo itgoyo. Geu geurimja-ga neomu binnaseo, uri jasin-eul jal mot bol ttae-do isseoyo. Geuraedo jeoneun… geuge nappeu-jiman-eun anhdago saenggakhaeyo. Eotteoke boseyo, yeoreobun ?</div>
+      <div class="bubble-fr">Être Coréen, je crois que ça ne se limite plus simplement à manger du kimchi et parler coréen. On vit dans la grande ombre de la K-culture. Cette ombre brille tellement que parfois on a du mal à se voir nous-mêmes. Mais je pense que… ce n'est pas seulement mauvais. Et vous, qu'en pensez-vous ?</div>
+      <button class="bubble-audio" onclick="speak('한국 사람이라는 게 이제는 단순히 김치를 먹고 한국어를 쓰는 거에서 그치지 않는 것 같아요',this)"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+    </div>
+    <div class="note"><strong>Réflexion linguistique :</strong> "-이라는 게" = "le fait d'être ~". "그치지 않다" = ne pas s'arrêter là. "-지만은 않다" = "n'est pas seulement…". Conclusion typique de podcast intellectuel coréen — réflexion ouverte avec question à l'audience.</div>
+  </div>
+
+  <h3>Vocabulaire du discours naturel</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">덕분에</td><td>deokbune</td><td>Grâce à</td></tr>
+      <tr><td class="ko">막상</td><td>maksang</td><td>En fait / quand on y vient</td></tr>
+      <tr><td class="ko">솔직히</td><td>soljikhi</td><td>Honnêtement</td></tr>
+      <tr><td class="ko">어색하다</td><td>eosaekhada</td><td>Être bizarre / mal à l'aise</td></tr>
+      <tr><td class="ko">자랑스럽다</td><td>jarangseureopda</td><td>Être fier</td></tr>
+      <tr><td class="ko">부담스럽다</td><td>budamseureopda</td><td>Être pesant / lourd</td></tr>
+      <tr><td class="ko">묘하다</td><td>myohada</td><td>Être étrange / subtil</td></tr>
+      <tr><td class="ko">그치지 않다</td><td>geuchiji anhda</td><td>Ne pas s'arrêter là</td></tr>
+      <tr><td class="ko">그림자</td><td>geurimja</td><td>Ombre</td></tr>
+      <tr><td class="ko">빛나다</td><td>binnada</td><td>Briller</td></tr>
+      <tr><td class="ko">~잖아요</td><td>-janayo</td><td>"comme tu sais" (familier)</td></tr>
+      <tr><td class="ko">~거든요</td><td>-geodeunyo</td><td>"c'est que…"</td></tr>
+      <tr><td class="ko">~더라고요</td><td>-deoragoyo</td><td>"je l'ai constaté"</td></tr>
+    </table>
+  </div>
+
+  <h3>Stratégie d'écoute B2</h3>
+  <div class="tip">
+    Un podcast natif débite à <strong>~250 syllabes/minute</strong>. Au B2, vise <strong>80%</strong> de compréhension passive. Conseil : écoute d'abord SANS regarder la transcription. Puis avec. Puis encore sans. Cette méthode "blind-guided-blind" entraîne l'oreille à <em>prédire</em> au lieu de juste <em>traduire</em>. Podcasts coréens recommandés à ton niveau : <strong>KBS Cool FM</strong>, <strong>이동진의 빨간 책방</strong>, <strong>듣똑라</strong>.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d23',xp:20});else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_d23');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
