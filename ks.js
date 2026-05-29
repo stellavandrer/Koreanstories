@@ -725,4 +725,14 @@ document.addEventListener('DOMContentLoaded', () => {
     s.defer = true;
     document.head.appendChild(s);
   })();
+
+  /* Charge le mode lecture immersive (pour les histoires) */
+  (function(){
+    if (document.getElementById('ks-immersive-reader-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-immersive-reader-script';
+    s.src = 'ks-immersive-reader.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
 });
