@@ -273,9 +273,12 @@
     if (lookup) {
       var entry = lookup.entry;
       var matched = lookup.matched;
-      var particleNote = lookup.particle
-        ? '<div class="ks-tt-note">+ particule « ' + escapeHtml(lookup.particle) + ' »</div>'
-        : '';
+      var particleNote = '';
+      if (lookup.particle) {
+        particleNote = '<div class="ks-tt-note">+ particule « ' + escapeHtml(lookup.particle) + ' »</div>';
+      } else if (lookup.conjugation) {
+        particleNote = '<div class="ks-tt-note">forme conjuguée (-' + escapeHtml(lookup.conjugation) + ')</div>';
+      }
       var alreadySaved = isSaved(matched);
       pop.innerHTML =
         '<div class="ks-tt-head">' +

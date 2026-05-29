@@ -351,7 +351,388 @@
     '에게': { fr: 'à (qqn)', rom: 'ege', pos: 'part' },
     '한테': { fr: 'à (qqn) informel', rom: 'hante', pos: 'part' },
     '부터': { fr: 'depuis', rom: 'buteo', pos: 'part' },
-    '까지': { fr: 'jusqu\'à', rom: 'kkaji', pos: 'part' }
+    '까지': { fr: 'jusqu\'à', rom: 'kkaji', pos: 'part' },
+
+    /* === CONNECTEURS & CONJONCTIONS === */
+    '그리고': { fr: 'et / ensuite', rom: 'geurigo', pos: 'conj' },
+    '그래서': { fr: "c'est pourquoi / alors", rom: 'geuraeseo', pos: 'conj' },
+    '그런데': { fr: 'mais / d\'ailleurs', rom: 'geureonde', pos: 'conj' },
+    '그러나': { fr: 'cependant (formel)', rom: 'geureona', pos: 'conj' },
+    '하지만': { fr: 'mais', rom: 'hajiman', pos: 'conj' },
+    '그러면': { fr: 'alors / dans ce cas', rom: 'geureomyeon', pos: 'conj' },
+    '그럼': { fr: 'alors (forme courte)', rom: 'geureom', pos: 'conj' },
+    '왜냐하면': { fr: 'parce que', rom: 'waenyahamyeon', pos: 'conj' },
+    '그러니까': { fr: "c'est pourquoi (informel)", rom: 'geureonikka', pos: 'conj' },
+    '또': { fr: 'encore / aussi', rom: 'tto', pos: 'conj' },
+    '또는': { fr: 'ou', rom: 'ttoneun', pos: 'conj' },
+    '또한': { fr: 'de plus / aussi', rom: 'ttohan', pos: 'conj' },
+    '그리고는': { fr: 'puis ensuite', rom: 'geurigoneun', pos: 'conj' },
+    '게다가': { fr: 'en plus / de surcroît', rom: 'gedaga', pos: 'conj' },
+    '따라서': { fr: 'par conséquent', rom: 'ttaraseo', pos: 'conj' },
+    '즉': { fr: 'c\'est-à-dire', rom: 'jeuk', pos: 'conj' },
+    '반면에': { fr: 'en revanche', rom: 'banmyeone', pos: 'conj' },
+    '한편': { fr: "d'autre part", rom: 'hanpyeon', pos: 'conj' },
+
+    /* === CORPS & SANTÉ === */
+    '몸': { fr: 'corps', rom: 'mom', pos: 'nom' },
+    '머리': { fr: 'tête / cheveux', rom: 'meori', pos: 'nom' },
+    '얼굴': { fr: 'visage', rom: 'eolgul', pos: 'nom' },
+    '코': { fr: 'nez', rom: 'ko', pos: 'nom' },
+    '입': { fr: 'bouche', rom: 'ip', pos: 'nom' },
+    '귀': { fr: 'oreille', rom: 'gwi', pos: 'nom' },
+    '이': { fr: 'dent', rom: 'i', pos: 'nom' },
+    '혀': { fr: 'langue', rom: 'hyeo', pos: 'nom' },
+    '목': { fr: 'cou / gorge', rom: 'mok', pos: 'nom' },
+    '어깨': { fr: 'épaule', rom: 'eokkae', pos: 'nom' },
+    '팔': { fr: 'bras', rom: 'pal', pos: 'nom' },
+    '손': { fr: 'main', rom: 'son', pos: 'nom' },
+    '손가락': { fr: 'doigt', rom: 'songarak', pos: 'nom' },
+    '다리': { fr: 'jambe', rom: 'dari', pos: 'nom' },
+    '발': { fr: 'pied', rom: 'bal', pos: 'nom' },
+    '발가락': { fr: 'orteil', rom: 'balgarak', pos: 'nom' },
+    '배': { fr: 'ventre / bateau / poire', rom: 'bae', pos: 'nom' },
+    '등': { fr: 'dos', rom: 'deung', pos: 'nom' },
+    '심장': { fr: 'cœur (organe)', rom: 'simjang', pos: 'nom' },
+    '아프다': { fr: 'avoir mal / être malade', rom: 'apeuda', pos: 'adj' },
+    '아파요': { fr: "j'ai mal", rom: 'apayo', pos: 'expr' },
+    '감기': { fr: 'rhume', rom: 'gamgi', pos: 'nom' },
+    '열': { fr: 'fièvre / dix (natif)', rom: 'yeol', pos: 'nom' },
+    '의사': { fr: 'médecin', rom: 'uisa', pos: 'nom' },
+    '간호사': { fr: 'infirmier(ère)', rom: 'ganhosa', pos: 'nom' },
+    '약': { fr: 'médicament', rom: 'yak', pos: 'nom' },
+    '건강': { fr: 'santé', rom: 'geongang', pos: 'nom' },
+    '건강하다': { fr: 'être en bonne santé', rom: 'geonganghada', pos: 'adj' },
+
+    /* === VÊTEMENTS & MODE === */
+    '옷': { fr: 'vêtement', rom: 'ot', pos: 'nom' },
+    '바지': { fr: 'pantalon', rom: 'baji', pos: 'nom' },
+    '치마': { fr: 'jupe', rom: 'chima', pos: 'nom' },
+    '셔츠': { fr: 'chemise', rom: 'syeocheu', pos: 'nom' },
+    '티셔츠': { fr: 't-shirt', rom: 'tisyeocheu', pos: 'nom' },
+    '재킷': { fr: 'veste', rom: 'jaekit', pos: 'nom' },
+    '코트': { fr: 'manteau', rom: 'koteu', pos: 'nom' },
+    '신발': { fr: 'chaussures', rom: 'sinbal', pos: 'nom' },
+    '운동화': { fr: 'baskets', rom: 'undonghwa', pos: 'nom' },
+    '구두': { fr: 'chaussures habillées', rom: 'gudu', pos: 'nom' },
+    '양말': { fr: 'chaussettes', rom: 'yangmal', pos: 'nom' },
+    '모자': { fr: 'chapeau / casquette', rom: 'moja', pos: 'nom' },
+    '가방': { fr: 'sac', rom: 'gabang', pos: 'nom' },
+    '안경': { fr: 'lunettes', rom: 'angyeong', pos: 'nom' },
+    '시계': { fr: 'montre / horloge', rom: 'sigye', pos: 'nom' },
+    '한복': { fr: 'hanbok (tenue traditionnelle)', rom: 'hanbok', pos: 'nom' },
+    '입다': { fr: 'porter / mettre (vêt.)', rom: 'ipda', pos: 'verbe' },
+    '벗다': { fr: 'enlever (vêt.)', rom: 'beotda', pos: 'verbe' },
+
+    /* === TRANSPORTS === */
+    '버스': { fr: 'bus', rom: 'beoseu', pos: 'nom' },
+    '지하철': { fr: 'métro', rom: 'jihacheol', pos: 'nom' },
+    '택시': { fr: 'taxi', rom: 'taeksi', pos: 'nom' },
+    '비행기': { fr: 'avion', rom: 'bihaenggi', pos: 'nom' },
+    '기차': { fr: 'train', rom: 'gicha', pos: 'nom' },
+    '자전거': { fr: 'vélo', rom: 'jajeongeo', pos: 'nom' },
+    '오토바이': { fr: 'moto', rom: 'otobai', pos: 'nom' },
+    '배': { fr: 'bateau / ventre / poire', rom: 'bae', pos: 'nom' },
+    '길': { fr: 'chemin / rue', rom: 'gil', pos: 'nom' },
+    '거리': { fr: 'rue / distance', rom: 'geori', pos: 'nom' },
+    '신호등': { fr: 'feu tricolore', rom: 'sinhodeung', pos: 'nom' },
+    '횡단보도': { fr: 'passage piéton', rom: 'hoengdanbodo', pos: 'nom' },
+
+    /* === NATURE & ANIMAUX === */
+    '산': { fr: 'montagne', rom: 'san', pos: 'nom' },
+    '바다': { fr: 'mer', rom: 'bada', pos: 'nom' },
+    '강': { fr: 'fleuve / rivière', rom: 'gang', pos: 'nom' },
+    '호수': { fr: 'lac', rom: 'hosu', pos: 'nom' },
+    '섬': { fr: 'île', rom: 'seom', pos: 'nom' },
+    '나무': { fr: 'arbre', rom: 'namu', pos: 'nom' },
+    '꽃': { fr: 'fleur', rom: 'kkot', pos: 'nom' },
+    '풀': { fr: 'herbe', rom: 'pul', pos: 'nom' },
+    '잎': { fr: 'feuille', rom: 'ip', pos: 'nom' },
+    '별': { fr: 'étoile', rom: 'byeol', pos: 'nom' },
+    '달': { fr: 'lune / mois (natif)', rom: 'dal', pos: 'nom' },
+    '땅': { fr: 'terre / sol', rom: 'ttang', pos: 'nom' },
+    '돌': { fr: 'pierre', rom: 'dol', pos: 'nom' },
+    '동물': { fr: 'animal', rom: 'dongmul', pos: 'nom' },
+    '개': { fr: 'chien', rom: 'gae', pos: 'nom' },
+    '강아지': { fr: 'chiot', rom: 'gangaji', pos: 'nom' },
+    '고양이': { fr: 'chat', rom: 'goyangi', pos: 'nom' },
+    '새': { fr: 'oiseau', rom: 'sae', pos: 'nom' },
+    '물고기': { fr: 'poisson (vivant)', rom: 'mulgogi', pos: 'nom' },
+    '생선': { fr: 'poisson (à manger)', rom: 'saengseon', pos: 'nom' },
+    '말': { fr: 'cheval / parole', rom: 'mal', pos: 'nom' },
+    '소': { fr: 'vache', rom: 'so', pos: 'nom' },
+    '돼지': { fr: 'cochon', rom: 'dwaeji', pos: 'nom' },
+    '닭': { fr: 'poule', rom: 'dak', pos: 'nom' },
+    '토끼': { fr: 'lapin', rom: 'tokki', pos: 'nom' },
+    '호랑이': { fr: 'tigre', rom: 'horangi', pos: 'nom' },
+    '곰': { fr: 'ours', rom: 'gom', pos: 'nom' },
+
+    /* === TECH & VIE MODERNE === */
+    '핸드폰': { fr: 'téléphone portable', rom: 'haendeupon', pos: 'nom' },
+    '휴대폰': { fr: 'portable (formel)', rom: 'hyudaepon', pos: 'nom' },
+    '컴퓨터': { fr: 'ordinateur', rom: 'kompyuteo', pos: 'nom' },
+    '노트북': { fr: 'ordinateur portable', rom: 'noteubuk', pos: 'nom' },
+    '인터넷': { fr: 'internet', rom: 'inteonet', pos: 'nom' },
+    '이메일': { fr: 'email', rom: 'imeil', pos: 'nom' },
+    '비밀번호': { fr: 'mot de passe', rom: 'bimilbeonho', pos: 'nom' },
+    '사진': { fr: 'photo', rom: 'sajin', pos: 'nom' },
+    '동영상': { fr: 'vidéo', rom: 'dongyeongsang', pos: 'nom' },
+    '음악': { fr: 'musique', rom: 'eumak', pos: 'nom' },
+    '영화': { fr: 'film', rom: 'yeonghwa', pos: 'nom' },
+    '책': { fr: 'livre', rom: 'chaek', pos: 'nom' },
+    '신문': { fr: 'journal', rom: 'sinmun', pos: 'nom' },
+    '잡지': { fr: 'magazine', rom: 'japji', pos: 'nom' },
+    '텔레비전': { fr: 'télévision', rom: 'tellebijeon', pos: 'nom' },
+    '뉴스': { fr: 'actualités', rom: 'nyuseu', pos: 'nom' },
+
+    /* === ÉTUDES & TRAVAIL === */
+    '학생': { fr: 'élève / étudiant', rom: 'haksaeng', pos: 'nom' },
+    '선생님': { fr: 'professeur / enseignant', rom: 'seonsaengnim', pos: 'nom' },
+    '교수': { fr: 'professeur (univ.)', rom: 'gyosu', pos: 'nom' },
+    '대학교': { fr: 'université', rom: 'daehakgyo', pos: 'nom' },
+    '초등학교': { fr: 'école primaire', rom: 'chodeunghakgyo', pos: 'nom' },
+    '중학교': { fr: 'collège', rom: 'junghakgyo', pos: 'nom' },
+    '고등학교': { fr: 'lycée', rom: 'godeunghakgyo', pos: 'nom' },
+    '시험': { fr: 'examen / épreuve', rom: 'siheom', pos: 'nom' },
+    '숙제': { fr: 'devoir', rom: 'sukje', pos: 'nom' },
+    '수업': { fr: 'cours', rom: 'sueop', pos: 'nom' },
+    '교실': { fr: 'salle de classe', rom: 'gyosil', pos: 'nom' },
+    '학년': { fr: 'année scolaire', rom: 'hangnyeon', pos: 'nom' },
+    '직업': { fr: 'métier', rom: 'jigeop', pos: 'nom' },
+    '일자리': { fr: 'emploi', rom: 'iljari', pos: 'nom' },
+    '사장': { fr: 'patron / PDG', rom: 'sajang', pos: 'nom' },
+    '팀장': { fr: 'chef d\'équipe', rom: 'timjang', pos: 'nom' },
+    '선배': { fr: 'aîné·e (école/boulot)', rom: 'seonbae', pos: 'nom' },
+    '후배': { fr: 'cadet·te (école/boulot)', rom: 'hubae', pos: 'nom' },
+    '동료': { fr: 'collègue', rom: 'dongnyo', pos: 'nom' },
+    '회의': { fr: 'réunion', rom: 'hoeui', pos: 'nom' },
+
+    /* === ARGENT & SHOPPING === */
+    '돈': { fr: 'argent', rom: 'don', pos: 'nom' },
+    '원': { fr: 'won (monnaie)', rom: 'won', pos: 'nom' },
+    '카드': { fr: 'carte (bancaire)', rom: 'kadeu', pos: 'nom' },
+    '현금': { fr: 'liquide', rom: 'hyeongeum', pos: 'nom' },
+    '값': { fr: 'prix', rom: 'gap', pos: 'nom' },
+    '가격': { fr: 'prix (formel)', rom: 'gagyeok', pos: 'nom' },
+    '세일': { fr: 'soldes', rom: 'seil', pos: 'nom' },
+    '할인': { fr: 'réduction', rom: 'harin', pos: 'nom' },
+    '쇼핑': { fr: 'shopping', rom: 'syoping', pos: 'nom' },
+    '주문': { fr: 'commande', rom: 'jumun', pos: 'nom' },
+    '주문하다': { fr: 'commander', rom: 'jumunhada', pos: 'verbe' },
+    '계산하다': { fr: 'payer / calculer', rom: 'gyesanhada', pos: 'verbe' },
+
+    /* === K-POP & CULTURE === */
+    '노래': { fr: 'chanson', rom: 'norae', pos: 'nom' },
+    '가수': { fr: 'chanteur(se)', rom: 'gasu', pos: 'nom' },
+    '춤': { fr: 'danse', rom: 'chum', pos: 'nom' },
+    '춤추다': { fr: 'danser', rom: 'chumchuda', pos: 'verbe' },
+    '콘서트': { fr: 'concert', rom: 'konseoteu', pos: 'nom' },
+    '팬': { fr: 'fan', rom: 'paen', pos: 'nom' },
+    '아이돌': { fr: 'idol', rom: 'aidol', pos: 'nom' },
+    '드라마': { fr: 'série / drama', rom: 'deurama', pos: 'nom' },
+    '영화관': { fr: 'cinéma (salle)', rom: 'yeonghwagwan', pos: 'nom' },
+    '배우': { fr: 'acteur(rice)', rom: 'baeu', pos: 'nom' },
+    '한류': { fr: 'Hallyu (vague coréenne)', rom: 'hallyu', pos: 'nom' },
+    '문화': { fr: 'culture', rom: 'munhwa', pos: 'nom' },
+    '전통': { fr: 'tradition', rom: 'jeontong', pos: 'nom' },
+    '역사': { fr: 'histoire (discipline)', rom: 'yeoksa', pos: 'nom' },
+
+    /* === ADVERBES & QUANTIFICATEURS === */
+    '모두': { fr: 'tout / tous', rom: 'modu', pos: 'pron' },
+    '전부': { fr: 'tout / entièrement', rom: 'jeonbu', pos: 'pron' },
+    '몇몇': { fr: 'quelques-uns', rom: 'myeotmyeot', pos: 'pron' },
+    '아무도': { fr: 'personne', rom: 'amudo', pos: 'pron' },
+    '아무것도': { fr: 'rien', rom: 'amugeotdo', pos: 'pron' },
+    '여기': { fr: 'ici', rom: 'yeogi', pos: 'adv' },
+    '저기': { fr: 'là-bas', rom: 'jeogi', pos: 'adv' },
+    '거기': { fr: 'là (près de toi)', rom: 'geogi', pos: 'adv' },
+    '이쪽': { fr: 'par ici', rom: 'ijjok', pos: 'adv' },
+    '저쪽': { fr: 'par là-bas', rom: 'jeojjok', pos: 'adv' },
+    '앞': { fr: 'devant', rom: 'ap', pos: 'nom' },
+    '뒤': { fr: 'derrière', rom: 'dwi', pos: 'nom' },
+    '위': { fr: 'sur / au-dessus', rom: 'wi', pos: 'nom' },
+    '아래': { fr: 'sous / en-dessous', rom: 'arae', pos: 'nom' },
+    '밑': { fr: 'sous', rom: 'mit', pos: 'nom' },
+    '옆': { fr: 'à côté', rom: 'yeop', pos: 'nom' },
+    '왼쪽': { fr: 'gauche', rom: 'oenjjok', pos: 'nom' },
+    '오른쪽': { fr: 'droite', rom: 'oreunjjok', pos: 'nom' },
+    '안': { fr: 'dedans / ne pas (volonté)', rom: 'an', pos: 'nom' },
+    '밖': { fr: 'dehors', rom: 'bak', pos: 'nom' },
+    '사이': { fr: 'entre', rom: 'sai', pos: 'nom' },
+    '근처': { fr: 'près de', rom: 'geuncheo', pos: 'nom' },
+    '먼저': { fr: 'd\'abord', rom: 'meonjeo', pos: 'adv' },
+    '다음': { fr: 'suivant / après', rom: 'daeum', pos: 'nom' },
+    '마지막': { fr: 'dernier', rom: 'majimak', pos: 'nom' },
+    '처음': { fr: 'début / pour la 1ère fois', rom: 'cheoeum', pos: 'nom' },
+    '진짜': { fr: 'vraiment', rom: 'jinjja', pos: 'adv' },
+    '정말': { fr: 'vraiment (poli)', rom: 'jeongmal', pos: 'adv' },
+    '아마': { fr: 'peut-être', rom: 'ama', pos: 'adv' },
+    '꼭': { fr: 'absolument / forcément', rom: 'kkok', pos: 'adv' },
+    '바로': { fr: 'tout de suite / juste', rom: 'baro', pos: 'adv' },
+
+    /* === VERBES CONJUGUÉS COURANTS (les plus rencontrés en lecture) === */
+    /* 가다 → */
+    '가요': { fr: '(je) vais', rom: 'gayo', pos: 'verbe' },
+    '갔어요': { fr: '(je) suis allé', rom: 'gasseoyo', pos: 'verbe' },
+    '갈 거예요': { fr: '(je) vais aller', rom: 'gal geoyeyo', pos: 'verbe' },
+    '가세요': { fr: 'va / allez (poli)', rom: 'gaseyo', pos: 'verbe' },
+    '갑니다': { fr: '(je) vais (formel)', rom: 'gamnida', pos: 'verbe' },
+    /* 오다 → */
+    '와요': { fr: '(je) viens', rom: 'wayo', pos: 'verbe' },
+    '왔어요': { fr: '(je) suis venu', rom: 'wasseoyo', pos: 'verbe' },
+    '올 거예요': { fr: '(je) vais venir', rom: 'ol geoyeyo', pos: 'verbe' },
+    '오세요': { fr: 'viens / venez (poli)', rom: 'oseyo', pos: 'verbe' },
+    /* 먹다 → */
+    '먹어요': { fr: '(je) mange', rom: 'meogeoyo', pos: 'verbe' },
+    '먹었어요': { fr: '(j\'ai) mangé', rom: 'meogeosseoyo', pos: 'verbe' },
+    '먹을 거예요': { fr: '(je) vais manger', rom: 'meogeul geoyeyo', pos: 'verbe' },
+    '먹습니다': { fr: '(je) mange (formel)', rom: 'meokseumnida', pos: 'verbe' },
+    /* 마시다 → */
+    '마셔요': { fr: '(je) bois', rom: 'masyeoyo', pos: 'verbe' },
+    '마셨어요': { fr: '(j\'ai) bu', rom: 'masyeosseoyo', pos: 'verbe' },
+    /* 보다 → */
+    '봐요': { fr: '(je) vois / regarde', rom: 'bwayo', pos: 'verbe' },
+    '봤어요': { fr: '(j\'ai) vu / regardé', rom: 'bwasseoyo', pos: 'verbe' },
+    '볼 거예요': { fr: '(je) vais voir', rom: 'bol geoyeyo', pos: 'verbe' },
+    /* 하다 → */
+    '해요': { fr: '(je) fais', rom: 'haeyo', pos: 'verbe' },
+    '했어요': { fr: '(j\'ai) fait', rom: 'haesseoyo', pos: 'verbe' },
+    '할 거예요': { fr: '(je) vais faire', rom: 'hal geoyeyo', pos: 'verbe' },
+    '하세요': { fr: 'fais / faites (poli)', rom: 'haseyo', pos: 'verbe' },
+    /* 있다 → */
+    '있었어요': { fr: 'il y avait / j\'avais', rom: 'isseosseoyo', pos: 'verbe' },
+    '있어': { fr: 'il y a (informel)', rom: 'isseo', pos: 'verbe' },
+    /* 없다 → */
+    '없었어요': { fr: 'il n\'y avait pas', rom: 'eopseosseoyo', pos: 'verbe' },
+    /* 이다 → */
+    '이에요': { fr: '(c\') est', rom: 'ieyo', pos: 'verbe' },
+    '예요': { fr: '(c\') est', rom: 'yeyo', pos: 'verbe' },
+    '입니다': { fr: '(c\') est (formel)', rom: 'imnida', pos: 'verbe' },
+    /* 좋다 → */
+    '좋았어요': { fr: 'c\'était bien', rom: 'joasseoyo', pos: 'adj' },
+    /* 알다 → */
+    '알아': { fr: 'je sais (informel)', rom: 'ara', pos: 'verbe' },
+    /* 사랑하다 → */
+    '사랑해': { fr: "je t'aime (informel)", rom: 'saranghae', pos: 'verbe' },
+    '사랑했어요': { fr: 'j\'aimais', rom: 'saranghaesseoyo', pos: 'verbe' },
+    /* 공부하다 → */
+    '공부해요': { fr: 'j\'étudie', rom: 'gongbuhaeyo', pos: 'verbe' },
+    '공부했어요': { fr: 'j\'ai étudié', rom: 'gongbuhaesseoyo', pos: 'verbe' },
+    /* 만나다 → */
+    '만나요': { fr: 'je rencontre', rom: 'mannayo', pos: 'verbe' },
+    '만났어요': { fr: 'j\'ai rencontré', rom: 'mannasseoyo', pos: 'verbe' },
+    /* 살다 → */
+    '살아요': { fr: 'je vis / j\'habite', rom: 'sarayo', pos: 'verbe' },
+    /* 일하다 → */
+    '일해요': { fr: 'je travaille', rom: 'ilhaeyo', pos: 'verbe' },
+    /* 자다 → */
+    '자요': { fr: 'je dors', rom: 'jayo', pos: 'verbe' },
+    '잤어요': { fr: 'j\'ai dormi', rom: 'jasseoyo', pos: 'verbe' },
+    /* 가르치다 → */
+    '가르치다': { fr: 'enseigner', rom: 'gareuchida', pos: 'verbe' },
+    /* 배우다 → */
+    '배우다': { fr: 'apprendre', rom: 'baeuda', pos: 'verbe' },
+    '배워요': { fr: 'j\'apprends', rom: 'baewoyo', pos: 'verbe' },
+    /* Autres expressions hyper fréquentes */
+    '있잖아요': { fr: 'tu sais...', rom: 'itjanayo', pos: 'expr' },
+    '그렇죠': { fr: "c'est ça", rom: 'geureochyo', pos: 'expr' },
+    '그래요': { fr: 'd\'accord / vraiment', rom: 'geuraeyo', pos: 'expr' },
+    '진짜요': { fr: 'vraiment ?', rom: 'jinjjayo', pos: 'expr' },
+    '대박': { fr: 'incroyable / énorme (argot)', rom: 'daebak', pos: 'expr' },
+
+    /* === EMPLOI DU TEMPS & ACTIVITÉS === */
+    '약속': { fr: 'rendez-vous / promesse', rom: 'yaksok', pos: 'nom' },
+    '회식': { fr: 'dîner d\'entreprise', rom: 'hoesik', pos: 'nom' },
+    '여행': { fr: 'voyage', rom: 'yeohaeng', pos: 'nom' },
+    '여행하다': { fr: 'voyager', rom: 'yeohaenghada', pos: 'verbe' },
+    '취미': { fr: 'hobby', rom: 'chwimi', pos: 'nom' },
+    '운동': { fr: 'sport', rom: 'undong', pos: 'nom' },
+    '게임': { fr: 'jeu (vidéo)', rom: 'geim', pos: 'nom' },
+    '파티': { fr: 'fête', rom: 'pati', pos: 'nom' },
+    '생일': { fr: 'anniversaire', rom: 'saengil', pos: 'nom' },
+    '결혼': { fr: 'mariage', rom: 'gyeolhon', pos: 'nom' },
+    '결혼하다': { fr: 'se marier', rom: 'gyeolhonhada', pos: 'verbe' },
+
+    /* === FOOD complément === */
+    '치즈': { fr: 'fromage', rom: 'chijeu', pos: 'nom' },
+    '계란': { fr: 'œuf', rom: 'gyeran', pos: 'nom' },
+    '고기': { fr: 'viande', rom: 'gogi', pos: 'nom' },
+    '닭고기': { fr: 'poulet (viande)', rom: 'dakgogi', pos: 'nom' },
+    '소고기': { fr: 'bœuf', rom: 'sogogi', pos: 'nom' },
+    '돼지고기': { fr: 'porc', rom: 'dwaejigogi', pos: 'nom' },
+    '야채': { fr: 'légume', rom: 'yachae', pos: 'nom' },
+    '채소': { fr: 'légume (formel)', rom: 'chaeso', pos: 'nom' },
+    '양파': { fr: 'oignon', rom: 'yangpa', pos: 'nom' },
+    '마늘': { fr: 'ail', rom: 'maneul', pos: 'nom' },
+    '고추': { fr: 'piment', rom: 'gochu', pos: 'nom' },
+    '소금': { fr: 'sel', rom: 'sogeum', pos: 'nom' },
+    '설탕': { fr: 'sucre', rom: 'seoltang', pos: 'nom' },
+    '간장': { fr: 'sauce soja', rom: 'ganjang', pos: 'nom' },
+    '된장': { fr: 'pâte de soja fermentée', rom: 'doenjang', pos: 'nom' },
+    '고추장': { fr: 'pâte de piment', rom: 'gochujang', pos: 'nom' },
+    '식사': { fr: 'repas', rom: 'siksa', pos: 'nom' },
+    '아침밥': { fr: 'petit-déjeuner', rom: 'achimbap', pos: 'nom' },
+    '점심밥': { fr: 'déjeuner', rom: 'jeomsimbap', pos: 'nom' },
+    '저녁밥': { fr: 'dîner', rom: 'jeonyeokbap', pos: 'nom' },
+    '간식': { fr: 'snack / encas', rom: 'gansik', pos: 'nom' },
+
+    /* === EXPRESSIONS DE QUANTITÉ === */
+    '많아요': { fr: 'il y en a beaucoup', rom: 'manayo', pos: 'expr' },
+    '적어요': { fr: 'il y en a peu', rom: 'jeogeoyo', pos: 'expr' },
+    '커요': { fr: 'c\'est grand', rom: 'keoyo', pos: 'expr' },
+    '작아요': { fr: 'c\'est petit', rom: 'jagayo', pos: 'expr' },
+    '예뻐요': { fr: 'c\'est joli', rom: 'yeppeoyo', pos: 'expr' },
+    '귀여워요': { fr: 'c\'est mignon', rom: 'gwiyeowoyo', pos: 'expr' },
+    '비싸요': { fr: 'c\'est cher', rom: 'bissayo', pos: 'expr' },
+    '싸요': { fr: 'c\'est bon marché', rom: 'ssayo', pos: 'expr' },
+    '바빠요': { fr: 'je suis occupé', rom: 'bappayo', pos: 'expr' },
+    '피곤해요': { fr: 'je suis fatigué', rom: 'pigonhaeyo', pos: 'expr' },
+    '재밌어요': { fr: 'c\'est marrant', rom: 'jaemisseoyo', pos: 'expr' },
+
+    /* === MOTS DE LIAISON / ÉMOTIONNELS === */
+    '아': { fr: 'ah !', rom: 'a', pos: 'interj' },
+    '아이고': { fr: 'aïe ! / oh là là !', rom: 'aigo', pos: 'interj' },
+    '어머': { fr: 'oh ! (surprise)', rom: 'eomeo', pos: 'interj' },
+    '와': { fr: 'wow !', rom: 'wa', pos: 'interj' },
+    '글쎄요': { fr: 'eh bien...', rom: 'geulsseyo', pos: 'expr' },
+    '저기요': { fr: "excusez-moi (s'il vous plaît)", rom: 'jeogiyo', pos: 'expr' },
+    '여보세요': { fr: 'allô', rom: 'yeoboseyo', pos: 'expr' },
+
+    /* === SAVED FORMS — 좋다 etc. variants === */
+    '좋아': { fr: "c'est bien (informel)", rom: 'joa', pos: 'expr' },
+    '싫어': { fr: "je n'aime pas (informel)", rom: 'sireo', pos: 'expr' },
+
+    /* === MOTS B1+ courants en lecture === */
+    '생각': { fr: 'pensée', rom: 'saenggak', pos: 'nom' },
+    '생각하다': { fr: 'penser', rom: 'saenggakhada', pos: 'verbe' },
+    '생각해요': { fr: 'je pense', rom: 'saenggakhaeyo', pos: 'verbe' },
+    '의미': { fr: 'sens / signification', rom: 'uimi', pos: 'nom' },
+    '이유': { fr: 'raison', rom: 'iyu', pos: 'nom' },
+    '문제': { fr: 'problème', rom: 'munje', pos: 'nom' },
+    '방법': { fr: 'méthode', rom: 'bangbeop', pos: 'nom' },
+    '경우': { fr: 'cas', rom: 'gyeongu', pos: 'nom' },
+    '결과': { fr: 'résultat', rom: 'gyeolgwa', pos: 'nom' },
+    '필요': { fr: 'besoin', rom: 'piryo', pos: 'nom' },
+    '가능': { fr: 'possibilité', rom: 'ganeung', pos: 'nom' },
+    '관심': { fr: 'intérêt', rom: 'gwansim', pos: 'nom' },
+    '경험': { fr: 'expérience', rom: 'gyeongheom', pos: 'nom' },
+    '계획': { fr: 'plan', rom: 'gyehoek', pos: 'nom' },
+    '인생': { fr: 'vie / existence', rom: 'insaeng', pos: 'nom' },
+    '꿈': { fr: 'rêve', rom: 'kkum', pos: 'nom' },
+    '희망': { fr: 'espoir', rom: 'huimang', pos: 'nom' },
+    '걱정하다': { fr: 's\'inquiéter', rom: 'geokjeonghada', pos: 'verbe' },
+    '느끼다': { fr: 'sentir / ressentir', rom: 'neukkida', pos: 'verbe' },
+    '기억하다': { fr: 'se souvenir', rom: 'gieokhada', pos: 'verbe' },
+    '잊다': { fr: 'oublier', rom: 'itda', pos: 'verbe' },
+    '도와주다': { fr: 'aider', rom: 'dowajuda', pos: 'verbe' },
+    '도와주세요': { fr: 'aidez-moi', rom: 'dowajuseyo', pos: 'expr' },
+    '같다': { fr: 'être pareil', rom: 'gatda', pos: 'adj' },
+    '다르다': { fr: 'être différent', rom: 'dareuda', pos: 'adj' },
+    '쉬워요': { fr: "c'est facile", rom: 'swiwoyo', pos: 'expr' },
+    '어려워요': { fr: "c'est difficile", rom: 'eoryeowoyo', pos: 'expr' },
+    '새롭다': { fr: 'être nouveau', rom: 'saeropda', pos: 'adj' },
+    '낡다': { fr: 'être vieux (objet)', rom: 'nakda', pos: 'adj' },
+    '늙다': { fr: 'vieillir', rom: 'neukda', pos: 'verbe' },
+    '젊다': { fr: 'être jeune', rom: 'jeomda', pos: 'adj' }
   };
 
   /* ── Particules à retirer en fin de mot pour matcher la racine ── */
@@ -361,18 +742,56 @@
     '에','를','을','이','가','은','는','도','만','의','과','와','로','요'
   ];
 
+  /* ── Suffixes verbaux → on cherche la racine + 다 ───────────────
+     Ex : "먹었어요" → strip "었어요" → "먹" + "다" = "먹다" → match ! */
+  var VERB_SUFFIX_PATTERNS = [
+    /* Passé poli */
+    { strip: '었습니다', append: '다' },
+    { strip: '았습니다', append: '다' },
+    { strip: '였습니다', append: '다' },
+    { strip: '었어요', append: '다' },
+    { strip: '았어요', append: '다' },
+    { strip: '였어요', append: '다' },
+    /* Formel présent */
+    { strip: '습니다', append: '다' },
+    { strip: 'ㅂ니다', append: '다' },
+    /* Polite présent */
+    { strip: '어요', append: '다' },
+    { strip: '아요', append: '다' },
+    { strip: '여요', append: '다' },
+    /* Connectifs */
+    { strip: '지만', append: '다' },
+    { strip: '으면서', append: '다' },
+    { strip: '면서', append: '다' },
+    { strip: '으면', append: '다' },
+    { strip: '면', append: '다' },
+    { strip: '어서', append: '다' },
+    { strip: '아서', append: '다' },
+    /* Futur */
+    { strip: '을 거예요', append: '다' },
+    { strip: 'ㄹ 거예요', append: '다' },
+    { strip: '겠어요', append: '다' },
+    /* Honorifique */
+    { strip: '으세요', append: '다' },
+    { strip: '세요', append: '다' },
+    /* Volition */
+    { strip: '고 싶어요', append: '다' },
+    { strip: '고 싶다', append: '다' }
+  ];
+
   function lookup(word){
     if (!word) return null;
     return DICT[word] || null;
   }
 
   /* Lookup "flex" : si pas trouvé, on essaye en retirant les particules
-     attachées à la fin du mot. Ex : "학교에서" → "학교에" → "학교". */
+     ou en reconstruisant la forme verbale de base. */
   function lookupFlex(word){
     if (!word) return null;
     var exact = DICT[word];
     if (exact) return { entry: exact, matched: word };
-    /* Essaye chaque particule du plus long au plus court */
+
+    /* 1) Particules nominales (postpositions) */
     for (var i = 0; i < TRAILING_PARTICLES.length; i++) {
       var p = TRAILING_PARTICLES[i];
       if (word.length > p.length && word.endsWith(p)) {
@@ -382,7 +801,20 @@
         }
       }
     }
-    /* Essaye en retirant les dernières syllabes une à une (max 3) */
+
+    /* 2) Suffixes verbaux → cherche racine + 다 */
+    for (var k = 0; k < VERB_SUFFIX_PATTERNS.length; k++) {
+      var pat = VERB_SUFFIX_PATTERNS[k];
+      if (word.length > pat.strip.length && word.endsWith(pat.strip)) {
+        var stem = word.substring(0, word.length - pat.strip.length);
+        var verbRoot = stem + pat.append;
+        if (DICT[verbRoot]) {
+          return { entry: DICT[verbRoot], matched: verbRoot, conjugation: pat.strip };
+        }
+      }
+    }
+
+    /* 3) Fallback : retire les dernières syllabes une à une (max 3) */
     for (var n = 1; n <= 3 && n < word.length; n++) {
       var sub = word.substring(0, word.length - n);
       if (DICT[sub]) return { entry: DICT[sub], matched: sub };
