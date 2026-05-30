@@ -106,6 +106,7 @@
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script defer src="ks-sync.js"></script>
+<script defer src="ks-curriculum.js"></script>
 </head>
 <body>
 <nav class="bar print-hide"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Mon certificat</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
@@ -595,10 +596,37 @@ function shareCert() {
   });
 }
 
+/* ─── Célébration confetti à l'arrivée ───
+   Si l'utilisateur vient de franchir un palier (ks_milestone_<pct>
+   posé il y a moins de 30 min) ET qu'il n'a pas encore été
+   célébré sur cette page (ks_cert_celebrated_<pct>), on déclenche
+   un burst de confetti via window.ksConfetti (exposé par ks.js).
+   Priorité au palier le plus élevé. */
+function _celebrateIfFresh() {
+  if (typeof window.ksConfetti !== 'function') return;
+  var FRESH_MS = 30 * 60 * 1000; // 30 minutes
+  var now = Date.now();
+  var TIERS = [100, 75, 50, 25];
+  for (var i = 0; i < TIERS.length; i++) {
+    var pct = TIERS[i];
+    var ts = parseInt(lsStr('ks_milestone_' + pct) || '0', 10);
+    if (!ts || (now - ts) > FRESH_MS) continue;
+    var celebKey = 'ks_cert_celebrated_' + pct;
+    if (lsStr(celebKey)) continue;
+    /* Tier non célébré et frais → on lance */
+    try { localStorage.setItem(celebKey, String(now)); } catch(e){}
+    var intensity = pct === 100 ? 110 : pct === 75 ? 80 : 60;
+    /* Petit délai pour laisser le DOM s'installer */
+    setTimeout(function(n){ return function(){ window.ksConfetti(n); }; }(intensity), 450);
+    break;
+  }
+}
+
 /* Boot */
 try { var t = localStorage.getItem('ks_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch(e){}
 window.addEventListener('DOMContentLoaded', function(){
   render();
+  _celebrateIfFresh();
   /* Re-render après auth (le nom peut venir de Firebase) */
   setTimeout(render, 600);
 });

@@ -800,6 +800,7 @@ function ksFinish(opts) {
   });
 }
 window.ksFinish = ksFinish;
+window.ksConfetti = _ksConfetti;
 
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
