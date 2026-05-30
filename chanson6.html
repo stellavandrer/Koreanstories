@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Apprendre en chantant — Guide K-Pop A1 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#2563EB;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(37,99,235,.12);color:#2563EB;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(37,99,235,.12);color:#2563EB;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#2563EB;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .intro{background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(37,99,235,.03));border:1px solid rgba(37,99,235,.2);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0;font-size:.92rem}
+    .legal{background:rgba(184,146,78,.08);border:1px solid rgba(184,146,78,.25);border-radius:10px;padding:.7rem 1rem;font-size:.82rem;margin:.7rem 0;color:var(--tx)}
+    .legal strong{color:#B8924E}
+    .vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.55rem;margin:.5rem 0}
+    .vocab-card{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.55rem .7rem;font-size:.92rem}
+    .vocab-card .ko{color:#2563EB;font-weight:700;display:block}
+    .vocab-card .fr{color:var(--tx-muted);font-size:.78rem;margin-top:.1rem}
+    .vocab-card .ph{color:var(--tx-muted);font-family:'Courier New',monospace;font-size:.72rem;margin-top:.1rem}
+    .step-card{background:linear-gradient(135deg,rgba(37,99,235,.06),rgba(37,99,235,.02));border:1.5px dashed rgba(37,99,235,.3);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .step-num{display:inline-block;background:#2563EB;color:#fff;border-radius:50%;width:1.6rem;height:1.6rem;text-align:center;line-height:1.6rem;font-weight:700;font-size:.85rem;margin-right:.5rem}
+    .step-title{font-weight:700;color:#2563EB;display:inline-block;font-size:1rem}
+    .step-body{margin-top:.6rem;font-size:.9rem;color:var(--tx)}
+    .tip{background:rgba(22,163,74,.08);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0}
+    .reco-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.7rem 0}
+    .reco-card .title{font-weight:700;font-size:1rem;color:#2563EB}
+    .reco-card .meta{color:var(--tx-muted);font-size:.83rem;margin:.2rem 0 .4rem}
+    .reco-card .why{font-size:.88rem;line-height:1.5}
+    .ex-block{background:rgba(37,99,235,.05);border-radius:10px;padding:.65rem .85rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#2563EB;font-weight:700;font-size:.98rem}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.82rem;margin-top:.2rem}
+    .check{display:inline-block;width:1.15rem;height:1.15rem;border:2px solid #2563EB;border-radius:4px;vertical-align:-3px;margin-right:.4rem;cursor:pointer}
+    .check.on{background:#2563EB;position:relative}
+    .check.on::after{content:'✓';color:#fff;position:absolute;top:-3px;left:1px;font-weight:700;font-size:.92rem}
+    .checklist li{list-style:none;padding:.3rem 0;font-size:.9rem}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#2563EB}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Guide K-Pop A1</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Apprendre le coréen avec la K-pop</h2>
+  <span class="pill">A1 · Méthode</span> <span class="xp-badge">+12 XP</span>
+
+  <div class="intro">La K-pop est un excellent terrain de jeu pour ton oreille débutante : refrains courts, vocabulaire émotionnel répété, rythme syllabique régulier. Cette page t'apprend <strong>comment écouter</strong> efficacement n'importe quelle chanson coréenne au niveau A1, sans avoir besoin de tout comprendre.</div>
+
+  <div class="legal"><strong>Note copyright :</strong> nous n'affichons aucune parole de chanson sur cette page (les paroles K-pop sont protégées). On t'apprend ici la <strong>méthode</strong> et les <strong>mots-clés A1</strong> à repérer. Tu écoutes la chanson sur la plateforme officielle (YouTube, Spotify, Melon…) à côté.</div>
+
+  <h3>Étape 1 — Choisir une chanson adaptée</h3>
+  <div class="step-card">
+    <div><span class="step-num">1</span><span class="step-title">Cherche une chanson lente et répétitive</span></div>
+    <div class="step-body">Au niveau A1, évite les rappeurs rapides. Vise :
+      <ul style="margin:.5rem 0;padding-left:1.2rem">
+        <li>Un tempo lent (ballades, mid-tempo).</li>
+        <li>Un refrain court qui revient ≥ 3 fois.</li>
+        <li>Du vocabulaire émotionnel (사랑, 마음, 너, 나, 좋아…).</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tip"><strong>Repère utile :</strong> sur YouTube, la mention « color coded lyrics » dans le titre indique les paroles affichées par couleur (par membre). Très pratique pour suivre.</div>
+
+  <h3>Étape 2 — Repère les mots A1</h3>
+  <div class="step-card">
+    <div><span class="step-num">2</span><span class="step-title">15 mots K-pop ultra-fréquents</span></div>
+    <div class="step-body">Ces mots reviennent dans 80 % des refrains. Apprends-les et tu reconnaîtras la structure émotionnelle de la chanson dès la première écoute.</div>
+    <div class="vocab-grid" style="margin-top:.7rem">
+      <div class="vocab-card"><span class="ko">너</span><span class="fr">toi</span><span class="ph">[neo]</span></div>
+      <div class="vocab-card"><span class="ko">나</span><span class="fr">moi</span><span class="ph">[na]</span></div>
+      <div class="vocab-card"><span class="ko">우리</span><span class="fr">nous</span><span class="ph">[uri]</span></div>
+      <div class="vocab-card"><span class="ko">사랑</span><span class="fr">amour</span><span class="ph">[sarang]</span></div>
+      <div class="vocab-card"><span class="ko">마음</span><span class="fr">cœur, esprit</span><span class="ph">[maeum]</span></div>
+      <div class="vocab-card"><span class="ko">좋아</span><span class="fr">j'aime</span><span class="ph">[joa]</span></div>
+      <div class="vocab-card"><span class="ko">싫어</span><span class="fr">je n'aime pas</span><span class="ph">[sireo]</span></div>
+      <div class="vocab-card"><span class="ko">예뻐</span><span class="fr">jolie</span><span class="ph">[yeppeo]</span></div>
+      <div class="vocab-card"><span class="ko">멋있어</span><span class="fr">classe / cool</span><span class="ph">[meosisseo]</span></div>
+      <div class="vocab-card"><span class="ko">행복</span><span class="fr">bonheur</span><span class="ph">[haengbok]</span></div>
+      <div class="vocab-card"><span class="ko">슬퍼</span><span class="fr">je suis triste</span><span class="ph">[seulpeo]</span></div>
+      <div class="vocab-card"><span class="ko">눈물</span><span class="fr">larmes</span><span class="ph">[nunmul]</span></div>
+      <div class="vocab-card"><span class="ko">밤</span><span class="fr">nuit</span><span class="ph">[bam]</span></div>
+      <div class="vocab-card"><span class="ko">꿈</span><span class="fr">rêve</span><span class="ph">[kkum]</span></div>
+      <div class="vocab-card"><span class="ko">시간</span><span class="fr">temps</span><span class="ph">[sigan]</span></div>
+    </div>
+  </div>
+
+  <h3>Étape 3 — Reconnais les terminaisons</h3>
+  <div class="step-card">
+    <div><span class="step-num">3</span><span class="step-title">Les fins de phrases qui reviennent</span></div>
+    <div class="step-body">La K-pop utilise massivement le registre informel <strong>-아/어</strong> (sans 요 final) et certaines particules émotionnelles. Voici les marqueurs à repérer.</div>
+    <div class="ex-block">
+      <div class="ko">-아 / -어</div>
+      <div class="fr">Forme intime / lyrique. Ex : 좋아 (j'aime), 싫어 (je n'aime pas), 예뻐 (jolie).</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">-야</div>
+      <div class="fr">« C'est… » informel. Ex : 너야 (c'est toi).</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">-자</div>
+      <div class="fr">« Allons… » (suggestion informelle). Ex : 가자 (allons-y).</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">-네</div>
+      <div class="fr">Surprise / constat. Ex : 예쁘네 (ah c'est joli).</div>
+    </div>
+  </div>
+
+  <h3>Étape 4 — La méthode des 3 écoutes</h3>
+  <div class="step-card">
+    <div><span class="step-num">4</span><span class="step-title">Comment progresser sans s'épuiser</span></div>
+    <div class="step-body">
+      <p style="margin:.3rem 0"><strong>Écoute 1 — sans lire.</strong> Juste les sensations. Tu cherches : combien de couplets ? combien de refrains ? quels mots A1 tu reconnais à l'oreille ?</p>
+      <p style="margin:.3rem 0"><strong>Écoute 2 — avec les paroles en coréen.</strong> Suis ligne par ligne, en lisant à voix basse. Surligne les mots A1 connus.</p>
+      <p style="margin:.3rem 0"><strong>Écoute 3 — chante.</strong> En karaoké, syllabe par syllabe. Pas besoin de comprendre tout — vise <strong>10 % de la chanson maîtrisée</strong>.</p>
+    </div>
+  </div>
+  <div class="tip"><strong>Réussir A1 = chanter le refrain au complet</strong> en comprenant ≥ 5 mots du refrain. Pas besoin de tout comprendre.</div>
+
+  <h3>Étape 5 — Reconnais 3 types de refrains</h3>
+  <div class="step-card">
+    <div><span class="step-num">5</span><span class="step-title">Les patterns de refrain K-pop</span></div>
+    <div class="step-body">
+      <p style="margin:.4rem 0"><strong>Le déclaratif émotionnel :</strong> « 너를 좋아해 » (je t'aime). Structure SOV simple, vocabulaire A1.</p>
+      <p style="margin:.4rem 0"><strong>L'appel direct :</strong> « 나를 봐 » (regarde-moi). Verbe à l'impératif intime.</p>
+      <p style="margin:.4rem 0"><strong>La répétition de mots :</strong> certains refrains répètent un seul mot ou groupe nominal — le plus facile pour débuter.</p>
+    </div>
+  </div>
+
+  <h3>Suggestions d'écoute (groupes/styles adaptés A1)</h3>
+  <div class="reco-card">
+    <div class="title">Ballades K-pop</div>
+    <div class="meta">Tempo lent · vocabulaire émotionnel · refrains clairs</div>
+    <div class="why">IU, Taeyeon (en solo), Akmu (악동뮤지션), Ben (벤). Cherche leurs ballades acoustiques — la diction y est très lente et claire.</div>
+  </div>
+  <div class="reco-card">
+    <div class="title">K-pop pop-rock mid-tempo</div>
+    <div class="meta">Refrains accrocheurs · vocabulaire A1 répété</div>
+    <div class="why">Day6, N.Flying, FT Island. Beaucoup de chansons sur l'amour / la séparation avec un vocabulaire A1 récurrent.</div>
+  </div>
+  <div class="reco-card">
+    <div class="title">Comptines & OST</div>
+    <div class="meta">Vitesse réduite · diction nette</div>
+    <div class="why">Les OST (bandes-son de K-dramas) sont souvent des ballades. La diction y est très soignée. Cherche « OST drama coréen » pour démarrer.</div>
+  </div>
+  <div class="reco-card">
+    <div class="title">Groupes virtuoses (plus difficile)</div>
+    <div class="meta">À écouter mais pas à comprendre intégralement</div>
+    <div class="why">BTS, BLACKPINK, NewJeans : leurs morceaux mélangent souvent anglais et coréen. Vise les refrains les plus chantés et laisse les couplets en immersion sonore.</div>
+  </div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">Quel mot signifie « cœur » (au sens d'émotion) ?</p>
+    <div class="opt" onclick="a(this,'ko')">눈물</div>
+    <div class="opt" onclick="a(this,'ok')">마음</div>
+    <div class="opt" onclick="a(this,'ko')">사랑</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">La terminaison <strong>-아/어</strong> sans 요 correspond à :</p>
+    <div class="opt" onclick="a(this,'ko')">Un registre formel poli</div>
+    <div class="opt" onclick="a(this,'ok')">Un registre intime/lyrique</div>
+    <div class="opt" onclick="a(this,'ko')">Un impératif</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">Pour bien apprendre une chanson A1, la méthode recommandée est :</p>
+    <div class="opt" onclick="a(this,'ko')">Tout traduire mot à mot dès la première écoute</div>
+    <div class="opt" onclick="a(this,'ok')">3 écoutes : sans lire, avec paroles, puis karaoké</div>
+    <div class="opt" onclick="a(this,'ko')">Ne pas chanter avant de tout comprendre</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">Quel style K-pop est le plus adapté pour démarrer en A1 ?</p>
+    <div class="opt" onclick="a(this,'ko')">Rap rapide</div>
+    <div class="opt" onclick="a(this,'ok')">Ballade lente</div>
+    <div class="opt" onclick="a(this,'ko')">Dance EDM</div>
+  </div>
+
+  <h3>Ta check-list d'écoute</h3>
+  <div class="card">
+    <ul class="checklist">
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'ai choisi une chanson lente avec un refrain clair.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'ai repéré ≥ 5 mots A1 dans le refrain.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> Je distingue les terminaisons -아/어, -야, -자, -네.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> Je peux chanter le refrain à voix haute.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'ai ajouté la chanson à ma playlist d'immersion quotidienne.</li>
+    </ul>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +12 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_a46',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_a46');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

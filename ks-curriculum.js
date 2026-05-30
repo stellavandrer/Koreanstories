@@ -141,9 +141,9 @@
      "Bientôt" au lieu de laisser l'utilisateur tomber sur un 404.
      À chaque page créée, retirer son nom de cette liste. */
   var COMING_SOON = {
-    /* Seules pages encore non livrées : chansons K-pop (différées pour
-       traitement du copyright). Tout le reste du curriculum est livré. */
-    'chanson5.html':1,'chanson6.html':1,
+    /* Curriculum 100 % livré — plus aucune activité en attente.
+       Si une nouvelle page est ajoutée à cours.html mais pas encore
+       créée, ajoute-la ici sous la forme : 'maPage.html':1, */
   };
 
   function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }

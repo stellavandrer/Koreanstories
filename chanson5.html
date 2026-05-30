@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BLACKPINK — Analyse grammaticale B1 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#F59E0B;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(245,158,11,.14);color:#92400E;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(245,158,11,.14);color:#92400E;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .intro{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(245,158,11,.03));border:1px solid rgba(245,158,11,.25);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0;font-size:.92rem}
+    .legal{background:rgba(184,146,78,.08);border:1px solid rgba(184,146,78,.25);border-radius:10px;padding:.7rem 1rem;font-size:.82rem;margin:.7rem 0;color:var(--tx)}
+    .legal strong{color:#B8924E}
+    .struct-card{background:linear-gradient(135deg,rgba(245,158,11,.07),rgba(245,158,11,.02));border:1px solid rgba(245,158,11,.25);border-radius:14px;padding:1rem 1.2rem;margin:1rem 0}
+    .struct-num{display:inline-block;background:#F59E0B;color:#fff;border-radius:50%;width:1.6rem;height:1.6rem;text-align:center;line-height:1.6rem;font-weight:700;font-size:.85rem;margin-right:.5rem}
+    .struct-title{font-weight:700;color:#92400E;display:inline-block;font-size:1rem}
+    .struct-sub{color:var(--tx-muted);font-size:.85rem;margin:.3rem 0 .7rem;padding-left:2.1rem}
+    .ex-block{background:rgba(245,158,11,.07);border-radius:10px;padding:.7rem .9rem;margin:.4rem 0;font-size:.92rem}
+    .ex-block .ko{color:#92400E;font-weight:700;font-size:1rem}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.83rem;margin-top:.25rem}
+    .vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.55rem;margin:.5rem 0}
+    .vocab-card{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.55rem .7rem;font-size:.92rem}
+    .vocab-card .ko{color:#92400E;font-weight:700;display:block}
+    .vocab-card .fr{color:var(--tx-muted);font-size:.78rem;margin-top:.15rem}
+    .vocab-card .ctx{color:var(--tx-muted);font-size:.72rem;margin-top:.15rem;font-style:italic}
+    .listen-card{background:var(--surf);border:1.5px dashed rgba(245,158,11,.4);border-radius:14px;padding:1rem 1.2rem;margin:.9rem 0}
+    .listen-card .title{font-weight:700;color:#92400E;font-size:.95rem}
+    .listen-card .task{margin-top:.5rem;font-size:.9rem}
+    .tip{background:rgba(22,163,74,.08);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0}
+    .warn{background:rgba(239,68,68,.06);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#F59E0B}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .why{margin-top:.5rem;padding:.5rem .75rem;background:rgba(245,158,11,.08);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;font-size:.82rem;color:var(--tx);display:none}
+    .why.show{display:block}
+    .check{display:inline-block;width:1.15rem;height:1.15rem;border:2px solid #F59E0B;border-radius:4px;vertical-align:-3px;margin-right:.4rem;cursor:pointer}
+    .check.on{background:#F59E0B;position:relative}
+    .check.on::after{content:'✓';color:#fff;position:absolute;top:-3px;left:1px;font-weight:700;font-size:.92rem}
+    .checklist li{list-style:none;padding:.3rem 0;font-size:.9rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">BLACKPINK — Analyse B1</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>BLACKPINK — Décoder un tube K-pop en B1</h2>
+  <span class="pill">B1 · Analyse</span> <span class="xp-badge">+10 XP</span>
+
+  <div class="intro">À ce niveau, tu peux exploiter un morceau K-pop comme matériau pédagogique. Cette leçon t'apprend à <strong>repérer 4 structures grammaticales B1</strong> et à <strong>reconnaître l'argot</strong> typique des chansons BLACKPINK. Tu sortiras d'ici en sachant écouter un morceau pop comme un vrai linguiste.</div>
+
+  <div class="legal"><strong>Note copyright :</strong> les paroles des chansons BLACKPINK sont protégées. Cette page n'en reproduit aucune. Tous les exemples ci-dessous sont rédigés par Korean Stories pour illustrer la structure étudiée. Va écouter la chanson sur la chaîne officielle YouTube (BLACKPINK) — c'est la seule source autorisée pour les paroles.</div>
+
+  <h3>Structure 1 — Le proposition relative en -는/-(으)ㄴ</h3>
+  <div class="struct-card">
+    <div><span class="struct-num">1</span><span class="struct-title">Décrire un nom avec une phrase</span></div>
+    <div class="struct-sub">En français : « la fille que je connais ». En coréen, on inverse : <strong>[phrase] + nom</strong>, avec un suffixe sur le verbe.</div>
+
+    <div class="ex-block">
+      <div class="ko">내가 좋아하는 노래</div>
+      <div class="fr">La chanson que j'aime. → 좋아하 + 는 + 노래</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">어제 만난 사람</div>
+      <div class="fr">La personne (que j'ai) rencontrée hier. → 만나 + ㄴ (passé)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">예쁜 옷</div>
+      <div class="fr">Des vêtements jolis. → adjectif 예쁘 + ㄴ</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">내일 갈 곳</div>
+      <div class="fr">L'endroit où j'irai demain. → 가 + ㄹ (futur)</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Mémo :</strong> <span style="font-family:'Courier New',monospace">-는</span> = présent · <span style="font-family:'Courier New',monospace">-(으)ㄴ</span> = passé (verbe) ou adjectif · <span style="font-family:'Courier New',monospace">-(으)ㄹ</span> = futur.</div>
+
+  <div class="listen-card">
+    <div class="title">⏵ Écoute ciblée</div>
+    <div class="task">Mets « BLACKPINK How You Like That » sur YouTube officiel. <strong>Cherche un nom précédé d'une phrase</strong> dans le pré-refrain — il y a une structure « [verbe]-는 [nom] » très claire à repérer.</div>
+  </div>
+
+  <h3>Structure 2 — La particule -잖아(요)</h3>
+  <div class="struct-card">
+    <div><span class="struct-num">2</span><span class="struct-title">« Tu sais bien que… » / « C'est évident »</span></div>
+    <div class="struct-sub">Sert à rappeler une vérité partagée ou un fait que l'interlocuteur est censé savoir. Très fréquent en K-pop dans les pré-refrains.</div>
+
+    <div class="ex-block">
+      <div class="ko">우리 친구잖아</div>
+      <div class="fr">On est amis, tu sais bien. (rappel d'un fait évident)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">내가 말했잖아</div>
+      <div class="fr">Je te l'avais bien dit. (forme passée)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">예쁘잖아</div>
+      <div class="fr">C'est joli, non ? (constat évident, recherche d'accord)</div>
+    </div>
+  </div>
+  <div class="warn"><strong>⚠️ Ton :</strong> -잖아 sans 요 est informel et peut paraître condescendant si mal utilisé (« mais enfin tu vois bien… »). En chanson, l'effet est plutôt complice ou provocateur.</div>
+
+  <div class="listen-card">
+    <div class="title">⏵ Écoute ciblée</div>
+    <div class="task">Les rappeuses de BLACKPINK utilisent souvent -잖아 dans les couplets pour adresser directement l'auditeur. Écoute le couplet de Lisa ou Jennie et repère la terminaison <strong>-잖아</strong> en fin de ligne.</div>
+  </div>
+
+  <h3>Structure 3 — Le futur volontaire en -(으)ㄹ게</h3>
+  <div class="struct-card">
+    <div><span class="struct-num">3</span><span class="struct-title">Engagement / promesse au tu</span></div>
+    <div class="struct-sub">« Je vais [verbe], promis. » Marque un engagement personnel envers l'interlocuteur. Forme typique des refrains de promesse.</div>
+
+    <div class="ex-block">
+      <div class="ko">내가 갈게</div>
+      <div class="fr">J'y vais (je m'engage à y aller).</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">기다릴게</div>
+      <div class="fr">Je vais attendre (pour toi).</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">보여줄게</div>
+      <div class="fr">Je vais te montrer.</div>
+    </div>
+  </div>
+
+  <h3>Structure 4 — L'impératif en -아/어 봐</h3>
+  <div class="struct-card">
+    <div><span class="struct-num">4</span><span class="struct-title">« Essaie un peu de… »</span></div>
+    <div class="struct-sub">Combinaison du verbe + <strong>보다</strong> (essayer). Sert à inviter ou défier l'interlocuteur. Très présent dans les refrains de défi.</div>
+
+    <div class="ex-block">
+      <div class="ko">한 번 해 봐</div>
+      <div class="fr">Essaie une fois.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">들어 봐</div>
+      <div class="fr">Écoute donc.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">잘 봐</div>
+      <div class="fr">Regarde bien.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>À l'oreille :</strong> dans un refrain rapide, -아/어 봐 sonne souvent comme « -ɛ-ba » avec une accent fort sur 봐. C'est un marqueur d'interpellation très fréquent en K-pop.</div>
+
+  <h3>Argot & expressions de scène</h3>
+  <div class="card">
+    <div class="vocab-grid">
+      <div class="vocab-card"><span class="ko">대박</span><span class="fr">incroyable / wow</span><span class="ctx">surprise positive</span></div>
+      <div class="vocab-card"><span class="ko">멋져</span><span class="fr">trop cool / classe</span><span class="ctx">forme contractée de 멋있어</span></div>
+      <div class="vocab-card"><span class="ko">짱</span><span class="fr">le top / le boss</span><span class="ctx">argot positif</span></div>
+      <div class="vocab-card"><span class="ko">화이팅</span><span class="fr">courage ! / vas-y !</span><span class="ctx">de l'anglais « fighting »</span></div>
+      <div class="vocab-card"><span class="ko">진짜</span><span class="fr">vraiment / pour de vrai</span><span class="ctx">emphase fréquente</span></div>
+      <div class="vocab-card"><span class="ko">완전</span><span class="fr">complètement / à fond</span><span class="ctx">superlatif oral</span></div>
+      <div class="vocab-card"><span class="ko">난리</span><span class="fr">le chaos / le délire</span><span class="ctx">scène en folie</span></div>
+      <div class="vocab-card"><span class="ko">제대로</span><span class="fr">correctement / à fond</span><span class="ctx">défi : « fais-le bien »</span></div>
+    </div>
+  </div>
+
+  <h3>Mini-quiz de structure</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« 내가 좋아하는 사람 » signifie :</p>
+    <div class="opt" data-w="« J'aime cette personne » serait 내가 그 사람을 좋아해." onclick="a(this,'ko')">J'aime cette personne</div>
+    <div class="opt" data-w="Exact. -는 transforme 좋아하다 en modificateur de 사람." onclick="a(this,'ok')">La personne que j'aime</div>
+    <div class="opt" data-w="Confusion avec le futur -(으)ㄹ. Ici c'est le présent -는." onclick="a(this,'ko')">La personne que j'aimerai</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">La nuance principale de -잖아 est :</p>
+    <div class="opt" data-w="C'est plutôt -아/어요 ou la forme déclarative neutre qui correspondent à un simple constat." onclick="a(this,'ko')">Simple constat neutre</div>
+    <div class="opt" data-w="Exact. -잖아 rappelle une vérité supposée connue de l'interlocuteur." onclick="a(this,'ok')">Rappel d'un fait évident / partagé</div>
+    <div class="opt" data-w="Le doute correspond à -ㄹ까(요) ou -지 않을까." onclick="a(this,'ko')">Doute ou incertitude</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« 기다릴게 » exprime :</p>
+    <div class="opt" data-w="Le présent serait 기다려 ou 기다리고 있어." onclick="a(this,'ko')">Une action présente</div>
+    <div class="opt" data-w="Exact. -(으)ㄹ게 = futur volontaire / engagement personnel." onclick="a(this,'ok')">Une promesse d'attendre</div>
+    <div class="opt" data-w="L'ordre serait 기다려 ou 기다리세요." onclick="a(this,'ko')">Un ordre d'attendre</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« 들어 봐 » est composé de :</p>
+    <div class="opt" data-w="듣고 있어 serait « je suis en train d'écouter » (forme progressive)." onclick="a(this,'ko')">듣다 + forme progressive</div>
+    <div class="opt" data-w="Exact. 듣다 (devient 들어 en -아/어) + 보다 (essayer) = « essaie d'écouter »." onclick="a(this,'ok')">듣다 + 보다 (essayer)</div>
+    <div class="opt" data-w="C'est un ordre/invitation, pas une question. Une question serait 들어요?" onclick="a(this,'ko')">Une question polie</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">L'argot « 대박 » exprime :</p>
+    <div class="opt" data-w="La tristesse serait 슬프다 ou 우울하다." onclick="a(this,'ko')">La tristesse</div>
+    <div class="opt" data-w="Exact. « 대박 » = ouah ! / dingue ! / incroyable !" onclick="a(this,'ok')">L'admiration / la surprise</div>
+    <div class="opt" data-w="L'ennui serait 지루하다 ou 심심하다." onclick="a(this,'ko')">L'ennui</div>
+    <div class="why"></div>
+  </div>
+
+  <h3>Ta mission d'écoute</h3>
+  <div class="card">
+    <ul class="checklist">
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'ai écouté la chanson une fois sans rien lire.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'ai repéré au moins une proposition relative -는/-(으)ㄴ.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'ai entendu -잖아 ou -아/어 봐 quelque part dans le texte.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'ai noté 3 mots d'argot K-pop reconnaissables.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> Je peux fredonner le refrain de mémoire.</li>
+    </ul>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c33',xp:10});else{if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_c33');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);const why=p.querySelector('.why');if(why){why.textContent=btn.getAttribute('data-w')||'';why.classList.add('show');}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
