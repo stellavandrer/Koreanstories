@@ -736,6 +736,32 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.insertBefore(link, document.body.firstChild);
   })();
 
+  /* ── A11y : labels et aria-current sur les navs ──
+     - aria-label sur .bar (top) et .bnav (bottom) pour annoncer le rôle
+     - aria-current="page" sur le lien qui correspond à la page courante
+       (utile pour les lecteurs d'écran ET pour pouvoir styler en CSS
+       si besoin via [aria-current="page"]) */
+  (function(){
+    var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    document.querySelectorAll('nav.bar').forEach(function(n){
+      if (!n.hasAttribute('aria-label')) n.setAttribute('aria-label', 'Barre supérieure');
+    });
+    document.querySelectorAll('nav.bnav').forEach(function(n){
+      if (!n.hasAttribute('aria-label')) n.setAttribute('aria-label', 'Navigation principale');
+      n.querySelectorAll('a[href]').forEach(function(a){
+        var href = (a.getAttribute('href') || '').split('?')[0].split('#')[0].toLowerCase();
+        if (!href) return;
+        /* Match strict du fichier final (app.html, cours.html, etc.) */
+        if (href === here || href.endsWith('/' + here)) {
+          a.setAttribute('aria-current', 'page');
+        }
+      });
+    });
+    document.querySelectorAll('nav.sidenav').forEach(function(n){
+      if (!n.hasAttribute('aria-label')) n.setAttribute('aria-label', 'Menu latéral');
+    });
+  })();
+
   // Populate XP pills
   const xp = ksGetXP();
   document.querySelectorAll('#xpVal, .xp-val').forEach(el => { el.textContent = xp; });
