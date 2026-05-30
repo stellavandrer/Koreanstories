@@ -848,6 +848,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
+  /* ── Footer global discret (mentions légales + contact) ──
+     Injecté sur toutes les pages contenu (skip auth + mentions elle-même).
+     Apparaît juste avant la bnav, ne casse pas la mise en page existante. */
+  (function(){
+    var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    var SKIP = ['gate.html','login.html','signup.html','onboarding.html','mentions-legales.html','404.html'];
+    if (SKIP.indexOf(here) !== -1) return;
+    if (document.querySelector('.ks-global-footer')) return;
+    /* Style scoped */
+    if (!document.getElementById('ks-footer-css')) {
+      var s = document.createElement('style');
+      s.id = 'ks-footer-css';
+      s.textContent =
+        '.ks-global-footer{text-align:center;padding:14px 16px 18px;font-size:11px;color:var(--gray);' +
+        'background:transparent;line-height:1.6}' +
+        '.ks-global-footer a{color:var(--gray);text-decoration:none;transition:color .15s}' +
+        '.ks-global-footer a:hover{color:var(--gold)}' +
+        '.ks-global-footer .sep{margin:0 6px;opacity:.5}';
+      document.head.appendChild(s);
+    }
+    var footer = document.createElement('footer');
+    footer.className = 'ks-global-footer';
+    footer.setAttribute('role', 'contentinfo');
+    footer.innerHTML =
+      '<a href="mentions-legales.html">Mentions légales</a>' +
+      '<span class="sep">·</span>' +
+      '<a href="mailto:contact@koreanstories.fr">Contact</a>' +
+      '<span class="sep">·</span>' +
+      '<span>© 2026 Korean Stories</span>';
+    /* Insertion : juste avant la bnav s'il y en a une, sinon en fin de body */
+    var bnav = document.querySelector('nav.bnav');
+    if (bnav && bnav.parentNode) {
+      bnav.parentNode.insertBefore(footer, bnav);
+    } else {
+      document.body.appendChild(footer);
+    }
+  })();
+
   // Populate XP pills
   const xp = ksGetXP();
   document.querySelectorAll('#xpVal, .xp-val').forEach(el => { el.textContent = xp; });
