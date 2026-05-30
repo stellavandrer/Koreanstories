@@ -150,4 +150,78 @@
     lsSet('ks_install_done', String(Date.now()));
     lsRm('ks_install_dismissed_at');
   });
+
+  /* ─── Variante iOS Safari ─────────────────────────────────────────
+     Safari iOS ne supporte pas beforeinstallprompt. Pour ces users,
+     on affiche une bannière différente avec les instructions manuelles
+     « Partager → Sur l'écran d'accueil ». */
+  function isIOSSafari() {
+    var ua = navigator.userAgent;
+    var iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var webkit = /WebKit/i.test(ua);
+    var chromeIOS = /CriOS|FxiOS|EdgiOS/i.test(ua); // Chrome/Firefox/Edge sur iOS = WebKit aussi
+    return iOS && webkit && !chromeIOS;
+  }
+
+  function showIOSBanner() {
+    if (bannerShown) return;
+    bannerShown = true;
+    injectCSS();
+
+    /* Ajoute le style spécifique iOS (instructions plus longues) */
+    if (!document.getElementById('ks-install-ios-css')) {
+      var s = document.createElement('style');
+      s.id = 'ks-install-ios-css';
+      s.textContent = [
+        '.ks-inst-banner.ios{flex-direction:column;align-items:stretch;padding:14px 16px;gap:10px}',
+        '.ks-inst-banner.ios .ks-inst-row{display:flex;align-items:center;gap:12px}',
+        '.ks-inst-banner.ios .ks-inst-steps{font-size:11.5px;line-height:1.55;color:rgba(255,255,255,.75);',
+          'padding:8px 10px;background:rgba(255,255,255,.06);border-radius:8px;display:flex;gap:8px;align-items:center}',
+        '.ks-inst-banner.ios .ks-share-ico{display:inline-flex;align-items:center;justify-content:center;',
+          'width:22px;height:22px;background:rgba(201,169,110,.18);border-radius:5px;flex-shrink:0}',
+        '.ks-inst-banner.ios .ks-share-ico svg{width:14px;height:14px;stroke:#C9A96E;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}',
+      ].join('');
+      document.head.appendChild(s);
+    }
+
+    var banner = document.createElement('div');
+    banner.className = 'ks-inst-banner ios';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-label', 'Comment installer Korean Stories sur iPhone ou iPad');
+    banner.innerHTML =
+      '<div class="ks-inst-row">' +
+        '<div class="ks-inst-ico" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
+        '</div>' +
+        '<div class="ks-inst-body">' +
+          '<div class="ks-inst-t">Installer sur ton iPhone</div>' +
+          '<div class="ks-inst-s">Korean Stories devient une vraie app, sans store</div>' +
+        '</div>' +
+        '<button class="ks-inst-no" type="button" aria-label="Fermer">×</button>' +
+      '</div>' +
+      '<div class="ks-inst-steps">' +
+        '<span class="ks-share-ico" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>' +
+        '</span>' +
+        '<span>Appuie sur <strong style="color:#fff">Partager</strong>, puis « <strong style="color:#fff">Sur l\'écran d\'accueil</strong> »</span>' +
+      '</div>';
+    document.body.appendChild(banner);
+    banner.offsetHeight; // eslint-disable-line no-unused-expressions
+    banner.classList.add('show');
+
+    banner.querySelector('.ks-inst-no').addEventListener('click', function () {
+      lsSet('ks_install_dismissed_at', String(Date.now()));
+      hideBanner(banner);
+    });
+  }
+
+  /* Sur iOS : déclenche au bout de 4s, après 2 vues, sans dépendre
+     de beforeinstallprompt qui ne se déclenche jamais. */
+  if (isIOSSafari()) {
+    var iosViews = parseInt(ls('ks_session_views') || '0', 10) + 1;
+    lsSet('ks_session_views', String(iosViews));
+    if (iosViews >= 2) {
+      setTimeout(showIOSBanner, 4000);
+    }
+  }
 })();
