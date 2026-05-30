@@ -89,6 +89,34 @@ input,textarea,select{
 }
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
 
+/* ── A11Y : focus visible clavier ─────────────────────────────────
+   :focus-visible cible uniquement la navigation clavier — pas les
+   clics souris — ce qui évite l'anneau permanent agaçant tout en
+   gardant un repère clair pour les utilisateurs clavier/lecteur. */
+a:focus,button:focus,[role="button"]:focus,[tabindex]:focus{outline:none}
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible{
+  outline:2.5px solid var(--gold);
+  outline-offset:2px;
+  border-radius:6px;
+}
+/* Sur fonds très foncés (navy, bnav) on bascule sur un anneau or clair */
+.bar a:focus-visible,.bar button:focus-visible,
+.bnav a:focus-visible,
+.sidenav a:focus-visible{
+  outline-color:#D4B582;
+  outline-offset:3px;
+}
+/* Skip-link générique — invisible jusqu'au focus clavier */
+.ks-skip-link{
+  position:absolute;left:8px;top:-40px;background:var(--navy);color:#fff;
+  padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;
+  z-index:99999;text-decoration:none;transition:top .2s;
+}
+.ks-skip-link:focus{top:8px}
+
 /* ── LAYOUT SHELL ─────────────────────────────────────────────────── */
 .shell{display:flex;min-height:100svh}
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
