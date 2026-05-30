@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Règles de liaison & changements consonantiques — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .rule-card{background:linear-gradient(135deg,rgba(22,163,74,.08),rgba(22,163,74,.03));border:1px solid rgba(22,163,74,.25);border-radius:14px;padding:1rem 1.2rem;margin:1rem 0}
+    .rule-num{display:inline-block;background:#16A34A;color:#fff;border-radius:50%;width:1.6rem;height:1.6rem;text-align:center;line-height:1.6rem;font-weight:700;font-size:.85rem;margin-right:.5rem}
+    .rule-title{font-weight:700;color:#16A34A;display:inline-block;font-size:1rem}
+    .rule-sub{color:var(--tx-muted);font-size:.85rem;margin:.3rem 0 .7rem;padding-left:2.1rem}
+    .ko-big{font-size:1.3rem;font-weight:700;color:#16A34A}
+    .arrow{color:#16A34A;font-weight:700;margin:0 .4rem;font-size:1.1rem}
+    .phon{color:#7C3AED;font-weight:700;font-family:'Courier New',monospace}
+    .ex-row{display:grid;grid-template-columns:1fr auto 1fr;gap:.5rem;align-items:center;background:rgba(22,163,74,.05);border-radius:10px;padding:.6rem .8rem;margin:.4rem 0;font-size:.95rem}
+    .ex-row .fr{grid-column:1/-1;color:var(--tx-muted);font-size:.78rem;font-style:italic;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.55rem .85rem;font-size:.85rem;margin:.6rem 0;color:var(--tx)}
+    .recap-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0}
+    .recap-table th{background:rgba(22,163,74,.1);color:#16A34A;padding:.55rem .7rem;text-align:left;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+    .recap-table td{padding:.55rem .7rem;border-bottom:1px solid var(--bd)}
+    .recap-table tr:last-child td{border-bottom:none}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#16A34A}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+    .why{margin-top:.5rem;padding:.5rem .75rem;background:rgba(22,163,74,.06);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;font-size:.82rem;color:var(--tx);display:none}
+    .why.show{display:block}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Liaisons & changements</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Sonner naturel : les 4 règles fondamentales</h2>
+  <span class="pill">A2 · Prononciation</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0 1rem">L'écriture coréenne et sa prononciation ne coïncident pas toujours. Quatre règles expliquent <strong>pourquoi 한국어 se dit <span class="phon">[한구거]</span></strong> et pas <span class="phon">[한국어]</span>. Maîtrise-les pour comprendre les natifs.</p>
+
+  <h3>1. 연음 — Liaison consonantique</h3>
+  <div class="rule-card">
+    <div><span class="rule-num">1</span><span class="rule-title">연음 (yeon-eum)</span></div>
+    <div class="rule-sub">Quand une consonne finale (받침) est suivie d'une voyelle, elle <strong>glisse</strong> vers la syllabe suivante.</div>
+
+    <div class="ex-row">
+      <span class="ko-big">한국어</span>
+      <span class="arrow">→</span>
+      <span class="phon">[한구거]</span>
+      <div class="fr">한국 (Corée) + 어 (langue) : le ㄱ de 국 se prononce dans la syllabe 어.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">음악</span>
+      <span class="arrow">→</span>
+      <span class="phon">[으막]</span>
+      <div class="fr">음 + 악 : le ㅁ glisse vers la voyelle suivante.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">옷이</span>
+      <span class="arrow">→</span>
+      <span class="phon">[오시]</span>
+      <div class="fr">옷 (vêtement) + 이 (particule sujet) : ㅅ devient initiale de la syllabe finale.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">읽어요</span>
+      <span class="arrow">→</span>
+      <span class="phon">[일거요]</span>
+      <div class="fr">Quand il y a deux consonnes finales (ㄺ), la deuxième passe à la syllabe suivante.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Astuce :</strong> la liaison s'entend surtout devant les particules (은/는, 이/가, 을/를, 에) et les terminaisons verbales (-아요/어요).</div>
+
+  <h3>2. 격음화 — Aspiration</h3>
+  <div class="rule-card">
+    <div><span class="rule-num">2</span><span class="rule-title">격음화 (gyeok-eum-hwa)</span></div>
+    <div class="rule-sub">Quand une consonne (ㄱ ㄷ ㅂ ㅈ) rencontre ㅎ, elles fusionnent en consonne aspirée (ㅋ ㅌ ㅍ ㅊ).</div>
+
+    <div class="ex-row">
+      <span class="ko-big">좋다</span>
+      <span class="arrow">→</span>
+      <span class="phon">[조타]</span>
+      <div class="fr">ㅎ + ㄷ → ㅌ : être bon / aimer.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">많다</span>
+      <span class="arrow">→</span>
+      <span class="phon">[만타]</span>
+      <div class="fr">ㄶ + ㄷ → ㄴ + ㅌ : être nombreux.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">축하해요</span>
+      <span class="arrow">→</span>
+      <span class="phon">[추카해요]</span>
+      <div class="fr">ㄱ + ㅎ → ㅋ : félicitations !</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">좋아해요</span>
+      <span class="arrow">→</span>
+      <span class="phon">[조아해요]</span>
+      <div class="fr">⚠️ Exception : ㅎ devant voyelle disparaît (pas d'aspiration ici).</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Mémo :</strong> ㄱㄷㅂㅈ + ㅎ donnent leur équivalent aspiré ㅋㅌㅍㅊ. Pense « + souffle d'air ».</div>
+
+  <h3>3. 경음화 — Tensification</h3>
+  <div class="rule-card">
+    <div><span class="rule-num">3</span><span class="rule-title">경음화 (gyeong-eum-hwa)</span></div>
+    <div class="rule-sub">Après certaines consonnes finales (ㄱ ㄷ ㅂ), les consonnes ㄱ ㄷ ㅂ ㅅ ㅈ qui suivent deviennent <strong>tendues</strong> (ㄲ ㄸ ㅃ ㅆ ㅉ).</div>
+
+    <div class="ex-row">
+      <span class="ko-big">학교</span>
+      <span class="arrow">→</span>
+      <span class="phon">[학꾜]</span>
+      <div class="fr">ㄱ + ㄱ → ㄱ + ㄲ : école.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">식당</span>
+      <span class="arrow">→</span>
+      <span class="phon">[식땅]</span>
+      <div class="fr">ㄱ + ㄷ → ㄱ + ㄸ : restaurant.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">늦잠</span>
+      <span class="arrow">→</span>
+      <span class="phon">[늗짬]</span>
+      <div class="fr">ㅈ devient ㅉ : faire la grasse matinée.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">입국</span>
+      <span class="arrow">→</span>
+      <span class="phon">[입꾹]</span>
+      <div class="fr">ㅂ + ㄱ → ㅂ + ㄲ : entrée dans le pays.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Ressenti :</strong> la tensification donne une attaque sèche, comme un petit « coup » de glotte sur la consonne.</div>
+
+  <h3>4. 비음화 — Nasalisation</h3>
+  <div class="rule-card">
+    <div><span class="rule-num">4</span><span class="rule-title">비음화 (bi-eum-hwa)</span></div>
+    <div class="rule-sub">Quand ㄱ ㄷ ㅂ sont suivis de ㄴ ou ㅁ, ils deviennent leur équivalent nasal (ㅇ ㄴ ㅁ).</div>
+
+    <div class="ex-row">
+      <span class="ko-big">국물</span>
+      <span class="arrow">→</span>
+      <span class="phon">[궁물]</span>
+      <div class="fr">ㄱ + ㅁ → ㅇ + ㅁ : bouillon, soupe.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">한국말</span>
+      <span class="arrow">→</span>
+      <span class="phon">[한궁말]</span>
+      <div class="fr">ㄱ devient ㅇ devant ㅁ : la langue coréenne.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">입니다</span>
+      <span class="arrow">→</span>
+      <span class="phon">[임니다]</span>
+      <div class="fr">ㅂ + ㄴ → ㅁ + ㄴ : c'est… (terminaison formelle).</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">받는</span>
+      <span class="arrow">→</span>
+      <span class="phon">[반는]</span>
+      <div class="fr">ㄷ devient ㄴ devant ㄴ : qui reçoit.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Truc :</strong> chaque consonne devient le nasal de sa famille → ㄱ→ㅇ, ㄷ→ㄴ, ㅂ→ㅁ.</div>
+
+  <h3>Récap : les 4 règles en un coup d'œil</h3>
+  <div class="card">
+    <table class="recap-table">
+      <tr><th>Règle</th><th>Conditions</th><th>Effet</th></tr>
+      <tr><td><strong>연음</strong></td><td>받침 + voyelle</td><td>Le 받침 glisse</td></tr>
+      <tr><td><strong>격음화</strong></td><td>ㄱㄷㅂㅈ + ㅎ</td><td>Aspiration ㅋㅌㅍㅊ</td></tr>
+      <tr><td><strong>경음화</strong></td><td>ㄱㄷㅂ + ㄱㄷㅂㅅㅈ</td><td>Tension ㄲㄸㅃㅆㅉ</td></tr>
+      <tr><td><strong>비음화</strong></td><td>ㄱㄷㅂ + ㄴㅁ</td><td>Nasal ㅇㄴㅁ</td></tr>
+    </table>
+  </div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">한국어 se prononce :</p>
+    <div class="opt" data-w="C'est la liaison (연음) : ㄱ glisse vers la voyelle 어." onclick="a(this,'ok')">[한구거]</div>
+    <div class="opt" data-w="Lecture syllabe par syllabe — sans appliquer la liaison." onclick="a(this,'ko')">[한국어]</div>
+    <div class="opt" data-w="Confusion avec la nasalisation, qui ne s'applique pas ici." onclick="a(this,'ko')">[한궁어]</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">좋다 se prononce :</p>
+    <div class="opt" data-w="Lecture lettre par lettre — ne tient pas compte de l'aspiration." onclick="a(this,'ko')">[조다]</div>
+    <div class="opt" data-w="C'est l'aspiration (격음화) : ㅎ + ㄷ fusionnent en ㅌ." onclick="a(this,'ok')">[조타]</div>
+    <div class="opt" data-w="Ce serait la tensification — la règle ne s'applique pas ici." onclick="a(this,'ko')">[조따]</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">입니다 se prononce :</p>
+    <div class="opt" data-w="Sans appliquer la nasalisation, qui transforme ici ㅂ en ㅁ." onclick="a(this,'ko')">[입니다]</div>
+    <div class="opt" data-w="C'est la nasalisation (비음화) : ㅂ + ㄴ → ㅁ + ㄴ." onclick="a(this,'ok')">[임니다]</div>
+    <div class="opt" data-w="L'aspiration ne s'applique pas, ㅎ n'est pas présent." onclick="a(this,'ko')">[이비다]</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">학교 se prononce :</p>
+    <div class="opt" data-w="Sans tensification — ne reflète pas la prononciation réelle." onclick="a(this,'ko')">[학교]</div>
+    <div class="opt" data-w="C'est la tensification (경음화) : ㄱ + ㄱ → ㄱ + ㄲ." onclick="a(this,'ok')">[학꾜]</div>
+    <div class="opt" data-w="Confusion avec la nasalisation, qui n'intervient pas avec ㄱ + ㄱ." onclick="a(this,'ko')">[항교]</div>
+    <div class="why"></div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">국물 se prononce :</p>
+    <div class="opt" data-w="Sans appliquer la nasalisation, ce qui ne reflète pas le langage parlé." onclick="a(this,'ko')">[국물]</div>
+    <div class="opt" data-w="Confusion avec la tensification, qui ne s'applique pas devant ㅁ." onclick="a(this,'ko')">[국뭍]</div>
+    <div class="opt" data-w="C'est la nasalisation (비음화) : ㄱ devient ㅇ devant ㅁ." onclick="a(this,'ok')">[궁물]</div>
+    <div class="why"></div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b41',xp:10});else{if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_b41');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);const why=p.querySelector('.why');if(why){why.textContent=btn.getAttribute('data-w')||'';why.classList.add('show');}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

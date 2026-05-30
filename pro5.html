@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Prosodie avancée — Intonation naturelle — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.12);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .concept-card{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(124,58,237,.03));border:1px solid rgba(124,58,237,.25);border-radius:14px;padding:1rem 1.2rem;margin:1rem 0}
+    .concept-num{display:inline-block;background:#7C3AED;color:#fff;border-radius:50%;width:1.6rem;height:1.6rem;text-align:center;line-height:1.6rem;font-weight:700;font-size:.85rem;margin-right:.5rem}
+    .concept-title{font-weight:700;color:#7C3AED;display:inline-block;font-size:1rem}
+    .concept-sub{color:var(--tx-muted);font-size:.85rem;margin:.3rem 0 .8rem;padding-left:2.1rem}
+    .contour{font-family:'Courier New',monospace;font-size:.95rem;color:#7C3AED;background:rgba(124,58,237,.06);padding:.5rem .8rem;border-radius:10px;letter-spacing:.05em;margin:.5rem 0;display:inline-block}
+    .ko-big{font-size:1.15rem;font-weight:700;color:#7C3AED}
+    .ex-row{background:rgba(124,58,237,.05);border-radius:10px;padding:.7rem .9rem;margin:.5rem 0;font-size:.93rem}
+    .ex-row .fr{color:var(--tx-muted);font-size:.8rem;font-style:italic;margin-top:.3rem}
+    .arrow-up{color:#16A34A;font-weight:700}
+    .arrow-dn{color:#7C3AED;font-weight:700}
+    .ipa{color:#7C3AED;font-weight:700;font-family:'Courier New',monospace;font-size:.9rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.55rem .85rem;font-size:.85rem;margin:.6rem 0;color:var(--tx)}
+    .warn{background:rgba(239,68,68,.06);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;padding:.55rem .85rem;font-size:.85rem;margin:.6rem 0;color:var(--tx)}
+    .exo-card{background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(124,58,237,.02));border:1.5px dashed rgba(124,58,237,.35);border-radius:14px;padding:1rem 1.2rem;margin:.9rem 0}
+    .exo-num{font-size:.72rem;font-weight:700;color:#7C3AED;text-transform:uppercase;letter-spacing:.06em}
+    .recap-table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.4rem 0}
+    .recap-table th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.55rem .7rem;text-align:left;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+    .recap-table td{padding:.55rem .7rem;border-bottom:1px solid var(--bd)}
+    .recap-table tr:last-child td{border-bottom:none}
+    .check{display:inline-block;width:1.2rem;height:1.2rem;border:2px solid #7C3AED;border-radius:4px;vertical-align:-3px;margin-right:.4rem;cursor:pointer;transition:all .15s}
+    .check.on{background:#7C3AED;position:relative}
+    .check.on::after{content:'✓';color:#fff;position:absolute;top:-3px;left:1px;font-weight:700;font-size:.95rem}
+    .checklist li{list-style:none;padding:.3rem 0;font-size:.9rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Prosodie avancée</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Sonner natif : intonation, rythme & groupes</h2>
+  <span class="pill">B2 · Prosodie</span> <span class="xp-badge">+10 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0 1rem">À ce niveau, ton coréen est correct grammaticalement — mais l'oreille native repère immédiatement <strong>le rythme</strong>, <strong>les contours mélodiques</strong> et <strong>les accents de groupe</strong>. Cette leçon condense les marqueurs prosodiques essentiels pour passer de « bon élève » à « presque natif ».</p>
+
+  <h3>1. Contour de fin de phrase</h3>
+  <div class="concept-card">
+    <div><span class="concept-num">1</span><span class="concept-title">Intonation finale</span></div>
+    <div class="concept-sub">Le coréen utilise principalement 3 contours en fin de phrase. Le sens dépend du contour autant que des mots.</div>
+
+    <div class="ex-row">
+      <span class="ko-big">밥 먹었어요<span class="arrow-dn">↘</span></span>
+      <span class="contour">— — ↘</span>
+      <div class="fr">Affirmation neutre : descente franche sur la dernière syllabe. « J'ai mangé. »</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">밥 먹었어요<span class="arrow-up">↗</span></span>
+      <span class="contour">— — ↗</span>
+      <div class="fr">Question oui/non : montée nette à la fin. « Tu as mangé ? »</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">밥 먹었어요<span class="arrow-up">↗</span><span class="arrow-dn">↘</span></span>
+      <span class="contour">— — ↗↘</span>
+      <div class="fr">Mi-affirmation, mi-confirmation : montée puis légère redescente. « J'ai mangé, oui. » (avec nuance d'évidence)</div>
+    </div>
+  </div>
+  <div class="tip"><strong>À l'oral :</strong> en français on monte aussi pour les questions, mais beaucoup moins haut. En coréen, exagère franchement la montée — sinon l'interlocuteur comprend une affirmation.</div>
+
+  <h3>2. L'Accentual Phrase (AP)</h3>
+  <div class="concept-card">
+    <div><span class="concept-num">2</span><span class="concept-title">Le groupe accentuel coréen</span></div>
+    <div class="concept-sub">Le coréen <strong>n'a pas d'accent lexical</strong> (contrairement à l'anglais). À la place, il regroupe les mots par <strong>groupes accentuels</strong> avec un contour mélodique standard : <span class="ipa">L H L H</span> ou <span class="ipa">H H L H</span> selon la première consonne.</div>
+
+    <div class="ex-row">
+      <span class="ko-big">한국어를 배워요</span>
+      <span class="contour">han·gu·geo·reul / bae·wo·yo</span>
+      <div class="fr">2 groupes accentuels : <span class="ipa">[L H L H]</span> + <span class="ipa">[L H L]</span>. Pas de syllabe « martelée » comme en anglais.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">서울에서 친구를 만났어요</span>
+      <span class="contour">seo·ul·e·seo / chin·gu·reul / man·nass·eo·yo</span>
+      <div class="fr">3 groupes. Chaque groupe a son propre contour qui « monte-descend » légèrement.</div>
+    </div>
+  </div>
+  <div class="warn"><strong>⚠️ Erreur fréquente FR→KR :</strong> beaucoup de francophones accentuent la <strong>dernière syllabe</strong> de chaque mot (comme en français). En coréen, c'est l'inverse : le contour redescend en fin de groupe.</div>
+
+  <h3>3. Pauses & rythme</h3>
+  <div class="concept-card">
+    <div><span class="concept-num">3</span><span class="concept-title">Le rythme syllabique</span></div>
+    <div class="concept-sub">Le coréen est <strong>syllabique-temporel</strong> : chaque syllabe a une durée à peu près égale. Pas de « réduction » des voyelles comme en anglais ou en français parlé rapide.</div>
+
+    <div class="ex-row">
+      <span class="ko-big">저는 한국에서 왔어요</span>
+      <span class="contour">jeo · neun · han · gu · ge · seo · wass · eo · yo</span>
+      <div class="fr">9 syllabes, 9 « battements ». Évite de prononcer « jneun » ou « wassyo ».</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">아니요 / 괜찮아요 / 그런데요</span>
+      <span class="contour">3 + 4 + 4 syllabes</span>
+      <div class="fr">Compte mentalement les battements pour caler le rythme.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Astuce métronome :</strong> tape la table avec un doigt à chaque syllabe en t'enregistrant. Si tu te débrouilles bien à 100 BPM (syllabes/min), tu sonnes déjà beaucoup plus naturel.</div>
+
+  <h3>4. Liaisons en contexte fluide</h3>
+  <div class="concept-card">
+    <div><span class="concept-num">4</span><span class="concept-title">Connecter les groupes</span></div>
+    <div class="concept-sub">Dans le parler rapide, les règles de liaison vues en A2 (연음, 비음화, 격음화) s'enchaînent. Voici quelques cas typiques à oraliser.</div>
+
+    <div class="ex-row">
+      <span class="ko-big">읽었어요</span>
+      <span class="contour">→ <span class="ipa">[일거써요]</span></span>
+      <div class="fr">연음 + 경음화 : la 받침 ㄺ glisse, puis ㅅ se tend.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">한국말을 잘해요</span>
+      <span class="contour">→ <span class="ipa">[한궁마를 자래요]</span></span>
+      <div class="fr">비음화 (ㄱ→ㅇ) + 연음 sur 말을 et 잘해.</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">좋아하는 사람</span>
+      <span class="contour">→ <span class="ipa">[조아하는 사람]</span></span>
+      <div class="fr">ㅎ devant voyelle disparaît, pas d'aspiration ici.</div>
+    </div>
+  </div>
+
+  <h3>5. Marqueurs émotionnels</h3>
+  <div class="concept-card">
+    <div><span class="concept-num">5</span><span class="concept-title">La couche affective</span></div>
+    <div class="concept-sub">Au-delà du contour, certaines syllabes finales (요, -네, -군, -지) portent des nuances que la mélodie marque.</div>
+
+    <div class="ex-row">
+      <span class="ko-big">맛있네요<span class="arrow-up">↗</span></span>
+      <span class="contour">surprise agréable</span>
+      <div class="fr">-네요 + montée = « ah tiens, c'est bon ! » (découverte)</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">그렇구나<span class="arrow-dn">↘</span></span>
+      <span class="contour">prise de conscience</span>
+      <div class="fr">-구나 + descente = « ah je vois… » (réalisation)</div>
+    </div>
+    <div class="ex-row">
+      <span class="ko-big">그렇지<span class="arrow-up">↗</span></span>
+      <span class="contour">recherche d'accord</span>
+      <div class="fr">-지 + légère montée = « n'est-ce pas ? »</div>
+    </div>
+  </div>
+
+  <h3>Récap : marqueurs prosodiques B2</h3>
+  <div class="card">
+    <table class="recap-table">
+      <tr><th>Phénomène</th><th>Marque</th><th>Effet</th></tr>
+      <tr><td>Contour final</td><td>↘ / ↗ / ↗↘</td><td>Affirmation / question / nuance</td></tr>
+      <tr><td>Groupe AP</td><td>L H L H par bloc</td><td>Découpe naturelle de la phrase</td></tr>
+      <tr><td>Rythme</td><td>1 syllabe = 1 battement</td><td>Pas de réduction vocalique</td></tr>
+      <tr><td>Liaisons</td><td>연음 + 비음화 + 격음화</td><td>Flux continu, pas haché</td></tr>
+      <tr><td>Particules finales</td><td>-네요, -구나, -지, -잖아요</td><td>Couleur émotionnelle</td></tr>
+    </table>
+  </div>
+
+  <h3>5 exercices phonétiques</h3>
+
+  <div class="exo-card">
+    <div class="exo-num">Exercice 1 — Question vs affirmation</div>
+    <p style="margin:.5rem 0;font-size:.9rem"><strong>Cible :</strong> contraste ↗ / ↘ en fin de phrase.</p>
+    <p style="margin:.3rem 0;font-size:.9rem">Prononce la <strong>même phrase</strong> deux fois, en variant uniquement le contour final :</p>
+    <div class="ex-row"><span class="ko-big">집에 가요<span class="arrow-dn">↘</span></span><div class="fr">Affirmation : « Je rentre à la maison. »</div></div>
+    <div class="ex-row"><span class="ko-big">집에 가요<span class="arrow-up">↗</span></span><div class="fr">Question : « Tu rentres à la maison ? »</div></div>
+    <p style="font-size:.85rem;color:var(--tx-muted);margin-top:.5rem"><strong>Enregistre-toi</strong> et compare les deux. Si tu n'entends pas de différence claire, exagère la montée.</p>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-num">Exercice 2 — Découpe en AP</div>
+    <p style="margin:.5rem 0;font-size:.9rem"><strong>Cible :</strong> identifier les groupes accentuels et faire de petites pauses entre eux.</p>
+    <div class="ex-row"><span class="ko-big">저는 / 서울에서 / 회사를 / 다녀요</span><div class="fr">4 groupes. Marque une micro-pause à chaque /.</div></div>
+    <div class="ex-row"><span class="ko-big">우리는 / 매일 / 한국어를 / 공부해요</span><div class="fr">4 groupes. Garde un débit régulier.</div></div>
+    <p style="font-size:.85rem;color:var(--tx-muted);margin-top:.5rem">Si tu enchaînes tout sans pause, ça sonne robotique. Si tu pauses trop, ça sonne hésitant.</p>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-num">Exercice 3 — Métronome syllabique</div>
+    <p style="margin:.5rem 0;font-size:.9rem"><strong>Cible :</strong> rythme régulier, pas de syllabes avalées.</p>
+    <div class="ex-row"><span class="ko-big">안녕하세요 반갑습니다 잘 부탁드립니다</span><div class="fr">15 syllabes. Tape la table 1 fois par syllabe à 90 BPM.</div></div>
+    <p style="font-size:.85rem;color:var(--tx-muted);margin-top:.5rem">Une fois maîtrisé à 90 BPM, monte à 110 puis 130 BPM en gardant la régularité.</p>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-num">Exercice 4 — Enchaîner les liaisons</div>
+    <p style="margin:.5rem 0;font-size:.9rem"><strong>Cible :</strong> ne pas isoler chaque syllabe écrite — appliquer les règles 연음/비음화/격음화.</p>
+    <div class="ex-row"><span class="ko-big">한국말이 어려워요</span><div class="fr"><span class="ipa">[한궁마리 어려워요]</span> — nasalisation + liaison.</div></div>
+    <div class="ex-row"><span class="ko-big">옷이 멋있어요</span><div class="fr"><span class="ipa">[오시 머시써요]</span> — double liaison + tensification.</div></div>
+    <div class="ex-row"><span class="ko-big">좋아하는 음악을 들어요</span><div class="fr"><span class="ipa">[조아하는 으마글 드러요]</span> — ㅎ silencieux + liaisons.</div></div>
+  </div>
+
+  <div class="exo-card">
+    <div class="exo-num">Exercice 5 — Couleur émotionnelle</div>
+    <p style="margin:.5rem 0;font-size:.9rem"><strong>Cible :</strong> charger une même base de plusieurs contours.</p>
+    <div class="ex-row"><span class="ko-big">맛있어요<span class="arrow-dn">↘</span></span><div class="fr">Constat neutre.</div></div>
+    <div class="ex-row"><span class="ko-big">맛있네요<span class="arrow-up">↗</span></span><div class="fr">Surprise agréable.</div></div>
+    <div class="ex-row"><span class="ko-big">맛있죠<span class="arrow-up">↗</span></span><div class="fr">Recherche d'accord.</div></div>
+    <div class="ex-row"><span class="ko-big">맛있잖아요<span class="arrow-dn">↘</span></span><div class="fr">Rappel évident : « tu vois bien que c'est bon. »</div></div>
+    <p style="font-size:.85rem;color:var(--tx-muted);margin-top:.5rem">Le sens change avec le contour, même si la racine 맛있 reste identique.</p>
+  </div>
+
+  <h3>Check-list de progression</h3>
+  <div class="card">
+    <ul class="checklist" id="checks">
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> Je marque clairement la différence ↗ / ↘ en fin de phrase.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> Je découpe spontanément mes phrases en groupes accentuels.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> Je tape un rythme régulier sans avaler de syllabes.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> J'enchaîne les liaisons sans m'arrêter à chaque caractère.</li>
+      <li><span class="check" onclick="this.classList.toggle('on')"></span> Je varie les particules finales pour colorer mes phrases.</li>
+    </ul>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +10 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d31',xp:10});else{if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_d31');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
