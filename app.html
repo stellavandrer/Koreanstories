@@ -3175,13 +3175,30 @@ document.addEventListener('click', function(e){
   }
 </script>
 <script>
-/* ───── Carte "Mon Certificat" : progression globale du curriculum ───── */
+/* ───── Cards "Mon Certificat" + "Mon Parcours" : pilotées par KSCurriculum ───── */
 (function(){
-  function updateCertCard() {
+  /* Rang dérivé de l'XP — aligné sur certificat.html / profil.html */
+  function rankLabel(xp){
+    if (xp >= 5000) return 'Maître B2+';
+    if (xp >= 3000) return 'Avancé B2';
+    if (xp >= 1800) return 'Pré-avancé B1+';
+    if (xp >= 1000) return 'Intermédiaire B1';
+    if (xp >= 500)  return 'Pré-interm. A2+';
+    if (xp >= 200)  return 'Débutant A2';
+    if (xp >= 50)   return 'Débutant A1';
+    return 'Hangeul';
+  }
+
+  function lsInt(k){ try { return parseInt(localStorage.getItem(k) || '0', 10) || 0; } catch(e){ return 0; } }
+
+  function updateProgressCards() {
     if (!window.KSCurriculum || typeof window.KSCurriculum.progress !== 'function') return;
     try {
       var p = window.KSCurriculum.progress();
       var pct = p.total > 0 ? Math.round(p.done / p.total * 100) : 0;
+      var xp = lsInt('ks_xp');
+
+      /* ── Carte Mon Certificat ── */
       var fill = document.getElementById('certFill');
       var pctEl = document.getElementById('certPct');
       var badge = document.getElementById('certBadge');
@@ -3202,15 +3219,22 @@ document.addEventListener('click', function(e){
           badge.style.color = '#B8924E';
         }
       }
+
+      /* ── Carte Mon Parcours ── */
+      var pFill = document.getElementById('parcoursFill');
+      var pPct  = document.getElementById('parcoursPct');
+      if (pFill) setTimeout(function(){ pFill.style.width = pct + '%'; }, 320);
+      if (pPct)  pPct.textContent = rankLabel(xp);
     } catch(e) {}
   }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateCertCard);
+    document.addEventListener('DOMContentLoaded', updateProgressCards);
   } else {
-    updateCertCard();
+    updateProgressCards();
   }
   /* Re-render après auth sync, comme les autres cards */
-  setTimeout(updateCertCard, 900);
+  setTimeout(updateProgressCards, 900);
 })();
 </script>
 </div><!-- .page-enter -->
