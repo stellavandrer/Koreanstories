@@ -718,6 +718,24 @@ window.ksFinish = ksFinish;
 
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  /* ── A11y : skip-to-content universel ──
+     Injecte un lien « Aller au contenu » en tout début de body, ciblant
+     le premier conteneur .main de la page. Invisible jusqu'au focus
+     clavier (styles .ks-skip-link définis dans design.css). */
+  (function(){
+    if (document.querySelector('.ks-skip-link')) return;
+    var mainEl = document.querySelector('main, .main, #main');
+    if (!mainEl) return;
+    /* On donne un id ciblable et tabindex pour pouvoir y focuser */
+    if (!mainEl.id) mainEl.id = 'ks-main-content';
+    if (!mainEl.hasAttribute('tabindex')) mainEl.setAttribute('tabindex', '-1');
+    var link = document.createElement('a');
+    link.className = 'ks-skip-link';
+    link.href = '#' + mainEl.id;
+    link.textContent = 'Aller au contenu';
+    document.body.insertBefore(link, document.body.firstChild);
+  })();
+
   // Populate XP pills
   const xp = ksGetXP();
   document.querySelectorAll('#xpVal, .xp-val').forEach(el => { el.textContent = xp; });
