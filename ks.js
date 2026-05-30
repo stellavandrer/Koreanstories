@@ -574,6 +574,17 @@ function _ksInjectFinishCSS() {
       'text-decoration:none;font-size:12px;font-weight:700;padding:7px 12px;border-radius:8px;letter-spacing:.02em}',
     '.ksf-milestone-cta:hover{background:#D4B582}',
     '.ksf-milestone-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}',
+    /* ── Confetti palier ── */
+    '.ksf-confetti{position:fixed;inset:0;pointer-events:none;z-index:99600;overflow:hidden}',
+    '.ksf-conf-p{position:absolute;top:-20px;width:9px;height:14px;border-radius:2px;',
+      'animation:ksfConfFall var(--dur,2.8s) cubic-bezier(.32,.55,.62,1) var(--delay,0s) forwards;',
+      'opacity:0}',
+    '@keyframes ksfConfFall{',
+      '0%{opacity:0;transform:translate3d(0,-20px,0) rotate(0deg)}',
+      '8%{opacity:1}',
+      '90%{opacity:1}',
+      '100%{opacity:0;transform:translate3d(var(--dx,0px),100vh,0) rotate(var(--rot,720deg))}',
+    '}',
     ''
   ].join('');
   (document.head || document.documentElement).appendChild(s);
@@ -697,6 +708,54 @@ function _ksRenderFinishOverlay(opts, next) {
   // eslint-disable-next-line no-unused-expressions
   overlay.offsetHeight;
   overlay.classList.add('on');
+
+  /* Burst confetti — uniquement si un palier est célébré.
+     Plus de particules pour le 100 % (vrai diplôme). */
+  if (milestone) {
+    var intensity = milestone.pct === 100 ? 90 : 50;
+    _ksConfetti(intensity);
+  }
+}
+
+/* ── Confetti palier — CSS-driven, no dep ──
+   Crée N particules colorées qui tombent depuis le haut avec
+   rotation et dérive horizontale aléatoires. Auto-cleanup
+   après l'animation. */
+function _ksConfetti(count) {
+  count = count || 60;
+  /* Couleurs depuis la palette niveaux du site */
+  var COLORS = ['#C9A96E', '#16A34A', '#2563EB', '#F59E0B', '#7C3AED', '#EC4899'];
+  /* Nettoie un éventuel ancien container */
+  var prev = document.getElementById('ks-conf');
+  if (prev) prev.remove();
+  var wrap = document.createElement('div');
+  wrap.id = 'ks-conf';
+  wrap.className = 'ksf-confetti';
+  wrap.setAttribute('aria-hidden', 'true');
+  for (var i = 0; i < count; i++) {
+    var p = document.createElement('span');
+    p.className = 'ksf-conf-p';
+    var dur = 2.4 + Math.random() * 1.8;        // 2.4 → 4.2 s
+    var delay = Math.random() * 0.4;             // jitter départ
+    var startX = Math.random() * 100;            // % horizontal
+    var dx = (Math.random() - 0.5) * 280;        // dérive ±140 px
+    var rot = (Math.random() - 0.5) * 1440;      // ±2 tours
+    var color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    var w = 6 + Math.floor(Math.random() * 6);   // 6 → 11 px
+    var h = 10 + Math.floor(Math.random() * 8);  // 10 → 17 px
+    p.style.cssText =
+      'left:' + startX + '%;' +
+      'width:' + w + 'px;height:' + h + 'px;' +
+      'background:' + color + ';' +
+      '--dur:' + dur + 's;' +
+      '--delay:' + delay + 's;' +
+      '--dx:' + dx + 'px;' +
+      '--rot:' + rot + 'deg;';
+    wrap.appendChild(p);
+  }
+  document.body.appendChild(wrap);
+  /* Cleanup après la fin de l'animation la plus longue */
+  setTimeout(function () { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }, 5000);
 }
 
 function ksFinish(opts) {
