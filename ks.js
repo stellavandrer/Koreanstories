@@ -781,6 +781,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(s);
   })();
 
+  /* Charge le prompt PWA d'installation (Chrome/Edge/Samsung) */
+  (function(){
+    if (document.getElementById('ks-install-prompt-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-install-prompt-script';
+    s.src = 'ks-install-prompt.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
+
   /* Charge les notes personnelles (bouton dans la nav bar) */
   (function(){
     if (document.getElementById('ks-notes-script')) return;
