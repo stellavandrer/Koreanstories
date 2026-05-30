@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Connecteurs formels — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#312e81,#7C3AED);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c4b5fd;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;line-height:1.55}
+
+    .connector-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:0;margin:.8rem 0;overflow:hidden}
+    .cc-head{background:rgba(124,58,237,.06);padding:.7rem 1.1rem;border-bottom:1px solid var(--bd);display:flex;align-items:baseline;gap:.7rem}
+    .cc-ko{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#7C3AED}
+    .cc-fr{font-size:.85rem;color:var(--tx-muted);font-weight:600}
+    .cc-type{margin-left:auto;font-size:.65rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:6px;background:rgba(124,58,237,.15);color:#7C3AED}
+    .cc-body{padding:.9rem 1.1rem}
+    .cc-use{font-size:.85rem;color:var(--tx-muted);line-height:1.6;margin-bottom:.6rem}
+    .cc-ex{background:rgba(124,58,237,.04);border-left:3px solid #7C3AED;border-radius:0 8px 8px 0;padding:.5rem .8rem;margin:.5rem 0}
+    .ex-ko{font-weight:600;color:var(--navy);font-size:.92rem;line-height:1.6}
+    [data-theme="dark"] .ex-ko{color:#f7f8fa}
+    .ex-fr{font-size:.78rem;color:var(--tx-muted);margin-top:.2rem;font-style:italic;line-height:1.5}
+
+    .compare-grid{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0;overflow-x:auto}
+    .compare-grid table{width:100%;border-collapse:collapse;font-size:.85rem}
+    .compare-grid th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.5rem .6rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .compare-grid td{padding:.5rem .6rem;border-bottom:1px solid var(--bd);vertical-align:top}
+    .compare-grid td.ko{color:#7C3AED;font-weight:700;white-space:nowrap}
+    .quiz-card{background:rgba(124,58,237,.04);border:1.5px solid rgba(124,58,237,.25);border-radius:14px;padding:1rem;margin:.7rem 0}
+    .quiz-num{display:inline-block;background:#7C3AED;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;margin-bottom:.5rem}
+    .quiz-q{font-weight:700;color:var(--tx);font-size:.92rem;margin-bottom:.5rem;line-height:1.55}
+    .quiz-q .blank{display:inline-block;min-width:80px;padding:2px 8px;background:#fff;border:1.5px solid #7C3AED;border-radius:6px;color:#7C3AED;font-weight:700}
+    [data-theme="dark"] .quiz-q .blank{background:rgba(255,255,255,.08)}
+    .quiz-opt{display:block;width:100%;text-align:left;padding:.55rem .85rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;margin:.25rem 0;font-size:.88rem;color:var(--tx);cursor:pointer;font-family:inherit;transition:all .15s}
+    .quiz-opt:hover{border-color:#7C3AED}
+    .quiz-opt.correct{background:rgba(34,197,94,.12);border-color:#16A34A;color:#15803D;font-weight:600}
+    .quiz-opt.wrong{background:rgba(239,68,68,.10);border-color:#DC2626;color:#991B1B}
+    .quiz-explain{display:none;margin-top:.6rem;padding:.6rem .8rem;background:rgba(34,197,94,.08);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;font-size:.8rem;color:var(--tx-muted);line-height:1.55}
+    .quiz-explain.show{display:block}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Connecteurs formels</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Connecteurs formels — Le squelette de l'écrit</h2>
+  <span class="pill">B2 · Leçon</span> <span class="xp-badge">+15 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">B2 · Discours écrit formel</div>
+    <div class="intro-title">10 connecteurs essentiels TOPIK II</div>
+    <div class="intro-sub">Indispensables pour les essais, articles, présentations. Sans eux, ton coréen reste "scolaire".</div>
+  </div>
+
+  <h3>1. 게다가 — De plus / En plus</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">게다가</div>
+      <div class="cc-fr">de plus / en outre</div>
+      <span class="cc-type">Addition</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Ajoute une information qui <strong>renforce</strong> ce qu'on vient de dire. Souvent en début de phrase. Niveau formel/semi-formel.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">서울은 교통이 편리합니다. 게다가 볼거리도 정말 많습니다.</div>
+        <div class="ex-fr">Séoul est bien desservie en transports. En plus, il y a beaucoup de choses à voir.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>2. 또한 — Également / De même</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">또한</div>
+      <div class="cc-fr">également</div>
+      <span class="cc-type">Addition</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Plus formel que 게다가. Ajoute une information parallèle ou similaire. Très fréquent dans la presse et les essais.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">이 정책은 환경 보호에 효과적이다. 또한 경제적으로도 합리적이다.</div>
+        <div class="ex-fr">Cette politique est efficace pour la protection de l'environnement. Elle est également rationnelle sur le plan économique.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>3. 그러나 — Cependant</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">그러나</div>
+      <div class="cc-fr">cependant / mais (formel)</div>
+      <span class="cc-type">Opposition</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Équivalent formel de <em>하지만</em>. À privilégier à l'écrit, dans les essais et articles.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">이 방법은 효과적이다. 그러나 비용이 많이 든다.</div>
+        <div class="ex-fr">Cette méthode est efficace. Cependant, elle coûte cher.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>4. 반면에 — En revanche</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">반면에</div>
+      <div class="cc-fr">en revanche / d'un autre côté</div>
+      <span class="cc-type">Contraste</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Présente un contraste équilibré entre deux idées. Très utile dans les essais TOPIK.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">SNS는 정보 공유에 유용하다. 반면에 가짜 뉴스 확산이라는 문제도 있다.</div>
+        <div class="ex-fr">Les réseaux sociaux sont utiles pour partager des informations. En revanche, il y a aussi le problème de la diffusion de fausses nouvelles.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>5. 그럼에도 불구하고 — Malgré cela</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">그럼에도 불구하고</div>
+      <div class="cc-fr">malgré cela</div>
+      <span class="cc-type">Concession</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Concession très forte. Tu reconnais l'argument adverse, puis tu le dépasses. Marque d'un essai de niveau supérieur.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">많은 사람들이 회의적이었다. 그럼에도 불구하고 이 계획은 성공했다.</div>
+        <div class="ex-fr">Beaucoup étaient sceptiques. Malgré cela, ce projet a réussi.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>6. 따라서 — Par conséquent</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">따라서</div>
+      <div class="cc-fr">par conséquent / donc (formel)</div>
+      <span class="cc-type">Conséquence</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Le "donc" formel par excellence. À utiliser dans les conclusions partielles ou pour enchaîner une déduction logique.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">이 자료는 신뢰하기 어렵다. 따라서 추가 연구가 필요하다.</div>
+        <div class="ex-fr">Ces données sont difficiles à croire. Par conséquent, des recherches supplémentaires sont nécessaires.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>7. 즉 — C'est-à-dire</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">즉</div>
+      <div class="cc-fr">c'est-à-dire / autrement dit</div>
+      <span class="cc-type">Reformulation</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Reformule pour clarifier ou simplifier. Indispensable quand tu introduis un concept abstrait.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">우리는 디지털 시대에 살고 있다. 즉, 모든 것이 인터넷에 연결된 시대이다.</div>
+        <div class="ex-fr">Nous vivons à l'ère numérique. C'est-à-dire, une époque où tout est connecté à Internet.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>8. 한편 — D'autre part</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">한편</div>
+      <div class="cc-fr">d'autre part / par ailleurs</div>
+      <span class="cc-type">Changement d'angle</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Change de perspective sans opposer frontalement. Très utilisé dans la presse pour passer d'un sujet à un autre.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">정부는 경제 회복을 강조했다. 한편 시민 단체들은 환경 문제를 지적했다.</div>
+        <div class="ex-fr">Le gouvernement a insisté sur la reprise économique. Par ailleurs, les associations citoyennes ont pointé du doigt les problèmes environnementaux.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>9. 결국 — Finalement / Au final</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">결국</div>
+      <div class="cc-fr">au final / à la fin</div>
+      <span class="cc-type">Conclusion</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Marque une conclusion ou un résultat après une description ou réflexion. Plus narratif que 따라서.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">여러 가지 방법을 시도했지만, 결국 가장 단순한 방법이 효과적이었다.</div>
+        <div class="ex-fr">J'ai essayé plusieurs méthodes, mais au final la plus simple s'est avérée la plus efficace.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>10. 결론적으로 — En conclusion</h3>
+  <div class="connector-card">
+    <div class="cc-head">
+      <div class="cc-ko">결론적으로</div>
+      <div class="cc-fr">en conclusion</div>
+      <span class="cc-type">Clôture</span>
+    </div>
+    <div class="cc-body">
+      <p class="cc-use">Signal explicite que tu vas conclure. À utiliser une seule fois par essai, dans le dernier paragraphe.</p>
+      <div class="cc-ex">
+        <div class="ex-ko">결론적으로 교육의 진정한 목적은 단순히 지식을 전달하는 것이 아니라 사람을 성장시키는 것이다.</div>
+        <div class="ex-fr">En conclusion, le véritable but de l'éducation n'est pas simplement de transmettre des connaissances mais de faire grandir la personne.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Tableau comparatif — Quel connecteur choisir ?</h3>
+  <div class="compare-grid">
+    <table>
+      <tr><th>Tu veux dire...</th><th>Oral / Familier</th><th>Écrit / Formel</th></tr>
+      <tr><td>Et / En plus</td><td class="ko">그리고</td><td class="ko">또한 · 게다가</td></tr>
+      <tr><td>Mais</td><td class="ko">근데 · 하지만</td><td class="ko">그러나</td></tr>
+      <tr><td>Mais pourtant</td><td class="ko">그래도</td><td class="ko">그럼에도 불구하고</td></tr>
+      <tr><td>D'un côté / De l'autre</td><td class="ko">한편으로는...</td><td class="ko">반면에</td></tr>
+      <tr><td>Donc</td><td class="ko">그래서</td><td class="ko">따라서</td></tr>
+      <tr><td>C'est-à-dire</td><td class="ko">그러니까</td><td class="ko">즉</td></tr>
+      <tr><td>Au final</td><td class="ko">결국</td><td class="ko">결국 · 결론적으로</td></tr>
+    </table>
+  </div>
+
+  <h3>Quiz · 5 questions</h3>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q01</span>
+    <div class="quiz-q">이 정책은 환경에 좋다. <span class="blank">_____</span> 비용이 많이 든다.</div>
+    <button class="quiz-opt" onclick="answer(this,false)">또한</button>
+    <button class="quiz-opt" onclick="answer(this,true,'qa1')">그러나</button>
+    <button class="quiz-opt" onclick="answer(this,false)">따라서</button>
+    <button class="quiz-opt" onclick="answer(this,false)">결론적으로</button>
+    <div class="quiz-explain" id="qa1">Opposition entre "bon pour l'environnement" et "coûte cher" → 그러나.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q02</span>
+    <div class="quiz-q">데이터가 부족하다. <span class="blank">_____</span> 추가 조사가 필요하다.</div>
+    <button class="quiz-opt" onclick="answer(this,false)">반면에</button>
+    <button class="quiz-opt" onclick="answer(this,false)">즉</button>
+    <button class="quiz-opt" onclick="answer(this,true,'qa2')">따라서</button>
+    <button class="quiz-opt" onclick="answer(this,false)">게다가</button>
+    <div class="quiz-explain" id="qa2">Conséquence logique : manque de données → besoin de recherche supplémentaire. 따라서.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q03</span>
+    <div class="quiz-q">많은 어려움이 있었다. <span class="blank">_____</span> 우리는 포기하지 않았다.</div>
+    <button class="quiz-opt" onclick="answer(this,true,'qa3')">그럼에도 불구하고</button>
+    <button class="quiz-opt" onclick="answer(this,false)">결국</button>
+    <button class="quiz-opt" onclick="answer(this,false)">한편</button>
+    <button class="quiz-opt" onclick="answer(this,false)">즉</button>
+    <div class="quiz-explain" id="qa3">Concession forte (malgré les difficultés, nous n'avons pas abandonné) → 그럼에도 불구하고.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q04</span>
+    <div class="quiz-q">우리는 글로벌 시대에 살고 있다. <span class="blank">_____</span>, 모든 나라가 서로 연결된 시대이다.</div>
+    <button class="quiz-opt" onclick="answer(this,false)">따라서</button>
+    <button class="quiz-opt" onclick="answer(this,true,'qa4')">즉</button>
+    <button class="quiz-opt" onclick="answer(this,false)">반면에</button>
+    <button class="quiz-opt" onclick="answer(this,false)">한편</button>
+    <div class="quiz-explain" id="qa4">Reformulation : on explicite ce que "ère globale" veut dire → 즉.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q05</span>
+    <div class="quiz-q">소셜 미디어는 빠른 정보 공유에 유용하다. <span class="blank">_____</span>, 가짜 뉴스 확산이라는 어두운 면도 있다.</div>
+    <button class="quiz-opt" onclick="answer(this,false)">따라서</button>
+    <button class="quiz-opt" onclick="answer(this,false)">결론적으로</button>
+    <button class="quiz-opt" onclick="answer(this,true,'qa5')">반면에</button>
+    <button class="quiz-opt" onclick="answer(this,false)">또한</button>
+    <div class="quiz-explain" id="qa5">Contraste équilibré entre l'aspect positif et négatif → 반면에.</div>
+  </div>
+
+  <h3>Astuce TOPIK</h3>
+  <div class="tip">
+    Dans un essai de 600-700자, vise <strong>5 à 7 connecteurs</strong> différents. Pas plus (lourd), pas moins (linéaire). Idéalement : 1 par paragraphe + 1 ou 2 dans l'argumentation centrale. Évite de répéter le même connecteur deux fois — c'est noté.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function answer(btn, correct, explainId){
+  var card = btn.closest('.quiz-card');
+  card.querySelectorAll('.quiz-opt').forEach(function(b){ b.disabled = true; b.style.cursor='default'; });
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if(correct && explainId){
+    document.getElementById(explainId).classList.add('show');
+  } else if(!correct){
+    var rightBtn = card.querySelector('.quiz-opt[onclick*="true"]');
+    if(rightBtn) rightBtn.classList.add('correct');
+    var exp = card.querySelector('.quiz-explain');
+    if(exp) exp.classList.add('show');
+  }
+}
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d19',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_d19');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

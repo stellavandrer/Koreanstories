@@ -147,7 +147,7 @@
     /* exercice19-24 toutes créées en mai 2026 */
     /* histoire22-30 toutes créées en mai 2026 */
     'jeu11.html':1,'jeu12.html':1,
-    'lecon40b.html':1,'lecon40c.html':1,'lecon40d.html':1,
+    /* lecon40b (connecteurs), 40c (honorifiques), 40d (proverbes) créées */
     /* lecon52, 53, 54 : créées — retirées de COMING_SOON */
     'lecon55.html':1,'lecon56.html':1,'lecon57.html':1,
     'lecon58.html':1,'lecon59.html':1,'lecon60.html':1,

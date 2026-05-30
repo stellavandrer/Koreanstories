@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>속담 — Proverbes coréens — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#312e81,#7C3AED);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c4b5fd;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;line-height:1.55}
+
+    .proverb-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:0;margin:1rem 0;overflow:hidden;position:relative}
+    .proverb-num{position:absolute;top:14px;right:14px;background:#7C3AED;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em;z-index:2}
+    .pc-head{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(124,58,237,.02));padding:1.2rem 1.1rem .8rem;border-bottom:1px solid var(--bd);text-align:center}
+    .pc-ko{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:600;color:#7C3AED;line-height:1.5;margin-bottom:.4rem}
+    .pc-rom{font-size:.78rem;color:var(--tx-muted);font-style:italic;line-height:1.5}
+    .pc-body{padding:.9rem 1.1rem}
+    .pc-section{margin:.5rem 0}
+    .pc-label{font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#7C3AED;margin-bottom:.2rem}
+    .pc-text{font-size:.88rem;line-height:1.6;color:var(--navy)}
+    [data-theme="dark"] .pc-text{color:#f7f8fa}
+    .pc-meaning{background:rgba(124,58,237,.05);border-left:3px solid #7C3AED;border-radius:0 8px 8px 0;padding:.6rem .8rem;margin:.5rem 0}
+    .pc-fr-equiv{font-size:.82rem;color:var(--tx-muted);font-style:italic;line-height:1.55;background:rgba(184,146,78,.07);border-left:2px solid #B8924E;border-radius:0 6px 6px 0;padding:.4rem .7rem;margin:.4rem 0}
+    .pc-fr-equiv strong{color:#B8924E}
+    .pc-example{background:rgba(0,0,0,.03);border-radius:8px;padding:.5rem .7rem;margin:.4rem 0;font-size:.85rem;line-height:1.55;color:var(--tx)}
+    [data-theme="dark"] .pc-example{background:rgba(255,255,255,.04)}
+    .pc-example .ko{color:#7C3AED;font-weight:600}
+    .pc-example .quote{font-style:italic;color:var(--tx-muted);font-size:.78rem;margin-top:.2rem;display:block}
+
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#7C3AED;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">속담 — Proverbes</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>속담 — Proverbes coréens essentiels</h2>
+  <span class="pill">B2 · Leçon</span> <span class="xp-badge">+15 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">Patrimoine traditionnel</div>
+    <div class="intro-title">10 proverbes pour parler comme un natif</div>
+    <div class="intro-sub">Les 속담 sont la sagesse populaire condensée. Les placer dans une conversation ou un essai = signal immédiat d'un niveau B2+.</div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">01</div>
+    <div class="pc-head">
+      <div class="pc-ko">가는 말이 고와야 오는 말이 곱다</div>
+      <div class="pc-rom">ganeun mari gowaya oneun mari gopda</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Seulement si les mots qui partent sont beaux, les mots qui reviennent seront beaux."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">La façon dont tu parles aux autres détermine la façon dont ils te répondent. <strong>Respect appelle respect.</strong></div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "On récolte ce que l'on sème."</div>
+      <div class="pc-example">
+        <div class="ko">상사한테 친절하게 말해 봐. 가는 말이 고와야 오는 말이 곱다잖아.</div>
+        <span class="quote">Parle gentiment à ton patron. Tu sais bien, les paroles douces engendrent les paroles douces.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">02</div>
+    <div class="pc-head">
+      <div class="pc-ko">백문이 불여일견</div>
+      <div class="pc-rom">baengmuni buryeoilgyeon</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Entendre cent fois ne vaut pas voir une fois."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">L'expérience directe vaut plus que toutes les descriptions. <strong>Il faut voir pour comprendre.</strong></div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Une image vaut mille mots."</div>
+      <div class="pc-example">
+        <div class="ko">서울이 어떤 도시인지 책으로만 알다가 직접 가 보니까 정말 백문이 불여일견이더라고요.</div>
+        <span class="quote">Connaître Séoul seulement par les livres, puis y aller vraiment — c'est exactement ça : voir vaut mille fois entendre.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">03</div>
+    <div class="pc-head">
+      <div class="pc-ko">티끌 모아 태산</div>
+      <div class="pc-rom">tikkeul moa taesan</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Les grains de poussière accumulés font une grande montagne."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Les petits efforts répétés finissent par produire de grands résultats. <strong>La régularité bat l'intensité.</strong></div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Les petits ruisseaux font les grandes rivières."</div>
+      <div class="pc-example">
+        <div class="ko">매일 10분씩 한국어 공부해. 티끌 모아 태산이라고 1년 후엔 큰 차이가 날 거야.</div>
+        <span class="quote">Étudie le coréen 10 min par jour. Dans un an, ces petits efforts feront une grande différence.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">04</div>
+    <div class="pc-head">
+      <div class="pc-ko">소 잃고 외양간 고친다</div>
+      <div class="pc-rom">so ilkho oeyanggan gochinda</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Après avoir perdu le bœuf, on répare l'étable."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Agir <strong>après</strong> qu'il soit trop tard. Critique d'une précaution prise trop tardivement.</div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Fermer l'étable une fois les chevaux partis."</div>
+      <div class="pc-example">
+        <div class="ko">사고가 난 후에야 안전 점검을 하다니, 정말 소 잃고 외양간 고치는 격이네.</div>
+        <span class="quote">Faire un contrôle de sécurité seulement après l'accident — réagir trop tard, vraiment.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">05</div>
+    <div class="pc-head">
+      <div class="pc-ko">우물 안 개구리</div>
+      <div class="pc-rom">umul an gaeguri</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Une grenouille dans le puits."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Quelqu'un avec une <strong>vision étroite du monde</strong>, qui ne connaît que son petit environnement. À utiliser avec tact — c'est plutôt critique.</div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Avoir une vision de clocher."</div>
+      <div class="pc-example">
+        <div class="ko">해외 경험이 없으면 우물 안 개구리가 되기 쉬워요. 다른 문화를 직접 경험해 보세요.</div>
+        <span class="quote">Sans expérience à l'étranger, il est facile de devenir limité dans sa vision. Va vivre d'autres cultures directement.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">06</div>
+    <div class="pc-head">
+      <div class="pc-ko">호랑이도 제 말 하면 온다</div>
+      <div class="pc-rom">horangido je mal hamyeon onda</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Même le tigre vient quand on parle de lui."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Quand on parle de quelqu'un, cette personne <strong>apparaît</strong> souvent par hasard. Coïncidence amusante.</div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Quand on parle du loup, on en voit la queue."</div>
+      <div class="pc-example">
+        <div class="ko">방금 민지 얘기 하고 있었는데 마침 들어왔네! 호랑이도 제 말 하면 온다더니.</div>
+        <span class="quote">On parlait justement de Min-ji et la voilà qui entre ! Quand on parle du loup...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">07</div>
+    <div class="pc-head">
+      <div class="pc-ko">시작이 반이다</div>
+      <div class="pc-rom">sijagi banida</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Commencer, c'est la moitié."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Le plus dur, c'est de commencer. Une fois qu'on a commencé, la moitié du travail est faite. <strong>Encourageant.</strong></div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Il n'y a que le premier pas qui coûte."</div>
+      <div class="pc-example">
+        <div class="ko">새로운 언어 배우기, 어렵지만 시작이 반이에요. 일단 첫 페이지를 열어 보세요.</div>
+        <span class="quote">Apprendre une nouvelle langue, c'est dur, mais commencer c'est la moitié. Ouvre simplement la première page.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">08</div>
+    <div class="pc-head">
+      <div class="pc-ko">발 없는 말이 천 리 간다</div>
+      <div class="pc-rom">bal eomneun mari cheolli ganda</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"La parole sans pieds parcourt mille lieues."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Les rumeurs voyagent très vite et très loin. <strong>Attention à ce qu'on dit.</strong> Jeu de mots : 말 = "cheval" et "parole".</div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Les murs ont des oreilles."</div>
+      <div class="pc-example">
+        <div class="ko">회사에서 험담은 절대 하지 마세요. 발 없는 말이 천 리 간다고 하잖아요.</div>
+        <span class="quote">Ne fais jamais de médisance au bureau. Comme on dit, les rumeurs vont très vite.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">09</div>
+    <div class="pc-head">
+      <div class="pc-ko">금강산도 식후경</div>
+      <div class="pc-rom">geumgangsando sikhugyeong</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Même les monts Geumgang, c'est après avoir mangé."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Même la plus belle chose du monde, il faut d'abord <strong>manger</strong> pour en profiter. <em>Les besoins de base passent avant le reste.</em></div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Ventre affamé n'a point d'oreilles."</div>
+      <div class="pc-example">
+        <div class="ko">관람 시작 전에 먼저 식사부터 합시다. 금강산도 식후경이라잖아요.</div>
+        <span class="quote">Mangeons d'abord avant la visite. Tu sais bien, ventre vide ne profite de rien.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proverb-card">
+    <div class="proverb-num">10</div>
+    <div class="pc-head">
+      <div class="pc-ko">하늘이 무너져도 솟아날 구멍이 있다</div>
+      <div class="pc-rom">haneuri muneojyeodo sosanal gumeong-i itda</div>
+    </div>
+    <div class="pc-body">
+      <div class="pc-section">
+        <div class="pc-label">Littéral</div>
+        <div class="pc-text">"Même si le ciel s'effondre, il y a un trou par où s'élever."</div>
+      </div>
+      <div class="pc-meaning">
+        <div class="pc-label">Sens</div>
+        <div class="pc-text">Même dans les pires moments, il y a toujours une <strong>issue, une solution</strong>. Très utilisé pour encourager.</div>
+      </div>
+      <div class="pc-fr-equiv"><strong>Équivalent français :</strong> "Après la pluie, le beau temps."</div>
+      <div class="pc-example">
+        <div class="ko">힘들겠지만 너무 걱정하지 마. 하늘이 무너져도 솟아날 구멍이 있어.</div>
+        <span class="quote">Ça va être dur mais ne t'inquiète pas trop. Il y a toujours une issue, même au pire.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Comment les utiliser en contexte</h3>
+  <div class="tip">
+    Les 속담 sont à utiliser avec <strong>parcimonie</strong>. Un ou deux dans une conversation ou un essai = naturel. Trois ou plus = artificiel.<br><br>
+    Formulations courantes pour les introduire :<br>
+    • <span class="ko">~다고 하잖아요</span> = "comme on dit que..."<br>
+    • <span class="ko">~라고 했어요</span> = "il est dit que..."<br>
+    • <span class="ko">~인 격이네</span> = "c'est exactement comme..."<br>
+    • <span class="ko">~더니</span> = "c'était bien ça que..."
+  </div>
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">속담</td><td>sokdam</td><td>Proverbe</td></tr>
+      <tr><td class="ko">티끌</td><td>tikkeul</td><td>Grain de poussière</td></tr>
+      <tr><td class="ko">태산</td><td>taesan</td><td>Grande montagne</td></tr>
+      <tr><td class="ko">우물</td><td>umul</td><td>Puits</td></tr>
+      <tr><td class="ko">개구리</td><td>gaeguri</td><td>Grenouille</td></tr>
+      <tr><td class="ko">호랑이</td><td>horangi</td><td>Tigre</td></tr>
+      <tr><td class="ko">외양간</td><td>oeyanggan</td><td>Étable</td></tr>
+      <tr><td class="ko">험담</td><td>heomdam</td><td>Médisance</td></tr>
+      <tr><td class="ko">솟아나다</td><td>sosanada</td><td>Jaillir / s'élever</td></tr>
+      <tr><td class="ko">교훈</td><td>gyohun</td><td>Leçon / morale</td></tr>
+    </table>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d21',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_d21');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
