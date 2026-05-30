@@ -1,12 +1,15 @@
-// Korean Stories — Service Worker v2.4
+// Korean Stories — Service Worker v2.5
 // Network-first pour HTML/JS/CSS (toujours à jour),
 // cache-first pour les images & polices (rarement modifiées).
 // Bypass pour les APIs externes type DiceBear (l'interception
 // no-cors pose problème dans certains navigateurs).
 // v2.3 : ajout notificationclick handler.
 // v2.4 : bypass Unsplash pour bannières de leçons.
+// v2.5 : ajout pages fin de parcours (certificat, apres-b2),
+//        modules JS récents (ks-curriculum, ks-install-prompt),
+//        histoires 12-30 (curriculum complet).
 
-const CACHE = 'ks-v2.4';
+const CACHE = 'ks-v2.5';
 
 const CORE = [
   // App shell
@@ -25,6 +28,19 @@ const CORE = [
   'test-niveau.html',
   'manifest.json',
 
+  // Fin de parcours (v2.5)
+  'certificat.html',
+  'apres-b2.html',
+
+  // Modules JS partagés
+  'ks.js',
+  'ks-curriculum.js',
+  'ks-sync.js',
+  'ks-search.js',
+  'ks-install-prompt.js',
+  'gate.js',
+  'design.css',
+
   // Leçons Hangeul (Débutant)
   'lecon.html','lecon2.html','lecon3.html','lecon4.html','lecon5.html',
   'lecon6.html','lecon7.html','lecon8.html','lecon9.html','lecon10.html',
@@ -38,10 +54,15 @@ const CORE = [
   'prem-oral-a1.html',
   'prem-quiz-a1.html',
 
-  // Histoires
+  // Histoires (toutes — curriculum complet, v2.5)
   'histoire1.html','histoire2.html','histoire3.html','histoire4.html',
   'histoire5.html','histoire6.html','histoire7.html','histoire8.html',
-  'histoire9.html','histoire10.html','histoire11.html',
+  'histoire9.html','histoire10.html','histoire11.html','histoire12.html',
+  'histoire13.html','histoire14.html','histoire15.html','histoire16.html',
+  'histoire17.html','histoire18.html','histoire19.html','histoire20.html',
+  'histoire21.html','histoire22.html','histoire23.html','histoire24.html',
+  'histoire25.html','histoire26.html','histoire27.html','histoire28.html',
+  'histoire29.html','histoire30.html',
 ];
 
 // ── Install : précharge les pages core ──
