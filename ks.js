@@ -111,10 +111,28 @@ ksMaybeRenewFreezes();
 
 /* ── Completion tracking ───────────────────────────────────────────── */
 function ksMarkDone(key) {
-  try { localStorage.setItem(key, 'done'); } catch(e) {}
+  try {
+    var wasAlreadyDone = localStorage.getItem(key) === 'done';
+    localStorage.setItem(key, 'done');
+    /* Première complétion : on garde la date d'origine.
+       Re-complétion : on met à jour la date de "dernière révision". */
+    var now = Date.now();
+    if (!wasAlreadyDone) {
+      localStorage.setItem('ks_first_at_' + key, String(now));
+    }
+    localStorage.setItem('ks_done_at_' + key, String(now));
+  } catch(e) {}
 }
 function ksIsDone(key) {
   try { return localStorage.getItem(key) === 'done'; } catch(e) { return false; }
+}
+/* Récupère le timestamp de dernière complétion / révision d'une activité.
+   Retourne 0 si jamais terminée ou si le tracking n'existait pas. */
+function ksDoneAt(key) {
+  try {
+    var v = localStorage.getItem('ks_done_at_' + key);
+    return v ? parseInt(v) || 0 : 0;
+  } catch(e) { return 0; }
 }
 
 /* ── Korean TTS — meilleure voix disponible (fallback) ─────────────

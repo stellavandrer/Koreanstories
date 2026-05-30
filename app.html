@@ -1394,6 +1394,24 @@
         <div class="scard-pct" style="color:#a78bfa"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:3px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>60 sec</div>
       </a>
 
+      <a href="certificat.html" class="scard" style="position:relative">
+        <div class="scard-icon" style="background:rgba(184,146,78,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#B8924E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5l1.5 7L12 18l-5 2.5 1.5-7"/></svg></div>
+        <div class="scard-badge" id="certBadge" style="background:rgba(184,146,78,.14);color:#B8924E">Diplôme</div>
+        <div class="scard-name">Mon Certificat</div>
+        <div class="scard-kr">인증서</div>
+        <div class="scard-bar"><div class="scard-fill" id="certFill" style="width:0%;background:#B8924E"></div></div>
+        <div class="scard-pct" id="certPct" style="color:#B8924E">0 %</div>
+      </a>
+
+      <a href="apres-b2.html" class="scard" style="position:relative">
+        <div class="scard-icon" style="background:rgba(124,58,237,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg></div>
+        <div class="scard-badge" style="background:rgba(124,58,237,.14);color:#7C3AED">B2+</div>
+        <div class="scard-name">Après B2</div>
+        <div class="scard-kr">다음 단계</div>
+        <div class="scard-bar"><div class="scard-fill" style="width:0%;background:#7C3AED"></div></div>
+        <div class="scard-pct" style="color:#7C3AED">TOPIK · Corée</div>
+      </a>
+
     </div>
 
     <!-- TIP DU JOUR -->
@@ -3157,6 +3175,43 @@ document.addEventListener('click', function(e){
   }
 </script>
 <script>
+/* ───── Carte "Mon Certificat" : progression globale du curriculum ───── */
+(function(){
+  function updateCertCard() {
+    if (!window.KSCurriculum || typeof window.KSCurriculum.progress !== 'function') return;
+    try {
+      var p = window.KSCurriculum.progress();
+      var pct = p.total > 0 ? Math.round(p.done / p.total * 100) : 0;
+      var fill = document.getElementById('certFill');
+      var pctEl = document.getElementById('certPct');
+      var badge = document.getElementById('certBadge');
+      if (fill) setTimeout(function(){ fill.style.width = pct + '%'; }, 280);
+      if (pctEl) pctEl.textContent = pct + ' %';
+      if (badge) {
+        if (pct >= 100) {
+          badge.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Diplômé';
+          badge.style.background = 'rgba(34,197,94,.12)';
+          badge.style.color = '#15803d';
+        } else if (pct >= 50) {
+          badge.textContent = 'À mi-chemin';
+          badge.style.background = 'rgba(184,146,78,.14)';
+          badge.style.color = '#B8924E';
+        } else if (pct > 0) {
+          badge.textContent = 'En cours';
+          badge.style.background = 'rgba(184,146,78,.14)';
+          badge.style.color = '#B8924E';
+        }
+      }
+    } catch(e) {}
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateCertCard);
+  } else {
+    updateCertCard();
+  }
+  /* Re-render après auth sync, comme les autres cards */
+  setTimeout(updateCertCard, 900);
+})();
 </script>
 </div><!-- .page-enter -->
 
