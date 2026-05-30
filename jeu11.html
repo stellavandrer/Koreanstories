@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Memory Pairs — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem;font-size:1.3rem}
+    .pill{display:inline-block;background:rgba(34,197,94,.13);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(34,197,94,.13);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .intro{background:linear-gradient(135deg,#14532d,#16a34a);border-radius:16px;padding:1.1rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbf7d0;margin-bottom:.3rem}
+    .intro-title{font-size:1.05rem;font-weight:800}
+    .intro-sub{font-size:.82rem;opacity:.9;margin-top:.3rem;line-height:1.5}
+
+    .stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.8rem 0}
+    .stat-cell{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.6rem;text-align:center}
+    .stat-val{font-size:1.3rem;font-weight:800;color:#16A34A;line-height:1}
+    .stat-lbl{font-size:.65rem;color:var(--tx-muted);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-top:.2rem}
+
+    .category-row{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0 .8rem}
+    .cat-chip{background:var(--surf);border:1.5px solid var(--bd);border-radius:100px;padding:.4rem .8rem;font-size:.78rem;font-weight:700;color:var(--tx-muted);cursor:pointer;font-family:inherit;transition:all .15s}
+    .cat-chip:hover{border-color:#16A34A}
+    .cat-chip.on{background:#16A34A;color:#fff;border-color:#16A34A}
+
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:.5rem 0 1rem}
+    @media(max-width:380px){.grid{grid-template-columns:repeat(3,1fr)}}
+    .card{aspect-ratio:1/1;border-radius:12px;background:linear-gradient(135deg,#0f4c81,#1a6db8);border:none;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;padding:.5rem;text-align:center;font-family:inherit;transition:all .25s;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(255,255,255,.18),transparent 60%);pointer-events:none}
+    .card .face{font-family:'Playfair Display',Georgia,serif;font-size:.95rem;font-weight:600;line-height:1.2;position:relative;z-index:1}
+    .card.flipped{background:linear-gradient(135deg,#f59e0b,#fbbf24)}
+    .card.matched{background:linear-gradient(135deg,#16a34a,#22c55e);cursor:default;transform:scale(.94);opacity:.85}
+    .card.matched .face{color:#fff}
+    .card:not(.flipped):not(.matched) .face{display:none}
+    .card:not(.flipped):not(.matched)::after{content:'?';font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;opacity:.4;position:absolute;z-index:1}
+
+    .win-banner{display:none;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:14px;padding:1.2rem;color:#fff;text-align:center;margin:1rem 0;animation:winIn .4s ease both}
+    .win-banner.show{display:block}
+    @keyframes winIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+    .win-title{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem}
+    .win-stats{font-size:.85rem;opacity:.9;line-height:1.55}
+    .win-btn{margin-top:.8rem;background:#fff;color:#15803D;border:none;padding:.7rem 1.4rem;border-radius:100px;font-weight:700;font-size:.9rem;cursor:pointer;font-family:inherit}
+
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem;display:none}
+    .btn-done.show{display:block}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Memory Pairs</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Memory Pairs — Coréen ↔ Français</h2>
+  <span class="pill">A1+ · Jeu</span> <span class="xp-badge">+10 XP</span>
+
+  <div class="intro">
+    <div class="intro-tag">Mémorisation par paire</div>
+    <div class="intro-title">8 paires à retrouver le plus vite possible</div>
+    <div class="intro-sub">Retourne les cartes 2 par 2 et associe chaque mot coréen à sa traduction. 4 catégories, 5 niveaux de difficulté.</div>
+  </div>
+
+  <div class="category-row">
+    <button class="cat-chip on" data-cat="salutations" onclick="setCat('salutations')">Salutations</button>
+    <button class="cat-chip" data-cat="famille" onclick="setCat('famille')">Famille</button>
+    <button class="cat-chip" data-cat="nourriture" onclick="setCat('nourriture')">Nourriture</button>
+    <button class="cat-chip" data-cat="couleurs" onclick="setCat('couleurs')">Couleurs</button>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-cell"><div class="stat-val" id="movesEl">0</div><div class="stat-lbl">Tentatives</div></div>
+    <div class="stat-cell"><div class="stat-val" id="matchedEl">0/8</div><div class="stat-lbl">Trouvées</div></div>
+    <div class="stat-cell"><div class="stat-val" id="timeEl">0:00</div><div class="stat-lbl">Temps</div></div>
+  </div>
+
+  <div class="grid" id="gameGrid"></div>
+
+  <div class="win-banner" id="winBanner">
+    <div class="win-title">🎉 Bien joué !</div>
+    <div class="win-stats">
+      Trouvé en <strong id="winMoves">0</strong> tentatives · <strong id="winTime">0:00</strong>
+    </div>
+    <button class="win-btn" onclick="restart()">Rejouer</button>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +10 XP</button>
+</div></main></div>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+var CATEGORIES = {
+  salutations: [
+    {ko:'안녕하세요', fr:'Bonjour'},
+    {ko:'안녕히 가세요', fr:'Au revoir'},
+    {ko:'감사합니다', fr:'Merci'},
+    {ko:'죄송합니다', fr:'Désolé'},
+    {ko:'네', fr:'Oui'},
+    {ko:'아니요', fr:'Non'},
+    {ko:'반가워요', fr:'Enchanté'},
+    {ko:'잘 자요', fr:'Bonne nuit'}
+  ],
+  famille: [
+    {ko:'엄마', fr:'Maman'},
+    {ko:'아빠', fr:'Papa'},
+    {ko:'형', fr:'Grand frère'},
+    {ko:'누나', fr:'Grande sœur'},
+    {ko:'동생', fr:'Petit frère/sœur'},
+    {ko:'할머니', fr:'Grand-mère'},
+    {ko:'할아버지', fr:'Grand-père'},
+    {ko:'가족', fr:'Famille'}
+  ],
+  nourriture: [
+    {ko:'김치', fr:'Kimchi'},
+    {ko:'비빔밥', fr:'Bibimbap'},
+    {ko:'밥', fr:'Riz'},
+    {ko:'물', fr:'Eau'},
+    {ko:'커피', fr:'Café'},
+    {ko:'떡볶이', fr:'Tteokbokki'},
+    {ko:'김밥', fr:'Kimbap'},
+    {ko:'라면', fr:'Ramyeon'}
+  ],
+  couleurs: [
+    {ko:'빨강', fr:'Rouge'},
+    {ko:'파랑', fr:'Bleu'},
+    {ko:'노랑', fr:'Jaune'},
+    {ko:'초록', fr:'Vert'},
+    {ko:'검정', fr:'Noir'},
+    {ko:'하양', fr:'Blanc'},
+    {ko:'분홍', fr:'Rose'},
+    {ko:'보라', fr:'Violet'}
+  ]
+};
+
+var currentCat = 'salutations';
+var cards = [];
+var flipped = [];
+var moves = 0;
+var matched = 0;
+var startTime = null;
+var timer = null;
+
+function shuffle(a){
+  var arr = a.slice();
+  for(var i=arr.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+  }
+  return arr;
+}
+
+function setCat(cat){
+  currentCat = cat;
+  document.querySelectorAll('.cat-chip').forEach(function(c){
+    c.classList.toggle('on', c.getAttribute('data-cat') === cat);
+  });
+  restart();
+}
+
+function restart(){
+  var pairs = CATEGORIES[currentCat];
+  /* Construire toutes les cartes : une pour le KO, une pour le FR */
+  cards = [];
+  pairs.forEach(function(p, idx){
+    cards.push({pairId: idx, text: p.ko, type:'ko'});
+    cards.push({pairId: idx, text: p.fr, type:'fr'});
+  });
+  cards = shuffle(cards);
+  flipped = [];
+  moves = 0;
+  matched = 0;
+  document.getElementById('movesEl').textContent = '0';
+  document.getElementById('matchedEl').textContent = '0/' + pairs.length;
+  document.getElementById('winBanner').classList.remove('show');
+  document.getElementById('doneBtn').classList.remove('show');
+  if(timer) clearInterval(timer);
+  document.getElementById('timeEl').textContent = '0:00';
+  startTime = null;
+  renderGrid();
+}
+
+function renderGrid(){
+  var grid = document.getElementById('gameGrid');
+  grid.innerHTML = '';
+  cards.forEach(function(card, idx){
+    var btn = document.createElement('button');
+    btn.className = 'card';
+    btn.dataset.idx = idx;
+    btn.innerHTML = '<div class="face">' + escapeHtml(card.text) + '</div>';
+    btn.addEventListener('click', function(){ flip(idx); });
+    grid.appendChild(btn);
+  });
+}
+
+function flip(idx){
+  if(!startTime){
+    startTime = Date.now();
+    timer = setInterval(updateTime, 250);
+  }
+  var btn = document.querySelector('.card[data-idx="' + idx + '"]');
+  if(btn.classList.contains('flipped') || btn.classList.contains('matched')) return;
+  if(flipped.length >= 2) return;
+  btn.classList.add('flipped');
+  flipped.push(idx);
+  if(flipped.length === 2){
+    moves++;
+    document.getElementById('movesEl').textContent = moves;
+    setTimeout(checkMatch, 700);
+  }
+}
+
+function checkMatch(){
+  var a = cards[flipped[0]];
+  var b = cards[flipped[1]];
+  if(a.pairId === b.pairId){
+    /* MATCH */
+    flipped.forEach(function(i){
+      var el = document.querySelector('.card[data-idx="' + i + '"]');
+      el.classList.remove('flipped');
+      el.classList.add('matched');
+    });
+    matched++;
+    document.getElementById('matchedEl').textContent = matched + '/' + CATEGORIES[currentCat].length;
+    if(matched === CATEGORIES[currentCat].length){
+      win();
+    }
+  } else {
+    /* NO MATCH */
+    flipped.forEach(function(i){
+      document.querySelector('.card[data-idx="' + i + '"]').classList.remove('flipped');
+    });
+  }
+  flipped = [];
+}
+
+function win(){
+  if(timer) clearInterval(timer);
+  var elapsed = Math.floor((Date.now() - startTime)/1000);
+  var min = Math.floor(elapsed/60);
+  var sec = elapsed % 60;
+  var timeStr = min + ':' + (sec < 10 ? '0' : '') + sec;
+  document.getElementById('winMoves').textContent = moves;
+  document.getElementById('winTime').textContent = timeStr;
+  document.getElementById('winBanner').classList.add('show');
+  document.getElementById('doneBtn').classList.add('show');
+  setTimeout(function(){
+    document.getElementById('winBanner').scrollIntoView({behavior:'smooth', block:'center'});
+  }, 400);
+}
+
+function updateTime(){
+  if(!startTime) return;
+  var elapsed = Math.floor((Date.now() - startTime)/1000);
+  var min = Math.floor(elapsed/60);
+  var sec = elapsed % 60;
+  document.getElementById('timeEl').textContent = min + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/[<>&"]/g, function(c){
+    return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];
+  });
+}
+
+function completeLesson(){
+  if(typeof ksFinish==='function') ksFinish({key:'ks_jeu11',xp:10});
+  else { if(typeof ksAddXP==='function') ksAddXP(10); if(typeof ksMarkDone==='function') ksMarkDone('ks_jeu11'); location.href='cours.html'; }
+}
+
+restart();
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

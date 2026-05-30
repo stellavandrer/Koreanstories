@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Simulation TOPIK 3-4 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#F59E0B;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(245,158,11,.13);color:#D97706;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(245,158,11,.13);color:#D97706;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#92400E,#F59E0B);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#fed7aa;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;line-height:1.55}
+
+    .progress-bar{height:8px;background:rgba(245,158,11,.18);border-radius:4px;overflow:hidden;margin:1rem 0;position:sticky;top:64px;z-index:5}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#F59E0B,#FCD34D);width:0%;transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+    .quiz-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
+    .quiz-meta{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx-muted);margin-bottom:.5rem}
+    .quiz-meta .num{background:#F59E0B;color:#fff;padding:2px 10px;border-radius:100px}
+    .quiz-meta .cat{color:#D97706}
+    .quiz-q{font-weight:700;color:var(--tx);font-size:.95rem;margin-bottom:.6rem;line-height:1.55}
+    .quiz-q .blank{display:inline-block;min-width:60px;padding:1px 8px;background:rgba(245,158,11,.15);border-bottom:2px solid #F59E0B;color:#D97706;font-weight:700;border-radius:3px 3px 0 0}
+    .quiz-q .ko{color:#D97706}
+    .quiz-passage{background:rgba(245,158,11,.05);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;padding:.7rem .9rem;margin:.5rem 0;font-size:.88rem;line-height:1.7;color:var(--navy)}
+    [data-theme="dark"] .quiz-passage{color:#f7f8fa}
+    .quiz-opt{display:block;width:100%;text-align:left;padding:.55rem .85rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;margin:.3rem 0;font-size:.9rem;color:var(--tx);cursor:pointer;font-family:inherit;transition:all .15s}
+    .quiz-opt:hover:not(:disabled){border-color:#F59E0B}
+    .quiz-opt.correct{background:rgba(34,197,94,.12);border-color:#16A34A;color:#15803D;font-weight:600}
+    .quiz-opt.wrong{background:rgba(239,68,68,.10);border-color:#DC2626;color:#991B1B}
+    .quiz-explain{display:none;margin-top:.7rem;padding:.6rem .85rem;background:rgba(34,197,94,.07);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;font-size:.82rem;color:var(--tx-muted);line-height:1.55}
+    .quiz-explain.show{display:block}
+    .quiz-explain strong{color:#16A34A}
+
+    .results{background:linear-gradient(135deg,#F59E0B,#FCD34D);border-radius:18px;padding:1.5rem;color:#0a1220;margin:1rem 0;text-align:center;display:none}
+    .results.show{display:block;animation:resultIn .4s cubic-bezier(.34,1.2,.64,1)}
+    @keyframes resultIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+    .results-tag{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:.8;margin-bottom:.3rem}
+    .results-score{font-family:'Playfair Display',Georgia,serif;font-size:3rem;font-weight:800;line-height:1}
+    .results-out{font-size:1rem;opacity:.85;margin-top:.4rem}
+    .results-msg{font-size:.92rem;font-weight:600;margin-top:.7rem;line-height:1.5}
+    .results-actions{display:flex;gap:.6rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+    .results-btn{background:#0a1220;color:#FCD34D;border:none;padding:.7rem 1.2rem;border-radius:100px;font-weight:700;font-size:.88rem;cursor:pointer;font-family:inherit}
+
+    .start-btn{display:block;width:100%;padding:1.1rem;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:800;cursor:pointer;margin:.8rem 0;font-family:inherit;letter-spacing:.02em;box-shadow:0 4px 16px rgba(245,158,11,.3)}
+    .start-btn:hover{transform:translateY(-1px)}
+
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:1rem 0}
+    .stat-card{background:rgba(255,255,255,.92);border-radius:12px;padding:.7rem;color:#0a1220}
+    [data-theme="dark"] .stat-card{background:rgba(15,27,45,.92);color:#f7f8fa}
+    .stat-val{font-size:1.4rem;font-weight:800;color:#D97706}
+    .stat-lbl{font-size:.68rem;color:var(--tx-muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-top:.2rem}
+
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Simulation TOPIK 3-4</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Simulation TOPIK 3-4 — 20 questions</h2>
+  <span class="pill">B1 · Quiz</span> <span class="xp-badge">+25 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native. Questions originales créées pour l'entraînement.</div>
+
+  <div class="intro" id="introCard">
+    <div class="intro-tag">Format officiel TOPIK II — Niveau 3-4</div>
+    <div class="intro-title">20 questions · ~25 min · Score sur 100</div>
+    <div class="intro-sub">Compréhension (5) · Grammaire (8) · Vocabulaire (4) · Synonymes (3). Tu peux te tester sans pression — pas de chrono.</div>
+  </div>
+
+  <button class="start-btn" id="startBtn" onclick="startQuiz()">Commencer le quiz →</button>
+
+  <div class="progress-bar" id="progressBar" style="display:none">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div id="quizContainer" style="display:none"></div>
+
+  <div class="results" id="resultsCard">
+    <div class="results-tag">Résultat final</div>
+    <div class="results-score"><span id="finalScore">0</span><span style="font-size:1.5rem;opacity:.7">/100</span></div>
+    <div class="results-out"><span id="finalCorrect">0</span> bonnes réponses sur 20</div>
+    <div class="results-msg" id="finalMsg">—</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-val" id="statCompr">0</div><div class="stat-lbl">Compréhension</div></div>
+      <div class="stat-card"><div class="stat-val" id="statGramm">0</div><div class="stat-lbl">Grammaire</div></div>
+      <div class="stat-card"><div class="stat-val" id="statVocab">0</div><div class="stat-lbl">Vocab + Synonymes</div></div>
+    </div>
+    <div class="results-actions">
+      <button class="results-btn" onclick="restartQuiz()">Recommencer</button>
+      <button class="results-btn" onclick="completeLesson()" style="background:#fff;color:#D97706">Terminer · +25 XP</button>
+    </div>
+  </div>
+</div></main></div>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+/* ───────────────────────────────────────────────────────────
+   20 QUESTIONS — créées pour entraînement B1
+   Catégories : compr (compréhension) · gramm · vocab · syn
+   ─────────────────────────────────────────────────────────── */
+var QUESTIONS = [
+  /* === GRAMMAIRE (8) === */
+  {cat:'gramm', q:'민지는 시간이 없어서 오늘은 ___ 자전거를 타고 출근했다.',
+   opts:['지하철 대신','지하철까지','지하철처럼','지하철보다'],
+   correct:0, explain:'<strong>~ 대신</strong> = "à la place de ~". "À la place du métro" (que normalement elle prend), elle a pris le vélo.'},
+
+  {cat:'gramm', q:'아무리 ___ 한국어 능력이 단번에 늘지는 않는다.',
+   opts:['공부했지만','공부해도','공부해서','공부하니까'],
+   correct:1, explain:'<strong>아무리 ~아/어도</strong> = "Peu importe combien on ~". Construction concessive avec 아무리.'},
+
+  {cat:'gramm', q:'A: 왜 그렇게 일찍 가요?  B: 내일 시험이 ___.',
+   opts:['있었거든요','있을 거예요','있거든요','있는데요'],
+   correct:2, explain:'<strong>-거든요</strong> = donne une info nouvelle que l\'interlocuteur ne connaît pas, pour expliquer/justifier.'},
+
+  {cat:'gramm', q:'우리 작년에 같이 일본 갔___. 기억 안 나요?',
+   opts:['거든요','지요','잖아요','면서요'],
+   correct:2, explain:'<strong>-잖아요</strong> = rappel d\'une info que l\'autre connaît déjà ("tu te souviens bien que...").'},
+
+  {cat:'gramm', q:'영어를 매일 ___ 늘 거예요.',
+   opts:['공부하다 보면','공부할까 봐','공부해 봤자','공부한 김에'],
+   correct:0, explain:'<strong>-다 보면</strong> = "à force de ~, il finira par...". Exprime un résultat futur produit par une action répétée.'},
+
+  {cat:'gramm', q:'그 영화가 너무 재미있어서 두 번 ___.',
+   opts:['보네요','봐 봤어요','보곤 했어요','본 적이 있어요'],
+   correct:3, explain:'<strong>-(으)ㄴ 적이 있다</strong> = "j\'ai déjà eu l\'expérience de ~". Pour "j\'ai déjà vu" au sens d\'expérience.'},
+
+  {cat:'gramm', q:'민지는 어제 시험을 본 ___ 너무 피곤해 보였어요.',
+   opts:['바람에','덕분에','대신에','정도로'],
+   correct:0, explain:'<strong>-는 바람에</strong> = "à cause de ~ (résultat négatif imprévu)". Conséquence indésirable d\'une action.'},
+
+  {cat:'gramm', q:'제주도에 ___ 한라봉을 꼭 사야 해요.',
+   opts:['가니까','가다가','간 김에','갔는데'],
+   correct:2, explain:'<strong>-(으)ㄴ 김에</strong> = "puisque/tant qu\'on ~". "Puisqu\'on y va, autant en profiter pour..."'},
+
+  /* === VOCABULAIRE (4) === */
+  {cat:'vocab', q:'오랫동안 노력한 ___ 드디어 시험에 합격했어요.',
+   opts:['결과','시작','목적','순간'],
+   correct:0, explain:'<strong>결과</strong> = résultat. "Comme résultat de longs efforts, j\'ai enfin réussi l\'examen."'},
+
+  {cat:'vocab', q:'그 가게는 너무 비싸요. ___이/가 안 좋아요.',
+   opts:['생각','분위기','가성비','체력'],
+   correct:2, explain:'<strong>가성비</strong> = rapport qualité/prix. Mot très courant en coréen moderne.'},
+
+  {cat:'vocab', q:'이번 발표는 정말 ___ 잘 됐어요. 모두가 박수를 쳤어요.',
+   opts:['겨우','드디어','오히려','대단히'],
+   correct:3, explain:'<strong>대단히</strong> = considérablement / très. Renforce l\'adjectif/adverbe qui suit.'},
+
+  {cat:'vocab', q:'요즘 ___ 살이 좀 빠진 것 같아요.',
+   opts:['덕분에','보다는','다행히','참고로'],
+   correct:2, explain:'<strong>다행히</strong> = heureusement. Adverbe pour exprimer une situation positive inattendue.'},
+
+  /* === SYNONYMES (3) === */
+  {cat:'syn', q:'다음 중 "솔직히 말하면"과 비슷한 표현은?',
+   opts:['아무튼','사실은','오히려','만약에'],
+   correct:1, explain:'<strong>사실은</strong> ≈ "솔직히 말하면" = "à vrai dire" / "en fait". Les deux introduisent une révélation honnête.'},
+
+  {cat:'syn', q:'"점점 어려워진다"와 의미가 가장 가까운 것은?',
+   opts:['갑자기 어려워진다','자꾸 어려워진다','조금씩 더 어려워진다','별로 어려워지지 않는다'],
+   correct:2, explain:'<strong>점점</strong> = progressivement, petit à petit. "조금씩 더" exprime la même idée de progression graduelle.'},
+
+  {cat:'syn', q:'"덕분에"와 반대되는 의미는?',
+   opts:['때문에','대신에','거든요','만큼이나'],
+   correct:0, explain:'<strong>덕분에</strong> = "grâce à" (positif) ≠ <strong>때문에</strong> = "à cause de" (souvent négatif).'},
+
+  /* === COMPRÉHENSION (5) === */
+  {cat:'compr', passage:'요즘 서울에는 일인 가구가 빠르게 늘고 있다. 통계청 자료에 따르면 서울 전체 가구 중 약 38%가 일인 가구이다. 이러한 변화로 인해 일인용 식당, 작은 가전제품, 일인용 가구 등의 시장이 크게 성장하고 있다.',
+   q:'위 글의 주제로 가장 적절한 것은?',
+   opts:['서울의 가구 가격 상승','일인 가구 증가와 시장 변화','서울 인구의 감소','젊은 세대의 결혼 문제'],
+   correct:1, explain:'Le texte parle de l\'augmentation des ménages d\'une personne (일인 가구) à Séoul et de la croissance des marchés associés. C\'est l\'idée centrale.'},
+
+  {cat:'compr', passage:'한국의 카페 문화는 매우 독특하다. 사람들은 카페에서 공부하거나 일하는 경우가 많고, 친구와 만나거나 회의를 하는 장소로도 자주 사용한다. 이러한 점에서 카페는 단순한 음료를 마시는 곳이 아니라 다양한 활동이 이루어지는 사회적 공간이다.',
+   q:'한국 카페에 대한 설명으로 맞는 것은?',
+   opts:['주로 친구와 만나는 곳이다','음료만 파는 곳이다','다양한 사회적 활동의 공간이다','일하는 사람은 거의 없다'],
+   correct:2, explain:'Le texte indique explicitement que le café est "단순한 음료를 마시는 곳이 아니라 다양한 활동이 이루어지는 사회적 공간" = un espace social où se déroulent diverses activités.'},
+
+  {cat:'compr', passage:'민지: 이번 주말에 시간 있어? 같이 영화 보러 갈까?\n준호: 미안. 토요일에는 시험이 있어서 공부해야 해.\n민지: 그럼 일요일은 어때?\n준호: 일요일에는 동생과 같이 부모님 댁에 가기로 했어.\n민지: 알겠어. 다음 주에 보자.',
+   q:'준호가 주말에 못 하는 것은 무엇인가?',
+   opts:['시험 공부','부모님 만나기','민지와 영화 보기','동생과 만나기'],
+   correct:2, explain:'Jun-ho a un examen samedi (étudier) et va chez ses parents avec son frère dimanche. Il ne peut donc pas aller au cinéma avec Min-ji ce week-end.'},
+
+  {cat:'compr', passage:'환경 문제는 더 이상 미래의 문제가 아니다. 오늘날 우리는 매일 더운 여름과 갑작스러운 폭우를 경험하고 있다. 이러한 변화에 대응하기 위해 정부와 기업은 친환경 정책을 강화하고 있으며, 개인도 작은 실천부터 시작해야 한다.',
+   q:'이 글이 강조하는 것은?',
+   opts:['정부 정책의 한계','환경 변화의 미래 예측','환경 문제에 대한 즉각적 행동','폭우 피해 보상 방법'],
+   correct:2, explain:'Le texte insiste sur le fait que c\'est maintenant et non plus dans le futur ("더 이상 미래의 문제가 아니다") et que tous doivent agir ("개인도 작은 실천부터 시작해야 한다"). L\'idée centrale est l\'action immédiate.'},
+
+  {cat:'compr', passage:'한국어를 배우는 외국인들이 가장 어려워하는 것 중 하나는 존댓말이다. 같은 의미라도 상대방의 나이, 직위, 친밀도에 따라 표현이 달라져야 한다. 처음에는 헷갈리지만, 시간이 지나면서 자연스럽게 익숙해진다.',
+   q:'외국인들이 한국어를 배울 때 어려워하는 이유는?',
+   opts:['단어가 너무 많아서','발음이 어려워서','상황에 따라 말투가 달라져서','문법이 영어와 비슷해서'],
+   correct:2, explain:'Le texte explique que le 존댓말 change selon "상대방의 나이, 직위, 친밀도" = l\'âge, le statut, la proximité avec l\'interlocuteur, ce qui correspond bien à "le ton change selon la situation".'},
+];
+
+var currentIdx = 0;
+var answers = {};
+var scoresByCat = { gramm:0, vocab:0, syn:0, compr:0 };
+
+function startQuiz(){
+  document.getElementById('introCard').style.display = 'none';
+  document.getElementById('startBtn').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('quizContainer').style.display = 'block';
+  currentIdx = 0;
+  answers = {};
+  scoresByCat = { gramm:0, vocab:0, syn:0, compr:0 };
+  document.getElementById('resultsCard').classList.remove('show');
+  renderAll();
+}
+
+function renderAll(){
+  var container = document.getElementById('quizContainer');
+  container.innerHTML = '';
+  QUESTIONS.forEach(function(q, idx){
+    var passageHtml = q.passage ? '<div class="quiz-passage">' + escapeHtml(q.passage).replace(/\n/g,'<br>') + '</div>' : '';
+    var catLabel = {gramm:'GRAMMAIRE', vocab:'VOCABULAIRE', syn:'SYNONYMES', compr:'COMPRÉHENSION'}[q.cat];
+    var optsHtml = q.opts.map(function(opt, oi){
+      return '<button class="quiz-opt" data-q="' + idx + '" data-o="' + oi + '" onclick="answer(' + idx + ',' + oi + ',this)">' + escapeHtml(opt) + '</button>';
+    }).join('');
+    container.innerHTML += '<div class="quiz-card" id="q' + idx + '">' +
+      '<div class="quiz-meta"><span class="num">Q' + (idx+1).toString().padStart(2,'0') + '</span><span class="cat">' + catLabel + '</span></div>' +
+      passageHtml +
+      '<div class="quiz-q">' + q.q.replace(/___/g, '<span class="blank">_____</span>') + '</div>' +
+      optsHtml +
+      '<div class="quiz-explain" id="exp' + idx + '"><strong>Réponse :</strong> ' + escapeHtml(q.opts[q.correct]) + '<br>' + q.explain + '</div>' +
+    '</div>';
+  });
+  updateProgress();
+}
+
+function answer(qIdx, oIdx, btn){
+  if(answers[qIdx] !== undefined) return; /* déjà répondu */
+  answers[qIdx] = oIdx;
+  var card = document.getElementById('q' + qIdx);
+  var opts = card.querySelectorAll('.quiz-opt');
+  opts.forEach(function(b){ b.disabled = true; b.style.cursor = 'default'; });
+  var correct = QUESTIONS[qIdx].correct;
+  if(oIdx === correct){
+    btn.classList.add('correct');
+    scoresByCat[QUESTIONS[qIdx].cat]++;
+  } else {
+    btn.classList.add('wrong');
+    opts[correct].classList.add('correct');
+  }
+  document.getElementById('exp' + qIdx).classList.add('show');
+  updateProgress();
+  /* Si fin du quiz */
+  if(Object.keys(answers).length >= QUESTIONS.length){
+    setTimeout(showResults, 700);
+  } else {
+    /* Scroll au quiz suivant si répondu */
+    var nextEl = document.getElementById('q' + (qIdx+1));
+    if(nextEl){
+      setTimeout(function(){ nextEl.scrollIntoView({behavior:'smooth', block:'start'}); }, 400);
+    }
+  }
+}
+
+function updateProgress(){
+  var pct = Object.keys(answers).length / QUESTIONS.length * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function showResults(){
+  var totalCorrect = scoresByCat.gramm + scoresByCat.vocab + scoresByCat.syn + scoresByCat.compr;
+  var score = Math.round(totalCorrect / QUESTIONS.length * 100);
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('finalCorrect').textContent = totalCorrect;
+  document.getElementById('statCompr').textContent = scoresByCat.compr + ' / 5';
+  document.getElementById('statGramm').textContent = scoresByCat.gramm + ' / 8';
+  document.getElementById('statVocab').textContent = (scoresByCat.vocab + scoresByCat.syn) + ' / 7';
+  var msg;
+  if(score >= 85) msg = '🏆 Niveau TOPIK 4 confirmé. Tu peux passer l\'examen avec confiance.';
+  else if(score >= 70) msg = '🎯 Niveau TOPIK 3 solide. Quelques révisions de plus pour viser le 4.';
+  else if(score >= 55) msg = '📚 Tu approches le B1. Concentre-toi sur les structures grammaticales.';
+  else msg = '💪 Encore du travail à faire — mais tu y arriveras. Refais les leçons B1.';
+  document.getElementById('finalMsg').textContent = msg;
+  var rc = document.getElementById('resultsCard');
+  rc.classList.add('show');
+  rc.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function restartQuiz(){
+  startQuiz();
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/[<>&"]/g, function(c){
+    return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];
+  });
+}
+
+function completeLesson(){
+  if(typeof ksFinish==='function') ksFinish({key:'ks_c35',xp:25});
+  else { if(typeof ksAddXP==='function') ksAddXP(25); if(typeof ksMarkDone==='function') ksMarkDone('ks_c35'); location.href='cours.html'; }
+}
+
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

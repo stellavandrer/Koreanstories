@@ -146,13 +146,13 @@
     /* conseil7, 8 : créées — retirées */
     /* exercice19-24 toutes créées en mai 2026 */
     /* histoire22-30 toutes créées en mai 2026 */
-    'jeu11.html':1,'jeu12.html':1,
+    /* jeu11 (matching pairs), jeu12 (catégorisation) créés */
     /* lecon40b (connecteurs), 40c (honorifiques), 40d (proverbes) créées */
     /* lecon52, 53, 54 : créées — retirées de COMING_SOON */
     /* lecon55-60 toutes créées : style journal, concessives, raison,
        corps & santé, vêtements, émotions */
     'pro5.html':1,'pro6.html':1,
-    'quiz9.html':1
+    /* quiz9 (TOPIK 3-4 simulation) créé */
   };
 
   function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
