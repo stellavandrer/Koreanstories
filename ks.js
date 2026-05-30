@@ -715,6 +715,32 @@ function _ksRenderFinishOverlay(opts, next) {
     var intensity = milestone.pct === 100 ? 90 : 50;
     _ksConfetti(intensity);
   }
+
+  /* Prefetch de la prochaine activité + cours.html (destination la plus
+     fréquente du bouton "Mon parcours"). Le navigateur télécharge en
+     arrière-plan pendant que l'utilisateur lit le récap, le clic
+     "Continuer" devient quasi-instantané. */
+  _ksPrefetch([nextHref, 'cours.html', milestone ? 'certificat.html' : null]);
+}
+
+/* ── Prefetch low-priority de pages cibles ──
+   Idempotent (skip si déjà prefetché ou si url invalide). */
+function _ksPrefetch(urls) {
+  if (!Array.isArray(urls)) urls = [urls];
+  urls.forEach(function (url) {
+    if (!url || typeof url !== 'string') return;
+    /* Skip URLs externes et ancres */
+    if (url.indexOf('://') !== -1 || url[0] === '#') return;
+    /* Skip si déjà prefetché */
+    if (document.querySelector('link[rel="prefetch"][href="' + url + '"]')) return;
+    try {
+      var link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = url;
+      link.as = 'document';
+      document.head.appendChild(link);
+    } catch (e) {}
+  });
 }
 
 /* ── Confetti palier — CSS-driven, no dep ──
