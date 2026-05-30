@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Après B2 — TOPIK, immersion, certifications — Korean Stories</title>
+  <meta name="description" content="Guide post-B2 : préparer le TOPIK II, organiser ton immersion, partir en Corée, choisir tes ressources. La feuille de route pour passer du B2 à la maîtrise.">
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.6rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    h4{margin:1rem 0 .3rem;font-size:1rem;color:var(--tx)}
+    .lead{color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1.2rem;line-height:1.55}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem 1.2rem;margin:.7rem 0}
+
+    /* ─── Hero ─── */
+    .hero{background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(124,58,237,.04));border:1px solid rgba(124,58,237,.25);border-radius:18px;padding:1.4rem;margin:1rem 0}
+    .hero h2{font-size:1.4rem;line-height:1.2;margin:0 0 .4rem}
+    .hero .subtitle{color:var(--tx-muted);font-size:.92rem;margin:.3rem 0 0;line-height:1.5}
+
+    /* ─── Topic cards ─── */
+    .topic-grid{display:grid;grid-template-columns:1fr;gap:.6rem;margin:.8rem 0}
+    .topic-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;cursor:pointer;text-decoration:none;color:var(--tx);display:flex;justify-content:space-between;align-items:center;gap:1rem;transition:all .15s}
+    .topic-card:hover{border-color:#7C3AED;transform:translateX(3px)}
+    .topic-card .icon{font-size:1.4rem;line-height:1;width:42px;height:42px;border-radius:10px;background:rgba(124,58,237,.1);color:#7C3AED;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+    .topic-card .body{flex:1}
+    .topic-card .body .t{font-weight:700;font-size:.95rem;color:var(--tx);margin-bottom:.2rem}
+    .topic-card .body .s{font-size:.82rem;color:var(--tx-muted);line-height:1.4}
+    .topic-card .arrow{color:#7C3AED;font-size:1.2rem;font-weight:700}
+
+    /* ─── Section blocks ─── */
+    .step-block{background:linear-gradient(135deg,rgba(124,58,237,.06),rgba(124,58,237,.02));border:1px solid rgba(124,58,237,.2);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .step-num{display:inline-block;background:#7C3AED;color:#fff;border-radius:50%;width:1.6rem;height:1.6rem;text-align:center;line-height:1.6rem;font-weight:700;font-size:.85rem;margin-right:.5rem}
+    .step-title{font-weight:700;color:#7C3AED;font-size:1rem;display:inline-block}
+    .step-sub{color:var(--tx-muted);font-size:.85rem;margin:.3rem 0 .7rem;padding-left:2.1rem;line-height:1.5}
+    .step-body{margin-top:.5rem;font-size:.9rem;line-height:1.55;color:var(--tx)}
+
+    /* ─── Tables ─── */
+    .table-wrap{overflow-x:auto;margin:.6rem 0}
+    table{width:100%;border-collapse:collapse;font-size:.88rem}
+    th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.6rem .8rem;text-align:left;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+    td{padding:.6rem .8rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+
+    /* ─── Boxes ─── */
+    .tip{background:rgba(22,163,74,.08);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.55rem .9rem;font-size:.86rem;margin:.6rem 0;line-height:1.5}
+    .warn{background:rgba(239,68,68,.06);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;padding:.55rem .9rem;font-size:.86rem;margin:.6rem 0;line-height:1.5}
+    .info{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.55rem .9rem;font-size:.86rem;margin:.6rem 0;line-height:1.5}
+
+    /* ─── Routine grid ─── */
+    .routine{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin:.6rem 0}
+    .routine-cell{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.6rem .8rem}
+    .routine-cell .time{font-size:.72rem;font-weight:700;color:#7C3AED;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.2rem}
+    .routine-cell .what{font-size:.85rem;line-height:1.4}
+    @media (max-width:480px){.routine{grid-template-columns:1fr}}
+
+    /* ─── Anchor nav ─── */
+    .toc{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.7rem 1rem;margin:.8rem 0;font-size:.88rem}
+    .toc a{display:block;padding:.3rem 0;color:var(--tx);text-decoration:none;border-bottom:1px solid rgba(124,58,237,.08)}
+    .toc a:last-child{border-bottom:none}
+    .toc a:hover{color:#7C3AED}
+    .toc a::before{content:'→ ';color:#7C3AED;font-weight:700}
+
+    /* ─── List polish ─── */
+    ul.clean{margin:.4rem 0;padding-left:1.1rem}
+    ul.clean li{padding:.2rem 0;line-height:1.5}
+    ul.clean li::marker{color:#7C3AED}
+
+    /* ─── CTA bottom ─── */
+    .cta{background:linear-gradient(135deg,#7C3AED,#a78bfa);border-radius:14px;padding:1.2rem;text-align:center;color:#fff;margin:1.5rem 0}
+    .cta h3{color:#fff;margin:0 0 .3rem;letter-spacing:.02em;font-size:1rem}
+    .cta p{margin:.4rem 0 .8rem;font-size:.9rem;opacity:.95}
+    .cta a{display:inline-block;background:#fff;color:#7C3AED;padding:.6rem 1.2rem;border-radius:10px;text-decoration:none;font-weight:700;font-size:.92rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Après B2</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+
+  <div class="hero">
+    <span class="pill">Guide post-curriculum</span>
+    <h2 style="margin-top:.6rem">Et maintenant, on va où ?</h2>
+    <p class="subtitle">Tu as fini le parcours A1 → B2 sur Korean Stories. C'est un vrai accomplissement. Mais le coréen, c'est une langue qu'on ne « termine » pas — on l'entretient et on l'approfondit. Ce guide trace la route après B2 : <strong>certifications officielles</strong>, <strong>immersion durable</strong>, <strong>partir en Corée</strong>, et <strong>routines pour ne pas perdre ton niveau</strong>.</p>
+  </div>
+
+  <div class="toc">
+    <a href="#topik">1. Passer le TOPIK II</a>
+    <a href="#immersion">2. Construire ton immersion quotidienne</a>
+    <a href="#coree">3. Partir vivre en Corée</a>
+    <a href="#ressources">4. Ressources adultes B2+</a>
+    <a href="#routine">5. Routine de maintien B2</a>
+    <a href="#pieges">6. Les 5 plateaux à éviter</a>
+  </div>
+
+  <h3 id="topik">1. Passer le TOPIK II</h3>
+  <p class="lead">Le TOPIK (Test of Proficiency in Korean) est la certification officielle reconnue par le gouvernement coréen. Le TOPIK II évalue les niveaux 3 à 6 (≈ B1 → C1) et est requis pour la plupart des universités et emplois en Corée.</p>
+
+  <div class="step-block">
+    <div><span class="step-num">1</span><span class="step-title">Format de l'épreuve</span></div>
+    <div class="step-body">
+      <div class="table-wrap"><table>
+        <tr><th>Partie</th><th>Format</th><th>Durée</th><th>Points</th></tr>
+        <tr><td>듣기 — Écoute</td><td>50 questions QCM</td><td>60 min</td><td>100</td></tr>
+        <tr><td>쓰기 — Production écrite</td><td>4 questions (compléter + résumer + dissertation)</td><td>50 min</td><td>100</td></tr>
+        <tr><td>읽기 — Lecture</td><td>50 questions QCM</td><td>70 min</td><td>100</td></tr>
+        <tr><td colspan="3"><strong>Score total</strong></td><td><strong>300</strong></td></tr>
+      </table></div>
+      <p style="margin-top:.6rem">Le score détermine le niveau attribué : 120–149 → niveau 3, 150–189 → niveau 4, 190–229 → niveau 5, 230+ → niveau 6.</p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">2</span><span class="step-title">Stratégie de préparation</span></div>
+    <div class="step-body">
+      <ul class="clean">
+        <li><strong>Annales officielles</strong> — disponibles gratuitement sur le site officiel TOPIK (topik.go.kr). Fais au moins 4 annales en conditions réelles avant ton inscription.</li>
+        <li><strong>Cible : viser un niveau au-dessus de ton objectif.</strong> Si tu veux le niveau 4, prépare comme pour le 5. La pression de l'examen fait chuter le score réel d'environ un niveau.</li>
+        <li><strong>Écoute : entraîne-toi à 1,25× la vitesse.</strong> Le jour J en vitesse normale paraîtra confortable.</li>
+        <li><strong>Écriture : maîtrise les 4 formats.</strong> Q51 (compléter dialogue formel), Q52 (compléter texte argumentatif), Q53 (résumer 200–300 syllabes), Q54 (dissertation 600–700 syllabes).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info"><strong>Dates & inscription :</strong> 6 sessions par an au niveau international, 3 sessions en France (Paris, Lyon en général). Inscription via le centre culturel coréen. Compte ≈ 60 € de frais d'inscription.</div>
+
+  <div class="warn"><strong>Piège classique :</strong> beaucoup d'apprenants B2 « solides » échouent au TOPIK II niveau 4 simplement parce qu'ils n'ont jamais pratiqué le format. C'est un test de gestion du temps autant qu'un test de langue.</div>
+
+  <h3 id="immersion">2. Construire ton immersion quotidienne</h3>
+  <p class="lead">À B2, ton niveau se maintient et grandit par <strong>contact massif</strong> avec du contenu authentique. La règle d'or : <strong>2 heures de coréen par jour minimum</strong>, dont au moins 30 minutes en écoute active.</p>
+
+  <div class="step-block">
+    <div><span class="step-num">1</span><span class="step-title">Le triangle d'immersion</span></div>
+    <div class="step-body">
+      <ul class="clean">
+        <li><strong>Input — passif :</strong> chaînes YouTube coréennes, podcasts en fond, K-dramas avec sous-titres coréens. Vise 1 h par jour minimum.</li>
+        <li><strong>Input — actif :</strong> lecture d'articles, livres, webtoons avec dictionnaire. 30 min par jour.</li>
+        <li><strong>Output :</strong> journal en coréen, conversations (apps d'échange linguistique), enregistrements vocaux. 20 min par jour.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">2</span><span class="step-title">Types de contenus par niveau</span></div>
+    <div class="step-body">
+      <div class="table-wrap"><table>
+        <tr><th>Niveau cible</th><th>Format conseillé</th><th>Pourquoi</th></tr>
+        <tr><td>B2 → C1</td><td>YouTube vlogs, talk-shows, K-dramas tranche de vie</td><td>Langue parlée naturelle, sujets quotidiens</td></tr>
+        <tr><td>C1 → C2</td><td>Journaux télévisés (KBS, MBC), documentaires</td><td>Langue formelle, vocabulaire spécialisé</td></tr>
+        <tr><td>C2</td><td>Romans contemporains, essais, débats politiques</td><td>Subtilités stylistiques, registres soutenus</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Astuce sous-titres :</strong> commence en coréen (KO), puis quand tu décroches, mets en français 10 secondes, puis remets en KO. Ne reste pas en FR pour t'épargner — l'effort fait le progrès.</div>
+
+  <h3 id="coree">3. Partir vivre en Corée</h3>
+  <p class="lead">Trois grandes voies, selon ta situation. Toutes nécessitent un visa adapté avant le départ.</p>
+
+  <div class="step-block">
+    <div><span class="step-num">A</span><span class="step-title">Étudier le coréen sur place</span></div>
+    <div class="step-body">
+      <ul class="clean">
+        <li><strong>Programmes universitaires intensifs</strong> — la plupart des grandes universités (SNU, Yonsei, Korea, Ewha, Sogang…) proposent un Korean Language Program (KLP) sur 3 mois à 1 an. Cours du lundi au vendredi, 4 h par jour.</li>
+        <li><strong>Visa D-4-1</strong> (visa étudiant pour cours de langue). Demande au consulat de Corée à Paris.</li>
+        <li><strong>Budget :</strong> ≈ 1 600 € de frais de scolarité par trimestre + 500–800 € / mois de logement à Séoul.</li>
+        <li><strong>Sogang</strong> est réputée pour la conversation, <strong>Yonsei</strong> pour la rigueur académique, <strong>Ewha</strong> pour les femmes uniquement.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">B</span><span class="step-title">PVT — Programme Vacances Travail</span></div>
+    <div class="step-body">
+      <ul class="clean">
+        <li><strong>Visa H-1</strong> ouvert aux Français de 18 à 30 ans. Valide 1 an, renouvelable une fois.</li>
+        <li>Permet de travailler ET d'étudier librement. Idéal pour combiner cours de langue + jobs étudiants.</li>
+        <li><strong>Quota annuel :</strong> 2 000 visas/an pour la France. Demande tôt dans l'année.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">C</span><span class="step-title">Études supérieures en Corée</span></div>
+    <div class="step-body">
+      <ul class="clean">
+        <li><strong>Visa D-2</strong> pour Master / Doctorat. Requiert TOPIK niveau 4 minimum, souvent niveau 5 pour les filières humanités.</li>
+        <li><strong>Bourses GKS</strong> (Global Korea Scholarship) — bourse complète du gouvernement coréen pour étudiants étrangers. Très compétitive (≈ 200 places/an).</li>
+        <li><strong>Programmes en anglais :</strong> beaucoup d'universités proposent des cursus en anglais (KAIST, POSTECH, KDI School…). TOEFL/IELTS exigé.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 id="ressources">4. Ressources adultes pour le B2+</h3>
+
+  <h4>Plateformes de cours</h4>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Talk To Me In Korean</strong> — la référence indépendante. Cours par niveau, podcasts, livres. Adapté à l'auto-apprenant.</li>
+      <li><strong>Sejong Hakdang Online</strong> — plateforme officielle du gouvernement coréen, gratuite. Cours structurés du A1 au C1.</li>
+      <li><strong>HowToStudyKorean.com</strong> — leçons exhaustives en anglais, gratuites. Approche très progressive.</li>
+      <li><strong>KIIP</strong> (Korea Immigration & Integration Program) — programme officiel pour résidents étrangers en Corée. Cours gratuits.</li>
+    </ul>
+  </div>
+
+  <h4>Chaînes YouTube (en coréen, pour B2+)</h4>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Vlogs lifestyle</strong> — cherche « 일상 브이로그 » pour la vie quotidienne. Diction lente, sujets familiers.</li>
+      <li><strong>Cuisine</strong> — « 백종원의 요리비책 » ou autres chaînes culinaires. Vocabulaire concret, démonstratif.</li>
+      <li><strong>Variety shows</strong> — sous-titres coréens intégrés. Idéal pour humour et expressions familières.</li>
+      <li><strong>News pour étrangers</strong> — KBS WORLD, EBS Easy Korean News : niveau B1–B2 avec vocabulaire d'actualité.</li>
+    </ul>
+  </div>
+
+  <h4>Podcasts</h4>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>Iyagi (Talk To Me In Korean)</strong> — conversations naturelles entre 2-3 Coréens. Niveau intermédiaire.</li>
+      <li><strong>Real-life Korean Conversations</strong> — dialogues du quotidien sans script. B2.</li>
+      <li><strong>KBS Radio (podcasts)</strong> — fictions audio, débats. C1+.</li>
+    </ul>
+  </div>
+
+  <h4>Échange linguistique</h4>
+  <div class="card">
+    <ul class="clean">
+      <li><strong>HelloTalk / Tandem</strong> — applications de tandem texte/audio. Trouve un Coréen qui apprend le français : échange 50/50.</li>
+      <li><strong>Discord communautés coréennes</strong> — serveurs « language exchange » pour discuter en vocal.</li>
+      <li><strong>Conversation Exchange / italki</strong> — pour cours particuliers payants. Compte ≈ 15–25 € l'heure pour un prof natif.</li>
+    </ul>
+  </div>
+
+  <h3 id="routine">5. Routine de maintien B2 (30 min/jour minimum)</h3>
+  <p class="lead">Si tu ne peux pas faire 2 h, voici la routine compacte qui maintient ton niveau sans le faire chuter.</p>
+
+  <div class="routine">
+    <div class="routine-cell">
+      <div class="time">Lundi · 30 min</div>
+      <div class="what"><strong>Lecture active.</strong> 1 article d'actualité (Naver News). Note 10 mots inconnus.</div>
+    </div>
+    <div class="routine-cell">
+      <div class="time">Mardi · 30 min</div>
+      <div class="what"><strong>Écoute active.</strong> 1 podcast Iyagi ou équivalent, en prenant des notes.</div>
+    </div>
+    <div class="routine-cell">
+      <div class="time">Mercredi · 30 min</div>
+      <div class="what"><strong>Output écrit.</strong> Journal de bord en coréen (10-15 phrases).</div>
+    </div>
+    <div class="routine-cell">
+      <div class="time">Jeudi · 30 min</div>
+      <div class="what"><strong>Conversation.</strong> Tandem ou monologue enregistré.</div>
+    </div>
+    <div class="routine-cell">
+      <div class="time">Vendredi · 30 min</div>
+      <div class="what"><strong>K-drama.</strong> 1 épisode avec sous-titres coréens, pas français.</div>
+    </div>
+    <div class="routine-cell">
+      <div class="time">Weekend · libre</div>
+      <div class="what"><strong>Plaisir.</strong> YouTube, K-pop, manga coréen — ce que tu veux, en coréen.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Règle d'or :</strong> mieux vaut 30 min tous les jours que 4 h le dimanche. La régularité bat l'intensité, surtout après B2.</div>
+
+  <h3 id="pieges">6. Les 5 plateaux à éviter après B2</h3>
+
+  <div class="step-block">
+    <div><span class="step-num">1</span><span class="step-title">Le plateau du « presque bon »</span></div>
+    <div class="step-body">À B2 tu te fais comprendre — donc tu arrêtes de corriger. <strong>Réflexe :</strong> enregistre-toi 1 fois par semaine et compare à un natif sur le même sujet.</div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">2</span><span class="step-title">Le plateau « tout K-drama »</span></div>
+    <div class="step-body">Les K-dramas répètent un sous-ensemble de la langue (romance, émotions). <strong>Réflexe :</strong> élargis aux documentaires, débats, talk-shows.</div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">3</span><span class="step-title">Le plateau « 반말 only »</span></div>
+    <div class="step-body">Si tu n'utilises que le langage intime, le formel s'oxyde vite. <strong>Réflexe :</strong> entretiens 합니다체 (style formel-soutenu) au moins 1x/semaine.</div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">4</span><span class="step-title">Le plateau « vocabulaire passif »</span></div>
+    <div class="step-body">Tu reconnais 5 000 mots mais en utilises 800. <strong>Réflexe :</strong> tiens une liste « mots à pratiquer cette semaine » et insère-les volontairement dans tes productions.</div>
+  </div>
+
+  <div class="step-block">
+    <div><span class="step-num">5</span><span class="step-title">Le plateau « pas de feedback »</span></div>
+    <div class="step-body">Sans correction, certaines erreurs se fossilisent. <strong>Réflexe :</strong> 1 séance par mois avec un prof natif sur italki — c'est 25 € qui sauvent des années de mauvaises habitudes.</div>
+  </div>
+
+  <div class="cta">
+    <h3>Tu y es presque</h3>
+    <p>Le B2 c'est la porte. C'est ce que tu fais après qui détermine si tu deviens vraiment bilingue.</p>
+    <a href="certificat.html">Voir mon certificat →</a>
+  </div>
+
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+</body></html>

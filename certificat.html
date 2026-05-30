@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mon certificat — Korean Stories</title>
+  <meta name="description" content="Mon certificat de progression Korean Stories : XP, leçons, streak et niveau de coréen atteint.">
+  <link rel="stylesheet" href="design.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Noto+Serif+KR:wght@500;700&display=swap">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#B8924E;margin:1.2rem 0 .4rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    .lead{color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1.2rem;line-height:1.5}
+
+    /* ============ DIPLOME ============ */
+    .diploma-wrap{margin:1rem 0 1.5rem}
+    .diploma{position:relative;background:linear-gradient(135deg,#fffdf5 0%,#fff8e8 50%,#fffdf5 100%);border:2.5px solid #B8924E;border-radius:18px;padding:2.2rem 1.6rem 2rem;box-shadow:0 10px 35px rgba(184,146,78,.25), 0 2px 8px rgba(0,0,0,.06);overflow:hidden;text-align:center}
+    [data-theme="dark"] .diploma{background:linear-gradient(135deg,#1f1a14 0%,#2a2218 50%,#1f1a14 100%);border-color:#B8924E;color:#f5ecd9}
+    .diploma::before,.diploma::after{content:'';position:absolute;width:60px;height:60px;border:1.5px solid rgba(184,146,78,.5);pointer-events:none}
+    .diploma::before{top:14px;left:14px;border-right:none;border-bottom:none;border-top-left-radius:10px}
+    .diploma::after{bottom:14px;right:14px;border-left:none;border-top:none;border-bottom-right-radius:10px}
+    .diploma .seal{display:inline-block;font-family:'Noto Serif KR',serif;font-size:1.1rem;color:#B8924E;letter-spacing:.15em;padding:.3rem 1rem;border:1.5px solid #B8924E;border-radius:30px;margin-bottom:1rem;font-weight:700}
+    .diploma .brand{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);font-size:1.05rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.4rem}
+    [data-theme="dark"] .diploma .brand{color:#f5ecd9}
+    .diploma .title{font-family:'Playfair Display',serif;font-weight:800;font-size:1.7rem;color:var(--navy);margin:.6rem 0 .3rem;line-height:1.15}
+    [data-theme="dark"] .diploma .title{color:#f5ecd9}
+    .diploma .sub{font-style:italic;color:#7a6135;font-size:.92rem;margin-bottom:1.4rem}
+    [data-theme="dark"] .diploma .sub{color:#c9b48b}
+    .diploma .label{font-size:.78rem;color:#7a6135;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin:1rem 0 .3rem}
+    [data-theme="dark"] .diploma .label{color:#c9b48b}
+    .diploma .name{font-family:'Playfair Display',serif;font-size:2rem;color:var(--navy);font-weight:700;border-bottom:1.5px dashed rgba(184,146,78,.5);padding-bottom:.5rem;display:inline-block;min-width:60%;max-width:100%}
+    [data-theme="dark"] .diploma .name{color:#f5ecd9}
+    .diploma .text{font-size:.95rem;color:#3d2f1a;line-height:1.6;margin:1.2rem auto;max-width:36ch}
+    [data-theme="dark"] .diploma .text{color:#e6d8b8}
+    .diploma .rank{font-family:'Noto Serif KR',serif;font-size:1.5rem;color:#B8924E;font-weight:700;margin:.5rem 0 .3rem;letter-spacing:.05em}
+    .diploma .rank-fr{font-style:italic;color:#7a6135;font-size:.95rem;margin-bottom:1.4rem}
+    [data-theme="dark"] .diploma .rank-fr{color:#c9b48b}
+
+    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1.3rem 0 1rem;border-top:1px solid rgba(184,146,78,.3);border-bottom:1px solid rgba(184,146,78,.3);padding:.9rem 0}
+    .stat-block{text-align:center}
+    .stat-block .v{font-family:'Playfair Display',serif;font-size:1.4rem;color:#B8924E;font-weight:800;line-height:1}
+    .stat-block .l{font-size:.7rem;color:#7a6135;letter-spacing:.05em;text-transform:uppercase;margin-top:.2rem}
+    [data-theme="dark"] .stat-block .l{color:#c9b48b}
+
+    .diploma .footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:1.4rem;font-size:.8rem;color:#7a6135;gap:1rem}
+    [data-theme="dark"] .diploma .footer{color:#c9b48b}
+    .diploma .footer .date{text-align:left;font-family:'Playfair Display',serif;font-style:italic}
+    .diploma .footer .signature{text-align:right}
+    .diploma .footer .signature .sig{font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:var(--navy);border-bottom:1px solid #B8924E;padding-bottom:.15rem;margin-bottom:.2rem}
+    [data-theme="dark"] .diploma .footer .signature .sig{color:#f5ecd9}
+
+    /* ============ ACTIONS ============ */
+    .actions{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:1rem 0}
+    .actions button{padding:.7rem .5rem;border-radius:10px;border:1.5px solid #B8924E;background:rgba(184,146,78,.08);color:#B8924E;font-weight:600;cursor:pointer;font-size:.82rem;display:flex;flex-direction:column;align-items:center;gap:.2rem}
+    .actions button:hover{background:rgba(184,146,78,.18)}
+    .actions button svg{width:18px;height:18px}
+
+    /* ============ Name input ============ */
+    .name-input-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .name-input-card label{font-size:.82rem;font-weight:600;color:var(--tx-muted)}
+    .name-input-card input{display:block;width:100%;box-sizing:border-box;padding:.7rem .9rem;border:1.5px solid var(--bd);border-radius:10px;margin-top:.4rem;font-size:1rem;background:var(--bg);color:var(--tx)}
+    .name-input-card input:focus{outline:none;border-color:#B8924E}
+    .name-input-card .row{display:flex;gap:.5rem;margin-top:.5rem}
+    .name-input-card .row button{flex:1;padding:.65rem;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:.88rem}
+    .name-input-card .save-btn{background:#B8924E;color:#fff}
+    .name-input-card .skip-btn{background:rgba(184,146,78,.12);color:#B8924E}
+
+    /* ============ Progression check ============ */
+    .progress-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .progress-bar{height:8px;background:rgba(184,146,78,.15);border-radius:4px;margin:.5rem 0;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#B8924E,#d4a866);border-radius:4px;transition:width .6s}
+    .progress-pct{font-family:'Playfair Display',serif;font-size:1.6rem;color:#B8924E;font-weight:800}
+    .progress-detail{font-size:.85rem;color:var(--tx-muted);margin-top:.3rem}
+
+    /* ============ PRINT ============ */
+    @media print{
+      body{background:#fff !important;color:#000 !important}
+      .bar,.bnav,.actions,.name-input-card,.progress-card,h3,.lead,h2,.print-hide{display:none !important}
+      .shell,.main,.diploma-wrap{margin:0 !important;padding:0 !important;max-width:100% !important}
+      .diploma{border:2.5px solid #B8924E !important;box-shadow:none !important;page-break-inside:avoid;background:#fff !important}
+      .diploma .title,.diploma .brand,.diploma .name,.diploma .text,.diploma .rank-fr,.diploma .stat-block .l,.diploma .label,.diploma .footer{color:#3d2f1a !important}
+    }
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar print-hide"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Mon certificat</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+
+  <h2 class="print-hide">Mon parcours en coréen</h2>
+  <p class="lead print-hide">Voici la trace de ton apprentissage sur Korean Stories. Imprime ton diplôme, télécharge-le ou partage-le — c'est <strong>ta progression réelle</strong>, mise à jour automatiquement à chaque activité validée.</p>
+
+  <div class="name-input-card print-hide" id="nameCard" style="display:none">
+    <label for="nameInp">Le nom à afficher sur ton diplôme</label>
+    <input type="text" id="nameInp" placeholder="Ton prénom ou pseudo" maxlength="40">
+    <div class="row">
+      <button class="save-btn" onclick="saveName()">Enregistrer</button>
+      <button class="skip-btn" onclick="hideName()">Plus tard</button>
+    </div>
+  </div>
+
+  <div class="diploma-wrap">
+    <div class="diploma" id="diplomaCard">
+      <div class="seal">한국어 인증서</div>
+      <div class="brand">Korean Stories</div>
+      <div class="title">Certificat de progression</div>
+      <div class="sub">Apprentissage du coréen — méthode immersive</div>
+
+      <div class="label">Délivré à</div>
+      <div class="name" id="diName">—</div>
+
+      <div class="text">a complété <strong id="diLessons">—</strong> activités du parcours d'apprentissage Korean Stories et atteint le niveau&nbsp;:</div>
+
+      <div class="rank" id="diRankKr">—</div>
+      <div class="rank-fr" id="diRankFr">—</div>
+
+      <div class="stats-row">
+        <div class="stat-block"><div class="v" id="diXP">0</div><div class="l">XP gagnés</div></div>
+        <div class="stat-block"><div class="v" id="diStreak">0</div><div class="l">Jours streak</div></div>
+        <div class="stat-block"><div class="v" id="diPct">0%</div><div class="l">Progression</div></div>
+      </div>
+
+      <div class="footer">
+        <div class="date">Délivré le<br><span id="diDate">—</span></div>
+        <div class="signature">
+          <div class="sig">Korean Stories</div>
+          <div>koreanstories.fr</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions print-hide">
+    <button onclick="window.print()" aria-label="Imprimer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Imprimer
+    </button>
+    <button onclick="editName()" aria-label="Modifier le nom">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Nom
+    </button>
+    <button onclick="shareCert()" aria-label="Partager">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Partager
+    </button>
+  </div>
+
+  <div class="progress-card print-hide">
+    <h3>Détail de ta progression</h3>
+    <div style="display:flex;align-items:baseline;gap:.6rem;justify-content:space-between">
+      <span class="progress-pct" id="pgPct">0%</span>
+      <span class="progress-detail" id="pgDetail">— activités sur — au total</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="pgFill" style="width:0%"></div></div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:.8rem;font-size:.85rem">
+      <div>
+        <div style="color:var(--tx-muted);font-size:.78rem">Niveau actuel</div>
+        <div style="font-weight:700;color:#B8924E" id="pgLevel">—</div>
+      </div>
+      <div>
+        <div style="color:var(--tx-muted);font-size:.78rem">Prochaine étape</div>
+        <div style="font-weight:700;color:var(--navy)" id="pgNext">—</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="print-hide">Et après ?</h3>
+  <p class="lead print-hide">Si tu vises plus loin que B2 — préparation TOPIK, immersion à long terme, départ en Corée — on a préparé un guide complet.</p>
+  <a href="apres-b2.html" class="print-hide" style="display:block;background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;text-decoration:none;color:var(--tx);font-weight:600;font-size:.92rem">
+    <span style="color:#B8924E">→</span> Continuer après B2 — TOPIK, immersion, certifications
+  </a>
+
+</div></main></div>
+<nav class="bnav print-hide">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <span>Histoires</span>
+  </a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+/* ─────────── Récupération des stats ─────────── */
+function lsInt(k){ try { return parseInt(localStorage.getItem(k))||0; } catch(e){ return 0; } }
+function lsStr(k){ try { return localStorage.getItem(k)||''; } catch(e){ return ''; } }
+
+function countCompletedActivities(){
+  var n = 0;
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      // clés d'activités : ks_h##, ks_a##, ks_b##, ks_c##, ks_d## (suivies de chiffres)
+      if (/^ks_(h\d|a\d|b\d|c\d|d\d)/.test(k)) {
+        var v = localStorage.getItem(k);
+        if (v === 'done' || v === '1' || v === 'true') n++;
+      }
+    }
+  } catch (e) {}
+  return n;
+}
+
+/* Total visé (curriculum livré). Si Window.KSCurriculum.length existe on l'utilise. */
+function getTotalActivities(){
+  try {
+    if (window.KSCurriculum && window.KSCurriculum.activities) return window.KSCurriculum.activities.length;
+    if (window.KSCurriculum && Array.isArray(window.KSCurriculum)) return window.KSCurriculum.length;
+  } catch(e){}
+  return 120; // fallback estimé pour le curriculum complet
+}
+
+/* Rang basé sur XP — mêmes seuils que profil.html */
+function getRank(xp){
+  if (xp >= 5000) return { kr:'한국어 마스터', fr:'Maître du coréen — B2+' };
+  if (xp >= 3000) return { kr:'고급자', fr:'Avancé — B2' };
+  if (xp >= 1800) return { kr:'중상급자', fr:'Pré-avancé — B1+' };
+  if (xp >= 1000) return { kr:'중급자', fr:'Intermédiaire — B1' };
+  if (xp >= 500)  return { kr:'초중급자', fr:'Pré-intermédiaire — A2+' };
+  if (xp >= 200)  return { kr:'초급자', fr:'Débutant — A2' };
+  if (xp >= 50)   return { kr:'입문자', fr:'Découverte — A1' };
+  return { kr:'한글 초보', fr:'Hangeul — en cours' };
+}
+function getNextRank(xp){
+  var seuils = [50,200,500,1000,1800,3000,5000];
+  for (var i = 0; i < seuils.length; i++){
+    if (xp < seuils[i]) return { xp: seuils[i], delta: seuils[i] - xp, target: getRank(seuils[i]) };
+  }
+  return null; // déjà au max
+}
+
+function loadName(){
+  // Priorité : displayName Firebase > ks_name local > prompt
+  var n = lsStr('ks_name') || lsStr('ks_display_name') || lsStr('ks_user_name');
+  if (!n && window._ksUser && window._ksUser.displayName) n = window._ksUser.displayName;
+  return n;
+}
+
+function formatDate(){
+  var d = new Date();
+  var jours = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  var mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  return jours[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+function render(){
+  var xp = lsInt('ks_xp');
+  var streak = lsInt('ks_streak');
+  var done = countCompletedActivities();
+  var total = getTotalActivities();
+  var pct = total > 0 ? Math.min(100, Math.round(done / total * 100)) : 0;
+  var rank = getRank(xp);
+  var name = loadName();
+
+  document.getElementById('diXP').textContent = xp.toLocaleString('fr-FR');
+  document.getElementById('diStreak').textContent = streak;
+  document.getElementById('diPct').textContent = pct + '%';
+  document.getElementById('diLessons').textContent = done;
+  document.getElementById('diRankKr').textContent = rank.kr;
+  document.getElementById('diRankFr').textContent = rank.fr;
+  document.getElementById('diDate').textContent = formatDate();
+  document.getElementById('diName').textContent = name || 'À personnaliser';
+
+  /* Affiche le champ nom si jamais renseigné */
+  if (!name) {
+    document.getElementById('nameCard').style.display = 'block';
+  }
+
+  /* Progress card */
+  document.getElementById('pgPct').textContent = pct + '%';
+  document.getElementById('pgDetail').textContent = done + ' activités sur ' + total + ' au total';
+  document.getElementById('pgFill').style.width = pct + '%';
+  document.getElementById('pgLevel').textContent = rank.fr;
+  var next = getNextRank(xp);
+  if (next) {
+    document.getElementById('pgNext').textContent = next.target.fr + ' (encore ' + next.delta.toLocaleString('fr-FR') + ' XP)';
+  } else {
+    document.getElementById('pgNext').textContent = 'Niveau max atteint 🎉';
+  }
+}
+
+function saveName(){
+  var v = document.getElementById('nameInp').value.trim();
+  if (!v) return;
+  try { localStorage.setItem('ks_name', v); } catch(e){}
+  document.getElementById('diName').textContent = v;
+  hideName();
+}
+function hideName(){
+  document.getElementById('nameCard').style.display = 'none';
+}
+function editName(){
+  var c = document.getElementById('nameCard');
+  c.style.display = 'block';
+  var inp = document.getElementById('nameInp');
+  inp.value = loadName();
+  inp.focus();
+  c.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function shareCert(){
+  var name = loadName() || 'Mon parcours';
+  var xp = lsInt('ks_xp');
+  var rank = getRank(xp);
+  var txt = name + ' — ' + xp + ' XP en coréen sur Korean Stories. Niveau : ' + rank.fr + '. koreanstories.fr';
+  if (navigator.share) {
+    navigator.share({ title: 'Mon certificat Korean Stories', text: txt, url: 'https://koreanstories.fr' }).catch(function(){});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(txt).then(function(){
+      alert('Copié dans le presse-papiers — colle où tu veux !');
+    });
+  } else {
+    alert(txt);
+  }
+}
+
+/* Boot */
+try { var t = localStorage.getItem('ks_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch(e){}
+window.addEventListener('DOMContentLoaded', function(){
+  render();
+  /* Re-render après auth (le nom peut venir de Firebase) */
+  setTimeout(render, 600);
+});
+</script>
+</body></html>
