@@ -100,13 +100,15 @@
       '.ks-search-fab:hover{transform:scale(1.08)}',
       '.ks-search-fab:active{transform:scale(.95)}',
       '.ks-search-fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}',
-      /* Sur desktop ≥ 960 : bouton plus discret en haut à droite */
+      /* Sur desktop ≥ 960 : pill avec hint ⌘K, mais reste en BAS à droite
+         pour ne pas chevaucher le top bar sticky (56px de haut). */
       '@media (min-width:960px){',
         '.ks-search-fab{',
-          'bottom:auto;top:16px;right:24px;width:auto;height:auto;',
+          /* on conserve bottom + right, on ne remonte plus en haut */
+          'width:auto;height:auto;',
           'border-radius:12px;padding:8px 14px;',
-          'box-shadow:0 4px 12px rgba(0,0,0,.08);',
-          'background:rgba(255,255,255,.9);color:#374151;backdrop-filter:blur(10px);',
+          'box-shadow:0 4px 16px rgba(0,0,0,.12);',
+          'background:rgba(255,255,255,.92);color:#374151;backdrop-filter:blur(10px);',
           'border:1px solid rgba(0,0,0,.06)',
         '}',
         '.ks-search-fab::after{',
