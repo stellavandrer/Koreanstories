@@ -560,9 +560,56 @@ function _ksInjectFinishCSS() {
       'display:flex;align-items:center;justify-content:center;gap:6px}',
     '.ksf-sec:hover{border-color:rgba(201,169,110,.4);color:#C9A96E}',
     '.ksf-sec svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}',
+    /* ── Milestone banner ── */
+    '.ksf-milestone{width:100%;background:linear-gradient(135deg,rgba(201,169,110,.18),rgba(201,169,110,.06));',
+      'border:1.5px solid rgba(201,169,110,.45);border-radius:14px;padding:14px 16px;margin-bottom:18px;',
+      'animation:ksfMilestone .6s cubic-bezier(.34,1.56,.64,1) both;text-align:left;position:relative;overflow:hidden}',
+    '@keyframes ksfMilestone{from{opacity:0;transform:scale(.92) translateY(8px)}to{opacity:1;transform:none}}',
+    '.ksf-milestone::before{content:"";position:absolute;top:-30px;right:-30px;width:90px;height:90px;',
+      'background:radial-gradient(circle,rgba(201,169,110,.35),transparent 70%);border-radius:50%}',
+    '.ksf-milestone-pct{font-family:"Playfair Display",serif;font-size:32px;font-weight:800;color:#C9A96E;line-height:1;display:inline-block;margin-right:10px}',
+    '.ksf-milestone-kr{font-family:"Playfair Display",serif;font-size:17px;color:#fff;font-weight:600;line-height:1.2;margin-bottom:4px}',
+    '.ksf-milestone-fr{font-size:13px;color:rgba(247,248,250,.7);line-height:1.4;margin-bottom:10px}',
+    '.ksf-milestone-cta{display:inline-flex;align-items:center;gap:6px;background:#C9A96E;color:#0a1220;',
+      'text-decoration:none;font-size:12px;font-weight:700;padding:7px 12px;border-radius:8px;letter-spacing:.02em}',
+    '.ksf-milestone-cta:hover{background:#D4B582}',
+    '.ksf-milestone-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}',
     ''
   ].join('');
   (document.head || document.documentElement).appendChild(s);
+}
+
+/* ── Système de paliers ──────────────────────────────────────────────
+   Détecte si l'utilisateur vient de franchir un seuil de progression
+   (25 / 50 / 75 / 100 %). Renvoie l'objet décrit, ou null sinon.
+   Utilise ks_milestone_<pct> en localStorage pour ne déclencher
+   chaque seuil qu'une seule fois. */
+function _ksCheckMilestone() {
+  if (!window.KSCurriculum || typeof window.KSCurriculum.progress !== 'function') return null;
+  var p;
+  try { p = window.KSCurriculum.progress(); } catch (e) { return null; }
+  if (!p || !p.total) return null;
+  var pct = Math.round(p.done / p.total * 100);
+  var thresholds = [
+    { pct: 100, kr: '한국어 마스터!',     fr: 'Tu as fini le parcours.',        sub: 'C\'est le moment de réclamer ton diplôme.' },
+    { pct: 75,  kr: '거의 다 왔어요',      fr: 'Trois quarts du parcours !',     sub: 'Tu vois la ligne d\'arrivée.' },
+    { pct: 50,  kr: '반 왔어요!',          fr: 'Tu es à mi-chemin du parcours.', sub: 'Le palier B1 est juste devant.' },
+    { pct: 25,  kr: '잘 시작했어요!',      fr: 'Quart du parcours franchi.',     sub: 'Le rythme est lancé.' }
+  ];
+  for (var i = 0; i < thresholds.length; i++) {
+    var t = thresholds[i];
+    if (pct >= t.pct) {
+      var flag = 'ks_milestone_' + t.pct;
+      try {
+        if (!localStorage.getItem(flag)) {
+          localStorage.setItem(flag, String(Date.now()));
+          return t;
+        }
+      } catch (e) {}
+      return null; // déjà célébré, on n'en cherche pas un inférieur
+    }
+  }
+  return null;
 }
 
 function _ksRenderFinishOverlay(opts, next) {
@@ -576,6 +623,10 @@ function _ksRenderFinishOverlay(opts, next) {
     var pct = opts.score / opts.total;
     stars = pct >= 0.85 ? 3 : pct >= 0.6 ? 2 : 1;
   }
+
+  /* Palier franchi ? On le détecte ici pour pouvoir l'injecter
+     directement dans l'overlay (au-dessus du message d'encouragement). */
+  var milestone = _ksCheckMilestone();
 
   /* Phrase d'encouragement aléatoire (déterministe sur la clé pour
      éviter un message différent à chaque refresh). */
@@ -597,6 +648,21 @@ function _ksRenderFinishOverlay(opts, next) {
   var homeSvg = '<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';
   var bookSvg = '<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>';
 
+  /* Bannière palier : injectée uniquement si _ksCheckMilestone a retourné un seuil non encore célébré. */
+  var milestoneHtml = '';
+  if (milestone) {
+    var mctaLabel = milestone.pct === 100 ? 'Voir mon diplôme' : 'Voir mon certificat';
+    milestoneHtml =
+      '<div class="ksf-milestone">' +
+        '<div style="position:relative;z-index:1">' +
+          '<div><span class="ksf-milestone-pct">' + milestone.pct + '%</span>' +
+            '<span class="ksf-milestone-kr">' + milestone.kr + '</span></div>' +
+          '<div class="ksf-milestone-fr">' + milestone.fr + ' ' + milestone.sub + '</div>' +
+          '<a class="ksf-milestone-cta" href="certificat.html">' + mctaLabel + arrowSvg + '</a>' +
+        '</div>' +
+      '</div>';
+  }
+
   var html =
     '<div class="ksf-inner">' +
       '<div class="ksf-stars">' +
@@ -611,6 +677,7 @@ function _ksRenderFinishOverlay(opts, next) {
         '<div class="ksf-stat"><div class="ksf-stat-n">' + xp + '</div><div class="ksf-stat-l">XP total</div></div>' +
         (streak > 0 ? '<div class="ksf-stat"><div class="ksf-stat-n" style="color:#FF8050">' + streak + '</div><div class="ksf-stat-l">Jours</div></div>' : '') +
       '</div>' +
+      milestoneHtml +
       '<p class="ksf-msg">' + enc.fr + (opts.mina ? '<br/><em>' + opts.mina + '</em>' : '') + '</p>' +
       '<a class="ksf-next" href="' + nextHref + '">' +
         '<span>Continuer' + (nextLabel && nextLabel !== 'Mon parcours' ? ' — ' + nextLabel : '') + (nextSubLbl ? '<span class="ksf-next-sub">' + nextSubLbl + '</span>' : '') + '</span>' +
