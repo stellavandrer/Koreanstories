@@ -250,6 +250,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 @media(min-width:640px){body{padding-bottom:0}}
 </style>
 <script src="ks.js" defer></script>
+<script src="ks-curriculum.js" defer></script>
 <script src="ks-srs.js"></script>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -877,6 +878,15 @@ const BDEFS=[
                 name:'Vocabulaire x50',desc:'Apprends 50 mots'},
   {id:'perfect',ico:_bsvg('#06B6D4','<path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>'),
                 name:'Perfection',desc:'Score parfait sur une leçon'},
+  /* Paliers de progression curriculum — alimentés par ks.js _ksCheckMilestone */
+  {id:'m25',    ico:_bsvg('#5BA8F5','<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 20.5 12 18l-5 2.5 1.5-7"/>'),
+                name:'Quart du chemin',desc:'25 % du parcours franchi'},
+  {id:'m50',    ico:_bsvg('#22C55E','<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 20.5 12 18l-5 2.5 1.5-7"/><path d="M9 8h6"/>'),
+                name:'Mi-chemin',desc:'50 % du parcours franchi'},
+  {id:'m75',    ico:_bsvg('#A78BFA','<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 20.5 12 18l-5 2.5 1.5-7"/><path d="M9 8h6M12 5v6"/>'),
+                name:'Trois quarts',desc:'75 % du parcours franchi'},
+  {id:'m100',   ico:_bsvg('#C9A96E','<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 20.5 12 18l-5 2.5 1.5-7"/><polyline points="9 8 11 10 15 6"/>'),
+                name:'한국어 마스터',desc:'Parcours complet : 100 %'},
 ];
 function drawBadges(xp,streak,lessons){
   lessons=lessons||0;
@@ -887,6 +897,26 @@ function drawBadges(xp,streak,lessons){
   if(window.KSSRS){try{vocab=KSSRS.stats().available;}catch(e){}}
   let perfect=false;
   try{perfect=localStorage.getItem('ks_badge_perfect')==='1';}catch(e){}
+  /* Paliers : alimentés par ks.js _ksCheckMilestone (clés ks_milestone_<pct>).
+     On vérifie aussi le % calculé en live au cas où le palier serait
+     atteint mais le flag pas encore écrit (ex: import depuis Firestore). */
+  let m25=false,m50=false,m75=false,m100=false;
+  try{
+    m25=!!localStorage.getItem('ks_milestone_25');
+    m50=!!localStorage.getItem('ks_milestone_50');
+    m75=!!localStorage.getItem('ks_milestone_75');
+    m100=!!localStorage.getItem('ks_milestone_100');
+  }catch(e){}
+  if(window.KSCurriculum&&KSCurriculum.progress){
+    try{
+      var pg=KSCurriculum.progress();
+      var pct=pg.total>0?Math.round(pg.done/pg.total*100):0;
+      if(pct>=25)m25=true;
+      if(pct>=50)m50=true;
+      if(pct>=75)m75=true;
+      if(pct>=100)m100=true;
+    }catch(e){}
+  }
   const COND={
     first:   lessons>=1,
     streak3: streak>=3,
@@ -895,7 +925,11 @@ function drawBadges(xp,streak,lessons){
     xp500:   xp>=500,
     hangeul: hangeulDone>=10,
     vocab50: vocab>=50,
-    perfect: perfect
+    perfect: perfect,
+    m25:     m25,
+    m50:     m50,
+    m75:     m75,
+    m100:    m100
   };
   let count=0;
   document.getElementById('badgesGrid').innerHTML='';
