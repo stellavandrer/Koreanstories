@@ -38,6 +38,7 @@ const CORE = [
   'ks-sync.js',
   'ks-search.js',
   'ks-install-prompt.js',
+  'ks-sw-update.js',
   'gate.js',
   'design.css',
 

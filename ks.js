@@ -791,6 +791,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(s);
   })();
 
+  /* Charge la notification de mise à jour PWA (nouveau SW dispo) */
+  (function(){
+    if (document.getElementById('ks-sw-update-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-sw-update-script';
+    s.src = 'ks-sw-update.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
+
   /* Charge les notes personnelles (bouton dans la nav bar) */
   (function(){
     if (document.getElementById('ks-notes-script')) return;
