@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>-ㄴ/는다 Style journal — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#14532d,#16a34a);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbf7d0;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;line-height:1.55}
+
+    .rule-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
+    .rule-title{font-size:.95rem;font-weight:700;color:var(--tx);margin-bottom:.5rem}
+    .rule-formula{background:rgba(22,163,74,.08);border:1.5px dashed rgba(22,163,74,.4);border-radius:10px;padding:.7rem;text-align:center;font-size:1rem;font-weight:700;color:#15803D;margin:.5rem 0;font-family:'Playfair Display',Georgia,serif}
+
+    .compare-grid{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0;overflow-x:auto}
+    .compare-grid table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .compare-grid th{background:rgba(22,163,74,.1);color:#16A34A;padding:.5rem .6rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase}
+    .compare-grid td{padding:.5rem .6rem;border-bottom:1px solid var(--bd);vertical-align:top}
+    .compare-grid td.ko{color:#16A34A;font-weight:700;white-space:nowrap}
+
+    .ex-card{background:rgba(22,163,74,.05);border-left:3px solid #16A34A;border-radius:0 10px 10px 0;padding:.6rem .9rem;margin:.5rem 0}
+    .ex-tag{font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#16A34A;margin-bottom:.2rem}
+    .ex-ko{font-weight:600;color:var(--navy);font-size:.92rem;line-height:1.6}
+    [data-theme="dark"] .ex-ko{color:#f7f8fa}
+    .ex-ko .hl{color:#16A34A;background:rgba(22,163,74,.13);padding:1px 4px;border-radius:4px}
+    .ex-fr{font-size:.8rem;color:var(--tx-muted);margin-top:.2rem;font-style:italic;line-height:1.5}
+
+    .journal-card{background:linear-gradient(135deg,rgba(22,163,74,.05),rgba(22,163,74,.01));border:1.5px solid rgba(22,163,74,.25);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
+    .journal-title{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803D;margin-bottom:.5rem}
+    .journal-body{font-size:.9rem;line-height:1.85;color:var(--navy)}
+    [data-theme="dark"] .journal-body{color:#f7f8fa}
+
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Style journal -ㄴ/는다</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>-ㄴ/는다 — Style journal & narration</h2>
+  <span class="pill">A2 · Leçon</span> <span class="xp-badge">+12 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">Du parlé à l'écrit</div>
+    <div class="intro-title">Le style 한다체 — neutre, littéraire, journalistique</div>
+    <div class="intro-sub">Indispensable pour les journaux intimes, articles, romans, blogs et messages internes. Le passage du "je parle" au "je raconte".</div>
+  </div>
+
+  <h3>Quand l'utiliser ?</h3>
+  <div class="tip">
+    Le style <strong>-ㄴ/는다</strong> est utilisé dans 4 grands contextes :<br>
+    📰 <strong>Journaux et articles</strong> de presse<br>
+    📔 <strong>Journaux intimes</strong> (oneself écrivant à soi-même)<br>
+    📖 <strong>Romans et fictions</strong> (narration au passé/présent)<br>
+    💬 <strong>Pensées rapportées</strong> et soliloque<br><br>
+    On <strong>ne l'utilise PAS</strong> en conversation directe avec quelqu'un.
+  </div>
+
+  <h3>Les règles de formation</h3>
+
+  <div class="rule-card">
+    <div class="rule-title">📌 Verbes — Présent</div>
+    <div class="rule-formula">
+      Verbe finissant par voyelle → <span style="color:#16A34A">+ ㄴ다</span><br>
+      Verbe finissant par consonne → <span style="color:#16A34A">+ 는다</span>
+    </div>
+    <div class="ex-card">
+      <div class="ex-tag">Standard → Style journal</div>
+      <div class="ex-ko">가다 → <span class="hl">간다</span> · 오다 → <span class="hl">온다</span> · 자다 → <span class="hl">잔다</span></div>
+      <div class="ex-fr">aller · venir · dormir (voyelle finale)</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-ko">먹다 → <span class="hl">먹는다</span> · 읽다 → <span class="hl">읽는다</span> · 듣다 → <span class="hl">듣는다</span></div>
+      <div class="ex-fr">manger · lire · écouter (consonne finale)</div>
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-title">📌 Adjectifs — Présent</div>
+    <div class="rule-formula">
+      Adjectif → <span style="color:#16A34A">forme de base (-다)</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--tx-muted);line-height:1.55">Les adjectifs gardent simplement leur forme en <strong>-다</strong> au style journal. Pas de transformation.</p>
+    <div class="ex-card">
+      <div class="ex-ko">좋다 · 예쁘다 · 슬프다 · 행복하다</div>
+      <div class="ex-fr">bon · joli · triste · heureux</div>
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-title">📌 Passé — Tous (verbes ET adjectifs)</div>
+    <div class="rule-formula">
+      -았/었/였 + <span style="color:#16A34A">다</span>
+    </div>
+    <div class="ex-card">
+      <div class="ex-ko">먹었다 · 갔다 · 봤다 · 행복했다</div>
+      <div class="ex-fr">a mangé · est allé · a vu · était heureux</div>
+    </div>
+  </div>
+
+  <div class="rule-card">
+    <div class="rule-title">📌 Futur</div>
+    <div class="rule-formula">
+      -(으)ㄹ 것이다 — ou abrégé en <span style="color:#16A34A">-(으)ㄹ 거다</span>
+    </div>
+    <div class="ex-card">
+      <div class="ex-ko">갈 것이다 · 먹을 것이다 · 좋을 것이다</div>
+      <div class="ex-fr">ira · mangera · sera bien</div>
+    </div>
+  </div>
+
+  <h3>Comparaison côte à côte</h3>
+  <div class="compare-grid">
+    <table>
+      <tr><th>Style parlé poli</th><th>Style journal</th><th>Sens</th></tr>
+      <tr><td class="ko">먹어요</td><td class="ko">먹는다</td><td>mange</td></tr>
+      <tr><td class="ko">가요</td><td class="ko">간다</td><td>va</td></tr>
+      <tr><td class="ko">와요</td><td class="ko">온다</td><td>vient</td></tr>
+      <tr><td class="ko">읽어요</td><td class="ko">읽는다</td><td>lit</td></tr>
+      <tr><td class="ko">좋아요</td><td class="ko">좋다</td><td>est bon</td></tr>
+      <tr><td class="ko">예뻐요</td><td class="ko">예쁘다</td><td>est joli</td></tr>
+      <tr><td class="ko">행복해요</td><td class="ko">행복하다</td><td>est heureux</td></tr>
+      <tr><td class="ko">먹었어요</td><td class="ko">먹었다</td><td>a mangé</td></tr>
+      <tr><td class="ko">갔어요</td><td class="ko">갔다</td><td>est allé</td></tr>
+      <tr><td class="ko">갈 거예요</td><td class="ko">갈 것이다</td><td>ira</td></tr>
+      <tr><td class="ko">이다 (예요)</td><td class="ko">이다</td><td>être (identité)</td></tr>
+    </table>
+  </div>
+
+  <h3>Exemple — Journal intime</h3>
+  <div class="journal-card">
+    <div class="journal-title">📔 오늘의 일기 — 5월 12일</div>
+    <div class="journal-body">
+      오늘은 아침부터 비가 왔다. 우산을 가지고 학교에 갔다. 한국어 시험이 있었지만 잘 본 것 같다. 점심에는 친구와 김밥을 먹었다. 친구가 새로운 한국 드라마를 추천해 줬다. 저녁에는 집에서 그 드라마를 봤다. 정말 재미있었다. 내일은 도서관에 가서 공부할 것이다.
+    </div>
+    <div style="font-size:.78rem;color:var(--tx-muted);font-style:italic;margin-top:.5rem;line-height:1.6">
+      "Aujourd'hui il a plu depuis le matin. J'ai pris mon parapluie et je suis allée à l'école. Il y avait un examen de coréen mais je crois l'avoir bien réussi. À midi j'ai mangé un kimbap avec une amie. Elle m'a recommandé un nouveau drama coréen. Le soir j'ai regardé ce drama à la maison. C'était vraiment intéressant. Demain j'irai à la bibliothèque étudier."
+    </div>
+  </div>
+
+  <h3>Exemple — Article de presse</h3>
+  <div class="journal-card">
+    <div class="journal-title">📰 Article fictif</div>
+    <div class="journal-body">
+      서울 도심에 새로운 카페 거리가 <strong>생긴다</strong>. 이 거리는 다음 달부터 정식으로 <strong>운영된다</strong>. 시민들은 이 새로운 공간에 큰 기대를 <strong>보이고 있다</strong>. 한 시민은 "도시에 이런 공간이 필요했다"고 <strong>말했다</strong>. 시는 앞으로도 비슷한 프로젝트를 <strong>이어 갈 것이다</strong>.
+    </div>
+  </div>
+
+  <h3>Cas particuliers à connaître</h3>
+  <div class="ex-card">
+    <div class="ex-tag">⚠️ Verbes en -ㄹ</div>
+    <div class="ex-ko">살다 → <span class="hl">산다</span> (le ㄹ disparaît)</div>
+    <div class="ex-fr">vivre/habiter</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-tag">⚠️ Forme négative</div>
+    <div class="ex-ko">먹지 않는다 · 가지 않는다 · 좋지 않다</div>
+    <div class="ex-fr">ne mange pas · ne va pas · n'est pas bien</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-tag">⚠️ Citations directes</div>
+    <div class="ex-ko">그녀는 "행복하다"고 <span class="hl">말했다</span>.</div>
+    <div class="ex-fr">Elle a dit "je suis heureuse".</div>
+  </div>
+
+  <h3>Astuce — Tenir un journal en coréen</h3>
+  <div class="tip">
+    Tenir un journal intime en style -ㄴ/는다 pendant <strong>30 jours</strong> = la méthode la plus rapide pour intégrer cette structure. 5 phrases par soir suffisent.<br><br>
+    Bonus : à la fin du mois, relis tes premières pages. Tu vas voir une différence énorme — c'est très motivant.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +12 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b34',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_b34');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

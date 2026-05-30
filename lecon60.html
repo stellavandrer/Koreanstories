@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Émotions — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#2563EB;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(37,99,235,.12);color:#2563EB;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(37,99,235,.12);color:#2563EB;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#7c3aed,#a78bfa);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#ddd6fe;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;line-height:1.55}
+    .emotion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.6rem;margin:.5rem 0}
+    .emotion-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:12px;padding:.8rem .7rem;text-align:center;transition:all .15s}
+    .emotion-card:hover{border-color:#2563EB;transform:translateY(-2px)}
+    .emotion-ko{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:#2563EB;margin-bottom:.15rem}
+    .emotion-rom{font-size:.7rem;color:var(--tx-muted);font-style:italic;margin-bottom:.3rem}
+    .emotion-fr{font-size:.75rem;color:var(--tx);font-weight:600;line-height:1.3}
+    .ex-card{background:rgba(37,99,235,.05);border-left:3px solid #2563EB;border-radius:0 10px 10px 0;padding:.6rem .8rem;margin:.5rem 0}
+    .ex-ko{font-weight:600;color:var(--navy);font-size:.92rem;line-height:1.6}
+    [data-theme="dark"] .ex-ko{color:#f7f8fa}
+    .ex-ko .hl{color:#2563EB;background:rgba(37,99,235,.13);padding:1px 4px;border-radius:4px}
+    .ex-fr{font-size:.8rem;color:var(--tx-muted);margin-top:.2rem;font-style:italic;line-height:1.5}
+    .untranslate{background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(124,58,237,.02));border:1.5px solid rgba(124,58,237,.25);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
+    .ut-ko{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;font-weight:700;color:#7c3aed;text-align:center;margin-bottom:.3rem}
+    .ut-rom{text-align:center;font-size:.78rem;color:var(--tx-muted);font-style:italic;margin-bottom:.6rem}
+    .ut-meaning{font-size:.86rem;line-height:1.65;color:var(--tx);margin:.5rem 0}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(37,99,235,.1);color:#2563EB;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#2563EB;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#2563EB;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Les émotions</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Les émotions & l'état d'esprit</h2>
+  <span class="pill">A1 · Leçon</span> <span class="xp-badge">+12 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">Vocabulaire affectif</div>
+    <div class="intro-title">30 émotions essentielles + 4 intraduisibles</div>
+    <div class="intro-sub">De la joie au stress, en passant par 답답하다 et 아쉽다. Exprimer ce qu'on ressent vraiment.</div>
+  </div>
+
+  <h3>Émotions positives</h3>
+  <div class="emotion-grid">
+    <div class="emotion-card"><div class="emotion-ko">행복하다</div><div class="emotion-rom">haengbokhada</div><div class="emotion-fr">Être heureux</div></div>
+    <div class="emotion-card"><div class="emotion-ko">기쁘다</div><div class="emotion-rom">gippeuda</div><div class="emotion-fr">Être joyeux</div></div>
+    <div class="emotion-card"><div class="emotion-ko">즐겁다</div><div class="emotion-rom">jeulgeopda</div><div class="emotion-fr">Être amusé</div></div>
+    <div class="emotion-card"><div class="emotion-ko">신나다</div><div class="emotion-rom">sinnada</div><div class="emotion-fr">Être excité</div></div>
+    <div class="emotion-card"><div class="emotion-ko">감동하다</div><div class="emotion-rom">gamdonghada</div><div class="emotion-fr">Être ému</div></div>
+    <div class="emotion-card"><div class="emotion-ko">설레다</div><div class="emotion-rom">seolleda</div><div class="emotion-fr">Avoir le cœur qui bat</div></div>
+    <div class="emotion-card"><div class="emotion-ko">자랑스럽다</div><div class="emotion-rom">jarangseureopda</div><div class="emotion-fr">Être fier</div></div>
+    <div class="emotion-card"><div class="emotion-ko">사랑하다</div><div class="emotion-rom">saranghada</div><div class="emotion-fr">Aimer</div></div>
+  </div>
+
+  <h3>Émotions négatives</h3>
+  <div class="emotion-grid">
+    <div class="emotion-card"><div class="emotion-ko">슬프다</div><div class="emotion-rom">seulpeuda</div><div class="emotion-fr">Être triste</div></div>
+    <div class="emotion-card"><div class="emotion-ko">화나다</div><div class="emotion-rom">hwanada</div><div class="emotion-fr">Être en colère</div></div>
+    <div class="emotion-card"><div class="emotion-ko">짜증나다</div><div class="emotion-rom">jjajeungnada</div><div class="emotion-fr">Être agacé</div></div>
+    <div class="emotion-card"><div class="emotion-ko">무섭다</div><div class="emotion-rom">museopda</div><div class="emotion-fr">Avoir peur</div></div>
+    <div class="emotion-card"><div class="emotion-ko">긴장하다</div><div class="emotion-rom">ginjanghada</div><div class="emotion-fr">Être tendu</div></div>
+    <div class="emotion-card"><div class="emotion-ko">걱정하다</div><div class="emotion-rom">geokjeonghada</div><div class="emotion-fr">S'inquiéter</div></div>
+    <div class="emotion-card"><div class="emotion-ko">외롭다</div><div class="emotion-rom">oeropda</div><div class="emotion-fr">Se sentir seul</div></div>
+    <div class="emotion-card"><div class="emotion-ko">실망하다</div><div class="emotion-rom">silmanghada</div><div class="emotion-fr">Être déçu</div></div>
+  </div>
+
+  <h3>États physiques/mentaux</h3>
+  <div class="emotion-grid">
+    <div class="emotion-card"><div class="emotion-ko">피곤하다</div><div class="emotion-rom">pigonhada</div><div class="emotion-fr">Être fatigué</div></div>
+    <div class="emotion-card"><div class="emotion-ko">바쁘다</div><div class="emotion-rom">bappeuda</div><div class="emotion-fr">Être occupé</div></div>
+    <div class="emotion-card"><div class="emotion-ko">심심하다</div><div class="emotion-rom">simsimhada</div><div class="emotion-fr">S'ennuyer</div></div>
+    <div class="emotion-card"><div class="emotion-ko">졸리다</div><div class="emotion-rom">jollida</div><div class="emotion-fr">Avoir sommeil</div></div>
+    <div class="emotion-card"><div class="emotion-ko">배고프다</div><div class="emotion-rom">baegopeuda</div><div class="emotion-fr">Avoir faim</div></div>
+    <div class="emotion-card"><div class="emotion-ko">배부르다</div><div class="emotion-rom">baebureuda</div><div class="emotion-fr">Être rassasié</div></div>
+    <div class="emotion-card"><div class="emotion-ko">놀라다</div><div class="emotion-rom">nollada</div><div class="emotion-fr">Être surpris</div></div>
+    <div class="emotion-card"><div class="emotion-ko">부끄럽다</div><div class="emotion-rom">bukkeureopda</div><div class="emotion-fr">Être gêné</div></div>
+  </div>
+
+  <h3>Comment dire son émotion</h3>
+  <div class="tip">
+    En coréen, les émotions sont des <strong>adjectifs</strong> (-다 finissants). Pour les utiliser :<br>
+    👉 Présent poli : remplacer <strong>-다</strong> par <strong>-아요/-어요</strong><br>
+    👉 Passé poli : remplacer <strong>-다</strong> par <strong>-았어요/-었어요</strong><br>
+    👉 Causalité : <strong>~아서/어서</strong> (parce que je suis...)
+  </div>
+
+  <div class="ex-card">
+    <div class="ex-ko">오늘 정말 <span class="hl">행복해요</span>.</div>
+    <div class="ex-fr">Je suis vraiment heureuse aujourd'hui.</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko">시험 결과를 들어서 너무 <span class="hl">기뻤어요</span>.</div>
+    <div class="ex-fr">J'ai été très joyeuse en entendant le résultat de l'examen.</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko">친구가 <span class="hl">화나서</span> 말을 안 해요.</div>
+    <div class="ex-fr">Mon amie est en colère donc elle ne parle pas.</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko">발표 전에 너무 <span class="hl">긴장됐어요</span>.</div>
+    <div class="ex-fr">J'étais très tendue avant la présentation.</div>
+  </div>
+
+  <h3>4 émotions intraduisibles — culture coréenne</h3>
+  <p style="font-size:.85rem;color:var(--tx-muted);line-height:1.6;margin:.5rem 0">Le coréen a des mots pour des émotions précises qu'aucun mot français ne capture vraiment.</p>
+
+  <div class="untranslate">
+    <div class="ut-ko">답답하다</div>
+    <div class="ut-rom">dapdaphada</div>
+    <div class="ut-meaning">
+      <strong>Sens littéral :</strong> "être bouché / suffoqué". <br>
+      <strong>Sens réel :</strong> sentir une frustration sourde, une oppression mentale quand on ne peut pas dire ou faire ce qu'on veut. Différent de "frustré" — c'est plus diffus, plus physique.<br>
+      <em style="font-size:.78rem;color:var(--tx-muted)">Ex : 말이 안 통해서 답답해요. — C'est étouffant qu'on ne se comprenne pas.</em>
+    </div>
+  </div>
+
+  <div class="untranslate">
+    <div class="ut-ko">아쉽다</div>
+    <div class="ut-rom">aswipda</div>
+    <div class="ut-meaning">
+      <strong>Sens :</strong> regretter doucement quelque chose qui finit ou qui n'a pas pu être. Pas de la tristesse profonde, mais un "ah, dommage..." persistant. La saveur du regret tendre.<br>
+      <em style="font-size:.78rem;color:var(--tx-muted)">Ex : 벌써 한국을 떠나야 해서 정말 아쉬워요. — C'est dommage de devoir déjà quitter la Corée.</em>
+    </div>
+  </div>
+
+  <div class="untranslate">
+    <div class="ut-ko">뿌듯하다</div>
+    <div class="ut-rom">ppudeutada</div>
+    <div class="ut-meaning">
+      <strong>Sens :</strong> ressentir une fierté chaleureuse qui remplit la poitrine. Plus profond que "fier", plus calme que "joyeux". Souvent après un effort accompli ou en voyant quelqu'un qu'on aime réussir.<br>
+      <em style="font-size:.78rem;color:var(--tx-muted)">Ex : 아이의 졸업식을 보면서 뿌듯했어요. — En voyant la remise de diplôme de mon enfant, je me suis senti rempli de fierté.</em>
+    </div>
+  </div>
+
+  <div class="untranslate">
+    <div class="ut-ko">정</div>
+    <div class="ut-rom">jeong</div>
+    <div class="ut-meaning">
+      <strong>Sens :</strong> attachement profond qui se développe avec le temps. Pas l'amour romantique, pas l'amitié simple — un lien qui survit même quand la personne nous énerve. C'est ce qui fait qu'on a "du mal à se séparer" même de quelqu'un qu'on connaît à peine. Le concept le plus typiquement coréen.<br>
+      <em style="font-size:.78rem;color:var(--tx-muted)">Ex : 오랫동안 같이 일해서 정이 들었어요. — On a travaillé ensemble longtemps, alors je me suis attaché.</em>
+    </div>
+  </div>
+
+  <h3>Verbes émotionnels — "se sentir"</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Structure</th><th>Sens</th></tr>
+      <tr><td class="ko">기분이 좋다</td><td>기분 + 좋다</td><td>Être de bonne humeur</td></tr>
+      <tr><td class="ko">기분이 나쁘다</td><td>기분 + 나쁘다</td><td>Être de mauvaise humeur</td></tr>
+      <tr><td class="ko">마음에 들다</td><td>마음 + 에 + 들다</td><td>Plaire / kiffer</td></tr>
+      <tr><td class="ko">마음이 아프다</td><td>마음 + 아프다</td><td>Avoir le cœur lourd</td></tr>
+      <tr><td class="ko">스트레스를 받다</td><td>스트레스 + 받다</td><td>Être stressé</td></tr>
+      <tr><td class="ko">기운이 없다</td><td>기운 + 없다</td><td>Être sans énergie</td></tr>
+      <tr><td class="ko">정신이 없다</td><td>정신 + 없다</td><td>Être débordé / perdu</td></tr>
+    </table>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +12 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_a40',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_a40');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

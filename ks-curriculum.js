@@ -149,8 +149,8 @@
     'jeu11.html':1,'jeu12.html':1,
     /* lecon40b (connecteurs), 40c (honorifiques), 40d (proverbes) créées */
     /* lecon52, 53, 54 : créées — retirées de COMING_SOON */
-    'lecon55.html':1,'lecon56.html':1,'lecon57.html':1,
-    'lecon58.html':1,'lecon59.html':1,'lecon60.html':1,
+    /* lecon55-60 toutes créées : style journal, concessives, raison,
+       corps & santé, vêtements, émotions */
     'pro5.html':1,'pro6.html':1,
     'quiz9.html':1
   };

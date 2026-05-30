@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>-거든요 & -잖아요 — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#14532d,#16a34a);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbf7d0;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;line-height:1.55}
+    .rule-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
+    .rule-formula{background:rgba(22,163,74,.08);border:1.5px dashed rgba(22,163,74,.4);border-radius:10px;padding:.7rem;text-align:center;font-size:1rem;font-weight:700;color:#15803D;margin:.5rem 0;font-family:'Playfair Display',Georgia,serif}
+    .dialogue-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.6rem 0}
+    .d-row{display:flex;gap:.5rem;margin:.4rem 0;align-items:flex-start}
+    .d-row.right{flex-direction:row-reverse}
+    .d-who{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#16A34A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800}
+    .d-row.right .d-who{background:#3b82f6}
+    .d-bubble{background:rgba(22,163,74,.08);border-radius:0 14px 14px 14px;padding:.5rem .8rem;flex:1}
+    .d-row.right .d-bubble{background:rgba(59,130,246,.08);border-radius:14px 0 14px 14px}
+    .d-ko{font-weight:600;color:var(--navy);font-size:.92rem;line-height:1.55}
+    [data-theme="dark"] .d-ko{color:#f7f8fa}
+    .d-ko .hl{color:#16A34A;background:rgba(22,163,74,.15);padding:1px 4px;border-radius:4px}
+    .d-fr{font-size:.78rem;color:var(--tx-muted);margin-top:.2rem;font-style:italic}
+    .ex-card{background:rgba(22,163,74,.05);border-left:3px solid #16A34A;border-radius:0 10px 10px 0;padding:.6rem .9rem;margin:.5rem 0}
+    .ex-ko{font-weight:600;color:var(--navy);font-size:.92rem;line-height:1.6}
+    [data-theme="dark"] .ex-ko{color:#f7f8fa}
+    .ex-ko .hl{color:#16A34A;background:rgba(22,163,74,.13);padding:1px 4px;border-radius:4px}
+    .ex-fr{font-size:.8rem;color:var(--tx-muted);margin-top:.2rem;font-style:italic;line-height:1.5}
+    .compare-grid{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0;overflow-x:auto}
+    .compare-grid table{width:100%;border-collapse:collapse;font-size:.86rem}
+    .compare-grid th{background:rgba(22,163,74,.1);color:#16A34A;padding:.5rem .6rem;text-align:left;font-size:.72rem;font-weight:700;text-transform:uppercase}
+    .compare-grid td{padding:.5rem .6rem;border-bottom:1px solid var(--bd);vertical-align:top}
+    .compare-grid td.ko{color:#16A34A;font-weight:700;white-space:nowrap}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">-거든요 / -잖아요</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>-거든요 & -잖아요 — Expliquer naturellement</h2>
+  <span class="pill">A2 · Leçon</span> <span class="xp-badge">+12 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">Particules emphatiques</div>
+    <div class="intro-title">2 particules qui transforment ton coréen</div>
+    <div class="intro-sub">Sans elles, tu sonnes "scolaire". Avec elles, tu sonnes natif. La différence entre A2 et "vrai locuteur".</div>
+  </div>
+
+  <h3>1. -거든요 — "C'est que..." (info nouvelle)</h3>
+  <div class="rule-card">
+    <div class="rule-formula">
+      verbe stem + <span style="color:#16A34A">-거든요</span><br>
+      <span style="font-size:.78rem;font-weight:400;color:var(--tx-muted)">(s'attache directement à la racine)</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--tx-muted);line-height:1.55">À utiliser quand tu <strong>donnes une information que l'interlocuteur ne connaît pas</strong>. Sert à justifier, expliquer, mettre en contexte.</p>
+  </div>
+
+  <div class="dialogue-card">
+    <div class="d-row">
+      <div class="d-who">A</div>
+      <div class="d-bubble">
+        <div class="d-ko">왜 그렇게 일찍 가요?</div>
+        <div class="d-fr">Pourquoi tu pars si tôt ?</div>
+      </div>
+    </div>
+    <div class="d-row right">
+      <div class="d-who">B</div>
+      <div class="d-bubble">
+        <div class="d-ko">내일 시험이 <span class="hl">있거든요</span>.</div>
+        <div class="d-fr">C'est que j'ai un examen demain. <em>(info nouvelle pour A)</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialogue-card">
+    <div class="d-row">
+      <div class="d-who">A</div>
+      <div class="d-bubble">
+        <div class="d-ko">한국말 정말 잘하시네요!</div>
+        <div class="d-fr">Vous parlez vraiment bien coréen !</div>
+      </div>
+    </div>
+    <div class="d-row right">
+      <div class="d-who">B</div>
+      <div class="d-bubble">
+        <div class="d-ko">한국에서 5년 동안 <span class="hl">살았거든요</span>.</div>
+        <div class="d-fr">C'est que j'ai vécu en Corée pendant 5 ans.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex-card">
+    <div class="ex-ko">A: 오늘 왜 우산 안 가져왔어요?<br>B: 일기 예보에서 비가 안 <span class="hl">온다고 했거든요</span>.</div>
+    <div class="ex-fr">A: Pourquoi tu n'as pas de parapluie ? B: C'est que la météo annonçait pas de pluie.</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko">A: 왜 이렇게 피곤해요?<br>B: 어제 늦게까지 <span class="hl">일했거든요</span>.</div>
+    <div class="ex-fr">A: Pourquoi tu es si fatigué ? B: C'est que j'ai travaillé tard hier.</div>
+  </div>
+
+  <h3>2. -잖아요 — "Tu sais bien que..." (info connue)</h3>
+  <div class="rule-card">
+    <div class="rule-formula">
+      verbe stem + <span style="color:#16A34A">-잖아요</span><br>
+      <span style="font-size:.78rem;font-weight:400;color:var(--tx-muted)">(s'attache directement à la racine)</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--tx-muted);line-height:1.55">À utiliser quand tu <strong>rappelles une information que l'interlocuteur connaît déjà</strong>. Sert à raviver un savoir partagé.</p>
+  </div>
+
+  <div class="dialogue-card">
+    <div class="d-row">
+      <div class="d-who">A</div>
+      <div class="d-bubble">
+        <div class="d-ko">민지는 왜 안 왔어요?</div>
+        <div class="d-fr">Pourquoi Min-ji n'est pas venue ?</div>
+      </div>
+    </div>
+    <div class="d-row right">
+      <div class="d-who">B</div>
+      <div class="d-bubble">
+        <div class="d-ko">민지 오늘 부산 <span class="hl">간다고 했잖아요</span>.</div>
+        <div class="d-fr">Tu sais bien qu'elle a dit qu'elle allait à Busan aujourd'hui. <em>(A le savait, B le rappelle)</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialogue-card">
+    <div class="d-row">
+      <div class="d-who">A</div>
+      <div class="d-bubble">
+        <div class="d-ko">오늘 점심 뭐 먹을까요?</div>
+        <div class="d-fr">On mange quoi ce midi ?</div>
+      </div>
+    </div>
+    <div class="d-row right">
+      <div class="d-who">B</div>
+      <div class="d-bubble">
+        <div class="d-ko">오늘 회식 <span class="hl">있잖아요</span>. 점심은 가볍게 먹읍시다.</div>
+        <div class="d-fr">Tu sais bien qu'il y a un dîner d'entreprise aujourd'hui. Mangeons léger ce midi.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex-card">
+    <div class="ex-ko">우리 작년에 일본 <span class="hl">갔었잖아요</span>. 정말 좋았죠?</div>
+    <div class="ex-fr">Tu te souviens, on est allés au Japon l'an dernier. C'était super, non ?</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko">한국에서는 신발을 <span class="hl">벗어야 하잖아요</span>.</div>
+    <div class="ex-fr">En Corée, tu sais bien qu'il faut enlever ses chaussures.</div>
+  </div>
+
+  <h3>La différence en une image</h3>
+  <div class="compare-grid">
+    <table>
+      <tr><th></th><th class="ko">-거든요</th><th class="ko">-잖아요</th></tr>
+      <tr><td>L'autre sait ?</td><td><strong>Non</strong>, info nouvelle</td><td><strong>Oui</strong>, info déjà connue</td></tr>
+      <tr><td>Fonction</td><td>Justifier / expliquer</td><td>Rappeler / "tu te souviens..."</td></tr>
+      <tr><td>Émotion</td><td>Neutre, informatif</td><td>Léger reproche possible / complicité</td></tr>
+      <tr><td>Sens littéral</td><td>"c'est que..."</td><td>"comme tu sais..."</td></tr>
+      <tr><td>Phrase type</td><td>왜냐하면 ~거든요</td><td>~잖아요, 기억나요?</td></tr>
+    </table>
+  </div>
+
+  <h3>Attention au ton de -잖아요</h3>
+  <div class="tip">
+    ⚠️ <strong>-잖아요</strong> peut passer pour un léger reproche si mal employé. "Tu sais bien que..." sous-entend parfois "tu devrais le savoir".<br><br>
+    👉 Avec des amis proches : naturel et complice<br>
+    👉 Avec un supérieur : à éviter, ça peut sonner condescendant<br>
+    👉 Préfère <strong>"-(으)시잖아요"</strong> pour la version polie/respectueuse
+  </div>
+
+  <h3>Test rapide — Lequel choisir ?</h3>
+  <div class="ex-card">
+    <div class="ex-ko"><strong>Situation :</strong> Ton ami te demande pourquoi tu apprends le coréen. Tu n'avais jamais expliqué avant.</div>
+    <div class="ex-fr">→ "K-드라마를 정말 좋아<strong>하거든요</strong>." <em>(info nouvelle = -거든요)</em></div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko"><strong>Situation :</strong> Tu rappelles à ton ami que vous aviez déjà parlé de ton amour pour les K-dramas.</div>
+    <div class="ex-fr">→ "내가 K-드라마 좋아<strong>하잖아</strong>. 그래서 배우는 거야." <em>(info déjà connue = -잖아요)</em></div>
+  </div>
+
+  <h3>Bonus — Variantes informelles</h3>
+  <div class="ex-card">
+    <div class="ex-ko">À ton ami du même âge : <span class="hl">-거든</span> / <span class="hl">-잖아</span> (sans 요)</div>
+    <div class="ex-fr">Forme 반말 (informelle). On retire simplement le 요 final.</div>
+  </div>
+
+  <h3>Stratégie d'apprentissage</h3>
+  <div class="tip">
+    Vise <strong>une utilisation par jour</strong> pendant 1 semaine. Tu peux te forcer à répondre "Why...?" avec <strong>-거든요</strong> systématiquement. Au bout d'une semaine, c'est automatisé. C'est la grammaire la plus rentable du A2.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +12 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b36',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_b36');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

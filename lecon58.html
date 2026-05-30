@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Le corps & la santé — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#2563EB;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(37,99,235,.12);color:#2563EB;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(37,99,235,.12);color:#2563EB;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#1e40af,#3b82f6);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bfdbfe;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;line-height:1.55}
+
+    .body-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.5rem;margin:.5rem 0}
+    .body-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:12px;padding:.7rem;text-align:center;transition:all .15s}
+    .body-card:hover{border-color:#2563EB;transform:translateY(-2px)}
+    .body-ko{font-family:'Playfair Display',Georgia,serif;font-size:1.05rem;font-weight:700;color:#2563EB;margin-bottom:.1rem}
+    .body-rom{font-size:.68rem;color:var(--tx-muted);font-style:italic}
+    .body-fr{font-size:.75rem;color:var(--tx);margin-top:.2rem;font-weight:600}
+
+    .ex-card{background:rgba(37,99,235,.05);border-left:3px solid #2563EB;border-radius:0 10px 10px 0;padding:.7rem .9rem;margin:.5rem 0}
+    .ex-ko{font-weight:600;color:var(--navy);font-size:.92rem;line-height:1.6}
+    [data-theme="dark"] .ex-ko{color:#f7f8fa}
+    .ex-ko .hl{color:#2563EB;background:rgba(37,99,235,.13);padding:1px 4px;border-radius:4px}
+    .ex-fr{font-size:.8rem;color:var(--tx-muted);margin-top:.2rem;font-style:italic;line-height:1.5}
+
+    .scenario{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
+    .sc-tag{font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#2563EB;margin-bottom:.4rem}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(37,99,235,.1);color:#2563EB;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#2563EB;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#2563EB;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Corps & santé</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Le corps & la santé</h2>
+  <span class="pill">A1 · Leçon</span> <span class="xp-badge">+12 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">Vocabulaire essentiel</div>
+    <div class="intro-title">30 parties du corps + symptômes</div>
+    <div class="intro-sub">Pour décrire la douleur, aller chez le médecin, parler de son état physique au quotidien.</div>
+  </div>
+
+  <h3>La tête</h3>
+  <div class="body-grid">
+    <div class="body-card"><div class="body-ko">머리</div><div class="body-rom">meori</div><div class="body-fr">Tête</div></div>
+    <div class="body-card"><div class="body-ko">얼굴</div><div class="body-rom">eolgul</div><div class="body-fr">Visage</div></div>
+    <div class="body-card"><div class="body-ko">눈</div><div class="body-rom">nun</div><div class="body-fr">Œil</div></div>
+    <div class="body-card"><div class="body-ko">코</div><div class="body-rom">ko</div><div class="body-fr">Nez</div></div>
+    <div class="body-card"><div class="body-ko">입</div><div class="body-rom">ip</div><div class="body-fr">Bouche</div></div>
+    <div class="body-card"><div class="body-ko">귀</div><div class="body-rom">gwi</div><div class="body-fr">Oreille</div></div>
+    <div class="body-card"><div class="body-ko">이</div><div class="body-rom">i</div><div class="body-fr">Dent</div></div>
+    <div class="body-card"><div class="body-ko">혀</div><div class="body-rom">hyeo</div><div class="body-fr">Langue</div></div>
+    <div class="body-card"><div class="body-ko">목</div><div class="body-rom">mok</div><div class="body-fr">Cou/Gorge</div></div>
+  </div>
+
+  <h3>Le tronc et les membres</h3>
+  <div class="body-grid">
+    <div class="body-card"><div class="body-ko">어깨</div><div class="body-rom">eokkae</div><div class="body-fr">Épaule</div></div>
+    <div class="body-card"><div class="body-ko">팔</div><div class="body-rom">pal</div><div class="body-fr">Bras</div></div>
+    <div class="body-card"><div class="body-ko">손</div><div class="body-rom">son</div><div class="body-fr">Main</div></div>
+    <div class="body-card"><div class="body-ko">손가락</div><div class="body-rom">songarak</div><div class="body-fr">Doigt</div></div>
+    <div class="body-card"><div class="body-ko">가슴</div><div class="body-rom">gaseum</div><div class="body-fr">Poitrine</div></div>
+    <div class="body-card"><div class="body-ko">배</div><div class="body-rom">bae</div><div class="body-fr">Ventre</div></div>
+    <div class="body-card"><div class="body-ko">등</div><div class="body-rom">deung</div><div class="body-fr">Dos</div></div>
+    <div class="body-card"><div class="body-ko">허리</div><div class="body-rom">heori</div><div class="body-fr">Taille</div></div>
+    <div class="body-card"><div class="body-ko">다리</div><div class="body-rom">dari</div><div class="body-fr">Jambe</div></div>
+    <div class="body-card"><div class="body-ko">무릎</div><div class="body-rom">mureup</div><div class="body-fr">Genou</div></div>
+    <div class="body-card"><div class="body-ko">발</div><div class="body-rom">bal</div><div class="body-fr">Pied</div></div>
+    <div class="body-card"><div class="body-ko">발가락</div><div class="body-rom">balgarak</div><div class="body-fr">Orteil</div></div>
+  </div>
+
+  <h3>Décrire la douleur — la structure clé</h3>
+  <div class="tip">
+    Pour dire "j'ai mal à X" :<br>
+    👉 <strong>[partie du corps]이/가 아파요</strong><br>
+    👉 <strong>[partie du corps]이/가 아프다</strong> (forme de base)<br><br>
+    Si la partie du corps finit par une consonne → particule <span class="ko" style="color:#2563EB;font-weight:700">이</span> (ex: 머리<strong>가</strong>... non, attention : 머리 finit par 리 voyelle → 가).<br>
+    Si elle finit par une voyelle → particule <span class="ko" style="color:#2563EB;font-weight:700">가</span>.
+  </div>
+
+  <div class="ex-card">
+    <div class="ex-ko"><span class="hl">머리가</span> 너무 <span class="hl">아파요</span>.</div>
+    <div class="ex-fr">J'ai très mal à la tête.</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko"><span class="hl">목이</span> 아파서 말을 못 해요.</div>
+    <div class="ex-fr">J'ai mal à la gorge, je n'arrive pas à parler.</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko">어제부터 <span class="hl">배가</span> <span class="hl">아파요</span>.</div>
+    <div class="ex-fr">J'ai mal au ventre depuis hier.</div>
+  </div>
+  <div class="ex-card">
+    <div class="ex-ko">계속 앉아서 일했더니 <span class="hl">허리가</span> 아파요.</div>
+    <div class="ex-fr">À force d'être assis, j'ai mal au dos.</div>
+  </div>
+
+  <h3>Les symptômes courants</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">감기</td><td>gamgi</td><td>Rhume</td></tr>
+      <tr><td class="ko">열</td><td>yeol</td><td>Fièvre</td></tr>
+      <tr><td class="ko">열이 나다</td><td>yeori nada</td><td>Avoir de la fièvre</td></tr>
+      <tr><td class="ko">기침</td><td>gichim</td><td>Toux</td></tr>
+      <tr><td class="ko">기침이 나다</td><td>gichimi nada</td><td>Tousser</td></tr>
+      <tr><td class="ko">콧물</td><td>konmul</td><td>Mucus / nez qui coule</td></tr>
+      <tr><td class="ko">두통</td><td>dutong</td><td>Migraine</td></tr>
+      <tr><td class="ko">복통</td><td>boktong</td><td>Mal au ventre (médical)</td></tr>
+      <tr><td class="ko">설사</td><td>seolsa</td><td>Diarrhée</td></tr>
+      <tr><td class="ko">어지럽다</td><td>eojireopda</td><td>Avoir le vertige</td></tr>
+      <tr><td class="ko">메스껍다</td><td>meseukkeopda</td><td>Avoir la nausée</td></tr>
+      <tr><td class="ko">피곤하다</td><td>pigonhada</td><td>Être fatigué</td></tr>
+    </table>
+  </div>
+
+  <h3>Scénario — Chez le médecin</h3>
+  <div class="scenario">
+    <div class="sc-tag">Dialogue type</div>
+    <div class="ex-card">
+      <div class="ex-ko"><strong>의사 :</strong> 어디가 아프세요?</div>
+      <div class="ex-fr">Médecin : Où avez-vous mal ?</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-ko"><strong>나 :</strong> 어제부터 머리가 아프고 열이 나요.</div>
+      <div class="ex-fr">Moi : Depuis hier j'ai mal à la tête et j'ai de la fièvre.</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-ko"><strong>의사 :</strong> 기침이나 콧물도 있어요?</div>
+      <div class="ex-fr">Médecin : Vous avez aussi de la toux ou le nez qui coule ?</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-ko"><strong>나 :</strong> 네, 기침도 조금 해요.</div>
+      <div class="ex-fr">Moi : Oui, je tousse aussi un peu.</div>
+    </div>
+    <div class="ex-card">
+      <div class="ex-ko"><strong>의사 :</strong> 감기인 것 같아요. 약을 드릴게요. 푹 쉬세요.</div>
+      <div class="ex-fr">Médecin : Ça ressemble à un rhume. Je vous donne un médicament. Reposez-vous bien.</div>
+    </div>
+  </div>
+
+  <h3>Expressions utiles</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Sens</th></tr>
+      <tr><td class="ko">몸이 안 좋아요</td><td>Je ne me sens pas bien</td></tr>
+      <tr><td class="ko">몸이 좋아졌어요</td><td>Je me sens mieux</td></tr>
+      <tr><td class="ko">병원에 가야 해요</td><td>Il faut aller à l'hôpital</td></tr>
+      <tr><td class="ko">약을 먹어야 해요</td><td>Il faut prendre des médicaments</td></tr>
+      <tr><td class="ko">푹 쉬세요</td><td>Reposez-vous bien</td></tr>
+      <tr><td class="ko">빨리 나으세요</td><td>Bon rétablissement</td></tr>
+      <tr><td class="ko">건강 챙기세요</td><td>Prenez soin de vous</td></tr>
+    </table>
+  </div>
+
+  <h3>Astuce culturelle</h3>
+  <div class="tip">
+    En Corée, les <strong>cliniques de quartier</strong> (의원) sont rapides et abordables : 5-10 000 wons (4-8 €) la consultation. Pas besoin de RDV. Tu y vas, tu attends 15 min, et la pharmacie est juste à côté pour récupérer les médicaments. Beaucoup plus simple qu'en France.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +12 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_a38',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_a38');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
