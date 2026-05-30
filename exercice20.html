@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Essai TOPIK II — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+    .intro{background:linear-gradient(135deg,#312e81,#7C3AED);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c4b5fd;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem}
+
+    .topic-card{background:linear-gradient(135deg,rgba(124,58,237,.10),rgba(124,58,237,.03));border:1.5px solid rgba(124,58,237,.3);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
+    .topic-tag{font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7C3AED;margin-bottom:.4rem}
+    .topic-question{font-size:.95rem;font-weight:600;color:var(--navy);line-height:1.65}
+    [data-theme="dark"] .topic-question{color:#f7f8fa}
+
+    .plan{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0;position:relative}
+    .plan-num{position:absolute;top:-10px;left:14px;background:#7C3AED;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .plan-stage{margin:.7rem 0;padding:.7rem .9rem;background:var(--bg);border-left:3px solid #7C3AED;border-radius:0 8px 8px 0}
+    .plan-label{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#7C3AED;margin-bottom:.3rem}
+    .plan-target{font-size:.8rem;color:var(--tx-muted);font-style:italic;margin-top:.3rem}
+    .ko-snippet{font-size:.92rem;color:var(--navy);font-weight:500;line-height:1.7;margin:.4rem 0}
+    [data-theme="dark"] .ko-snippet{color:#f7f8fa}
+
+    .essay-full{background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.2);border-radius:14px;padding:1.2rem;margin:.7rem 0;font-size:.93rem;line-height:1.85;color:var(--navy)}
+    [data-theme="dark"] .essay-full{color:#f7f8fa}
+    .essay-full p{margin:.6rem 0}
+    .essay-full strong{color:#7C3AED}
+
+    .connectors{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .connectors table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .connectors th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .connectors td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .connectors .ko{color:#7C3AED;font-weight:700}
+
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Essai TOPIK II</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Essai TOPIK II — Entraînement rédaction</h2>
+  <span class="pill">B2 · Exercice</span> <span class="xp-badge">+20 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">쓰기 영역 — Section écriture</div>
+    <div class="intro-title">Structure d'un essai 600-700 mots</div>
+    <div class="intro-sub">Plan en 3 actes + modèle annoté + 15 connecteurs essentiels.</div>
+  </div>
+
+  <h3>Sujet d'entraînement</h3>
+  <div class="topic-card">
+    <div class="topic-tag">문제 54 · 주제</div>
+    <div class="topic-question">
+      현대 사회에서 <strong>SNS의 영향력</strong>이 점점 커지고 있다. SNS가 우리의 삶에 미치는 긍정적인 영향과 부정적인 영향을 모두 설명하고, 앞으로 우리가 어떤 태도를 가져야 하는지 본인의 생각을 600~700자로 쓰시오.
+    </div>
+    <div style="font-size:.78rem;color:var(--tx-muted);margin-top:.7rem;font-style:italic">
+      "Dans la société moderne, l'influence des réseaux sociaux ne cesse de croître. Expliquez les effets positifs ET négatifs des réseaux sociaux sur nos vies, puis donnez votre avis sur l'attitude à adopter à l'avenir. 600-700 caractères."
+    </div>
+  </div>
+
+  <h3>Plan en 4 étapes</h3>
+  <div class="plan">
+    <div class="plan-num">PLAN</div>
+
+    <div class="plan-stage">
+      <div class="plan-label">① 서론 (Introduction) — ~80 mots</div>
+      <div class="ko-snippet">최근 들어 SNS는 우리 일상생활에서 빼놓을 수 없는 부분이 되었다. 짧은 시간 안에 정보를 공유하고 사람들과 소통할 수 있다는 점에서 SNS는 큰 가능성을 보여 주지만, 동시에 여러 가지 문제점도 함께 가져왔다.</div>
+      <div class="plan-target">→ Contexte + thèse double (positif/négatif)</div>
+    </div>
+
+    <div class="plan-stage">
+      <div class="plan-label">② 본론 1 — 긍정적 영향 (Effets positifs) — ~200 mots</div>
+      <div class="ko-snippet">먼저, SNS의 긍정적인 측면을 살펴보면, 무엇보다 정보 접근성이 크게 향상되었다. 예전에는 신문이나 텔레비전을 통해서만 알 수 있었던 소식들을 이제는 누구나 실시간으로 받아볼 수 있다. 또한 SNS는 같은 관심사를 가진 사람들이 거리에 상관없이 모일 수 있는 공간이 되었다.</div>
+      <div class="plan-target">→ 2-3 arguments + exemples concrets + connecteurs (먼저, 또한, 게다가)</div>
+    </div>
+
+    <div class="plan-stage">
+      <div class="plan-label">③ 본론 2 — 부정적 영향 (Effets négatifs) — ~200 mots</div>
+      <div class="ko-snippet">반면에 SNS가 가져온 부정적인 영향도 결코 무시할 수 없다. 첫째, 가짜 뉴스와 잘못된 정보가 빠르게 확산되어 사회적 혼란을 일으키는 경우가 많다. 둘째, 사람들이 다른 사람의 삶과 끊임없이 비교하면서 우울감이나 자존감 저하를 경험한다는 연구 결과도 있다.</div>
+      <div class="plan-target">→ 반면에 + arguments + connecteurs énumératifs (첫째, 둘째)</div>
+    </div>
+
+    <div class="plan-stage">
+      <div class="plan-label">④ 결론 (Conclusion) — ~100 mots</div>
+      <div class="ko-snippet">결론적으로 SNS는 양면성을 가진 도구이며, 그것을 어떻게 사용하는지에 따라 결과가 달라진다. 따라서 우리는 SNS의 장점을 최대한 활용하면서도, 그것이 가져올 수 있는 위험을 인식하고 비판적으로 정보를 받아들이는 자세가 필요하다.</div>
+      <div class="plan-target">→ 결론적으로 + reprise des deux côtés + ouverture sur action</div>
+    </div>
+  </div>
+
+  <h3>Essai modèle complet</h3>
+  <div class="essay-full">
+    <p><strong>최근 들어</strong> SNS는 우리 일상생활에서 빼놓을 수 없는 부분이 되었다. 짧은 시간 안에 정보를 공유하고 사람들과 소통할 수 있다는 점에서 SNS는 큰 가능성을 보여 주지만, <strong>동시에</strong> 여러 가지 문제점도 함께 가져왔다.</p>
+    <p><strong>먼저, </strong>SNS의 긍정적인 측면을 살펴보면, 무엇보다 정보 접근성이 크게 향상되었다는 점을 들 수 있다. 예전에는 신문이나 텔레비전을 통해서만 알 수 있었던 소식들을 이제는 누구나 실시간으로 받아볼 수 있다. <strong>또한 </strong>SNS는 같은 관심사를 가진 사람들이 물리적 거리에 상관없이 모일 수 있는 새로운 공간을 만들었다. 외국어 학습자들이 원어민과 직접 대화할 기회를 얻거나, 작은 가게가 전 세계의 손님을 만날 수 있게 된 것도 SNS 덕분이다.</p>
+    <p><strong>반면에</strong> SNS가 가져온 부정적인 영향도 결코 무시할 수 없다. <strong>첫째,</strong> 가짜 뉴스와 잘못된 정보가 빠르게 확산되어 사회적 혼란을 일으키는 경우가 많다. <strong>둘째,</strong> 사람들이 다른 사람의 화려한 삶과 끊임없이 비교하면서 우울감이나 자존감 저하를 경험한다는 연구 결과도 발표되고 있다. <strong>특히</strong> 청소년들에게 이러한 영향은 더욱 심각하게 나타난다.</p>
+    <p><strong>결론적으로</strong> SNS는 양면성을 가진 도구이며, 그것을 어떻게 사용하는지에 따라 결과가 크게 달라진다. <strong>따라서</strong> 우리는 SNS의 장점을 최대한 활용하면서도, 그것이 가져올 수 있는 위험을 충분히 인식하고 비판적으로 정보를 받아들이는 균형 잡힌 자세가 필요하다.</p>
+    <p style="text-align:right;font-size:.75rem;color:var(--tx-muted);margin-top:.7rem;font-style:italic">~690자</p>
+  </div>
+
+  <h3>15 connecteurs essentiels TOPIK II</h3>
+  <div class="connectors">
+    <table>
+      <tr><th>Connecteur</th><th>Sens</th><th>Position</th></tr>
+      <tr><td class="ko">먼저</td><td>D'abord</td><td>Début argument 1</td></tr>
+      <tr><td class="ko">또한</td><td>De plus</td><td>Suite</td></tr>
+      <tr><td class="ko">게다가</td><td>En plus</td><td>Renforcement</td></tr>
+      <tr><td class="ko">특히</td><td>Surtout</td><td>Insistance</td></tr>
+      <tr><td class="ko">예를 들어</td><td>Par exemple</td><td>Illustration</td></tr>
+      <tr><td class="ko">반면에</td><td>En revanche</td><td>Opposition</td></tr>
+      <tr><td class="ko">한편</td><td>D'autre part</td><td>Changement d'angle</td></tr>
+      <tr><td class="ko">그러나</td><td>Cependant</td><td>Opposition forte</td></tr>
+      <tr><td class="ko">그럼에도 불구하고</td><td>Malgré cela</td><td>Concession forte</td></tr>
+      <tr><td class="ko">첫째, 둘째</td><td>Premièrement, deuxièmement</td><td>Énumération</td></tr>
+      <tr><td class="ko">즉</td><td>C'est-à-dire</td><td>Reformulation</td></tr>
+      <tr><td class="ko">결국</td><td>Au final</td><td>Conclusion partielle</td></tr>
+      <tr><td class="ko">따라서</td><td>Par conséquent</td><td>Conséquence</td></tr>
+      <tr><td class="ko">결론적으로</td><td>En conclusion</td><td>Ouverture conclusion</td></tr>
+      <tr><td class="ko">~에 따르면</td><td>Selon</td><td>Citation de source</td></tr>
+    </table>
+  </div>
+
+  <h3>Critères d'évaluation TOPIK II</h3>
+  <div class="tip">
+    Les correcteurs notent sur 4 critères (50 points total) :<br>
+    1. <strong>Contenu</strong> (15 pts) — On répond bien à la question avec des arguments<br>
+    2. <strong>Structure</strong> (10 pts) — Plan clair, transitions, paragraphes équilibrés<br>
+    3. <strong>Langue</strong> (15 pts) — Grammaire B2, vocabulaire varié, connecteurs<br>
+    4. <strong>Forme</strong> (10 pts) — Registre formel, 한자 vocabulaire, 600-700 caractères<br>
+    💡 Vise <strong>660-680 caractères</strong> exactement. Sous 600 = pénalité, au-dessus de 700 = pénalité.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d29',xp:20});else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_d29');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

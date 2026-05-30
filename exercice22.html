@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Lire un blog coréen — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#F59E0B;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(245,158,11,.13);color:#D97706;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(245,158,11,.13);color:#D97706;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+
+    .blog-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:0;margin:.8rem 0;overflow:hidden}
+    .blog-header{background:linear-gradient(135deg,#92400E,#F59E0B);padding:1rem 1.2rem;color:#fff}
+    .blog-author{display:flex;align-items:center;gap:.6rem;font-size:.78rem;color:rgba(255,255,255,.85)}
+    .blog-ava{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800}
+    .blog-title{font-size:1.05rem;font-weight:800;margin:.5rem 0 .2rem}
+    .blog-date{font-size:.72rem;color:rgba(255,255,255,.7);letter-spacing:.04em}
+    .blog-body{padding:1rem 1.2rem;font-size:.92rem;line-height:1.8;color:var(--navy)}
+    [data-theme="dark"] .blog-body{color:#f7f8fa}
+    .blog-body p{margin:.6rem 0}
+    .blog-body .hl{background:rgba(245,158,11,.15);padding:1px 4px;border-radius:4px;font-weight:600}
+
+    .quiz-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0}
+    .quiz-num{display:inline-block;background:#F59E0B;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;margin-bottom:.5rem;letter-spacing:.06em}
+    .quiz-q{font-weight:700;color:var(--tx);font-size:.95rem;margin-bottom:.6rem}
+    .quiz-opt{display:block;width:100%;text-align:left;padding:.6rem .9rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;margin:.3rem 0;font-size:.9rem;color:var(--tx);cursor:pointer;font-family:inherit;transition:all .15s}
+    .quiz-opt:hover{border-color:#F59E0B}
+    .quiz-opt.correct{background:rgba(34,197,94,.12);border-color:#16A34A;color:#15803D;font-weight:600}
+    .quiz-opt.wrong{background:rgba(239,68,68,.10);border-color:#DC2626;color:#991B1B}
+    .quiz-explain{display:none;margin-top:.7rem;padding:.7rem .9rem;background:rgba(34,197,94,.08);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;font-size:.83rem;color:var(--tx-muted);line-height:1.55}
+    .quiz-explain.show{display:block}
+
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(245,158,11,.1);color:#D97706;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#D97706;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Blog coréen</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Lire un blog coréen — Compréhension B1</h2>
+  <span class="pill">B1 · Exercice</span> <span class="xp-badge">+18 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native. Texte original créé pour l'apprentissage.</div>
+
+  <p style="font-size:.88rem;color:var(--tx-muted);line-height:1.6;margin:.5rem 0 1rem">Un article fictif d'un blog d'expat sur Séoul. Lis attentivement puis réponds aux 5 questions. Les mots <span class="hl" style="background:rgba(245,158,11,.15);padding:1px 4px;border-radius:4px;font-weight:600">surlignés</span> sont expliqués en bas.</p>
+
+  <div class="blog-card">
+    <div class="blog-header">
+      <div class="blog-author">
+        <div class="blog-ava">민</div>
+        <div>
+          <strong>민지의 서울 일기 · Min-ji's Seoul Diary</strong>
+        </div>
+      </div>
+      <div class="blog-title">서울에서 1년, 정말 빠르게 지나갔다</div>
+      <div class="blog-date">2026년 4월 17일 · 읽는 시간 3분</div>
+    </div>
+    <div class="blog-body">
+      <p>벌써 서울에 온 지 일 년이 되었다. 처음 인천공항에 도착했을 때, 나는 가방 두 개와 작은 꿈 하나만 가지고 있었다. <span class="hl">막상</span> 살아 보니까, 서울은 내가 상상했던 것보다 훨씬 빠르고, 훨씬 따뜻한 도시였다.</p>
+      <p>가장 좋아하는 것은 카페 문화다. 한국 사람들은 진짜로 카페에서 모든 것을 한다. 공부, 일, 데이트, 회의… 작은 카페 한 곳에서도 다섯 가지 다른 풍경을 볼 수 있다. 나도 매일 카페에서 글을 쓴다. 그래서 이 블로그를 시작할 수 있었다.</p>
+      <p>물론 어려운 점도 있다. <span class="hl">존댓말</span>은 아직도 헷갈리고, 회식 문화에 익숙해지는 데 시간이 걸렸다. 처음에는 너무 부담스러웠지만, 지금은 동료들과 술을 마시며 농담을 하는 시간이 오히려 즐겁다.</p>
+      <p>내년에는 한국에서 일을 시작할 계획이다. 누군가 나에게 "한국에서 사는 게 어떠니?" 라고 물으면, 나는 이렇게 대답하고 싶다. "<span class="hl">생각보다</span> 훨씬 좋아."</p>
+    </div>
+  </div>
+
+  <h3>Questions de compréhension</h3>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q01</span>
+    <div class="quiz-q">Quand l'auteure est-elle arrivée à Séoul ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Il y a deux ans</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q1')">Il y a un an</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Il y a six mois</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Le mois dernier</button>
+    <div class="quiz-explain" id="q1">Réponse : "벌써 서울에 온 지 일 년이 되었다" = "Déjà ça fait un an que je suis arrivée à Séoul". La structure "-(으)ㄴ 지 + durée + 되다" exprime "ça fait X temps que...".</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q02</span>
+    <div class="quiz-q">Que faisait-elle quand elle est arrivée ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Elle avait beaucoup de bagages</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q2')">Elle avait deux valises et un rêve</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Elle attendait un ami à l'aéroport</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Elle parlait déjà bien coréen</button>
+    <div class="quiz-explain" id="q2">Réponse : "가방 두 개와 작은 꿈 하나만 가지고 있었다" = "j'avais seulement deux sacs et un petit rêve".</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q03</span>
+    <div class="quiz-q">Pourquoi aime-t-elle particulièrement les cafés à Séoul ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Le café y est moins cher</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q3')">On y fait tout : étudier, travailler, se rencontrer</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Ils sont ouverts 24h/24</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Ils offrent du wifi gratuit</button>
+    <div class="quiz-explain" id="q3">Réponse : "한국 사람들은 진짜로 카페에서 모든 것을 한다" = les Coréens font vraiment tout au café.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q04</span>
+    <div class="quiz-q">Quelle a été sa difficulté principale au début ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">La cuisine épicée</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Le climat froid</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q4')">Le 존댓말 et la culture du 회식</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Le transport public</button>
+    <div class="quiz-explain" id="q4">Réponse : "존댓말은 아직도 헷갈리고, 회식 문화에 익숙해지는 데 시간이 걸렸다" — la politesse hiérarchique et la culture du dîner d'entreprise.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q05</span>
+    <div class="quiz-q">Quel est son projet pour l'année prochaine ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Rentrer dans son pays</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Voyager dans toute la Corée</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q5')">Commencer à travailler en Corée</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Apprendre le chinois</button>
+    <div class="quiz-explain" id="q5">Réponse : "내년에는 한국에서 일을 시작할 계획이다" = j'ai prévu de commencer à travailler en Corée l'an prochain.</div>
+  </div>
+
+  <h3>Mots-clés annotés</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">막상</td><td>maksang</td><td>En fait / quand on y vient</td></tr>
+      <tr><td class="ko">존댓말</td><td>jondaetmal</td><td>Langage poli/hiérarchique</td></tr>
+      <tr><td class="ko">생각보다</td><td>saenggakboda</td><td>Plus que ce qu'on pensait</td></tr>
+      <tr><td class="ko">벌써</td><td>beolsseo</td><td>Déjà</td></tr>
+      <tr><td class="ko">~(으)ㄴ 지</td><td>-(eu)n ji</td><td>Depuis que (structure de durée)</td></tr>
+      <tr><td class="ko">상상하다</td><td>sangsanghada</td><td>Imaginer</td></tr>
+      <tr><td class="ko">헷갈리다</td><td>hetgallida</td><td>Confondre / être confus</td></tr>
+      <tr><td class="ko">익숙해지다</td><td>iksukhaejida</td><td>S'habituer</td></tr>
+      <tr><td class="ko">부담스럽다</td><td>budamseureopda</td><td>Être pesant</td></tr>
+      <tr><td class="ko">오히려</td><td>ohiryeo</td><td>Au contraire</td></tr>
+    </table>
+  </div>
+
+  <h3>Structure clé — "-(으)ㄴ 지 + 되다"</h3>
+  <div class="tip">
+    <strong>학교에 온 지 일 년이 되었다</strong> = "Ça fait un an que je suis venu à l'école".<br>
+    Cette structure exprime <em>la durée écoulée depuis un événement</em>. Très fréquente dans les blogs et journaux intimes. À ne pas confondre avec <strong>~는 동안</strong> (pendant que) ou <strong>~기 시작하다</strong> (commencer à).
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +18 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function answer(btn, correct, explainId){
+  /* Désactive tous les boutons de la même question */
+  var card = btn.closest('.quiz-card');
+  card.querySelectorAll('.quiz-opt').forEach(function(b){ b.disabled = true; b.style.cursor='default'; });
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if(correct && explainId){
+    document.getElementById(explainId).classList.add('show');
+  } else if(!correct){
+    /* Affiche aussi la bonne réponse */
+    var rightBtn = card.querySelector('.quiz-opt[onclick*="true"]');
+    if(rightBtn) rightBtn.classList.add('correct');
+    var exp = card.querySelector('.quiz-explain');
+    if(exp) exp.classList.add('show');
+  }
+}
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c34',xp:18});else{if(typeof ksAddXP==='function')ksAddXP(18);if(typeof ksMarkDone==='function')ksMarkDone('ks_c34');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

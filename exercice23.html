@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Mon journal intime — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#16A34A;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+
+    .intro{background:linear-gradient(135deg,#14532d,#16a34a);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center;position:relative;overflow:hidden}
+    .intro::before{content:'📔';position:absolute;top:10px;right:18px;font-size:50px;opacity:.18}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbf7d0;margin-bottom:.3rem;position:relative}
+    .intro-title{font-size:1.15rem;font-weight:800;position:relative}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem;position:relative}
+
+    .template-box{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0;position:relative}
+    .template-num{position:absolute;top:-10px;left:14px;background:#16A34A;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .template-title{font-size:.9rem;font-weight:700;color:var(--tx);margin-bottom:.5rem}
+    .ko-line{font-family:'Inter',sans-serif;font-size:.95rem;color:var(--navy);font-weight:600;line-height:1.65;margin:.3rem 0}
+    [data-theme="dark"] .ko-line{color:#f7f8fa}
+    .fr-hint{font-size:.78rem;color:var(--tx-muted);font-style:italic;margin-left:.5rem}
+
+    .example-card{background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.25);border-radius:12px;padding:1rem;margin:.7rem 0}
+    .example-date{font-size:.78rem;font-weight:700;color:#16A34A;letter-spacing:.04em;margin-bottom:.4rem}
+    .example-mood{display:inline-block;background:rgba(245,158,11,.13);color:#D97706;padding:2px 8px;border-radius:6px;font-size:.7rem;font-weight:700;margin-left:.4rem}
+    .example-text{font-size:.9rem;line-height:1.75;color:var(--navy);font-weight:500}
+    [data-theme="dark"] .example-text{color:#f7f8fa}
+    .example-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.6rem;padding-top:.5rem;border-top:1px dashed rgba(0,0,0,.08);line-height:1.55;font-style:italic}
+
+    .your-turn{background:linear-gradient(135deg,rgba(22,163,74,.08),rgba(22,163,74,.03));border:1.5px dashed rgba(22,163,74,.4);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .turn-title{font-size:.8rem;font-weight:800;color:#15803D;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+    .turn-area{width:100%;min-height:120px;padding:.7rem .9rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;font-family:inherit;font-size:.92rem;color:var(--tx);resize:vertical;line-height:1.6;box-sizing:border-box}
+    .turn-area:focus{border-color:#16A34A;outline:none}
+
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(22,163,74,.1);color:#16A34A;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#16A34A;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Mon journal intime</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Écrire son journal intime en coréen</h2>
+  <span class="pill">A2 · Exercice</span> <span class="xp-badge">+12 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">Production écrite quotidienne</div>
+    <div class="intro-title">오늘 일기 — Le journal du jour</div>
+    <div class="intro-sub">Template + 3 modèles + ton tour. 10 minutes/jour = progrès garanti en 1 mois.</div>
+  </div>
+
+  <h3>Template de base</h3>
+  <div class="template-box">
+    <div class="template-num">TEMPLATE</div>
+    <div class="template-title">Structure typique d'une entrée de journal A2</div>
+    <div class="ko-line">날짜 + 요일 + 날씨 <span class="fr-hint">(Date + jour + météo)</span></div>
+    <div class="ko-line">오늘은 [activité]을/를 했어요. <span class="fr-hint">(Aujourd'hui j'ai fait...)</span></div>
+    <div class="ko-line">[lieu/personne]에 갔어요 / [personne]를 만났어요. <span class="fr-hint">(Je suis allé(e) à... / J'ai rencontré...)</span></div>
+    <div class="ko-line">기분이 [adj]어요. <span class="fr-hint">(Je me sens...)</span></div>
+    <div class="ko-line">내일은 [projet]을 할 거예요. <span class="fr-hint">(Demain je ferai...)</span></div>
+  </div>
+
+  <h3>Modèle 1 — Une journée ordinaire</h3>
+  <div class="example-card">
+    <div class="example-date">5월 15일 수요일, 맑음 <span class="example-mood">😊 행복해요</span></div>
+    <div class="example-text">
+      오늘은 학교에 갔어요. 한국어 수업이 정말 재미있었어요.<br>
+      점심에 친구하고 비빔밥을 먹었어요. 맛있었어요!<br>
+      저녁에는 카페에서 숙제를 했어요. 조금 피곤해요.<br>
+      내일은 영화를 볼 거예요. 기대돼요.
+    </div>
+    <div class="example-fr">
+      "15 mai, mercredi, ensoleillé. Je suis allée à l'école. Le cours de coréen était vraiment intéressant. À midi j'ai mangé un bibimbap avec une amie. C'était bon ! Le soir, j'ai fait mes devoirs au café. Je suis un peu fatiguée. Demain je vais voir un film. J'ai hâte."
+    </div>
+  </div>
+
+  <h3>Modèle 2 — Un week-end</h3>
+  <div class="example-card">
+    <div class="example-date">5월 18일 토요일, 흐림 <span class="example-mood">🥱 피곤해요</span></div>
+    <div class="example-text">
+      이번 주말은 정말 바빴어요.<br>
+      토요일 아침에는 운동을 했고, 오후에는 쇼핑을 했어요.<br>
+      옷을 두 벌 샀어요. 너무 비쌌어요... 하지만 예뻐서 좋아요.<br>
+      저녁에는 가족하고 같이 저녁을 먹었어요.<br>
+      엄마의 음식이 항상 최고예요!
+    </div>
+    <div class="example-fr">
+      "18 mai, samedi, nuageux. Ce week-end a été vraiment chargé. Samedi matin j'ai fait du sport, l'après-midi du shopping. J'ai acheté deux vêtements. C'était trop cher... mais ils sont jolis donc c'est bien. Le soir j'ai dîné avec ma famille. La cuisine de maman est toujours la meilleure !"
+    </div>
+  </div>
+
+  <h3>Modèle 3 — Une émotion forte</h3>
+  <div class="example-card">
+    <div class="example-date">5월 22일 수요일, 비 <span class="example-mood">😔 슬퍼요</span></div>
+    <div class="example-text">
+      오늘은 별로 좋은 날이 아니었어요.<br>
+      아침에 늦게 일어나서 학교에 늦었어요. 선생님이 화가 나셨어요.<br>
+      점심에는 식욕이 없었어요. 그냥 김밥을 조금 먹었어요.<br>
+      집에 와서 일찍 잤어요.<br>
+      내일은 더 좋은 날이 되었으면 좋겠어요.
+    </div>
+    <div class="example-fr">
+      "Aujourd'hui n'a pas été un super jour. Je me suis levée tard le matin et j'étais en retard à l'école. Le professeur s'est fâché. À midi je n'avais pas d'appétit. J'ai juste mangé un peu de kimbap. En rentrant je me suis couchée tôt. J'aimerais que demain soit un meilleur jour."
+    </div>
+  </div>
+
+  <h3>À toi de jouer</h3>
+  <div class="your-turn">
+    <div class="turn-title">✍️ Écris ton entrée du jour</div>
+    <p style="font-size:.85rem;color:var(--tx-muted);margin:0 0 .5rem;line-height:1.5">
+      Inspire-toi des modèles. Pas besoin d'être parfait — l'important c'est d'écrire <strong>tous les jours</strong>.
+    </p>
+    <textarea class="turn-area" placeholder="오늘은..." id="myJournal"></textarea>
+    <p style="font-size:.78rem;color:var(--tx-muted);margin:.5rem 0 0;text-align:right">
+      Ton texte est sauvegardé automatiquement dans ton navigateur.
+    </p>
+  </div>
+
+  <h3>Vocabulaire des émotions & du quotidien</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">일기</td><td>ilgi</td><td>Journal</td></tr>
+      <tr><td class="ko">날씨</td><td>nalssi</td><td>Météo</td></tr>
+      <tr><td class="ko">맑음</td><td>malgeum</td><td>Ensoleillé</td></tr>
+      <tr><td class="ko">흐림</td><td>heurim</td><td>Nuageux</td></tr>
+      <tr><td class="ko">기분</td><td>gibun</td><td>Humeur</td></tr>
+      <tr><td class="ko">행복하다</td><td>haengbokhada</td><td>Être heureux</td></tr>
+      <tr><td class="ko">피곤하다</td><td>pigonhada</td><td>Être fatigué</td></tr>
+      <tr><td class="ko">슬프다</td><td>seulpeuda</td><td>Être triste</td></tr>
+      <tr><td class="ko">기대되다</td><td>gidaedoeda</td><td>Avoir hâte</td></tr>
+      <tr><td class="ko">바쁘다</td><td>bappeuda</td><td>Être occupé</td></tr>
+      <tr><td class="ko">~었어요/~았어요</td><td>-eosseoyo/-asseoyo</td><td>Passé poli</td></tr>
+      <tr><td class="ko">~ㄹ 거예요</td><td>-l geoyeyo</td><td>Futur</td></tr>
+    </table>
+  </div>
+
+  <h3>Méthode — Le journal en 5 minutes</h3>
+  <div class="tip">
+    Tiens un journal coréen <strong>5 minutes/jour</strong> pendant 30 jours. Tu vas automatiquement intégrer :<br>
+    • Les <strong>verbes au passé</strong> (-었어요/-았어요)<br>
+    • Les <strong>particules de temps</strong> (오전, 오후, 저녁에)<br>
+    • Le vocabulaire de <strong>tes vrais centres d'intérêt</strong> (ce que TU fais, pas ce que les manuels imaginent)<br>
+    Au bout d'un mois, tu écris une page en coréen sans réfléchir. Garanti.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +12 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+/* Auto-save du journal dans localStorage */
+(function(){
+  var ta = document.getElementById('myJournal');
+  if(!ta) return;
+  try { ta.value = localStorage.getItem('ks_journal_today') || ''; } catch(e){}
+  ta.addEventListener('input', function(){
+    try { localStorage.setItem('ks_journal_today', ta.value); } catch(e){}
+  });
+})();
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b42',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_b42');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

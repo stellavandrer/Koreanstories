@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Article de presse — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+
+    .article-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:0;margin:.7rem 0;overflow:hidden}
+    .article-meta{background:rgba(124,58,237,.05);padding:.7rem 1rem;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;font-size:.72rem;color:var(--tx-muted)}
+    .article-meta strong{color:#7C3AED}
+    .article-headline{padding:1.1rem 1.1rem .4rem;font-family:'Playfair Display',Georgia,serif;font-size:1.15rem;font-weight:700;color:var(--navy);line-height:1.35}
+    [data-theme="dark"] .article-headline{color:#f7f8fa}
+    .article-sub{padding:0 1.1rem .8rem;font-size:.85rem;color:var(--tx-muted);font-style:italic;line-height:1.55;border-bottom:1px dashed var(--bd)}
+    .article-body{padding:1rem 1.1rem;font-size:.92rem;line-height:1.85;color:var(--navy)}
+    [data-theme="dark"] .article-body{color:#f7f8fa}
+    .article-body p{margin:.6rem 0}
+    .article-body p:first-child::first-letter{font-size:1.3rem;font-weight:700;color:#7C3AED}
+    .article-body .hl{background:rgba(124,58,237,.12);padding:1px 4px;border-radius:4px;font-weight:600}
+
+    .quiz-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0}
+    .quiz-num{display:inline-block;background:#7C3AED;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;margin-bottom:.5rem;letter-spacing:.06em}
+    .quiz-q{font-weight:700;color:var(--tx);font-size:.95rem;margin-bottom:.6rem}
+    .quiz-opt{display:block;width:100%;text-align:left;padding:.6rem .9rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;margin:.3rem 0;font-size:.9rem;color:var(--tx);cursor:pointer;font-family:inherit;transition:all .15s}
+    .quiz-opt:hover{border-color:#7C3AED}
+    .quiz-opt.correct{background:rgba(34,197,94,.12);border-color:#16A34A;color:#15803D;font-weight:600}
+    .quiz-opt.wrong{background:rgba(239,68,68,.10);border-color:#DC2626;color:#991B1B}
+    .quiz-explain{display:none;margin-top:.7rem;padding:.7rem .9rem;background:rgba(34,197,94,.08);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;font-size:.83rem;color:var(--tx-muted);line-height:1.55}
+    .quiz-explain.show{display:block}
+
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#7C3AED;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Article de presse</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Compréhension — Article de presse</h2>
+  <span class="pill">B2 · Exercice</span> <span class="xp-badge">+20 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native. Article fictif original créé pour l'apprentissage.</div>
+
+  <p style="font-size:.88rem;color:var(--tx-muted);line-height:1.6;margin:.5rem 0 1rem">Article fictif sur la société coréenne. Lis attentivement (5-7 min) puis réponds aux 6 questions. Les mots <span class="hl" style="background:rgba(124,58,237,.12);padding:1px 4px;border-radius:4px;font-weight:600">surlignés</span> sont expliqués en bas.</p>
+
+  <div class="article-card">
+    <div class="article-meta">
+      <span><strong>사회 / 라이프</strong></span>
+      <span>2026.04.20 · 김민준 기자</span>
+    </div>
+    <div class="article-headline">서울 청년들의 '혼밥' 문화, 새로운 일상으로 자리잡다</div>
+    <div class="article-sub">코로나 이후 변화한 식사 풍경, 외로움인가 자유인가</div>
+    <div class="article-body">
+      <p>최근 서울의 청년들 사이에서 '혼자 밥 먹기', 줄여서 '혼밥' 문화가 빠르게 <span class="hl">확산되고</span> 있다. 한 외식업 조사에 따르면 20대~30대 직장인 중 70% 이상이 일주일에 세 번 이상 혼자 식사를 한다고 응답했다.</p>
+      <p>이러한 변화의 배경에는 여러 가지 <span class="hl">요인</span>이 작용하고 있다. 먼저, 1인 가구의 증가가 가장 직접적인 원인으로 꼽힌다. 통계청에 따르면 서울의 1인 가구 비율은 2024년 기준 약 38%에 달하며, 이는 10년 전과 비교해 두 배 가까이 늘어난 수치다. 더불어 코로나 19를 겪으면서 사람들이 혼자 시간을 보내는 데에 익숙해진 것도 큰 영향을 <span class="hl">미쳤다</span>.</p>
+      <p>식당들도 이러한 변화에 빠르게 <span class="hl">대응하고</span> 있다. 일반 식당에 1인용 좌석이 늘어났고, 1인분 메뉴를 따로 마련한 곳도 많아졌다. 강남구의 한 한식당 사장은 "5년 전만 해도 혼자 오는 손님이 어색했지만, 지금은 점심 시간 손님의 절반이 혼자 온다"고 말했다.</p>
+      <p>한편 일부 사회학자들은 혼밥 문화에 대해 <span class="hl">우려</span>의 시선을 보내고 있다. 서울대학교 사회학과의 박○○ 교수는 "혼밥은 개인의 자유로운 선택일 수 있지만, 동시에 청년들이 깊은 인간관계를 맺을 기회를 잃고 있다는 신호이기도 하다"고 지적했다. 박 교수는 사회적 고립과 정신 건강 문제의 증가가 이와 무관하지 않다고 덧붙였다.</p>
+      <p>반면 청년들 본인의 시각은 사뭇 다르다. 회사원 김 모씨(28)는 "혼밥은 외로움이 아니라 휴식이다. 오히려 직장 동료들과 매번 점심을 같이 먹어야 한다는 압박에서 자유로워졌다"고 말한다.</p>
+      <p>결국 혼밥 문화는 한국 사회의 변화를 보여 주는 하나의 <span class="hl">단면</span>이라고 할 수 있다. 그것이 외로움인지 자유인지에 대한 답은 개인마다 다르겠지만, 이 변화 자체가 우리에게 무엇을 묻고 있는지 생각해 볼 필요가 있다.</p>
+    </div>
+  </div>
+
+  <h3>Questions</h3>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q01</span>
+    <div class="quiz-q">Quel est le sujet principal de l'article ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">L'augmentation du prix des restaurants à Séoul</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q1')">La diffusion du "혼밥" (manger seul) chez les jeunes</button>
+    <button class="quiz-opt" onclick="answer(this,false)">La fermeture des restaurants après le COVID-19</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Les nouvelles tendances culinaires coréennes</button>
+    <div class="quiz-explain" id="q1">Le titre et le premier paragraphe annoncent clairement le sujet : "혼밥" comme phénomène social croissant.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q02</span>
+    <div class="quiz-q">D'après l'enquête citée, quelle proportion des 20-30 ans mange seule au moins 3x/semaine ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Environ 30%</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Environ 50%</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q2')">Plus de 70%</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Plus de 90%</button>
+    <div class="quiz-explain" id="q2">"20대~30대 직장인 중 70% 이상이 일주일에 세 번 이상 혼자 식사를 한다" = plus de 70%.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q03</span>
+    <div class="quiz-q">Quelle est la cause directe principale de cette tendance selon l'article ?</div>
+    <button class="quiz-opt" onclick="answer(this,true,'q3')">L'augmentation des ménages d'une personne</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Le développement des apps de livraison</button>
+    <button class="quiz-opt" onclick="answer(this,false)">La hausse des prix de la nourriture</button>
+    <button class="quiz-opt" onclick="answer(this,false)">L'influence de la K-pop</button>
+    <div class="quiz-explain" id="q3">"1인 가구의 증가가 가장 직접적인 원인으로 꼽힌다" — l'augmentation des ménages d'une personne est citée comme cause principale.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q04</span>
+    <div class="quiz-q">Comment les restaurants s'adaptent-ils ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Ils ferment les sections groupées</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q4')">Ils ajoutent des places individuelles et des menus 1 portion</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Ils refusent les clients seuls le midi</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Ils ne s'adaptent pas du tout</button>
+    <div class="quiz-explain" id="q4">"1인용 좌석이 늘어났고, 1인분 메뉴를 따로 마련한 곳도 많아졌다" — sièges individuels + menus 1 portion ajoutés.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q05</span>
+    <div class="quiz-q">Quelle est la position du sociologue Park ?</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Il pense que le 혼밥 est purement positif</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q5')">Il est inquiet : perte de liens sociaux profonds</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Il pense que c'est sans importance</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Il refuse de se prononcer</button>
+    <div class="quiz-explain" id="q5">"청년들이 깊은 인간관계를 맺을 기회를 잃고 있다는 신호" — il y voit un signal de perte de relations profondes, lié à l'isolement social.</div>
+  </div>
+
+  <div class="quiz-card">
+    <span class="quiz-num">Q06</span>
+    <div class="quiz-q">Pour M. Kim (28 ans), employé, le 혼밥 c'est :</div>
+    <button class="quiz-opt" onclick="answer(this,false)">Une obligation imposée par le travail</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Un moment de tristesse</button>
+    <button class="quiz-opt" onclick="answer(this,true,'q6')">Une libération de la pression sociale du déjeuner avec collègues</button>
+    <button class="quiz-opt" onclick="answer(this,false)">Une économie d'argent</button>
+    <div class="quiz-explain" id="q6">"매번 점심을 같이 먹어야 한다는 압박에서 자유로워졌다" — libéré de la pression de manger avec les collègues à chaque fois.</div>
+  </div>
+
+  <h3>Mots-clés annotés</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">확산되다</td><td>hwaksandoeda</td><td>Se propager / diffuser</td></tr>
+      <tr><td class="ko">요인</td><td>yoin</td><td>Facteur / cause</td></tr>
+      <tr><td class="ko">미치다</td><td>michida</td><td>Exercer / avoir une influence</td></tr>
+      <tr><td class="ko">대응하다</td><td>daeeunghada</td><td>Répondre / s'adapter</td></tr>
+      <tr><td class="ko">우려</td><td>uryeo</td><td>Préoccupation / inquiétude</td></tr>
+      <tr><td class="ko">단면</td><td>danmyeon</td><td>Facette / aspect</td></tr>
+      <tr><td class="ko">1인 가구</td><td>1in gagu</td><td>Ménage d'une personne</td></tr>
+      <tr><td class="ko">통계청</td><td>tonggyecheong</td><td>Institut national des statistiques</td></tr>
+      <tr><td class="ko">사회적 고립</td><td>sahoejeok gorip</td><td>Isolement social</td></tr>
+      <tr><td class="ko">압박</td><td>apbak</td><td>Pression</td></tr>
+      <tr><td class="ko">~에 따르면</td><td>-e ttareumyeon</td><td>Selon ~</td></tr>
+      <tr><td class="ko">~로 꼽히다</td><td>-ro kkophida</td><td>Être cité comme</td></tr>
+    </table>
+  </div>
+
+  <h3>Structures journalistiques B2</h3>
+  <div class="tip">
+    • <strong>~에 따르면</strong> = selon (citation de source)<br>
+    • <strong>~로 꼽힌다</strong> = est désigné comme (passif éditorial)<br>
+    • <strong>~고 지적했다</strong> = a souligné (rapporter des paroles)<br>
+    • <strong>~고 덧붙였다</strong> = a ajouté<br>
+    • <strong>한편</strong> = par ailleurs / d'autre part (changement d'angle)<br>
+    • <strong>반면</strong> = en revanche (opposition explicite)<br>
+    Ces tournures sont le squelette de tout article de presse — repère-les pour suivre la structure argumentative.
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function answer(btn, correct, explainId){
+  var card = btn.closest('.quiz-card');
+  card.querySelectorAll('.quiz-opt').forEach(function(b){ b.disabled = true; b.style.cursor='default'; });
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if(correct && explainId){
+    document.getElementById(explainId).classList.add('show');
+  } else if(!correct){
+    var rightBtn = card.querySelector('.quiz-opt[onclick*="true"]');
+    if(rightBtn) rightBtn.classList.add('correct');
+    var exp = card.querySelector('.quiz-explain');
+    if(exp) exp.classList.add('show');
+  }
+}
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d34',xp:20});else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_d34');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

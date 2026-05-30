@@ -144,8 +144,7 @@
     /* anecdote13-19 : créées — toutes retirées */
     'chanson5.html':1,'chanson6.html':1,
     /* conseil7, 8 : créées — retirées */
-    'exercice19.html':1,'exercice20.html':1,'exercice21.html':1,
-    'exercice22.html':1,'exercice23.html':1,'exercice24.html':1,
+    /* exercice19-24 toutes créées en mai 2026 */
     /* histoire22-30 toutes créées en mai 2026 */
     'jeu11.html':1,'jeu12.html':1,
     'lecon40b.html':1,'lecon40c.html':1,'lecon40d.html':1,

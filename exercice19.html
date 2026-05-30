@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Email professionnel — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#7C3AED;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.13);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
+
+    .intro{background:linear-gradient(135deg,#312e81,#7C3AED);border-radius:16px;padding:1.3rem;color:#fff;margin:.8rem 0;text-align:center}
+    .intro-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#c4b5fd;margin-bottom:.3rem}
+    .intro-title{font-size:1.1rem;font-weight:800}
+    .intro-sub{font-size:.85rem;opacity:.9;margin-top:.3rem}
+
+    .email-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:0;margin:.7rem 0;overflow:hidden}
+    .email-head{background:rgba(124,58,237,.06);padding:.7rem 1rem;border-bottom:1px solid var(--bd);font-size:.78rem;color:var(--tx-muted)}
+    .email-head strong{color:var(--tx);display:block;font-size:.85rem;margin-bottom:.2rem}
+    .email-head .meta{margin:.2rem 0;font-size:.75rem}
+    .email-body{padding:1rem 1.1rem;font-size:.92rem;line-height:1.8;color:var(--navy)}
+    [data-theme="dark"] .email-body{color:#f7f8fa}
+    .email-body p{margin:.5rem 0}
+    .email-tag{display:inline-block;background:rgba(124,58,237,.13);color:#7C3AED;padding:1px 6px;border-radius:5px;font-size:.7rem;font-weight:700;margin-left:.3rem;vertical-align:middle}
+
+    .formula-grid{display:grid;gap:.5rem;margin:.5rem 0}
+    .formula-row{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:.6rem .9rem;display:grid;grid-template-columns:1fr 1fr;gap:.6rem;align-items:center}
+    .formula-ko{color:#7C3AED;font-weight:700;font-size:.95rem}
+    .formula-fr{font-size:.8rem;color:var(--tx-muted);font-style:italic}
+
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(124,58,237,.1);color:#7C3AED;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab .ko{color:#7C3AED;font-weight:700}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Email professionnel</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Rédiger un email professionnel</h2>
+  <span class="pill">B2 · Exercice</span> <span class="xp-badge">+20 XP</span>
+  <div class="draft-banner">⚠️ Brouillon v1 — en relecture native.</div>
+
+  <div class="intro">
+    <div class="intro-tag">Production écrite formelle</div>
+    <div class="intro-title">Structure d'un email business coréen</div>
+    <div class="intro-sub">3 modèles annotés : présentation, demande, suivi. Formules clés du registre 격식체.</div>
+  </div>
+
+  <h3>La structure invisible d'un email coréen</h3>
+  <div class="tip">
+    Un email professionnel coréen suit toujours la même progression :<br>
+    1. <strong>Salutation</strong> — 안녕하세요 + nom/poste<br>
+    2. <strong>Présentation</strong> — qui tu es, d'où tu écris<br>
+    3. <strong>Objet</strong> — pourquoi tu écris (un seul sujet par mail)<br>
+    4. <strong>Demande / message principal</strong> — clair, structuré<br>
+    5. <strong>Clôture</strong> — formule de politesse + signature<br>
+    Sauter une étape passe pour <em>brusque</em>. La forme compte autant que le fond.
+  </div>
+
+  <h3>Modèle 1 — Premier contact (présentation)</h3>
+  <div class="email-card">
+    <div class="email-head">
+      <strong>제목: 한국어 강의 문의드립니다</strong>
+      <div class="meta">받는 사람: info@example-academy.co.kr</div>
+      <div class="meta">보낸 사람: emma.dupont@email.com</div>
+    </div>
+    <div class="email-body">
+      <p>안녕하세요, <span class="email-tag">salutation</span></p>
+      <p>저는 프랑스에서 한국어를 공부하고 있는 에마 뒤퐁이라고 합니다. <span class="email-tag">présentation</span></p>
+      <p>귀 학원의 온라인 강의에 관심이 있어 문의드립니다. <span class="email-tag">objet</span> 2026년 9월부터 시작되는 중급 과정의 시간표와 수강료에 대해 자세히 안내해 주시면 감사하겠습니다. <span class="email-tag">demande</span></p>
+      <p>바쁘신 중에 시간 내 주셔서 감사합니다.<br>좋은 하루 보내십시오. <span class="email-tag">clôture</span></p>
+      <p>에마 뒤퐁 드림</p>
+    </div>
+  </div>
+
+  <h3>Modèle 2 — Demande de rendez-vous</h3>
+  <div class="email-card">
+    <div class="email-head">
+      <strong>제목: 미팅 일정 조율 요청 드립니다</strong>
+      <div class="meta">받는 사람: kim.minsu@company.co.kr</div>
+    </div>
+    <div class="email-body">
+      <p>김민수 팀장님께,</p>
+      <p>안녕하십니까. 저는 마케팅팀의 박지영입니다.</p>
+      <p>지난번 회의에서 말씀드린 신제품 출시 계획과 관련하여 추가로 논의드리고 싶은 사항이 있습니다. 가능하시다면 이번 주 중에 30분 정도 시간을 내 주실 수 있으실까요?</p>
+      <p>아래 시간 중에서 편하신 시간을 알려 주시면 일정을 맞추겠습니다.</p>
+      <ul style="margin:.5rem 0 .5rem 1.2rem;line-height:1.8">
+        <li>수요일 오후 2시 ~ 4시</li>
+        <li>목요일 오전 10시 ~ 12시</li>
+        <li>금요일 오후 3시 이후</li>
+      </ul>
+      <p>회신 부탁드립니다. 감사합니다.</p>
+      <p>박지영 드림<br>마케팅팀 · 010-1234-5678</p>
+    </div>
+  </div>
+
+  <h3>Modèle 3 — Relance polie</h3>
+  <div class="email-card">
+    <div class="email-head">
+      <strong>제목: [재발송] 견적서 관련 문의</strong>
+      <div class="meta">받는 사람: sales@partner.co.kr</div>
+    </div>
+    <div class="email-body">
+      <p>안녕하세요, 영업부 김 과장님.</p>
+      <p>지난주 화요일에 보내 드린 견적서에 대한 문의에 회신을 기다리고 있어 다시 한 번 메일 드립니다. 혹시 메일 확인이 어려우셨다면 이번 메일을 참고해 주시면 감사하겠습니다.</p>
+      <p>다음 주 월요일까지 회신을 받을 수 있다면 저희 일정에 큰 도움이 될 것 같습니다.</p>
+      <p>바쁘신 와중에 번거롭게 해 드려 죄송합니다.<br>건강하시고 좋은 한 주 보내십시오.</p>
+      <p>장 마르탱 드림</p>
+    </div>
+  </div>
+
+  <h3>Formules essentielles</h3>
+  <div class="formula-grid">
+    <div class="formula-row">
+      <div class="formula-ko">~께 드립니다</div>
+      <div class="formula-fr">Pour adresser à (très formel)</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">안녕하십니까</div>
+      <div class="formula-fr">Bonjour (formel d'email)</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">~라고 합니다</div>
+      <div class="formula-fr">Je m'appelle ~ (se présenter)</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">문의드립니다</div>
+      <div class="formula-fr">J'aimerais demander</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">~해 주시면 감사하겠습니다</div>
+      <div class="formula-fr">Je vous remercierais de ~</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">바쁘신 중에 죄송합니다</div>
+      <div class="formula-fr">Désolé de vous déranger</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">회신 부탁드립니다</div>
+      <div class="formula-fr">Merci de me répondre</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">좋은 하루 보내십시오</div>
+      <div class="formula-fr">Bonne journée à vous</div>
+    </div>
+    <div class="formula-row">
+      <div class="formula-ko">~ 드림</div>
+      <div class="formula-fr">Bien à vous / Cordialement</div>
+    </div>
+  </div>
+
+  <h3>Vocabulaire email pro</h3>
+  <div class="vocab">
+    <table>
+      <tr><th>Coréen</th><th>Rom.</th><th>Français</th></tr>
+      <tr><td class="ko">제목</td><td>jemok</td><td>Objet</td></tr>
+      <tr><td class="ko">받는 사람</td><td>banneun saram</td><td>Destinataire</td></tr>
+      <tr><td class="ko">보낸 사람</td><td>bonaen saram</td><td>Expéditeur</td></tr>
+      <tr><td class="ko">첨부 파일</td><td>cheombu pail</td><td>Pièce jointe</td></tr>
+      <tr><td class="ko">회신</td><td>hoesin</td><td>Réponse</td></tr>
+      <tr><td class="ko">재발송</td><td>jaebalsong</td><td>Renvoi</td></tr>
+      <tr><td class="ko">참고</td><td>chamgo</td><td>Référence / pour info</td></tr>
+      <tr><td class="ko">견적서</td><td>gyeonjeokseo</td><td>Devis</td></tr>
+      <tr><td class="ko">일정 조율</td><td>iljeong joyul</td><td>Coordination d'agenda</td></tr>
+      <tr><td class="ko">와중에</td><td>wajunge</td><td>Au milieu de</td></tr>
+      <tr><td class="ko">번거롭다</td><td>beongeoropda</td><td>Être encombrant</td></tr>
+    </table>
+  </div>
+
+  <h3>Pièges courants à éviter</h3>
+  <div class="tip">
+    • <strong>Trop direct</strong> : "이거 보내 주세요" → préfère "~ 보내 주시면 감사하겠습니다"<br>
+    • <strong>Oublier la signature</strong> : toujours finir par "~ 드림" + ton nom complet<br>
+    • <strong>Mélanger -아요/-습니다</strong> : reste sur <em>une seule</em> forme polie tout l'email<br>
+    • <strong>Pas d'objet vague</strong> : "안녕하세요" en objet = mail ignoré. Sois précis : "[부서명] [용건]"
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d28',xp:20});else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_d28');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
