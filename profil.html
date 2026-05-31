@@ -467,6 +467,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="setting-txt"><div class="setting-name">Ressources</div><div class="setting-sub">PDFs, dictionnaires, liens utiles</div></div>
       <div class="setting-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </a>
+    <div class="setting-item" onclick="ksExportData()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();ksExportData()}">
+      <div class="setting-ico" style="background:linear-gradient(135deg,rgba(139,107,61,.12),rgba(139,107,61,.05));color:#8B6B3D"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+      <div class="setting-txt"><div class="setting-name">Mes données (RGPD)</div><div class="setting-sub">Télécharger une copie complète au format JSON</div></div>
+      <div class="setting-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
   </div>
   <div class="version">Korean Stories v1.0 · koreanstories.fr</div>
   <div style="text-align:center;margin:8px 0 20px;font-size:11px">
@@ -1104,6 +1109,185 @@ function switchProfile(){
   } else { finish(); }
 }
 document.addEventListener('DOMContentLoaded',init);
+
+/* ═══════════════════════════════════════════════════════════════════
+   Export RGPD — Article 20 du RGPD : droit à la portabilité.
+   Génère un JSON structuré de toutes les données utilisateur stockées
+   localement (et synchronisées via Firebase), permet le téléchargement
+   et la conservation hors-ligne. Format ks-export-v1 pour ré-import
+   éventuel ultérieur.
+   ═══════════════════════════════════════════════════════════════════ */
+function ksExportData(){
+  /* Pour éviter le double-clic pendant la génération */
+  var btn = document.querySelector('[onclick*="ksExportData"]');
+  if (btn) btn.style.pointerEvents = 'none';
+
+  try {
+    /* 1) Collecte exhaustive du localStorage (clés ks_*) */
+    var raw = {};
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (k && k.indexOf('ks_') === 0) raw[k] = localStorage.getItem(k);
+    }
+
+    /* 2) Restructuration en sections lisibles */
+    var doneKeys = [];
+    var firstCompletions = {};
+    var lastReviews = {};
+    var dailyXP = {};
+    var milestones = {};
+    var certCelebrated = {};
+    var freezesUsedLog = null;
+
+    Object.keys(raw).forEach(function(k){
+      var v = raw[k];
+      /* Activités terminées */
+      if (/^ks_(h\d|a\d|b\d|c\d|d\d|jeu\d|q\d)/.test(k) && (v === 'done' || v === '1' || v === 'true')) {
+        doneKeys.push(k);
+      }
+      /* Timestamps de complétion */
+      if (k.indexOf('ks_first_at_') === 0) firstCompletions[k.replace('ks_first_at_','')] = parseInt(v) || 0;
+      if (k.indexOf('ks_done_at_') === 0)  lastReviews[k.replace('ks_done_at_','')] = parseInt(v) || 0;
+      /* XP par jour */
+      if (k.indexOf('ks_xp_day_') === 0) dailyXP[k.replace('ks_xp_day_','')] = parseInt(v) || 0;
+      /* Paliers franchis */
+      if (k.indexOf('ks_milestone_') === 0) milestones[k.replace('ks_milestone_','')] = parseInt(v) || 0;
+      /* Célébrations cert */
+      if (k.indexOf('ks_cert_celebrated_') === 0) certCelebrated[k.replace('ks_cert_celebrated_','')] = parseInt(v) || 0;
+      /* Log des gels utilisés */
+      if (k === 'ks_freezes_used_log') {
+        try { freezesUsedLog = JSON.parse(v); } catch (e) { freezesUsedLog = null; }
+      }
+    });
+
+    var xp = parseInt(raw.ks_xp || '0') || 0;
+    var streak = parseInt(raw.ks_streak || '0') || 0;
+
+    /* Info utilisateur Firebase si disponible */
+    var user = null;
+    try {
+      if (window.firebase && firebase.auth) {
+        var u = firebase.auth().currentUser;
+        if (u) {
+          user = {
+            uid: u.uid,
+            email: u.email || null,
+            displayName: u.displayName || raw.ks_name || null,
+            emailVerified: !!u.emailVerified,
+            createdAt: (u.metadata && u.metadata.creationTime) || null,
+            lastLogin: (u.metadata && u.metadata.lastSignInTime) || null
+          };
+        }
+      }
+    } catch (e) {}
+
+    /* Rang dérivé de l'XP */
+    function rankFromXP(x) {
+      if (x >= 5000) return 'Maître B2+ (한국어 마스터)';
+      if (x >= 3000) return 'Avancé B2';
+      if (x >= 1800) return 'Pré-avancé B1+';
+      if (x >= 1000) return 'Intermédiaire B1';
+      if (x >= 500)  return 'Pré-intermédiaire A2+';
+      if (x >= 200)  return 'Débutant A2';
+      if (x >= 50)   return 'Débutant A1';
+      return 'Hangeul';
+    }
+
+    /* 3) Construction du document final */
+    var now = new Date();
+    var doc = {
+      meta: {
+        exportedAt: now.toISOString(),
+        exportedFrom: 'koreanstories.fr',
+        format: 'ks-export-v1',
+        legalNotice: 'Export conforme au RGPD article 20 (droit à la portabilité). Format réversible pour ré-import futur.',
+        appVersion: 'Korean Stories v1.0'
+      },
+      user: user,
+      progression: {
+        name: raw.ks_name || null,
+        totalXP: xp,
+        currentStreak: streak,
+        rank: rankFromXP(xp),
+        completedActivities: doneKeys.sort(),
+        completedCount: doneKeys.length
+      },
+      milestones: milestones,
+      certCelebrations: certCelebrated,
+      timestamps: {
+        firstCompletions: firstCompletions,
+        lastReviews: lastReviews
+      },
+      dailyXP: dailyXP,
+      preferences: {
+        theme: raw.ks_theme || null,
+        dailyGoal: parseInt(raw.ks_goal || '50') || 50,
+        voice: raw.ks_voice || null,
+        onboarded: raw.ks_onboarded === '1',
+        favoriteVoice: raw.ks_voice || null
+      },
+      freezes: {
+        left: parseInt(raw.ks_freezes_left || '0') || 0,
+        currentMonth: raw.ks_freezes_month || null,
+        usedLog: freezesUsedLog
+      },
+      install: {
+        installed: raw.ks_install_done ? new Date(parseInt(raw.ks_install_done)).toISOString() : null,
+        dismissedAt: raw.ks_install_dismissed_at ? new Date(parseInt(raw.ks_install_dismissed_at)).toISOString() : null,
+        sessionViews: parseInt(raw.ks_session_views || '0') || 0
+      },
+      badges: {
+        perfectScore: raw.ks_badge_perfect === '1'
+      },
+      raw: raw
+    };
+
+    /* 4) Génération et téléchargement du fichier JSON */
+    var json = JSON.stringify(doc, null, 2);
+    var blob = new Blob([json], { type: 'application/json;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var dateStr = now.toISOString().slice(0, 10);
+    var safeName = (raw.ks_name || 'mes-donnees').toString().replace(/[^a-zA-Z0-9À-ſㄱ-힝]+/g, '-').slice(0, 30);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'koreanstories-' + safeName + '-' + dateStr + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2500);
+
+    /* 5) Toast de confirmation */
+    _ksExportToast('✓ Export téléchargé · ' + doneKeys.length + ' activités · ' + xp.toLocaleString('fr-FR') + ' XP');
+
+  } catch (err) {
+    console.error('[ksExportData]', err);
+    _ksExportToast('Erreur lors de l\'export — réessaie ou écris à contact@koreanstories.fr', true);
+  } finally {
+    if (btn) btn.style.pointerEvents = '';
+  }
+}
+
+function _ksExportToast(msg, isError) {
+  var t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText =
+    'position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);' +
+    'background:' + (isError ? '#DC2626' : '#16A34A') + ';color:#fff;' +
+    'padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;' +
+    'box-shadow:0 12px 32px rgba(0,0,0,.25);max-width:calc(100vw - 32px);' +
+    'z-index:9800;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);' +
+    'font-family:"Inter",system-ui,sans-serif;text-align:center';
+  document.body.appendChild(t);
+  // Force reflow puis show
+  t.offsetHeight; // eslint-disable-line no-unused-expressions
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(function(){
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(10px)';
+    setTimeout(function(){ if (t.parentNode) t.parentNode.removeChild(t); }, 350);
+  }, 3200);
+}
 </script>
 </body>
 </html>
