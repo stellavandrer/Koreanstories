@@ -473,6 +473,10 @@ function startTest(){showScreen('quizScreen');showQuestion();}
 
 function speakCurrent(){
   if(!currentKr)return;
+  /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+  if (typeof window.speak === 'function') { window.speak(currentKr); return; }
+
   const u=new SpeechSynthesisUtterance(currentKr);
   u.lang='ko-KR';u.rate=0.85;
   speechSynthesis.cancel();speechSynthesis.speak(u);

@@ -578,6 +578,10 @@ function updateProgress(lineEl) {
 
 function playAudio(text, el) {
   try {
+    /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+    if (typeof window.speak === 'function') { window.speak(text); return; }
+
     const u = new SpeechSynthesisUtterance(text);
     u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
     el.classList.add('playing');

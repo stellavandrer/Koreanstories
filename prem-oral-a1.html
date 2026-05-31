@@ -746,6 +746,10 @@
     }
 
     function playTTS(text) {
+      /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+      if (typeof window.speak === 'function') { window.speak(text); return; }
+
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ko-KR';
       utterance.rate = 0.8;

@@ -2540,6 +2540,10 @@
         }
         function speakCurrent() {
             if(!listenCurrent) return;
+            /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+            if (typeof window.speak === 'function') { window.speak(listenCurrent.kr); return; }
+
             const utterance = new SpeechSynthesisUtterance(listenCurrent.kr);
             utterance.lang = 'ko-KR';
             speechSynthesis.speak(utterance);
@@ -3132,6 +3136,10 @@
             updateTypingDisplay();
             // Speak the word
             setTimeout(() => {
+                /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+                if (typeof window.speak === 'function') { window.speak(w.kr); return; }
+
                 const u = new SpeechSynthesisUtterance(w.kr);
                 u.lang = 'ko-KR';
                 speechSynthesis.speak(u);
@@ -3267,6 +3275,10 @@
                 container.appendChild(btn);
             });
             setTimeout(() => {
+                /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+                if (typeof window.speak === 'function') { window.speak(d.prompt); return; }
+
                 const u = new SpeechSynthesisUtterance(d.prompt);
                 u.lang = 'ko-KR';
                 speechSynthesis.speak(u);

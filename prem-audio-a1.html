@@ -912,6 +912,12 @@
       const unit = UNITS[currentUnitId];
       const card = unit.cards[currentCardIndex];
 
+      /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+
+      if (typeof window.speak === 'function') { window.speak(card.kr); return; }
+
+
       const utt = new SpeechSynthesisUtterance(card.kr);
       utt.lang = 'ko-KR';
       const config = voiceConfigs[currentVoice];

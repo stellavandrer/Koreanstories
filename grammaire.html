@@ -1161,6 +1161,10 @@ function filterCards(cat, chip){
 function speakKorean(el, text){
   try{
     window.speechSynthesis.cancel();
+    /* Priorité au système InJoon (ks.js → audio/injoon/*.mp3) */
+
+    if (typeof window.speak === 'function') { window.speak(text); return; }
+
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang = 'ko-KR';
     utt.rate = 0.85;
