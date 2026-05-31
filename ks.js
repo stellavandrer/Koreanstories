@@ -345,6 +345,160 @@ function speak(text, btn, opts) {
 }
 window.speak = speak;  // accessible depuis les onclick inline
 
+/* speakAs(text, voiceOverride, btn, opts)
+   Permet de forcer une voix spécifique pour un appel ponctuel,
+   sans changer la préférence globale ks_voice. Cas d'usage :
+   histoires où Mina (personnage féminin) parle → on force 'sunhi'
+   pour ce bouton-là, tout en gardant InJoon pour les autres.
+
+   Voix possibles : 'injoon', 'sunhi', 'hyunsu'
+   (toutes ont leur dossier audio/{voice}/*.mp3 sur le site) */
+function speakAs(text, voiceOverride, btn, opts) {
+  opts = opts || {};
+  if (!text) return;
+  /* Si pas d'override, comportement standard */
+  if (!voiceOverride || voiceOverride === ksGetVoice()) {
+    return speak(text, btn, opts);
+  }
+  /* Stop tout audio en cours */
+  if (_ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} _ksCurrentAudio = null; }
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  document.querySelectorAll('.speak-btn.playing').forEach(function(b){ b.classList.remove('playing'); });
+  if (btn) btn.classList.add('playing');
+
+  var cleaned = text.trim();
+  if ((cleaned.charAt(0)==='"' && cleaned.charAt(cleaned.length-1)==='"') ||
+      (cleaned.charAt(0)==="'" && cleaned.charAt(cleaned.length-1)==="'")) {
+    cleaned = cleaned.substring(1, cleaned.length-1).trim();
+  }
+
+  var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
+  var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
+
+  _ksLoadManifest().then(function(manifest){
+    var hash = manifest[cleaned];
+    if (!hash) {
+      /* Pas de MP3 → fallback navigateur. On adapte pitch selon
+         la voix override demandée. */
+      _ksFallbackForVoice(text, voiceOverride, btn, { onended: onEnded, onerror: onError });
+      return;
+    }
+    /* Construit le chemin avec la voix override */
+    var src = 'audio/' + voiceOverride + '/' + hash;
+    var audio = new Audio(src);
+    _ksCurrentAudio = audio;
+    audio.onended = function(){
+      if (btn) btn.classList.remove('playing');
+      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
+      if (onEnded) onEnded();
+    };
+    audio.onerror = function(){
+      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
+      _ksFallbackForVoice(text, voiceOverride, btn, { onended: onEnded, onerror: onError });
+    };
+    audio.play().catch(function(){
+      _ksCurrentAudio = null;
+      _ksFallbackForVoice(text, voiceOverride, btn, { onended: onEnded, onerror: onError });
+    });
+  });
+}
+window.speakAs = speakAs;
+
+/* Fallback TTS qui prend en compte la voix override (femme/homme) */
+function _ksFallbackForVoice(text, voiceOverride, btn, opts) {
+  opts = opts || {};
+  var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
+  var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
+  try {
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang  = 'ko-KR';
+    u.rate  = 0.78;
+    /* sunhi = femme → utiliser voix féminine si dispo, pitch 1.0
+       injoon/hyunsu = homme → voix masculine, pitch 0.85 */
+    if (voiceOverride === 'sunhi') {
+      if (_ksFemaleVoice) u.voice = _ksFemaleVoice;
+      u.pitch = 1.0;
+    } else {
+      if (_ksMaleVoice) u.voice = _ksMaleVoice;
+      u.pitch = (_ksMaleVoice === _ksFemaleVoice) ? 0.7 : 0.95;
+    }
+    u.onend  = function() { if (btn) btn.classList.remove('playing'); if (onEnded) onEnded(); };
+    u.onerror = function() { if (btn) btn.classList.remove('playing'); if (onError) onError(); };
+    window.speechSynthesis.speak(u);
+  } catch(e) { if (btn) btn.classList.remove('playing'); if (onError) onError(); }
+}
+
+/* ksListenAll(container, opts)
+   Mode "écouter l'histoire" : enchaîne automatiquement tous les
+   éléments avec .ko (texte coréen) dans un conteneur. Détecte le
+   speaker via data-speaker (mina/sunhi → voix féminine, autre →
+   InJoon par défaut). Pause naturelle entre bulles selon la
+   ponctuation finale (?, ! → 800ms · . → 600ms · sinon 400ms).
+
+   opts = { onProgress: (idx, total) => {}, onEnd: () => {} }
+   Retourne un objet { stop } pour interrompre. */
+function ksListenAll(container, opts) {
+  opts = opts || {};
+  if (!container) return { stop: function(){} };
+  /* Sélection des éléments à lire : on cible les .bubble.ko ou .ko
+     directement à l'intérieur de bulles avec data-speaker. */
+  var nodes = container.querySelectorAll('[data-speaker] .ko, .bubble .ko, .listen-line');
+  if (!nodes.length) {
+    /* Fallback : on prend tous les .ko visibles dans le conteneur */
+    nodes = container.querySelectorAll('.ko');
+  }
+  var items = [];
+  nodes.forEach(function(el){
+    var text = (el.textContent || '').trim();
+    if (!text) return;
+    /* Détection speaker : data-speaker sur el ou parent le plus proche */
+    var speakerEl = el.closest('[data-speaker]');
+    var speaker = speakerEl ? (speakerEl.getAttribute('data-speaker') || '').toLowerCase() : '';
+    /* Mapping speaker → voice : mina/mère/sœur/femme → sunhi · sinon injoon */
+    var voice = (speaker === 'mina' || speaker === 'sunhi' || speaker === 'female' || speaker === 'f') ? 'sunhi' : 'injoon';
+    items.push({ text: text, voice: voice, el: el });
+  });
+
+  var stopped = false;
+  var i = 0;
+  function next(){
+    if (stopped) return;
+    if (i >= items.length) { if (opts.onEnd) opts.onEnd(); return; }
+    var item = items[i];
+    if (opts.onProgress) opts.onProgress(i, items.length, item.el);
+    /* Highlight visuel temporaire de l'élément en cours */
+    item.el.classList.add('listening');
+    speakAs(item.text, item.voice, null, {
+      onended: function(){
+        item.el.classList.remove('listening');
+        /* Pause naturelle selon ponctuation finale */
+        var last = item.text.charAt(item.text.length - 1);
+        var pause = (last === '?' || last === '!') ? 800
+                   : (last === '.' || last === '。') ? 600
+                   : 400;
+        i++;
+        setTimeout(next, pause);
+      },
+      onerror: function(){
+        item.el.classList.remove('listening');
+        i++;
+        setTimeout(next, 300);
+      }
+    });
+  }
+  next();
+  return {
+    stop: function(){
+      stopped = true;
+      try { window.speechSynthesis.cancel(); } catch(e){}
+      if (_ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} _ksCurrentAudio = null; }
+      document.querySelectorAll('.listening').forEach(function(el){ el.classList.remove('listening'); });
+    }
+  };
+}
+window.ksListenAll = ksListenAll;
+
 /* ── Page navigate-out helper (fade) ──────────────────────────────── */
 function ksNavigate(href) {
   if (ksNavigate._going) return;
