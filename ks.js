@@ -853,7 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
      Apparaît juste avant la bnav, ne casse pas la mise en page existante. */
   (function(){
     var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    var SKIP = ['gate.html','login.html','signup.html','onboarding.html','mentions-legales.html','a-propos.html','404.html'];
+    var SKIP = ['gate.html','login.html','signup.html','onboarding.html','mentions-legales.html','a-propos.html','aide.html','404.html'];
     if (SKIP.indexOf(here) !== -1) return;
     if (document.querySelector('.ks-global-footer')) return;
     /* Style scoped */
@@ -872,6 +872,8 @@ document.addEventListener('DOMContentLoaded', () => {
     footer.className = 'ks-global-footer';
     footer.setAttribute('role', 'contentinfo');
     footer.innerHTML =
+      '<a href="aide.html">Aide</a>' +
+      '<span class="sep">·</span>' +
       '<a href="a-propos.html">À propos</a>' +
       '<span class="sep">·</span>' +
       '<a href="mentions-legales.html">Mentions légales</a>' +
