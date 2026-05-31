@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Le matin de Mina — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/histoire33.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    h3{color:#F59E0B;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(245,158,11,.14);color:#92400E;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(245,158,11,.14);color:#92400E;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .story-hero{background:linear-gradient(135deg,#92400E,#F59E0B);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#fef3c7;margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .listen-bar{background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(245,158,11,.04));border:1.5px solid rgba(245,158,11,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
+    .listen-btn{background:#F59E0B;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn:hover{transform:scale(1.06)}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:18px;height:18px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.78rem;color:var(--tx-muted)}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#F59E0B;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(245,158,11,.06);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    [data-theme="dark"] .narration-kr{color:#EDF2FA}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-mina{background:#ec4899}
+    .av-mom{background:#8b5cf6}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.25)}
+    .bubble.listening{box-shadow:0 0 0 2px rgba(245,158,11,.5)}
+    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    [data-theme="dark"] .ko{color:#EDF2FA}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(245,158,11,.10);border:1.5px solid rgba(245,158,11,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#92400E;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(245,158,11,.1);color:#92400E;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#92400E;font-weight:700;font-size:.95rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Le matin de Mina</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Le matin de Mina</h2>
+  <span class="pill">A1 · Histoire</span> <span class="xp-badge">+15 XP</span>
+  <div class="story-hero">
+    <div class="story-tag">Dialogue immersif · Routine quotidienne</div>
+    <div class="story-title">미나의 아침 — Le matin de Mina</div>
+    <div class="story-sub">Mina se réveille, prend son petit-déjeuner avec sa mère, et part travailler. Vocab des routines matinales, heures, météo.</div>
+  </div>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter">
+      <svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+    </button>
+    <div class="listen-meta">
+      <div class="listen-title">🎧 Écouter l'histoire</div>
+      <div class="listen-sub" id="listenSub">SunHi pour Mina et sa mère (2 voix féminines)</div>
+    </div>
+  </div>
+
+  <div id="storyContent">
+
+  <h3>Scène 1 — Le réveil</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 01</div>
+    <div class="narration">
+      <div class="narration-kr">아침 일곱 시. 알람이 울려요.</div>
+      Sept heures du matin. L'alarme sonne.
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina (pensée)</span>
+        <div class="ko">아… 너무 졸려요. 오 분만 더…</div>
+        <div class="bubble-rom">A… neomu jollyeoyo. O bun-man deo…</div>
+        <div class="bubble-fr">Aaah… j'ai trop sommeil. Encore 5 minutes…</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('너무 졸려요 오 분만 더','sunhi',this)||window.speak('너무 졸려요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="mom">
+      <div class="avatar-circle av-mom">엄</div>
+      <div class="bubble">
+        <span class="speaker-name">Maman</span>
+        <div class="ko">미나야! 일어나!</div>
+        <div class="bubble-rom">Mina-ya! Ireona!</div>
+        <div class="bubble-fr">Mina ! Lève-toi !</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('미나야 일어나','sunhi',this)||window.speak('일어나',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <h3>Scène 2 — Au petit-déjeuner</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 02</div>
+    <div class="narration">
+      <div class="narration-kr">미나가 부엌으로 가요. 엄마가 아침을 준비해요.</div>
+      Mina va vers la cuisine. Maman prépare le petit-déjeuner.
+    </div>
+    <div class="bubble-row right" data-speaker="mom">
+      <div class="avatar-circle av-mom">엄</div>
+      <div class="bubble">
+        <span class="speaker-name">Maman</span>
+        <div class="ko">잘 잤어? 빨리 와서 먹어.</div>
+        <div class="bubble-rom">Jal jasseo? Ppalli waseo meogeo.</div>
+        <div class="bubble-fr">Bien dormi ? Viens vite manger.</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('잘 잤어 빨리 와서 먹어','sunhi',this)||window.speak('잘 잤어',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">네, 엄마. 오늘 아침은 뭐예요?</div>
+        <div class="bubble-rom">Ne, eomma. Oneul achim-eun mwo-yeyo?</div>
+        <div class="bubble-fr">Oui, maman. Qu'est-ce qu'il y a au petit-déj' aujourd'hui ?</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('오늘 아침은 뭐예요','sunhi',this)||window.speak('오늘 아침은 뭐예요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="mom">
+      <div class="avatar-circle av-mom">엄</div>
+      <div class="bubble">
+        <span class="speaker-name">Maman</span>
+        <div class="ko">밥하고 김치찌개야. 따뜻해.</div>
+        <div class="bubble-rom">Bap-hago gimchijjigae-ya. Ttatteuthae.</div>
+        <div class="bubble-fr">Du riz et du kimchi-jjigae. C'est chaud.</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('밥하고 김치찌개야 따뜻해','sunhi',this)||window.speak('밥하고 김치찌개야',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">와, 맛있어 보여요! 잘 먹겠습니다.</div>
+        <div class="bubble-rom">Wa, masisseo boyeoyo! Jal meokgesseumnida.</div>
+        <div class="bubble-fr">Wahou, ça a l'air délicieux ! Bon appétit (formule).</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('맛있어 보여요 잘 먹겠습니다','sunhi',this)||window.speak('잘 먹겠습니다',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <h3>Scène 3 — Sortir</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 03</div>
+    <div class="narration">
+      <div class="narration-kr">미나가 시계를 봐요. 여덟 시 반이에요.</div>
+      Mina regarde la pendule. Il est 8h30.
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">엄마, 저 갈게요. 잘 다녀올게요.</div>
+        <div class="bubble-rom">Eomma, jeo galgeyo. Jal danyeo-olgeyo.</div>
+        <div class="bubble-fr">Maman, j'y vais. À tout à l'heure (formule de départ).</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('엄마 저 갈게요 잘 다녀올게요','sunhi',this)||window.speak('잘 다녀올게요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="mom">
+      <div class="avatar-circle av-mom">엄</div>
+      <div class="bubble">
+        <span class="speaker-name">Maman</span>
+        <div class="ko">잘 다녀와. 우산 가져가. 비 와.</div>
+        <div class="bubble-rom">Jal danyeo-wa. Usan gajyeoga. Bi wa.</div>
+        <div class="bubble-fr">À plus. Prends un parapluie. Il pleut.</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('잘 다녀와 우산 가져가 비 와','sunhi',this)||window.speak('우산 가져가 비 와',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">아, 진짜요? 알겠어요. 고마워요!</div>
+        <div class="bubble-rom">A, jinjja-yo? Algesseoyo. Gomawoyo!</div>
+        <div class="bubble-fr">Ah, vraiment ? D'accord. Merci !</div>
+        <button class="bubble-audio" onclick="window.speakAs&&window.speakAs('진짜요 알겠어요 고마워요','sunhi',this)||window.speak('진짜요 알겠어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /storyContent -->
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">아침</span></td><td>matin / petit-déjeuner</td></tr>
+    <tr><td><span class="ko">일곱 시</span></td><td>sept heures</td></tr>
+    <tr><td><span class="ko">알람</span></td><td>alarme, réveil</td></tr>
+    <tr><td><span class="ko">졸리다</span></td><td>avoir sommeil</td></tr>
+    <tr><td><span class="ko">일어나다</span></td><td>se lever</td></tr>
+    <tr><td><span class="ko">잘 잤어?</span></td><td>Bien dormi ?</td></tr>
+    <tr><td><span class="ko">밥</span></td><td>riz / repas</td></tr>
+    <tr><td><span class="ko">김치찌개</span></td><td>soupe au kimchi</td></tr>
+    <tr><td><span class="ko">맛있다</span></td><td>être délicieux</td></tr>
+    <tr><td><span class="ko">잘 먹겠습니다</span></td><td>Bon appétit (avant de manger)</td></tr>
+    <tr><td><span class="ko">잘 다녀올게요</span></td><td>À tout à l'heure (en partant)</td></tr>
+    <tr><td><span class="ko">잘 다녀와</span></td><td>À plus (réponse, informel)</td></tr>
+    <tr><td><span class="ko">우산</span></td><td>parapluie</td></tr>
+    <tr><td><span class="ko">비 와요</span></td><td>il pleut</td></tr>
+  </table></div>
+
+  <div class="tip"><strong>Culture :</strong> les formules d'entrée/sortie de la maison (잘 다녀올게요 / 잘 다녀와) sont quotidiennes en Corée. On les dit à ses parents, à ses colocataires, parfois même à son chat. C'est l'équivalent du « salut, j'y vais » français — mais en plus chaleureux.</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn');
+  const icon = document.getElementById('listenIcon');
+  const sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'SunHi pour Mina et sa mère (2 voix féminines)'; return; }
+  if (typeof window.ksListenAll !== 'function') return;
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.getElementById('storyContent').querySelectorAll('[data-speaker], .narration-kr').forEach(node => {
+    if (node.classList.contains('narration-kr')){ items.push({ el: node, text: node.textContent.trim(), voice: 'sunhi' }); }
+    else {
+      /* Mina et sa mère sont toutes les 2 féminines */
+      const voice = 'sunhi';
+      node.querySelectorAll('.ko').forEach(koEl => items.push({ el: koEl, text: koEl.textContent.trim(), voice }));
+    }
+  });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
+    sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
+    window.speakAs(item.text, item.voice, null, {
+      onended(){ if (bubble) bubble.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='?'||last==='!') ? 700 : (last==='.'||last==='。') ? 500 : 350; i++; setTimeout(next, pause); },
+      onerror(){ if (bubble) bubble.classList.remove('listening'); i++; setTimeout(next, 250); }
+    });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){ if(typeof ksFinish==='function')ksFinish({key:'ks_a37',xp:15}); else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_a37');location.href='lecture.html';} }
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
