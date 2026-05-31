@@ -1202,6 +1202,62 @@
       </button>
     </div>
 
+    <!-- STREAK PROTECTION CARD (injectée conditionnellement par JS) -->
+    <div id="streakWarn" style="display:none">
+      <style>
+        #streakWarn .sw-card{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(245,158,11,.08));border:1.5px solid rgba(245,158,11,.4);border-radius:16px;padding:14px 16px;margin:0 0 16px;position:relative;overflow:hidden;animation:swSlide .4s cubic-bezier(.34,1.56,.64,1) both}
+        @keyframes swSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+        #streakWarn .sw-card::before{content:'';position:absolute;top:-30px;right:-30px;width:110px;height:110px;background:radial-gradient(circle,rgba(239,68,68,.18),transparent 70%);border-radius:50%;pointer-events:none}
+        #streakWarn .sw-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;position:relative;z-index:1}
+        #streakWarn .sw-flame{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#FF8050,#FF5070);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(255,90,80,.35);animation:swPulse 1.6s ease-in-out infinite}
+        @keyframes swPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+        #streakWarn .sw-flame svg{width:18px;height:18px;fill:#fff;stroke:none}
+        #streakWarn .sw-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--navy);line-height:1.2;flex:1}
+        [data-theme="dark"] #streakWarn .sw-title{color:#EDF2FA}
+        #streakWarn .sw-title strong{color:#DC2626}
+        [data-theme="dark"] #streakWarn .sw-title strong{color:#F87171}
+        #streakWarn .sw-x{background:none;border:none;color:var(--gray);cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}
+        #streakWarn .sw-x svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+        #streakWarn .sw-x:hover{color:var(--navy)}
+        #streakWarn .sw-body{font-size:12.5px;color:var(--gray);line-height:1.45;margin:4px 0 10px;position:relative;z-index:1}
+        #streakWarn .sw-body strong{color:var(--navy)}
+        [data-theme="dark"] #streakWarn .sw-body strong{color:#EDF2FA}
+        #streakWarn .sw-progress{height:6px;background:rgba(0,0,0,.06);border-radius:3px;overflow:hidden;margin:0 0 10px;position:relative;z-index:1}
+        [data-theme="dark"] #streakWarn .sw-progress{background:rgba(255,255,255,.08)}
+        #streakWarn .sw-progress-fill{height:100%;background:linear-gradient(90deg,#F59E0B,#FF8050);border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+        #streakWarn .sw-btns{display:flex;gap:8px;position:relative;z-index:1}
+        #streakWarn .sw-cta{flex:1;background:#DC2626;color:#fff;border:none;border-radius:10px;padding:11px 14px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;box-shadow:0 4px 12px rgba(220,38,38,.25)}
+        #streakWarn .sw-cta:hover{background:#B91C1C;transform:translateY(-1px);box-shadow:0 6px 18px rgba(220,38,38,.35)}
+        #streakWarn .sw-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+        #streakWarn .sw-gel{background:rgba(91,168,245,.12);color:#3B82F6;border:1.5px solid rgba(91,168,245,.4);border-radius:10px;padding:11px 14px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:all .15s}
+        [data-theme="dark"] #streakWarn .sw-gel{background:rgba(91,168,245,.18);color:#7BB8F7}
+        #streakWarn .sw-gel:hover{background:rgba(91,168,245,.22)}
+        #streakWarn .sw-gel svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+        #streakWarn .sw-gel-count{background:#3B82F6;color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;font-weight:800}
+        #streakWarn .sw-toast{background:#16A34A;color:#fff;border-radius:10px;padding:12px 14px;font-size:13px;font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
+        #streakWarn .sw-toast svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+      </style>
+      <div class="sw-card">
+        <div class="sw-head">
+          <div class="sw-flame" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2s-3 5 0 9 3-3 0-9zm0 18c-4 0-7-3-7-7 0-2 1-4 3-5 0 2 1 3 2 3-1-3 0-6 3-7-1 5 4 6 4 11 0 3-2 5-5 5z"/></svg></div>
+          <div class="sw-title">Ton streak <strong id="swStreakNum">—</strong> jours est en danger</div>
+          <button class="sw-x" type="button" onclick="swDismiss()" aria-label="Fermer pour aujourd'hui"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <div class="sw-body" id="swBody">Tu n'as pas encore atteint ton objectif aujourd'hui. Il te reste <strong id="swHours">— h</strong> avant minuit.</div>
+        <div class="sw-progress" role="progressbar" aria-label="Progression de l'objectif quotidien"><div class="sw-progress-fill" id="swFill" style="width:0%"></div></div>
+        <div class="sw-btns" id="swBtns">
+          <a class="sw-cta" id="swCta" href="cours.html">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            <span>Sauver mon streak</span>
+          </a>
+          <button class="sw-gel" id="swGel" type="button" onclick="swUseFreeze()" style="display:none">
+            <svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg>
+            <span>Gel</span><span class="sw-gel-count" id="swGelCount">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- CONTINUE -->
     <span class="sec-lbl">Reprendre</span>
     <div class="cont-card">
@@ -3174,6 +3230,137 @@ document.addEventListener('click', function(e){
     };
   }
 </script>
+<script>
+/* ───── Streak Protection Card ─────
+   Affichage conditionnel :
+   - streak > 0 (sinon rien à protéger)
+   - heure ≥ 17h (urgence du soir, pas le matin)
+   - objectif XP du jour pas atteint
+   - pas déjà fermée aujourd'hui */
+(function(){
+  var TRIGGER_HOUR = 17;
+  function lsInt(k){ try { return parseInt(localStorage.getItem(k)||'0',10)||0; } catch(e){ return 0; } }
+  function lsStr(k){ try { return localStorage.getItem(k)||''; } catch(e){ return ''; } }
+
+  function todayKey(){ return new Date().toISOString().slice(0,10); }
+  function todayXP(){ return lsInt('ks_xp_day_' + todayKey()); }
+  function goalXP(){ return lsInt('ks_goal') || 50; } /* défaut 50 = 10 min */
+
+  function isDismissedToday(){
+    return lsStr('ks_streak_warn_dismissed') === todayKey();
+  }
+
+  function freezesLeft(){
+    try { if (typeof ksFreezesLeft === 'function') return ksFreezesLeft(); } catch(e){}
+    return lsInt('ks_freezes_left');
+  }
+
+  function shouldShow(){
+    var streak = lsInt('ks_streak');
+    if (streak < 1) return false;
+    if (new Date().getHours() < TRIGGER_HOUR) return false;
+    if (todayXP() >= goalXP()) return false;
+    if (isDismissedToday()) return false;
+    return true;
+  }
+
+  function nextHref(){
+    try {
+      if (window.KSCurriculum && typeof window.KSCurriculum.next === 'function') {
+        var n = window.KSCurriculum.next();
+        if (n && n.href) return n.href;
+      }
+    } catch(e){}
+    return 'cours.html';
+  }
+
+  function hoursLeft(){
+    var now = new Date();
+    var end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+    var h = Math.max(0, Math.ceil((end - now) / 3600000));
+    return h;
+  }
+
+  function render(){
+    var box = document.getElementById('streakWarn');
+    if (!box) return;
+    if (!shouldShow()) { box.style.display = 'none'; return; }
+    var streak = lsInt('ks_streak');
+    var done = todayXP();
+    var goal = goalXP();
+    var pct = goal > 0 ? Math.min(100, Math.round(done / goal * 100)) : 0;
+    var hours = hoursLeft();
+    document.getElementById('swStreakNum').textContent = streak;
+    document.getElementById('swHours').textContent = hours + ' h';
+    var fill = document.getElementById('swFill');
+    if (fill) setTimeout(function(){ fill.style.width = pct + '%'; }, 150);
+    var body = document.getElementById('swBody');
+    if (body) {
+      body.innerHTML = 'Tu as gagné <strong>' + done + ' XP</strong> sur ton objectif de <strong>' + goal +
+        ' XP</strong> aujourd\'hui. Il te reste <strong>' + hours + ' h</strong> avant minuit.';
+    }
+    var cta = document.getElementById('swCta');
+    if (cta) cta.href = nextHref();
+    /* Gel : on n'affiche le bouton que s'il en reste */
+    var fl = freezesLeft();
+    var gel = document.getElementById('swGel');
+    var cnt = document.getElementById('swGelCount');
+    if (gel && cnt) {
+      if (fl > 0) {
+        gel.style.display = 'inline-flex';
+        cnt.textContent = fl;
+      } else {
+        gel.style.display = 'none';
+      }
+    }
+    box.style.display = 'block';
+  }
+
+  /* Actions exposées globalement pour les onclick inline du HTML */
+  window.swDismiss = function(){
+    try { localStorage.setItem('ks_streak_warn_dismissed', todayKey()); } catch(e){}
+    var box = document.getElementById('streakWarn');
+    if (box) box.style.display = 'none';
+  };
+
+  window.swUseFreeze = function(){
+    var used = false;
+    try { if (typeof ksUseFreeze === 'function') used = ksUseFreeze(); } catch(e){}
+    if (!used) {
+      /* Fallback : décrémente manuellement ks_freezes_left et log */
+      var n = lsInt('ks_freezes_left');
+      if (n > 0) {
+        try {
+          localStorage.setItem('ks_freezes_left', String(n - 1));
+          used = true;
+        } catch(e){}
+      }
+    }
+    if (!used) return;
+    /* On marque le streak comme "protégé" pour la journée */
+    try { localStorage.setItem('ks_streak_protected_' + todayKey(), '1'); } catch(e){}
+    /* Remplace la carte par un toast de confirmation */
+    var box = document.getElementById('streakWarn');
+    if (box) {
+      box.innerHTML =
+        '<div class="sw-toast">' +
+          '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' +
+          'Streak protégé pour aujourd\'hui — repos bien mérité 🛏' +
+        '</div>';
+      setTimeout(function(){ box.style.display = 'none'; }, 4000);
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+  /* Re-render à 1s pour les valeurs synchronisées via ks-sync */
+  setTimeout(render, 1100);
+})();
+</script>
+
 <script>
 /* ───── Cards "Mon Certificat" + "Mon Parcours" : pilotées par KSCurriculum ───── */
 (function(){
