@@ -159,6 +159,67 @@ html { scroll-behavior: smooth; }
   html { scroll-behavior: auto; }
 }
 
+/* ── Hover lift sur les cards de l'accueil ───────────────────────
+   Léger soulèvement + ombre + accentuation de bordure or au survol.
+   Désactivé sur les périphériques tactiles (pas de hover physique). */
+@media (hover: hover) {
+  .scard {
+    transition: transform .22s cubic-bezier(.4, 0, .2, 1),
+                box-shadow .22s cubic-bezier(.4, 0, .2, 1),
+                border-color .22s cubic-bezier(.4, 0, .2, 1);
+  }
+  .scard:hover:not(.locked) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(15, 30, 80, .10);
+    border-color: rgba(201, 169, 110, .35);
+  }
+  [data-theme="dark"] .scard:hover:not(.locked) {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, .35);
+    border-color: rgba(213, 186, 138, .35);
+  }
+}
+
+/* ── Pulse sur le streak quand il est élevé ──────────────────────
+   Le bouton « 7+ jours » mérite un petit signal visuel. La classe
+   .streak-hot est ajoutée via JS quand streak ≥ 7. */
+@keyframes ksStreakPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.08); }
+}
+.streak-val.streak-hot,
+.side-xp.streak-hot {
+  display: inline-block;
+  animation: ksStreakPulse 2.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ── Fade-in sur le contenu des <details> à l'ouverture ──────────
+   Touch de fluidité sur les FAQ de aide.html, et tout autre
+   widget repliable du site. */
+details[open] > *:not(summary) {
+  animation: ksDetailsSlide .28s cubic-bezier(.4, 0, .2, 1) both;
+}
+@keyframes ksDetailsSlide {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Page entry fade-in (root crossfade fallback) ────────────────
+   Pour les navigateurs qui ne supportent pas View Transitions :
+   léger fade-in au load pour adoucir l'arrivée sur la page. */
+@keyframes ksBodyEnter {
+  from { opacity: .6; }
+  to   { opacity: 1; }
+}
+body { animation: ksBodyEnter .22s ease-out both; }
+/* On retire l'anim si VT est actif (Chrome 126+ gère lui-même la transition) */
+@supports (view-transition-name: root) {
+  body { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body { animation: none; }
+}
+
 /* ── View Transitions API — fluide entre pages ────────────────────
    Chrome 126+ / Edge 126+ : crossfade automatique au clic sur lien
    interne (cross-document). Safari/Firefox : fail gracefully (saut

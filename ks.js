@@ -942,7 +942,13 @@ document.addEventListener('DOMContentLoaded', () => {
   /* Animation count-up vers la valeur cible — UX plus vivante que
      le saut brutal de 0 → N au load. */
   document.querySelectorAll('#xpVal, .xp-val, #xpEl, #xpSide').forEach(el => { ksCountUp(el, xp); });
-  document.querySelectorAll('#streakVal, .streak-val').forEach(el => { ksCountUp(el, streak, { duration: 500 }); });
+  document.querySelectorAll('#streakVal, .streak-val').forEach(el => {
+    ksCountUp(el, streak, { duration: 500 });
+    /* Pulse visuel quand le streak atteint 7 jours (badge Semaine
+       de feu débloqué) — petit signal de fierté permanent. */
+    if (streak >= 7) el.classList.add('streak-hot');
+    else             el.classList.remove('streak-hot');
+  });
 
   // Wire up dark toggle buttons
   document.querySelectorAll('.js-dark-toggle, [data-action="dark-toggle"]').forEach(btn => {
