@@ -132,21 +132,21 @@
       <div class="sub">Apprentissage du coréen — méthode immersive</div>
 
       <div class="label">Délivré à</div>
-      <div class="name" id="diName">—</div>
+      <div class="name ks-skel" id="diName" aria-busy="true">À personnaliser</div>
 
-      <div class="text">a complété <strong id="diLessons">—</strong> activités du parcours d'apprentissage Korean Stories et atteint le niveau&nbsp;:</div>
+      <div class="text">a complété <strong class="ks-skel" id="diLessons" aria-busy="true">000</strong> activités du parcours d'apprentissage Korean Stories et atteint le niveau&nbsp;:</div>
 
-      <div class="rank" id="diRankKr">—</div>
-      <div class="rank-fr" id="diRankFr">—</div>
+      <div class="rank ks-skel" id="diRankKr" aria-busy="true">한국어 초보</div>
+      <div class="rank-fr ks-skel" id="diRankFr" aria-busy="true">Niveau en cours</div>
 
       <div class="stats-row">
-        <div class="stat-block"><div class="v" id="diXP">0</div><div class="l">XP gagnés</div></div>
-        <div class="stat-block"><div class="v" id="diStreak">0</div><div class="l">Jours streak</div></div>
-        <div class="stat-block"><div class="v" id="diPct">0%</div><div class="l">Progression</div></div>
+        <div class="stat-block"><div class="v ks-skel" id="diXP" aria-busy="true">000</div><div class="l">XP gagnés</div></div>
+        <div class="stat-block"><div class="v ks-skel" id="diStreak" aria-busy="true">00</div><div class="l">Jours streak</div></div>
+        <div class="stat-block"><div class="v ks-skel" id="diPct" aria-busy="true">00%</div><div class="l">Progression</div></div>
       </div>
 
       <div class="footer">
-        <div class="date">Délivré le<br><span id="diDate">—</span></div>
+        <div class="date">Délivré le<br><span class="ks-skel" id="diDate" aria-busy="true">DD MMM YYYY</span></div>
         <div class="signature">
           <div class="sig">Korean Stories</div>
           <div>koreanstories.fr</div>
@@ -277,6 +277,16 @@ function formatDate(){
   return jours[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()] + ' ' + d.getFullYear();
 }
 
+/* Helper : pose une valeur ET retire le skeleton (classe + aria-busy)
+   de l'élément. Évite la répétition à chaque setter. */
+function setVal(id, value){
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = value;
+  el.classList.remove('ks-skel');
+  el.removeAttribute('aria-busy');
+}
+
 function render(){
   var xp = lsInt('ks_xp');
   var streak = lsInt('ks_streak');
@@ -286,14 +296,14 @@ function render(){
   var rank = getRank(xp);
   var name = loadName();
 
-  document.getElementById('diXP').textContent = xp.toLocaleString('fr-FR');
-  document.getElementById('diStreak').textContent = streak;
-  document.getElementById('diPct').textContent = pct + '%';
-  document.getElementById('diLessons').textContent = done;
-  document.getElementById('diRankKr').textContent = rank.kr;
-  document.getElementById('diRankFr').textContent = rank.fr;
-  document.getElementById('diDate').textContent = formatDate();
-  document.getElementById('diName').textContent = name || 'À personnaliser';
+  setVal('diXP', xp.toLocaleString('fr-FR'));
+  setVal('diStreak', streak);
+  setVal('diPct', pct + '%');
+  setVal('diLessons', done);
+  setVal('diRankKr', rank.kr);
+  setVal('diRankFr', rank.fr);
+  setVal('diDate', formatDate());
+  setVal('diName', name || 'À personnaliser');
 
   /* Affiche le champ nom si jamais renseigné */
   if (!name) {
