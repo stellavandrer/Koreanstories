@@ -948,7 +948,12 @@ function drawBadges(xp,streak,lessons){
     document.getElementById('badgesGrid').appendChild(el);
   });
   var _bEl=document.getElementById('statBadges');
-  if(_bEl){_bEl.textContent=count;_bEl.classList.remove('ks-skel');_bEl.removeAttribute('aria-busy');}
+  if(_bEl){
+    _bEl.classList.remove('ks-skel');
+    _bEl.removeAttribute('aria-busy');
+    if(typeof window.ksCountUp==='function'){_bEl.textContent='0';window.ksCountUp(_bEl,count,{duration:800});}
+    else{_bEl.textContent=count;}
+  }
 }
 function openBP(b,ok){
   document.getElementById('bpIco').innerHTML=b.ico;
@@ -1051,11 +1056,13 @@ function init(){
       }
     }
   }catch(e){}
-  /* Setter qui retire le skeleton après pose de valeur */
+  /* Setters : _set pose la valeur, _num lance le count-up animé
+     (fallback gracieux sur _set si ksCountUp absent). */
   function _set(id,v){var el=document.getElementById(id);if(!el)return;el.textContent=v;el.classList.remove('ks-skel');el.removeAttribute('aria-busy');}
-  _set('statXP',xp);
-  _set('statLecons',lessons);
-  _set('statJours',streak);
+  function _num(id,v,d){var el=document.getElementById(id);if(!el)return;el.classList.remove('ks-skel');el.removeAttribute('aria-busy');if(typeof window.ksCountUp==='function'){el.textContent='0';window.ksCountUp(el,v,{duration:d||700});}else{el.textContent=v;}}
+  _num('statXP', xp, 900);
+  _num('statLecons', lessons, 700);
+  _num('statJours', streak, 600);
   document.getElementById('streakVal').textContent=streak;
   try{document.getElementById('xpEl').textContent=xp;document.getElementById('xpSide').textContent=xp;}catch(e){}
   const rank=getRank(xp);

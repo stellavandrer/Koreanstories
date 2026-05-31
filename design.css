@@ -159,6 +159,34 @@ html { scroll-behavior: smooth; }
   html { scroll-behavior: auto; }
 }
 
+/* ── View Transitions API — fluide entre pages ────────────────────
+   Chrome 126+ / Edge 126+ : crossfade automatique au clic sur lien
+   interne (cross-document). Safari/Firefox : fail gracefully (saut
+   instantané comme avant). Pas de polyfill nécessaire.
+   La balise <meta name="view-transition" content="same-origin"> est
+   injectée par ks.js sur toutes les pages. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: .35s;
+  animation-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+/* Crossfade par défaut (Chrome fait déjà ça mais on s'assure du timing) */
+::view-transition-old(root) { animation-name: ksFadeOut; }
+::view-transition-new(root) { animation-name: ksFadeIn; }
+@keyframes ksFadeOut { to { opacity: 0; } }
+@keyframes ksFadeIn  { from { opacity: 0; } }
+
+/* Si l'utilisateur a demandé la réduction du mouvement, on coupe */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
 /* ── Skeleton loading (shimmer) ──────────────────────────────────
    Placeholder gris animé qui glisse de gauche à droite pendant
    que les données réelles se chargent (XP depuis Firestore, cards

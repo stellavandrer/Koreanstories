@@ -838,6 +838,18 @@ window.ksConfetti = _ksConfetti;
 
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  /* ── View Transitions API : crossfade entre pages ──
+     Chrome 126+ / Edge 126+ utilisent la transition cross-document
+     si cette balise est présente. Autres navigateurs : ignorent
+     silencieusement. */
+  (function(){
+    if (document.querySelector('meta[name="view-transition"]')) return;
+    var m = document.createElement('meta');
+    m.name = 'view-transition';
+    m.content = 'same-origin';
+    document.head.appendChild(m);
+  })();
+
   /* ── A11y : skip-to-content universel ──
      Injecte un lien « Aller au contenu » en tout début de body, ciblant
      le premier conteneur .main de la page. Invisible jusqu'au focus

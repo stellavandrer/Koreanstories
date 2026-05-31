@@ -296,10 +296,27 @@ function render(){
   var rank = getRank(xp);
   var name = loadName();
 
-  setVal('diXP', xp.toLocaleString('fr-FR'));
-  setVal('diStreak', streak);
-  setVal('diPct', pct + '%');
-  setVal('diLessons', done);
+  /* Helper pour les nombres : retire le skeleton puis lance le
+     count-up animé via ksCountUp (exposé par ks.js). Fallback
+     gracieux sur setVal si ksCountUp absent. */
+  function setNum(id, value, opts){
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('ks-skel');
+    el.removeAttribute('aria-busy');
+    if (typeof window.ksCountUp === 'function') {
+      /* Met le contenu à "0" pour partir de 0 et animer */
+      el.textContent = '0';
+      window.ksCountUp(el, value, opts);
+    } else {
+      el.textContent = value;
+    }
+  }
+
+  setNum('diXP', xp, { duration: 900 });
+  setNum('diStreak', streak, { duration: 600 });
+  setNum('diPct', pct, { duration: 700, suffix: '%' });
+  setNum('diLessons', done, { duration: 700 });
   setVal('diRankKr', rank.kr);
   setVal('diRankFr', rank.fr);
   setVal('diDate', formatDate());
