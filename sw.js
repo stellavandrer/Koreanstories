@@ -1,4 +1,4 @@
-// Korean Stories — Service Worker v2.5
+// Korean Stories — Service Worker v2.6
 // Network-first pour HTML/JS/CSS (toujours à jour),
 // cache-first pour les images & polices (rarement modifiées).
 // Bypass pour les APIs externes type DiceBear (l'interception
@@ -8,8 +8,10 @@
 // v2.5 : ajout pages fin de parcours (certificat, apres-b2),
 //        modules JS récents (ks-curriculum, ks-install-prompt),
 //        histoires 12-30 (curriculum complet).
+// v2.6 : ajout pages publiques (a-propos, aide, mentions-legales)
+//        et modules onboarding tour.
 
-const CACHE = 'ks-v2.5';
+const CACHE = 'ks-v2.6';
 
 const CORE = [
   // App shell
@@ -32,6 +34,11 @@ const CORE = [
   'certificat.html',
   'apres-b2.html',
 
+  // Pages publiques (v2.6)
+  'a-propos.html',
+  'aide.html',
+  'mentions-legales.html',
+
   // Modules JS partagés
   'ks.js',
   'ks-curriculum.js',
@@ -39,6 +46,7 @@ const CORE = [
   'ks-search.js',
   'ks-install-prompt.js',
   'ks-sw-update.js',
+  'ks-onboarding.js',
   'gate.js',
   'design.css',
 

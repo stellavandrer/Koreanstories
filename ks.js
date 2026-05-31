@@ -973,6 +973,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(s);
   })();
 
+  /* Charge le tour d'onboarding (self-disable hors app.html/index.html
+     et si ks_onboarded déjà posé) */
+  (function(){
+    if (document.getElementById('ks-onboarding-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-onboarding-script';
+    s.src = 'ks-onboarding.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
+
   /* Charge les notes personnelles (bouton dans la nav bar) */
   (function(){
     if (document.getElementById('ks-notes-script')) return;
