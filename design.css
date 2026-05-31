@@ -93,6 +93,72 @@ input,textarea,select{
 }
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
 
+/* ── Micro-animations globales ────────────────────────────────────
+   Transitions universelles sur les propriétés thématiques : quand
+   l'utilisateur bascule en sombre, toutes les couleurs glissent
+   en douceur au lieu de flasher. */
+html, body, body *, body *::before, body *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: .22s;
+  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+}
+/* Désactivation ciblée pour les éléments où la transition de couleur
+   nuit (overlays animés, spinners, éléments en transform constant) */
+.ksf-confetti *, .ksf-conf-p, .ks-conf, #ks-onb-root *,
+.ks-swu-banner *, .ks-inst-banner *, #streakWarn .sw-flame {
+  transition: none !important;
+}
+
+/* ── Feedback tactile / press ─────────────────────────────────────
+   Léger scale-down au clic pour signaler que l'action est prise.
+   Préserve l'a11y (pas de flicker, durée <100ms). */
+.scard:active,
+.bni:active,
+button:not(:disabled):active,
+.btn-primary:active,
+.btn-ghost:active,
+a.scard:active {
+  transform: scale(.97);
+  transition: transform .08s ease-out;
+}
+
+/* ── Stagger sur grilles ─────────────────────────────────────────
+   Apparition échelonnée des cards (animation-delay calculée
+   sur l'ordre dans le parent). Joue UNE SEULE FOIS au load
+   grâce à animation-fill-mode:both. */
+@keyframes ksFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.sec-grid .scard {
+  animation: ksFadeUp .42s cubic-bezier(.4, 0, .2, 1) both;
+}
+.sec-grid .scard:nth-child(1){animation-delay:.05s}
+.sec-grid .scard:nth-child(2){animation-delay:.10s}
+.sec-grid .scard:nth-child(3){animation-delay:.15s}
+.sec-grid .scard:nth-child(4){animation-delay:.20s}
+.sec-grid .scard:nth-child(5){animation-delay:.25s}
+.sec-grid .scard:nth-child(6){animation-delay:.30s}
+.sec-grid .scard:nth-child(7){animation-delay:.35s}
+.sec-grid .scard:nth-child(8){animation-delay:.40s}
+
+/* ── Reduce motion : on respecte le système ──────────────────────
+   Tout utilisateur qui demande à réduire les animations dans
+   ses préférences voit ces animations désactivées. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ── Smooth scroll ──────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 /* ── A11Y : focus visible clavier ─────────────────────────────────
    :focus-visible cible uniquement la navigation clavier — pas les
    clics souris — ce qui évite l'anneau permanent agaçant tout en

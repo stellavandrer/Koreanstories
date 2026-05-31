@@ -57,6 +57,40 @@ window.toggleDarkGlobal = toggleTheme;
 
 /* ── XP / Streak from localStorage ────────────────────────────────── */
 function ksGetXP()     { try { return parseInt(localStorage.getItem('ks_xp') || '0'); } catch(e) { return 0; } }
+
+/* ── Count-up animation pour les chiffres ──
+   Anime un nombre de la valeur courante vers une valeur cible en
+   utilisant requestAnimationFrame. Easing cubic-out pour un arrêt
+   doux. Respecte prefers-reduced-motion. */
+function ksCountUp(el, target, opts) {
+  if (!el) return;
+  opts = opts || {};
+  var duration = opts.duration || 700;
+  var suffix = opts.suffix || '';
+  var locale = opts.locale || 'fr-FR';
+  /* Respect du système : si reduce motion, on saute l'anim */
+  var prefersReduce = false;
+  try { prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  /* Valeur de départ : lit le contenu courant si numérique, sinon 0 */
+  var startTxt = (el.textContent || '').replace(/[^\d-]/g, '');
+  var start = parseInt(startTxt, 10) || 0;
+  var end = parseInt(target, 10) || 0;
+  if (start === end || prefersReduce) {
+    el.textContent = end.toLocaleString(locale) + suffix;
+    return;
+  }
+  var t0 = performance.now();
+  function step(now) {
+    var p = Math.min(1, (now - t0) / duration);
+    /* easeOutCubic */
+    var eased = 1 - Math.pow(1 - p, 3);
+    var v = Math.round(start + (end - start) * eased);
+    el.textContent = v.toLocaleString(locale) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+window.ksCountUp = ksCountUp;
 function ksGetStreak() { try { return parseInt(localStorage.getItem('ks_streak') || '0'); } catch(e) { return 0; } }
 function ksAddXP(n)    { try { const v = ksGetXP() + n; localStorage.setItem('ks_xp', v); return v; } catch(e) {} }
 
@@ -892,8 +926,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Populate XP pills
   const xp = ksGetXP();
-  document.querySelectorAll('#xpVal, .xp-val').forEach(el => { el.textContent = xp; });
-  document.querySelectorAll('#streakVal, .streak-val').forEach(el => { el.textContent = ksGetStreak(); });
+  const streak = ksGetStreak();
+  /* Animation count-up vers la valeur cible — UX plus vivante que
+     le saut brutal de 0 → N au load. */
+  document.querySelectorAll('#xpVal, .xp-val, #xpEl, #xpSide').forEach(el => { ksCountUp(el, xp); });
+  document.querySelectorAll('#streakVal, .streak-val').forEach(el => { ksCountUp(el, streak, { duration: 500 }); });
 
   // Wire up dark toggle buttons
   document.querySelectorAll('.js-dark-toggle, [data-action="dark-toggle"]').forEach(btn => {
