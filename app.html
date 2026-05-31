@@ -1151,8 +1151,8 @@
     </div>
   </div>
 
-  <!-- STREAK CARD -->
-  <div class="streak-wrap" id="streakWrap">
+  <!-- STREAK CARD (caché — redondant avec la pill streak du top bar et la Streak Protection conditionnelle) -->
+  <div class="streak-wrap" id="streakWrap" style="display:none">
     <div class="streak-card" id="streakCard">
       <div class="streak-top">
         <div class="streak-left">
@@ -1183,8 +1183,8 @@
   <!-- MAIN CONTENT -->
   <main>
 
-    <!-- OUTILS RAPIDES — accès rapide aux fonctionnalités persos -->
-    <div class="qtools" id="qTools">
+    <!-- OUTILS RAPIDES (caché — redondant avec la grille Sections en bas) -->
+    <div class="qtools" id="qTools" style="display:none">
       <a href="prononciation.html" class="qtool" data-color="#0D9488">
         <div class="qtool-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></div>
         <div class="qtool-lbl">Prononciation</div>
@@ -1327,8 +1327,8 @@
       <div class="defi-result-already" id="defiDoneMsg" style="display:none"></div>
     </div>
 
-    <!-- QUICK ACCESS STRIP -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+    <!-- QUICK ACCESS STRIP (caché — redondant avec la grille Sections) -->
+    <div id="quickAccessStrip1" style="display:none;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
       <a href="challenge.html" style="background:linear-gradient(135deg,#1a0e2e,#0f1b2d);border:1.5px solid rgba(167,139,250,.3);border-radius:18px;padding:14px 16px;text-decoration:none;display:flex;align-items:center;gap:10px;transition:all .2s" onmouseover="this.style.borderColor='rgba(167,139,250,.55)'" onmouseout="this.style.borderColor='rgba(167,139,250,.3)'">
         <div style="width:38px;height:38px;border-radius:12px;background:rgba(167,139,250,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
         <div style="min-width:0">
@@ -1344,7 +1344,7 @@
         </div>
       </a>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">
+    <div id="quickAccessStrip2" style="display:none;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">
       <a href="grammaire.html" style="background:linear-gradient(135deg,#0e1a2e,#0f1b2d);border:1.5px solid rgba(96,165,250,.25);border-radius:18px;padding:14px 16px;text-decoration:none;display:flex;align-items:center;gap:10px;transition:all .2s" onmouseover="this.style.borderColor='rgba(96,165,250,.55)'" onmouseout="this.style.borderColor='rgba(96,165,250,.25)'">
         <div style="width:38px;height:38px;border-radius:12px;background:rgba(96,165,250,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>
         <div style="min-width:0">
@@ -1361,7 +1361,8 @@
       </a>
     </div>
 
-    <!-- MON PARCOURS — mini roadmap -->
+    <!-- MON PARCOURS — mini roadmap (caché — redondant avec la card Mon Parcours de la grille Sections) -->
+    <div id="miniRoadmapWrap" style="display:none">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
       <span class="sec-lbl" id="leconsSeclbl" style="margin-bottom:0">Mon parcours</span>
       <a href="cours.html" style="font-size:12px;color:var(--gold);text-decoration:none;font-weight:600;opacity:.85">Voir tout →</a>
@@ -1384,6 +1385,7 @@
       <svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M12 5l7 7-7 7"/></svg>
       Voir le parcours complet
     </a>
+    </div><!-- /#miniRoadmapWrap -->
 
     <!-- SECTIONS -->
     <span class="sec-lbl">Sections</span>
@@ -1536,8 +1538,8 @@
       </div>
     </a>
 
-    <!-- TIP DU JOUR -->
-    <div class="dori-tip">
+    <!-- TIP DU JOUR (caché — redondant avec Conseil du jour) -->
+    <div class="dori-tip" style="display:none">
       <div class="dori-tip-ico"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg></div>
       <div class="dori-msg" id="doriMsg">
         <strong>+50 XP</strong> si tu termines ta leçon aujourd'hui&thinsp;!<br/>
