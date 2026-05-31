@@ -228,20 +228,29 @@ if (window.speechSynthesis) {
 var _ksAudioManifest = null;
 var _ksAudioManifestLoading = null;
 var _ksCurrentAudio = null;
-var KS_VOICES = ['sunhi', 'injoon', 'hyunsu'];
+var KS_VOICES = ['injoon'];
+/* Voix unique : InJoon (homme, ko-KR-InJoonNeural). Choix retiré
+   le 2026-05-31 sur demande de l'éditrice. Le site sert
+   uniquement les MP3 d'audio/injoon/, fallback speechSynthesis
+   masculin si manquant. */
 
 function ksGetVoice() {
-  try {
-    var v = localStorage.getItem('ks_voice');
-    return KS_VOICES.indexOf(v) >= 0 ? v : 'sunhi';
-  } catch (e) { return 'sunhi'; }
+  return 'injoon';
 }
 function ksSetVoice(v) {
-  if (KS_VOICES.indexOf(v) < 0) return;
-  try { localStorage.setItem('ks_voice', v); } catch (e) {}
+  /* No-op : la voix est verrouillée sur injoon. On force aussi le
+     storage pour rétro-compat des consommateurs qui lisent ks_voice
+     directement (ex : profil export RGPD). */
+  try { localStorage.setItem('ks_voice', 'injoon'); } catch (e) {}
 }
 window.ksGetVoice = ksGetVoice;
 window.ksSetVoice = ksSetVoice;
+/* Migration silencieuse : si un utilisateur avait sunhi/hyunsu sauvegardés,
+   on bascule à injoon au prochain load sans le notifier. */
+try {
+  var _vMigr = localStorage.getItem('ks_voice');
+  if (_vMigr !== 'injoon') localStorage.setItem('ks_voice', 'injoon');
+} catch (e) {}
 
 function _ksLoadManifest() {
   if (_ksAudioManifest) return Promise.resolve(_ksAudioManifest);
