@@ -160,9 +160,9 @@ img{display:block;max-width:100%}
   position:absolute;border-radius:50%;pointer-events:none;
   filter:blur(80px);opacity:.5;
 }
-.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(201,169,110,.22) 0%,transparent 70%);top:-100px;left:-150px;animation:drift1 18s ease-in-out infinite}
-.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%);bottom:-80px;right:-100px;animation:drift2 22s ease-in-out infinite}
-.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(201,169,110,.12) 0%,transparent 70%);bottom:20%;left:30%;animation:drift3 16s ease-in-out infinite}
+.orb1{will-change:transform;width:500px;height:500px;background:radial-gradient(circle,rgba(201,169,110,.22) 0%,transparent 70%);top:-100px;left:-150px;animation:drift1 18s ease-in-out infinite}
+.orb2{will-change:transform;width:400px;height:400px;background:radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%);bottom:-80px;right:-100px;animation:drift2 22s ease-in-out infinite}
+.orb3{will-change:transform;width:300px;height:300px;background:radial-gradient(circle,rgba(201,169,110,.12) 0%,transparent 70%);bottom:20%;left:30%;animation:drift3 16s ease-in-out infinite}
 @keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
 @keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-30px)}}
 @keyframes drift3{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-50px)}}
@@ -173,7 +173,7 @@ img{display:block;max-width:100%}
   position:absolute;
   font-family:'Playfair Display',serif;
   color:rgba(201,169,110,.055);line-height:1;
-  user-select:none;animation:float linear infinite;
+  user-select:none;will-change:transform,opacity;animation:float linear infinite;
 }
 @keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:.4}100%{transform:translateY(-120px) rotate(20deg);opacity:0}}
 
@@ -192,7 +192,7 @@ img{display:block;max-width:100%}
   font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
   margin-bottom:36px;position:relative;z-index:1;
 }
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+.badge-dot{will-change:transform;width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 
 .hero-logo{position:relative;z-index:1;margin-bottom:32px}
