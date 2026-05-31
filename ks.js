@@ -958,8 +958,20 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.setAttribute('data-dark-icon', isDark ? 'dark' : 'light');
   });
 
+  /* ── Détection des pages "légères" (landing + info statique) ──
+     Sur ces pages, on évite de charger les modules qui ciblent
+     uniquement les leçons / l'app authentifiée. Gain ~120 KB de
+     JS inutilisé sur la home + pages info → boost Perf Lighthouse. */
+  var _ksHere = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  var KS_LIGHT_PAGES = {
+    'index.html':1,'':1,
+    'a-propos.html':1, 'mentions-legales.html':1,
+    'aide.html':1, '404.html':1
+  };
+  var _ksIsLight = !!KS_LIGHT_PAGES[_ksHere];
+
   /* Charge la bannière visuelle de leçon (auto-skip si page exclue) */
-  (function(){
+  if (!_ksIsLight) (function(){
     if (document.getElementById('ks-lesson-image-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-lesson-image-script';
@@ -969,7 +981,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* Charge le système de favoris (bouton marque-page sur chaque leçon) */
-  (function(){
+  if (!_ksIsLight) (function(){
     if (document.getElementById('ks-favorites-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-favorites-script';
@@ -979,7 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* Charge la navigation intelligente (smart back + prev/next + scroll) */
-  (function(){
+  if (!_ksIsLight) (function(){
     if (document.getElementById('ks-nav-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-nav-script';
@@ -989,7 +1001,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* Charge le mode prononciation (micro à côté de chaque speak button) */
-  (function(){
+  if (!_ksIsLight) (function(){
     if (document.getElementById('ks-pronounce-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-pronounce-script';
@@ -999,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* Charge la recherche globale (bouton flottant + ⌘K) */
-  (function(){
+  if (!_ksIsLight) (function(){
     if (document.getElementById('ks-search-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-search-script';
@@ -1029,8 +1041,8 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* Charge le tour d'onboarding (self-disable hors app.html/index.html
-     et si ks_onboarded déjà posé) */
-  (function(){
+     et si ks_onboarded déjà posé) — skip aussi sur pages info pures */
+  if (!_ksIsLight || _ksHere === 'index.html' || _ksHere === '') (function(){
     if (document.getElementById('ks-onboarding-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-onboarding-script';
@@ -1040,7 +1052,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   /* Charge les notes personnelles (bouton dans la nav bar) */
-  (function(){
+  if (!_ksIsLight) (function(){
     if (document.getElementById('ks-notes-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-notes-script';
