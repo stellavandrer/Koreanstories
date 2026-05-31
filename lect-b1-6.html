@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>재택근무 — Le télétravail · Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/lect-b1-6.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .3rem;font-family:'Playfair Display',serif;font-size:1.5rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#F59E0B;margin:1.4rem 0 .5rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+    .pill{display:inline-block;background:rgba(245,158,11,.14);color:#92400E;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(245,158,11,.14);color:#92400E;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .hero{background:linear-gradient(135deg,#78350F,#F59E0B);border-radius:16px;padding:1.2rem;color:#fff;margin:.8rem 0}
+    .hero-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#fef3c7;margin-bottom:.3rem}
+    .hero-title{font-size:1.15rem;font-weight:800}
+    .listen-bar{background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(245,158,11,.04));border:1.5px solid rgba(245,158,11,.3);border-radius:14px;padding:.85rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.7rem}
+    .listen-btn{background:#F59E0B;color:#fff;border:none;border-radius:50%;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:16px;height:16px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.9rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.75rem;color:var(--tx-muted)}
+    .para{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.7rem 0;line-height:1.75}
+    .ko{color:#92400E;font-weight:600;font-size:1rem;display:block;margin-bottom:.4rem}
+    [data-theme="dark"] .ko{color:#FCD34D}
+    .ko.listening{box-shadow:0 0 0 2px rgba(245,158,11,.4);background:rgba(245,158,11,.08);border-radius:6px;padding:2px 4px}
+    .fr-text{font-style:italic;color:var(--tx-muted);font-size:.88rem;margin-top:.3rem;padding-top:.5rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .speak-btn{background:rgba(245,158,11,.10);border:1.5px solid rgba(245,158,11,.3);border-radius:50%;width:24px;height:24px;cursor:pointer;color:#92400E;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-left:.3rem}
+    .speak-btn svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(245,158,11,.1);color:#92400E;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#92400E;font-weight:700;font-size:.95rem;display:inline}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">재택근무</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <div class="hero">
+    <div class="hero-tag">Lecture · ~350 mots · 13 min</div>
+    <div class="hero-title">재택근무 — Le télétravail</div>
+  </div>
+  <span class="pill">B1 · Société moderne</span> <span class="xp-badge">+25 XP</span>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter"><svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></button>
+    <div class="listen-meta"><div class="listen-title">🎧 Écouter en continu</div><div class="listen-sub" id="listenSub">Voix InJoon · pauses naturelles</div></div>
+  </div>
+
+  <div id="storyContent">
+
+  <div class="para">
+    <span class="ko">코로나19 이후, 한국의 직장 문화는 크게 바뀌었어요. <button class="speak-btn" onclick="window.speak('한국의 직장 문화는 크게 바뀌었어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg></button></span>
+    <span class="ko">예전에는 매일 회사에 가는 것이 당연했지만, 이제는 재택근무가 일반화되고 있어요.</span>
+    <span class="ko">특히 IT 회사들은 직원에게 일주일에 며칠은 집에서 일하는 자유를 줘요.</span>
+    <div class="fr-text">Depuis la COVID-19, la culture du travail en Corée a beaucoup changé. Avant, aller au bureau tous les jours était évident, mais maintenant le télétravail se généralise. En particulier, les entreprises IT donnent à leurs employés la liberté de travailler depuis la maison quelques jours par semaine.</div>
+  </div>
+
+  <div class="para">
+    <span class="ko">재택근무에는 분명히 장점이 많아요.</span>
+    <span class="ko">출퇴근 시간이 사라지면서 가족과 보내는 시간이 늘었고, 자기 페이스대로 일할 수 있어요.</span>
+    <span class="ko">또, 점심을 집에서 먹으니까 돈도 절약돼요.</span>
+    <div class="fr-text">Le télétravail a clairement de nombreux avantages. Comme le temps de trajet disparaît, le temps passé en famille a augmenté et on peut travailler à son propre rythme. Aussi, comme on déjeune à la maison, on économise de l'argent.</div>
+  </div>
+
+  <div class="para">
+    <span class="ko">반면에 단점도 있어요.</span>
+    <span class="ko">집에서 일하다 보면 회사와 개인 생활의 경계가 흐려져요. <button class="speak-btn" onclick="window.speak('회사와 개인 생활의 경계가 흐려져요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg></button></span>
+    <span class="ko">동료들과 직접 만나지 못하니까 외로움을 느끼는 사람도 적지 않아요.</span>
+    <div class="fr-text">En revanche, il y a aussi des inconvénients. Quand on travaille de la maison, la frontière entre l'entreprise et la vie privée devient floue. Comme on ne rencontre pas ses collègues en personne, beaucoup de gens ressentent de la solitude.</div>
+  </div>
+
+  <div class="para">
+    <span class="ko">젊은 세대는 재택근무를 선호하는 편이에요.</span>
+    <span class="ko">한 조사에 따르면, 30대 직장인 약 70%가 재택근무 가능한 회사를 더 매력적으로 본다고 해요.</span>
+    <span class="ko">반대로, 40대 이상은 사무실 근무를 더 편하게 느끼는 경우가 많아요.</span>
+    <div class="fr-text">La jeune génération a tendance à préférer le télétravail. Selon une enquête, environ 70% des trentenaires actifs trouvent plus attractives les entreprises permettant le télétravail. À l'inverse, les plus de 40 ans trouvent souvent le travail au bureau plus confortable.</div>
+  </div>
+
+  <div class="para">
+    <span class="ko">앞으로 한국의 직장 문화는 어떻게 변할까요?</span>
+    <span class="ko">전문가들은 '하이브리드 근무'가 새로운 표준이 될 것이라고 예상해요.</span>
+    <span class="ko">사무실에 가는 날과 집에서 일하는 날을 적절히 섞는 방식이지요.</span>
+    <span class="ko">중요한 건, 일과 삶의 균형을 어떻게 만드느냐예요.</span>
+    <div class="fr-text">Comment la culture du travail coréen va-t-elle évoluer à l'avenir ? Les experts prévoient que le « travail hybride » deviendra le nouveau standard. C'est un mode qui mélange judicieusement les jours au bureau et les jours à la maison. L'important, c'est comment créer l'équilibre entre travail et vie personnelle.</div>
+  </div>
+
+  </div>
+
+  <h3>Vocabulaire B1</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">재택근무</span></td><td>télétravail</td></tr>
+    <tr><td><span class="ko">직장 문화</span></td><td>culture du travail</td></tr>
+    <tr><td><span class="ko">당연하다</span></td><td>aller de soi</td></tr>
+    <tr><td><span class="ko">일반화되다</span></td><td>se généraliser</td></tr>
+    <tr><td><span class="ko">출퇴근</span></td><td>aller-retour travail</td></tr>
+    <tr><td><span class="ko">자기 페이스대로</span></td><td>à son propre rythme</td></tr>
+    <tr><td><span class="ko">절약되다</span></td><td>être économisé</td></tr>
+    <tr><td><span class="ko">단점</span></td><td>inconvénient</td></tr>
+    <tr><td><span class="ko">경계가 흐려지다</span></td><td>la frontière devient floue</td></tr>
+    <tr><td><span class="ko">외로움</span></td><td>solitude</td></tr>
+    <tr><td><span class="ko">선호하다</span></td><td>préférer</td></tr>
+    <tr><td><span class="ko">조사에 따르면</span></td><td>selon une enquête</td></tr>
+    <tr><td><span class="ko">매력적</span></td><td>attractif</td></tr>
+    <tr><td><span class="ko">전문가</span></td><td>expert</td></tr>
+    <tr><td><span class="ko">하이브리드</span></td><td>hybride</td></tr>
+    <tr><td><span class="ko">표준</span></td><td>standard, norme</td></tr>
+    <tr><td><span class="ko">일과 삶의 균형</span></td><td>équilibre travail/vie</td></tr>
+  </table></div>
+
+  <button class="btn-done" onclick="completeLesson()">Terminer — +25 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Lectures</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn'), icon = document.getElementById('listenIcon'), sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Voix InJoon · pauses naturelles'; return; }
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.querySelectorAll('#storyContent .ko').forEach(el => { const c = el.cloneNode(true); c.querySelectorAll('.speak-btn').forEach(b => b.remove()); items.push({ el, text: c.textContent.trim() }); });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé'; _listenSession = null; document.querySelectorAll('.listening').forEach(e => e.classList.remove('listening')); return; }
+    const item = items[i]; item.el.classList.add('listening'); sub.textContent = `Phrase ${i+1} / ${items.length}`;
+    window.speakAs(item.text, 'injoon', null, { onended(){ item.el.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='!'||last==='?') ? 700 : (last==='.') ? 500 : 350; i++; setTimeout(next, pause); }, onerror(){ item.el.classList.remove('listening'); i++; setTimeout(next, 250); } });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(e => e.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){
+  try{const prev=parseInt(localStorage.getItem('ks_xp')||'0');if(!localStorage.getItem('ks_lect_b1_6_xp')){localStorage.setItem('ks_xp',String(prev+25));localStorage.setItem('ks_lect_b1_6_xp','1');const _dk='ks_xp_day_'+new Date().toISOString().slice(0,10);localStorage.setItem(_dk,String(parseInt(localStorage.getItem(_dk)||'0')+25));}localStorage.setItem('ks_lect_b1_6','done');}catch(e){}
+  location.href='lecture.html';
+}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
