@@ -264,7 +264,10 @@ function _ksLoadManifest() {
 /* Précharge le manifest dès le chargement de la page (non bloquant) */
 if (typeof window !== 'undefined') { try { _ksLoadManifest(); } catch(e){} }
 
-function _ksFallbackTTS(text, btn) {
+function _ksFallbackTTS(text, btn, opts) {
+  opts = opts || {};
+  var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
+  var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
   /* Voix du navigateur — pour les mots qui n'ont pas de MP3
      (onomatopées, ou textes ajoutés après la dernière génération).
      On essaie de matcher le genre choisi par l'utilisateur. */
@@ -278,25 +281,26 @@ function _ksFallbackTTS(text, btn) {
     if (v) u.voice = v;
     /* Si on a choisi une voix masculine mais qu'on n'en a aucune,
        on baisse un peu le pitch pour faire "plus masculin". */
-    var pref = (typeof ksGetVoice === 'function') ? ksGetVoice() : 'sunhi';
+    var pref = (typeof ksGetVoice === 'function') ? ksGetVoice() : 'injoon';
     if (pref !== 'sunhi' && v && _ksFemaleVoice && v === _ksFemaleVoice) {
       u.pitch = 0.7;  // approximation grossière
       u.rate  = 0.85;
     }
-    if (btn) {
-      u.onend  = function() { btn.classList.remove('playing'); };
-      u.onerror = function() { btn.classList.remove('playing'); };
-    }
+    u.onend  = function() { if (btn) btn.classList.remove('playing'); if (onEnded) onEnded(); };
+    u.onerror = function() { if (btn) btn.classList.remove('playing'); if (onError) onError(); };
     window.speechSynthesis.speak(u);
-  } catch(e) { if (btn) btn.classList.remove('playing'); }
+  } catch(e) { if (btn) btn.classList.remove('playing'); if (onError) onError(); }
 }
 
 /**
  * speak(text, btn) — joue le MP3 natif s'il existe, sinon utilise
  * la synthèse vocale du navigateur en fallback.
  */
-function speak(text, btn) {
+function speak(text, btn, opts) {
   if (!text) return;
+  opts = opts || {};
+  var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
+  var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
   /* Stop tout audio en cours */
   if (_ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} _ksCurrentAudio = null; }
   try { window.speechSynthesis.cancel(); } catch(e){}
@@ -313,23 +317,29 @@ function speak(text, btn) {
   _ksLoadManifest().then(function(manifest){
     var hash = manifest[cleaned];
     if (!hash) {
-      /* Pas de MP3 enregistré → fallback navigateur */
-      _ksFallbackTTS(text, btn);
+      /* Pas de MP3 enregistré → fallback navigateur. On approxime
+         onended en utilisant l'événement onend de SpeechSynthesisUtterance
+         (géré dans _ksFallbackTTS si on lui passe les callbacks). */
+      _ksFallbackTTS(text, btn, { onended: onEnded, onerror: onError });
       return;
     }
     /* Construit le chemin avec la voix préférée de l'utilisateur. */
     var src = 'audio/' + ksGetVoice() + '/' + hash;
     var audio = new Audio(src);
     _ksCurrentAudio = audio;
-    audio.onended = function(){ if (btn) btn.classList.remove('playing'); if (_ksCurrentAudio===audio) _ksCurrentAudio=null; };
+    audio.onended = function(){
+      if (btn) btn.classList.remove('playing');
+      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
+      if (onEnded) onEnded();
+    };
     audio.onerror = function(){
       /* Le MP3 a échoué (réseau ?) → on retombe sur la voix navigateur */
       if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
-      _ksFallbackTTS(text, btn);
+      _ksFallbackTTS(text, btn, { onended: onEnded, onerror: onError });
     };
     audio.play().catch(function(){
       _ksCurrentAudio = null;
-      _ksFallbackTTS(text, btn);
+      _ksFallbackTTS(text, btn, { onended: onEnded, onerror: onError });
     });
   });
 }

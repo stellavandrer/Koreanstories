@@ -1237,14 +1237,21 @@ function _playNext() {
   const fw = document.getElementById('fw-'+w.id);
   if(fw) { fw.style.outline='2px solid var(--gold)'; fw.style.borderRadius='22px'; fw.scrollIntoView({behavior:'smooth',block:'nearest'}); }
 
-  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(w.audio)}&tl=ko&client=tw-ob`;
-  const a   = new Audio(url);
-  a.onended = () => {
+  /* Utilise le système d'audio InJoon de ks.js avec callback onended
+     pour enchaîner les mots automatiquement. */
+  if (typeof window.speak === 'function') {
+    window.speak(w.audio, null, {
+      onended: () => {
+        _playAllIdx++;
+        _playAllTimer = setTimeout(_playNext, 900);
+      },
+      onerror: () => { _playAllIdx++; _playNext(); }
+    });
+  } else {
+    /* Fallback ultime si ks.js n'est pas chargé */
     _playAllIdx++;
     _playAllTimer = setTimeout(_playNext, 900);
-  };
-  a.onerror = () => { _playAllIdx++; _playNext(); };
-  a.play().catch(() => { _playAllIdx++; _playNext(); });
+  }
 }
 
 function stopPlayAll(finished) {

@@ -2732,8 +2732,18 @@
       }
 
       window.speakDefi = function(){
-        const a = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(word.kr)+'&tl=ko&client=tw-ob');
-        a.play().catch(()=>{});
+        /* Utilise le système d'audio de ks.js : MP3 InJoon pré-générés
+           dans audio/injoon/ avec fallback speechSynthesis si manquant. */
+        if (typeof window.speak === 'function') {
+          window.speak(word.kr);
+        } else {
+          /* Fallback ultime : speechSynthesis natif si ks.js n'est pas chargé */
+          try {
+            const u = new SpeechSynthesisUtterance(word.kr);
+            u.lang = 'ko-KR';
+            window.speechSynthesis.speak(u);
+          } catch(e) {}
+        }
       };
 
       window.answerDefi = function(btn, chosen, correct, key){

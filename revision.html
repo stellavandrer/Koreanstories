@@ -1212,12 +1212,15 @@ function _stopAll(){ if(_curAudio){ _curAudio.pause(); _curAudio=null; } if(wind
 
 function playAudio(text) {
   _stopAll();
-  const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ko&client=tw-ob`;
-  const a = new Audio(url);
-  _curAudio = a;
-  a.onended = () => { _curAudio=null; };
-  a.onerror = () => { _curAudio=null; _wsSpeak(text); };
-  a.play().catch(() => { _curAudio=null; _wsSpeak(text); });
+  /* Utilise le système d'audio de ks.js (MP3 InJoon locaux dans
+     audio/injoon/, fallback speechSynthesis si manquant) au lieu
+     du endpoint Google Translate non-officiel qui bloque souvent
+     et n'utilise pas la voix InJoon. */
+  if (typeof window.speak === 'function') {
+    window.speak(text);
+  } else {
+    _wsSpeak(text);
+  }
 }
 function playQ() { const q=questions[qIndex]; if(q) playAudio(q.audio); }
 
