@@ -1096,13 +1096,19 @@
     </div>
   </div>
 
-  <!-- GREETING -->
+  <!-- GREETING (avec heure de Séoul intégrée) -->
   <div class="greeting">
     <div class="greeting-inner">
       <div class="greeting-text">
         <div class="g-badge" id="greetBadge">Jour 1 — bienvenue&thinsp;!</div>
         <h1 class="g-name" id="greetTitle">Bonjour&thinsp;!</h1>
         <p class="g-sub" id="greetSub">같이 공부해요&thinsp;! Commençons&thinsp;!</p>
+        <div id="seoulClock" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:rgba(201,169,110,.10);border:1px solid rgba(201,169,110,.25);padding:4px 10px;border-radius:100px;font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.02em">
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Séoul</span>
+          <span style="opacity:.5">·</span>
+          <span id="seoulTime" style="font-variant-numeric:tabular-nums">--:--</span>
+        </div>
       </div>
       <div class="g-icon-wrap">
         <svg viewBox="0 0 24 24" style="width:36px;height:36px;fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>
@@ -1110,19 +1116,7 @@
     </div>
   </div>
 
-  <!-- WEEKLY CHALLENGES déplacés en bas, juste avant "Cette semaine" -->
-
-  <!-- FAIT DU JOUR -->
-  <div class="fact-card" id="factCard" style="background:linear-gradient(135deg,rgba(201,169,110,.08),rgba(11,28,52,.04));border:1px solid rgba(201,169,110,.22);border-radius:18px;padding:14px 16px;margin:16px 14px 0;display:none">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <span style="font-size:9px;font-weight:800;letter-spacing:.12em;color:var(--gold);text-transform:uppercase" id="factCat">Le saviez-vous</span>
-    </div>
-    <div id="factTitle" style="font-size:14px;font-weight:700;color:var(--tx);line-height:1.35;margin-bottom:5px"></div>
-    <div id="factBody" style="font-size:12.5px;color:var(--tx-muted);line-height:1.55"></div>
-  </div>
-
-  <!-- DAILY GOAL -->
+  <!-- DAILY GOAL (remonté juste après le greeting) -->
   <div class="goal-strip">
     <div class="goal-card">
       <div class="goal-top">
@@ -1139,6 +1133,18 @@
         <div class="gbar"><div class="gfill" id="weekGoalFill" style="width:0%"></div></div>
       </div>
     </div>
+  </div>
+
+  <!-- WEEKLY CHALLENGES déplacés en bas, juste avant "Cette semaine" -->
+
+  <!-- ANECDOTE DU JOUR (Fait du jour activé via JS daily anecdotes) -->
+  <div class="fact-card" id="factCard" style="background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(11,28,52,.04));border:1px solid rgba(201,169,110,.28);border-radius:18px;padding:14px 16px;margin:16px 14px 0">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span style="font-size:9px;font-weight:800;letter-spacing:.12em;color:var(--gold);text-transform:uppercase" id="factCat">Aujourd'hui en Corée</span>
+    </div>
+    <div id="factTitle" style="font-size:14px;font-weight:700;color:var(--tx);line-height:1.35;margin-bottom:5px">Chargement…</div>
+    <div id="factBody" style="font-size:12.5px;color:var(--tx-muted);line-height:1.55"></div>
   </div>
 
   <!-- STREAK CARD (caché — redondant avec la pill streak du top bar et la Streak Protection conditionnelle) -->
@@ -3602,6 +3608,188 @@ document.addEventListener('click', function(e){
   }
   /* Re-render après auth sync, comme les autres cards */
   setTimeout(updateProgressCards, 900);
+})();
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   HEURE DE SÉOUL + ANECDOTE DU JOUR
+   - Horloge mise à jour toutes les 30s (heure locale coréenne)
+   - Anecdote pickée selon la date à Séoul (MM-DD)
+   - Fallback saisonnier si pas d'entrée pour le jour
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+
+  /* ───────── Anecdotes datées (MM-DD) ───────── */
+  const KS_ANECDOTES = {
+    /* Janvier */
+    '01-01': { t:'설날 양력 — Nouvel An solaire', b:'En Corée, le Nouvel An solaire (양력설) est férié mais discret. La vraie fête, c\'est Seollal (lunaire), qui tombe entre fin janvier et mi-février.' },
+    '01-15': { t:'Saison du ski en pleine forme', b:'Mi-janvier, les stations comme Yongpyong et High1 attirent des milliers de visiteurs. Le froid sec et la neige artificielle font de la Corée un spot ski abordable.' },
+    '01-20': { t:'대한 — Le grand froid', b:'대한 (Daehan) est le 24ᵉ terme solaire, traditionnellement le pic de l\'hiver. Les Coréens disent : « après Daehan, le printemps approche. »' },
+
+    /* Février */
+    '02-04': { t:'입춘 — Début du printemps', b:'입춘 (Ipchun) marque le début symbolique du printemps dans le calendrier solaire coréen. Beaucoup accrochent encore aujourd\'hui le « 입춘대길 » à leur porte pour invoquer la chance.' },
+    '02-14': { t:'Saint-Valentin version coréenne', b:'En Corée, c\'est la FEMME qui offre du chocolat à l\'homme le 14 février. Le 14 mars (White Day), l\'homme rend la pareille avec des bonbons.' },
+
+    /* Mars */
+    '03-01': { t:'삼일절 — Mouvement du 1ᵉʳ Mars', b:'Jour férié national qui commémore la déclaration d\'indépendance de 1919 contre l\'occupation japonaise. Des cérémonies ont lieu partout dans le pays.' },
+    '03-14': { t:'화이트 데이 — White Day', b:'Un mois après la Saint-Valentin, les hommes offrent des bonbons blancs aux femmes. Si tu n\'as rien reçu... rendez-vous le 14 avril pour le Black Day !' },
+    '03-20': { t:'춘분 — Équinoxe de printemps', b:'춘분 (Chunbun) — jour et nuit s\'équilibrent. C\'est aussi le moment des semis dans les campagnes coréennes.' },
+
+    /* Avril */
+    '04-05': { t:'식목일 — Jour de l\'arbre', b:'Depuis 1949, les Coréens plantent symboliquement des arbres ce jour-là pour reboiser le pays après les ravages de la guerre. Toujours célébré dans les écoles.' },
+    '04-14': { t:'블랙 데이 — Black Day', b:'Les célibataires qui n\'ont rien reçu en février ni en mars se retrouvent pour manger... du 짜장면 (nouilles à la sauce noire). Tradition humoristique née dans les années 2000.' },
+
+    /* Mai */
+    '05-05': { t:'어린이날 — Fête des enfants', b:'Jour férié. Parcs d\'attractions bondés, cadeaux, sorties en famille. Créée par l\'écrivain Bang Jeong-hwan en 1923 pour rappeler que les enfants méritent du respect.' },
+    '05-08': { t:'어버이날 — Fête des parents', b:'Pas séparée comme en France : les Coréens fêtent papa ET maman le même jour. On offre un œillet rouge (카네이션) et on partage un repas.' },
+    '05-15': { t:'스승의 날 — Fête des professeurs', b:'Les élèves offrent des fleurs et des lettres à leurs profs actuels et anciens. Date choisie pour l\'anniversaire du roi Sejong, créateur du hangeul.' },
+
+    /* Juin */
+    '06-01': { t:'Début de l\'été coréen', b:'Juin marque la transition vers la saison chaude. Les terrasses de cafés à Séoul se remplissent, et les vendeurs de 빙수 (glace râpée) ressortent leurs machines.' },
+    '06-06': { t:'현충일 — Memorial Day', b:'Jour férié pour honorer les soldats et civils morts pour le pays, notamment pendant la guerre de Corée. Minute de silence à 10h dans tout le pays.' },
+    '06-21': { t:'하지 — Solstice d\'été', b:'하지 (Haji) — la journée la plus longue. Tradition : manger des nouilles fraîches comme le 콩국수 (nouilles dans un bouillon de soja glacé).' },
+    '06-25': { t:'6·25 — Début de la guerre de Corée', b:'Le 25 juin 1950, la guerre de Corée commençait. Date commémorée chaque année, particulièrement importante pour la mémoire nationale.' },
+
+    /* Juillet */
+    '07-07': { t:'칠석 — Légende des amants étoilés', b:'Selon la légende, les amants 견우 (Gyeonu) et 직녀 (Jingnyeo) ne se retrouvent qu\'une fois par an grâce aux pies qui forment un pont céleste.' },
+    '07-15': { t:'장마 — La saison des pluies', b:'Mi-juillet, c\'est généralement le cœur du 장마, la mousson coréenne. Pluies torrentielles, humidité, et un soudain amour collectif pour le 파전 (galette à l\'oignon).' },
+
+    /* Août */
+    '08-15': { t:'광복절 — Jour de la Libération', b:'Jour férié. Commémoration de la fin de l\'occupation japonaise en 1945. Drapeau national 태극기 (Taegeukgi) accroché aux fenêtres dans tout le pays.' },
+
+    /* Septembre */
+    '09-10': { t:'추석 approche — préparatifs', b:'Mi-septembre, les familles commencent à préparer le 추석 (Chuseok, Thanksgiving coréen). Achat des ingrédients pour les 송편 (gâteaux de riz en forme de demi-lune).' },
+    '09-23': { t:'추분 — Équinoxe d\'automne', b:'추분 (Chubun) — la chaleur s\'efface, le ciel devient « haut et bleu » (천고마비). Saison préférée des Coréens.' },
+
+    /* Octobre */
+    '10-03': { t:'개천절 — Fondation de la nation', b:'Jour férié. Commémore la fondation mythique du royaume de Gojoseon par Dangun en 2333 av. J.-C. Cérémonie au mont Mani sur l\'île de Ganghwa.' },
+    '10-09': { t:'한글날 — Jour du Hangeul', b:'Jour férié dédié à l\'alphabet coréen, créé en 1443 par le roi Sejong. Le hangeul est l\'un des rares alphabets au monde dont on connaît la date de création.' },
+    '10-15': { t:'Saison du kimjang qui approche', b:'Mi-octobre, les marchés se remplissent de choux Napa. Les familles commencent à préparer le 김장 (préparation collective du kimchi pour l\'hiver), classé patrimoine UNESCO.' },
+    '10-25': { t:'단풍 — Pic des feuillages', b:'Fin octobre, les montagnes coréennes flamboient. Naejangsan, Seoraksan et Bukhansan se remplissent de randonneurs venus voir les 단풍 (érables rouges).' },
+
+    /* Novembre */
+    '11-11': { t:'빼빼로 데이 — Pepero Day', b:'Le 11/11 (quatre bâtonnets verticaux), les Coréens s\'offrent des biscuits 빼빼로. Lancée commercialement par Lotte dans les années 1990, c\'est devenu un vrai phénomène.' },
+    '11-15': { t:'김장 en plein cœur', b:'Mi-novembre, c\'est la haute saison du 김장. Les familles préparent jusqu\'à 100 choux ensemble. Patrimoine immatériel de l\'UNESCO depuis 2013.' },
+    '11-22': { t:'수능 — Examen national', b:'Le jeudi de mi-novembre, c\'est le 수능 (Suneung), l\'examen d\'entrée à l\'université. Le pays entier ralentit : vols détournés, bourse retardée, silence imposé près des centres.' },
+
+    /* Décembre */
+    '12-22': { t:'동지 — Solstice d\'hiver', b:'동지 (Dongji) — la nuit la plus longue. Tradition : manger du 팥죽 (porridge de haricots rouges) pour éloigner les mauvais esprits.' },
+    '12-25': { t:'크리스마스 — Noël en Corée', b:'Férié, mais surtout fête de couples (comme la Saint-Valentin en France). Les familles dînent plus simplement, les rues de Myeongdong scintillent de décorations.' },
+    '12-31': { t:'제야의 종 — Cloche du Nouvel An', b:'À minuit, la cloche Bosingak à Séoul résonne 33 fois. Cérémonie diffusée à la télévision, foules massives autour du centre-ville.' }
+  };
+
+  /* ───────── Anecdotes saisonnières (fallback) ───────── */
+  const KS_SEASONAL = {
+    spring: [
+      { t:'벚꽃 — Saison des cerisiers', b:'D\'avril à début mai, les cerisiers fleurissent. Le festival le plus célèbre est celui de Jinhae, mais Yeouido à Séoul attire aussi les foules.' },
+      { t:'미세먼지 — Poussières fines', b:'Le printemps coréen est aussi celui des 미세먼지 (poussières fines). Beaucoup consultent l\'application 미세먼지 chaque matin avant de sortir.' },
+      { t:'딸기 partout', b:'Le printemps, c\'est la saison des fraises coréennes 딸기. Cafés et pâtisseries proposent des desserts éphémères : 딸기 케이크, 딸기 빙수, 딸기 라떼.' }
+    ],
+    summer: [
+      { t:'삼계탕 en été', b:'Tradition coréenne : pour combattre la chaleur, on mange chaud ! Le 삼계탕 (poulet ginseng) se déguste pendant les 3 jours les plus chauds, appelés 삼복 (sambok).' },
+      { t:'한강에서 — Soirées au Han', b:'L\'été à Séoul, les berges du Han se remplissent. Bières, 치킨 livré directement sur l\'herbe, ambiance festive jusqu\'à tard.' },
+      { t:'빙수 — La glace râpée', b:'팥빙수 (haricots rouges), 망고빙수, 멜론빙수… le 빙수 est LE dessert d\'été. Certains cafés en font des montagnes de 30 cm de haut.' }
+    ],
+    autumn: [
+      { t:'천고마비 — Le ciel haut et bleu', b:'L\'automne coréen est célèbre pour son ciel pur et son air sec. L\'expression 천고마비 signifie littéralement « ciel haut, chevaux gras » : la saison idéale.' },
+      { t:'은행나무 — Allées de ginkgo', b:'En octobre-novembre, les ginkgos jaunissent. À Séoul, l\'avenue de Deoksugung et les rues autour de Gyeongbokgung deviennent dorées.' },
+      { t:'송이버섯 — Saison du matsutake', b:'L\'automne, c\'est la saison du 송이 (matsutake coréen), champignon de luxe cueilli dans les forêts de pins. Ultra-cher, ultra-parfumé.' }
+    ],
+    winter: [
+      { t:'붕어빵 — Le poisson sucré', b:'Hiver = 붕어빵 ! Petites pâtisseries en forme de poisson fourrées à la pâte de haricots rouges ou à la crème, vendues en charrette dans la rue.' },
+      { t:'군고구마 — Patates douces grillées', b:'L\'odeur des 군고구마 (patates douces grillées) sur les charrettes de rue est l\'un des grands plaisirs de l\'hiver coréen.' },
+      { t:'온돌 — Le sol chauffant', b:'Les Coréens vivent au sol depuis toujours grâce au 온돌, système de chauffage millénaire intégré au plancher. Aujourd\'hui électrique, hier au bois.' }
+    ]
+  };
+
+  /* ───────── Date à Séoul (YYYY-MM-DD) ───────── */
+  function getSeoulDateStr(){
+    try {
+      // en-CA donne YYYY-MM-DD
+      return new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Seoul' }).format(new Date());
+    } catch (e) {
+      const d = new Date();
+      const pad = n => String(n).padStart(2,'0');
+      return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+    }
+  }
+
+  /* ───────── Saison d'après le mois ───────── */
+  function seasonFromMonth(m){
+    if (m >= 3 && m <= 5) return 'spring';
+    if (m >= 6 && m <= 8) return 'summer';
+    if (m >= 9 && m <= 11) return 'autumn';
+    return 'winter';
+  }
+
+  /* ───────── Pick déterministe pour fallback saisonnier ───────── */
+  function pickSeasonal(season, dayOfYear){
+    const arr = KS_SEASONAL[season] || KS_SEASONAL.winter;
+    return arr[dayOfYear % arr.length];
+  }
+
+  function dayOfYear(dateStr){
+    const [y,m,d] = dateStr.split('-').map(Number);
+    const start = new Date(y, 0, 0);
+    const now = new Date(y, m-1, d);
+    return Math.floor((now - start) / 86400000);
+  }
+
+  /* ───────── Horloge Séoul ───────── */
+  function updateSeoulTime(){
+    const el = document.getElementById('seoulTime');
+    if (!el) return;
+    try {
+      const t = new Intl.DateTimeFormat('fr-FR', {
+        timeZone:'Asia/Seoul',
+        hour:'2-digit',
+        minute:'2-digit',
+        hour12:false
+      }).format(new Date());
+      el.textContent = t;
+    } catch (e) {
+      el.textContent = '--:--';
+    }
+  }
+
+  /* ───────── Charger l'anecdote du jour ───────── */
+  function loadDailyAnecdote(){
+    const factCat = document.getElementById('factCat');
+    const factTitle = document.getElementById('factTitle');
+    const factBody = document.getElementById('factBody');
+    if (!factTitle || !factBody) return;
+
+    const seoulDate = getSeoulDateStr(); // YYYY-MM-DD
+    const mmdd = seoulDate.slice(5);     // MM-DD
+    const month = Number(seoulDate.slice(5,7));
+
+    let entry = KS_ANECDOTES[mmdd];
+    if (!entry) {
+      entry = pickSeasonal(seasonFromMonth(month), dayOfYear(seoulDate));
+    }
+
+    if (factCat) factCat.textContent = 'Aujourd\'hui en Corée';
+    factTitle.textContent = entry.t;
+    factBody.textContent = entry.b;
+  }
+
+  /* ───────── Init ───────── */
+  function init(){
+    updateSeoulTime();
+    loadDailyAnecdote();
+    // refresh time every 30s (good enough — minute resolution display)
+    setInterval(updateSeoulTime, 30000);
+    // re-pick anecdote at midnight Seoul time (in case page stays open)
+    setInterval(loadDailyAnecdote, 60 * 60 * 1000); // hourly check
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 </script>
 </div><!-- .page-enter -->
