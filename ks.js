@@ -296,11 +296,47 @@ function _ksFallbackTTS(text, btn, opts) {
  * speak(text, btn) — joue le MP3 natif s'il existe, sinon utilise
  * la synthèse vocale du navigateur en fallback.
  */
+/* Liste des noms de personnages féminins → voix SunHi
+   Couvre les histoires 1-30 existantes ainsi que les nouvelles. */
+var KS_FEMALE_SPEAKERS = [
+  'mina','emma','maman','mère','mom','elle','eun','soyeon',
+  'jiwoo (f)','sunhi','minji','민지','지영','sophie','julie',
+  'leyla','soyeon','수영','수진','intervieweuse','vendeuse',
+  'serveuse','professeure','prof (f)','infirmière','dame','elle:',
+  'amie','sœur','soeur','tante','grand-mère','grand-mere','halmeoni'
+];
+
+/* Détecte si le bouton est dans une bulle de personnage féminin via
+   le span .speaker-name (pattern utilisé par toutes les histoires).
+   Renvoie 'sunhi' si féminin détecté, null sinon. */
+function _ksDetectFemaleSpeaker(btn) {
+  if (!btn) return null;
+  try {
+    var bubble = btn.closest('.bubble');
+    if (!bubble) return null;
+    var nameEl = bubble.querySelector('.speaker-name');
+    if (!nameEl) return null;
+    var raw = (nameEl.textContent || '').toLowerCase().trim();
+    for (var i = 0; i < KS_FEMALE_SPEAKERS.length; i++) {
+      if (raw.indexOf(KS_FEMALE_SPEAKERS[i]) !== -1) return 'sunhi';
+    }
+  } catch (e) {}
+  return null;
+}
+
 function speak(text, btn, opts) {
   if (!text) return;
   opts = opts || {};
   var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
   var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
+  /* Auto-routage voix féminine si bouton dans une bulle de personnage
+     féminin (Mina, Emma, etc. dans toutes les histoires existantes).
+     Si une voix override est déjà demandée via speakAs, ce code ne
+     tourne pas (speakAs court-circuite cette fonction). */
+  var autoFemale = _ksDetectFemaleSpeaker(btn);
+  if (autoFemale === 'sunhi') {
+    return speakAs(text, 'sunhi', btn, opts);
+  }
   /* Stop tout audio en cours */
   if (_ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} _ksCurrentAudio = null; }
   try { window.speechSynthesis.cancel(); } catch(e){}
