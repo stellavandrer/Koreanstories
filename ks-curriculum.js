@@ -151,6 +151,40 @@
   };
 
   function ls(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k,v) { try { localStorage.setItem(k,v); } catch (e) {} }
+  function lsRemove(k) { try { localStorage.removeItem(k); } catch (e) {} }
+
+  /* ───────────────────────────────────────────────────────────────
+     Migration v3 — réparation de progressions corrompues
+     Bugs historiques traités :
+     - lecon9.html (Diphtongues Hangeul) écrivait `ks_a22` (qui correspond
+       à lecon41 « Verbes essentiels » dans le curriculum) au lieu de
+       `ks_h14`. Conséquence : Diphtongues n'était jamais marquée OK,
+       et Verbes essentiels apparaissait OK sans avoir été faite.
+     - 13 lecons A1/A2 (lecon15-27) avaient une erreur de syntaxe JS
+       qui empêchait `completeLesson()` de fonctionner. Rien à
+       migrer côté progression — le code corrigé prendra le relais
+       au prochain passage de l'utilisateur sur ces leçons.
+     ─────────────────────────────────────────────────────────────── */
+  (function migrate(){
+    if (ls('ks_mig_v3') === '1') return;
+    try {
+      // 1. Si l'utilisateur a fait lecon9 (ks_l9='done'), on garantit
+      //    que ks_h14 (Diphtongues, vraie clé curriculum) est aussi OK
+      if (ls('ks_l9') === 'done' && ls('ks_h14') !== 'done') {
+        lsSet('ks_h14', 'done');
+      }
+      // 2. Si ks_a22 (Verbes essentiels = lecon41) était marqué OK
+      //    UNIQUEMENT à cause du bug lecon9, il faut le déclassifier.
+      //    Heuristique : si ks_a22='done' ET aucun marqueur explicite
+      //    de lecon41 (ks_l41 n'existe pas, ks_a22_xp n'est pas posé
+      //    par lecon41), ET ks_l9='done', alors c'est un faux positif.
+      if (ls('ks_a22') === 'done' && ls('ks_l9') === 'done' && !ls('ks_a22_xp')) {
+        lsRemove('ks_a22');
+      }
+    } catch (e) {}
+    lsSet('ks_mig_v3', '1');
+  })();
 
   /* Une activité est terminée si sa clé (ou son alias) vaut done / 1 / true */
   function isDone(key) {

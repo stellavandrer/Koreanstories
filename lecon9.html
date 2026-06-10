@@ -819,7 +819,7 @@ function showResults(){
   if(score===TOTAL_Q){txt='완벽해요 ! Score parfait !';msg='Incroyable ! Tu maîtrises <strong>ㅘ, ㅝ, ㅕ</strong>. Continue !';img=A.b;}
   else if(pct>=.6){txt='잘했어요 ! Très bien !';msg='Bon travail sur la leçon 9 ! Continue pour ancrer ces sons !';img=A.b;}
   else{txt='괜찮아요 ! Recommence — tu vas y arriver !';msg='Recommence pour bien ancrer <strong>ㅘ, ㅝ, ㅕ</strong>. 화이팅 !';img=A.a;}
-  try{localStorage.setItem('ks_l9','done');localStorage.setItem('ks_a22','done');const prev=parseInt(localStorage.getItem('ks_xp')||'0');if(!localStorage.getItem('ks_l9_xp')){localStorage.setItem('ks_xp',String(prev+xp));localStorage.setItem('ks_l9_xp','1');try{const _dk='ks_xp_day_'+new Date().toISOString().slice(0,10);localStorage.setItem(_dk,String(parseInt(localStorage.getItem(_dk)||'0')+xp));}catch(e){}}}catch(e){}
+  try{localStorage.setItem('ks_l9','done');localStorage.setItem('ks_h14','done');const prev=parseInt(localStorage.getItem('ks_xp')||'0');if(!localStorage.getItem('ks_l9_xp')){localStorage.setItem('ks_xp',String(prev+xp));localStorage.setItem('ks_l9_xp','1');try{const _dk='ks_xp_day_'+new Date().toISOString().slice(0,10);localStorage.setItem(_dk,String(parseInt(localStorage.getItem(_dk)||'0')+xp));}catch(e){}}}catch(e){}
   let sk=0;
   try{const t=new Date().toISOString().slice(0,10),l=localStorage.getItem('ks_lastplay'),s=parseInt(localStorage.getItem('ks_streak')||'0');if(l!==t){sk=l&&(new Date(t)-new Date(l))/86400000===1?s+1:1;localStorage.setItem('ks_streak',String(sk));localStorage.setItem('ks_lastplay',t);}else sk=s;}catch(e){}
   si('resMina',img);setMina(txt,img);
