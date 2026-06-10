@@ -233,6 +233,11 @@ function selectAnswer(ans, btn, q) {
   }
 
   document.getElementById('liveScore').textContent = `${score} / ${answered}`;
+  /* La barre d'avancement progresse dès la réponse (sinon « 1/1 » côtoie
+     « 0% » et se lit comme un score nul) */
+  const donePct = Math.round(((current + 1) / TOTAL) * 100);
+  document.getElementById('progBar').style.width = donePct + '%';
+  document.getElementById('progLabel').textContent = donePct + '%';
   document.getElementById('nextBtn').style.display = 'flex';
 }
 

@@ -288,6 +288,15 @@
   function maybeShow(){
     var path = location.pathname.split('/').pop() || '';
     if (path !== 'app.html') return;
+    /* Tout nouvel utilisateur : rien n'est « nouveau » pour lui — on
+       marque tout comme vu sans afficher la modale. Il ne sera notifié
+       que des fonctionnalités ajoutées APRÈS son arrivée. */
+    try {
+      if (!localStorage.getItem('ks_xp') && !localStorage.getItem('ks_lastplay')) {
+        markAllSeen();
+        return;
+      }
+    } catch (e) {}
     /* Attend que la page ait fini de s'animer + le tour si présent */
     var delay = 1500;
     /* Skip si tour en cours */

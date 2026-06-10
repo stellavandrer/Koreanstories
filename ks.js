@@ -252,6 +252,34 @@ try {
   if (_vMigr !== 'injoon') localStorage.setItem('ks_voice', 'injoon');
 } catch (e) {}
 
+/* ── Vitesse de lecture (mode lent 🐢) ──────────────────────────────
+   ks_rate = '0.75' (lent) ou absent/'1' (normal). Appliqué à tous les
+   MP3 via playbackRate (pitch préservé par le navigateur) et au
+   fallback speechSynthesis via u.rate. Persisté entre pages. */
+function ksGetRate() {
+  try { return parseFloat(localStorage.getItem('ks_rate') || '1') || 1; } catch (e) { return 1; }
+}
+function ksSetRate(r) {
+  try { localStorage.setItem('ks_rate', String(r)); } catch (e) {}
+  document.querySelectorAll('.ks-rate-toggle').forEach(function(b){
+    b.classList.toggle('on', r !== 1);
+  });
+}
+window.ksGetRate = ksGetRate;
+window.ksSetRate = ksSetRate;
+function _ksApplyRate(audio) {
+  var r = ksGetRate();
+  if (r !== 1) {
+    try {
+      audio.playbackRate = r;
+      /* Préserve le pitch (évite la voix grave) — défaut true sur
+         Chrome/Firefox modernes, on force pour Safari */
+      audio.preservesPitch = true;
+      audio.webkitPreservesPitch = true;
+    } catch (e) {}
+  }
+}
+
 function _ksLoadManifest() {
   if (_ksAudioManifest) return Promise.resolve(_ksAudioManifest);
   if (_ksAudioManifestLoading) return _ksAudioManifestLoading;
@@ -275,7 +303,7 @@ function _ksFallbackTTS(text, btn, opts) {
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     u.lang  = 'ko-KR';
-    u.rate  = 0.78;
+    u.rate  = 0.78 * ksGetRate();
     u.pitch = 1.0;
     var v = _ksVoiceForChoice();
     if (v) u.voice = v;
@@ -362,6 +390,7 @@ function speak(text, btn, opts) {
     /* Construit le chemin avec la voix préférée de l'utilisateur. */
     var src = 'audio/' + ksGetVoice() + '/' + hash;
     var audio = new Audio(src);
+    _ksApplyRate(audio);
     _ksCurrentAudio = audio;
     audio.onended = function(){
       if (btn) btn.classList.remove('playing');
@@ -422,6 +451,7 @@ function speakAs(text, voiceOverride, btn, opts) {
     /* Construit le chemin avec la voix override */
     var src = 'audio/' + voiceOverride + '/' + hash;
     var audio = new Audio(src);
+    _ksApplyRate(audio);
     _ksCurrentAudio = audio;
     audio.onended = function(){
       if (btn) btn.classList.remove('playing');
@@ -449,7 +479,7 @@ function _ksFallbackForVoice(text, voiceOverride, btn, opts) {
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
     u.lang  = 'ko-KR';
-    u.rate  = 0.78;
+    u.rate  = 0.78 * ksGetRate();
     /* sunhi = femme → utiliser voix féminine si dispo, pitch 1.0
        injoon/hyunsu = homme → voix masculine, pitch 0.85 */
     if (voiceOverride === 'sunhi') {
@@ -1298,5 +1328,40 @@ document.addEventListener('DOMContentLoaded', () => {
     s.src = 'ks-immersive-reader.js';
     s.defer = true;
     document.head.appendChild(s);
+  })();
+
+  /* ── Toggle vitesse lente 🐢 ──────────────────────────────────────
+     Uniquement sur les pages de dialogue/lecture (bulles audio ou
+     bouton « Écouter l'histoire »). Pill fixe en bas à gauche — le
+     coin droit est réservé au FAB recherche. Persiste via ks_rate. */
+  (function(){
+    if (!document.querySelector('.bubble-audio, #listenBtn')) return;
+    if (document.querySelector('.ks-rate-toggle')) return;
+    var st = document.createElement('style');
+    st.textContent =
+      '.ks-rate-toggle{position:fixed;left:14px;bottom:calc(76px + env(safe-area-inset-bottom));' +
+      'z-index:80;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:100px;' +
+      'background:var(--surf,#fff);border:1.5px solid var(--bd,#DAE3F2);color:var(--t2,#475E78);' +
+      'font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;' +
+      'box-shadow:0 4px 16px rgba(0,0,0,.12);transition:all .2s;opacity:.85;-webkit-tap-highlight-color:transparent}' +
+      '.ks-rate-toggle:hover{opacity:1}' +
+      '.ks-rate-toggle.on{background:var(--gold,#B8924E);border-color:var(--gold,#B8924E);color:#fff;opacity:1}' +
+      '.ks-rate-toggle .krt-ico{font-size:13px;line-height:1}';
+    document.head.appendChild(st);
+    var b = document.createElement('button');
+    b.className = 'ks-rate-toggle';
+    b.type = 'button';
+    b.innerHTML = '<span class="krt-ico">🐢</span><span>Lent</span>';
+    b.setAttribute('aria-pressed', ksGetRate() !== 1 ? 'true' : 'false');
+    b.title = 'Lecture ralentie (×0.75) — idéal pour décortiquer la prononciation';
+    if (ksGetRate() !== 1) b.classList.add('on');
+    b.addEventListener('click', function(){
+      var slow = ksGetRate() === 1;
+      ksSetRate(slow ? 0.75 : 1);
+      b.setAttribute('aria-pressed', slow ? 'true' : 'false');
+      /* Applique immédiatement à l'audio en cours de lecture */
+      if (_ksCurrentAudio) { try { _ksApplyRate(_ksCurrentAudio); if (!slow) _ksCurrentAudio.playbackRate = 1; } catch(e){} }
+    });
+    document.body.appendChild(b);
   })();
 });
