@@ -134,6 +134,12 @@ img{display:block;max-width:100%}
 .nav.light .nav-cta{background:var(--navy);color:#fff}
 .nav.light .nav-cta:hover{background:var(--navy2);transform:scale(1.03)}
 .nav-mob{display:none;align-items:center;gap:10px}
+/* Lien Connexion : couleur pilotée par l'état du header (sombre/clair au scroll) */
+.nav-login{font-size:13px;font-weight:500;transition:color var(--tr,.2s)}
+.nav.dark .nav-login{color:rgba(247,248,250,.6)}
+.nav.dark .nav-login:hover{color:#fff}
+.nav.light .nav-login{color:var(--t2)}
+.nav.light .nav-login:hover{color:var(--t)}
 .nav-mob .nav-cta{display:block}
 .mbtn{
   width:38px;height:38px;border-radius:8px;border:none;
@@ -642,7 +648,10 @@ footer{
 .overlay.show{display:block}
 
 @media(max-width:480px){
-  .hstat{padding:0 16px}
+  /* 2×2 propre au lieu de 3+1 déséquilibré */
+  .hero-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 0;max-width:320px;margin-left:auto;margin-right:auto}
+  .hstat{padding:0 12px;border-right:none}
+  .hstat:nth-child(odd){border-right:1px solid rgba(237,242,250,.08)}
   .hstat-n{font-size:22px}
   .hero-btns{flex-direction:column;align-items:center}
   .btn-gold,.btn-outline{width:100%;max-width:280px;justify-content:center}
@@ -664,11 +673,11 @@ footer{
     <a href="histoires.html">Histoires</a>
     <a href="ressources.html">Ressources</a>
     <a href="hangeul.html">Hangeul</a>
-    <a href="bienvenue.html" style="color:rgba(247,248,250,.6);font-weight:500">Se connecter</a>
+    <a href="bienvenue.html" class="nav-login">Se connecter</a>
     <a href="app.html" class="nav-cta">Commencer →</a>
   </div>
   <div class="nav-mob">
-    <a href="bienvenue.html" style="color:rgba(247,248,250,.55);font-size:13px;font-weight:500;margin-right:4px">Connexion</a>
+    <a href="bienvenue.html" class="nav-login" style="margin-right:4px">Connexion</a>
     <a href="app.html" class="nav-cta">Commencer</a>
     <button class="mbtn" id="mbtn" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -730,7 +739,7 @@ footer{
       <span class="hstat-l">Leçons</span>
     </div>
     <div class="hstat">
-      <span class="hstat-n">21</span>
+      <span class="hstat-n">33</span>
       <span class="hstat-l">Histoires</span>
     </div>
     <div class="hstat">

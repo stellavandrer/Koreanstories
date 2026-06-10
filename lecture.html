@@ -425,6 +425,12 @@ const STORIES = [
    excerpt:'최근 몇 년 사이, 한국에서는 \'귀촌\'이라는 단어가 자주 들리기 시작했어요. 도시에서 시골로 이주하는 현상이에요...',xpKey:'ks_lect_b2_5'},
 ];
 
+// ── Compteur du hero : toujours aligné sur le catalogue réel ──
+(function(){
+  const lbl = document.getElementById('totalStoriesLbl');
+  if (lbl) lbl.textContent = STORIES.length + ' histoires';
+})();
+
 // ── Story card renderer ──
 function renderCards(filter) {
   const grid = document.getElementById('storyGrid');

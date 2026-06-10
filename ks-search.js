@@ -100,6 +100,8 @@
       '.ks-search-fab:hover{transform:scale(1.08)}',
       '.ks-search-fab:active{transform:scale(.95)}',
       '.ks-search-fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}',
+      /* Libellé accessible : lisible par lecteur d'écran, jamais affiché */
+      '.ks-search-fab .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}',
       /* Sur desktop ≥ 960 : pill avec hint ⌘K, mais reste en BAS à droite
          pour ne pas chevaucher le top bar sticky (56px de haut). */
       '@media (min-width:960px){',

@@ -426,6 +426,9 @@
       .desk-stat-streak{color:#FF8050;background:rgba(255,107,53,.1);border-color:rgba(255,107,53,.2)}
       .desk-stat-streak svg{fill:#FF8050}
       main{max-width:680px;padding:24px 28px}
+      /* L'anecdote du jour s'aligne sur la colonne de contenu (520px)
+         au lieu de s'étirer sur toute la largeur du main */
+      .fact-card{max-width:520px;margin-left:auto!important;margin-right:auto!important}
     }
   
     
@@ -1013,7 +1016,8 @@
   <script src="ks-weekly.js" defer></script>
   <script src="ks-tour.js" defer></script>
   <script src="ks-notifications.js" defer></script>
-  <script src="ks-fact.js" defer></script>
+  <!-- ks-fact.js retiré : l'anecdote datée intégrée pilote #factCard -->
+
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
@@ -3095,8 +3099,8 @@ function initScrollAnimations(){
   checkStreakMilestone();
   renderWeeklyChart();
   initScrollAnimations();
-  /* Fait du jour : attendre que ks-fact.js soit chargé */
-  setTimeout(renderDailyFact, 300);
+  /* Fait du jour : remplacé par l'anecdote datée « Aujourd'hui en
+     Corée » (script dédié en bas de page) — ne plus écraser la card */
   renderQuickTools();
 })();
 
@@ -3115,17 +3119,8 @@ function renderQuickTools(){
   } catch(e) {}
 }
 
-// ─── Fait coréen du jour ─────────────────────────────────
-function renderDailyFact(){
-  var card = document.getElementById('factCard');
-  if(!card || !window.KSFact) return;
-  var f = KSFact.today();
-  if(!f) return;
-  document.getElementById('factCat').textContent = f.cat;
-  document.getElementById('factTitle').textContent = f.t;
-  document.getElementById('factBody').textContent = f.b;
-  card.style.display='block';
-}
+/* (Fait coréen du jour : retiré — voir le bloc « HEURE DE SÉOUL +
+   ANECDOTE DU JOUR » en fin de page qui pilote désormais #factCard) */
 
 // ─── Weekly activity chart ───────────────────────────────
 function renderWeeklyChart(){

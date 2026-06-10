@@ -42,7 +42,12 @@
       '}',
       '.ks-im-toggle:hover{transform:scale(1.04)}',
       '.ks-im-toggle:active{transform:scale(.95)}',
-      '.ks-im-toggle svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}',
+      '.ks-im-toggle svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;flex-shrink:0}',
+      /* Mobile : icône seule — la barre porte déjà retour/note/favori/thème/XP */
+      '@media(max-width:599px){',
+        '.ks-im-toggle{font-size:0;gap:0;width:34px;height:34px;padding:0;justify-content:center}',
+        '.ks-im-toggle svg{width:15px;height:15px}',
+      '}',
 
       /* Overlay du mode */
       '.ks-im-overlay{',
@@ -418,6 +423,10 @@
     var bar = document.querySelector('nav.bar, .bar');
     if (!bar || bar.querySelector('.ks-im-toggle')) return;
 
+    /* Le CSS doit exister AVANT le bouton, sinon il s'affiche
+       avec les styles navigateur par défaut (blob gris/noir) */
+    injectCSS();
+
     var btn = document.createElement('button');
     btn.className = 'ks-im-toggle';
     btn.type = 'button';
@@ -437,6 +446,9 @@
     } else {
       bar.appendChild(btn);
     }
+    /* Sur petit écran, design.css masque le logo centré quand la barre
+       porte des outils (sinon ils se chevauchent) */
+    bar.classList.add('bar-has-tools');
   }
 
   /* ── Init ──────────────────────────────────────────────── */

@@ -645,6 +645,29 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
   .bni svg { width: 24px; height: 24px }
 }
 
+/* ── BARRE D'OUTILS DU HEADER (notes, favoris, immersif) ─────────────
+   Ces boutons sont injectés par JS dans .bar-r. Sur écran étroit, ils
+   s'étendent jusqu'au centre et passent SOUS le logo centré (position
+   absolute) — illisible. Quand la barre porte des outils, on masque
+   le logo : l'utilisateur sait où il est (il y a le bouton retour). */
+@media (max-width: 599px) {
+  .bar.bar-has-tools .bar-logo { display: none; }
+}
+
+/* ── WIDGETS FLOTTANTS — anti-collision ──────────────────────────────
+   3 widgets pouvaient s'empiler en bas à droite (recherche, raccourci
+   Hangeul, toggle sombre flottant) :
+   - #darkFab : redondant — toutes les pages qui l'ont possèdent déjà
+     un toggle thème dans le header (.bar-theme). On le retire.
+   - .hg-fab (raccourci « Tableau Hangeul » des leçons) : déplacé en
+     bas à GAUCHE, le coin droit est réservé à la recherche. */
+#darkFab { display: none !important; }
+.hg-fab {
+  left: 14px !important;
+  right: auto !important;
+  bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+}
+
 /* ── RESPONSIVE DESKTOP ──────────────────────────────────────────── */
 @media(min-width:960px){
   body{padding-bottom:0}
@@ -658,7 +681,7 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 
 /* ── UTILITY ─────────────────────────────────────────────────────── */
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.visually-hidden,.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 /* ── DARK MODE — LISIBILITÉ DES BADGES & ALERTES ─────────────────────
    Beaucoup de leçons / quiz utilisent des badges "OK/correct" avec un

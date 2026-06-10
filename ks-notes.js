@@ -321,6 +321,9 @@
     } else {
       bar.appendChild(btn);
     }
+    /* Sur petit écran, design.css masque le logo centré quand la barre
+       porte des outils (sinon ils se chevauchent) */
+    bar.classList.add('bar-has-tools');
     updateButton();
   }
 
