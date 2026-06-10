@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Le kimchi de grand-mère — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/histoire39.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#7c3aed;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(124,58,237,.14);color:#5b21b6;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#EDF2FA}
+    .xp-badge{background:rgba(124,58,237,.14);color:#5b21b6;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#EDF2FA}
+    .story-hero{background:linear-gradient(135deg,#5b21b6,#7c3aed);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .listen-bar{background:linear-gradient(135deg,rgba(124,58,237,.10),rgba(124,58,237,.04));border:1.5px solid rgba(124,58,237,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
+    .listen-btn{background:#7c3aed;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn:hover{transform:scale(1.06)}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:18px;height:18px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.78rem;color:var(--tx-muted)}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#7c3aed;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(124,58,237,.06);border-left:3px solid #7c3aed;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    [data-theme="dark"] .narration-kr{color:#EDF2FA}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-mina{background:#ec4899}.av-halmeoni{background:#7c3aed}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(124,58,237,.06);border-color:rgba(124,58,237,.25)}
+    .bubble.listening{box-shadow:0 0 0 2px rgba(124,58,237,.5)}
+    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    [data-theme="dark"] .ko{color:#EDF2FA}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(124,58,237,.10);border:1.5px solid rgba(124,58,237,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#5b21b6;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    [data-theme="dark"] .bubble-audio{color:#EDF2FA}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .grammar-note{background:rgba(124,58,237,.07);border:1px dashed rgba(124,58,237,.4);border-radius:12px;padding:.7rem 1rem;font-size:.82rem;margin:.8rem 0;line-height:1.6;color:var(--tx-muted)}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(124,58,237,.1);color:#5b21b6;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    [data-theme="dark"] .vocab th{color:#EDF2FA}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#5b21b6;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .vocab td .ko{color:#EDF2FA}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7c3aed;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Le kimchi de grand-mère</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Le kimchi de grand-mère</h2>
+  <span class="pill">B1 · Histoire</span> <span class="xp-badge">+20 XP</span>
+  <div class="story-hero">
+    <div class="story-tag">Dialogue immersif · Souvenirs & discours rapporté</div>
+    <div class="story-title">할머니의 김치 — Le kimchi de grand-mère</div>
+    <div class="story-sub">Mina aide sa grand-mère à préparer le kimchi. Souvenirs (-곤 했어요), paroles rapportées (-다고 했어요) et regrets (-(으)ㄹ걸 그랬어요) — l'émotion en B1.</div>
+  </div>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter">
+      <svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+    </button>
+    <div class="listen-meta">
+      <div class="listen-title">🎧 Écouter l'histoire</div>
+      <div class="listen-sub" id="listenSub">2 voix féminines : Mina & Halmeoni (SunHi)</div>
+    </div>
+  </div>
+
+  <div id="storyContent">
+
+  <h3>Scène 1 — Chez halmeoni</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 01</div>
+    <div class="narration">
+      <div class="narration-kr">주말에 미나가 할머니 댁에 갔어요.</div>
+      Ce week-end, Mina rend visite à sa grand-mère. (댁 : maison, honorifique)
+    </div>
+    <div class="bubble-row right" data-speaker="halmeoni">
+      <div class="avatar-circle av-halmeoni">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Halmeoni</span>
+        <div class="ko">우리 미나 왔구나! 밥은 먹었니?</div>
+        <div class="bubble-rom">Uri Mina watguna! Bap-eun meogeonni?</div>
+        <div class="bubble-fr">Ma petite Mina est là ! Tu as mangé ? (-구나/-니 : parler affectueux des aînés)</div>
+        <button class="bubble-audio" onclick="speakAs('우리 미나 왔구나! 밥은 먹었니?','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">네, 할머니. 그런데 할머니 김치가 너무 먹고 싶었어요.</div>
+        <div class="bubble-rom">Ne, halmeoni. Geureonde halmeoni gimchi-ga neomu meokgo sipeosseoyo.</div>
+        <div class="bubble-fr">Oui, grand-mère. Mais ton kimchi me manquait trop.</div>
+        <button class="bubble-audio" onclick="speakAs('네, 할머니. 그런데 할머니 김치가 너무 먹고 싶었어요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="halmeoni">
+      <div class="avatar-circle av-halmeoni">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Halmeoni</span>
+        <div class="ko">마침 잘 왔다. 오늘 김치를 담그는 날이거든.</div>
+        <div class="bubble-rom">Machim jal watda. Oneul gimchi-reul damgeuneun nal-igeodeun.</div>
+        <div class="bubble-fr">Tu tombes à pic. C'est justement le jour du kimchi. (relative 담그는 + -거든)</div>
+        <button class="bubble-audio" onclick="speakAs('마침 잘 왔다. 오늘 김치를 담그는 날이거든.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 2 — Les souvenirs</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 02</div>
+    <div class="narration">
+      <div class="narration-kr">미나가 할머니를 도와요.</div>
+      Mina aide sa grand-mère.
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">할머니는 언제부터 김치를 만드셨어요?</div>
+        <div class="bubble-rom">Halmeoni-neun eonjebuteo gimchi-reul mandeusyeosseoyo?</div>
+        <div class="bubble-fr">Depuis quand fais-tu du kimchi ? (-(으)시- honorifique)</div>
+        <button class="bubble-audio" onclick="speakAs('할머니는 언제부터 김치를 만드셨어요?','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="halmeoni">
+      <div class="avatar-circle av-halmeoni">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Halmeoni</span>
+        <div class="ko">어렸을 때 배웠지. 옛날에는 온 가족이 같이 담그곤 했어.</div>
+        <div class="bubble-rom">Eoryeosseul ttae baewotji. Yennal-eneun on gajok-i gachi damgeugon haesseo.</div>
+        <div class="bubble-fr">Je l'ai appris toute petite. Avant, toute la famille s'y mettait ensemble. (-곤 했어 : habitude passée)</div>
+        <button class="bubble-audio" onclick="speakAs('어렸을 때 배웠지. 옛날에는 온 가족이 같이 담그곤 했어.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">엄마가 할머니 김치가 제일 맛있다고 했어요.</div>
+        <div class="bubble-rom">Eomma-ga halmeoni gimchi-ga jeil masitdago haesseoyo.</div>
+        <div class="bubble-fr">Maman a dit que ton kimchi est le meilleur. (-다고 했어요 : discours rapporté)</div>
+        <button class="bubble-audio" onclick="speakAs('엄마가 할머니 김치가 제일 맛있다고 했어요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="halmeoni">
+      <div class="avatar-circle av-halmeoni">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Halmeoni</span>
+        <div class="ko">하하, 비결은 좋은 재료야.</div>
+        <div class="bubble-rom">Haha, bigyeol-eun jo-eun jaeryo-ya.</div>
+        <div class="bubble-fr">Haha, le secret, ce sont de bons ingrédients.</div>
+        <button class="bubble-audio" onclick="speakAs('하하, 비결은 좋은 재료야.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 3 — La promesse</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 03</div>
+    <div class="narration">
+      <div class="narration-kr">두 사람이 김치를 다 담갔어요.</div>
+      Elles ont terminé le kimchi.
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">작년에도 도와 드릴걸 그랬어요.</div>
+        <div class="bubble-rom">Jangnyeon-edo dowa deurilgeol geuraesseoyo.</div>
+        <div class="bubble-fr">J'aurais dû t'aider l'an dernier aussi. (-(으)ㄹ걸 그랬어요 : regret)</div>
+        <button class="bubble-audio" onclick="speakAs('작년에도 도와 드릴걸 그랬어요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="halmeoni">
+      <div class="avatar-circle av-halmeoni">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Halmeoni</span>
+        <div class="ko">괜찮아. 내년에 또 오면 되지.</div>
+        <div class="bubble-rom">Gwaenchana. Naenyeon-e tto omyeon doeji.</div>
+        <div class="bubble-fr">Ce n'est rien. Tu n'as qu'à revenir l'an prochain. (-(으)면 되다)</div>
+        <button class="bubble-audio" onclick="speakAs('괜찮아. 내년에 또 오면 되지.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">네! 김치 가져가서 친구들한테 자랑할 거예요.</div>
+        <div class="bubble-rom">Ne! Gimchi gajyeogaseo chingudeul-hante jaranghal geoyeyo.</div>
+        <div class="bubble-fr">Oui ! Je vais en rapporter et me vanter auprès de mes amis. (자랑하다 : se vanter)</div>
+        <button class="bubble-audio" onclick="speakAs('네! 김치 가져가서 친구들한테 자랑할 거예요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /storyContent -->
+
+  <div class="grammar-note">📐 Grammaire travaillée : -다고 했어요 (Discours indirect) · -곤 했어요 (Temps avancé) · -(으)ㄹ걸 그랬어요 (Regret) · 담그는 (Relatives).</div>
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">댁</span></td><td>maison (honorifique)</td></tr>
+    <tr><td><span class="ko">김치를 담그다</span></td><td>préparer le kimchi</td></tr>
+    <tr><td><span class="ko">마침</span></td><td>justement, à point nommé</td></tr>
+    <tr><td><span class="ko">-곤 했어요</span></td><td>avait l'habitude de ~</td></tr>
+    <tr><td><span class="ko">어렸을 때</span></td><td>quand j'étais petit·e</td></tr>
+    <tr><td><span class="ko">-다고 했어요</span></td><td>a dit que ~</td></tr>
+    <tr><td><span class="ko">비결</span></td><td>secret, astuce</td></tr>
+    <tr><td><span class="ko">재료</span></td><td>ingrédients</td></tr>
+    <tr><td><span class="ko">-(으)ㄹ걸 그랬어요</span></td><td>j'aurais dû ~ (regret)</td></tr>
+    <tr><td><span class="ko">-(으)면 되다</span></td><td>il suffit de ~</td></tr>
+    <tr><td><span class="ko">내년</span></td><td>l'année prochaine</td></tr>
+    <tr><td><span class="ko">자랑하다</span></td><td>se vanter, être fier de montrer</td></tr>
+  </table></div>
+
+  <div class="tip"><strong>Culture :</strong> le kimjang (김장) — la grande préparation collective du kimchi d'hiver — est inscrit au patrimoine immatériel de l'UNESCO. Les familles préparent des dizaines de choux d'un coup, et repartir avec les boîtes de kimchi de sa grand-mère est un trésor national officieux.</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const KS_VOICE_MAP = {"mina": "sunhi", "emma": "sunhi", "jiwoo": "sunhi", "halmeoni": "sunhi", "chef": "sunhi", "joon": "injoon", "agent": "injoon", "interviewer": "injoon"};
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn');
+  const icon = document.getElementById('listenIcon');
+  const sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = '2 voix féminines : Mina & Halmeoni (SunHi)'; return; }
+  if (typeof window.speakAs !== 'function') return;
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.getElementById('storyContent').querySelectorAll('.bubble-row[data-speaker], .narration-kr').forEach(node => {
+    if (node.classList.contains('narration-kr')){ items.push({ el: node, text: node.textContent.trim(), voice: 'injoon' }); }
+    else {
+      const voice = KS_VOICE_MAP[node.dataset.speaker] || 'injoon';
+      node.querySelectorAll('.ko').forEach(koEl => items.push({ el: koEl, text: koEl.textContent.trim(), voice }));
+    }
+  });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
+    sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
+    window.speakAs(item.text, item.voice, null, {
+      onended(){ if (bubble) bubble.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='?'||last==='!') ? 700 : (last==='.'||last==='。') ? 500 : 350; i++; setTimeout(next, pause); },
+      onerror(){ if (bubble) bubble.classList.remove('listening'); i++; setTimeout(next, 250); }
+    });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){ if(typeof ksFinish==='function')ksFinish({key:'ks_c38',xp:20}); else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_c38');location.href='histoires.html';} }
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

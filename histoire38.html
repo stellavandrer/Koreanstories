@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Soirée au bord du Han — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/histoire38.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#16a34a;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.14);color:#166534;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#EDF2FA}
+    .xp-badge{background:rgba(22,163,74,.14);color:#166534;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#EDF2FA}
+    .story-hero{background:linear-gradient(135deg,#166534,#16a34a);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .listen-bar{background:linear-gradient(135deg,rgba(22,163,74,.10),rgba(22,163,74,.04));border:1.5px solid rgba(22,163,74,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
+    .listen-btn{background:#16a34a;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn:hover{transform:scale(1.06)}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:18px;height:18px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.78rem;color:var(--tx-muted)}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#16a34a;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(22,163,74,.06);border-left:3px solid #16a34a;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    [data-theme="dark"] .narration-kr{color:#EDF2FA}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-mina{background:#ec4899}.av-joon{background:#3b82f6}.av-emma{background:#f59e0b}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(22,163,74,.06);border-color:rgba(22,163,74,.25)}
+    .bubble.listening{box-shadow:0 0 0 2px rgba(22,163,74,.5)}
+    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    [data-theme="dark"] .ko{color:#EDF2FA}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(22,163,74,.10);border:1.5px solid rgba(22,163,74,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#166534;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    [data-theme="dark"] .bubble-audio{color:#EDF2FA}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .grammar-note{background:rgba(22,163,74,.07);border:1px dashed rgba(22,163,74,.4);border-radius:12px;padding:.7rem 1rem;font-size:.82rem;margin:.8rem 0;line-height:1.6;color:var(--tx-muted)}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(22,163,74,.1);color:#166534;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    [data-theme="dark"] .vocab th{color:#EDF2FA}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#166534;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .vocab td .ko{color:#EDF2FA}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16a34a;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Soirée au bord du Han</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Soirée au bord du Han</h2>
+  <span class="pill">B1 · Histoire</span> <span class="xp-badge">+20 XP</span>
+  <div class="story-hero">
+    <div class="story-tag">Dialogue immersif · 반말 entre amis vs 존댓말</div>
+    <div class="story-title">한강 캠핑 — Soirée au bord du Han</div>
+    <div class="story-sub">Mina, Joon et Emma passent la soirée au parc du Han. Mina et Joon se parlent en banmal, Emma reste en jondaemal — entends la différence des deux registres.</div>
+  </div>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter">
+      <svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+    </button>
+    <div class="listen-meta">
+      <div class="listen-title">🎧 Écouter l'histoire</div>
+      <div class="listen-sub" id="listenSub">3 voix : Mina & Emma (SunHi) · Joon (InJoon)</div>
+    </div>
+  </div>
+
+  <div id="storyContent">
+
+  <h3>Scène 1 — Le plan</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 01</div>
+    <div class="narration">
+      <div class="narration-kr">금요일 저녁, 세 친구가 한강 공원에 가기로 했어요.</div>
+      Vendredi soir, les trois amis ont décidé d'aller au parc du Han. (-기로 하다 : décision)
+    </div>
+    <div class="bubble-row right" data-speaker="joon">
+      <div class="avatar-circle av-joon">JN</div>
+      <div class="bubble">
+        <span class="speaker-name">Joon (반말)</span>
+        <div class="ko">미나야, 우리 텐트 가져갈까?</div>
+        <div class="bubble-rom">Mina-ya, uri tenteu gajyeogalkka?</div>
+        <div class="bubble-fr">Mina, on prend la tente ? (banmal entre amis proches)</div>
+        <button class="bubble-audio" onclick="speakAs('미나야, 우리 텐트 가져갈까?','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina (반말)</span>
+        <div class="ko">좋아! 비가 오면 텐트가 필요하잖아.</div>
+        <div class="bubble-rom">Joa! Bi-ga omyeon tenteu-ga piryohajana.</div>
+        <div class="bubble-fr">Oui ! S'il pleut, on aura besoin de la tente. (-(으)면 conditionnel + -잖아 banmal)</div>
+        <button class="bubble-audio" onclick="speakAs('좋아! 비가 오면 텐트가 필요하잖아.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma (존댓말)</span>
+        <div class="ko">저는 라면을 준비할게요. 한강 라면을 먹어 보고 싶었거든요!</div>
+        <div class="bubble-rom">Jeoneun ramyeon-eul junbihalgeyo. Hangang ramyeon-eul meogeo bogo sipeotgeodeunyo!</div>
+        <div class="bubble-fr">Moi, je m'occupe des ramyeon. Je rêvais de goûter les ramyeon du Han ! (Emma reste polie)</div>
+        <button class="bubble-audio" onclick="speakAs('저는 라면을 준비할게요. 한강 라면을 먹어 보고 싶었거든요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 2 — Au parc</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 02</div>
+    <div class="narration">
+      <div class="narration-kr">세 사람이 한강 공원에 도착했어요. 자전거를 타는 사람들이 많아요.</div>
+      Ils arrivent au parc du Han. Il y a beaucoup de gens qui font du vélo. (relative 타는)
+    </div>
+    <div class="bubble-row right" data-speaker="joon">
+      <div class="avatar-circle av-joon">JN</div>
+      <div class="bubble">
+        <span class="speaker-name">Joon (반말)</span>
+        <div class="ko">와, 야경이 진짜 멋있다!</div>
+        <div class="bubble-rom">Wa, yagyeong-i jinjja meositta!</div>
+        <div class="bubble-fr">Wahou, la vue de nuit est splendide ! (exclamation banmal -다)</div>
+        <button class="bubble-audio" onclick="speakAs('와, 야경이 진짜 멋있다!','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma (존댓말)</span>
+        <div class="ko">사진을 찍어도 돼요?</div>
+        <div class="bubble-rom">Sajin-eul jjigeodo dwaeyo?</div>
+        <div class="bubble-fr">Je peux prendre des photos ?</div>
+        <button class="bubble-audio" onclick="speakAs('사진을 찍어도 돼요?','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina (반말)</span>
+        <div class="ko">당연하지! 여기서 찍으면 잘 나와.</div>
+        <div class="bubble-rom">Dangyeonhaji! Yeogiseo jjigeumyeon jal nawa.</div>
+        <div class="bubble-fr">Évidemment ! D'ici, elles seront super réussies. (잘 나오다 : être réussi, photo)</div>
+        <button class="bubble-audio" onclick="speakAs('당연하지! 여기서 찍으면 잘 나와.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 3 — Les ramyeon de minuit</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 03</div>
+    <div class="narration">
+      <div class="narration-kr">밤이 되면서 날씨가 추워졌어요.</div>
+      La nuit tombe et il commence à faire froid. (-(으)면서 + -아/어지다 : changement)
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma (존댓말)</span>
+        <div class="ko">라면이 다 됐어요! 뜨거우니까 조심하세요.</div>
+        <div class="bubble-rom">Ramyeon-i da dwaesseoyo! Tteugeounikka josimhaseyo.</div>
+        <div class="bubble-fr">Les ramyeon sont prêts ! C'est brûlant, faites attention. (-(으)니까 : cause)</div>
+        <button class="bubble-audio" onclick="speakAs('라면이 다 됐어요! 뜨거우니까 조심하세요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="joon">
+      <div class="avatar-circle av-joon">JN</div>
+      <div class="bubble">
+        <span class="speaker-name">Joon (반말)</span>
+        <div class="ko">밖에서 먹을수록 더 맛있는 것 같아.</div>
+        <div class="bubble-rom">Bakk-eseo meogeulsurok deo masinneun geot gata.</div>
+        <div class="bubble-fr">Plus on mange dehors, plus c'est bon, je trouve. (-(으)ㄹ수록 : plus… plus…)</div>
+        <button class="bubble-audio" onclick="speakAs('밖에서 먹을수록 더 맛있는 것 같아.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina (반말)</span>
+        <div class="ko">다음에는 부산으로 캠핑 가자!</div>
+        <div class="bubble-rom">Da-eum-eneun Busan-euro kaemping gaja!</div>
+        <div class="bubble-fr">La prochaine fois, allons camper à Busan ! (-자 : propositif banmal)</div>
+        <button class="bubble-audio" onclick="speakAs('다음에는 부산으로 캠핑 가자!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /storyContent -->
+
+  <div class="grammar-note">📐 Grammaire travaillée : 반말 vs 존댓말 (Niveaux de langue) · -(으)면 (Conditionnel) · -기로 하다 (Décision) · -(으)ㄹ수록 · -(으)면서 · 타는 (Relatives).</div>
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">-기로 하다</span></td><td>décider de ~</td></tr>
+    <tr><td><span class="ko">텐트</span></td><td>tente</td></tr>
+    <tr><td><span class="ko">가져가다</span></td><td>emporter</td></tr>
+    <tr><td><span class="ko">-(으)면</span></td><td>si ~ (conditionnel)</td></tr>
+    <tr><td><span class="ko">필요하다</span></td><td>avoir besoin</td></tr>
+    <tr><td><span class="ko">도착하다</span></td><td>arriver</td></tr>
+    <tr><td><span class="ko">야경</span></td><td>vue de nuit</td></tr>
+    <tr><td><span class="ko">사진을 찍다</span></td><td>prendre une photo</td></tr>
+    <tr><td><span class="ko">잘 나오다</span></td><td>être réussi (photo)</td></tr>
+    <tr><td><span class="ko">-(으)면서</span></td><td>tout en ~</td></tr>
+    <tr><td><span class="ko">-아/어지다</span></td><td>devenir ~ (changement)</td></tr>
+    <tr><td><span class="ko">-(으)니까</span></td><td>parce que, puisque</td></tr>
+    <tr><td><span class="ko">조심하다</span></td><td>faire attention</td></tr>
+    <tr><td><span class="ko">-(으)ㄹ수록</span></td><td>plus… plus…</td></tr>
+    <tr><td><span class="ko">-자</span></td><td>allons ~ ! (banmal)</td></tr>
+  </table></div>
+
+  <div class="tip"><strong>Culture :</strong> les berges du Han (한강공원) sont le salon d'été de Séoul : tentes pop-up, livraison de poulet frit directement sur l'herbe, et les fameux distributeurs de ramyeon instantanés des supérettes — un rite de passage absolu.</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +20 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const KS_VOICE_MAP = {"mina": "sunhi", "emma": "sunhi", "jiwoo": "sunhi", "halmeoni": "sunhi", "chef": "sunhi", "joon": "injoon", "agent": "injoon", "interviewer": "injoon"};
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn');
+  const icon = document.getElementById('listenIcon');
+  const sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = '3 voix : Mina & Emma (SunHi) · Joon (InJoon)'; return; }
+  if (typeof window.speakAs !== 'function') return;
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.getElementById('storyContent').querySelectorAll('.bubble-row[data-speaker], .narration-kr').forEach(node => {
+    if (node.classList.contains('narration-kr')){ items.push({ el: node, text: node.textContent.trim(), voice: 'injoon' }); }
+    else {
+      const voice = KS_VOICE_MAP[node.dataset.speaker] || 'injoon';
+      node.querySelectorAll('.ko').forEach(koEl => items.push({ el: koEl, text: koEl.textContent.trim(), voice }));
+    }
+  });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
+    sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
+    window.speakAs(item.text, item.voice, null, {
+      onended(){ if (bubble) bubble.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='?'||last==='!') ? 700 : (last==='.'||last==='。') ? 500 : 350; i++; setTimeout(next, pause); },
+      onerror(){ if (bubble) bubble.classList.remove('listening'); i++; setTimeout(next, 250); }
+    });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){ if(typeof ksFinish==='function')ksFinish({key:'ks_c37',xp:20}); else{if(typeof ksAddXP==='function')ksAddXP(20);if(typeof ksMarkDone==='function')ksMarkDone('ks_c37');location.href='histoires.html';} }
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

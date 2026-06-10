@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>L'anniversaire de Jiwoo — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/histoire36.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#db2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(219,39,119,.14);color:#9d174d;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#EDF2FA}
+    .xp-badge{background:rgba(219,39,119,.14);color:#9d174d;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#EDF2FA}
+    .story-hero{background:linear-gradient(135deg,#9d174d,#db2777);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .listen-bar{background:linear-gradient(135deg,rgba(219,39,119,.10),rgba(219,39,119,.04));border:1.5px solid rgba(219,39,119,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
+    .listen-btn{background:#db2777;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn:hover{transform:scale(1.06)}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:18px;height:18px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.78rem;color:var(--tx-muted)}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#db2777;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(219,39,119,.06);border-left:3px solid #db2777;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    [data-theme="dark"] .narration-kr{color:#EDF2FA}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-jiwoo{background:#8b5cf6}.av-mina{background:#ec4899}.av-emma{background:#f59e0b}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(219,39,119,.06);border-color:rgba(219,39,119,.25)}
+    .bubble.listening{box-shadow:0 0 0 2px rgba(219,39,119,.5)}
+    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    [data-theme="dark"] .ko{color:#EDF2FA}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(219,39,119,.10);border:1.5px solid rgba(219,39,119,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#9d174d;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    [data-theme="dark"] .bubble-audio{color:#EDF2FA}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .grammar-note{background:rgba(219,39,119,.07);border:1px dashed rgba(219,39,119,.4);border-radius:12px;padding:.7rem 1rem;font-size:.82rem;margin:.8rem 0;line-height:1.6;color:var(--tx-muted)}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(219,39,119,.1);color:#9d174d;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    [data-theme="dark"] .vocab th{color:#EDF2FA}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#9d174d;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .vocab td .ko{color:#EDF2FA}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#db2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">L'anniversaire de Jiwoo</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>L'anniversaire de Jiwoo</h2>
+  <span class="pill">A2 · Histoire</span> <span class="xp-badge">+18 XP</span>
+  <div class="story-hero">
+    <div class="story-tag">Dialogue immersif · Fête & nuances -잖아요/-거든요</div>
+    <div class="story-title">지우의 생일 — L'anniversaire de Jiwoo</div>
+    <div class="story-sub">Mina et Emma fêtent l'anniversaire de Jiwoo : cadeau, miyeokguk et chanson. Les nuances -잖아요 / -거든요 et l'expérience -본 적이 없어요 en contexte.</div>
+  </div>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter">
+      <svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+    </button>
+    <div class="listen-meta">
+      <div class="listen-title">🎧 Écouter l'histoire</div>
+      <div class="listen-sub" id="listenSub">3 voix féminines : Jiwoo, Mina & Emma (SunHi)</div>
+    </div>
+  </div>
+
+  <div id="storyContent">
+
+  <h3>Scène 1 — Les vœux</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 01</div>
+    <div class="narration">
+      <div class="narration-kr">오늘은 지우의 생일이에요. 미나와 에마가 선물을 준비했어요.</div>
+      Aujourd'hui, c'est l'anniversaire de Jiwoo. Mina et Emma ont préparé un cadeau.
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">지우 씨, 생일 축하해요!</div>
+        <div class="bubble-rom">Jiwoo ssi, saeng-il chukhahaeyo!</div>
+        <div class="bubble-fr">Jiwoo, joyeux anniversaire !</div>
+        <button class="bubble-audio" onclick="speakAs('지우 씨, 생일 축하해요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="jiwoo">
+      <div class="avatar-circle av-jiwoo">JW</div>
+      <div class="bubble">
+        <span class="speaker-name">Jiwoo</span>
+        <div class="ko">와 줘서 정말 고마워요!</div>
+        <div class="bubble-rom">Wa jwoseo jeongmal gomawoyo!</div>
+        <div class="bubble-fr">Merci beaucoup d'être venues ! (와 주다 + -아서)</div>
+        <button class="bubble-audio" onclick="speakAs('와 줘서 정말 고마워요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">이거 선물이에요. 받아 주세요.</div>
+        <div class="bubble-rom">Igeo seonmul-ieyo. Bada juseyo.</div>
+        <div class="bubble-fr">Voici un cadeau. Accepte-le, s'il te plaît.</div>
+        <button class="bubble-audio" onclick="speakAs('이거 선물이에요. 받아 주세요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 2 — Le cadeau</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 02</div>
+    <div class="narration">
+      <div class="narration-kr">지우가 선물을 열어 봐요.</div>
+      Jiwoo ouvre le cadeau.
+    </div>
+    <div class="bubble-row right" data-speaker="jiwoo">
+      <div class="avatar-circle av-jiwoo">JW</div>
+      <div class="bubble">
+        <span class="speaker-name">Jiwoo</span>
+        <div class="ko">우와, 컵이 정말 예뻐요! 잘 쓸게요.</div>
+        <div class="bubble-rom">Uwa, keop-i jeongmal yeppeoyo! Jal sseulgeyo.</div>
+        <div class="bubble-fr">Wahou, la tasse est superbe ! Je m'en servirai bien.</div>
+        <button class="bubble-audio" onclick="speakAs('우와, 컵이 정말 예뻐요! 잘 쓸게요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">지우 씨는 커피를 좋아하잖아요.</div>
+        <div class="bubble-rom">Jiwoo ssi-neun keopi-reul joahajanayo.</div>
+        <div class="bubble-fr">Tu adores le café, on le sait bien. (-잖아요 : rappel d'une évidence)</div>
+        <button class="bubble-audio" onclick="speakAs('지우 씨는 커피를 좋아하잖아요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="jiwoo">
+      <div class="avatar-circle av-jiwoo">JW</div>
+      <div class="bubble">
+        <span class="speaker-name">Jiwoo</span>
+        <div class="ko">맞아요. 매일 아침에 커피를 마시거든요.</div>
+        <div class="bubble-rom">Majayo. Maeil achim-e keopi-reul masigeodeunyo.</div>
+        <div class="bubble-fr">C'est vrai. Figure-toi que j'en bois chaque matin. (-거든요 : info que l'autre ignore)</div>
+        <button class="bubble-audio" onclick="speakAs('맞아요. 매일 아침에 커피를 마시거든요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 3 — La soupe et la chanson</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 03</div>
+    <div class="narration">
+      <div class="narration-kr">친구들이 미역국을 먹어요.</div>
+      Les amies mangent la soupe d'algues.
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">생일에 미역국을 먹어 본 적이 없어요. 왜 먹어요?</div>
+        <div class="bubble-rom">Saeng-il-e miyeokguk-eul meogeo bon jeogi eopseoyo. Wae meogeoyo?</div>
+        <div class="bubble-fr">Je n'ai jamais mangé de soupe d'algues à un anniversaire. Pourquoi on en mange ? (-본 적이 없다)</div>
+        <button class="bubble-audio" onclick="speakAs('생일에 미역국을 먹어 본 적이 없어요. 왜 먹어요?','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="jiwoo">
+      <div class="avatar-circle av-jiwoo">JW</div>
+      <div class="bubble">
+        <span class="speaker-name">Jiwoo</span>
+        <div class="ko">한국 전통이에요. 건강에 좋거든요.</div>
+        <div class="bubble-rom">Hanguk jeontong-ieyo. Geongang-e joke-deunyo.</div>
+        <div class="bubble-fr">C'est une tradition coréenne. C'est bon pour la santé, tu sais. (-거든요)</div>
+        <button class="bubble-audio" onclick="speakAs('한국 전통이에요. 건강에 좋거든요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">자, 케이크 먹기 전에 노래를 불러요!</div>
+        <div class="bubble-rom">Ja, keikeu meokgi jeon-e norae-reul bulleoyo!</div>
+        <div class="bubble-fr">Allez, avant de manger le gâteau, on chante ! (~기 전에 : avant de)</div>
+        <button class="bubble-audio" onclick="speakAs('자, 케이크 먹기 전에 노래를 불러요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="jiwoo">
+      <div class="avatar-circle av-jiwoo">JW</div>
+      <div class="bubble">
+        <span class="speaker-name">Jiwoo</span>
+        <div class="ko">고마워요. 오늘 정말 행복해요!</div>
+        <div class="bubble-rom">Gomawoyo. Oneul jeongmal haengbokhaeyo!</div>
+        <div class="bubble-fr">Merci. Je suis vraiment heureuse aujourd'hui !</div>
+        <button class="bubble-audio" onclick="speakAs('고마워요. 오늘 정말 행복해요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /storyContent -->
+
+  <div class="grammar-note">📐 Grammaire travaillée : -잖아요 / -거든요 (Exprimer la raison) · -본 적이 없다 (Expérience) · ~기 전에 (Temps & Durée).</div>
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">생일</span></td><td>anniversaire</td></tr>
+    <tr><td><span class="ko">축하해요</span></td><td>félicitations !</td></tr>
+    <tr><td><span class="ko">선물</span></td><td>cadeau</td></tr>
+    <tr><td><span class="ko">받다</span></td><td>recevoir, accepter</td></tr>
+    <tr><td><span class="ko">열어 보다</span></td><td>ouvrir (pour voir)</td></tr>
+    <tr><td><span class="ko">컵</span></td><td>tasse, gobelet</td></tr>
+    <tr><td><span class="ko">쓰다</span></td><td>utiliser</td></tr>
+    <tr><td><span class="ko">-잖아요</span></td><td>tu sais bien que… (rappel)</td></tr>
+    <tr><td><span class="ko">-거든요</span></td><td>figure-toi que… (info nouvelle)</td></tr>
+    <tr><td><span class="ko">미역국</span></td><td>soupe d'algues</td></tr>
+    <tr><td><span class="ko">-본 적이 없다</span></td><td>ne jamais avoir fait</td></tr>
+    <tr><td><span class="ko">전통</span></td><td>tradition</td></tr>
+    <tr><td><span class="ko">건강</span></td><td>santé</td></tr>
+    <tr><td><span class="ko">~기 전에</span></td><td>avant de ~</td></tr>
+    <tr><td><span class="ko">행복하다</span></td><td>être heureux·se</td></tr>
+  </table></div>
+
+  <div class="tip"><strong>Culture :</strong> la soupe d'algues (미역국) se mange le jour de son anniversaire en hommage à sa mère — c'est le plat que mangent les Coréennes après l'accouchement. Attention : ne JAMAIS en manger le jour d'un examen, ça « fait glisser » la réussite !</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +18 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const KS_VOICE_MAP = {"mina": "sunhi", "emma": "sunhi", "jiwoo": "sunhi", "halmeoni": "sunhi", "chef": "sunhi", "joon": "injoon", "agent": "injoon", "interviewer": "injoon"};
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn');
+  const icon = document.getElementById('listenIcon');
+  const sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = '3 voix féminines : Jiwoo, Mina & Emma (SunHi)'; return; }
+  if (typeof window.speakAs !== 'function') return;
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.getElementById('storyContent').querySelectorAll('.bubble-row[data-speaker], .narration-kr').forEach(node => {
+    if (node.classList.contains('narration-kr')){ items.push({ el: node, text: node.textContent.trim(), voice: 'injoon' }); }
+    else {
+      const voice = KS_VOICE_MAP[node.dataset.speaker] || 'injoon';
+      node.querySelectorAll('.ko').forEach(koEl => items.push({ el: koEl, text: koEl.textContent.trim(), voice }));
+    }
+  });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
+    sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
+    window.speakAs(item.text, item.voice, null, {
+      onended(){ if (bubble) bubble.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='?'||last==='!') ? 700 : (last==='.'||last==='。') ? 500 : 350; i++; setTimeout(next, pause); },
+      onerror(){ if (bubble) bubble.classList.remove('listening'); i++; setTimeout(next, 250); }
+    });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){ if(typeof ksFinish==='function')ksFinish({key:'ks_b45',xp:18}); else{if(typeof ksAddXP==='function')ksAddXP(18);if(typeof ksMarkDone==='function')ksMarkDone('ks_b45');location.href='histoires.html';} }
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
