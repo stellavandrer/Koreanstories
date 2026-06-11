@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>Mix du jour — révision quotidienne · Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/daily-mix.html"/>
+  <meta name="description" content="10 questions par jour, piochées dans tout ce que TU as appris : vocabulaire, écoute, particules, écriture au clavier coréen."/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Inter',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--t);padding-bottom:0}
+    .page-mix{max-width:560px;margin:0 auto;padding:16px 16px 90px}
+
+    /* ── Accueil ── */
+    .mix-hero{background:linear-gradient(135deg,#0F1B2D 0%,#23408f 100%);border-radius:20px;padding:24px 20px;color:#fff;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
+    .mix-hero::after{content:'🌀';position:absolute;right:-14px;top:-18px;font-size:90px;opacity:.10;transform:rotate(12deg)}
+    .mix-tag{display:inline-block;background:rgba(201,169,110,.18);border:1px solid rgba(201,169,110,.35);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:100px;padding:4px 12px;margin-bottom:10px}
+    .mix-hero h1{font-family:'Playfair Display',serif;font-size:23px;margin:0 0 6px}
+    .mix-hero p{font-size:12.5px;color:rgba(247,248,250,.6);margin:0;line-height:1.65}
+    .mix-date{margin-top:12px;font-size:11px;font-weight:700;color:rgba(247,248,250,.4)}
+    .mix-stats{display:flex;gap:10px;margin-bottom:14px}
+    .mix-stat{flex:1;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:12px;text-align:center}
+    .mix-stat-n{font-size:20px;font-weight:800;color:var(--gold)}
+    .mix-stat-l{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-top:2px}
+    .mix-types{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px 16px;margin-bottom:16px}
+    .mix-type-row{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:.86rem;color:var(--t2)}
+    .mix-type-row .ic{flex-shrink:0;width:30px;height:30px;border-radius:9px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:14px}
+    .mix-start{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border:none;border-radius:100px;background:var(--gold);color:#fff;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(184,146,78,.3);-webkit-tap-highlight-color:transparent}
+    .mix-start:active{transform:scale(.98)}
+    .mix-start[disabled]{background:var(--s3);color:var(--t3);box-shadow:none;cursor:default}
+    .mix-done-note{text-align:center;font-size:12px;color:var(--t2);margin-top:10px;line-height:1.6}
+
+    /* ── Question ── */
+    #quizScreen{display:none}
+    .qz-wrap{max-width:560px;margin:0 auto;padding:12px 16px 0}
+    .qz-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;text-align:center;box-shadow:var(--sh)}
+    .qz-kind{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+    .qz-kr{font-size:36px;font-weight:700;color:var(--t);line-height:1.25}
+    .qz-fr{font-size:21px;font-weight:700;color:var(--t)}
+    .qz-sub{font-size:12.5px;color:var(--t3);font-style:italic;margin-top:5px}
+    .qz-sentence{font-size:24px;font-weight:700;color:var(--t);line-height:1.5}
+    .qz-blank{display:inline-block;min-width:42px;border-bottom:3px solid var(--gold);color:var(--gold);font-weight:800;margin:0 2px}
+    .qz-audio{width:62px;height:62px;border-radius:50%;border:none;background:var(--gold);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(184,146,78,.35);-webkit-tap-highlight-color:transparent}
+    .qz-audio:active{transform:scale(.92)}
+    .qz-audio svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .qz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .qz-choice{padding:14px 10px;border:1.5px solid var(--bd);border-radius:14px;background:var(--surf);font-family:inherit;font-size:15.5px;font-weight:700;color:var(--t);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .12s;box-shadow:var(--sh);line-height:1.35;min-height:54px}
+    .qz-choice:active{transform:scale(.96)}
+    .qz-choice.kr-opt{font-size:21px}
+    .qz-choice.ok{border-color:#22c55e;background:rgba(34,197,94,.12);color:#16a34a}
+    .qz-choice.ko{border-color:#ef4444;background:rgba(239,68,68,.10);color:#dc2626}
+    .qz-input{margin:14px auto 0;min-height:56px;background:var(--s2);border:2px solid var(--bd2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:27px;font-weight:700;color:var(--t);padding:8px 14px}
+    .qz-input.ok{border-color:#22c55e;background:rgba(34,197,94,.10)}
+    .qz-input.ko{border-color:#ef4444;background:rgba(239,68,68,.10)}
+    .qz-caret{display:inline-block;width:2px;height:1.1em;background:var(--gold);margin-left:2px;animation:mixBlink 1s steps(1) infinite}
+    @keyframes mixBlink{50%{opacity:0}}
+    .qz-feedback{min-height:22px;font-size:13px;font-weight:700;text-align:center;margin-top:8px}
+    .qz-feedback.ok{color:#16a34a}.qz-feedback.ko{color:#dc2626}
+    #kbDock{position:fixed;left:0;right:0;bottom:0;z-index:150;display:none}
+
+    /* ── Fin ── */
+    #endScreen{display:none}
+    .end-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;padding:28px 20px;text-align:center;margin-top:24px;box-shadow:var(--sh2)}
+    .end-emoji{font-size:44px;margin-bottom:8px}
+    .end-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .end-sub{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6}
+    .end-stats{display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+    .end-stat{background:var(--s2);border:1.5px solid var(--bd);border-radius:14px;padding:12px 16px;min-width:80px}
+    .end-stat-n{font-size:20px;font-weight:800;color:var(--gold)}
+    .end-stat-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-top:2px}
+    .end-btn{display:block;width:100%;padding:13px;border-radius:100px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;border:none;-webkit-tap-highlight-color:transparent;text-decoration:none;text-align:center;margin-bottom:10px}
+    .end-btn.gold{background:var(--gold);color:#fff}
+    .end-btn.ghost{background:none;border:1.5px solid var(--bd2);color:var(--t2)}
+  </style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+
+<!-- TBAR exercice -->
+<div class="tbar" id="quizBar" style="display:none">
+  <a href="#" class="quit" id="quitBtn" aria-label="Quitter">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </a>
+  <div class="ptrack"><div class="pbar" id="qzProg"></div></div>
+  <span id="qzCount" style="font-size:12px;font-weight:800;color:var(--t2);white-space:nowrap">1 / 10</span>
+</div>
+
+<!-- BAR accueil -->
+<nav class="bar" id="homeBar">
+  <a href="app.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Accueil</a>
+  <span class="bar-logo">Korean <em>Stories</em></span>
+  <div class="bar-r">
+    <button onclick="toggleTheme()" class="bar-theme" title="Thème" aria-label="Changer de thème">
+      <svg class="ico-l" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="ico-d" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a class="bar-xp" href="profil.html"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span class="ks-xp-val">0 XP</span></a>
+  </div>
+</nav>
+
+<!-- ═══════ ACCUEIL ═══════ -->
+<div class="page-mix" id="homeScreen">
+  <div class="mix-hero">
+    <div class="mix-tag">🌀 Mix du jour</div>
+    <h1>Ta révision quotidienne</h1>
+    <p>10 questions piochées dans <strong>tout ce que TU as appris</strong> :<br/>vocabulaire, écoute, particules, écriture au clavier.<br/>Nouveau mix chaque jour.</p>
+    <div class="mix-date" id="mixDate"></div>
+  </div>
+
+  <div class="mix-stats">
+    <div class="mix-stat"><div class="mix-stat-n" id="statStreak">0</div><div class="mix-stat-l">🔥 Jours de suite</div></div>
+    <div class="mix-stat"><div class="mix-stat-n" id="statPool">—</div><div class="mix-stat-l">Notions en jeu</div></div>
+    <div class="mix-stat"><div class="mix-stat-n">+15</div><div class="mix-stat-l">XP / jour</div></div>
+  </div>
+
+  <div class="mix-types">
+    <div class="mix-type-row"><div class="ic">🇰🇷</div><div><strong>Coréen → Français</strong> et l'inverse — ton vocabulaire des leçons terminées</div></div>
+    <div class="mix-type-row"><div class="ic">🎧</div><div><strong>Écoute</strong> — une voix native, à toi de reconnaître le mot</div></div>
+    <div class="mix-type-row"><div class="ic">🧩</div><div><strong>Particules</strong> — la bonne particule dans une vraie phrase</div></div>
+    <div class="mix-type-row"><div class="ic">⌨️</div><div><strong>Écriture</strong> — tape le mot au clavier coréen (si atelier débuté)</div></div>
+  </div>
+
+  <button class="mix-start" id="startBtn">🌀 Lancer le mix du jour</button>
+  <div class="mix-done-note" id="doneNote" style="display:none"></div>
+</div>
+
+<!-- ═══════ QUIZ ═══════ -->
+<div id="quizScreen">
+  <div class="qz-wrap">
+    <div class="qz-card">
+      <div class="qz-kind" id="qzKind"></div>
+      <div id="qzPrompt"></div>
+      <div class="qz-choices" id="qzChoices" style="display:none"></div>
+      <div class="qz-input" id="qzInput" style="display:none"></div>
+    </div>
+    <div class="qz-feedback" id="qzFeedback"></div>
+  </div>
+  <div id="kbDock"></div>
+</div>
+
+<!-- ═══════ FIN ═══════ -->
+<div class="page-mix" id="endScreen">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🎉</div>
+    <div class="end-title" id="endTitle">Mix terminé !</div>
+    <div class="end-sub" id="endSub"></div>
+    <div class="end-stats">
+      <div class="end-stat"><div class="end-stat-n" id="endScore">0/10</div><div class="end-stat-l">Score</div></div>
+      <div class="end-stat"><div class="end-stat-n" id="endStreak">1</div><div class="end-stat-l">🔥 Série</div></div>
+      <div class="end-stat"><div class="end-stat-n" id="endXP">+15</div><div class="end-stat-l">XP</div></div>
+    </div>
+    <a class="end-btn gold" href="app.html">Retour à l'accueil</a>
+    <a class="end-btn ghost" href="cours.html">Continuer le parcours</a>
+    <div style="font-size:11.5px;color:var(--t3);margin-top:4px">Reviens demain — le mix se renouvelle chaque jour à minuit (heure de Séoul 🇰🇷).</div>
+  </div>
+</div>
+
+<script src="ks.js"></script>
+<script src="ks-keyboard.js"></script>
+<script>
+/* ═══════════ BANQUE — chaque item est taggé par la clé de la leçon
+   qui le débloque. tag:null = toujours disponible (bases Hangeul). ═══════════ */
+const MC = [
+  /* Hangeul / toujours dispo */
+  {kr:'나무',fr:'arbre',tag:null},{kr:'바다',fr:'mer',tag:null},{kr:'하나',fr:'un (1)',tag:null},
+  {kr:'노래',fr:'chanson',tag:null},{kr:'아이',fr:'enfant',tag:null},{kr:'우유',fr:'lait',tag:null},
+  /* Salutations ks_a01 */
+  {kr:'안녕하세요',fr:'bonjour',tag:'ks_a01'},{kr:'감사합니다',fr:'merci (formel)',tag:'ks_a01'},
+  {kr:'만나서 반가워요',fr:'enchanté·e',tag:'ks_a01'},
+  /* 있어요/없어요 ks_a48 */
+  {kr:'있어요',fr:'il y a / j\'ai',tag:'ks_a48'},{kr:'없어요',fr:'il n\'y a pas',tag:'ks_a48'},
+  {kr:'화장실',fr:'toilettes',tag:'ks_a48'},
+  /* 주세요 ks_a49 */
+  {kr:'물 주세요',fr:'de l\'eau, svp',tag:'ks_a49'},{kr:'도와주세요!',fr:'aidez-moi !',tag:'ks_a49'},
+  {kr:'천천히 말해 주세요',fr:'parlez lentement, svp',tag:'ks_a49'},
+  /* Chiffres ks_a05/a06 */
+  {kr:'삼',fr:'trois (sino)',tag:'ks_a05'},{kr:'십',fr:'dix (sino)',tag:'ks_a05'},
+  {kr:'둘',fr:'deux (natif)',tag:'ks_a06'},{kr:'다섯',fr:'cinq (natif)',tag:'ks_a06'},
+  /* Famille ks_a09 */
+  {kr:'엄마',fr:'maman',tag:'ks_a09'},{kr:'언니',fr:'grande sœur (d\'une fille)',tag:'ks_a09'},
+  {kr:'오빠',fr:'grand frère (d\'une fille)',tag:'ks_a09'},{kr:'가족',fr:'famille',tag:'ks_a09'},
+  /* Couleurs/adjectifs ks_a12 */
+  {kr:'크다',fr:'être grand',tag:'ks_a12'},{kr:'작다',fr:'être petit',tag:'ks_a12'},
+  {kr:'예쁘다',fr:'être joli·e',tag:'ks_a12'},{kr:'좋다',fr:'être bien / aimer',tag:'ks_a12'},
+  /* Nourriture ks_a14 */
+  {kr:'비빔밥',fr:'bibimbap',tag:'ks_a14'},{kr:'김치찌개',fr:'soupe au kimchi',tag:'ks_a14'},
+  {kr:'떡볶이',fr:'tteokbokki',tag:'ks_a14'},{kr:'맛있다',fr:'être délicieux',tag:'ks_a14'},
+  /* Lieux ks_a18 */
+  {kr:'학교',fr:'école',tag:'ks_a18'},{kr:'병원',fr:'hôpital',tag:'ks_a18'},
+  {kr:'지하철역',fr:'station de métro',tag:'ks_a18'},{kr:'공원',fr:'parc',tag:'ks_a18'},
+  /* Directions ks_a19 */
+  {kr:'앞',fr:'devant',tag:'ks_a19'},{kr:'뒤',fr:'derrière',tag:'ks_a19'},
+  {kr:'왼쪽',fr:'gauche',tag:'ks_a19'},{kr:'오른쪽',fr:'droite',tag:'ks_a19'},
+  /* Temps ks_a_time */
+  {kr:'월요일',fr:'lundi',tag:'ks_a_time'},{kr:'일요일',fr:'dimanche',tag:'ks_a_time'},
+  /* Météo ks_a_meteo */
+  {kr:'비가 와요',fr:'il pleut',tag:'ks_a_meteo'},{kr:'눈이 와요',fr:'il neige',tag:'ks_a_meteo'},
+  /* Maison ks_a36 */
+  {kr:'부엌',fr:'cuisine (pièce)',tag:'ks_a36'},{kr:'거실',fr:'salon',tag:'ks_a36'},
+  {kr:'침대',fr:'lit',tag:'ks_a36'},{kr:'창문',fr:'fenêtre',tag:'ks_a36'},
+  /* Corps ks_a38 */
+  {kr:'머리',fr:'tête',tag:'ks_a38'},{kr:'아파요',fr:'j\'ai mal',tag:'ks_a38'},
+  /* Vêtements ks_a39 */
+  {kr:'옷',fr:'vêtements',tag:'ks_a39'},{kr:'신발',fr:'chaussures',tag:'ks_a39'},
+  /* Émotions ks_a40 */
+  {kr:'행복하다',fr:'être heureux·se',tag:'ks_a40'},{kr:'슬프다',fr:'être triste',tag:'ks_a40'},
+  /* Verbes ks_a22 */
+  {kr:'가다',fr:'aller',tag:'ks_a22'},{kr:'먹다',fr:'manger',tag:'ks_a22'},
+  {kr:'마시다',fr:'boire',tag:'ks_a22'},{kr:'공부하다',fr:'étudier',tag:'ks_a22'},
+  /* A2 — histoires */
+  {kr:'부동산',fr:'agence immobilière',tag:'ks_b43'},{kr:'예산',fr:'budget',tag:'ks_b43'},
+  {kr:'재료',fr:'ingrédients',tag:'ks_b44'},{kr:'참기름',fr:'huile de sésame',tag:'ks_b44'},
+  {kr:'생일',fr:'anniversaire',tag:'ks_b45'},{kr:'미역국',fr:'soupe d\'algues',tag:'ks_b45'},
+  {kr:'선물',fr:'cadeau',tag:'ks_b45'},
+  /* A2 — grammaire */
+  {kr:'-고 싶어요',fr:'je veux ~',tag:'ks_b25'},{kr:'-아/어 주세요',fr:'faites ~, svp',tag:'ks_b27'},
+  /* B1 */
+  {kr:'면접',fr:'entretien d\'embauche',tag:'ks_c36'},{kr:'합격하다',fr:'être reçu·e',tag:'ks_c36'},
+  {kr:'야경',fr:'vue de nuit',tag:'ks_c37'},{kr:'-기로 하다',fr:'décider de ~',tag:'ks_c37'},
+  {kr:'비결',fr:'secret, astuce',tag:'ks_c38'},{kr:'-곤 했어요',fr:'avait l\'habitude de',tag:'ks_c38'},
+  /* B2 */
+  {kr:'회식',fr:'dîner d\'entreprise',tag:'ks_d35'},{kr:'뵙겠습니다',fr:'au revoir (très honorifique)',tag:'ks_d35'},
+  {kr:'토론',fr:'débat',tag:'ks_d36'},{kr:'게다가',fr:'de surcroît',tag:'ks_d36'},
+  {kr:'속담',fr:'proverbe',tag:'ks_d37'},{kr:'지혜',fr:'sagesse',tag:'ks_d37'},
+];
+const PARTICLES = [
+  {pre:'고양이',post:' 있어요',ok:'가',alts:['는','를','에'],fr:'Il y a un chat',tag:'ks_a31'},
+  {pre:'저',post:' 학생이에요',ok:'는',alts:['가','를','에서'],fr:'Je suis étudiant·e',tag:'ks_a31'},
+  {pre:'물',post:' 마셔요',ok:'을',alts:['가','은','에'],fr:'Je bois de l\'eau',tag:'ks_a32'},
+  {pre:'학교',post:' 가요',ok:'에',alts:['를','에서','이'],fr:'Je vais à l\'école',tag:'ks_a32'},
+  {pre:'카페',post:' 공부해요',ok:'에서',alts:['에','를','는'],fr:'J\'étudie au café',tag:'ks_a32'},
+  {pre:'시간',post:' 없어요',ok:'이',alts:['가','를','에'],fr:'Je n\'ai pas le temps',tag:'ks_a31'},
+  {pre:'김치',post:' 먹어요',ok:'를',alts:['가','은','에서'],fr:'Je mange du kimchi',tag:'ks_a32'},
+  {pre:'친구',post:' 집에 있어요',ok:'가',alts:['를','에','은'],fr:'Mon ami est à la maison',tag:'ks_a31'},
+  {pre:'부엌',post:' 요리해요',ok:'에서',alts:['에','가','를'],fr:'Je cuisine dans la cuisine',tag:'ks_a32'},
+  {pre:'거실',post:' 텔레비전이 있어요',ok:'에',alts:['에서','가','를'],fr:'Il y a une télé dans le salon',tag:'ks_a32'},
+];
+const TYPE_ITEMS = [
+  {kr:'물',fr:'eau',rom:'mul'},{kr:'집',fr:'maison',rom:'jip'},{kr:'밥',fr:'riz / repas',rom:'bap'},
+  {kr:'김치',fr:'kimchi',rom:'gimchi'},{kr:'친구',fr:'ami·e',rom:'chingu'},{kr:'사랑',fr:'amour',rom:'sarang'},
+  {kr:'학교',fr:'école',rom:'hakgyo'},{kr:'커피',fr:'café',rom:'keopi'},
+];
+
+const N = 10, XP = 15;
+let quiz=[], idx=0, score=0, kb=null, locked=false;
+
+/* ── Date Séoul + seed ── */
+function seoulDate(){
+  try { return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date()); }
+  catch(e){ return new Date().toISOString().slice(0,10); }
+}
+function seededRandom(seed){
+  let h = 1779033703 ^ seed.length;
+  for (let i=0;i<seed.length;i++){ h = Math.imul(h ^ seed.charCodeAt(i), 3432918353); h = (h<<13)|(h>>>19); }
+  return function(){
+    h = Math.imul(h ^ (h>>>16), 2246822507);
+    h = Math.imul(h ^ (h>>>13), 3266489909);
+    h ^= h>>>16;
+    return (h>>>0) / 4294967296;
+  };
+}
+function seededShuffle(arr, rnd){
+  const a = arr.slice();
+  for (let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function ls(k){ try{return localStorage.getItem(k);}catch(e){return null;} }
+function unlocked(tag){
+  if (!tag) return true;
+  const v = ls(tag);
+  if (v==='done'||v==='1'||v==='true') return true;
+  /* alias historiques */
+  const ALIAS={'ks_a01':'ks_l5','ks_a05':'ks_l6','ks_a09':'ks_l7','ks_a12':'ks_l8','ks_a14':'ks_l10','ks_a22':'ks_l9'};
+  const a=ALIAS[tag]; if(a){const v2=ls(a); return v2==='done'||v2==='1'||v2==='true';}
+  return false;
+}
+
+/* ── Construire le mix du jour ── */
+function buildMix(){
+  const date = seoulDate();
+  const rnd = seededRandom('ksmix-'+date);
+  const mcPool = MC.filter(i=>unlocked(i.tag));
+  const partPool = PARTICLES.filter(i=>unlocked(i.tag));
+  const canType = !!(ls('ks_ecr_hangeul')||ls('ks_ecr_a1')||ls('ks_ecr_a2')||ls('ks_ecr_b1'));
+  const qs = [];
+  /* dosage : ~5 vocab (mix sens), 2 audio, 2 particules, 1 frappe */
+  const mcS = seededShuffle(mcPool, rnd);
+  const nAudio = Math.min(2, mcS.length);
+  const nPart = Math.min(2, partPool.length);
+  const nType = canType ? 1 : 0;
+  const nVocab = N - nAudio - nPart - nType;
+  for (let i=0;i<nVocab && i<mcS.length;i++){
+    const it = mcS[i];
+    qs.push({type: rnd()<0.5?'kr2fr':'fr2kr', it});
+  }
+  for (let i=0;i<nAudio;i++){
+    const it = mcS[(nVocab+i) % mcS.length];
+    qs.push({type:'audio', it});
+  }
+  seededShuffle(partPool, rnd).slice(0,nPart).forEach(it=>qs.push({type:'particle', it}));
+  if (nType){ const it = seededShuffle(TYPE_ITEMS, rnd)[0]; qs.push({type:'type', it}); }
+  /* distracteurs : autres mots du pool complet */
+  qs.forEach(q=>{
+    if (q.type==='kr2fr'||q.type==='fr2kr'||q.type==='audio'){
+      const others = seededShuffle(MC.filter(x=>x.kr!==q.it.kr), rnd).slice(0,3);
+      q.opts = seededShuffle([q.it, ...others], rnd);
+    }
+  });
+  return { date, qs: seededShuffle(qs, rnd).slice(0,N), poolSize: mcPool.length + partPool.length };
+}
+
+/* ── UI accueil ── */
+let MIX = buildMix();
+(function initHome(){
+  const d = new Date();
+  document.getElementById('mixDate').textContent = '🇰🇷 Mix du ' + d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) + ' — identique pour tout le monde, basé sur TES leçons';
+  document.getElementById('statPool').textContent = MIX.poolSize;
+  document.getElementById('statStreak').textContent = ls('ks_mix_streak')||'0';
+  if (ls('ks_mix_done_'+MIX.date)){
+    const btn = document.getElementById('startBtn');
+    btn.textContent = '✓ Mix du jour terminé';
+    const note = document.getElementById('doneNote');
+    note.style.display='block';
+    note.innerHTML = 'Tu peux le refaire pour t\'entraîner (sans XP bonus),<br/>ou revenir demain pour un nouveau mix. 화이팅!';
+  }
+})();
+
+/* ── Quiz ── */
+function startQuiz(){
+  idx=0; score=0; locked=false;
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('homeBar').style.display='none';
+  document.getElementById('endScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('quizBar').style.display='flex';
+  renderQ();
+}
+function renderQ(){
+  const q = MIX.qs[idx];
+  document.getElementById('qzCount').textContent=(idx+1)+' / '+MIX.qs.length;
+  document.getElementById('qzProg').style.width=Math.round(idx/MIX.qs.length*100)+'%';
+  document.getElementById('qzFeedback').textContent=''; document.getElementById('qzFeedback').className='qz-feedback';
+  const kind=document.getElementById('qzKind'), prompt=document.getElementById('qzPrompt');
+  const choices=document.getElementById('qzChoices'), input=document.getElementById('qzInput');
+  choices.style.display='none'; input.style.display='none';
+  document.getElementById('kbDock').style.display='none';
+  if (kb) kb.reset();
+
+  if (q.type==='kr2fr'){
+    kind.textContent='VOCABULAIRE — que veut dire…';
+    prompt.innerHTML=`<div class="qz-kr">${q.it.kr}</div>`;
+    mcChoices(q, o=>o.fr, false);
+  } else if (q.type==='fr2kr'){
+    kind.textContent='VOCABULAIRE — comment dit-on…';
+    prompt.innerHTML=`<div class="qz-fr">« ${q.it.fr} »</div>`;
+    mcChoices(q, o=>o.kr, true);
+  } else if (q.type==='audio'){
+    kind.textContent='ÉCOUTE — quel mot entends-tu ?';
+    prompt.innerHTML=`<button class="qz-audio" id="qzPlay" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button><div class="qz-sub">Touche pour réécouter</div>`;
+    document.getElementById('qzPlay').onclick=()=>{ if(window.speak) speak(q.it.kr, document.getElementById('qzPlay')); };
+    setTimeout(()=>{ if(window.speak) speak(q.it.kr); }, 350);
+    mcChoices(q, o=>o.kr, true);
+  } else if (q.type==='particle'){
+    kind.textContent='PARTICULE — complète la phrase';
+    prompt.innerHTML=`<div class="qz-sentence">${q.it.pre}<span class="qz-blank">___</span>${q.it.post}</div><div class="qz-sub">${q.it.fr}</div>`;
+    choices.style.display='grid'; choices.innerHTML='';
+    const opts=[q.it.ok, ...q.it.alts.slice(0,3)].sort(()=>Math.random()-.5);
+    opts.forEach(o=>{
+      const b=document.createElement('button'); b.className='qz-choice kr-opt'; b.textContent=o;
+      b.onclick=()=>answerMC(b, o===q.it.ok, q.it.ok);
+      choices.appendChild(b);
+    });
+  } else if (q.type==='type'){
+    kind.textContent='ÉCRITURE — tape ce mot au clavier';
+    prompt.innerHTML=`<div class="qz-fr">« ${q.it.fr} »</div><div class="qz-sub">indice : ${q.it.rom}</div>`;
+    input.style.display='flex';
+    input.className='qz-input';
+    input.innerHTML='<span class="qz-caret"></span>';
+    document.getElementById('kbDock').style.display='block';
+    if (!kb){
+      kb = KSKeyboard.create(document.getElementById('kbDock'), {
+        onInput: t=>{ input.innerHTML=(t? t.replace(/&/g,'&amp;').replace(/</g,'&lt;'):'')+'<span class="qz-caret"></span>'; },
+        onSubmit: t=>answerType(t, q.it)
+      });
+    }
+  }
+}
+function mcChoices(q, label, isKr){
+  const choices=document.getElementById('qzChoices');
+  choices.style.display='grid'; choices.innerHTML='';
+  q.opts.forEach(o=>{
+    const b=document.createElement('button');
+    b.className='qz-choice'+(isKr?' kr-opt':'');
+    b.textContent=label(o);
+    b.onclick=()=>answerMC(b, o.kr===q.it.kr, label(q.it));
+    choices.appendChild(b);
+  });
+}
+function answerMC(btn, isOk, correctLabel){
+  if (locked) return; locked=true;
+  const fb=document.getElementById('qzFeedback');
+  if (isOk){ score++; btn.classList.add('ok'); fb.textContent='정답! Correct !'; fb.classList.add('ok'); }
+  else {
+    btn.classList.add('ko');
+    [...document.querySelectorAll('.qz-choice')].find(b=>b.textContent===correctLabel)?.classList.add('ok');
+    fb.textContent='→ '+correctLabel; fb.classList.add('ko');
+  }
+  setTimeout(next, isOk?650:1400);
+}
+function answerType(text, it){
+  if (locked) return;
+  const typed=(text||'').trim(); if(!typed) return;
+  locked=true;
+  const input=document.getElementById('qzInput'), fb=document.getElementById('qzFeedback');
+  if (typed===it.kr){ score++; input.classList.add('ok'); fb.textContent='정답! Correct !'; fb.classList.add('ok'); }
+  else { input.classList.add('ko'); fb.textContent='→ '+it.kr+' ('+it.rom+')'; fb.classList.add('ko'); }
+  setTimeout(next, typed===it.kr?700:1500);
+}
+function next(){
+  locked=false; idx++;
+  if (idx>=MIX.qs.length){ endQuiz(); return; }
+  renderQ();
+}
+
+/* ── Fin + streak ── */
+function endQuiz(){
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('quizBar').style.display='none';
+  document.getElementById('kbDock').style.display='none';
+  document.getElementById('endScreen').style.display='block';
+  document.getElementById('endScore').textContent=score+'/'+MIX.qs.length;
+  let xp=0, streak=parseInt(ls('ks_mix_streak')||'0');
+  const doneKey='ks_mix_done_'+MIX.date;
+  try {
+    if (!ls(doneKey)){
+      localStorage.setItem(doneKey,'1');
+      /* streak : hier (Séoul) fait → +1, sinon repart à 1 */
+      const last=ls('ks_mix_last');
+      const yest=(function(){const d=new Date(MIX.date+'T12:00:00');d.setDate(d.getDate()-1);return d.toISOString().slice(0,10);})();
+      streak = (last===yest) ? streak+1 : 1;
+      localStorage.setItem('ks_mix_streak',String(streak));
+      localStorage.setItem('ks_mix_last',MIX.date);
+      xp=XP;
+      if (typeof ksAddXP==='function') ksAddXP(xp);
+      else { const p=parseInt(ls('ks_xp')||'0'); localStorage.setItem('ks_xp',String(p+xp)); }
+    }
+  } catch(e){}
+  document.getElementById('endStreak').textContent=streak;
+  document.getElementById('endXP').textContent='+'+xp;
+  if (score===MIX.qs.length){ document.getElementById('endEmoji').textContent='🏆'; document.getElementById('endTitle').textContent='완벽해요 ! Sans faute !'; document.getElementById('endSub').textContent='Tout ce que tu as appris est bien ancré. À demain pour le prochain mix !'; }
+  else if (score>=7){ document.getElementById('endEmoji').textContent='🎉'; document.getElementById('endTitle').textContent='잘했어요 ! Solide !'; document.getElementById('endSub').textContent='La révision quotidienne, c\'est ça le secret — quelques minutes par jour battent des heures le dimanche.'; }
+  else { document.getElementById('endEmoji').textContent='💪'; document.getElementById('endTitle').textContent='C\'est noté !'; document.getElementById('endSub').textContent='Les mots ratés reviendront dans les prochains mix. Repasse aussi par les Révisions SRS.'; }
+}
+
+document.getElementById('startBtn').onclick=startQuiz;
+document.getElementById('quitBtn').onclick=e=>{ e.preventDefault();
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('quizBar').style.display='none';
+  document.getElementById('kbDock').style.display='none';
+  document.getElementById('homeScreen').style.display='block';
+  document.getElementById('homeBar').style.display='flex';
+};
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

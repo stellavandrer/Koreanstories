@@ -74,6 +74,9 @@
   <div class="cat-title">Maîtrise</div>
   <div class="trophy-grid" id="catMastery"></div>
 
+  <div class="cat-title">Blocs thématiques</div>
+  <div class="trophy-grid" id="catBlocs"></div>
+
   <div class="cat-title">Exploration</div>
   <div class="trophy-grid" id="catExplo"></div>
 
@@ -182,6 +185,45 @@ var TROPHIES = [
   {cat:'explo',id:'community',name:'Communauté',desc:'Active ton classement public dans Réglages',ico:ico('#DB2777','<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/>'),target:1,progress:function(){return ls('ks_leaderboard_opt')==='1'?1:0;}}
 ];
 
+/* ── Badges de blocs thématiques — un badge par groupe du parcours ──
+   Chaque badge se débloque quand TOUTES les activités du bloc sont
+   faites (alias historiques ks_l, ks_h et ks_jeu pris en compte). */
+var BLOC_ALIAS={'ks_a01':'ks_l5','ks_a05':'ks_l6','ks_a09':'ks_l7','ks_a12':'ks_l8','ks_a14':'ks_l10','ks_a22':'ks_l9','ks_a03':'ks_h1','ks_a15':'ks_h2','ks_a27':'ks_h3','ks_h01':'ks_l1','ks_h04':'ks_l2','ks_h07':'ks_l3','ks_h09':'ks_l4','ks_d30':'ks_jeu11','ks_a45':'ks_jeu12'};
+function blocDone(k){
+  var v=ls(k); if(v==='done'||v==='1'||v==='true')return true;
+  var a=BLOC_ALIAS[k]; if(a){var v2=ls(a); return v2==='done'||v2==='1'||v2==='true';}
+  return false;
+}
+function blocProgress(keys){
+  return function(){ var n=0; keys.forEach(function(k){ if(blocDone(k)) n++; }); return n; };
+}
+function emo(e){return '<span style="font-size:28px;line-height:1">'+e+'</span>';}
+function blocBadge(id,name,emoji,keys,desc){
+  TROPHIES.push({cat:'blocs',id:'bloc_'+id,name:name,desc:desc||('Termine tout le bloc « '+name+' »'),ico:emo(emoji),target:keys.length,progress:blocProgress(keys)});
+}
+/* A1 */
+blocBadge('salut','Salutations','👋',['ks_a01','ks_a02','ks_a03','ks_a04']);
+blocBadge('partic','Particules & Premières phrases','🧩',['ks_a31','ks_a32','ks_a33','ks_a48','ks_a50','ks_a34','ks_a22','ks_a23','ks_a24','ks_a25','ks_a26','ks_a49']);
+blocBadge('chiffres','Chiffres','🔢',['ks_a05','ks_a06','ks_a07','ks_a08']);
+blocBadge('famille','Famille & Description','👪',['ks_a09','ks_a10','ks_a11','ks_a12','ks_a13']);
+blocBadge('food','Nourriture & Culture','🍜',['ks_a14','ks_a15','ks_a16','ks_a17']);
+blocBadge('lieux','Lieux & Directions','🗺️',['ks_a18','ks_a19','ks_a20','ks_a21']);
+blocBadge('temps','Temps, Météo & Compteurs','⛅',['ks_a_time','ks_a_meteo','ks_a_counters']);
+blocBadge('maison','Maison & Quotidien','🏠',['ks_a36','ks_a37','ks_a35','ks_a43']);
+blocBadge('vie','Corps, Mode & Émotions','🧥',['ks_a38','ks_a39','ks_a40','ks_a52']);
+/* A2 */
+blocBadge('gramA2','Grammaire A2 complète','📐',['ks_b01','ks_b23','ks_b24','ks_b25','ks_b26','ks_b27','ks_b28','ks_b29','ks_b04b','ks_b04c','ks_b04d','ks_b04e','ks_b34','ks_b35','ks_b36']);
+blocBadge('cultA2','Culture & Immersion A2','🎭',['ks_b09','ks_b10','ks_b11','ks_b12','ks_b32','ks_b31']);
+blocBadge('shop','Shopping & Voyage','🛍️',['ks_b13','ks_b14','ks_b15','ks_b16','ks_b17','ks_b18','ks_b33']);
+blocBadge('histA2','Histoires A2','📖',['ks_b37','ks_b38','ks_b43','ks_b44','ks_b45']);
+/* B1 */
+blocBadge('gramB1','Grammaire B1 complète','🎓',['ks_c01','ks_c02','ks_c03','ks_c04','ks_c05','ks_c09b','ks_c09c','ks_c09d','ks_c27','ks_c28','ks_c29']);
+blocBadge('proB1','Politesse & Monde pro','🤝',['ks_c06','ks_c07','ks_c08','ks_c09','ks_c19','ks_c20','ks_c21','ks_c22']);
+blocBadge('immB1','Immersion B1','📚',['ks_c12','ks_c13','ks_c14','ks_c15','ks_c16','ks_c17','ks_c18','ks_c30','ks_c31','ks_c36','ks_c37','ks_c38']);
+/* B2 */
+blocBadge('rhetoB2','Rhétorique & Médias B2','🏛️',['ks_d18','ks_d19','ks_d20','ks_d21','ks_d08','ks_d09','ks_d10','ks_d11']);
+blocBadge('immB2','Immersion B2','🍶',['ks_d05','ks_d06','ks_d07','ks_d22','ks_d23','ks_d24','ks_d35','ks_d36','ks_d37']);
+
 function isEarned(t){return t.progress()>=t.target;}
 
 function renderCat(catId,containerId){
@@ -213,6 +255,7 @@ function refresh(){
   earned+=renderCat('regular','catRegular');
   earned+=renderCat('xp','catXP');
   earned+=renderCat('mastery','catMastery');
+  earned+=renderCat('blocs','catBlocs');
   earned+=renderCat('explo','catExplo');
   var total=TROPHIES.length;
   document.getElementById('sEarned').textContent=earned;

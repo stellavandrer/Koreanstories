@@ -1151,6 +1151,32 @@
     <div id="factBody" style="font-size:12.5px;color:var(--tx-muted);line-height:1.55"></div>
   </div>
 
+  <!-- MIX DU JOUR — révision quotidienne sur tout l'acquis -->
+  <a href="daily-mix.html" id="mixCard" style="display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0F1B2D,#23408f);border:1.5px solid rgba(201,169,110,.25);border-radius:18px;padding:14px 16px;margin:12px 14px 0;text-decoration:none;color:#fff">
+    <span style="font-size:26px;flex-shrink:0">🌀</span>
+    <span style="flex:1;min-width:0">
+      <span style="display:block;font-size:14px;font-weight:800">Mix du jour</span>
+      <span id="mixCardSub" style="display:block;font-size:11.5px;color:rgba(247,248,250,.6);margin-top:2px">10 questions sur tout ce que tu as appris · +15 XP</span>
+    </span>
+    <span id="mixCardBadge" style="flex-shrink:0;background:rgba(201,169,110,.18);border:1px solid rgba(201,169,110,.4);color:var(--gold);border-radius:100px;padding:6px 13px;font-size:11px;font-weight:800">À faire</span>
+  </a>
+  <script>
+  (function(){
+    try {
+      var d;
+      try { d = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date()); }
+      catch(e){ d = new Date().toISOString().slice(0,10); }
+      if (localStorage.getItem('ks_mix_done_'+d)){
+        var b=document.getElementById('mixCardBadge');
+        b.textContent='✓ Fait'; b.style.background='rgba(34,197,94,.18)'; b.style.borderColor='rgba(74,222,128,.45)'; b.style.color='#4ade80';
+        var s=document.getElementById('mixCardSub');
+        var st=localStorage.getItem('ks_mix_streak')||'1';
+        s.textContent='Terminé pour aujourd\'hui · 🔥 '+st+' jour'+(st>1?'s':'')+' de suite';
+      }
+    } catch(e){}
+  })();
+  </script>
+
   <!-- STREAK CARD (caché — redondant avec la pill streak du top bar et la Streak Protection conditionnelle) -->
   <div class="streak-wrap" id="streakWrap" style="display:none">
     <div class="streak-card" id="streakCard">

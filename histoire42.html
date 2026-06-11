@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Les proverbes de grand-père — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/histoire42.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#92400e;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(146,64,14,.14);color:#713f12;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#EDF2FA}
+    .xp-badge{background:rgba(146,64,14,.14);color:#713f12;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#EDF2FA}
+    .story-hero{background:linear-gradient(135deg,#713f12,#92400e);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .listen-bar{background:linear-gradient(135deg,rgba(146,64,14,.10),rgba(146,64,14,.04));border:1.5px solid rgba(146,64,14,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
+    .listen-btn{background:#92400e;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn:hover{transform:scale(1.06)}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:18px;height:18px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.78rem;color:var(--tx-muted)}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#92400e;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(146,64,14,.06);border-left:3px solid #92400e;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    [data-theme="dark"] .narration-kr{color:#EDF2FA}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-mina{background:#ec4899}.av-harabeoji{background:#92400e}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(146,64,14,.06);border-color:rgba(146,64,14,.25)}
+    .bubble.listening{box-shadow:0 0 0 2px rgba(146,64,14,.5)}
+    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    [data-theme="dark"] .ko{color:#EDF2FA}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(146,64,14,.10);border:1.5px solid rgba(146,64,14,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#713f12;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    [data-theme="dark"] .bubble-audio{color:#EDF2FA}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .grammar-note{background:rgba(146,64,14,.07);border:1px dashed rgba(146,64,14,.4);border-radius:12px;padding:.7rem 1rem;font-size:.82rem;margin:.8rem 0;line-height:1.6;color:var(--tx-muted)}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(146,64,14,.1);color:#713f12;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    [data-theme="dark"] .vocab th{color:#EDF2FA}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#713f12;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .vocab td .ko{color:#EDF2FA}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#92400e;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Les proverbes de grand-père</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Les proverbes de grand-père</h2>
+  <span class="pill">B2 · Histoire</span> <span class="xp-badge">+22 XP</span>
+  <div class="story-hero">
+    <div class="story-tag">Dialogue immersif · 속담 & sagesse populaire</div>
+    <div class="story-title">할아버지의 속담 — Les proverbes de grand-père</div>
+    <div class="story-sub">Mina apprend les proverbes avec son grand-père : 가는 말이 고와야…, 금강산도 식후경, 발 없는 말이… — les 속담 de la leçon B2 transmis comme en vraie famille coréenne.</div>
+  </div>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter">
+      <svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+    </button>
+    <div class="listen-meta">
+      <div class="listen-title">🎧 Écouter l'histoire</div>
+      <div class="listen-sub" id="listenSub">2 voix : Mina (SunHi) · Harabeoji (InJoon)</div>
+    </div>
+  </div>
+
+  <div id="storyContent">
+
+  <h3>Scène 1 — La demande</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 01</div>
+    <div class="narration">
+      <div class="narration-kr">미나가 할아버지 댁에 갔습니다. 할아버지는 책을 읽고 계십니다.</div>
+      Mina rend visite à son grand-père, plongé dans un livre. (계시다 : honorifique de 있다)
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">할아버지, 속담을 배우고 있는데 너무 어려워요.</div>
+        <div class="bubble-rom">Harabeoji, sokdam-eul baeugo inneunde neomu eoryeowoyo.</div>
+        <div class="bubble-fr">Grand-père, j'apprends les proverbes mais c'est trop dur.</div>
+        <button class="bubble-audio" onclick="speakAs('할아버지, 속담을 배우고 있는데 너무 어려워요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="harabeoji">
+      <div class="avatar-circle av-harabeoji">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Harabeoji</span>
+        <div class="ko">하하, 속담은 삶의 지혜야. 예를 들어 볼까?</div>
+        <div class="bubble-rom">Haha, sokdam-eun salm-ui jihye-ya. Yereul deureo bolkka?</div>
+        <div class="bubble-fr">Haha, les proverbes, c'est la sagesse de la vie. Je te donne un exemple ? (지혜 : sagesse)</div>
+        <button class="bubble-audio" onclick="speakAs('하하, 속담은 삶의 지혜야. 예를 들어 볼까?','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 2 — La leçon de sagesse</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 02</div>
+    <div class="narration">
+      <div class="narration-kr">할아버지가 속담을 설명해 주십니다.</div>
+      Grand-père explique les proverbes. (-아/어 주시다 : honorifique)
+    </div>
+    <div class="bubble-row right" data-speaker="harabeoji">
+      <div class="avatar-circle av-harabeoji">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Harabeoji</span>
+        <div class="ko">「가는 말이 고와야 오는 말이 곱다」— 남에게 잘해야 남도 나에게 잘하는 법이야.</div>
+        <div class="bubble-rom">"Ganeun mal-i gowaya oneun mal-i gopda" — nam-ege jalhaeya nam-do na-ege jalhaneun beob-iya.</div>
+        <div class="bubble-fr">« Si les mots qui partent sont beaux, ceux qui reviennent le sont aussi » — sois bon avec les autres, et ils le seront avec toi. (-는 법이다 : c'est la règle)</div>
+        <button class="bubble-audio" onclick="speakAs('「가는 말이 고와야 오는 말이 곱다」— 남에게 잘해야 남도 나에게 잘하는 법이야.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">아, 프랑스에도 비슷한 말이 있어요!</div>
+        <div class="bubble-rom">A, Peurangseu-edo biseuthan mal-i isseoyo!</div>
+        <div class="bubble-fr">Ah, on a un proverbe semblable en France !</div>
+        <button class="bubble-audio" onclick="speakAs('아, 프랑스에도 비슷한 말이 있어요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="harabeoji">
+      <div class="avatar-circle av-harabeoji">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Harabeoji</span>
+        <div class="ko">「발 없는 말이 천 리 간다」— 말은 조심해야 한다는 뜻이지.</div>
+        <div class="bubble-rom">"Bal eomneun mal-i cheon li ganda" — mal-eun josimhaeya handaneun tteus-iji.</div>
+        <div class="bubble-fr">« La parole sans pieds parcourt mille lieues » — ça veut dire qu'il faut faire attention à ce qu'on dit. (-다는 뜻 : ça signifie que)</div>
+        <button class="bubble-audio" onclick="speakAs('「발 없는 말이 천 리 간다」— 말은 조심해야 한다는 뜻이지.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">그럼 「금강산도 식후경」은요? 배가 고프면 아무것도 못 한다는 뜻이라고 들었어요.</div>
+        <div class="bubble-rom">Geureom "Geumgangsan-do sikhugyeong"-eun-yo? Bae-ga gopeumyeon amugeotdo mot handaneun tteus-irago deureosseoyo.</div>
+        <div class="bubble-fr">Et « Même le mont Geumgang, après le repas » ? J'ai entendu dire que ça signifie qu'on ne peut rien faire le ventre vide. (-다고 들었어요 : discours rapporté)</div>
+        <button class="bubble-audio" onclick="speakAs('그럼 「금강산도 식후경」은요? 배가 고프면 아무것도 못 한다는 뜻이라고 들었어요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 3 — La preuve par l'exemple</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 03</div>
+    <div class="narration">
+      <div class="narration-kr">할머니가 저녁을 준비하셨습니다.</div>
+      Grand-mère a préparé le dîner.
+    </div>
+    <div class="bubble-row right" data-speaker="harabeoji">
+      <div class="avatar-circle av-harabeoji">할</div>
+      <div class="bubble">
+        <span class="speaker-name">Harabeoji</span>
+        <div class="ko">자, 금강산도 식후경! 먼저 먹고 계속하자.</div>
+        <div class="bubble-rom">Ja, Geumgangsan-do sikhugyeong! Meonjeo meokgo gyesokhaja.</div>
+        <div class="bubble-fr">Allez : même le mont Geumgang attend la fin du repas ! On mange d'abord, on continue après.</div>
+        <button class="bubble-audio" onclick="speakAs('자, 금강산도 식후경! 먼저 먹고 계속하자.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">하하, 네! 할아버지 덕분에 속담이 재미있어졌어요.</div>
+        <div class="bubble-rom">Haha, ne! Harabeoji deokbun-e sokdam-i jaemiisseojyeosseoyo.</div>
+        <div class="bubble-fr">Haha, oui ! Grâce à toi, les proverbes sont devenus amusants. (덕분에 : grâce à)</div>
+        <button class="bubble-audio" onclick="speakAs('하하, 네! 할아버지 덕분에 속담이 재미있어졌어요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /storyContent -->
+
+  <div class="grammar-note">📐 Grammaire travaillée : 속담 (Proverbes essentiels) · -는 법이다 (Formes rhétoriques) · -다는 뜻 / -다고 들었어요 (Discours indirect avancé) · 계시다 (Honorifiques).</div>
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">속담</span></td><td>proverbe</td></tr>
+    <tr><td><span class="ko">지혜</span></td><td>sagesse</td></tr>
+    <tr><td><span class="ko">예를 들다</span></td><td>donner un exemple</td></tr>
+    <tr><td><span class="ko">-는 법이다</span></td><td>c'est la règle que ~</td></tr>
+    <tr><td><span class="ko">가는 말이 고와야 오는 말이 곱다</span></td><td>la politesse appelle la politesse</td></tr>
+    <tr><td><span class="ko">발 없는 말이 천 리 간다</span></td><td>les rumeurs voyagent vite</td></tr>
+    <tr><td><span class="ko">금강산도 식후경</span></td><td>le ventre d'abord, le reste après</td></tr>
+    <tr><td><span class="ko">-다는 뜻</span></td><td>ça signifie que ~</td></tr>
+    <tr><td><span class="ko">-다고 들었어요</span></td><td>j'ai entendu dire que ~</td></tr>
+    <tr><td><span class="ko">덕분에</span></td><td>grâce à</td></tr>
+    <tr><td><span class="ko">계시다</span></td><td>être (honorifique)</td></tr>
+  </table></div>
+
+  <div class="tip"><strong>Culture :</strong> les 속담 sont partout — pubs, dramas, discours politiques. En placer un au bon moment impressionne instantanément les Coréens. Ces trois-là sont exactement ceux de ta leçon « Proverbes coréens essentiels » : tu viens de les voir vivre.</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +22 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const KS_VOICE_MAP = {"mina": "sunhi", "emma": "sunhi", "jiwoo": "sunhi", "halmeoni": "sunhi", "chef": "sunhi", "joon": "injoon", "agent": "injoon", "interviewer": "injoon", "bujang": "injoon", "sujin": "sunhi", "harabeoji": "injoon"};
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn');
+  const icon = document.getElementById('listenIcon');
+  const sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = '2 voix : Mina (SunHi) · Harabeoji (InJoon)'; return; }
+  if (typeof window.speakAs !== 'function') return;
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.getElementById('storyContent').querySelectorAll('.bubble-row[data-speaker], .narration-kr').forEach(node => {
+    if (node.classList.contains('narration-kr')){ items.push({ el: node, text: node.textContent.trim(), voice: 'injoon' }); }
+    else {
+      const voice = KS_VOICE_MAP[node.dataset.speaker] || 'injoon';
+      node.querySelectorAll('.ko').forEach(koEl => items.push({ el: koEl, text: koEl.textContent.trim(), voice }));
+    }
+  });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
+    sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
+    window.speakAs(item.text, item.voice, null, {
+      onended(){ if (bubble) bubble.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='?'||last==='!') ? 700 : (last==='.'||last==='。') ? 500 : 350; i++; setTimeout(next, pause); },
+      onerror(){ if (bubble) bubble.classList.remove('listening'); i++; setTimeout(next, 250); }
+    });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){ if(typeof ksFinish==='function')ksFinish({key:'ks_d37',xp:22}); else{if(typeof ksAddXP==='function')ksAddXP(22);if(typeof ksMarkDone==='function')ksMarkDone('ks_d37');location.href='histoires.html';} }
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

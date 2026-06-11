@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Le premier hoesik d'Emma — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/histoire40.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#1d4ed8;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(29,78,216,.14);color:#1e3a8a;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#EDF2FA}
+    .xp-badge{background:rgba(29,78,216,.14);color:#1e3a8a;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#EDF2FA}
+    .story-hero{background:linear-gradient(135deg,#1e3a8a,#1d4ed8);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .listen-bar{background:linear-gradient(135deg,rgba(29,78,216,.10),rgba(29,78,216,.04));border:1.5px solid rgba(29,78,216,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
+    .listen-btn{background:#1d4ed8;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn:hover{transform:scale(1.06)}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:18px;height:18px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.78rem;color:var(--tx-muted)}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#1d4ed8;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(29,78,216,.06);border-left:3px solid #1d4ed8;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    [data-theme="dark"] .narration-kr{color:#EDF2FA}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-emma{background:#f59e0b}.av-bujang{background:#1d4ed8}.av-sujin{background:#ec4899}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(29,78,216,.06);border-color:rgba(29,78,216,.25)}
+    .bubble.listening{box-shadow:0 0 0 2px rgba(29,78,216,.5)}
+    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    [data-theme="dark"] .ko{color:#EDF2FA}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(29,78,216,.10);border:1.5px solid rgba(29,78,216,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#1e3a8a;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    [data-theme="dark"] .bubble-audio{color:#EDF2FA}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .grammar-note{background:rgba(29,78,216,.07);border:1px dashed rgba(29,78,216,.4);border-radius:12px;padding:.7rem 1rem;font-size:.82rem;margin:.8rem 0;line-height:1.6;color:var(--tx-muted)}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(29,78,216,.1);color:#1e3a8a;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    [data-theme="dark"] .vocab th{color:#EDF2FA}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#1e3a8a;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .vocab td .ko{color:#EDF2FA}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#1d4ed8;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Le premier hoesik d'Emma</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Le premier hoesik d'Emma</h2>
+  <span class="pill">B2 · Histoire</span> <span class="xp-badge">+22 XP</span>
+  <div class="story-hero">
+    <div class="story-tag">Dialogue immersif · Honorifiques & culture d'entreprise</div>
+    <div class="story-title">에마의 첫 회식 — Le premier hoesik d'Emma</div>
+    <div class="story-sub">Premier dîner d'entreprise : servir à deux mains, 드리다, 뵙겠습니다, le 2차 — les honorifiques de la leçon B2 vécus en situation réelle.</div>
+  </div>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter">
+      <svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+    </button>
+    <div class="listen-meta">
+      <div class="listen-title">🎧 Écouter l'histoire</div>
+      <div class="listen-sub" id="listenSub">3 voix : Emma & Sujin (SunHi) · Directeur (InJoon)</div>
+    </div>
+  </div>
+
+  <div id="storyContent">
+
+  <h3>Scène 1 — Le premier verre</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 01</div>
+    <div class="narration">
+      <div class="narration-kr">금요일 저녁, 에마의 첫 회식이 있습니다.</div>
+      Vendredi soir : le premier hoesik (dîner d'entreprise) d'Emma.
+    </div>
+    <div class="bubble-row right" data-speaker="bujang">
+      <div class="avatar-circle av-bujang">부</div>
+      <div class="bubble">
+        <span class="speaker-name">Directeur (부장님)</span>
+        <div class="ko">에마 씨, 한 잔 받으세요.</div>
+        <div class="bubble-rom">Emma ssi, han jan badeuseyo.</div>
+        <div class="bubble-fr">Emma, acceptez un verre.</div>
+        <button class="bubble-audio" onclick="speakAs('에마 씨, 한 잔 받으세요.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">감사합니다, 부장님. 제가 한 잔 드리겠습니다.</div>
+        <div class="bubble-rom">Gamsahamnida, bujangnim. Jega han jan deurigesseumnida.</div>
+        <div class="bubble-fr">Merci, Monsieur. Laissez-moi vous servir à mon tour. (드리다 : donner, honorifique)</div>
+        <button class="bubble-audio" onclick="speakAs('감사합니다, 부장님. 제가 한 잔 드리겠습니다.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="sujin">
+      <div class="avatar-circle av-sujin">수</div>
+      <div class="bubble">
+        <span class="speaker-name">Sujin (collègue)</span>
+        <div class="ko">에마 씨, 두 손으로 드려야 해요.</div>
+        <div class="bubble-rom">Emma ssi, du son-euro deuryeoya haeyo.</div>
+        <div class="bubble-fr">Emma, il faut servir à deux mains. (la règle d'or du hoesik)</div>
+        <button class="bubble-audio" onclick="speakAs('에마 씨, 두 손으로 드려야 해요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 2 — La conversation</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 02</div>
+    <div class="narration">
+      <div class="narration-kr">음식이 나왔습니다. 분위기가 좋습니다.</div>
+      Les plats arrivent. L'ambiance est bonne.
+    </div>
+    <div class="bubble-row right" data-speaker="bujang">
+      <div class="avatar-circle av-bujang">부</div>
+      <div class="bubble">
+        <span class="speaker-name">Directeur (부장님)</span>
+        <div class="ko">에마 씨는 한국 생활이 어떻습니까?</div>
+        <div class="bubble-rom">Emma ssi-neun hanguk saenghwal-i eotteoseumnikka?</div>
+        <div class="bubble-fr">Comment se passe votre vie en Corée ? (question formelle -습니까)</div>
+        <button class="bubble-audio" onclick="speakAs('에마 씨는 한국 생활이 어떻습니까?','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">처음에는 힘들었지만 지금은 정말 좋습니다. 좋은 동료들이 있기 때문입니다.</div>
+        <div class="bubble-rom">Cheoeum-eneun himdeureotjiman jigeum-eun jeongmal josseumnida. Joeun dongryodeul-i itgi ttaemun-imnida.</div>
+        <div class="bubble-fr">Au début c'était dur, mais maintenant c'est génial. Parce que j'ai de bons collègues. (-기 때문입니다)</div>
+        <button class="bubble-audio" onclick="speakAs('처음에는 힘들었지만 지금은 정말 좋습니다. 좋은 동료들이 있기 때문입니다.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="sujin">
+      <div class="avatar-circle av-sujin">수</div>
+      <div class="bubble">
+        <span class="speaker-name">Sujin (collègue)</span>
+        <div class="ko">부장님, 에마 씨가 한국어를 정말 잘하지요?</div>
+        <div class="bubble-rom">Bujangnim, Emma ssi-ga hangugeo-reul jeongmal jalhajiyo?</div>
+        <div class="bubble-fr">N'est-ce pas qu'Emma parle très bien coréen ? (-지요 : n'est-ce pas)</div>
+        <button class="bubble-audio" onclick="speakAs('부장님, 에마 씨가 한국어를 정말 잘하지요?','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="bujang">
+      <div class="avatar-circle av-bujang">부</div>
+      <div class="bubble">
+        <span class="speaker-name">Directeur (부장님)</span>
+        <div class="ko">맞아요. 열심히 공부했을 텐데, 대단합니다.</div>
+        <div class="bubble-rom">Majayo. Yeolsimhi gongbuhaesseul tende, daedanhamnida.</div>
+        <div class="bubble-fr">Oui. Elle a dû étudier très dur, c'est admirable. (-았을 텐데 : supposition)</div>
+        <button class="bubble-audio" onclick="speakAs('맞아요. 열심히 공부했을 텐데, 대단합니다.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 3 — La sortie</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 03</div>
+    <div class="narration">
+      <div class="narration-kr">회식이 끝났습니다.</div>
+      Le hoesik se termine.
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">부장님, 먼저 들어가 보겠습니다. 내일 뵙겠습니다.</div>
+        <div class="bubble-rom">Bujangnim, meonjeo deureoga bogesseumnida. Naeil boepgesseumnida.</div>
+        <div class="bubble-fr">Monsieur, je vais y aller. À demain. (뵙겠습니다 : voir, ultra-honorifique — LA formule de départ pro)</div>
+        <button class="bubble-audio" onclick="speakAs('부장님, 먼저 들어가 보겠습니다. 내일 뵙겠습니다.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row right" data-speaker="bujang">
+      <div class="avatar-circle av-bujang">부</div>
+      <div class="bubble">
+        <span class="speaker-name">Directeur (부장님)</span>
+        <div class="ko">네, 조심히 가세요. 수고했어요.</div>
+        <div class="bubble-rom">Ne, josimhi gaseyo. Sugohaesseoyo.</div>
+        <div class="bubble-fr">Rentrez bien. Bon travail aujourd'hui. (수고했어요 : le remerciement pro par excellence)</div>
+        <button class="bubble-audio" onclick="speakAs('네, 조심히 가세요. 수고했어요.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="sujin">
+      <div class="avatar-circle av-sujin">수</div>
+      <div class="bubble">
+        <span class="speaker-name">Sujin (collègue)</span>
+        <div class="ko">에마 씨, 같이 가요! 우리 2차는 카페로 가요!</div>
+        <div class="bubble-rom">Emma ssi, gachi gayo! Uri i-cha-neun kape-ro gayo!</div>
+        <div class="bubble-fr">Emma, on y va ensemble ! Pour le 2ᵉ round, on va au café ! (2차 : la 2ᵉ étape de la soirée)</div>
+        <button class="bubble-audio" onclick="speakAs('에마 씨, 같이 가요! 우리 2차는 카페로 가요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /storyContent -->
+
+  <div class="grammar-note">📐 Grammaire travaillée : 드리다/뵙다 (Honorifiques approfondis) · -기 때문입니다 (Cause) · -았을 텐데 (Formes complexes B2) · -습니까 (Formel).</div>
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">회식</span></td><td>dîner d'entreprise</td></tr>
+    <tr><td><span class="ko">한 잔 받으세요</span></td><td>acceptez un verre</td></tr>
+    <tr><td><span class="ko">드리다</span></td><td>donner (honorifique)</td></tr>
+    <tr><td><span class="ko">두 손으로</span></td><td>à deux mains</td></tr>
+    <tr><td><span class="ko">-기 때문입니다</span></td><td>c'est parce que ~ (formel)</td></tr>
+    <tr><td><span class="ko">-았을 텐데</span></td><td>a dû ~ (supposition)</td></tr>
+    <tr><td><span class="ko">-지요?</span></td><td>n'est-ce pas ?</td></tr>
+    <tr><td><span class="ko">뵙겠습니다</span></td><td>au revoir (très honorifique)</td></tr>
+    <tr><td><span class="ko">수고했어요</span></td><td>bon travail, merci pour l'effort</td></tr>
+    <tr><td><span class="ko">2차</span></td><td>deuxième round (de soirée)</td></tr>
+    <tr><td><span class="ko">동료</span></td><td>collègue</td></tr>
+    <tr><td><span class="ko">분위기</span></td><td>ambiance</td></tr>
+  </table></div>
+
+  <div class="tip"><strong>Culture :</strong> au hoesik, on ne se sert JAMAIS soi-même : chacun remplit le verre des autres, à deux mains pour un supérieur, et on tourne la tête en buvant devant un aîné. Le 2차 (café ou noraebang) est presque obligatoire — refuser poliment s'apprend… au niveau C1.</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +22 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const KS_VOICE_MAP = {"mina": "sunhi", "emma": "sunhi", "jiwoo": "sunhi", "halmeoni": "sunhi", "chef": "sunhi", "joon": "injoon", "agent": "injoon", "interviewer": "injoon", "bujang": "injoon", "sujin": "sunhi", "harabeoji": "injoon"};
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn');
+  const icon = document.getElementById('listenIcon');
+  const sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = '3 voix : Emma & Sujin (SunHi) · Directeur (InJoon)'; return; }
+  if (typeof window.speakAs !== 'function') return;
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.getElementById('storyContent').querySelectorAll('.bubble-row[data-speaker], .narration-kr').forEach(node => {
+    if (node.classList.contains('narration-kr')){ items.push({ el: node, text: node.textContent.trim(), voice: 'injoon' }); }
+    else {
+      const voice = KS_VOICE_MAP[node.dataset.speaker] || 'injoon';
+      node.querySelectorAll('.ko').forEach(koEl => items.push({ el: koEl, text: koEl.textContent.trim(), voice }));
+    }
+  });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
+    sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
+    window.speakAs(item.text, item.voice, null, {
+      onended(){ if (bubble) bubble.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='?'||last==='!') ? 700 : (last==='.'||last==='。') ? 500 : 350; i++; setTimeout(next, pause); },
+      onerror(){ if (bubble) bubble.classList.remove('listening'); i++; setTimeout(next, 250); }
+    });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){ if(typeof ksFinish==='function')ksFinish({key:'ks_d35',xp:22}); else{if(typeof ksAddXP==='function')ksAddXP(22);if(typeof ksMarkDone==='function')ksMarkDone('ks_d35');location.href='histoires.html';} }
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

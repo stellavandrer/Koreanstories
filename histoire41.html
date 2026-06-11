@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Le grand débat : ville ou campagne ? — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/histoire41.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#0f766e;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(15,118,110,.14);color:#134e4a;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#EDF2FA}
+    .xp-badge{background:rgba(15,118,110,.14);color:#134e4a;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#EDF2FA}
+    .story-hero{background:linear-gradient(135deg,#134e4a,#0f766e);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
+    .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.75);margin-bottom:.4rem}
+    .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+    .story-sub{font-size:.85rem;opacity:.85}
+    .listen-bar{background:linear-gradient(135deg,rgba(15,118,110,.10),rgba(15,118,110,.04));border:1.5px solid rgba(15,118,110,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
+    .listen-btn{background:#0f766e;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn:hover{transform:scale(1.06)}
+    .listen-btn.playing{background:#dc2626}
+    .listen-btn svg{width:18px;height:18px;fill:#fff}
+    .listen-meta{flex:1;min-width:0}
+    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    [data-theme="dark"] .listen-title{color:#EDF2FA}
+    .listen-sub{font-size:.78rem;color:var(--tx-muted)}
+    .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#0f766e;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .narration{background:rgba(15,118,110,.06);border-left:3px solid #0f766e;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
+    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    [data-theme="dark"] .narration-kr{color:#EDF2FA}
+    .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
+    .bubble-row.right{flex-direction:row-reverse}
+    .avatar-circle{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:800}
+    .av-joon{background:#3b82f6}.av-mina{background:#ec4899}.av-emma{background:#f59e0b}
+    .speaker-name{font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--tx-muted);letter-spacing:.05em;display:block;margin-bottom:.2rem}
+    .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
+    .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(15,118,110,.06);border-color:rgba(15,118,110,.25)}
+    .bubble.listening{box-shadow:0 0 0 2px rgba(15,118,110,.5)}
+    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    [data-theme="dark"] .ko{color:#EDF2FA}
+    .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
+    .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
+    .bubble-audio{background:rgba(15,118,110,.10);border:1.5px solid rgba(15,118,110,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#134e4a;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    [data-theme="dark"] .bubble-audio{color:#EDF2FA}
+    .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+    .grammar-note{background:rgba(15,118,110,.07);border:1px dashed rgba(15,118,110,.4);border-radius:12px;padding:.7rem 1rem;font-size:.82rem;margin:.8rem 0;line-height:1.6;color:var(--tx-muted)}
+    .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
+    .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
+    .vocab th{background:rgba(15,118,110,.1);color:#134e4a;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    [data-theme="dark"] .vocab th{color:#EDF2FA}
+    .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
+    .vocab td .ko{color:#134e4a;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .vocab td .ko{color:#EDF2FA}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#0f766e;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Le grand débat : ville ou campagne ?</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Le grand débat : ville ou campagne ?</h2>
+  <span class="pill">B2 · Histoire</span> <span class="xp-badge">+22 XP</span>
+  <div class="story-hero">
+    <div class="story-tag">Dialogue immersif · Argumenter en coréen</div>
+    <div class="story-title">도시 대 시골 — Le grand débat : ville ou campagne ?</div>
+    <div class="story-sub">Trois amis, un débat : 게다가, 반면에, 따라서, -기 마련이다, -(으)ㄹ 리가 없다 — toutes les armes rhétoriques B2 dans une vraie discussion.</div>
+  </div>
+
+  <div class="listen-bar">
+    <button class="listen-btn" id="listenBtn" onclick="toggleListen()" aria-label="Écouter">
+      <svg id="listenIcon" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+    </button>
+    <div class="listen-meta">
+      <div class="listen-title">🎧 Écouter l'histoire</div>
+      <div class="listen-sub" id="listenSub">3 voix : Mina & Emma (SunHi) · Joon (InJoon)</div>
+    </div>
+  </div>
+
+  <div id="storyContent">
+
+  <h3>Scène 1 — Les positions</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 01</div>
+    <div class="narration">
+      <div class="narration-kr">세 친구가 카페에서 이야기합니다. 주제는 「도시와 시골」입니다.</div>
+      Trois amis discutent au café. Le sujet : « ville ou campagne ».
+    </div>
+    <div class="bubble-row right" data-speaker="joon">
+      <div class="avatar-circle av-joon">JN</div>
+      <div class="bubble">
+        <span class="speaker-name">Joon</span>
+        <div class="ko">저는 도시가 더 좋아요. 편리하기 때문이에요. 게다가 일자리도 많아요.</div>
+        <div class="bubble-rom">Jeoneun dosi-ga deo joayo. Pyeollihagi ttaemun-ieyo. Gedaga iljari-do manayo.</div>
+        <div class="bubble-fr">Moi je préfère la ville. Parce que c'est pratique. En plus, il y a plein d'emplois. (게다가 : de surcroît)</div>
+        <button class="bubble-audio" onclick="speakAs('저는 도시가 더 좋아요. 편리하기 때문이에요. 게다가 일자리도 많아요.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">글쎄요. 도시 생활은 스트레스가 쌓이기 마련이에요.</div>
+        <div class="bubble-rom">Geulsseyo. Dosi saenghwal-eun seuteureseu-ga ssahigi maryeon-ieyo.</div>
+        <div class="bubble-fr">Mouais. En ville, le stress s'accumule inévitablement. (-기 마련이다 : c'est inévitable)</div>
+        <button class="bubble-audio" onclick="speakAs('글쎄요. 도시 생활은 스트레스가 쌓이기 마련이에요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">맞아요. 반면에 시골은 공기가 좋고 조용해요.</div>
+        <div class="bubble-rom">Majayo. Banmyeon-e sigol-eun gonggi-ga joko joyonghaeyo.</div>
+        <div class="bubble-fr">Exact. En revanche, à la campagne l'air est pur et c'est calme. (반면에 : en revanche)</div>
+        <button class="bubble-audio" onclick="speakAs('맞아요. 반면에 시골은 공기가 좋고 조용해요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 2 — Le débat s'échauffe</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 02</div>
+    <div class="narration">
+      <div class="narration-kr">토론이 뜨거워집니다.</div>
+      Le débat s'échauffe.
+    </div>
+    <div class="bubble-row right" data-speaker="joon">
+      <div class="avatar-circle av-joon">JN</div>
+      <div class="bubble">
+        <span class="speaker-name">Joon</span>
+        <div class="ko">하지만 시골 생활이 쉬울 리가 없어요. 병원도 멀고 가게도 적어요.</div>
+        <div class="bubble-rom">Hajiman sigol saenghwal-i swiul li-ga eopseoyo. Byeongwon-do meolgo gage-do jeogeoyo.</div>
+        <div class="bubble-fr">Mais la vie à la campagne ne peut PAS être facile. L'hôpital est loin, peu de commerces. (-(으)ㄹ 리가 없다 : impossible que)</div>
+        <button class="bubble-audio" onclick="speakAs('하지만 시골 생활이 쉬울 리가 없어요. 병원도 멀고 가게도 적어요.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">그래도 자연과 가까울수록 마음이 편해져요.</div>
+        <div class="bubble-rom">Geuraedo jayeon-gwa gakkaulsurok ma-eum-i pyeonhaejyeoyo.</div>
+        <div class="bubble-fr">Quand même, plus on est proche de la nature, plus on se sent apaisé. (-(으)ㄹ수록 + -아/어지다)</div>
+        <button class="bubble-audio" onclick="speakAs('그래도 자연과 가까울수록 마음이 편해져요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">따라서 저는 둘 다 경험해 보고 싶어요. 도시에서 일하고, 주말에는 시골에 가는 거예요.</div>
+        <div class="bubble-rom">Ttaraseo jeoneun dul da gyeongheomhae bogo sipeoyo. Dosi-eseo ilhago, jumal-eneun sigol-e ganeun geoyeyo.</div>
+        <div class="bubble-fr">Par conséquent, je veux vivre les deux : travailler en ville, et filer à la campagne le week-end. (따라서 : par conséquent)</div>
+        <button class="bubble-audio" onclick="speakAs('따라서 저는 둘 다 경험해 보고 싶어요. 도시에서 일하고, 주말에는 시골에 가는 거예요.','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <h3>Scène 3 — La conclusion</h3>
+  <div class="panel">
+    <div class="panel-num">SCÈNE 03</div>
+    <div class="narration">
+      <div class="narration-kr">토론이 끝났습니다. 결론이 났을까요?</div>
+      Fin du débat. Y a-t-il un verdict ?
+    </div>
+    <div class="bubble-row right" data-speaker="joon">
+      <div class="avatar-circle av-joon">JN</div>
+      <div class="bubble">
+        <span class="speaker-name">Joon</span>
+        <div class="ko">결국 정답은 없는 것 같아요. 사람마다 다르기 마련이에요.</div>
+        <div class="bubble-rom">Gyeolguk jeongdap-eun eomneun geot gatayo. Saram-mada dareugi maryeon-ieyo.</div>
+        <div class="bubble-fr">Au final, il n'y a pas de bonne réponse. Ça dépend forcément de chacun. (마다 : chaque)</div>
+        <button class="bubble-audio" onclick="speakAs('결국 정답은 없는 것 같아요. 사람마다 다르기 마련이에요.','injoon',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="mina">
+      <div class="avatar-circle av-mina">MN</div>
+      <div class="bubble">
+        <span class="speaker-name">Mina</span>
+        <div class="ko">맞아요. 그래도 오늘 토론은 재미있었어요!</div>
+        <div class="bubble-rom">Majayo. Geuraedo oneul toron-eun jaemiisseosseoyo!</div>
+        <div class="bubble-fr">Oui. En tout cas, c'était un super débat !</div>
+        <button class="bubble-audio" onclick="speakAs('맞아요. 그래도 오늘 토론은 재미있었어요!','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+    <div class="bubble-row" data-speaker="emma">
+      <div class="avatar-circle av-emma">EM</div>
+      <div class="bubble">
+        <span class="speaker-name">Emma</span>
+        <div class="ko">다음 주제는 「집밥과 외식」 어때요?</div>
+        <div class="bubble-rom">Da-eum juje-neun "jipbap-gwa oesik" eottaeyo?</div>
+        <div class="bubble-fr">Prochain sujet : « cuisine maison ou restaurant » ? (외식 : manger dehors)</div>
+        <button class="bubble-audio" onclick="speakAs('다음 주제는 「집밥과 외식」 어때요?','sunhi',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /storyContent -->
+
+  <div class="grammar-note">📐 Grammaire travaillée : -기 마련이다 · -(으)ㄹ 리가 없다 (Formes rhétoriques) · 게다가 / 반면에 / 따라서 (Connecteurs formels) · -(으)ㄹ수록.</div>
+
+  <h3>Vocabulaire</h3>
+  <div class="vocab"><table>
+    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><td><span class="ko">토론</span></td><td>débat</td></tr>
+    <tr><td><span class="ko">주제</span></td><td>sujet, thème</td></tr>
+    <tr><td><span class="ko">편리하다</span></td><td>être pratique</td></tr>
+    <tr><td><span class="ko">게다가</span></td><td>de surcroît, en plus</td></tr>
+    <tr><td><span class="ko">-기 마련이다</span></td><td>c'est inévitable que ~</td></tr>
+    <tr><td><span class="ko">반면에</span></td><td>en revanche</td></tr>
+    <tr><td><span class="ko">-(으)ㄹ 리가 없다</span></td><td>impossible que ~</td></tr>
+    <tr><td><span class="ko">-(으)ㄹ수록</span></td><td>plus… plus…</td></tr>
+    <tr><td><span class="ko">따라서</span></td><td>par conséquent</td></tr>
+    <tr><td><span class="ko">결국</span></td><td>au final</td></tr>
+    <tr><td><span class="ko">정답</span></td><td>bonne réponse</td></tr>
+    <tr><td><span class="ko">~마다</span></td><td>chaque ~</td></tr>
+    <tr><td><span class="ko">외식</span></td><td>repas au restaurant</td></tr>
+  </table></div>
+
+  <div class="tip"><strong>Culture :</strong> le désaccord à la coréenne est feutré : on ouvre par 글쎄요 (« mouais… »), 그래도 (« quand même ») ou 하지만, rarement par un « non » frontal. Ces connecteurs de débat sont exactement ceux attendus dans la rédaction du TOPIK II.</div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +22 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const KS_VOICE_MAP = {"mina": "sunhi", "emma": "sunhi", "jiwoo": "sunhi", "halmeoni": "sunhi", "chef": "sunhi", "joon": "injoon", "agent": "injoon", "interviewer": "injoon", "bujang": "injoon", "sujin": "sunhi", "harabeoji": "injoon"};
+let _listenSession = null;
+function toggleListen(){
+  const btn = document.getElementById('listenBtn');
+  const icon = document.getElementById('listenIcon');
+  const sub = document.getElementById('listenSub');
+  if (_listenSession){ _listenSession.stop(); _listenSession = null; btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = '3 voix : Mina & Emma (SunHi) · Joon (InJoon)'; return; }
+  if (typeof window.speakAs !== 'function') return;
+  btn.classList.add('playing'); icon.innerHTML = '<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>';
+  const items = [];
+  document.getElementById('storyContent').querySelectorAll('.bubble-row[data-speaker], .narration-kr').forEach(node => {
+    if (node.classList.contains('narration-kr')){ items.push({ el: node, text: node.textContent.trim(), voice: 'injoon' }); }
+    else {
+      const voice = KS_VOICE_MAP[node.dataset.speaker] || 'injoon';
+      node.querySelectorAll('.ko').forEach(koEl => items.push({ el: koEl, text: koEl.textContent.trim(), voice }));
+    }
+  });
+  let i = 0, stopped = false;
+  function next(){
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
+    sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
+    window.speakAs(item.text, item.voice, null, {
+      onended(){ if (bubble) bubble.classList.remove('listening'); const last = item.text.charAt(item.text.length-1); const pause = (last==='?'||last==='!') ? 700 : (last==='.'||last==='。') ? 500 : 350; i++; setTimeout(next, pause); },
+      onerror(){ if (bubble) bubble.classList.remove('listening'); i++; setTimeout(next, 250); }
+    });
+  }
+  _listenSession = { stop(){ stopped = true; try{window.speechSynthesis.cancel();}catch(e){} document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); } };
+  next();
+}
+function completeLesson(){ if(typeof ksFinish==='function')ksFinish({key:'ks_d36',xp:22}); else{if(typeof ksAddXP==='function')ksAddXP(22);if(typeof ksMarkDone==='function')ksMarkDone('ks_d36');location.href='histoires.html';} }
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
