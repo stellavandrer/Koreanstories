@@ -357,7 +357,7 @@ function endGame() {
   document.getElementById('best-display').textContent = best + ' points';
   document.getElementById('end-screen').classList.add('show');
 
-  try { localStorage.setItem('ks_h12','done'); } catch(e) {}
+  try { localStorage.setItem('ks_h12','done'); if(window.ksGameReward)ksGameReward('ks_h12',10,(typeof score!=='undefined'?score:null),{label:'pts'}); } catch(e) {}
 }
 </script>
 

@@ -301,11 +301,14 @@ function answer(qid, btn, correct) {
 
 function markDone() {
   try {
-    const key = 'ks_a10';
-    const d = JSON.parse(localStorage.getItem(key) || '{}');
-    d.done = true; d.ts = Date.now(); d.xp = 8;
-    localStorage.setItem(key, JSON.stringify(d));
-    localStorage.setItem('ks_xp', parseInt(localStorage.getItem('ks_xp') || '0') + 8);
+    /* La valeur DOIT être la chaîne 'done' — c'est ce que lit
+       isDone() du curriculum (un objet JSON ne valide jamais). */
+    localStorage.setItem('ks_a10', 'done');
+    if (!localStorage.getItem('ks_a10_xp')) {
+      localStorage.setItem('ks_a10_xp', '1');
+      if (typeof ksAddXP === 'function') ksAddXP(8);
+      else localStorage.setItem('ks_xp', String(parseInt(localStorage.getItem('ks_xp') || '0') + 8));
+    }
   } catch(e) {}
 }
 </script>

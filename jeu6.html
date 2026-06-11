@@ -313,7 +313,7 @@ function showSuccess() {
   document.getElementById('gameSection').style.display = 'none';
   document.getElementById('successScreen').classList.add('show');
   document.getElementById('finalScore').textContent = score;
-  try { localStorage.setItem('ks_a20','1'); } catch(e){}
+  try { localStorage.setItem('ks_a20','1'); if(window.ksGameReward)ksGameReward('ks_a20',10,(typeof score!=='undefined'?score:null),{label:'pts'}); } catch(e){}
 }
 
 renderQ();

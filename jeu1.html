@@ -266,7 +266,7 @@ function winGame() {
     document.getElementById('success-screen').classList.add('show');
     spawnConfetti();
   }, 300);
-  try { localStorage.setItem('ks_h03','done'); } catch(e) {}
+  try { localStorage.setItem('ks_h03','done'); if(window.ksGameReward)ksGameReward('ks_h03',10,(typeof moves!=='undefined'?moves:null),{lowerIsBetter:true,label:'coups'}); } catch(e) {}
 }
 
 function spawnConfetti() {

@@ -318,15 +318,17 @@ function answer(qid, btn, correct) {
 
 function markDone() {
   try {
-    const key = 'ks_a04';
-    const data = JSON.parse(localStorage.getItem(key) || '{}');
-    data.done = true;
-    data.ts = Date.now();
-    data.xp = 8;
-    localStorage.setItem(key, JSON.stringify(data));
-    // Update global XP
-    const xp = parseInt(localStorage.getItem('ks_xp') || '0') + 8;
-    localStorage.setItem('ks_xp', xp);
+    /* La valeur DOIT être la chaîne 'done' — c'est ce que lit
+       isDone() du curriculum (un objet JSON ne valide jamais). */
+    localStorage.setItem('ks_a04', 'done');
+    if (!localStorage.getItem('ks_a04_xp')) {
+      localStorage.setItem('ks_a04_xp', '1');
+      if (typeof ksAddXP === 'function') ksAddXP(8);
+      else {
+        const xp = parseInt(localStorage.getItem('ks_xp') || '0') + 8;
+        localStorage.setItem('ks_xp', String(xp));
+      }
+    }
   } catch(e) {}
 }
 </script>

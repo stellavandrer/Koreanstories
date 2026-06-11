@@ -1057,6 +1057,58 @@ function _ksConfetti(count) {
   setTimeout(function () { if (wrap.parentNode) wrap.parentNode.removeChild(wrap); }, 5000);
 }
 
+/* ── Récompense de fin de jeu ──────────────────────────────────────
+   ksGameReward(key, xp, score, opts)
+   - Crédite l'XP UNE seule fois (flag {key}_xp) — les jeux 1-6
+     n'attribuaient aucune XP avant.
+   - Persiste le meilleur score dans ks_best_{key} et affiche un
+     toast « Nouveau record » quand il est battu.
+   opts.lowerIsBetter : pour les jeux où moins = mieux (memory).
+   opts.label : unité affichée (« pts » par défaut, « coups »…). */
+function ksGameReward(key, xp, score, opts) {
+  opts = opts || {};
+  var gotXP = false;
+  try {
+    if (xp > 0 && !localStorage.getItem(key + '_xp')) {
+      localStorage.setItem(key + '_xp', '1');
+      if (typeof ksAddXP === 'function') ksAddXP(xp);
+      gotXP = true;
+    }
+  } catch (e) {}
+  var isNew = false, best = null;
+  try {
+    if (typeof score === 'number' && !isNaN(score)) {
+      var raw = localStorage.getItem('ks_best_' + key);
+      var prev = raw === null ? null : parseInt(raw);
+      var better = prev === null || (opts.lowerIsBetter ? score < prev : score > prev);
+      if (better) {
+        localStorage.setItem('ks_best_' + key, String(score));
+        isNew = prev !== null; /* pas de toast au tout premier essai */
+        best = score;
+      } else {
+        best = prev;
+      }
+    }
+  } catch (e) {}
+  /* Toast récap (record battu et/ou XP gagnée) */
+  var msgs = [];
+  if (isNew) msgs.push('🏆 Nouveau record : ' + score + (opts.label ? ' ' + opts.label : ''));
+  if (gotXP) msgs.push('+' + xp + ' XP');
+  if (msgs.length) {
+    try {
+      var t = document.createElement('div');
+      t.setAttribute('role', 'status');
+      t.style.cssText = 'position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(8px);z-index:9600;background:var(--navy,#0F1B2D);color:#fff;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;transition:all .3s;white-space:nowrap;border:1.5px solid rgba(201,169,110,.4)';
+      t.textContent = msgs.join(' · ');
+      document.body.appendChild(t);
+      requestAnimationFrame(function(){ t.style.opacity = '1'; t.style.transform = 'translateX(-50%)'; });
+      setTimeout(function(){ t.style.opacity = '0'; setTimeout(function(){ t.remove(); }, 350); }, 2600);
+    } catch (e) {}
+  }
+  return { best: best, isNew: isNew, gotXP: gotXP };
+}
+window.ksGameReward = ksGameReward;
+
 function ksFinish(opts) {
   opts = opts || {};
   /* 1. Marque l'activité comme terminée */
@@ -1067,7 +1119,10 @@ function ksFinish(opts) {
   _ksEnsureCurriculum().then(function () {
     var nextAct = null;
     if (window.KSCurriculum && typeof window.KSCurriculum.next === 'function') {
-      try { nextAct = window.KSCurriculum.next(); } catch (e) {}
+      /* On passe la page courante : « Suivant » = prochaine activité
+         non faite APRÈS celle-ci, pas la première non faite du
+         parcours entier (sinon ça renvoie vers les trous passés). */
+      try { nextAct = window.KSCurriculum.next(location.pathname); } catch (e) {}
     }
     _ksRenderFinishOverlay(opts, nextAct);
   });

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>Atelier d'écriture — Clavier coréen · Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/ecriture.html"/>
+  <meta name="description" content="Apprends à taper en coréen sur un vrai clavier 2-beolsik : copie, dictée audio et traduction, du Hangeul au niveau B1."/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Inter',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--t);padding-bottom:0}
+    .page-ecr{max-width:560px;margin:0 auto;padding:16px 16px 90px}
+
+    /* ── Setup ── */
+    .ecr-hero{background:linear-gradient(135deg,#0F1B2D,#1a2f4a);border-radius:18px;padding:20px;color:#fff;margin-bottom:18px;text-align:center}
+    .ecr-hero-tag{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .ecr-hero h1{font-family:'Playfair Display',serif;font-size:22px;margin:0 0 6px}
+    .ecr-hero p{font-size:12.5px;color:rgba(247,248,250,.55);margin:0;line-height:1.6}
+    .ecr-lbl{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin:18px 0 10px;padding:0 2px}
+    .ecr-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .ecr-opt{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:14px 12px;cursor:pointer;text-align:left;font-family:inherit;transition:all .15s;-webkit-tap-highlight-color:transparent}
+    .ecr-opt:active{transform:scale(.97)}
+    .ecr-opt.on{border-color:var(--gold);background:var(--goldbg);box-shadow:0 0 0 1px var(--goldbd)}
+    .ecr-opt-t{font-size:14px;font-weight:800;color:var(--t);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+    .ecr-opt-s{font-size:11px;color:var(--t2);line-height:1.45}
+    .ecr-opt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .ecr-best{font-size:10px;font-weight:700;color:var(--gold);margin-top:5px}
+    .ecr-start{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:22px;padding:15px;border:none;border-radius:100px;background:var(--gold);color:#fff;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(184,146,78,.3);-webkit-tap-highlight-color:transparent}
+    .ecr-start:active{transform:scale(.98)}
+    .ecr-start svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
+
+    /* ── Exercice ── */
+    #exoScreen{display:none}
+    .exo-wrap{max-width:560px;margin:0 auto;padding:12px 16px 0}
+    .exo-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;text-align:center;box-shadow:var(--sh)}
+    .exo-kind{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+    .exo-prompt-kr{font-size:40px;font-weight:700;color:var(--t);line-height:1.2;letter-spacing:.02em}
+    .exo-prompt-fr{font-size:22px;font-weight:700;color:var(--t)}
+    .exo-prompt-rom{font-size:13px;color:var(--t3);font-style:italic;margin-top:4px}
+    .exo-audio-btn{width:64px;height:64px;border-radius:50%;border:none;background:var(--gold);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(184,146,78,.35);-webkit-tap-highlight-color:transparent;transition:transform .15s}
+    .exo-audio-btn:active{transform:scale(.92)}
+    .exo-audio-btn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .exo-audio-hint{font-size:11.5px;color:var(--t2);margin-top:10px}
+
+    .exo-input{margin:14px auto 0;min-height:58px;background:var(--s2);border:2px solid var(--bd2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--t);padding:8px 14px;letter-spacing:.04em;transition:border-color .15s, background .2s}
+    .exo-input.ok{border-color:#22c55e;background:rgba(34,197,94,.10)}
+    .exo-input.ko{border-color:#ef4444;background:rgba(239,68,68,.10);animation:ecrShake .3s}
+    @keyframes ecrShake{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+    .exo-caret{display:inline-block;width:2px;height:1.1em;background:var(--gold);margin-left:2px;animation:ecrBlink 1s steps(1) infinite;vertical-align:-.15em}
+    @keyframes ecrBlink{50%{opacity:0}}
+    .exo-feedback{min-height:22px;font-size:13px;font-weight:700;text-align:center;margin-top:8px}
+    .exo-feedback.ok{color:#16a34a}
+    .exo-feedback.ko{color:#dc2626}
+
+    /* Clavier docké en bas */
+    #kbDock{position:fixed;left:0;right:0;bottom:0;z-index:150}
+
+    /* ── Résultats ── */
+    #endScreen{display:none}
+    .end-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;padding:28px 20px;text-align:center;margin-top:24px;box-shadow:var(--sh2)}
+    .end-emoji{font-size:44px;line-height:1;margin-bottom:10px}
+    .end-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
+    .end-sub{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6}
+    .end-stats{display:flex;gap:10px;justify-content:center;margin-bottom:20px}
+    .end-stat{background:var(--s2);border:1.5px solid var(--bd);border-radius:14px;padding:12px 18px;min-width:84px}
+    .end-stat-n{font-size:22px;font-weight:800;color:var(--gold)}
+    .end-stat-l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-top:2px}
+    .end-btns{display:flex;flex-direction:column;gap:10px}
+    .end-btn{padding:13px;border-radius:100px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;border:none}
+    .end-btn.gold{background:var(--gold);color:#fff}
+    .end-btn.ghost{background:none;border:1.5px solid var(--bd2);color:var(--t2)}
+
+    @media (min-width:600px){
+      .exo-prompt-kr{font-size:48px}
+      .page-ecr{padding-top:28px}
+    }
+  </style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+
+<!-- TBAR (visible pendant l'exercice) -->
+<div class="tbar" id="exoBar" style="display:none">
+  <a href="#" class="quit" id="quitBtn" aria-label="Quitter l'exercice">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </a>
+  <div class="ptrack"><div class="pbar" id="exoProg"></div></div>
+  <span id="exoCount" style="font-size:12px;font-weight:800;color:var(--t2);white-space:nowrap">1 / 10</span>
+</div>
+
+<!-- BAR (setup) -->
+<nav class="bar" id="setupBar">
+  <a href="cours.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Parcours</a>
+  <span class="bar-logo">Korean <em>Stories</em></span>
+  <div class="bar-r">
+    <button onclick="toggleTheme()" class="bar-theme" title="Thème" aria-label="Changer de thème">
+      <svg class="ico-l" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="ico-d" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a class="bar-xp" href="profil.html"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <span class="ks-xp-val">0 XP</span></a>
+  </div>
+</nav>
+
+<!-- ═══════ ÉCRAN 1 · SETUP ═══════ -->
+<div class="page-ecr" id="setupScreen">
+  <div class="ecr-hero">
+    <div class="ecr-hero-tag">⌨️ Atelier d'écriture</div>
+    <h1>Tape en coréen</h1>
+    <p>Un vrai clavier coréen 2-beolsik, comme sur les téléphones en Corée.<br/>Compose les syllabes jamo par jamo : ㅎ + ㅏ + ㄴ = 한</p>
+  </div>
+
+  <div class="ecr-lbl">Choisis ton niveau</div>
+  <div class="ecr-grid" id="lvlGrid"></div>
+
+  <div class="ecr-lbl">Choisis ton mode</div>
+  <div class="ecr-grid" id="modeGrid"></div>
+
+  <button class="ecr-start" id="startBtn">
+    Commencer la série
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
+</div>
+
+<!-- ═══════ ÉCRAN 2 · EXERCICE ═══════ -->
+<div id="exoScreen">
+  <div class="exo-wrap">
+    <div class="exo-card">
+      <div class="exo-kind" id="exoKind">COPIE</div>
+      <div id="exoPrompt"></div>
+    </div>
+    <div class="exo-input" id="exoInput"><span class="exo-caret"></span></div>
+    <div class="exo-feedback" id="exoFeedback"></div>
+  </div>
+  <div id="kbDock"></div>
+</div>
+
+<!-- ═══════ ÉCRAN 3 · RÉSULTATS ═══════ -->
+<div class="page-ecr" id="endScreen">
+  <div class="end-card">
+    <div class="end-emoji" id="endEmoji">🎉</div>
+    <div class="end-title" id="endTitle">Série terminée !</div>
+    <div class="end-sub" id="endSub"></div>
+    <div class="end-stats">
+      <div class="end-stat"><div class="end-stat-n" id="endScore">0/10</div><div class="end-stat-l">Score</div></div>
+      <div class="end-stat"><div class="end-stat-n" id="endBest">—</div><div class="end-stat-l">Record</div></div>
+      <div class="end-stat"><div class="end-stat-n" id="endXP">+0</div><div class="end-stat-l">XP</div></div>
+    </div>
+    <div class="end-btns">
+      <button class="end-btn gold" onclick="replaySame()">Rejouer cette série</button>
+      <button class="end-btn ghost" onclick="backToSetup()">Changer de niveau / mode</button>
+      <a class="end-btn ghost" href="cours.html" style="display:block;text-decoration:none">Retour au parcours</a>
+    </div>
+  </div>
+</div>
+
+<script src="ks.js"></script>
+<script src="ks-keyboard.js"></script>
+<script>
+/* ═══════════════ BANQUES DE MOTS (vocabulaire du curriculum) ═══════════════ */
+const BANKS = {
+  hangeul: [
+    {kr:'가', fr:'(syllabe) ga', rom:'ga'}, {kr:'나', fr:'moi / (syllabe) na', rom:'na'},
+    {kr:'이', fr:'dent / deux (2)', rom:'i'}, {kr:'오', fr:'cinq (5)', rom:'o'},
+    {kr:'나무', fr:'arbre', rom:'namu'}, {kr:'나라', fr:'pays', rom:'nara'},
+    {kr:'바다', fr:'mer', rom:'bada'}, {kr:'오이', fr:'concombre', rom:'oi'},
+    {kr:'아이', fr:'enfant', rom:'ai'}, {kr:'우유', fr:'lait', rom:'uyu'},
+    {kr:'기차', fr:'train', rom:'gicha'}, {kr:'지도', fr:'carte (géo)', rom:'jido'},
+    {kr:'하나', fr:'un (1, natif)', rom:'hana'}, {kr:'노래', fr:'chanson', rom:'norae'},
+    {kr:'여우', fr:'renard', rom:'yeou'}, {kr:'사자', fr:'lion', rom:'saja'}
+  ],
+  a1: [
+    {kr:'물', fr:'eau', rom:'mul'}, {kr:'집', fr:'maison', rom:'jip'},
+    {kr:'밥', fr:'riz / repas', rom:'bap'}, {kr:'학교', fr:'école', rom:'hakgyo'},
+    {kr:'친구', fr:'ami·e', rom:'chingu'}, {kr:'사랑', fr:'amour', rom:'sarang'},
+    {kr:'김치', fr:'kimchi', rom:'gimchi'}, {kr:'가족', fr:'famille', rom:'gajok'},
+    {kr:'시간', fr:'temps / heure', rom:'sigan'}, {kr:'음악', fr:'musique', rom:'eumak'},
+    {kr:'책', fr:'livre', rom:'chaek'}, {kr:'커피', fr:'café (boisson)', rom:'keopi'},
+    {kr:'버스', fr:'bus', rom:'beoseu'}, {kr:'영화', fr:'film', rom:'yeonghwa'},
+    {kr:'사진', fr:'photo', rom:'sajin'}, {kr:'오늘', fr:"aujourd'hui", rom:'oneul'},
+    {kr:'내일', fr:'demain', rom:'naeil'}, {kr:'우산', fr:'parapluie', rom:'usan'},
+    {kr:'고양이', fr:'chat', rom:'goyangi'}, {kr:'강아지', fr:'chiot / chien', rom:'gangaji'}
+  ],
+  a2: [
+    {kr:'지하철역', fr:'station de métro', rom:'jihacheollyeok'}, {kr:'도서관', fr:'bibliothèque', rom:'doseogwan'},
+    {kr:'여행', fr:'voyage', rom:'yeohaeng'}, {kr:'생일', fr:'anniversaire', rom:'saengil'},
+    {kr:'선물', fr:'cadeau', rom:'seonmul'}, {kr:'운동', fr:'sport / exercice', rom:'undong'},
+    {kr:'시장', fr:'marché', rom:'sijang'}, {kr:'병원', fr:'hôpital', rom:'byeongwon'},
+    {kr:'약국', fr:'pharmacie', rom:'yakguk'}, {kr:'은행', fr:'banque', rom:'eunhaeng'},
+    {kr:'공항', fr:'aéroport', rom:'gonghang'}, {kr:'날씨', fr:'météo', rom:'nalssi'},
+    {kr:'재료', fr:'ingrédients', rom:'jaeryo'}, {kr:'부엌', fr:'cuisine (pièce)', rom:'bueok'},
+    {kr:'거실', fr:'salon', rom:'geosil'}, {kr:'창문', fr:'fenêtre', rom:'changmun'},
+    {kr:'지갑', fr:'portefeuille', rom:'jigap'}, {kr:'휴가', fr:'vacances', rom:'hyuga'},
+    {kr:'요리', fr:'cuisine (activité)', rom:'yori'}, {kr:'직업', fr:'métier', rom:'jigeop'}
+  ],
+  b1: [
+    {kr:'회사', fr:'entreprise', rom:'hoesa'}, {kr:'면접', fr:"entretien d'embauche", rom:'myeonjeop'},
+    {kr:'결과', fr:'résultat', rom:'gyeolgwa'}, {kr:'전통', fr:'tradition', rom:'jeontong'},
+    {kr:'건강', fr:'santé', rom:'geongang'}, {kr:'연락', fr:'contact / message', rom:'yeollak'},
+    {kr:'질문', fr:'question', rom:'jilmun'}, {kr:'경험', fr:'expérience', rom:'gyeongheom'},
+    {kr:'문화', fr:'culture', rom:'munhwa'}, {kr:'사회', fr:'société', rom:'sahoe'},
+    {kr:'의견', fr:'opinion', rom:'uigyeon'}, {kr:'관계', fr:'relation', rom:'gwangye'},
+    {kr:'목표', fr:'objectif', rom:'mokpyo'}, {kr:'비결', fr:'secret / astuce', rom:'bigyeol'},
+    {kr:'내년', fr:"l'année prochaine", rom:'naenyeon'}, {kr:'계획', fr:'projet / plan', rom:'gyehoek'},
+    {kr:'습관', fr:'habitude', rom:'seupgwan'}, {kr:'감정', fr:'émotion', rom:'gamjeong'},
+    {kr:'기억', fr:'souvenir / mémoire', rom:'gieok'}, {kr:'정보', fr:'information', rom:'jeongbo'}
+  ]
+};
+
+const LEVELS = [
+  {id:'hangeul', label:'한 Hangeul', dot:'#C9A96E', sub:'Syllabes simples & premiers mots'},
+  {id:'a1', label:'A1', dot:'#3b82f6', sub:'Vocabulaire du quotidien'},
+  {id:'a2', label:'A2', dot:'#16a34a', sub:'Lieux, objets & vie pratique'},
+  {id:'b1', label:'B1', dot:'#7c3aed', sub:'Mots abstraits & vie pro'}
+];
+const MODES = [
+  {id:'copie', label:'✍️ Copie', sub:'Le mot est affiché — retape-le pour mémoriser le clavier'},
+  {id:'dictee', label:'🎧 Dictée', sub:'Écoute la voix native et écris ce que tu entends'},
+  {id:'traduction', label:'🇫🇷 Traduction', sub:'Le mot français est affiché — écris-le en coréen'}
+];
+const SERIE_LEN = 10;
+
+let curLevel = 'hangeul', curMode = 'copie';
+let serie = [], idx = 0, score = 0, kb = null, checking = false;
+
+/* ── Setup UI ── */
+function bestKey(){ return 'ks_ecr_best_' + curLevel + '_' + curMode; }
+function renderSetup(){
+  const lg = document.getElementById('lvlGrid');
+  lg.innerHTML = '';
+  LEVELS.forEach(l => {
+    const b = document.createElement('button');
+    b.className = 'ecr-opt' + (l.id===curLevel?' on':'');
+    let best = null;
+    try { best = localStorage.getItem('ks_ecr_best_' + l.id + '_' + curMode); } catch(e){}
+    b.innerHTML = `<div class="ecr-opt-t"><span class="ecr-opt-dot" style="background:${l.dot}"></span>${l.label}</div>
+      <div class="ecr-opt-s">${l.sub}</div>` + (best ? `<div class="ecr-best">🏆 Record : ${best}/${SERIE_LEN}</div>` : '');
+    b.onclick = () => { curLevel = l.id; renderSetup(); };
+    lg.appendChild(b);
+  });
+  const mg = document.getElementById('modeGrid');
+  mg.innerHTML = '';
+  MODES.forEach(m => {
+    const b = document.createElement('button');
+    b.className = 'ecr-opt' + (m.id===curMode?' on':'');
+    b.innerHTML = `<div class="ecr-opt-t">${m.label}</div><div class="ecr-opt-s">${m.sub}</div>`;
+    b.onclick = () => { curMode = m.id; renderSetup(); };
+    mg.appendChild(b);
+  });
+}
+
+/* ── Série ── */
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function startSerie(){
+  serie = shuffle(BANKS[curLevel].slice()).slice(0, SERIE_LEN);
+  idx = 0; score = 0; checking = false;
+  document.getElementById('setupScreen').style.display = 'none';
+  document.getElementById('setupBar').style.display = 'none';
+  document.getElementById('endScreen').style.display = 'none';
+  document.getElementById('exoScreen').style.display = 'block';
+  document.getElementById('exoBar').style.display = 'flex';
+  if (!kb){
+    kb = KSKeyboard.create(document.getElementById('kbDock'), {
+      onInput: renderTyped,
+      onSubmit: check
+    });
+  } else { kb.reset(); }
+  /* Réserve la place du clavier sous le contenu */
+  requestAnimationFrame(()=>{
+    const h = document.getElementById('kbDock').offsetHeight;
+    document.getElementById('exoScreen').style.paddingBottom = (h + 16) + 'px';
+  });
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = serie[idx];
+  document.getElementById('exoCount').textContent = (idx+1) + ' / ' + SERIE_LEN;
+  document.getElementById('exoProg').style.width = Math.round(idx / SERIE_LEN * 100) + '%';
+  document.getElementById('exoFeedback').textContent = '';
+  document.getElementById('exoFeedback').className = 'exo-feedback';
+  const input = document.getElementById('exoInput');
+  input.className = 'exo-input';
+  kb.reset();
+  const kind = document.getElementById('exoKind');
+  const p = document.getElementById('exoPrompt');
+  if (curMode === 'copie'){
+    kind.textContent = 'COPIE — retape ce mot';
+    p.innerHTML = `<div class="exo-prompt-kr">${q.kr}</div><div class="exo-prompt-rom">${q.rom} · ${q.fr}</div>`;
+  } else if (curMode === 'dictee'){
+    kind.textContent = 'DICTÉE — écris ce que tu entends';
+    p.innerHTML = `<button class="exo-audio-btn" id="exoPlay" aria-label="Écouter le mot">
+        <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      </button>
+      <div class="exo-audio-hint">Touche pour réécouter</div>`;
+    document.getElementById('exoPlay').onclick = () => { if (window.speak) speak(q.kr, document.getElementById('exoPlay')); };
+    setTimeout(()=>{ if (window.speak) speak(q.kr); }, 350);
+  } else {
+    kind.textContent = 'TRADUCTION — écris en coréen';
+    p.innerHTML = `<div class="exo-prompt-fr">${q.fr}</div><div class="exo-prompt-rom">indice : ${q.rom}</div>`;
+  }
+  renderTyped('');
+}
+
+function renderTyped(text){
+  const input = document.getElementById('exoInput');
+  input.innerHTML = (text ? escapeHtml(text) : '') + '<span class="exo-caret"></span>';
+}
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function check(text){
+  if (checking) return;
+  const q = serie[idx];
+  const typed = (text || '').trim();
+  if (!typed) return;
+  checking = true;
+  const input = document.getElementById('exoInput');
+  const fb = document.getElementById('exoFeedback');
+  if (typed === q.kr){
+    score++;
+    input.classList.add('ok');
+    fb.textContent = '정답! Correct !';
+    fb.classList.add('ok');
+    if (curMode === 'dictee' || curMode === 'traduction'){} /* déjà entendu/affiché */
+    setTimeout(nextQuestion, 750);
+  } else {
+    input.classList.add('ko');
+    fb.textContent = '→ ' + q.kr + ' (' + q.rom + ')';
+    fb.classList.add('ko');
+    setTimeout(nextQuestion, 1600);
+  }
+}
+
+function nextQuestion(){
+  checking = false;
+  idx++;
+  if (idx >= SERIE_LEN){ endSerie(); return; }
+  renderQuestion();
+}
+
+/* ── Fin ── */
+function endSerie(){
+  document.getElementById('exoScreen').style.display = 'none';
+  document.getElementById('exoBar').style.display = 'none';
+  document.getElementById('endScreen').style.display = 'block';
+  document.getElementById('endScore').textContent = score + '/' + SERIE_LEN;
+  /* Record */
+  let best = 0;
+  try { best = parseInt(localStorage.getItem(bestKey()) || '0'); } catch(e){}
+  const isNew = score > best;
+  if (isNew){ try { localStorage.setItem(bestKey(), String(score)); } catch(e){} best = score; }
+  document.getElementById('endBest').textContent = best + '/' + SERIE_LEN + (isNew && score>0 ? ' 🆕' : '');
+  /* XP : 12 la première série réussie (≥6) par niveau, 3 ensuite si ≥6 */
+  let xp = 0;
+  const flag = 'ks_ecr_' + curLevel + '_xp';
+  try {
+    if (score >= 6){
+      if (!localStorage.getItem(flag)){ xp = 12; localStorage.setItem(flag,'1'); localStorage.setItem('ks_ecr_'+curLevel,'done'); }
+      else xp = 3;
+      if (typeof ksAddXP === 'function') ksAddXP(xp);
+      else {
+        const prev = parseInt(localStorage.getItem('ks_xp')||'0');
+        localStorage.setItem('ks_xp', String(prev + xp));
+      }
+    }
+  } catch(e){}
+  document.getElementById('endXP').textContent = '+' + xp;
+  const lvlLabel = (LEVELS.find(l=>l.id===curLevel)||{}).label || curLevel;
+  if (score === SERIE_LEN){
+    document.getElementById('endEmoji').textContent = '🏆';
+    document.getElementById('endTitle').textContent = '완벽해요 ! Parfait !';
+    document.getElementById('endSub').textContent = '10/10 en ' + lvlLabel + ' — tu tapes comme à Séoul.';
+  } else if (score >= 6){
+    document.getElementById('endEmoji').textContent = '🎉';
+    document.getElementById('endTitle').textContent = '잘했어요 ! Bien joué !';
+    document.getElementById('endSub').textContent = 'Encore quelques séries et le clavier coréen n\'aura plus de secret.';
+  } else {
+    document.getElementById('endEmoji').textContent = '💪';
+    document.getElementById('endTitle').textContent = 'Continue !';
+    document.getElementById('endSub').textContent = 'Le mode Copie est idéal pour mémoriser la position des touches.';
+  }
+}
+
+function replaySame(){ startSerie(); }
+function backToSetup(){
+  document.getElementById('endScreen').style.display = 'none';
+  document.getElementById('exoScreen').style.display = 'none';
+  document.getElementById('exoBar').style.display = 'none';
+  document.getElementById('setupScreen').style.display = 'block';
+  document.getElementById('setupBar').style.display = 'flex';
+  renderSetup();
+}
+
+document.getElementById('startBtn').onclick = startSerie;
+document.getElementById('quitBtn').onclick = (e) => { e.preventDefault(); backToSetup(); };
+/* Présélection via querystring : ecriture.html?lvl=a1&mode=dictee
+   (liens du parcours). Le niveau inconnu est ignoré. */
+try {
+  const qs = new URLSearchParams(location.search);
+  const ql = qs.get('lvl'), qm = qs.get('mode');
+  if (ql && BANKS[ql]) curLevel = ql;
+  if (qm && MODES.some(m => m.id === qm)) curMode = qm;
+} catch(e) {}
+renderSetup();
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

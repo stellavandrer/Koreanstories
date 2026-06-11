@@ -306,7 +306,7 @@ function endGame() {
     document.getElementById('successSub').textContent = 'Relis les règles sino-coréen / natif et retente !';
   }
 
-  try { localStorage.setItem('ks_a07','1'); } catch(e){}
+  try { localStorage.setItem('ks_a07','1'); if(window.ksGameReward)ksGameReward('ks_a07',10,(typeof score!=='undefined'?score:null),{label:'pts'}); } catch(e){}
 }
 </script>
 <nav class="bnav">
