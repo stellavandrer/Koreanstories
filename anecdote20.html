@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Le Konglish — ces mots « anglais » 100% coréens — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#DB2777;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#BE185D;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#f9a8d4}
+    .xp-badge{background:rgba(219,39,119,.12);color:#BE185D;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#f9a8d4}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#BE185D;font-weight:700}
+    [data-theme="dark"] .ko{color:#f9a8d4}
+    .tip{background:rgba(219,39,119,.07);border-left:3px solid #DB2777;border-radius:0 8px 8px 0;padding:.7rem 1rem;font-size:.88rem;margin:.6rem 0;line-height:1.55}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0}
+    th{background:rgba(219,39,119,.1);color:#BE185D;padding:.5rem .7rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#f9a8d4}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(219,39,119,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(219,39,119,.2)}
+    .speak-btn.playing{background:#DB2777}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#DB2777;fill:none;stroke-width:2}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Le Konglish</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>🇰🇷🇬🇧 Le Konglish — ces mots « anglais » 100 % coréens</h2>
+  <span class="pill">A1 · Anecdote</span> <span class="xp-badge">+8 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Bonne nouvelle : tu connais déjà des dizaines de mots coréens sans le savoir. Le 콩글리시 (Konglish), c'est de l'anglais passé à la moulinette coréenne — parfois fidèle, parfois complètement réinventé. Et certains pièges sont hilarants.</p>
+
+  <h3>Les fidèles — tu les comprendras du premier coup</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Coréen</th><th>Prononciation</th><th>Sens</th></tr>
+      <tr><td><span class="ko">커피</span> <button class="speak-btn" onclick="window.speak('커피',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>keo-pi</td><td>coffee → café</td></tr>
+      <tr><td><span class="ko">버스</span> <button class="speak-btn" onclick="window.speak('버스',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>beo-seu</td><td>bus</td></tr>
+      <tr><td><span class="ko">컴퓨터</span> <button class="speak-btn" onclick="window.speak('컴퓨터',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>keom-pyu-teo</td><td>computer → ordinateur</td></tr>
+      <tr><td><span class="ko">아이스크림</span> <button class="speak-btn" onclick="window.speak('아이스크림',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>a-i-seu-keu-rim</td><td>ice cream → glace</td></tr>
+      <tr><td><span class="ko">텔레비전</span> <button class="speak-btn" onclick="window.speak('텔레비전',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>tel-le-bi-jeon</td><td>television → télé</td></tr>
+    </table></div>
+    <p style="font-size:.82rem;color:var(--tx-muted);margin:.5rem 0 0">Le coréen n'a ni « f » ni « v » ni « z » : coffee devient keo-<strong>p</strong>i, television devient tele-<strong>b</strong>ijeon. Et comme une syllabe coréenne ne peut pas finir sur « s » seul, bus devient beo-<strong>seu</strong>.</p>
+  </div>
+
+  <h3>Les pièges — de l'« anglais » que les anglophones ne comprennent pas</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Konglish</th><th>Ça vient de…</th><th>Ça veut dire…</th></tr>
+      <tr><td><span class="ko">핸드폰</span> <button class="speak-btn" onclick="window.speak('핸드폰',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>« hand phone »</td><td>téléphone portable (inventé en Corée !)</td></tr>
+      <tr><td><span class="ko">아파트</span> <button class="speak-btn" onclick="window.speak('아파트',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>« apart(ment) »</td><td>immeuble résidentiel — celui de la chanson de Rosé !</td></tr>
+      <tr><td><span class="ko">원룸</span> <button class="speak-btn" onclick="window.speak('원룸',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>« one room »</td><td>studio (tu l'as vu dans l'histoire de l'agence immo)</td></tr>
+      <tr><td><span class="ko">서비스</span> <button class="speak-btn" onclick="window.speak('서비스',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>« service »</td><td>offert par la maison ! Si le patron dit 서비스, c'est gratuit 🎁</td></tr>
+      <tr><td><span class="ko">파이팅</span> <button class="speak-btn" onclick="window.speak('파이팅',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>« fighting »</td><td>courage ! tu peux le faire ! (rien à voir avec se battre)</td></tr>
+    </table></div>
+  </div>
+
+  <div class="tip"><strong>L'anecdote dans l'anecdote :</strong> quand un Coréen dit 노트북 (notebook), il parle d'un ordinateur portable — jamais d'un cahier. Et le « 서비스 » des restaurants est une institution nationale : un plat offert, une boisson en rab… N'hésite jamais à sourire et dire 감사합니다 !</div>
+
+  <h3>Pourquoi c'est une super nouvelle pour toi</h3>
+  <div class="card">
+    <p style="font-size:.9rem;line-height:1.65;margin:0">Environ <strong>10 % du vocabulaire coréen moderne</strong> vient de l'anglais. Dès que tu sais lire le Hangeul, tu peux déchiffrer des centaines de mots dans la rue : 카페, 피자, 치킨, 호텔, 택시… C'est pour ça que la leçon Hangeul est le meilleur investissement de ton apprentissage : elle débloque instantanément tout le Konglish. Les concurrents te font payer des leçons de « lecture de mots empruntés » — ici, tu viens de l'apprendre en 3 minutes.</p>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +8 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_a52',xp:8});else{if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_a52');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

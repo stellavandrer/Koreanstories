@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Taper en coréen — téléphone & ordinateur — Korean Stories</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#D97706;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(217,119,6,.13);color:#D97706;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(217,119,6,.13);color:#D97706;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#D97706;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ko{color:#D97706;font-weight:700}
+    .tip{background:rgba(217,119,6,.07);border-left:3px solid #D97706;border-radius:0 8px 8px 0;padding:.7rem 1rem;font-size:.88rem;margin:.6rem 0;line-height:1.55}
+    .source-grid{display:flex;flex-direction:column;gap:.5rem;margin:.5rem 0}
+    .source-row{display:flex;align-items:flex-start;gap:.7rem;padding:.7rem;background:var(--surf);border:1px solid var(--bd);border-radius:10px}
+    .source-num{flex-shrink:0;width:1.6rem;height:1.6rem;background:#D97706;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800}
+    .source-body{flex:1;min-width:0;font-size:.88rem;line-height:1.5}
+    .source-body strong{color:var(--tx);display:block;margin-bottom:.15rem}
+    .source-body em{font-style:normal;color:#D97706;font-weight:600}
+    .level-tag{display:inline-block;background:rgba(217,119,6,.13);color:#D97706;font-size:.7rem;font-weight:700;padding:.1rem .5rem;border-radius:8px;letter-spacing:.04em;text-transform:uppercase;margin-right:.3rem}
+    .demo{background:var(--s2);border:1.5px dashed var(--bd2);border-radius:12px;padding:.8rem 1rem;margin:.5rem 0;text-align:center;font-size:1.15rem;font-weight:700;letter-spacing:.06em}
+    .demo .arrow{color:var(--tx-muted);font-size:.9rem;margin:0 .4rem}
+    .cta-atelier{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0F1B2D,#1a2f4a);border-radius:14px;padding:14px 16px;margin:.8rem 0;text-decoration:none;color:#fff}
+    .cta-atelier .ic{font-size:26px;flex-shrink:0}
+    .cta-atelier .t{font-size:.95rem;font-weight:800}
+    .cta-atelier .s{font-size:.78rem;opacity:.7;margin-top:2px}
+    .cta-atelier .go{margin-left:auto;flex-shrink:0;background:#C9A96E;color:#0a1220;border-radius:100px;padding:7px 14px;font-size:.78rem;font-weight:800}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+  <nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">Taper en coréen</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>⌨️ Taper en coréen sur ton téléphone & PC</h2>
+  <span class="pill">A1 · Conseil pratique</span> <span class="xp-badge">+6 XP</span>
+  <p style="color:var(--tx-muted);font-size:.9rem;margin:.5rem 0">Savoir LIRE le Hangeul, c'est l'étape 1. Savoir le TAPER, c'est ce qui te permet de chercher un mot au dictionnaire, d'écrire à des Coréens et de commenter tes webtoons préférés. Voici comment activer et comprendre le clavier coréen partout.</p>
+
+  <h3>Comment marche un clavier coréen ?</h3>
+  <div class="card">
+    <p style="font-size:.9rem;margin:0 0 .5rem">Contrairement au français, on ne tape pas des lettres « finies » : on tape des <strong>jamo</strong> (consonnes et voyelles) et le système <em>compose les syllabes tout seul</em> :</p>
+    <div class="demo">ㅎ <span class="arrow">+</span> ㅏ <span class="arrow">+</span> ㄴ <span class="arrow">=</span> <span class="ko">한</span></div>
+    <div class="demo">ㄱ <span class="arrow">+</span> ㅣ <span class="arrow">+</span> ㅁ <span class="arrow">+</span> ㅊ <span class="arrow">+</span> ㅣ <span class="arrow">=</span> <span class="ko">김치</span></div>
+    <p style="font-size:.85rem;color:var(--tx-muted);margin:.5rem 0 0">Le layout standard s'appelle <strong>2-beolsik (두벌식)</strong> : consonnes à gauche, voyelles à droite. La touche Maj donne les doubles consonnes (ㄲ ㄸ ㅃ ㅆ ㅉ).</p>
+  </div>
+
+  <h3>Activer le clavier coréen</h3>
+  <div class="source-grid">
+    <div class="source-row"><div class="source-num">📱</div><div class="source-body"><strong>iPhone / iPad</strong><span class="level-tag">2 min</span>Réglages → Général → Clavier → Claviers → Ajouter… → <em>Coréen (standard)</em>. Ensuite, le petit globe 🌐 sur le clavier bascule entre français et coréen.</div></div>
+    <div class="source-row"><div class="source-num">🤖</div><div class="source-body"><strong>Android (Gboard)</strong><span class="level-tag">2 min</span>Paramètres → Système → Langues et saisie → Gboard → Langues → Ajouter → <em>Coréen</em>. Choisis le layout « 2-Bulsik » (standard). Astuce : Samsung Keyboard propose aussi le coréen nativement.</div></div>
+    <div class="source-row"><div class="source-num">💻</div><div class="source-body"><strong>Windows</strong><span class="level-tag">3 min</span>Paramètres → Heure et langue → Langue → Ajouter le coréen (Microsoft IME). La touche <em>Alt droite (한/영)</em> bascule hangeul/latin. Pas besoin d'acheter de stickers clavier : tes doigts apprendront les positions.</div></div>
+    <div class="source-row"><div class="source-num">🍎</div><div class="source-body"><strong>Mac</strong><span class="level-tag">2 min</span>Réglages Système → Clavier → Sources de saisie → + → Coréen → <em>2-Set Korean</em>. Bascule rapide : Ctrl + Espace (ou la touche fn/🌐).</div></div>
+  </div>
+
+  <h3>Entraîne-toi sans rien installer</h3>
+  <a class="cta-atelier" href="ecriture.html">
+    <span class="ic">⌨️</span>
+    <span>
+      <span class="t">Atelier d'écriture Korean Stories</span><br/>
+      <span class="s">Clavier coréen intégré · Copie, dictée audio & traduction · Du Hangeul au B1</span>
+    </span>
+    <span class="go">Ouvrir →</span>
+  </a>
+  <div class="tip"><strong>Pourquoi c'est unique :</strong> notre atelier inclut le clavier directement dans la page — tu peux t'entraîner à taper AVANT même d'avoir configuré ton téléphone, et la dictée utilise de vraies voix natives. Aucune app concurrente gratuite ne propose ça.</div>
+
+  <h3>3 réflexes de pro</h3>
+  <div class="source-grid">
+    <div class="source-row"><div class="source-num">1</div><div class="source-body"><strong>Tape ce que tu entends, pas ce que tu lis</strong> — en dictée, écris la syllabe entendue puis vérifie. C'est l'exercice n°1 des écoles de langue à Séoul.</div></div>
+    <div class="source-row"><div class="source-num">2</div><div class="source-body"><strong>La position des voyelles d'abord</strong> — ㅏㅓㅗㅜㅡㅣ sont sur la moitié droite. Une fois ces 6 touches automatiques, tout le reste suit.</div></div>
+    <div class="source-row"><div class="source-num">3</div><div class="source-body"><strong>Écris tes recherches en coréen</strong> — cherche 김치찌개 (et pas « kimchi jjigae ») sur Naver ou YouTube : tu pratiques la frappe ET tu tombes sur du contenu 100 % coréen.</div></div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +6 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_a51',xp:6});else{if(typeof ksAddXP==='function')ksAddXP(6);if(typeof ksMarkDone==='function')ksMarkDone('ks_a51');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

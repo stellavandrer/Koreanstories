@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>있어요 / 없어요 — Exister & Avoir — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/lecon62.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#16A34A;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#15803D;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#86efac}
+    .xp-badge{background:rgba(22,163,74,.12);color:#15803D;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#86efac}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .duo{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.6rem 0}
+    .duo-card{border-radius:14px;padding:1rem;text-align:center;border:2px solid}
+    .duo-card.yes{background:rgba(22,163,74,.07);border-color:rgba(22,163,74,.35)}
+    .duo-card.no{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.3)}
+    .duo-kr{font-size:1.5rem;font-weight:800}
+    .duo-card.yes .duo-kr{color:#15803D}
+    .duo-card.no .duo-kr{color:#DC2626}
+    [data-theme="dark"] .duo-card.yes .duo-kr{color:#4ade80}
+    [data-theme="dark"] .duo-card.no .duo-kr{color:#f87171}
+    .duo-fr{font-size:.8rem;color:var(--tx-muted);margin-top:.3rem;line-height:1.45}
+    .ex-block{background:rgba(22,163,74,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#15803D;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#86efac}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#15803D,#16A34A);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(22,163,74,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(22,163,74,.2)}
+    .speak-btn.playing{background:#16A34A}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#16A34A;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0}
+    th{background:rgba(22,163,74,.1);color:#15803D;padding:.5rem .7rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#86efac}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    td .ko{color:#15803D;font-weight:700}
+    [data-theme="dark"] td .ko{color:#86efac}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#16A34A}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" onclick="history.back()">←</button><span class="bar-title">있어요 / 없어요</span><button onclick="toggleTheme()" class="theme-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>있어요 / 없어요 — Exister & Avoir</h2>
+  <span class="pill">A1 · Grammaire essentielle</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">LE verbe le plus utilisé du coréen. Un seul mot pour dire <strong>« il y a »</strong>, <strong>« j'ai »</strong> et <strong>« être quelque part »</strong> — trois usages français, un seul verbe coréen.</p>
+
+  <h3>Le duo fondamental</h3>
+  <div class="duo">
+    <div class="duo-card yes">
+      <span class="duo-kr">있어요 <button class="speak-btn" onclick="window.speak('있어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+      <span class="duo-fr">il y a · j'ai · être (quelque part)<br/><em>isseoyo</em></span>
+    </div>
+    <div class="duo-card no">
+      <span class="duo-kr">없어요 <button class="speak-btn" onclick="window.speak('없어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+      <span class="duo-fr">il n'y a pas · je n'ai pas<br/><em>eopseoyo</em></span>
+    </div>
+  </div>
+  <div class="tip"><strong>Pourquoi c'est si important :</strong> tous les manuels coréens l'enseignent dans les 5 premières leçons. Avec 있어요/없어요 + un nom, tu produis déjà des dizaines de phrases complètes — sans aucune conjugaison à apprendre.</div>
+
+  <h3>Usage 1 — « Il y a » (avec 이/가)</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem">La chose qui existe prend la particule <strong>이/가</strong> (que tu viens d'apprendre) :</p>
+    <div class="ex-block">
+      <div class="ko">고양이가 있어요 <button class="speak-btn" onclick="window.speak('고양이가 있어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Il y a un chat. (고양이 + 가)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">시간이 없어요 <button class="speak-btn" onclick="window.speak('시간이 없어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Il n'y a pas de temps. = Je n'ai pas le temps ! (시간 + 이)</div>
+    </div>
+  </div>
+
+  <h3>Usage 2 — Situer avec 에 (lieu + 에 + chose + 이/가)</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem">Le lieu prend <strong>에</strong>, la chose prend <strong>이/가</strong> :</p>
+    <div class="ex-block">
+      <div class="ko">거실에 텔레비전이 있어요 <button class="speak-btn" onclick="window.speak('거실에 텔레비전이 있어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Il y a une télé dans le salon.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">책상 위에 책이 있어요 <button class="speak-btn" onclick="window.speak('책상 위에 책이 있어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Il y a un livre sur le bureau. (위 = dessus, vu dans Maison & objets)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">친구가 집에 있어요 <button class="speak-btn" onclick="window.speak('친구가 집에 있어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Mon ami est à la maison. (être quelque part = même verbe !)</div>
+    </div>
+  </div>
+
+  <h3>Usage 3 — « Avoir » (possession)</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem">Pas de verbe « avoir » en coréen — on dit littéralement « quant à moi, X existe » :</p>
+    <div class="ex-block">
+      <div class="ko">저는 우산이 있어요 <button class="speak-btn" onclick="window.speak('저는 우산이 있어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">J'ai un parapluie. (저는 = quant à moi · 우산이 있어요 = un parapluie existe)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">저는 동생이 있어요 <button class="speak-btn" onclick="window.speak('저는 동생이 있어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">J'ai un petit frère / une petite sœur.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">돈이 없어요 <button class="speak-btn" onclick="window.speak('돈이 없어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je n'ai pas d'argent. (phrase la plus utile du monde)</div>
+    </div>
+  </div>
+
+  <h3>Questions & réponses</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem">Même mot, intonation montante. Réponse en un mot :</p>
+    <div class="table-wrap"><table>
+      <tr><th>Question</th><th>Réponses</th></tr>
+      <tr><td><span class="ko">우산이 있어요?</span><br/><span style="font-size:.78rem;color:var(--tx-muted)">Tu as un parapluie ?</span></td>
+          <td><span class="ko">네, 있어요</span> — oui, j'en ai un<br/><span class="ko">아니요, 없어요</span> — non, je n'en ai pas</td></tr>
+      <tr><td><span class="ko">시간 있어요?</span><br/><span style="font-size:.78rem;color:var(--tx-muted)">Tu as le temps ? (à l'oral, la particule saute souvent)</span></td>
+          <td><span class="ko">네, 있어요!</span></td></tr>
+    </table></div>
+  </div>
+
+  <h3>🆘 LA phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">화장실이 어디에 있어요? <button class="speak-btn" onclick="window.speak('화장실이 어디에 있어요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Où sont les toilettes ? » — 어디(où) + 에 + 있어요. Le combo que tu utiliseras dès ton premier jour en Corée : 지하철역이 어디에 있어요? (où est le métro ?), 카페가 어디에 있어요? (où est le café ?)</span>
+  </div>
+
+  <div class="tip"><strong>존댓말 :</strong> pour parler d'une personne qu'on respecte (grand-mère, professeur), 있다 devient <span style="font-weight:700">계세요</span> : 할머니가 집에 계세요 (grand-mère est à la maison). Tu le reverras dans la leçon sur les honorifiques — pour l'instant, retiens juste que ça existe.</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« Je n'ai pas le temps » se dit :</p>
+    <div class="opt" onclick="a(this,'ko')">시간이 있어요</div>
+    <div class="opt" onclick="a(this,'ok')">시간이 없어요</div>
+    <div class="opt" onclick="a(this,'ko')">시간이 어디에 있어요?</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Il y a un livre sur le bureau » :</p>
+    <div class="opt" onclick="a(this,'ok')">책상 위에 책이 있어요</div>
+    <div class="opt" onclick="a(this,'ko')">책이 위에 책상 있어요</div>
+    <div class="opt" onclick="a(this,'ko')">책상 책 위에 없어요</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">Pour demander où est le métro :</p>
+    <div class="opt" onclick="a(this,'ko')">지하철역이 있어요</div>
+    <div class="opt" onclick="a(this,'ok')">지하철역이 어디에 있어요?</div>
+    <div class="opt" onclick="a(this,'ko')">지하철역이 없어요?</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">— 우산이 있어요? — Non, je n'en ai pas :</p>
+    <div class="opt" onclick="a(this,'ko')">네, 있어요</div>
+    <div class="opt" onclick="a(this,'ok')">아니요, 없어요</div>
+    <div class="opt" onclick="a(this,'ko')">아니요, 있어요</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">Dans « 거실에 텔레비전이 있어요 », la particule du LIEU est :</p>
+    <div class="opt" onclick="a(this,'ko')">이</div>
+    <div class="opt" onclick="a(this,'ok')">에</div>
+    <div class="opt" onclick="a(this,'ko')">는</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_a48',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_a48');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
