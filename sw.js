@@ -1,4 +1,4 @@
-// Korean Stories — Service Worker v2.6
+// Korean Stories — Service Worker v2.7
 // Network-first pour HTML/JS/CSS (toujours à jour),
 // cache-first pour les images & polices (rarement modifiées).
 // Bypass pour les APIs externes type DiceBear (l'interception
@@ -10,8 +10,15 @@
 //        histoires 12-30 (curriculum complet).
 // v2.6 : ajout pages publiques (a-propos, aide, mentions-legales)
 //        et modules onboarding tour.
+// v2.7 : mode hors-ligne complet (téléchargement du parcours +
+//        audio avec progression via message KS_CACHE_URLS),
+//        page de repli offline.html, rappel quotidien du Mix
+//        via Periodic Background Sync, nouvelles pages (daily-mix,
+//        ecriture/clavier, trophées badges, histoires 31-42,
+//        leçons 61-63).
 
-const CACHE = 'ks-v2.6';
+const CACHE = 'ks-v2.7';
+const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
   // App shell
@@ -72,6 +79,19 @@ const CORE = [
   'histoire21.html','histoire22.html','histoire23.html','histoire24.html',
   'histoire25.html','histoire26.html','histoire27.html','histoire28.html',
   'histoire29.html','histoire30.html',
+
+  // v2.7 — nouvelles pages & modules
+  'offline.html',
+  'daily-mix.html',
+  'ecriture.html',
+  'trophees.html',
+  'ks-keyboard.js',
+  'ks-offline-manifest.js',
+  'histoire31.html','histoire32.html','histoire33.html','histoire34.html',
+  'histoire35.html','histoire36.html','histoire37.html','histoire38.html',
+  'histoire39.html','histoire40.html','histoire41.html','histoire42.html',
+  'lecon61.html','lecon62.html','lecon63.html',
+  'jeu13.html','conseil9.html','anecdote20.html',
 ];
 
 // ── Install : précharge les pages core ──
@@ -134,7 +154,14 @@ self.addEventListener('fetch', e => {
       fetch(e.request).then(res => {
         if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
         return res;
-      }).catch(() => caches.match(e.request))
+      }).catch(() =>
+        caches.match(e.request, { ignoreSearch: isHTML }).then(cached => {
+          if (cached) return cached;
+          /* Page jamais visitée + hors-ligne → page de repli */
+          if (isHTML) return caches.match('offline.html');
+          return undefined;
+        })
+      )
     );
     return;
   }
@@ -151,9 +178,82 @@ self.addEventListener('fetch', e => {
   );
 });
 
-// ── Message : force refresh du cache ──
+// ── Message : force refresh du cache + téléchargement hors-ligne ──
 self.addEventListener('message', e => {
-  if (e.data === 'SKIP_WAITING') self.skipWaiting();
+  if (e.data === 'SKIP_WAITING') { self.skipWaiting(); return; }
+
+  /* Téléchargement massif pour le mode hors-ligne.
+     { type:'KS_CACHE_URLS', jobId, urls:[...] }
+     Progression renvoyée au client : KS_CACHE_PROGRESS / KS_CACHE_DONE.
+     Par lots de 12 requêtes parallèles — assez rapide sans saturer. */
+  const data = e.data || {};
+  if (data.type === 'KS_CACHE_URLS' && Array.isArray(data.urls)) {
+    const client = e.source;
+    const jobId = data.jobId || 'job';
+    e.waitUntil((async () => {
+      const cache = await caches.open(CACHE);
+      const urls = data.urls;
+      let done = 0, failed = 0;
+      const BATCH = 12;
+      for (let i = 0; i < urls.length; i += BATCH) {
+        const slice = urls.slice(i, i + BATCH);
+        await Promise.all(slice.map(async u => {
+          try {
+            /* Skip si déjà en cache (reprise après interruption) */
+            const hit = await cache.match(u);
+            if (hit) { done++; return; }
+            const res = await fetch(u, { cache: 'no-cache' });
+            if (res.ok) { await cache.put(u, res); done++; }
+            else failed++;
+          } catch (err) { failed++; }
+        }));
+        if (client) client.postMessage({ type: 'KS_CACHE_PROGRESS', jobId, done, failed, total: urls.length });
+      }
+      if (client) client.postMessage({ type: 'KS_CACHE_DONE', jobId, done, failed, total: urls.length });
+    })());
+  }
+
+  /* État partagé page → SW (mix fait aujourd'hui, préférences notifs).
+     Stocké dans un cache dédié car le SW n'a pas accès au localStorage. */
+  if (data.type === 'KS_STATE') {
+    e.waitUntil(
+      caches.open(STATE_CACHE).then(c =>
+        c.put('/__ks-state', new Response(JSON.stringify(data.state || {}), {
+          headers: { 'Content-Type': 'application/json' }
+        }))
+      )
+    );
+  }
+});
+
+// ── Periodic Background Sync : rappel quotidien du Mix ──
+// Chrome/Edge avec PWA installée. Le navigateur déclenche l'événement
+// ~1×/jour ; on notifie seulement si le mix n'est pas fait et qu'on
+// n'a pas déjà rappelé aujourd'hui.
+self.addEventListener('periodicsync', e => {
+  if (e.tag !== 'ks-daily-mix') return;
+  e.waitUntil((async () => {
+    try {
+      const c = await caches.open(STATE_CACHE);
+      const res = await c.match('/__ks-state');
+      const st = res ? await res.json() : {};
+      if (st.notifEnabled === false) return;
+      const today = new Date().toISOString().slice(0, 10);
+      if (st.mixDone === today) return;          // mix déjà fait
+      if (st.swNotifLast === today) return;      // déjà rappelé
+      st.swNotifLast = today;
+      await c.put('/__ks-state', new Response(JSON.stringify(st), {
+        headers: { 'Content-Type': 'application/json' }
+      }));
+      await self.registration.showNotification('🌀 Ton mix du jour t\'attend', {
+        body: '10 questions sur tout ce que tu as appris — 3 minutes, +15 XP.',
+        icon: 'Logo/Logo - KoreanStories_logo_4x4_bleu.png',
+        badge: 'Logo/Logo - KoreanStories_logo_4x4_bleu.png',
+        tag: 'ks-daily-mix',
+        data: { url: '/daily-mix.html' }
+      });
+    } catch (err) {}
+  })());
 });
 
 // ── Notification click : ouvre l'app si déjà ouverte, sinon nouvelle fenêtre ──

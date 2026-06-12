@@ -53,46 +53,85 @@
      - on est passé l'heure choisie aujourd'hui
      - on n'a pas déjà envoyé de rappel aujourd'hui
      - dernière pratique > 18h (sinon ça serait stressant) */
-  function shouldFireToday(){
-    if (!isSupported()) return false;
-    if (Notification.permission !== 'granted') return false;
-    if (!isEnabled()) return false;
+  /* Date du jour côté Séoul — le Mix se renouvelle à minuit KST */
+  function seoulToday(){
+    try { return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul'}).format(new Date()); }
+    catch(e){ return new Date().toISOString().slice(0,10); }
+  }
+  function mixDoneToday(){
+    return !!ls('ks_mix_done_' + seoulToday());
+  }
+
+  /* Quel rappel envoyer aujourd'hui ?
+     'practice' : pas pratiqué depuis 18h+ → rappel général
+     'mix'      : a pratiqué mais n'a pas fait son Mix du jour
+     null       : rien à envoyer */
+  function reminderKind(){
+    if (!isSupported()) return null;
+    if (Notification.permission !== 'granted') return null;
+    if (!isEnabled()) return null;
 
     var now = new Date();
     var todayStr = now.toISOString().slice(0,10);
 
     /* Pas plus d'une notif par jour */
-    if (ls('ks_notif_last_sent') === todayStr) return false;
+    if (ls('ks_notif_last_sent') === todayStr) return null;
 
     /* Heure dépassée ? */
-    if (now.getHours() < getHour()) return false;
+    if (now.getHours() < getHour()) return null;
 
-    /* Dernière pratique récente → pas de rappel inutile */
     var last = ls('ks_lastplay');
-    if (last === todayStr) return false; /* déjà pratiqué aujourd'hui */
-    if (last) {
-      var diffH = (now - new Date(last)) / 3600000;
-      if (diffH < 18) return false;
+    var practicedToday = (last === todayStr);
+
+    if (!practicedToday) {
+      if (last) {
+        var diffH = (now - new Date(last)) / 3600000;
+        if (diffH < 18) return null;
+      }
+      return 'practice';
     }
-    return true;
+    /* A pratiqué aujourd'hui — mais le Mix quotidien reste à faire */
+    if (!mixDoneToday()) return 'mix';
+    return null;
   }
+  function shouldFireToday(){ return reminderKind() !== null; }
 
   function fireReminder(){
+    /* Calculer le type AVANT de marquer le rappel comme envoyé —
+       sinon reminderKind() se voit déjà « envoyé » et renvoie null. */
+    var kind = reminderKind() || 'practice';
     var todayStr = new Date().toISOString().slice(0,10);
     setLs('ks_notif_last_sent', todayStr);
+    var t, b, targetUrl;
 
-    var streak = parseInt(ls('ks_streak') || '0', 10) || 0;
-    var titles = [
-      '안녕하세요 ! Prêt·e pour ta dose de coréen ?',
-      'Le coréen t\'attend 📚',
-      'Petite session du soir ?',
-      '15 min de coréen = grand pas'
-    ];
-    var bodies = streak > 0
-      ? ['Continue ton streak de '+streak+' jours !', 'Ne casse pas la chaîne — un freeze sera consommé sinon.', 'Reviens valider ta journée.']
-      : ['Commence une nouvelle série dès aujourd\'hui.', 'Une petite leçon suffit pour relancer la dynamique.', 'C\'est le moment idéal pour reprendre.'];
-    var t = titles[Math.floor(Math.random() * titles.length)];
-    var b = bodies[Math.floor(Math.random() * bodies.length)];
+    if (kind === 'mix') {
+      /* A déjà pratiqué — on rappelle juste le Mix quotidien */
+      var mixStreak = parseInt(ls('ks_mix_streak') || '0', 10) || 0;
+      var mixTitles = [
+        '🌀 Ton mix du jour t\'attend',
+        '🌀 3 minutes pour boucler la journée',
+        '🌀 Le mix quotidien n\'est pas fait'
+      ];
+      t = mixTitles[Math.floor(Math.random() * mixTitles.length)];
+      b = mixStreak > 0
+        ? '10 questions sur tes acquis · 🔥 série de ' + mixStreak + ' jour' + (mixStreak > 1 ? 's' : '') + ' en jeu · +15 XP'
+        : '10 questions sur tout ce que tu as appris · +15 XP.';
+      targetUrl = '/daily-mix.html';
+    } else {
+      var streak = parseInt(ls('ks_streak') || '0', 10) || 0;
+      var titles = [
+        '안녕하세요 ! Prêt·e pour ta dose de coréen ?',
+        'Le coréen t\'attend 📚',
+        'Petite session du soir ?',
+        '15 min de coréen = grand pas'
+      ];
+      var bodies = streak > 0
+        ? ['Continue ton streak de '+streak+' jours !', 'Ne casse pas la chaîne — un freeze sera consommé sinon.', 'Reviens valider ta journée.']
+        : ['Commence une nouvelle série dès aujourd\'hui.', 'Une petite leçon suffit pour relancer la dynamique.', 'C\'est le moment idéal pour reprendre.'];
+      t = titles[Math.floor(Math.random() * titles.length)];
+      b = bodies[Math.floor(Math.random() * bodies.length)];
+      targetUrl = '/app.html';
+    }
 
     var options = {
       body: b,
@@ -100,7 +139,7 @@
       badge: 'Logo/Logo - KoreanStories_logo_4x4_bleu.png',
       tag: 'ks-daily-reminder',
       requireInteraction: false,
-      data: { url: '/app.html' }
+      data: { url: targetUrl }
     };
 
     /* Préférer le Service Worker (plus fiable pour PWA installée) */
@@ -124,10 +163,48 @@
     if (shouldFireToday()) fireReminder();
   }
 
+  /* ── Pont vers le Service Worker ─────────────────────────────────
+     Le SW (periodicsync) n'a pas accès au localStorage : on lui
+     pousse l'état utile (mix fait ? notifs actives ?) à chaque
+     visite et après chaque changement de réglage. */
+  function syncStateToSW(){
+    try {
+      if (!('serviceWorker' in navigator)) return;
+      navigator.serviceWorker.ready.then(function (reg) {
+        if (!reg.active) return;
+        reg.active.postMessage({
+          type: 'KS_STATE',
+          state: {
+            mixDone: mixDoneToday() ? seoulToday() : (ls('ks_mix_last') || null),
+            notifEnabled: isEnabled(),
+            hour: getHour()
+          }
+        });
+      }).catch(function(){});
+    } catch (e) {}
+  }
+
+  /* Periodic Background Sync : rappel ~quotidien même app fermée
+     (Chrome/Edge, PWA installée). Échec silencieux ailleurs. */
+  function registerPeriodicSync(){
+    try {
+      if (!('serviceWorker' in navigator)) return;
+      navigator.serviceWorker.ready.then(function (reg) {
+        if (!('periodicSync' in reg)) return;
+        if (!isEnabled() || Notification.permission !== 'granted') return;
+        reg.periodicSync.register('ks-daily-mix', {
+          minInterval: 12 * 60 * 60 * 1000
+        }).catch(function(){});
+      }).catch(function(){});
+    } catch (e) {}
+  }
+
   /* Auto-init : check au load, puis toutes les 15 min si l'utilisateur
      laisse la page ouverte (l'heure peut passer pendant l'usage) */
   function init(){
     setTimeout(checkAndFire, 4000); /* attend que la page se stabilise */
+    setTimeout(syncStateToSW, 2500);
+    setTimeout(registerPeriodicSync, 5000);
     setInterval(checkAndFire, 15 * 60 * 1000);
   }
   if (document.readyState === 'complete') init();
@@ -137,13 +214,14 @@
   global.KSNotifications = {
     isSupported: isSupported,
     isEnabled: isEnabled,
-    setEnabled: setEnabled,
+    setEnabled: function(yes){ setEnabled(yes); syncStateToSW(); registerPeriodicSync(); },
     getHour: getHour,
     setHour: setHour,
     getPermission: getPermission,
     requestPermission: requestPermission,
     fireTestNow: fireReminder,
-    check: checkAndFire
+    check: checkAndFire,
+    syncState: syncStateToSW
   };
 
 })(window);

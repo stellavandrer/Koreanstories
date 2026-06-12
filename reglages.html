@@ -415,6 +415,46 @@
     <p class="rg-note">Voix neuronales Microsoft Edge TTS. Le choix s'applique à tout le site, sur tous les appareils synchronisés.</p>
     </div><!-- /bloc voix caché -->
 
+    <!-- MODE HORS-LIGNE -->
+    <span class="rg-sec-lbl">Mode hors-ligne</span>
+    <div class="rg-card">
+      <div class="rg-row">
+        <div class="rg-ic" style="color:#10B981">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Tout le parcours (textes)</div>
+          <div class="rg-row-s" id="offPagesStatus">~7 Mo · leçons, histoires, exercices, jeux</div>
+        </div>
+        <button class="rg-btn" id="offPagesBtn" onclick="ksOfflineDownload('pages')">Télécharger</button>
+      </div>
+      <div class="rg-off-prog" id="offPagesProg" style="display:none;margin:0 16px 12px;height:6px;background:var(--s3);border-radius:100px;overflow:hidden"><div style="height:100%;width:0%;background:#10B981;border-radius:100px;transition:width .3s" id="offPagesBar"></div></div>
+
+      <div class="rg-row" style="border-top:1px solid var(--bd)">
+        <div class="rg-ic" style="color:#8B5CF6">
+          <svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Audio InJoon (voix principale)</div>
+          <div class="rg-row-s" id="offAudioStatus">~43 Mo · toutes les prononciations en MP3 natif</div>
+        </div>
+        <button class="rg-btn" id="offAudioBtn" onclick="ksOfflineDownload('audio')">Télécharger</button>
+      </div>
+      <div class="rg-off-prog" id="offAudioProg" style="display:none;margin:0 16px 12px;height:6px;background:var(--s3);border-radius:100px;overflow:hidden"><div style="height:100%;width:0%;background:#8B5CF6;border-radius:100px;transition:width .3s" id="offAudioBar"></div></div>
+
+      <div class="rg-row" style="border-top:1px solid var(--bd)">
+        <div class="rg-ic" style="color:var(--t3)">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t">Espace utilisé</div>
+          <div class="rg-row-s" id="offStorageInfo">Calcul…</div>
+        </div>
+        <button class="rg-btn ghost" id="offClearBtn" onclick="ksOfflineClear()">Libérer</button>
+      </div>
+    </div>
+    <p class="rg-note">Une fois téléchargé, le parcours fonctionne dans l'avion, le métro ou sans forfait — l'app garde aussi automatiquement en mémoire les pages que tu visites. Reprise automatique si le téléchargement est interrompu.</p>
+
     <!-- SAUVEGARDE -->
     <span class="rg-sec-lbl">Sauvegarde de ma progression</span>
     <div class="rg-card">
@@ -1038,6 +1078,118 @@
     msg('Progression réinitialisée.',true);
     setTimeout(function(){ ksGo('app.html'); },1100);
   };
+})();
+</script>
+
+<script src="ks-offline-manifest.js"></script>
+<script>
+/* ═══════════ MODE HORS-LIGNE — téléchargement via le Service Worker ═══════════ */
+(function(){
+  'use strict';
+  var running = null; /* 'pages' | 'audio' | null */
+
+  function $(id){ return document.getElementById(id); }
+  function fmtMB(b){ return (b/1048576).toFixed(b>104857600?0:1)+' Mo'; }
+
+  function refreshStatus(){
+    try {
+      var p = localStorage.getItem('ks_offline_pages');
+      if (p) { $('offPagesStatus').textContent = '✓ Téléchargé le '+p; $('offPagesBtn').textContent = 'À jour ?'; }
+      var a = localStorage.getItem('ks_offline_audio');
+      if (a) { $('offAudioStatus').textContent = '✓ Téléchargé le '+a; $('offAudioBtn').textContent = 'À jour ?'; }
+    } catch(e){}
+    if (navigator.storage && navigator.storage.estimate) {
+      navigator.storage.estimate().then(function(est){
+        $('offStorageInfo').textContent = fmtMB(est.usage||0) + ' utilisés sur ' + fmtMB(est.quota||0) + ' disponibles';
+      }).catch(function(){ $('offStorageInfo').textContent = 'Indisponible sur ce navigateur'; });
+    } else {
+      $('offStorageInfo').textContent = 'Indisponible sur ce navigateur';
+    }
+  }
+
+  function buildUrls(kind){
+    if (kind === 'pages') {
+      return Promise.resolve((window.KS_OFFLINE && KS_OFFLINE.pages) || []);
+    }
+    /* audio : toutes les entrées du manifest, voix InJoon */
+    return fetch('audio/manifest.json').then(function(r){ return r.json(); }).then(function(man){
+      var seen = {};
+      var urls = [];
+      Object.keys(man).forEach(function(k){
+        var h = man[k];
+        if (!seen[h]) { seen[h] = 1; urls.push('audio/injoon/' + h); }
+      });
+      return urls;
+    });
+  }
+
+  window.ksOfflineDownload = function(kind){
+    if (running) return;
+    if (!('serviceWorker' in navigator)) { alert('Service Worker non disponible sur ce navigateur.'); return; }
+    running = kind;
+    var btn = $(kind==='pages' ? 'offPagesBtn' : 'offAudioBtn');
+    var prog = $(kind==='pages' ? 'offPagesProg' : 'offAudioProg');
+    var bar = $(kind==='pages' ? 'offPagesBar' : 'offAudioBar');
+    var status = $(kind==='pages' ? 'offPagesStatus' : 'offAudioStatus');
+    btn.disabled = true; btn.textContent = '…';
+    prog.style.display = 'block'; bar.style.width = '2%';
+
+    /* Demande au navigateur de ne pas purger le cache à sa guise */
+    try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}
+
+    Promise.all([buildUrls(kind), navigator.serviceWorker.ready]).then(function(res){
+      var urls = res[0], reg = res[1];
+      if (!urls.length) throw new Error('liste vide');
+      if (!reg.active) throw new Error('SW inactif');
+      var jobId = 'ks-' + kind + '-' + Date.now();
+
+      function onMsg(e){
+        var d = e.data || {};
+        if (d.jobId !== jobId) return;
+        if (d.type === 'KS_CACHE_PROGRESS') {
+          var pct = Math.max(2, Math.round(d.done / d.total * 100));
+          bar.style.width = pct + '%';
+          status.textContent = 'Téléchargement… ' + d.done + ' / ' + d.total;
+        }
+        if (d.type === 'KS_CACHE_DONE') {
+          navigator.serviceWorker.removeEventListener('message', onMsg);
+          running = null;
+          bar.style.width = '100%';
+          var today = new Date().toLocaleDateString('fr-FR');
+          try { localStorage.setItem('ks_offline_' + kind, today); } catch(err){}
+          status.textContent = '✓ Téléchargé le ' + today + (d.failed ? ' · ' + d.failed + ' fichiers ignorés' : '');
+          btn.disabled = false; btn.textContent = 'À jour ?';
+          setTimeout(function(){ prog.style.display = 'none'; }, 1200);
+          refreshStatus();
+        }
+      }
+      navigator.serviceWorker.addEventListener('message', onMsg);
+      reg.active.postMessage({ type: 'KS_CACHE_URLS', jobId: jobId, urls: urls });
+    }).catch(function(err){
+      running = null;
+      btn.disabled = false; btn.textContent = 'Télécharger';
+      prog.style.display = 'none';
+      status.textContent = 'Erreur — réessaie. (' + (err && err.message || 'inconnue') + ')';
+    });
+  };
+
+  window.ksOfflineClear = function(){
+    if (!confirm('Supprimer le contenu téléchargé pour le hors-ligne ?\nTa progression n\'est PAS touchée — seul le cache local est vidé.')) return;
+    caches.keys().then(function(keys){
+      return Promise.all(keys.filter(function(k){ return k.indexOf('ks-') === 0; }).map(function(k){ return caches.delete(k); }));
+    }).then(function(){
+      try { localStorage.removeItem('ks_offline_pages'); localStorage.removeItem('ks_offline_audio'); } catch(e){}
+      $('offPagesStatus').textContent = '~7 Mo · leçons, histoires, exercices, jeux';
+      $('offPagesBtn').textContent = 'Télécharger';
+      $('offAudioStatus').textContent = '~43 Mo · toutes les prononciations en MP3 natif';
+      $('offAudioBtn').textContent = 'Télécharger';
+      refreshStatus();
+      /* Le SW re-précachera le cœur au prochain rechargement */
+      if (navigator.serviceWorker) navigator.serviceWorker.register('sw.js').catch(function(){});
+    });
+  };
+
+  refreshStatus();
 })();
 </script>
 </body>

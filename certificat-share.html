@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Certificat de progression · Korean Stories</title>
+  <meta name="description" content="Un certificat de progression en coréen délivré par Korean Stories — la plateforme gratuite d'apprentissage du coréen pour francophones."/>
+  <meta property="og:title" content="Certificat de progression en coréen 🇰🇷"/>
+  <meta property="og:description" content="Découvre ce parcours d'apprentissage du coréen sur Korean Stories — leçons, histoires audio et exercices, 100% gratuit."/>
+  <meta property="og:image" content="https://koreanstories.fr/Logo/Logo - KoreanStories.png"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400;1,600&family=Inter:wght@400;600;700;800&family=Noto+Serif+KR:wght@700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Inter',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--t);padding-bottom:40px}
+    .wrap{max-width:760px;margin:0 auto;padding:20px 16px}
+    .topline{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--t);text-decoration:none}
+    .brand em{color:var(--gold);font-style:italic}
+    .cert-frame{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:14px;box-shadow:var(--sh2)}
+    .cert-frame canvas,.cert-frame img{width:100%;height:auto;border-radius:8px;display:block}
+    .who{text-align:center;margin:18px 0 6px;font-size:14px;color:var(--t2);line-height:1.65}
+    .who strong{color:var(--t)}
+    .cta-card{background:linear-gradient(135deg,#0F1B2D,#1a2f4a);border-radius:20px;padding:24px 20px;color:#fff;text-align:center;margin-top:20px}
+    .cta-card h2{font-family:'Playfair Display',serif;font-size:21px;margin:0 0 8px}
+    .cta-card p{font-size:13px;color:rgba(247,248,250,.6);margin:0 0 16px;line-height:1.65}
+    .cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#fff;border-radius:100px;padding:13px 26px;font-size:14px;font-weight:800;text-decoration:none;box-shadow:0 4px 16px rgba(184,146,78,.35)}
+    .cta-feats{display:flex;gap:14px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+    .cta-feat{font-size:11px;color:rgba(247,248,250,.5);font-weight:600}
+    .dl-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+    .dl-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:100px;border:1.5px solid var(--bd2);background:var(--surf);color:var(--t2);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none}
+    .dl-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .dl-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .empty{background:var(--surf);border:1.5px dashed var(--bd2);border-radius:18px;padding:40px 22px;text-align:center}
+    .empty .e{font-size:44px;margin-bottom:10px}
+    .empty h2{font-size:18px;margin:0 0 6px}
+    .empty p{font-size:13px;color:var(--t2);line-height:1.6}
+  </style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+</head>
+<body>
+<div class="wrap">
+  <div class="topline">
+    <a class="brand" href="index.html">Korean <em>Stories</em></a>
+    <a class="dl-btn" href="index.html" style="padding:8px 16px">Découvrir le site →</a>
+  </div>
+
+  <div id="certZone"></div>
+
+  <div class="cta-card">
+    <h2>Toi aussi, apprends le coréen 🇰🇷</h2>
+    <p>Leçons structurées du Hangeul au B2, 42 histoires audio en voix natives,<br/>clavier coréen intégré, révisions quotidiennes — et tout est gratuit.</p>
+    <a class="cta-btn" href="index.html">Commencer gratuitement →</a>
+    <div class="cta-feats">
+      <span class="cta-feat">✓ 200+ activités</span>
+      <span class="cta-feat">✓ Audio natif</span>
+      <span class="cta-feat">✓ Sans publicité</span>
+      <span class="cta-feat">✓ 100% gratuit</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══ Décodage du lien + rendu du certificat (sans backend) ═══ */
+function b64urlDecode(s){
+  s = s.replace(/-/g,'+').replace(/_/g,'/');
+  while (s.length % 4) s += '=';
+  return decodeURIComponent(escape(atob(s)));
+}
+function getRank(xp){
+  if (xp >= 5000) return { kr:'한국어 마스터', fr:'Maître du coréen — B2+' };
+  if (xp >= 3000) return { kr:'고급자', fr:'Avancé — B2' };
+  if (xp >= 1800) return { kr:'중상급자', fr:'Pré-avancé — B1+' };
+  if (xp >= 1000) return { kr:'중급자', fr:'Intermédiaire — B1' };
+  if (xp >= 500)  return { kr:'초중급자', fr:'Pré-intermédiaire — A2+' };
+  if (xp >= 200)  return { kr:'초급자', fr:'Débutant — A2' };
+  if (xp >= 50)   return { kr:'입문자', fr:'Découverte — A1' };
+  return { kr:'한글 초보', fr:'Hangeul — en cours' };
+}
+
+/* Rendu canvas — même dessin que certificat.html, paramétré */
+function buildCertCanvas(data) {
+  var W = 1200, H = 800;
+  var canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  var ctx = canvas.getContext('2d');
+  var name = data.n, xp = data.xp|0, streak = data.sk|0;
+  var done = data.d|0, total = data.t|0;
+  var pct = total > 0 ? Math.min(100, Math.round(done / total * 100)) : 0;
+  var rank = getRank(xp);
+  var dateTxt = data.dt || '';
+
+  var grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0,'#fffdf5'); grad.addColorStop(0.5,'#fff8e8'); grad.addColorStop(1,'#fffdf5');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+
+  ctx.strokeStyle = '#B8924E'; ctx.lineWidth = 6; ctx.strokeRect(28, 28, W-56, H-56);
+  ctx.strokeStyle = 'rgba(184,146,78,0.4)'; ctx.lineWidth = 1; ctx.strokeRect(45, 45, W-90, H-90);
+
+  ctx.strokeStyle = 'rgba(184,146,78,0.55)'; ctx.lineWidth = 2;
+  var c = 60;
+  ctx.beginPath(); ctx.moveTo(70, 70+c); ctx.lineTo(70, 70); ctx.lineTo(70+c, 70); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W-70-c, H-70); ctx.lineTo(W-70, H-70); ctx.lineTo(W-70, H-70-c); ctx.stroke();
+
+  var sealW = 220, sealH = 44, sealX = W/2 - sealW/2, sealY = 110;
+  ctx.strokeStyle = '#B8924E'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(sealX+sealH/2, sealY); ctx.lineTo(sealX+sealW-sealH/2, sealY);
+  ctx.arc(sealX+sealW-sealH/2, sealY+sealH/2, sealH/2, -Math.PI/2, Math.PI/2);
+  ctx.lineTo(sealX+sealH/2, sealY+sealH);
+  ctx.arc(sealX+sealH/2, sealY+sealH/2, sealH/2, Math.PI/2, 3*Math.PI/2);
+  ctx.closePath(); ctx.stroke();
+
+  ctx.fillStyle = '#B8924E';
+  ctx.font = 'bold 22px "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('한국어 인증서', W/2, sealY + sealH/2 + 1);
+
+  ctx.fillStyle = '#0F1B2D';
+  ctx.font = 'bold 18px "Playfair Display", Georgia, serif';
+  ctx.fillText('KOREAN STORIES', W/2, 195);
+  ctx.font = '800 56px "Playfair Display", Georgia, serif';
+  ctx.fillText('Certificat de progression', W/2, 250);
+  ctx.fillStyle = '#7a6135';
+  ctx.font = 'italic 22px "Playfair Display", Georgia, serif';
+  ctx.fillText('Apprentissage du coréen — méthode immersive', W/2, 290);
+
+  ctx.font = '600 14px system-ui, sans-serif';
+  ctx.fillText('DÉLIVRÉ À', W/2, 355);
+
+  ctx.fillStyle = '#0F1B2D';
+  var nameSize = name.length > 22 ? 44 : name.length > 14 ? 56 : 64;
+  ctx.font = '700 ' + nameSize + 'px "Playfair Display", Georgia, serif';
+  ctx.fillText(name, W/2, 410);
+
+  ctx.strokeStyle = 'rgba(184,146,78,0.5)'; ctx.lineWidth = 1.5;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath(); ctx.moveTo(W/2-280, 445); ctx.lineTo(W/2+280, 445); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#3d2f1a';
+  ctx.font = '400 19px system-ui, sans-serif';
+  ctx.fillText('a complété ' + done + ' activités du parcours d’apprentissage', W/2, 490);
+  ctx.fillText('Korean Stories et atteint le niveau :', W/2, 518);
+
+  ctx.fillStyle = '#B8924E';
+  ctx.font = 'bold 38px "Noto Serif KR", "Apple SD Gothic Neo", "Malgun Gothic", serif';
+  ctx.fillText(rank.kr, W/2, 575);
+  ctx.fillStyle = '#7a6135';
+  ctx.font = 'italic 20px "Playfair Display", Georgia, serif';
+  ctx.fillText(rank.fr, W/2, 608);
+
+  ctx.strokeStyle = 'rgba(184,146,78,0.3)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(150, 645); ctx.lineTo(W-150, 645); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(150, 715); ctx.lineTo(W-150, 715); ctx.stroke();
+
+  var statY = 670, blockW = (W-300)/3;
+  var stats = [
+    { v: xp.toLocaleString('fr-FR'), l: 'XP GAGNÉS' },
+    { v: String(streak), l: 'JOURS STREAK' },
+    { v: pct + '%', l: 'PROGRESSION' }
+  ];
+  for (var i = 0; i < 3; i++) {
+    var x = 150 + blockW*i + blockW/2;
+    ctx.fillStyle = '#B8924E';
+    ctx.font = '800 28px "Playfair Display", Georgia, serif';
+    ctx.fillText(stats[i].v, x, statY);
+    ctx.fillStyle = '#7a6135';
+    ctx.font = '600 10px system-ui, sans-serif';
+    ctx.fillText(stats[i].l, x, statY + 25);
+  }
+
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#7a6135';
+  ctx.font = '400 12px system-ui, sans-serif';
+  ctx.fillText('DÉLIVRÉ LE', 95, 745);
+  ctx.font = 'italic 16px "Playfair Display", Georgia, serif';
+  ctx.fillText(dateTxt, 95, 768);
+
+  ctx.textAlign = 'right';
+  ctx.fillStyle = '#0F1B2D';
+  ctx.font = 'italic 22px "Playfair Display", Georgia, serif';
+  ctx.fillText('Korean Stories', W-95, 745);
+  ctx.strokeStyle = '#B8924E'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(W-240, 750); ctx.lineTo(W-95, 750); ctx.stroke();
+  ctx.fillStyle = '#7a6135';
+  ctx.font = '400 13px system-ui, sans-serif';
+  ctx.fillText('koreanstories.fr', W-95, 770);
+
+  return canvas;
+}
+
+function render(){
+  var zone = document.getElementById('certZone');
+  var data = null;
+  try {
+    var d = new URLSearchParams(location.search).get('d');
+    if (d) data = JSON.parse(b64urlDecode(d));
+  } catch(e){}
+
+  if (!data || !data.n) {
+    zone.innerHTML = '<div class="empty"><div class="e">📜</div><h2>Lien de certificat incomplet</h2><p>Ce lien ne contient pas de certificat valide.<br/>Demande à ton ami·e de re-copier le lien depuis sa page Certificat.</p></div>';
+    document.title = 'Certificat · Korean Stories';
+    return;
+  }
+  /* Sécurité d'affichage : le nom vient de l'URL → texte canvas
+     uniquement (jamais injecté en HTML) + longueur bornée. */
+  data.n = String(data.n).slice(0, 40);
+  document.title = 'Certificat de ' + data.n + ' · Korean Stories';
+
+  var ready = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+  ready.then(function(){
+    var canvas = buildCertCanvas(data);
+    var frame = document.createElement('div');
+    frame.className = 'cert-frame';
+    frame.appendChild(canvas);
+    zone.innerHTML = '';
+    zone.appendChild(frame);
+
+    var who = document.createElement('div');
+    who.className = 'who';
+    var rank = getRank(data.xp|0);
+    who.innerHTML = '<strong></strong> a atteint le niveau <strong>' + rank.fr + '</strong> en coréen · ' + (data.xp|0).toLocaleString('fr-FR') + ' XP';
+    who.querySelector('strong').textContent = data.n;
+    zone.appendChild(who);
+
+    var row = document.createElement('div');
+    row.className = 'dl-row';
+    var dl = document.createElement('button');
+    dl.className = 'dl-btn';
+    dl.innerHTML = '<svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Enregistrer l’image';
+    dl.onclick = function(){
+      var a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'certificat-korean-stories.png';
+      document.body.appendChild(a); a.click(); a.remove();
+    };
+    row.appendChild(dl);
+    zone.appendChild(row);
+  });
+}
+render();
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>

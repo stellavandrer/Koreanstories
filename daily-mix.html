@@ -455,6 +455,12 @@ function endQuiz(){
   } catch(e){}
   document.getElementById('endStreak').textContent=streak;
   document.getElementById('endXP').textContent='+'+xp;
+  /* Informe le Service Worker : mix fait → pas de rappel periodicsync */
+  try {
+    if ('serviceWorker' in navigator) navigator.serviceWorker.ready.then(reg=>{
+      reg.active && reg.active.postMessage({type:'KS_STATE', state:{mixDone: MIX.date, notifEnabled: (localStorage.getItem('ks_notif_enabled')==='yes'), hour: parseInt(localStorage.getItem('ks_notif_hour')||'19')}});
+    }).catch(()=>{});
+  } catch(e){}
   if (score===MIX.qs.length){ document.getElementById('endEmoji').textContent='🏆'; document.getElementById('endTitle').textContent='완벽해요 ! Sans faute !'; document.getElementById('endSub').textContent='Tout ce que tu as appris est bien ancré. À demain pour le prochain mix !'; }
   else if (score>=7){ document.getElementById('endEmoji').textContent='🎉'; document.getElementById('endTitle').textContent='잘했어요 ! Solide !'; document.getElementById('endSub').textContent='La révision quotidienne, c\'est ça le secret — quelques minutes par jour battent des heures le dimanche.'; }
   else { document.getElementById('endEmoji').textContent='💪'; document.getElementById('endTitle').textContent='C\'est noté !'; document.getElementById('endSub').textContent='Les mots ratés reviendront dans les prochains mix. Repasse aussi par les Révisions SRS.'; }

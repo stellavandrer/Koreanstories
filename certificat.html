@@ -174,6 +174,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       Partager
     </button>
+    <button id="linkBtn" onclick="copyShareLink()" aria-label="Copier le lien public du certificat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Lien
+    </button>
   </div>
 
   <div class="toast" id="toast"></div>
@@ -587,6 +591,34 @@ function downloadCert() {
   });
 }
 
+/* ─── Lien public du certificat ───
+   Encode les données dans l'URL (base64url) — certificat-share.html
+   re-dessine le diplôme côté client. Aucun backend nécessaire. */
+function buildShareLink() {
+  var payload = {
+    n:  loadName() || 'Apprenant·e',
+    xp: lsInt('ks_xp'),
+    sk: lsInt('ks_streak'),
+    d:  countCompletedActivities(),
+    t:  getTotalActivities(),
+    dt: formatDate()
+  };
+  var b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return 'https://koreanstories.fr/certificat-share.html?d=' + b64;
+}
+
+function copyShareLink() {
+  var link = buildShareLink();
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(link).then(function () {
+      showToast('Lien public copié — envoie-le à qui tu veux !');
+    }).catch(function () { showToast(link); });
+  } else {
+    showToast(link);
+  }
+}
+
 function shareCert() {
   var btn = document.getElementById('shareBtn');
   if (btn) btn.disabled = true;
@@ -594,7 +626,7 @@ function shareCert() {
   var xp = lsInt('ks_xp');
   var rank = getRank(xp);
   var txt = name + ' — ' + xp + ' XP en coréen sur Korean Stories. Niveau : ' + rank.fr + '.';
-  var url = 'https://koreanstories.fr';
+  var url = buildShareLink();
 
   _ensureFonts().then(function () {
     var canvas = buildCertCanvas();
