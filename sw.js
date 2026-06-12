@@ -92,6 +92,8 @@ const CORE = [
   'histoire39.html','histoire40.html','histoire41.html','histoire42.html',
   'lecon61.html','lecon62.html','lecon63.html',
   'jeu13.html','conseil9.html','anecdote20.html',
+  'blog.html','blog-premier-voyage-coree.html','blog-cuisine-coreenne-debutants.html',
+  'blog-etiquette-coreenne.html','blog-combien-temps-apprendre-coreen.html',
 ];
 
 // ── Install : précharge les pages core ──

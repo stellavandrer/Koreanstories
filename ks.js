@@ -1419,4 +1419,84 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     document.body.appendChild(b);
   })();
+
+  /* ═══════════════ ACCESSIBILITÉ — retrofit global ═══════════════
+     Appliqué au chargement sur toutes les pages qui incluent ks.js.
+     1. Skip-link « Aller au contenu » (styles dans design.css).
+     2. Les centaines de <div onclick> / <span onclick> du site
+        deviennent utilisables au clavier : role=button + tabindex=0,
+        et Entrée/Espace déclenchent le clic (délégation globale,
+        couvre aussi les éléments créés dynamiquement).
+     3. Les zones de feedback de quiz/exercices passent en aria-live
+        pour les lecteurs d'écran. */
+  (function(){
+    /* 1 ── Skip-link vers le contenu principal */
+    try {
+      if (!document.querySelector('.ks-skip-link')) {
+        var main = document.querySelector('main') || document.querySelector('.main');
+        if (main) {
+          if (!main.id) main.id = 'ks-main';
+          if (main.tagName !== 'MAIN' && !main.getAttribute('role')) main.setAttribute('role', 'main');
+          main.setAttribute('tabindex', '-1');
+          var skip = document.createElement('a');
+          skip.className = 'ks-skip-link';
+          skip.href = '#' + main.id;
+          skip.textContent = 'Aller au contenu';
+          skip.addEventListener('click', function(e){
+            e.preventDefault();
+            main.focus({ preventScroll: false });
+            main.scrollIntoView();
+          });
+          document.body.insertBefore(skip, document.body.firstChild);
+        }
+      }
+    } catch (e) {}
+
+    /* 2 ── Clavier sur les éléments cliquables non natifs */
+    var CLICKABLE = 'div[onclick], span[onclick], li[onclick], td[onclick]';
+    function retrofit(root){
+      try {
+        (root.querySelectorAll ? root.querySelectorAll(CLICKABLE) : []).forEach(function(el){
+          if (el.closest('button, a, [role="button"], input, select, textarea') && el.getAttribute('onclick') === null) return;
+          if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+          if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+        });
+      } catch (e) {}
+    }
+    retrofit(document);
+    /* Les quiz injectent leurs options après coup → on observe */
+    try {
+      new MutationObserver(function(muts){
+        muts.forEach(function(m){
+          m.addedNodes.forEach(function(n){
+            if (n.nodeType === 1) {
+              if (n.matches && n.matches(CLICKABLE)) retrofit({ querySelectorAll: function(){ return [n]; } });
+              retrofit(n);
+            }
+          });
+        });
+      }).observe(document.body, { childList: true, subtree: true });
+    } catch (e) {}
+    /* Entrée / Espace = clic (délégation, marche aussi sans retrofit) */
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var t = e.target;
+      if (!t || t.tagName === 'BUTTON' || t.tagName === 'A' || t.tagName === 'INPUT' ||
+          t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable) return;
+      if (t.hasAttribute('onclick') || (t.getAttribute('role') === 'button' && typeof t.onclick === 'function')) {
+        e.preventDefault();
+        t.click();
+      }
+    });
+
+    /* 3 ── Feedback dynamique annoncé aux lecteurs d'écran */
+    ['#expl', '.exo-feedback', '.qz-feedback', '#exoFeedback', '#qzFeedback', '#factTitle']
+      .forEach(function(sel){
+        try {
+          document.querySelectorAll(sel).forEach(function(el){
+            if (!el.hasAttribute('aria-live')) el.setAttribute('aria-live', 'polite');
+          });
+        } catch (e) {}
+      });
+  })();
 });
