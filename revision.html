@@ -57,8 +57,13 @@
     .tab-sw-dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:none}
     .tab-sw-btn.has-due .tab-sw-dot{display:block}
 
-    /* ── SRS PANEL ── */
-    #srsPanel{display:none}
+    /* ── SRS PANEL ──
+       SRS est l'onglet par défaut : le panneau doit être visible dès le
+       chargement. (Auparavant `display:none` ici bloquait l'affichage —
+       le JS qui faisait `style.display=''` ne pouvait pas lever une
+       règle de feuille de style. Bug « écran vide » du 4 juin.)
+       quizPanel reste masqué via son style inline jusqu'au switch. */
+    #srsPanel{display:block}
     .srs-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
     .srs-stat-pill{padding:14px 8px;border-radius:14px;text-align:center;border:1.5px solid var(--bd)}
     .srs-stat-pill.due{background:#FEF2F2;border-color:#FECACA}
