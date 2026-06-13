@@ -10,6 +10,8 @@
 //        histoires 12-30 (curriculum complet).
 // v2.6 : ajout pages publiques (a-propos, aide, mentions-legales)
 //        et modules onboarding tour.
+// v2.9 : accueil + dashboard à jour (nouveautés mises en avant),
+//        bannière maj non bloquante, Quoi de neuf rafraîchi.
 // v2.8 : studio des voix, blog illustré, fix écran révision vide.
 // v2.7 : mode hors-ligne complet (téléchargement du parcours +
 //        audio avec progression via message KS_CACHE_URLS),
@@ -18,7 +20,7 @@
 //        ecriture/clavier, trophées badges, histoires 31-42,
 //        leçons 61-63).
 
-const CACHE = 'ks-v2.8';
+const CACHE = 'ks-v2.9';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [

@@ -9,12 +9,69 @@
 (function () {
   'use strict';
 
-  /* ── Liste des features à annoncer ──────────────────────────── */
+  /* ── Liste des features à annoncer ──────────────────────────────
+     Les plus récentes en premier. Chaque ajout reçoit un id inédit :
+     un utilisateur qui a déjà « tout vu » se verra notifié uniquement
+     des nouveautés ajoutées après son passage. */
   var FEATURES = [
+    {
+      id: 'dailymix',
+      title: 'Le Mix du jour',
+      desc: 'Une nouvelle session chaque jour qui pioche dans tout ce que tu as appris : vocabulaire, écoute, particules, écriture. La révision quotidienne qui ancre vraiment.',
+      icon: 'cycle',
+      color: '#C9A96E',
+      cta: 'Faire mon mix',
+      href: 'daily-mix.html'
+    },
+    {
+      id: 'ecriture',
+      title: 'Atelier d\'écriture',
+      desc: 'Un vrai clavier coréen intégré pour apprendre à taper le Hangeul — copie, dictée audio et traduction, du Hangeul au B1. Sans rien installer.',
+      icon: 'keyboard',
+      color: '#0D9488',
+      cta: 'Ouvrir l\'atelier',
+      href: 'ecriture.html'
+    },
+    {
+      id: 'voixstudio',
+      title: 'Studio des voix',
+      desc: 'Écoute chaque personnage des histoires et compare les voix natives. Toutes nos prononciations sont des voix neuronales — jamais de voix robotique.',
+      icon: 'mic',
+      color: '#0EA5E9',
+      cta: 'Écouter les voix',
+      href: 'voix.html'
+    },
+    {
+      id: 'trophies',
+      title: 'Trophées & badges',
+      desc: 'Débloque des badges de régularité, de maîtrise et un badge par bloc thématique terminé. Suis tout depuis ta page Trophées.',
+      icon: 'trophy',
+      color: '#B8924E',
+      cta: 'Voir mes trophées',
+      href: 'trophees.html'
+    },
+    {
+      id: 'offline',
+      title: 'Mode hors-ligne',
+      desc: 'Télécharge tout le parcours et l\'audio pour apprendre dans l\'avion, le métro ou sans forfait. Disponible dans Réglages → Mode hors-ligne.',
+      icon: 'download',
+      color: '#16A34A',
+      cta: 'Configurer',
+      href: 'reglages.html'
+    },
+    {
+      id: 'blog',
+      title: 'Le blog Korean Stories',
+      desc: 'Des guides pratiques et vérifiés sur la Corée : voyage, cuisine, culture et méthode — avec les mots coréens prononcés par de vraies voix.',
+      icon: 'news',
+      color: '#7C3AED',
+      cta: 'Lire le blog',
+      href: 'blog.html'
+    },
     {
       id: 'favoris',
       title: 'Sauvegarde tes leçons',
-      desc: 'Touche le marque-page 🔖 en haut de chaque leçon pour la sauvegarder. Retrouve-les toutes dans "Mes favoris".',
+      desc: 'Touche le marque-page en haut de chaque leçon pour la sauvegarder. Retrouve-les toutes dans "Mes favoris".',
       icon: 'bookmark',
       color: '#C9A96E',
       cta: 'Voir mes favoris',
@@ -92,7 +149,12 @@
     mic:      '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/>',
     route:    '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
     image:    '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
-    sparkle:  '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'
+    sparkle:  '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    cycle:    '<path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+    keyboard: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"/>',
+    trophy:   '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+    news:     '<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8V6Z"/>',
+    download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>'
   };
   function svg(name){
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (ICONS[name]||ICONS.sparkle) + '</svg>';

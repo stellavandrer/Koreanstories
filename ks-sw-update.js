@@ -97,13 +97,19 @@
     banner.querySelector('.ks-swu-yes').addEventListener('click', function () {
       if (refreshing) return;
       refreshing = true;
+      /* Feedback immédiat : on masque la bannière et on passe le bouton
+         en « Actualisation… » pour qu'elle ne paraisse jamais figée. */
+      var yesBtn = banner.querySelector('.ks-swu-yes');
+      if (yesBtn) { yesBtn.textContent = 'Actualisation…'; yesBtn.disabled = true; }
       /* Demande au SW en attente de devenir actif → controllerchange déclenche reload */
       if (waitingWorker && waitingWorker.postMessage) {
-        waitingWorker.postMessage('SKIP_WAITING');
-      } else {
-        /* Fallback : reload direct */
-        location.reload();
+        try { waitingWorker.postMessage('SKIP_WAITING'); } catch (e) {}
       }
+      /* Filet de sécurité : si controllerchange ne se déclenche pas
+         (SW déjà actif, skipWaiting sans effet, message perdu…), on
+         recharge quand même au bout de 1,2 s pour que la bannière ne
+         reste jamais bloquée à l'écran. */
+      setTimeout(function () { try { location.reload(); } catch (e) {} }, 1200);
     });
 
     banner.querySelector('.ks-swu-no').addEventListener('click', function () {
