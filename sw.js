@@ -10,6 +10,7 @@
 //        histoires 12-30 (curriculum complet).
 // v2.6 : ajout pages publiques (a-propos, aide, mentions-legales)
 //        et modules onboarding tour.
+// v2.8 : studio des voix, blog illustré, fix écran révision vide.
 // v2.7 : mode hors-ligne complet (téléchargement du parcours +
 //        audio avec progression via message KS_CACHE_URLS),
 //        page de repli offline.html, rappel quotidien du Mix
@@ -17,7 +18,7 @@
 //        ecriture/clavier, trophées badges, histoires 31-42,
 //        leçons 61-63).
 
-const CACHE = 'ks-v2.7';
+const CACHE = 'ks-v2.8';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -92,6 +93,7 @@ const CORE = [
   'histoire39.html','histoire40.html','histoire41.html','histoire42.html',
   'lecon61.html','lecon62.html','lecon63.html',
   'jeu13.html','conseil9.html','anecdote20.html',
+  'voix.html',
   'blog.html','blog-premier-voyage-coree.html','blog-cuisine-coreenne-debutants.html',
   'blog-etiquette-coreenne.html','blog-combien-temps-apprendre-coreen.html',
 ];

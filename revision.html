@@ -784,13 +784,16 @@ function switchTab(tab) {
   if (tab === 'srs') {
     srsBtn.classList.add('act');
     quizBtn.classList.remove('act');
-    srsPanel.style.display = '';
+    /* 'block' explicite : #srsPanel est masqué par une règle CSS,
+       style.display='' ne suffit pas à l'afficher (bug écran vide
+       signalé par une utilisatrice le 4 juin) */
+    srsPanel.style.display = 'block';
     quizPanel.style.display = 'none';
     renderSRSPanel();
   } else {
     quizBtn.classList.add('act');
     srsBtn.classList.remove('act');
-    quizPanel.style.display = '';
+    quizPanel.style.display = 'block';
     srsPanel.style.display = 'none';
   }
 }
@@ -943,7 +946,7 @@ function startRecentFailsReview() {
   badge.textContent = 'Ratés';
   badge.className = 'qz-mode-badge srs';
   document.getElementById('screenStart').style.display = 'none';
-  document.getElementById('screenQuiz').style.display = '';
+  document.getElementById('screenQuiz').style.display = 'block';
   renderQuestion();
 }
 
@@ -976,7 +979,7 @@ function startSRS() {
   badge.className = 'qz-mode-badge srs';
 
   document.getElementById('screenStart').style.display = 'none';
-  document.getElementById('screenQuiz').style.display = '';
+  document.getElementById('screenQuiz').style.display = 'block';
   renderQuestion();
 }
 
@@ -1018,7 +1021,7 @@ function startQuiz() {
   badge.className = 'qz-mode-badge quiz';
 
   document.getElementById('screenStart').style.display = 'none';
-  document.getElementById('screenQuiz').style.display = '';
+  document.getElementById('screenQuiz').style.display = 'block';
   renderQuestion();
 }
 
@@ -1303,7 +1306,7 @@ function launchConfetti(duration) {
 
 function showResult() {
   document.getElementById('screenQuiz').style.display = 'none';
-  document.getElementById('screenResult').style.display = '';
+  document.getElementById('screenResult').style.display = 'block';
 
   const total = questions.length;
   const pct = Math.round(score / total * 100);

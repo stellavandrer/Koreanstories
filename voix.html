@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Studio des voix · Korean Stories</title>
+  <meta name="description" content="Écoute et compare les voix natives de chaque personnage de Korean Stories — voix neuronales Microsoft Edge."/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Inter',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--t)}
+    .wrap{max-width:620px;margin:0 auto;padding:16px 16px 80px}
+    .hero{background:linear-gradient(135deg,#0F1B2D,#23304f);border-radius:20px;padding:22px 20px;color:#fff;margin-bottom:18px}
+    .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,.16);border:1px solid rgba(201,169,110,.32);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:100px;padding:4px 12px;margin-bottom:12px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:24px;margin:0 0 8px}
+    .hero p{font-size:13px;color:rgba(247,248,250,.62);margin:0;line-height:1.65}
+    .sec-lbl{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin:24px 4px 12px;display:flex;align-items:center;gap:7px}
+    .sec-lbl svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    /* Comparateur 3 voix */
+    .cmp-line{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:16px;text-align:center;margin-bottom:12px}
+    .cmp-kr{font-size:24px;font-weight:700;color:var(--t);line-height:1.4}
+    .cmp-rom{font-size:12.5px;color:var(--t3);font-style:italic;margin-top:4px}
+    .voice-grid{display:grid;grid-template-columns:1fr;gap:10px}
+    .voice-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;text-align:left;width:100%;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color .15s, transform .12s}
+    .voice-card:active{transform:scale(.98)}
+    .voice-card.playing{border-color:var(--gold);background:var(--goldbg)}
+    .vc-play{flex-shrink:0;width:46px;height:46px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(184,146,78,.3)}
+    .vc-play svg{width:20px;height:20px;fill:#fff}
+    .voice-card.playing .vc-play{background:#16a34a}
+    .vc-body{flex:1;min-width:0}
+    .vc-name{font-size:15px;font-weight:800;color:var(--t);display:flex;align-items:center;gap:8px}
+    .vc-badge{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:100px}
+    .vc-badge.f{background:rgba(219,39,119,.12);color:#be185d}
+    .vc-badge.m{background:rgba(37,99,235,.12);color:#1d4ed8}
+    [data-theme=dark] .vc-badge.f{color:#f9a8d4}[data-theme=dark] .vc-badge.m{color:#93c5fd}
+    .vc-sub{font-size:11.5px;color:var(--t2);margin-top:2px;line-height:1.45}
+    .vc-tech{font-size:10px;color:var(--t3);font-family:ui-monospace,monospace;margin-top:3px}
+    /* Personnages */
+    .char-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:13px}
+    .char-av{flex-shrink:0;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
+    .char-body{flex:1;min-width:0}
+    .char-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .char-name{font-size:15px;font-weight:800;color:var(--t)}
+    .char-role{font-size:11.5px;color:var(--t2);margin-top:1px}
+    .char-line{font-size:14px;color:var(--t);font-weight:600;margin-top:6px;line-height:1.4}
+    .char-play{flex-shrink:0;width:42px;height:42px;border-radius:50%;border:1.5px solid var(--bd2);background:var(--surf);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+    .char-play:active{transform:scale(.92)}
+    .char-play.playing{background:var(--gold);color:#fff;border-color:var(--gold)}
+    .char-play svg{width:17px;height:17px;fill:currentColor}
+    .note{font-size:12px;color:var(--t2);background:var(--s2);border:1.5px solid var(--bd);border-radius:14px;padding:13px 16px;line-height:1.65;margin-top:18px}
+    .note strong{color:var(--t)}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+</head>
+<body>
+<nav class="bar">
+  <a href="reglages.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Réglages</a>
+  <span class="bar-logo">Korean <em>Stories</em></span>
+  <div class="bar-r">
+    <button onclick="toggleTheme()" class="bar-theme" aria-label="Changer de thème">
+      <svg class="ico-l" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="ico-d" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="shell"><main class="main"><div class="wrap">
+  <div class="hero">
+    <div class="hero-tag"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg> Studio des voix</div>
+    <h1>Écoute chaque personnage</h1>
+    <p>Toutes les voix du site sont des <strong style="color:#fff">voix neuronales Microsoft Edge</strong> — la meilleure qualité disponible gratuitement pour le coréen. Compare-les ici et écoute la réplique de chaque personnage.</p>
+  </div>
+
+  <div class="sec-lbl"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> Comparer les 3 voix</div>
+  <div class="cmp-line">
+    <div class="cmp-kr">안녕하세요, 만나서 반가워요.</div>
+    <div class="cmp-rom">annyeonghaseyo, mannaseo bangawoyo — « Bonjour, enchanté·e »</div>
+  </div>
+  <div class="voice-grid" id="voiceGrid"></div>
+
+  <div class="sec-lbl"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Chaque personnage</div>
+  <div id="charList"></div>
+
+  <div class="note">
+    <strong>Le mot de l'éditrice :</strong> ces trois voix sont aujourd'hui ce qui se fait de plus naturel en synthèse coréenne gratuite. Si une réplique te semble sonner « robotique », c'est généralement qu'un fichier audio manque et que le navigateur prend le relais avec sa propre voix — signale-le à <a href="mailto:contact@koreanstories.fr" style="color:var(--gold-text,#8B6B3D);font-weight:700">contact@koreanstories.fr</a> et on l'ajoute.
+  </div>
+</div></main></div>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Cours</span></a>
+  <a href="lecture.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script src="ks.js"></script>
+<script>
+const VOICES = {"sunhi": {"label": "SunHi", "sub": "Voix féminine", "tech": "ko-KR-SunHiNeural", "desc": "Claire et chaleureuse. Voix de référence pour les personnages féminins."}, "injoon": {"label": "InJoon", "sub": "Voix masculine", "tech": "ko-KR-InJoonNeural", "desc": "Posée et naturelle. Voix de référence pour les personnages masculins."}, "hyunsu": {"label": "Hyunsu", "sub": "Voix masculine expressive", "tech": "ko-KR-HyunsuMultilingualNeural", "desc": "Modèle multilingue le plus récent de Microsoft — intonation très naturelle."}};
+const CHARS = [{"name": "Mina", "role": "Étudiante, personnage principal", "voice": "sunhi", "line": "에마 씨, 어서 오세요! 우리 집에 오세요.", "n": 10}, {"name": "Emma", "role": "Apprenante française", "voice": "sunhi", "line": "안녕하세요, 미나 씨!", "n": 7}, {"name": "Joon", "role": "Cousin de Mina", "voice": "injoon", "line": "김밥을 만들어 봤어요?", "n": 3}, {"name": "Jiwoo", "role": "Amie de Mina", "voice": "injoon", "line": "아, 미나야! 오래 기다렸어?", "n": 2}, {"name": "Maman", "role": "Mère de Mina", "voice": "sunhi", "line": "미나야! 일어나!", "n": 1}, {"name": "Halmeoni", "role": "Grand-mère", "voice": "sunhi", "line": "우리 미나 왔구나! 밥은 먹었니?", "n": 1}, {"name": "Sujin", "role": "Collègue d'Emma", "voice": "sunhi", "line": "에마 씨, 두 손으로 드려야 해요.", "n": 1}, {"name": "Barista", "role": "Au café", "voice": "injoon", "line": "안녕하세요. 뭘 드릴까요?", "n": 1}, {"name": "Agent immobilier", "role": "Agence immobilière", "voice": "injoon", "line": "어서 오세요. 어떤 방을 찾으세요?", "n": 1}, {"name": "Directeur", "role": "Chef d'entreprise (부장님)", "voice": "injoon", "line": "에마 씨, 한 잔 받으세요.", "n": 1}, {"name": "Recruteur", "role": "Entretien d'embauche", "voice": "injoon", "line": "안녕하십니까. 자기소개를 해 주시겠습니까?", "n": 1}, {"name": "Harabeoji", "role": "Grand-père", "voice": "injoon", "line": "하하, 속담은 삶의 지혜야. 예를 들어 볼까?", "n": 1}];
+const COMPARE = "안녕하세요, 만나서 반가워요.";
+const AV_COLORS = {Mina:'#ec4899',Emma:'#f59e0b',Joon:'#3b82f6',Jiwoo:'#0ea5e9',Maman:'#8b5cf6',Halmeoni:'#7c3aed','Sujin':'#ec4899',Barista:'#0d9488','Agent immobilier':'#0d9488',Directeur:'#1d4ed8',Recruteur:'#2563eb',Harabeoji:'#92400e'};
+const PLAY='<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+
+let current=null;
+function play(btn, text, voice){
+  if(current) current.classList.remove('playing');
+  if(current===btn){ current=null; try{window.speechSynthesis.cancel();}catch(e){} return; }
+  btn.classList.add('playing'); current=btn;
+  window.speakAs(text, voice, btn, { onended(){ btn.classList.remove('playing'); if(current===btn)current=null; }, onerror(){ btn.classList.remove('playing'); } });
+}
+
+// Comparateur
+const vg=document.getElementById('voiceGrid');
+['sunhi','injoon','hyunsu'].forEach(v=>{
+  const m=VOICES[v];
+  const b=document.createElement('button');
+  b.className='voice-card';
+  b.setAttribute('aria-label','Écouter la voix '+m.label);
+  b.innerHTML='<span class="vc-play">'+PLAY+'</span>'+
+    '<span class="vc-body"><span class="vc-name">'+m.label+' <span class="vc-badge '+(v==='sunhi'?'f':'m')+'">'+m.sub+'</span></span>'+
+    '<span class="vc-sub">'+m.desc+'</span><span class="vc-tech">'+m.tech+'</span></span>';
+  b.onclick=()=>play(b, COMPARE, v);
+  vg.appendChild(b);
+});
+
+// Personnages
+const cl=document.getElementById('charList');
+CHARS.forEach(c=>{
+  const ini=c.name.slice(0,2).toUpperCase();
+  const vm=VOICES[c.voice];
+  const card=document.createElement('div');
+  card.className='char-card';
+  const pbtn=document.createElement('button');
+  pbtn.className='char-play';
+  pbtn.setAttribute('aria-label','Écouter '+c.name);
+  pbtn.innerHTML=PLAY;
+  pbtn.onclick=()=>play(pbtn, c.line, c.voice);
+  card.innerHTML='<div class="char-av" style="background:'+(AV_COLORS[c.name]||'#64748b')+'">'+ini+'</div>'+
+    '<div class="char-body"><div class="char-top"><span class="char-name">'+c.name+'</span>'+
+    '<span class="vc-badge '+(c.voice==='sunhi'?'f':'m')+'">'+vm.label+'</span></div>'+
+    '<div class="char-role">'+c.role+(c.n>1?' · '+c.n+' histoires':'')+'</div>'+
+    '<div class="char-line">'+c.line+'</div></div>';
+  card.appendChild(pbtn);
+  cl.appendChild(card);
+});
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+</body></html>
