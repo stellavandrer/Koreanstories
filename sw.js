@@ -24,7 +24,9 @@
 //        ecriture/clavier, trophées badges, histoires 31-42,
 //        leçons 61-63).
 
-const CACHE = 'ks-v3.0';
+// v3.1 : refonte des histoires (chat animé + scène illustrée + lecture
+//        auto de la conversation, via ks-stories.js).
+const CACHE = 'ks-v3.1';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -55,6 +57,7 @@ const CORE = [
 
   // Modules JS partagés
   'ks.js',
+  'ks-stories.js',
   'ks-curriculum.js',
   'ks-sync.js',
   'ks-search.js',

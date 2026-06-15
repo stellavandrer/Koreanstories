@@ -1527,3 +1527,15 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   })();
 });
+
+/* Charge le module de refonte des histoires sur les pages histoireN.html */
+(function () {
+  try {
+    var f = (location.pathname.split('/').pop() || '').toLowerCase();
+    if (!/^histoire\d+\.html$/.test(f)) return;
+    if (document.querySelector('script[src="ks-stories.js"]')) return;
+    var s = document.createElement('script');
+    s.src = 'ks-stories.js'; s.defer = true;
+    (document.head || document.documentElement).appendChild(s);
+  } catch (e) {}
+})();
