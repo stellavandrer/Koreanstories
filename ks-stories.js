@@ -110,7 +110,14 @@
       '.ks-listen:hover{background:rgba(184,146,78,.13)}',
       '.ks-listen:focus-visible{outline:2px solid #B8924E;outline-offset:2px}',
       '.ks-listen.ks-speaking{background:rgba(184,146,78,.18);box-shadow:0 0 0 2px rgba(184,146,78,.55)}',
-      '@media(prefers-reduced-motion:reduce){.ks-rv{opacity:1;transform:none;transition:none}}'
+      '@media(prefers-reduced-motion:reduce){.ks-rv{opacity:1;transform:none;transition:none}}',
+      /* Marque-page : barre de progression de lecture + bouton Reprendre */
+      '.ks-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:9000;background:transparent;pointer-events:none}',
+      '.ks-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#5BA8F5,#B8924E);box-shadow:0 0 8px rgba(184,146,78,.5)}',
+      '.ks-resume{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom));z-index:9100;display:inline-flex;align-items:center;gap:8px;background:#0F1B2D;color:#fff;border:1px solid rgba(184,146,78,.55);border-radius:100px;padding:10px 18px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 12px 32px rgba(0,0,0,.32);transition:opacity .35s,transform .35s}',
+      '.ks-resume svg{width:15px;height:15px;fill:none;stroke:#B8924E;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}',
+      '.ks-resume:hover{border-color:#B8924E}',
+      '.ks-resume.hide{opacity:0;transform:translateX(-50%) translateY(12px);pointer-events:none}'
     ].join('');
     (document.head || document.documentElement).appendChild(s);
   }
@@ -285,7 +292,94 @@
     });
   }
 
+  /* ── Marque-page : barre de progression + reprise de lecture ──
+     Sauvegarde la position de lecture (% de défilement) par histoire dans
+     localStorage (clé ks_read_histoireN = {pct, t, done}). Affiche une fine
+     barre de progression en haut + un bouton « Reprendre » si on revient
+     au milieu d'une histoire pas terminée. Lu aussi par le hub histoires.html. */
+  function setupBookmark() {
+    injectCSS();
+    var KEY = 'ks_read_' + file;
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+
+    var bar = document.createElement('div');
+    bar.className = 'ks-progress';
+    var fill = document.createElement('div');
+    fill.className = 'ks-progress-fill';
+    bar.appendChild(fill);
+    document.body.appendChild(bar);
+
+    function scroller() { return document.scrollingElement || document.documentElement; }
+    function ratio() {
+      var el = scroller();
+      var max = el.scrollHeight - el.clientHeight;
+      return max > 40 ? Math.min(1, Math.max(0, el.scrollTop / max)) : 0;
+    }
+
+    var ticking = false, lastSave = 0, allowSave = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var p = ratio();
+        fill.style.width = (p * 100).toFixed(1) + '%';
+        if (allowSave) {
+          var now = Date.now();
+          if (now - lastSave > 600) {
+            lastSave = now;
+            var rec = { pct: p, t: now, done: p >= 0.9 };
+            try { localStorage.setItem(KEY, JSON.stringify(rec)); } catch (e) {}
+          }
+        }
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();  // peint la barre, sans sauvegarder
+    // On n'autorise la sauvegarde qu'après le rendu initial (et l'éventuel
+    // saut #reprendre) : sinon l'arrivée en haut de page écraserait par un 0
+    // la position de lecture enregistrée.
+    setTimeout(function () { allowSave = true; }, 1200);
+
+    /* Arrivée depuis le hub via #reprendre → saut direct à la position lue */
+    if (location.hash === '#reprendre' && saved && saved.pct > 0.04 && !saved.done) {
+      setTimeout(function () {
+        var el = scroller();
+        var max = el.scrollHeight - el.clientHeight;
+        try { window.scrollTo({ top: max * saved.pct, behavior: 'smooth' }); }
+        catch (e) { window.scrollTo(0, max * saved.pct); }
+      }, 350);
+      return;
+    }
+
+    /* Reprendre la lecture si on était au milieu (et pas fini) */
+    if (saved && saved.pct > 0.06 && saved.pct < 0.9 && !saved.done) {
+      var pill = document.createElement('button');
+      pill.className = 'ks-resume';
+      pill.type = 'button';
+      pill.setAttribute('aria-label', 'Reprendre la lecture où vous vous étiez arrêté');
+      pill.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/></svg> Reprendre la lecture';
+      document.body.appendChild(pill);
+      var hide = function () { pill.classList.add('hide'); setTimeout(function () { if (pill.parentNode) pill.parentNode.removeChild(pill); }, 400); };
+      pill.addEventListener('click', function () {
+        var el = scroller();
+        var max = el.scrollHeight - el.clientHeight;
+        try { window.scrollTo({ top: max * saved.pct, behavior: 'smooth' }); }
+        catch (e) { window.scrollTo(0, max * saved.pct); }
+        hide();
+      });
+      setTimeout(hide, 9000);
+      window.addEventListener('scroll', function once() {
+        window.removeEventListener('scroll', once);
+        if (pill.parentNode) hide();
+      }, { passive: true });
+    }
+  }
+
+  function init() { build(); setupBookmark(); }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', build);
-  } else { build(); }
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
 })();

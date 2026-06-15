@@ -26,7 +26,11 @@
 
 // v3.1 : refonte des histoires (chat animé + scène illustrée + lecture
 //        auto de la conversation, via ks-stories.js).
-const CACHE = 'ks-v3.1';
+// v3.2 : marque-page / reprise de lecture — barre de progression + bouton
+//        « Reprendre » par histoire (ks-stories.js), et progression +
+//        « Reprendre la lecture » sur les cartes du hub histoires.html
+//        (cartes désormais cliquables comme de vrais liens).
+const CACHE = 'ks-v3.2';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [

@@ -145,9 +145,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .scard{
       border-radius:20px;overflow:hidden;
       transition:transform .2s,box-shadow .2s;
-      text-decoration:none;display:block;position:relative;
+      text-decoration:none;display:block;position:relative;color:inherit;
       border:1.5px solid transparent;
     }
+    .scard:not(.locked){cursor:pointer}
     .scard:not(.locked):hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(15,27,45,.15)}
     .scard.locked{cursor:default;opacity:.52}
 
@@ -213,6 +214,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       transition:all .2s;
     }
     .scard-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+    /* ── Marque-page : progression de lecture sur la carte ── */
+    .scard-progress{display:flex;align-items:center;gap:8px;margin:0 0 11px}
+    .scard-progress-track{flex:1;height:6px;border-radius:100px;background:rgba(15,27,45,.09);overflow:hidden}
+    .scard-progress-track span{display:block;height:100%;border-radius:100px;transition:width .5s ease}
+    .scard-progress-lbl{font-size:10px;font-weight:700;letter-spacing:.02em;white-space:nowrap;flex-shrink:0}
+    [data-theme="dark"] .scard-progress-track{background:rgba(255,255,255,.12)}
 
     /* Active state CTA icon */
     .scard-cta-icon{
@@ -412,6 +420,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 // DATA
 // ─────────────────────────────────────
 const ls = k => localStorage.getItem(k);
+
+/* Marque-page : position de lecture sauvegardée par ks-stories.js
+   (clé ks_read_histoireN = {pct, t, done}). Renvoie le record ou null. */
+function readProgress(s) {
+  try {
+    const raw = localStorage.getItem('ks_read_' + s.href.replace('.html', ''));
+    if (!raw) return null;
+    const r = JSON.parse(raw);
+    return (r && typeof r.pct === 'number') ? r : null;
+  } catch (e) { return null; }
+}
 
 const STORIES = [
   {
@@ -936,8 +955,15 @@ function renderCard(s) {
   const isActive = state==='active';
   const isLocked = state==='locked';
 
-  const tag = isLocked || isActive ? 'div' : 'a';
-  const href = !isLocked ? `href="${s.href}"` : '';
+  // Marque-page : lecture en cours (pas verrouillée, pas terminée) ?
+  const prog = !isLocked ? readProgress(s) : null;
+  const inProgress = prog && prog.pct > 0.06 && !prog.done && !isDone;
+  const pctRead = prog ? Math.min(99, Math.max(1, Math.round(prog.pct*100))) : 0;
+
+  // Carte = lien cliquable dès qu'elle est déverrouillée (active ou lue).
+  // (Les pastilles de mots stoppent la propagation pour rester écoutables.)
+  const tag = isLocked ? 'div' : 'a';
+  const href = !isLocked ? `href="${s.href}${inProgress ? '#reprendre' : ''}"` : '';
 
   let statusBadge='', statusBtn='';
   if(isDone){
@@ -950,13 +976,23 @@ function renderCard(s) {
       <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
     </div>`;
   } else if(isActive){
-    statusBadge = `<span class="badge-status" style="background:${s.colorBg}0.12);color:${s.color}">
-      Disponible
-    </span>`;
-    statusBtn = `<div class="scard-btn" style="background:${s.color};color:white">
-      Lire l'histoire
-      <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-    </div>`;
+    if(inProgress){
+      statusBadge = `<span class="badge-status" style="background:${s.colorBg}0.14);color:${s.color}">
+        En cours · ${pctRead}%
+      </span>`;
+      statusBtn = `<div class="scard-btn" style="background:${s.color};color:white">
+        Reprendre la lecture
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </div>`;
+    } else {
+      statusBadge = `<span class="badge-status" style="background:${s.colorBg}0.12);color:${s.color}">
+        Disponible
+      </span>`;
+      statusBtn = `<div class="scard-btn" style="background:${s.color};color:white">
+        Lire l'histoire
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </div>`;
+    }
   } else {
     const prev = STORIES.find(st=>st.key===s.reqKey);
     statusBadge = `<span class="badge-status" style="background:var(--bd);color:var(--gray)">
@@ -975,6 +1011,15 @@ function renderCard(s) {
     wordsPills = `<div class="scard-words">
       ${words.map(w=>`<span class="scard-word" onclick="event.preventDefault();event.stopPropagation();speak('${w}')">${w}</span>`).join('')}
       ${s.wordsCount>5?`<span class="scard-word" style="color:var(--gray);font-size:10px">+${s.wordsCount-5}</span>`:''}
+    </div>`;
+  }
+
+  // Barre de progression (marque-page) sous les mots
+  let progressBar = '';
+  if(inProgress){
+    progressBar = `<div class="scard-progress">
+      <div class="scard-progress-track"><span style="width:${pctRead}%;background:${s.color}"></span></div>
+      <span class="scard-progress-lbl" style="color:${s.color}">${pctRead}%</span>
     </div>`;
   }
 
@@ -1017,6 +1062,7 @@ function renderCard(s) {
           </span>
         </div>
         ${wordsPills}
+        ${progressBar}
         ${statusBtn}
       </div>
     </${tag}>`;
