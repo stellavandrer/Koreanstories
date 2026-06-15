@@ -348,6 +348,14 @@ var KS_SPEAKER_MAP = {
   'réceptionniste':'narrateur','receptionniste':'narrateur','voix':'narrateur'
 };
 
+/* Attribut data-speaker sur la bulle (signal le plus fiable, histoires
+   récentes : <div class="bubble-row" data-speaker="mom">) → clé de voix. */
+var KS_DATASPEAKER_MAP = {
+  mom:'maman', bujang:'directeur', interviewer:'recruteur',
+  emma:'emma', mina:'mina', joon:'joon', jiwoo:'jiwoo', sujin:'sujin',
+  barista:'barista', halmeoni:'halmeoni', harabeoji:'harabeoji', agent:'agent'
+};
+
 /* Voix neuronale de repli (edge-tts) selon le genre de la voix perso. */
 function _ksNeuralFor(vkey) { return (KS_TC_VOICES[vkey] === 'M') ? 'injoon' : 'sunhi'; }
 
@@ -356,6 +364,13 @@ function _ksNeuralFor(vkey) { return (KS_TC_VOICES[vkey] === 'M') ? 'injoon' : '
 function _ksDetectCharVoice(btn) {
   if (!btn) return null;
   try {
+    /* 0) data-speaker sur la bulle (le plus fiable) */
+    var dsEl = btn.closest('[data-speaker]');
+    if (dsEl) {
+      var ds = (dsEl.getAttribute('data-speaker') || '').toLowerCase().trim();
+      var dc = KS_DATASPEAKER_MAP[ds] || (KS_TC_VOICES[ds] ? ds : null);
+      if (dc) return dc;
+    }
     var bubble = btn.closest('.bubble');
     /* 1) .speaker-name (histoires récentes, ex. « Joon (반말) ») */
     if (bubble) {
