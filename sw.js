@@ -10,6 +10,10 @@
 //        histoires 12-30 (curriculum complet).
 // v2.6 : ajout pages publiques (a-propos, aide, mentions-legales)
 //        et modules onboarding tour.
+// v3.0 : site 100% sans émoji (icônes SVG partout), barre de menu
+//        accessibilisée (indicateur d'onglet actif non-coloré, focus
+//        visible, libellés gardés pour lecteurs d'écran), filtre du
+//        blog accessible (aria-pressed + annonce du nombre d'articles).
 // v2.9 : accueil + dashboard à jour (nouveautés mises en avant),
 //        bannière maj non bloquante, Quoi de neuf rafraîchi.
 // v2.8 : studio des voix, blog illustré, fix écran révision vide.
@@ -20,7 +24,7 @@
 //        ecriture/clavier, trophées badges, histoires 31-42,
 //        leçons 61-63).
 
-const CACHE = 'ks-v2.9';
+const CACHE = 'ks-v3.0';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -251,7 +255,7 @@ self.addEventListener('periodicsync', e => {
       await c.put('/__ks-state', new Response(JSON.stringify(st), {
         headers: { 'Content-Type': 'application/json' }
       }));
-      await self.registration.showNotification('🌀 Ton mix du jour t\'attend', {
+      await self.registration.showNotification('Ton mix du jour t\'attend', {
         body: '10 questions sur tout ce que tu as appris — 3 minutes, +15 XP.',
         icon: 'Logo/Logo - KoreanStories_logo_4x4_bleu.png',
         badge: 'Logo/Logo - KoreanStories_logo_4x4_bleu.png',

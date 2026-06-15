@@ -1,5 +1,5 @@
 /* ── Site Access Gate ─────────────────────────────────────────────
-   ⚠️  ACCÈS LIBRE — mot de passe supprimé le 2026-05-28.
+   ACCÈS LIBRE — mot de passe supprimé le 2026-05-28.
    Le script reste référencé par 200+ fichiers HTML donc on le garde
    en place mais sans aucune protection. Il sert maintenant uniquement
    à forcer le HTTPS sur les visiteurs arrivés en HTTP.

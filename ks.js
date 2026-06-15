@@ -252,7 +252,7 @@ try {
   if (_vMigr !== 'injoon') localStorage.setItem('ks_voice', 'injoon');
 } catch (e) {}
 
-/* ── Vitesse de lecture (mode lent 🐢) ──────────────────────────────
+/* ── Vitesse de lecture (mode lent) ──────────────────────────────
    ks_rate = '0.75' (lent) ou absent/'1' (normal). Appliqué à tous les
    MP3 via playbackRate (pitch préservé par le navigateur) et au
    fallback speechSynthesis via u.rate. Persisté entre pages. */
@@ -324,89 +324,55 @@ function _ksFallbackTTS(text, btn, opts) {
  * speak(text, btn) — joue le MP3 natif s'il existe, sinon utilise
  * la synthèse vocale du navigateur en fallback.
  */
-/* Liste des noms de personnages féminins → voix SunHi
-   Couvre les histoires 1-30 existantes ainsi que les nouvelles. */
-var KS_FEMALE_SPEAKERS = [
-  'mina','emma','maman','mère','mom','elle','eun','soyeon',
-  'jiwoo (f)','sunhi','minji','민지','지영','sophie','julie',
-  'leyla','soyeon','수영','수진','intervieweuse','vendeuse',
-  'serveuse','professeure','prof (f)','infirmière','dame','elle:',
-  'amie','sœur','soeur','tante','grand-mère','grand-mere','halmeoni'
-];
+/* ── Casting des voix Typecast (voix naturelles par personnage) ──────
+   Chaque personnage a son dossier audio/{clé}/. Genre = pour le repli
+   neuronal (jamais de voix robotique : si le MP3 Typecast manque, on
+   retombe sur les voix neuronales edge-tts sunhi/injoon, pas sur la
+   synthèse du navigateur). Source : character_voices.json. */
+var KS_TC_VOICES = {
+  narrateur:'F', mina:'F', emma:'F', jiwoo:'F', sujin:'F', maman:'F',
+  halmeoni:'F', joon:'M', barista:'M', agent:'M', directeur:'M',
+  recruteur:'M', harabeoji:'M'
+};
+/* Nom affiché dans .speaker-name (normalisé : minuscules, sans
+   parenthèses) → clé de personnage. Inconnu → narrateur (défaut). */
+var KS_SPEAKER_MAP = {
+  'emma':'emma','mina':'mina','ji-woo':'jiwoo','jiwoo':'jiwoo','joon':'joon',
+  'halmeoni':'halmeoni','grand-mère':'halmeoni','grand-mere':'halmeoni',
+  'agent immobilier':'agent','agent':'agent','directeur':'directeur',
+  'recruteur':'recruteur','maman':'maman','mère':'maman','mere':'maman',
+  'harabeoji':'harabeoji','sujin':'sujin','barista':'barista',
+  'min-ji':'sujin','minji':'sujin','민지':'sujin','infirmière':'sujin',
+  'infirmiere':'sujin','sarah':'sujin','médecin':'agent','medecin':'agent',
+  'tom':'agent','jihan':'agent','daru':'narrateur','guide':'narrateur',
+  'réceptionniste':'narrateur','receptionniste':'narrateur','voix':'narrateur'
+};
 
-/* Détecte si le bouton est dans une bulle de personnage féminin via
-   le span .speaker-name (pattern utilisé par toutes les histoires).
-   Renvoie 'sunhi' si féminin détecté, null sinon. */
-function _ksDetectFemaleSpeaker(btn) {
+/* Voix neuronale de repli (edge-tts) selon le genre de la voix perso. */
+function _ksNeuralFor(vkey) { return (KS_TC_VOICES[vkey] === 'M') ? 'injoon' : 'sunhi'; }
+
+/* Détecte le personnage qui parle via .speaker-name dans la bulle.
+   Renvoie la clé de voix Typecast (ex. 'emma') ou null (→ narrateur). */
+function _ksDetectCharVoice(btn) {
   if (!btn) return null;
   try {
     var bubble = btn.closest('.bubble');
     if (!bubble) return null;
     var nameEl = bubble.querySelector('.speaker-name');
     if (!nameEl) return null;
-    var raw = (nameEl.textContent || '').toLowerCase().trim();
-    for (var i = 0; i < KS_FEMALE_SPEAKERS.length; i++) {
-      if (raw.indexOf(KS_FEMALE_SPEAKERS[i]) !== -1) return 'sunhi';
-    }
-  } catch (e) {}
-  return null;
+    var raw = (nameEl.textContent || '').toLowerCase().split('(')[0].trim().replace(/:$/, '').trim();
+    return KS_SPEAKER_MAP[raw] || null;
+  } catch (e) { return null; }
 }
 
 function speak(text, btn, opts) {
   if (!text) return;
   opts = opts || {};
-  var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
-  var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
-  /* Auto-routage voix féminine si bouton dans une bulle de personnage
-     féminin (Mina, Emma, etc. dans toutes les histoires existantes).
-     Si une voix override est déjà demandée via speakAs, ce code ne
-     tourne pas (speakAs court-circuite cette fonction). */
-  var autoFemale = _ksDetectFemaleSpeaker(btn);
-  if (autoFemale === 'sunhi') {
-    return speakAs(text, 'sunhi', btn, opts);
-  }
-  /* Stop tout audio en cours */
-  if (_ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} _ksCurrentAudio = null; }
-  try { window.speechSynthesis.cancel(); } catch(e){}
-  document.querySelectorAll('.speak-btn.playing').forEach(function(b){ b.classList.remove('playing'); });
-  if (btn) btn.classList.add('playing');
-
-  var cleaned = text.trim();
-  /* Retire d'éventuels guillemets enveloppants pour matcher le manifest */
-  if ((cleaned.charAt(0)==='"' && cleaned.charAt(cleaned.length-1)==='"') ||
-      (cleaned.charAt(0)==="'" && cleaned.charAt(cleaned.length-1)==="'")) {
-    cleaned = cleaned.substring(1, cleaned.length-1).trim();
-  }
-
-  _ksLoadManifest().then(function(manifest){
-    var hash = manifest[cleaned];
-    if (!hash) {
-      /* Pas de MP3 enregistré → fallback navigateur. On approxime
-         onended en utilisant l'événement onend de SpeechSynthesisUtterance
-         (géré dans _ksFallbackTTS si on lui passe les callbacks). */
-      _ksFallbackTTS(text, btn, { onended: onEnded, onerror: onError });
-      return;
-    }
-    /* Construit le chemin avec la voix préférée de l'utilisateur. */
-    var src = 'audio/' + ksGetVoice() + '/' + hash;
-    var audio = new Audio(src);
-    _ksApplyRate(audio);
-    _ksCurrentAudio = audio;
-    audio.onended = function(){
-      if (btn) btn.classList.remove('playing');
-      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
-      if (onEnded) onEnded();
-    };
-    audio.onerror = function(){
-      /* Le MP3 a échoué (réseau ?) → on retombe sur la voix navigateur */
-      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
-      _ksFallbackTTS(text, btn, { onended: onEnded, onerror: onError });
-    };
-    audio.play().catch(function(){
-      _ksCurrentAudio = null;
-      _ksFallbackTTS(text, btn, { onended: onEnded, onerror: onError });
-    });
-  });
+  /* Voix par défaut = narrateur (Seohyeon). Si le bouton est dans la
+     bulle d'un personnage, on prend SA voix. Le repli neuronal évite
+     toute voix robotique tant que le MP3 Typecast n'est pas généré. */
+  var primary = _ksDetectCharVoice(btn) || 'narrateur';
+  _ksPlay(text, btn, [primary, _ksNeuralFor(primary)], opts);
 }
 window.speak = speak;  // accessible depuis les onclick inline
 
@@ -421,14 +387,31 @@ window.speak = speak;  // accessible depuis les onclick inline
 function speakAs(text, voiceOverride, btn, opts) {
   opts = opts || {};
   if (!text) return;
-  /* Si pas d'override, comportement standard */
-  if (!voiceOverride || voiceOverride === ksGetVoice()) {
-    return speak(text, btn, opts);
-  }
-  /* Stop tout audio en cours */
+  if (!voiceOverride) return speak(text, btn, opts);
+  /* Voix Typecast (personnage) → repli neuronal du même genre.
+     Voix edge classique (sunhi/injoon/hyunsu) → telle quelle. */
+  var chain = KS_TC_VOICES[voiceOverride]
+    ? [voiceOverride, _ksNeuralFor(voiceOverride)]
+    : [voiceOverride];
+  _ksPlay(text, btn, chain, opts);
+}
+window.speakAs = speakAs;
+
+/* ── Lecteur audio à repli en cascade ───────────────────────────────
+   Essaie chaque dossier de voix de `chain` jusqu'à ce qu'un MP3 joue
+   (ex. ['emma','sunhi'] : voix Typecast du perso, sinon voix neuronale).
+   Si AUCUN ne joue (chaîne hors manifest), on ne joue RIEN de robotique
+   — exigence : jamais de synthèse vocale du navigateur. */
+function _ksPlay(text, btn, chain, opts) {
+  opts = opts || {};
+  var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
+  var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
   if (_ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} _ksCurrentAudio = null; }
   try { window.speechSynthesis.cancel(); } catch(e){}
-  document.querySelectorAll('.speak-btn.playing').forEach(function(b){ b.classList.remove('playing'); });
+  /* Nettoie l'état "playing" sur TOUS les types de boutons audio :
+     pause() ne déclenche pas l'événement 'ended', donc sans ce balayage
+     un bouton interrompu garderait son animation indéfiniment. */
+  document.querySelectorAll('.speak-btn.playing, .bubble-audio.playing, .card-audio.playing, .recap-item.playing, .vplay.playing, .cr-play.playing').forEach(function(b){ b.classList.remove('playing'); });
   if (btn) btn.classList.add('playing');
 
   var cleaned = text.trim();
@@ -437,38 +420,37 @@ function speakAs(text, voiceOverride, btn, opts) {
     cleaned = cleaned.substring(1, cleaned.length-1).trim();
   }
 
-  var onEnded = typeof opts.onended === 'function' ? opts.onended : null;
-  var onError = typeof opts.onerror === 'function' ? opts.onerror : null;
-
   _ksLoadManifest().then(function(manifest){
     var hash = manifest[cleaned];
-    if (!hash) {
-      /* Pas de MP3 → fallback navigateur. On adapte pitch selon
-         la voix override demandée. */
-      _ksFallbackForVoice(text, voiceOverride, btn, { onended: onEnded, onerror: onError });
+    if (!hash) {            /* chaîne inconnue → pas de robotique, on s'arrête */
+      if (btn) btn.classList.remove('playing');
+      if (onError) onError();
       return;
     }
-    /* Construit le chemin avec la voix override */
-    var src = 'audio/' + voiceOverride + '/' + hash;
-    var audio = new Audio(src);
-    _ksApplyRate(audio);
-    _ksCurrentAudio = audio;
-    audio.onended = function(){
-      if (btn) btn.classList.remove('playing');
-      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
-      if (onEnded) onEnded();
-    };
-    audio.onerror = function(){
-      if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
-      _ksFallbackForVoice(text, voiceOverride, btn, { onended: onEnded, onerror: onError });
-    };
-    audio.play().catch(function(){
-      _ksCurrentAudio = null;
-      _ksFallbackForVoice(text, voiceOverride, btn, { onended: onEnded, onerror: onError });
-    });
+    var i = 0;
+    (function tryNext(){
+      if (i >= chain.length) {   /* tous les dossiers ont échoué */
+        if (btn) btn.classList.remove('playing');
+        if (onError) onError();
+        return;
+      }
+      var src = 'audio/' + chain[i] + '/' + hash;
+      i++;
+      var audio = new Audio(src);
+      _ksApplyRate(audio);
+      _ksCurrentAudio = audio;
+      var done = false;
+      audio.onended = function(){ if (done) return; done = true;
+        if (btn) btn.classList.remove('playing');
+        if (_ksCurrentAudio===audio) _ksCurrentAudio=null;
+        if (onEnded) onEnded(); };
+      audio.onerror = function(){ if (done) return; done = true;
+        if (_ksCurrentAudio===audio) _ksCurrentAudio=null; tryNext(); };
+      audio.play().catch(function(){ if (done) return; done = true;
+        if (_ksCurrentAudio===audio) _ksCurrentAudio=null; tryNext(); });
+    })();
   });
 }
-window.speakAs = speakAs;
 
 /* Fallback TTS qui prend en compte la voix override (femme/homme) */
 function _ksFallbackForVoice(text, voiceOverride, btn, opts) {
@@ -1092,7 +1074,7 @@ function ksGameReward(key, xp, score, opts) {
   } catch (e) {}
   /* Toast récap (record battu et/ou XP gagnée) */
   var msgs = [];
-  if (isNew) msgs.push('🏆 Nouveau record : ' + score + (opts.label ? ' ' + opts.label : ''));
+  if (isNew) msgs.push('Nouveau record : ' + score + (opts.label ? ' ' + opts.label : ''));
   if (gotXP) msgs.push('+' + xp + ' XP');
   if (msgs.length) {
     try {
@@ -1111,9 +1093,19 @@ window.ksGameReward = ksGameReward;
 
 function ksFinish(opts) {
   opts = opts || {};
+  /* Garde anti-double-clic : l'overlay n'apparaît qu'après un chargement
+     async du curriculum, pendant lequel #doneBtn reste cliquable. Sans ce
+     garde, un spam de clics créditerait l'XP plusieurs fois. */
+  if (opts.key) {
+    if (!window._ksFinished) window._ksFinished = Object.create(null);
+    if (window._ksFinished[opts.key]) return;   // déjà crédité
+    window._ksFinished[opts.key] = true;
+  }
+  var _doneBtn = document.getElementById('doneBtn');
+  if (_doneBtn) _doneBtn.disabled = true;
   /* 1. Marque l'activité comme terminée */
   if (opts.key && typeof ksMarkDone === 'function') ksMarkDone(opts.key);
-  /* 2. Crédite l'XP */
+  /* 2. Crédite l'XP (une seule fois grâce au garde ci-dessus) */
   if (opts.xp && typeof ksAddXP === 'function') ksAddXP(opts.xp);
   /* 3. Charge le curriculum si besoin puis affiche l'overlay */
   _ksEnsureCurriculum().then(function () {
@@ -1385,7 +1377,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(s);
   })();
 
-  /* ── Toggle vitesse lente 🐢 ──────────────────────────────────────
+  /* ── Toggle vitesse lente ──────────────────────────────────────
      Uniquement sur les pages de dialogue/lecture (bulles audio ou
      bouton « Écouter l'histoire »). Pill fixe en bas à gauche — le
      coin droit est réservé au FAB recherche. Persiste via ks_rate. */
@@ -1406,7 +1398,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var b = document.createElement('button');
     b.className = 'ks-rate-toggle';
     b.type = 'button';
-    b.innerHTML = '<span class="krt-ico">🐢</span><span>Lent</span>';
+    b.innerHTML = '<span class="krt-ico"><svg class="ks-i" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M3 14a6 6 0 0 1 6-6h2a6 6 0 0 1 6 6 1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 14Z"/><path d="m17.5 11.5 2-.8"/><path d="M6.5 15.5 5 18"/><path d="M17.5 15.5 19 18"/></svg></span><span>Lent</span>';
     b.setAttribute('aria-pressed', ksGetRate() !== 1 ? 'true' : 'false');
     b.title = 'Lecture ralentie (×0.75) — idéal pour décortiquer la prononciation';
     if (ksGetRate() !== 1) b.classList.add('on');

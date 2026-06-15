@@ -198,31 +198,31 @@ function blocProgress(keys){
   return function(){ var n=0; keys.forEach(function(k){ if(blocDone(k)) n++; }); return n; };
 }
 function emo(e){return '<span style="font-size:28px;line-height:1">'+e+'</span>';}
-function blocBadge(id,name,emoji,keys,desc){
-  TROPHIES.push({cat:'blocs',id:'bloc_'+id,name:name,desc:desc||('Termine tout le bloc « '+name+' »'),ico:emo(emoji),target:keys.length,progress:blocProgress(keys)});
+function blocBadge(id,name,icoSvg,keys,desc){
+  TROPHIES.push({cat:'blocs',id:'bloc_'+id,name:name,desc:desc||('Termine tout le bloc « '+name+' »'),ico:icoSvg,target:keys.length,progress:blocProgress(keys)});
 }
 /* A1 */
-blocBadge('salut','Salutations','👋',['ks_a01','ks_a02','ks_a03','ks_a04']);
-blocBadge('partic','Particules & Premières phrases','🧩',['ks_a31','ks_a32','ks_a33','ks_a48','ks_a50','ks_a34','ks_a22','ks_a23','ks_a24','ks_a25','ks_a26','ks_a49']);
-blocBadge('chiffres','Chiffres','🔢',['ks_a05','ks_a06','ks_a07','ks_a08']);
-blocBadge('famille','Famille & Description','👪',['ks_a09','ks_a10','ks_a11','ks_a12','ks_a13']);
-blocBadge('food','Nourriture & Culture','🍜',['ks_a14','ks_a15','ks_a16','ks_a17']);
-blocBadge('lieux','Lieux & Directions','🗺️',['ks_a18','ks_a19','ks_a20','ks_a21']);
-blocBadge('temps','Temps, Météo & Compteurs','⛅',['ks_a_time','ks_a_meteo','ks_a_counters']);
-blocBadge('maison','Maison & Quotidien','🏠',['ks_a36','ks_a37','ks_a35','ks_a43']);
-blocBadge('vie','Corps, Mode & Émotions','🧥',['ks_a38','ks_a39','ks_a40','ks_a52']);
+blocBadge('salut','Salutations',ico('#3B82F6','<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>'),['ks_a01','ks_a02','ks_a03','ks_a04']);
+blocBadge('partic','Particules & Premières phrases',ico('#8B5CF6','<path d="M14 7h.01"/><path d="M4 7a3 3 0 0 1 3-3h2.5a2 2 0 0 1 2 2 2 2 0 0 0 2 2H17a3 3 0 0 1 3 3v2a2 2 0 0 1-2 2 2 2 0 0 0-2 2v1a3 3 0 0 1-3 3h-2a2 2 0 0 1-2-2 2 2 0 0 0-2-2H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2 2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 1-2-2z"/>'),['ks_a31','ks_a32','ks_a33','ks_a48','ks_a50','ks_a34','ks_a22','ks_a23','ks_a24','ks_a25','ks_a26','ks_a49']);
+blocBadge('chiffres','Chiffres',ico('#06B6D4','<line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>'),['ks_a05','ks_a06','ks_a07','ks_a08']);
+blocBadge('famille','Famille & Description',ico('#F59E0B','<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'),['ks_a09','ks_a10','ks_a11','ks_a12','ks_a13']);
+blocBadge('food','Nourriture & Culture',ico('#EF4444','<path d="M12 3a8 8 0 0 0-8 8h16a8 8 0 0 0-8-8Z"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M3 11h18"/>'),['ks_a14','ks_a15','ks_a16','ks_a17']);
+blocBadge('lieux','Lieux & Directions',ico('#10B981','<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>'),['ks_a18','ks_a19','ks_a20','ks_a21']);
+blocBadge('temps','Temps, Météo & Compteurs',ico('#38BDF8','<path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.95 12.65a4 4 0 0 0-5.93-4.13"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/>'),['ks_a_time','ks_a_meteo','ks_a_counters']);
+blocBadge('maison','Maison & Quotidien',ico('#F59E0B','<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'),['ks_a36','ks_a37','ks_a35','ks_a43']);
+blocBadge('vie','Corps, Mode & Émotions',ico('#EC4899','<path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23Z"/>'),['ks_a38','ks_a39','ks_a40','ks_a52']);
 /* A2 */
-blocBadge('gramA2','Grammaire A2 complète','📐',['ks_b01','ks_b23','ks_b24','ks_b25','ks_b26','ks_b27','ks_b28','ks_b29','ks_b04b','ks_b04c','ks_b04d','ks_b04e','ks_b34','ks_b35','ks_b36']);
-blocBadge('cultA2','Culture & Immersion A2','🎭',['ks_b09','ks_b10','ks_b11','ks_b12','ks_b32','ks_b31']);
-blocBadge('shop','Shopping & Voyage','🛍️',['ks_b13','ks_b14','ks_b15','ks_b16','ks_b17','ks_b18','ks_b33']);
-blocBadge('histA2','Histoires A2','📖',['ks_b37','ks_b38','ks_b43','ks_b44','ks_b45']);
+blocBadge('gramA2','Grammaire A2 complète',ico('#8B5CF6','<path d="M21.3 8.7 8.7 21.3a1 1 0 0 1-1.4 0l-4.6-4.6a1 1 0 0 1 0-1.4L15.3 2.7a1 1 0 0 1 1.4 0l4.6 4.6a1 1 0 0 1 0 1.4Z"/><path d="m7.5 10.5 2 2"/><path d="m10.5 7.5 2 2"/><path d="m13.5 4.5 2 2"/><path d="m4.5 13.5 2 2"/>'),['ks_b01','ks_b23','ks_b24','ks_b25','ks_b26','ks_b27','ks_b28','ks_b29','ks_b04b','ks_b04c','ks_b04d','ks_b04e','ks_b34','ks_b35','ks_b36']);
+blocBadge('cultA2','Culture & Immersion A2',ico('#A855F7','<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>'),['ks_b09','ks_b10','ks_b11','ks_b12','ks_b32','ks_b31']);
+blocBadge('shop','Shopping & Voyage',ico('#F472B6','<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>'),['ks_b13','ks_b14','ks_b15','ks_b16','ks_b17','ks_b18','ks_b33']);
+blocBadge('histA2','Histoires A2',ico('#10B981','<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'),['ks_b37','ks_b38','ks_b43','ks_b44','ks_b45']);
 /* B1 */
-blocBadge('gramB1','Grammaire B1 complète','🎓',['ks_c01','ks_c02','ks_c03','ks_c04','ks_c05','ks_c09b','ks_c09c','ks_c09d','ks_c27','ks_c28','ks_c29']);
-blocBadge('proB1','Politesse & Monde pro','🤝',['ks_c06','ks_c07','ks_c08','ks_c09','ks_c19','ks_c20','ks_c21','ks_c22']);
-blocBadge('immB1','Immersion B1','📚',['ks_c12','ks_c13','ks_c14','ks_c15','ks_c16','ks_c17','ks_c18','ks_c30','ks_c31','ks_c36','ks_c37','ks_c38']);
+blocBadge('gramB1','Grammaire B1 complète',ico('#F59E0B','<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>'),['ks_c01','ks_c02','ks_c03','ks_c04','ks_c05','ks_c09b','ks_c09c','ks_c09d','ks_c27','ks_c28','ks_c29']);
+blocBadge('proB1','Politesse & Monde pro',ico('#0EA5E9','<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>'),['ks_c06','ks_c07','ks_c08','ks_c09','ks_c19','ks_c20','ks_c21','ks_c22']);
+blocBadge('immB1','Immersion B1',ico('#8B5CF6','<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>'),['ks_c12','ks_c13','ks_c14','ks_c15','ks_c16','ks_c17','ks_c18','ks_c30','ks_c31','ks_c36','ks_c37','ks_c38']);
 /* B2 */
-blocBadge('rhetoB2','Rhétorique & Médias B2','🏛️',['ks_d18','ks_d19','ks_d20','ks_d21','ks_d08','ks_d09','ks_d10','ks_d11']);
-blocBadge('immB2','Immersion B2','🍶',['ks_d05','ks_d06','ks_d07','ks_d22','ks_d23','ks_d24','ks_d35','ks_d36','ks_d37']);
+blocBadge('rhetoB2','Rhétorique & Médias B2',ico('#6366F1','<line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/>'),['ks_d18','ks_d19','ks_d20','ks_d21','ks_d08','ks_d09','ks_d10','ks_d11']);
+blocBadge('immB2','Immersion B2',ico('#DB2777','<path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/>'),['ks_d05','ks_d06','ks_d07','ks_d22','ks_d23','ks_d24','ks_d35','ks_d36','ks_d37']);
 
 function isEarned(t){return t.progress()>=t.target;}
 

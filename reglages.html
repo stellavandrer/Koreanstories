@@ -102,7 +102,7 @@
     .rg-voice.on{background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(201,169,110,.03));border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,169,110,.25)}
     .rg-voice-t{font-size:13px;font-weight:700;color:var(--t)}
     .rg-voice-s{font-size:10.5px;color:var(--t2)}
-    .rg-voice-play{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:24px;height:24px;border-radius:50%;border:none;background:var(--gold);color:#0a1220;font-size:10px;cursor:pointer;line-height:1;padding-left:1px;transition:all .15s}
+    .rg-voice-play{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:24px;height:24px;border-radius:50%;border:none;background:var(--gold);color:#0a1220;font-size:10px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;padding-left:1px;transition:all .15s}
     .rg-voice-play:hover{transform:translateX(-50%) scale(1.15)}
     .rg-voice-play.playing{background:#22c55e;animation:vplay 1s ease infinite}
     @keyframes vplay{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}
@@ -414,17 +414,17 @@
         <button class="rg-voice" data-voice="sunhi" onclick="pickVoice('sunhi')">
           <div class="rg-voice-t">SunHi</div>
           <div class="rg-voice-s">Femme</div>
-          <button class="rg-voice-play" onclick="event.stopPropagation();previewVoice('sunhi')" aria-label="Écouter">▶</button>
+          <span class="rg-voice-play" role="button" tabindex="0" onclick="event.stopPropagation();previewVoice('sunhi')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();previewVoice('sunhi')}" aria-label="Écouter SunHi">▶</span>
         </button>
         <button class="rg-voice" data-voice="injoon" onclick="pickVoice('injoon')">
           <div class="rg-voice-t">InJoon</div>
           <div class="rg-voice-s">Homme</div>
-          <button class="rg-voice-play" onclick="event.stopPropagation();previewVoice('injoon')" aria-label="Écouter">▶</button>
+          <span class="rg-voice-play" role="button" tabindex="0" onclick="event.stopPropagation();previewVoice('injoon')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();previewVoice('injoon')}" aria-label="Écouter InJoon">▶</span>
         </button>
         <button class="rg-voice" data-voice="hyunsu" onclick="pickVoice('hyunsu')">
           <div class="rg-voice-t">Hyunsu</div>
           <div class="rg-voice-s">Expressif</div>
-          <button class="rg-voice-play" onclick="event.stopPropagation();previewVoice('hyunsu')" aria-label="Écouter">▶</button>
+          <span class="rg-voice-play" role="button" tabindex="0" onclick="event.stopPropagation();previewVoice('hyunsu')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();previewVoice('hyunsu')}" aria-label="Écouter Hyunsu">▶</span>
         </button>
       </div>
     </div>
@@ -702,7 +702,7 @@
         if(subEl)   subEl.textContent=newEmail;
         document.getElementById('newEmail').value='';
         document.getElementById('emailPwd').value='';
-        setFormMsg('emailMsg','ok','Adresse e-mail mise à jour ✓');
+        setFormMsg('emailMsg','ok','Adresse e-mail mise à jour');
         /* Optionnel : envoyer un mail de vérification au nouveau */
         if(typeof u.sendEmailVerification==='function'){
           try{ u.sendEmailVerification(); }catch(e){}
@@ -729,7 +729,7 @@
         document.getElementById('curPwd').value='';
         document.getElementById('newPwd').value='';
         document.getElementById('newPwd2').value='';
-        setFormMsg('pwdMsg','ok','Mot de passe mis à jour ✓');
+        setFormMsg('pwdMsg','ok','Mot de passe mis à jour');
       })
       .catch(function(err){ setFormMsg('pwdMsg','err', fbErrMessage(err)); });
   };
@@ -1048,7 +1048,7 @@
       a.download='korean-stories-sauvegarde-'+new Date().toISOString().slice(0,10)+'.json';
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function(){ URL.revokeObjectURL(url); },1000);
-      msg('Sauvegarde téléchargée ✓',true);
+      msg('Sauvegarde téléchargée',true);
     }catch(e){ msg('Échec de l\'export.',false); }
   };
 
@@ -1071,7 +1071,7 @@
           }
         }
         if(count===0){ msg('Aucune donnée Korean Stories dans ce fichier.',false); return; }
-        msg(count+' éléments restaurés ✓ Rechargement…',true);
+        msg(count+' éléments restaurés. Rechargement…',true);
         setTimeout(function(){ ksGo('app.html'); },1300);
       }catch(e){ msg('Impossible de lire ce fichier.',false); }
     };
@@ -1110,9 +1110,9 @@
   function refreshStatus(){
     try {
       var p = localStorage.getItem('ks_offline_pages');
-      if (p) { $('offPagesStatus').textContent = '✓ Téléchargé le '+p; $('offPagesBtn').textContent = 'À jour ?'; }
+      if (p) { $('offPagesStatus').textContent = 'Téléchargé le '+p; $('offPagesBtn').textContent = 'À jour ?'; }
       var a = localStorage.getItem('ks_offline_audio');
-      if (a) { $('offAudioStatus').textContent = '✓ Téléchargé le '+a; $('offAudioBtn').textContent = 'À jour ?'; }
+      if (a) { $('offAudioStatus').textContent = 'Téléchargé le '+a; $('offAudioBtn').textContent = 'À jour ?'; }
     } catch(e){}
     if (navigator.storage && navigator.storage.estimate) {
       navigator.storage.estimate().then(function(est){
@@ -1173,7 +1173,7 @@
           bar.style.width = '100%';
           var today = new Date().toLocaleDateString('fr-FR');
           try { localStorage.setItem('ks_offline_' + kind, today); } catch(err){}
-          status.textContent = '✓ Téléchargé le ' + today + (d.failed ? ' · ' + d.failed + ' fichiers ignorés' : '');
+          status.textContent = 'Téléchargé le ' + today + (d.failed ? ' · ' + d.failed + ' fichiers ignorés' : '');
           btn.disabled = false; btn.textContent = 'À jour ?';
           setTimeout(function(){ prog.style.display = 'none'; }, 1200);
           refreshStatus();

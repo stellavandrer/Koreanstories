@@ -16,7 +16,7 @@
 
     /* ── Accueil ── */
     .mix-hero{background:linear-gradient(135deg,#0F1B2D 0%,#23408f 100%);border-radius:20px;padding:24px 20px;color:#fff;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
-    .mix-hero::after{content:'🌀';position:absolute;right:-14px;top:-18px;font-size:90px;opacity:.10;transform:rotate(12deg)}
+    .mix-hero::after{content:'';position:absolute;right:-14px;top:-18px;font-size:90px;opacity:.10;transform:rotate(12deg)}
     .mix-tag{display:inline-block;background:rgba(201,169,110,.18);border:1px solid rgba(201,169,110,.35);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:100px;padding:4px 12px;margin-bottom:10px}
     .mix-hero h1{font-family:'Playfair Display',serif;font-size:23px;margin:0 0 6px}
     .mix-hero p{font-size:12.5px;color:rgba(247,248,250,.6);margin:0;line-height:1.65}
@@ -64,7 +64,7 @@
     /* ── Fin ── */
     #endScreen{display:none}
     .end-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;padding:28px 20px;text-align:center;margin-top:24px;box-shadow:var(--sh2)}
-    .end-emoji{font-size:44px;margin-bottom:8px}
+    .end-emoji{margin-bottom:8px;color:var(--gold);line-height:0}
     .end-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:4px}
     .end-sub{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6}
     .end-stats{display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
@@ -109,26 +109,26 @@
 <!-- ═══════ ACCUEIL ═══════ -->
 <div class="page-mix" id="homeScreen">
   <div class="mix-hero">
-    <div class="mix-tag">🌀 Mix du jour</div>
+    <div class="mix-tag">Mix du jour</div>
     <h1>Ta révision quotidienne</h1>
     <p>10 questions piochées dans <strong>tout ce que TU as appris</strong> :<br/>vocabulaire, écoute, particules, écriture au clavier.<br/>Nouveau mix chaque jour.</p>
     <div class="mix-date" id="mixDate"></div>
   </div>
 
   <div class="mix-stats">
-    <div class="mix-stat"><div class="mix-stat-n" id="statStreak">0</div><div class="mix-stat-l">🔥 Jours de suite</div></div>
+    <div class="mix-stat"><div class="mix-stat-n" id="statStreak">0</div><div class="mix-stat-l">Jours de suite</div></div>
     <div class="mix-stat"><div class="mix-stat-n" id="statPool">—</div><div class="mix-stat-l">Notions en jeu</div></div>
     <div class="mix-stat"><div class="mix-stat-n">+15</div><div class="mix-stat-l">XP / jour</div></div>
   </div>
 
   <div class="mix-types">
-    <div class="mix-type-row"><div class="ic">🇰🇷</div><div><strong>Coréen → Français</strong> et l'inverse — ton vocabulaire des leçons terminées</div></div>
-    <div class="mix-type-row"><div class="ic">🎧</div><div><strong>Écoute</strong> — une voix native, à toi de reconnaître le mot</div></div>
-    <div class="mix-type-row"><div class="ic">🧩</div><div><strong>Particules</strong> — la bonne particule dans une vraie phrase</div></div>
-    <div class="mix-type-row"><div class="ic">⌨️</div><div><strong>Écriture</strong> — tape le mot au clavier coréen (si atelier débuté)</div></div>
+    <div class="mix-type-row"><div class="ic" style="color:#3B82F6"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg></div><div><strong>Coréen → Français</strong> et l'inverse — ton vocabulaire des leçons terminées</div></div>
+    <div class="mix-type-row"><div class="ic" style="color:#8B5CF6"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5a9 9 0 0 1 18 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></svg></div><div><strong>Écoute</strong> — une voix native, à toi de reconnaître le mot</div></div>
+    <div class="mix-type-row"><div class="ic" style="color:#10B981"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.611c-.471.471-1.088.706-1.705.706s-1.234-.235-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894.527-.967 1.02z"/></svg></div><div><strong>Particules</strong> — la bonne particule dans une vraie phrase</div></div>
+    <div class="mix-type-row"><div class="ic" style="color:#F59E0B"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/></svg></div><div><strong>Écriture</strong> — tape le mot au clavier coréen (si atelier débuté)</div></div>
   </div>
 
-  <button class="mix-start" id="startBtn">🌀 Lancer le mix du jour</button>
+  <button class="mix-start" id="startBtn">Lancer le mix du jour</button>
   <div class="mix-done-note" id="doneNote" style="display:none"></div>
 </div>
 
@@ -149,17 +149,17 @@
 <!-- ═══════ FIN ═══════ -->
 <div class="page-mix" id="endScreen">
   <div class="end-card">
-    <div class="end-emoji" id="endEmoji">🎉</div>
+    <div class="end-emoji" id="endEmoji"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg></div>
     <div class="end-title" id="endTitle">Mix terminé !</div>
     <div class="end-sub" id="endSub"></div>
     <div class="end-stats">
       <div class="end-stat"><div class="end-stat-n" id="endScore">0/10</div><div class="end-stat-l">Score</div></div>
-      <div class="end-stat"><div class="end-stat-n" id="endStreak">1</div><div class="end-stat-l">🔥 Série</div></div>
+      <div class="end-stat"><div class="end-stat-n" id="endStreak">1</div><div class="end-stat-l">Série</div></div>
       <div class="end-stat"><div class="end-stat-n" id="endXP">+15</div><div class="end-stat-l">XP</div></div>
     </div>
     <a class="end-btn gold" href="app.html">Retour à l'accueil</a>
     <a class="end-btn ghost" href="cours.html">Continuer le parcours</a>
-    <div style="font-size:11.5px;color:var(--t3);margin-top:4px">Reviens demain — le mix se renouvelle chaque jour à minuit (heure de Séoul 🇰🇷).</div>
+    <div style="font-size:11.5px;color:var(--t3);margin-top:4px">Reviens demain — le mix se renouvelle chaque jour à minuit (heure de Séoul).</div>
   </div>
 </div>
 
@@ -321,12 +321,12 @@ function buildMix(){
 let MIX = buildMix();
 (function initHome(){
   const d = new Date();
-  document.getElementById('mixDate').textContent = '🇰🇷 Mix du ' + d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) + ' — identique pour tout le monde, basé sur TES leçons';
+  document.getElementById('mixDate').textContent = 'Mix du ' + d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) + ' — identique pour tout le monde, basé sur TES leçons';
   document.getElementById('statPool').textContent = MIX.poolSize;
   document.getElementById('statStreak').textContent = ls('ks_mix_streak')||'0';
   if (ls('ks_mix_done_'+MIX.date)){
     const btn = document.getElementById('startBtn');
-    btn.textContent = '✓ Mix du jour terminé';
+    btn.textContent = 'Mix du jour terminé';
     const note = document.getElementById('doneNote');
     note.style.display='block';
     note.innerHTML = 'Tu peux le refaire pour t\'entraîner (sans XP bonus),<br/>ou revenir demain pour un nouveau mix. 화이팅!';
@@ -461,9 +461,9 @@ function endQuiz(){
       reg.active && reg.active.postMessage({type:'KS_STATE', state:{mixDone: MIX.date, notifEnabled: (localStorage.getItem('ks_notif_enabled')==='yes'), hour: parseInt(localStorage.getItem('ks_notif_hour')||'19')}});
     }).catch(()=>{});
   } catch(e){}
-  if (score===MIX.qs.length){ document.getElementById('endEmoji').textContent='🏆'; document.getElementById('endTitle').textContent='완벽해요 ! Sans faute !'; document.getElementById('endSub').textContent='Tout ce que tu as appris est bien ancré. À demain pour le prochain mix !'; }
-  else if (score>=7){ document.getElementById('endEmoji').textContent='🎉'; document.getElementById('endTitle').textContent='잘했어요 ! Solide !'; document.getElementById('endSub').textContent='La révision quotidienne, c\'est ça le secret — quelques minutes par jour battent des heures le dimanche.'; }
-  else { document.getElementById('endEmoji').textContent='💪'; document.getElementById('endTitle').textContent='C\'est noté !'; document.getElementById('endSub').textContent='Les mots ratés reviendront dans les prochains mix. Repasse aussi par les Révisions SRS.'; }
+  if (score===MIX.qs.length){ document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>'; document.getElementById('endTitle').textContent='완벽해요 ! Sans faute !'; document.getElementById('endSub').textContent='Tout ce que tu as appris est bien ancré. À demain pour le prochain mix !'; }
+  else if (score>=7){ document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>'; document.getElementById('endTitle').textContent='잘했어요 ! Solide !'; document.getElementById('endSub').textContent='La révision quotidienne, c\'est ça le secret — quelques minutes par jour battent des heures le dimanche.'; }
+  else { document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>'; document.getElementById('endTitle').textContent='C\'est noté !'; document.getElementById('endSub').textContent='Les mots ratés reviendront dans les prochains mix. Repasse aussi par les Révisions SRS.'; }
 }
 
 document.getElementById('startBtn').onclick=startQuiz;

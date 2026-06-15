@@ -263,7 +263,7 @@
           b.setAttribute('aria-label','Espace');
         } else if (code === 'ENTER'){
           b.className = 'ks-kb-key ks-kb-enter';
-          b.textContent = '확인 ✓';
+          b.textContent = '확인';
           b.setAttribute('aria-label','Valider');
         } else {
           b.className = 'ks-kb-key';

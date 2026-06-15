@@ -9,7 +9,7 @@
    On ne peut pas changer la couleur de la marque (gris #f2f2f2 fixe
    dans ces SVGs publics) mais le rendu est propre et cohérent.
 
-   ⚠️ Module Hangeul EXCLU à la demande de l'utilisateur — l'alphabet
+   Module Hangeul EXCLU à la demande de l'utilisateur — l'alphabet
    se présente mieux sans bannière visuelle qui détournerait l'œil.
    ═══════════════════════════════════════════════════════════════════ */
 (function () {

@@ -108,20 +108,20 @@
       /* A déjà pratiqué — on rappelle juste le Mix quotidien */
       var mixStreak = parseInt(ls('ks_mix_streak') || '0', 10) || 0;
       var mixTitles = [
-        '🌀 Ton mix du jour t\'attend',
-        '🌀 3 minutes pour boucler la journée',
-        '🌀 Le mix quotidien n\'est pas fait'
+        'Ton mix du jour t\'attend',
+        '3 minutes pour boucler la journée',
+        'Le mix quotidien n\'est pas fait'
       ];
       t = mixTitles[Math.floor(Math.random() * mixTitles.length)];
       b = mixStreak > 0
-        ? '10 questions sur tes acquis · 🔥 série de ' + mixStreak + ' jour' + (mixStreak > 1 ? 's' : '') + ' en jeu · +15 XP'
+        ? '10 questions sur tes acquis · série de ' + mixStreak + ' jour' + (mixStreak > 1 ? 's' : '') + ' en jeu · +15 XP'
         : '10 questions sur tout ce que tu as appris · +15 XP.';
       targetUrl = '/daily-mix.html';
     } else {
       var streak = parseInt(ls('ks_streak') || '0', 10) || 0;
       var titles = [
         '안녕하세요 ! Prêt·e pour ta dose de coréen ?',
-        'Le coréen t\'attend 📚',
+        'Le coréen t\'attend',
         'Petite session du soir ?',
         '15 min de coréen = grand pas'
       ];

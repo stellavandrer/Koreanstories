@@ -268,7 +268,7 @@
     document.getElementById('ksImBarFill').style.width = ((idx + 1) / bubbles.length * 100) + '%';
     /* Boutons nav */
     document.getElementById('ksImPrev').disabled = idx === 0;
-    document.getElementById('ksImNext').textContent = (idx === bubbles.length - 1) ? 'Terminer ✓' : 'Suivant →';
+    document.getElementById('ksImNext').textContent = (idx === bubbles.length - 1) ? 'Terminer' : 'Suivant →';
     /* Auto-play de la phrase au passage */
     setTimeout(function(){
       var auto = document.getElementById('ksImAudio');

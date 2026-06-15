@@ -1179,10 +1179,10 @@
       catch(e){ d = new Date().toISOString().slice(0,10); }
       if (localStorage.getItem('ks_mix_done_'+d)){
         var b=document.getElementById('mixCardBadge');
-        b.textContent='✓ Fait'; b.style.background='rgba(34,197,94,.18)'; b.style.borderColor='rgba(74,222,128,.45)'; b.style.color='#4ade80';
+        b.textContent='Fait'; b.style.background='rgba(34,197,94,.18)'; b.style.borderColor='rgba(74,222,128,.45)'; b.style.color='#4ade80';
         var s=document.getElementById('mixCardSub');
         var st=localStorage.getItem('ks_mix_streak')||'1';
-        s.textContent='Terminé pour aujourd\'hui · 🔥 '+st+' jour'+(st>1?'s':'')+' de suite';
+        s.textContent='Terminé pour aujourd\'hui · '+st+' jour'+(st>1?'s':'')+' de suite';
       }
     } catch(e){}
   })();
@@ -1839,7 +1839,7 @@
         setTimeout(() => {
           const notif = document.createElement('div');
           notif.style.cssText = 'position:fixed;top:68px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0EA5E9,#06B6D4);border-radius:16px;padding:13px 20px;font-size:13px;font-weight:600;color:#fff;z-index:200;text-align:center;max-width:300px;box-shadow:0 8px 28px rgba(0,0,0,.3)';
-          notif.innerHTML = '❄ Freeze utilisé — ton streak est sauvé !<br><span style="font-size:11px;opacity:.85;font-weight:400">Il te reste '+ksFreezesLeft()+' freeze(s) ce mois</span>';
+          notif.innerHTML = 'Freeze utilisé — ton streak est sauvé !<br><span style="font-size:11px;opacity:.85;font-weight:400">Il te reste '+ksFreezesLeft()+' freeze(s) ce mois</span>';
           document.body.appendChild(notif);
           setTimeout(() => { notif.style.transition='opacity .5s'; notif.style.opacity='0'; setTimeout(()=>notif.remove(),500); }, 4000);
         }, 600);
@@ -3592,7 +3592,7 @@ document.addEventListener('click', function(e){
       box.innerHTML =
         '<div class="sw-toast">' +
           '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' +
-          'Streak protégé pour aujourd\'hui — repos bien mérité 🛏' +
+          'Streak protégé pour aujourd\'hui — repos bien mérité' +
         '</div>';
       setTimeout(function(){ box.style.display = 'none'; }, 4000);
     }
