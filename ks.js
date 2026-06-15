@@ -357,11 +357,31 @@ function _ksDetectCharVoice(btn) {
   if (!btn) return null;
   try {
     var bubble = btn.closest('.bubble');
-    if (!bubble) return null;
-    var nameEl = bubble.querySelector('.speaker-name');
-    if (!nameEl) return null;
-    var raw = (nameEl.textContent || '').toLowerCase().split('(')[0].trim().replace(/:$/, '').trim();
-    return KS_SPEAKER_MAP[raw] || null;
+    /* 1) .speaker-name (histoires récentes, ex. « Joon (반말) ») */
+    if (bubble) {
+      var nameEl = bubble.querySelector('.speaker-name');
+      if (nameEl) {
+        var raw = (nameEl.textContent || '').toLowerCase().split('(')[0].trim().replace(/:$/, '').trim();
+        if (KS_SPEAKER_MAP[raw]) return KS_SPEAKER_MAP[raw];
+      }
+    }
+    /* 2) avatar .ava-<clé> dans la ligne (histoires plus anciennes : les
+       bulles n'ont pas de .speaker-name mais un avatar ava-joon/ava-mina).
+       Sans ça, tout tombait sur le narrateur (voix féminine) → Joon
+       sonnait « fille ». */
+    var line = btn.closest('.line') || bubble;
+    if (line) {
+      var ava = line.querySelector('[class*="ava-"]');
+      if (ava) {
+        var key = null;
+        (ava.className || '').split(/\s+/).forEach(function (c) {
+          if (c.indexOf('ava-') === 0 && c !== 'ava-init') key = c.slice(4);
+        });
+        if (key && KS_TC_VOICES[key]) return key;
+        if (key && KS_SPEAKER_MAP[key]) return KS_SPEAKER_MAP[key];
+      }
+    }
+    return null;
   } catch (e) { return null; }
 }
 

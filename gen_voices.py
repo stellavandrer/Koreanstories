@@ -34,27 +34,38 @@ def dialogue_attribution():
     """Renvoie { texte_coréen : clé_perso } pour toutes les répliques en bulle."""
     out = {}
     sp_rx = re.compile(r'class="speaker-name"[^>]*>([^<]+)<')
+    ava_rx = re.compile(r'ava-([a-z]+)')
     call_rx = re.compile(r"speak(?:As)?\(\s*'([^']+)'")
     for f in glob.glob("*.html"):
         t = open(f, encoding="utf-8").read()
-        # positions des speaker-name
-        speakers = [(m.start(), norm_speaker(m.group(1))) for m in sp_rx.finditer(t)]
+        # marqueurs de locuteur (position, clé_perso) : .speaker-name (histoires
+        # récentes) + avatars ava-joon/ava-mina (histoires plus anciennes).
+        marks = []
+        for m in sp_rx.finditer(t):
+            c = SMAP.get(norm_speaker(m.group(1)))
+            if c:
+                marks.append((m.start(), c))
+        for m in ava_rx.finditer(t):
+            k = m.group(1)
+            if k == "init":
+                continue
+            c = k if k in CHARS else SMAP.get(k)
+            if c:
+                marks.append((m.start(), c))
+        marks.sort()
         for m in call_rx.finditer(t):
             txt = g.clean_text(m.group(1))
             if not txt:
                 continue
-            # speaker le plus proche AVANT l'appel (même bulle), fenêtre 1500c
+            # locuteur le plus proche AVANT l'appel (fenêtre 1500c)
             spk = None
-            for pos, name in speakers:
+            for pos, c in marks:
                 if pos < m.start() and m.start() - pos < 1500:
-                    spk = name
+                    spk = c
                 elif pos >= m.start():
                     break
-            if spk is None:
-                continue
-            char = SMAP.get(spk)
-            if char and char != NARR:
-                out[txt] = char          # le perso prime sur le narrateur
+            if spk and spk != NARR:
+                out[txt] = spk          # le perso prime sur le narrateur
     return out
 
 
