@@ -106,22 +106,37 @@
       '.ks-rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s cubic-bezier(.34,1.3,.5,1)}',
       '.ks-rv.ks-shown{opacity:1;transform:none}',
       '.ks-speaking .bubble,.bubble.ks-speaking{box-shadow:0 0 0 2px #B8924E,0 10px 26px rgba(184,146,78,.3)!important;transform:scale(1.012)}',
+      '.ks-listen{cursor:pointer;border-radius:7px;transition:background .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent}',
+      '.ks-listen:hover{background:rgba(184,146,78,.13)}',
+      '.ks-listen:focus-visible{outline:2px solid #B8924E;outline-offset:2px}',
+      '.ks-listen.ks-speaking{background:rgba(184,146,78,.18);box-shadow:0 0 0 2px rgba(184,146,78,.55)}',
       '@media(prefers-reduced-motion:reduce){.ks-rv{opacity:1;transform:none;transition:none}}'
     ].join('');
     (document.head || document.documentElement).appendChild(s);
   }
 
   function storyTitle() {
-    var el = document.querySelector('.hero-title, .story-title, h1');
     var kr = '', fr = '';
-    if (el) {
-      // beaucoup d'histoires ont « 한국어Sous-titre » collés : on sépare
-      var raw = (el.textContent || '').replace(/\s+/g, ' ').trim();
-      var m = raw.match(/^([가-힣\s!?.…~]+)\s*(.*)$/);
-      if (m && m[1].trim()) { kr = m[1].trim(); fr = (m[2] || '').replace(/^[—\-·:\s]+/, '').trim(); }
-      else { fr = raw; }
+    /* 1) Un titre avec du coréen visible (hero/story-title/h1/h2) */
+    var heads = document.querySelectorAll('.hero-title, .story-title, h1, h2');
+    for (var i = 0; i < heads.length; i++) {
+      var raw = (heads[i].textContent || '').replace(/\s+/g, ' ').trim();
+      if (/[가-힣]/.test(raw)) {
+        var m = raw.match(/^([가-힣\s!?.…~·]+)(.*)$/);
+        if (m && m[1].trim()) { kr = m[1].trim().replace(/[·\s]+$/, ''); fr = (m[2] || '').replace(/^[—\-·:\s]+/, '').trim(); }
+        else { fr = raw; }
+        break;
+      }
     }
-    if (!fr) { var t = document.title.split('·')[0].split('—'); fr = (t[1] || t[0] || '').trim(); }
+    /* 2) Sinon, titre français propre depuis <title> (sans « Korean Stories ») */
+    if (!kr && !fr) {
+      var d = document.title
+        .replace(/[·—-]?\s*Korean Stories.*$/i, '')
+        .replace(/^Histoire\s*\d*\s*[:—-]?\s*/i, '')
+        .replace(/[·—|].*$/, '')
+        .trim();
+      fr = d;
+    }
     return { kr: kr, fr: fr };
   }
 
@@ -129,7 +144,7 @@
     var bubbles = [].slice.call(document.querySelectorAll('.line, .bubble-row'));
     if (!bubbles.length) bubbles = [].slice.call(document.querySelectorAll('.bubble'));
     var audioBtns = [].slice.call(document.querySelectorAll('.bubble-audio'));
-    if (!bubbles.length || !audioBtns.length) return;
+    if (!bubbles.length || !audioBtns.length) { buildReading(); return; }
     injectCSS();
 
     /* 1) Scène + bouton, insérés juste avant le 1er groupe de bulles */
@@ -194,6 +209,78 @@
             onerror: function () { if (playing) setTimeout(step, 380); }
           });
         } else { setTimeout(step, 800); }
+      })();
+    });
+  }
+
+  /* ── Mode LECTURE (histoires en prose/dialogue sans bulles de chat) ──
+     Chaque bloc coréen devient écoutable + bouton « Écouter le passage ». */
+  function canon(el) {
+    var c = (el.textContent || '').replace(/\s+/g, ' ').trim();
+    if (c.length > 1 && (c.charAt(0) === '"' || c.charAt(0) === "'") && c.charAt(c.length - 1) === c.charAt(0)) {
+      c = c.slice(1, -1).trim();
+    }
+    return c;
+  }
+
+  function buildReading() {
+    var blocks = [].slice.call(document.querySelectorAll('.dial-kr, .kr, .ko, .ko-line, .vocab-ko, .v-ko'))
+      .filter(function (el) { return /[가-힣]/.test(el.textContent || ''); });
+    if (!blocks.length) return;
+    injectCSS();
+
+    /* Bouton « Écouter le passage » en tête du contenu. Pas de scène ici :
+       ces histoires ont déjà leur propre illustration (système de bannière). */
+    var first = blocks[0];
+    var host = first.closest('.panel, .story-panel, section, article') || first;
+    if (host.parentNode && !document.getElementById('ksConvPlay')) {
+      var pb = document.createElement('button');
+      pb.className = 'conv-play'; pb.type = 'button'; pb.id = 'ksConvPlay';
+      pb.style.margin = '4px 0 16px';
+      pb.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span class="cp-lbl">Écouter le passage</span>';
+      host.parentNode.insertBefore(pb, host);
+      attachReadingSeq(pb, blocks);
+    }
+
+    /* Chaque bloc coréen : écoutable au clic (voix narrateur) */
+    blocks.forEach(function (el) {
+      el.classList.add('ks-listen');
+      if (!el.hasAttribute('role')) el.setAttribute('role', 'button');
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+      el.setAttribute('aria-label', 'Écouter');
+      el.addEventListener('click', function () { if (window.speak) window.speak(canon(el), el); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (window.speak) window.speak(canon(el), el); }
+      });
+    });
+  }
+
+  function attachReadingSeq(pb, blocks) {
+    var lbl = pb.querySelector('.cp-lbl'), playing = false;
+    function clear() { blocks.forEach(function (b) { b.classList.remove('ks-speaking'); }); }
+    function stop() {
+      playing = false; pb.classList.remove('playing');
+      try { window.speechSynthesis.cancel(); } catch (e) {}
+      if (window._ksCurrentAudio) { try { window._ksCurrentAudio.pause(); } catch (e) {} }
+      clear();
+    }
+    pb.addEventListener('click', function () {
+      if (playing) { stop(); lbl.textContent = 'Reprendre la lecture'; return; }
+      playing = true; pb.classList.add('playing'); lbl.textContent = 'Lecture…';
+      var i = 0;
+      (function step() {
+        if (!playing) return;
+        if (i >= blocks.length) { stop(); lbl.textContent = 'Réécouter le passage'; return; }
+        var el = blocks[i++];
+        clear(); el.classList.add('ks-speaking');
+        try { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+        var txt = canon(el);
+        if (txt && window.speak) {
+          window.speak(txt, el, {
+            onended: function () { if (playing) setTimeout(step, 320); },
+            onerror: function () { if (playing) setTimeout(step, 320); }
+          });
+        } else { setTimeout(step, 500); }
       })();
     });
   }
