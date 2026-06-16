@@ -9,17 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Noto+Sans+KR:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F4ECDC;
-    --ink:#2A2218;
-    --ink-soft:#6B5E48;
-    --gold:#B8924E;
-    --gold-deep:#9A7637;
-    --gold-tint:#FBEFCF;
-    --mina:#C06A4B;
-    --joon:#3E6EA8;
-    --frame:#2A2218;
-    --radius:8px;
-    --shadow:4px 4px 0 rgba(42,34,24,.20);
+    --paper:#F4ECDC;--ink:#2A2218;--ink-soft:#6B5E48;--gold:#B8924E;--gold-deep:#9A7637;--gold-tint:#FBEFCF;
+    --mina:#C06A4B;--joon:#3E6EA8;--frame:#2A2218;--radius:8px;--shadow:4px 4px 0 rgba(42,34,24,.20);
   }
   *{box-sizing:border-box}
   html,body{margin:0}
@@ -47,34 +38,31 @@
 
   .board{display:flex;flex-direction:column;gap:18px}
 
-  /* ── Case BD : tout vit à l'intérieur du cadre ── */
-  .case{position:relative;border:3px solid var(--frame);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);height:360px;background:#E9DcC4}
-  .case .art{position:absolute;inset:0;background-size:cover;background-repeat:no-repeat;background-position:center 30%}
-  .case .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,250,240,.05),rgba(28,22,12,.06) 60%,rgba(28,22,12,.14))}
+  /* ── Case BD : ratio donné par la vignette, tout à l'intérieur ── */
+  .case{position:relative;border:3px solid var(--frame);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:#E9DCC4}
+  .case .art{position:absolute;inset:0;background-size:cover;background-position:center}
+  .case .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,250,240,.02),rgba(28,22,12,.04) 55%,rgba(28,22,12,.12))}
 
-  /* phylactère */
-  .balloon{position:absolute;top:14px;max-width:74%;background:#fff;border:2.5px solid var(--frame);border-radius:20px;padding:10px 14px 11px;box-shadow:3px 3px 0 rgba(42,34,24,.18);z-index:3}
+  .balloon{position:absolute;top:14px;max-width:72%;background:#fff;border:2.5px solid var(--frame);border-radius:20px;padding:9px 13px 10px;box-shadow:3px 3px 0 rgba(42,34,24,.18);z-index:3}
   .case.m .balloon{left:14px}
   .case.j .balloon{right:14px}
   .balloon::before,.balloon::after{content:"";position:absolute;width:0;height:0;border-style:solid}
-  .case.m .balloon::before{left:30px;bottom:-19px;border-width:19px 16px 0 0;border-color:var(--frame) transparent transparent transparent}
-  .case.m .balloon::after{left:34px;bottom:-13px;border-width:14px 11px 0 0;border-color:#fff transparent transparent transparent}
-  .case.j .balloon::before{right:30px;bottom:-19px;border-width:19px 0 0 16px;border-color:var(--frame) transparent transparent transparent}
-  .case.j .balloon::after{right:34px;bottom:-13px;border-width:14px 0 0 11px;border-color:#fff transparent transparent transparent}
-  .speaker{display:inline-block;font:900 11px/1 "Noto Sans KR",sans-serif;letter-spacing:.02em;margin-bottom:6px;padding:3px 8px;border-radius:4px;color:#fff}
+  .case.m .balloon::before{left:28px;bottom:-19px;border-width:19px 16px 0 0;border-color:var(--frame) transparent transparent transparent}
+  .case.m .balloon::after{left:32px;bottom:-13px;border-width:14px 11px 0 0;border-color:#fff transparent transparent transparent}
+  .case.j .balloon::before{right:28px;bottom:-19px;border-width:19px 0 0 16px;border-color:var(--frame) transparent transparent transparent}
+  .case.j .balloon::after{right:32px;bottom:-13px;border-width:14px 0 0 11px;border-color:#fff transparent transparent transparent}
+  .speaker{display:inline-block;font:900 11px/1 "Noto Sans KR",sans-serif;margin-bottom:5px;padding:3px 8px;border-radius:4px;color:#fff}
   .case.m .speaker{background:var(--mina)}
   .case.j .speaker{background:var(--joon)}
-  .kr{font-family:"Noto Sans KR",sans-serif;font-weight:700;font-size:20px;line-height:1.4;color:var(--ink)}
+  .kr{font-family:"Noto Sans KR",sans-serif;font-weight:700;font-size:19px;line-height:1.4;color:var(--ink)}
   .kw{color:var(--gold-deep);font-weight:900;cursor:pointer;border-bottom:2.5px dotted rgba(184,146,78,.6);border-radius:3px;transition:background .15s}
   .kw:hover,.kw:focus-visible{background:var(--gold-tint);outline:none}
 
-  /* cartouche de narration / traduction (récitatif jaune) */
   .caption{position:absolute;left:13px;bottom:13px;z-index:3;max-width:calc(100% - 74px);background:var(--gold-tint);border:2.5px solid var(--frame);border-radius:4px;padding:7px 11px;box-shadow:3px 3px 0 rgba(42,34,24,.2)}
   .caption .rom{display:block;font-family:"Spectral",serif;font-style:italic;font-size:12px;color:#A08A5E;margin-bottom:2px}
   body.no-rom .caption .rom{display:none}
   .caption .fr{display:block;font-family:"Spectral",serif;font-weight:500;font-size:14.5px;color:var(--ink);line-height:1.3}
 
-  /* cartouche narratif seul (cases de transition) */
   .narr{position:absolute;left:13px;top:13px;z-index:3;max-width:72%;background:var(--gold-tint);border:2.5px solid var(--frame);border-radius:4px;padding:8px 12px;box-shadow:3px 3px 0 rgba(42,34,24,.2);font-family:"Spectral",serif;font-style:italic;font-size:14px;color:var(--ink)}
 
   .audio{position:absolute;right:13px;bottom:13px;z-index:4;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:2.5px solid var(--frame);background:#fff;cursor:pointer;box-shadow:2px 2px 0 rgba(42,34,24,.22);transition:transform .12s,background .2s}
@@ -84,8 +72,6 @@
   .audio.on{background:var(--gold)}
   .audio.on svg{stroke:#fff}
   .case.speaking{outline:3px solid var(--gold);outline-offset:-3px}
-
-  .case.scene{height:210px}
 
   .listen-all{display:inline-flex;align-items:center;gap:10px;margin:4px 0 14px;padding:12px 20px;border:3px solid var(--frame);border-radius:100px;cursor:pointer;background:var(--gold);color:#fff;font:900 14px/1 "Noto Sans KR",sans-serif;box-shadow:var(--shadow);transition:transform .12s}
   .listen-all svg{width:16px;height:16px;fill:#fff}
@@ -107,7 +93,7 @@
   .end .ko{font-family:"Noto Sans KR",sans-serif;font-size:24px;font-weight:900}
   .end .sub2{font-family:"Spectral",serif;font-style:italic;color:var(--ink-soft);font-size:14px;margin-top:4px}
 
-  @media (min-width:560px){ .splash-kr{font-size:44px} .case{height:420px} .kr{font-size:22px} }
+  @media (min-width:560px){ .splash-kr{font-size:44px} .kr{font-size:21px} }
   @media (prefers-reduced-motion:reduce){ .case{opacity:1;transform:none;transition:none} *{scroll-behavior:auto!important} }
 </style>
 </head>
@@ -136,62 +122,62 @@
 
     <div class="board" id="board">
 
-      <figure class="case m">
-        <div class="art" style="background-image:url(img/stories/portrait-mina.webp)"></div><div class="veil"></div>
+      <figure class="case m" style="aspect-ratio:1/1">
+        <div class="art" style="background-image:url(img/stories/bd3-1.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr"><span class="kw" data-id="baegopayo">배고파요</span> ! <span class="kw" data-id="sikdang">식당</span> 가요 !</div></div>
         <div class="caption"><span class="rom">Bae-go-pa-yo ! Sik-dang ga-yo !</span><span class="fr">J'ai faim ! Allons au restaurant !</span></div>
         <button class="audio" data-say="배고파요 식당 가요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
       </figure>
 
-      <figure class="case j">
-        <div class="art" style="background-image:url(img/stories/portrait-joon.webp)"></div><div class="veil"></div>
+      <figure class="case j" style="aspect-ratio:1/1">
+        <div class="art" style="background-image:url(img/stories/bd3-2.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">준 Joon</span><div class="kr">좋아요 ! <span class="kw" data-id="menyu">메뉴</span> 볼게요 !</div></div>
         <div class="caption"><span class="rom">Jo-a-yo ! Me-nyu bol-ge-yo !</span><span class="fr">Super ! Regardons le menu !</span></div>
         <button class="audio" data-say="좋아요 메뉴 볼게요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
       </figure>
 
-      <figure class="case m">
-        <div class="art" style="background-image:url(img/stories/portrait-mina.webp)"></div><div class="veil"></div>
+      <figure class="case m" style="aspect-ratio:1/1">
+        <div class="art" style="background-image:url(img/stories/bd3-3.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr">저는 비빔밥 <span class="kw" data-id="jumun">주문</span>할게요 !</div></div>
         <div class="caption"><span class="rom">Jeo-neun bi-bim-bap ju-mun-hal-ge-yo !</span><span class="fr">Moi je vais commander un bibimbap !</span></div>
         <button class="audio" data-say="저는 비빔밥 주문할게요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
       </figure>
 
-      <figure class="case j">
-        <div class="art" style="background-image:url(img/stories/portrait-joon.webp)"></div><div class="veil"></div>
+      <figure class="case j" style="aspect-ratio:4/5">
+        <div class="art" style="background-image:url(img/stories/bd3-4.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">준 Joon</span><div class="kr"><span class="kw" data-id="mawoyo">매워요</span> ?</div></div>
         <div class="caption"><span class="rom">Mae-wo-yo ?</span><span class="fr">C'est épicé ?</span></div>
         <button class="audio" data-say="매워요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
       </figure>
 
-      <figure class="case scene">
-        <div class="art" style="background-image:url(img/stories/histoire3.webp);background-position:center 38%"></div><div class="veil"></div>
+      <figure class="case scene" style="aspect-ratio:16/9">
+        <div class="art" style="background-image:url(img/stories/bd3-beat.webp)"></div><div class="veil"></div>
         <div class="narr">Quelques minutes plus tard…</div>
       </figure>
 
-      <figure class="case m">
-        <div class="art" style="background-image:url(img/stories/portrait-mina.webp)"></div><div class="veil"></div>
+      <figure class="case m" style="aspect-ratio:1/1">
+        <div class="art" style="background-image:url(img/stories/bd3-5.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr"><span class="kw" data-id="jogeum">조금</span>요. 괜찮아요 !</div></div>
         <div class="caption"><span class="rom">Jo-geum-yo. Gwaen-cha-na-yo !</span><span class="fr">Un peu. C'est okay !</span></div>
         <button class="audio" data-say="조금요 괜찮아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
       </figure>
 
-      <figure class="case j">
-        <div class="art" style="background-image:url(img/stories/portrait-joon.webp)"></div><div class="veil"></div>
+      <figure class="case j" style="aspect-ratio:1/1">
+        <div class="art" style="background-image:url(img/stories/bd3-6.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">준 Joon</span><div class="kr"><span class="kw" data-id="mul">물</span> 주세요 !</div></div>
         <div class="caption"><span class="rom">Mul ju-se-yo !</span><span class="fr">De l'eau s'il vous plaît !</span></div>
         <button class="audio" data-say="물 주세요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
       </figure>
 
-      <figure class="case m">
-        <div class="art" style="background-image:url(img/stories/portrait-mina.webp)"></div><div class="veil"></div>
+      <figure class="case m" style="aspect-ratio:4/5">
+        <div class="art" style="background-image:url(img/stories/bd3-7.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr">하하 ! <span class="kw" data-id="masisseoyo">맛있어요</span> !</div></div>
         <div class="caption"><span class="rom">Ha-ha ! Ma-si-sseo-yo !</span><span class="fr">Haha ! C'est délicieux !</span></div>
         <button class="audio" data-say="하하 맛있어요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
       </figure>
 
-      <figure class="case j">
-        <div class="art" style="background-image:url(img/stories/portrait-joon.webp)"></div><div class="veil"></div>
+      <figure class="case j" style="aspect-ratio:16/9">
+        <div class="art" style="background-image:url(img/stories/bd3-8.webp)"></div><div class="veil"></div>
         <div class="balloon"><span class="speaker">준 Joon</span><div class="kr"><span class="kw" data-id="ddo">또</span> 오고 싶어요 !</div></div>
         <div class="caption"><span class="rom">Ddo o-go si-peo-yo !</span><span class="fr">Je veux revenir !</span></div>
         <button class="audio" data-say="또 오고 싶어요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
