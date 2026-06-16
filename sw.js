@@ -30,7 +30,12 @@
 //        « Reprendre » par histoire (ks-stories.js), et progression +
 //        « Reprendre la lecture » sur les cartes du hub histoires.html
 //        (cartes désormais cliquables comme de vrais liens).
-const CACHE = 'ks-v3.2';
+// v3.3 : illustrations IA des histoires (img/stories/histoireN.webp) —
+//        en-tête illustré sur chaque page histoire (chat + lecture) via
+//        ks-stories.js (repli scène SVG si image absente) + couverture sur
+//        les cartes du hub. Les WebP se mettent en cache à la visite
+//        (stratégie cache-first des images).
+const CACHE = 'ks-v3.3';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [

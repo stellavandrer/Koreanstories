@@ -342,6 +342,11 @@
   }
 
   function inject(){
+    /* Les pages histoireN ont désormais leur propre illustration IA
+       (en-tête via ks-stories.js) → on n'ajoute pas la bannière générique. */
+    var path = location.pathname.split('/').pop() || '';
+    if (/^histoire\d+\.html$/i.test(path)) return;
+
     var name = getIllustrationName();
     if (!name) return;
 

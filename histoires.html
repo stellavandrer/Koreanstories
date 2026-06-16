@@ -153,7 +153,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .scard.locked{cursor:default;opacity:.52}
 
     .scard-banner{
-      height:80px;position:relative;
+      height:132px;position:relative;
       display:flex;align-items:flex-end;
       padding:12px 16px;
       overflow:hidden;
@@ -162,15 +162,25 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       position:absolute;inset:0;
       opacity:.18;
     }
+    /* Couverture illustrée (WebP) + dégradé pour la lisibilité du n° et du lieu */
+    .scard-cover{
+      position:absolute;inset:0;z-index:0;
+      width:100%;height:100%;display:block;
+      object-fit:cover;object-position:center 32%;
+    }
+    .scard-banner::after{
+      content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+      background:linear-gradient(to bottom,rgba(15,27,45,.10) 0%,rgba(15,27,45,0) 38%,rgba(15,27,45,.52) 100%);
+    }
     .scard-loc{
-      position:relative;z-index:1;
+      position:relative;z-index:2;
       font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-      color:white;opacity:.85;
+      color:white;opacity:.95;text-shadow:0 1px 6px rgba(0,0,0,.5);
     }
     .scard-num{
-      position:absolute;top:12px;right:14px;z-index:1;
-      font-family:'Playfair Display',serif;font-size:28px;font-weight:700;
-      color:white;opacity:.25;line-height:1;
+      position:absolute;top:10px;right:14px;z-index:2;
+      font-family:'Playfair Display',serif;font-size:30px;font-weight:700;
+      color:white;opacity:.92;line-height:1;text-shadow:0 2px 10px rgba(0,0,0,.45);
     }
     .scard-body{
       background:var(--bg);padding:14px 16px;
@@ -1026,6 +1036,7 @@ function renderCard(s) {
   return `
     <${tag} ${href} class="scard${isLocked?' locked':''}" id="card-${s.id}" style="border-color:${s.colorBg}0.15)">
       <div class="scard-banner" style="background:${s.color}">
+        <img class="scard-cover" src="img/stories/${s.href.replace('.html','')}.webp" alt="" loading="lazy" decoding="async" onerror="this.remove()">
         <div class="scard-banner-bg" style="background:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 80%22><text x=%225%22 y=%2260%22 font-size=%2260%22 opacity=%22.2%22 fill=%22white%22 font-family=%22serif%22>${encodeURIComponent(s.title.charAt(0))}</text></svg>') no-repeat right center/auto 90%"></div>
         <span class="scard-num">${s.num}</span>
         <span class="scard-loc">${s.locShort}</span>

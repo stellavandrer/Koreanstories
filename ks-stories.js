@@ -92,8 +92,9 @@
     var s = document.createElement('style');
     s.id = 'ks-stories-css';
     s.textContent = [
-      '.ks-scene{position:relative;height:152px;border-radius:20px;overflow:hidden;margin:0 0 14px;box-shadow:0 10px 28px rgba(15,27,45,.16)}',
+      '.ks-scene{position:relative;height:clamp(200px,46vw,300px);border-radius:20px;overflow:hidden;margin:0 0 14px;box-shadow:0 10px 28px rgba(15,27,45,.16)}',
       '.ks-scene>svg{display:block;width:100%;height:100%}',
+      '.ks-scene-img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%}',
       '.ks-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(15,27,45,.5) 80%,rgba(15,27,45,.74));pointer-events:none}',
       '.ks-scene-cap{position:absolute;left:18px;right:18px;bottom:13px;z-index:2}',
       '.ks-scene-cap .t{font-family:"Playfair Display",Georgia,serif;font-size:19px;font-weight:700;color:#fff;line-height:1.2;text-shadow:0 2px 14px rgba(0,0,0,.5)}',
@@ -147,6 +148,36 @@
     return { kr: kr, fr: fr };
   }
 
+  /* ── En-tête illustré : illustration WebP + titre, repli scène SVG ──
+     Utilisé par les histoires chat ET lecture. */
+  function buildHeroScene(parent, anchor) {
+    if (!parent || document.querySelector('.ks-scene')) return;
+    injectCSS();
+    var ti = storyTitle();
+    var theme = THEMES[file] || 'day';
+    var svgStr = SCENES[theme] || SCENES.day;
+    /* Si la page a déjà son intro titrée (.hero), on ne réécrit pas le
+       titre sur l'illustration (sinon doublon). */
+    var hasHero = !!document.querySelector('.hero, .hero-title');
+    var cap = hasHero ? '' : ('<div class="ks-scene-cap">' +
+      (ti.kr ? '<div class="t">' + ti.kr + '</div>' : '') +
+      (ti.fr ? '<div class="s">' + ti.fr + '</div>' : '') + '</div>');
+    var scene = document.createElement('div');
+    scene.className = 'ks-scene';
+    var img = document.createElement('img');
+    img.className = 'ks-scene-img';
+    img.alt = ''; img.loading = 'eager'; img.decoding = 'async';
+    img.addEventListener('error', function () {
+      /* Pas d'illustration → on remet la scène SVG d'ambiance d'origine */
+      if (img.parentNode) img.parentNode.removeChild(img);
+      scene.insertAdjacentHTML('afterbegin', svgStr);
+    });
+    img.src = 'img/stories/' + file + '.webp';
+    scene.appendChild(img);
+    scene.insertAdjacentHTML('beforeend', cap);
+    parent.insertBefore(scene, anchor);
+  }
+
   function build() {
     var bubbles = [].slice.call(document.querySelectorAll('.line, .bubble-row'));
     if (!bubbles.length) bubbles = [].slice.call(document.querySelectorAll('.bubble'));
@@ -160,15 +191,7 @@
     var anchor = panel || firstBubble;
     var parent = anchor.parentNode;
     if (parent && !document.querySelector('.ks-scene')) {
-      var theme = THEMES[file] || 'day';
-      var svgStr = SCENES[theme] || SCENES.day;
-      var ti = storyTitle();
-      var scene = document.createElement('div');
-      scene.className = 'ks-scene';
-      scene.innerHTML = svgStr + '<div class="ks-scene-cap">' +
-        (ti.kr ? '<div class="t">' + ti.kr + '</div>' : '') +
-        (ti.fr ? '<div class="s">' + ti.fr + '</div>' : '') + '</div>';
-      parent.insertBefore(scene, anchor);
+      buildHeroScene(parent, anchor);
 
       var pb = document.createElement('button');
       pb.className = 'conv-play'; pb.type = 'button'; pb.id = 'ksConvPlay';
@@ -236,16 +259,21 @@
     if (!blocks.length) return;
     injectCSS();
 
-    /* Bouton « Écouter le passage » en tête du contenu. Pas de scène ici :
-       ces histoires ont déjà leur propre illustration (système de bannière). */
+    /* Cover illustrée en tête (au-dessus du titre), puis bouton « Écouter ». */
     var first = blocks[0];
     var host = first.closest('.panel, .story-panel, section, article') || first;
-    if (host.parentNode && !document.getElementById('ksConvPlay')) {
+    var titleEl = document.querySelector('.main h1, .main h2, .story-title, .hero-title');
+    var anchor = titleEl || host;
+    var parent = anchor.parentNode;
+
+    buildHeroScene(parent, anchor);
+
+    if (parent && !document.getElementById('ksConvPlay')) {
       var pb = document.createElement('button');
       pb.className = 'conv-play'; pb.type = 'button'; pb.id = 'ksConvPlay';
       pb.style.margin = '4px 0 16px';
       pb.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span class="cp-lbl">Écouter le passage</span>';
-      host.parentNode.insertBefore(pb, host);
+      parent.insertBefore(pb, anchor);
       attachReadingSeq(pb, blocks);
     }
 
