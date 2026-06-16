@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Histoire 8 — 노래방에서 · BD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Noto+Sans+KR:wght@500;700;900&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4ECDC;--ink:#2A2218;--ink-soft:#6B5E48;--gold:#B8924E;--gold-deep:#9A7637;--gold-tint:#FBEFCF;
+    --mina:#C06A4B;--joon:#3E6EA8;--hana:#A85B8E;--other:#5B8C7B;--frame:#2A2218;--radius:8px;--shadow:4px 4px 0 rgba(42,34,24,.20);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:"Spectral",Georgia,serif;-webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:110px}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;background-image:radial-gradient(rgba(120,95,55,.06) 1px,transparent 1px);background-size:5px 5px}
+  .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 14px}
+
+  .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:transparent}
+  .progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#E9C77E,var(--gold))}
+
+  .top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + env(safe-area-inset-top)) 14px 10px;background:linear-gradient(var(--paper),rgba(244,236,220,.85));backdrop-filter:blur(7px)}
+  .top a.back{display:inline-flex;align-items:center;gap:7px;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px}
+  .top a.back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .pill-toggle{min-height:38px;display:inline-flex;align-items:center;gap:6px;padding:0 13px;border-radius:100px;border:2px solid var(--ink);background:var(--paper);color:var(--ink);font:700 12px/1 "Spectral",serif;cursor:pointer;box-shadow:2px 2px 0 rgba(42,34,24,.18)}
+  .pill-toggle[aria-pressed="true"]{background:var(--gold-tint)}
+  .pill-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .splash{position:relative;margin:8px 0 16px;border:3px solid var(--frame);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:16/10}
+  .splash img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+  .splash::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(28,22,12,.8),rgba(28,22,12,.15) 45%,transparent 70%)}
+  .splash-cap{position:absolute;left:18px;right:18px;bottom:16px;z-index:2}
+  .splash-badge{display:inline-block;margin-bottom:8px;padding:5px 11px;border-radius:4px;background:var(--gold);color:#fff;font:900 10px/1 "Noto Sans KR",sans-serif;letter-spacing:.12em;text-transform:uppercase;border:2px solid var(--frame);box-shadow:2px 2px 0 rgba(42,34,24,.3)}
+  .splash-kr{font-family:"Noto Sans KR",sans-serif;font-weight:900;color:#fff;font-size:36px;line-height:1.05;text-shadow:0 3px 16px rgba(0,0,0,.55)}
+  .splash-fr{font-family:"Playfair Display",serif;font-style:italic;color:#F1D9A6;font-size:21px;margin-top:3px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+
+  .board{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .cell{grid-column:span 1;min-width:0}
+  .cell.full{grid-column:1 / -1}
+
+  .case{position:relative;border:3px solid var(--frame);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:#E9DCC4}
+  .case .art{position:absolute;inset:0;background-size:cover;background-position:center}
+  .case .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,250,240,.02),rgba(28,22,12,.04) 55%,rgba(28,22,12,.12))}
+
+  .montage{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .montage .case{aspect-ratio:1/1}
+
+  .balloon{position:absolute;top:12px;max-width:74%;background:#fff;border:2.5px solid var(--frame);border-radius:20px;padding:9px 13px 10px;box-shadow:3px 3px 0 rgba(42,34,24,.18);z-index:3}
+  .case.l .balloon{left:12px}
+  .case.r .balloon{right:12px}
+  .balloon::before,.balloon::after{content:"";position:absolute;width:0;height:0;border-style:solid}
+  .case.l .balloon::before{left:26px;bottom:-19px;border-width:19px 16px 0 0;border-color:var(--frame) transparent transparent transparent}
+  .case.l .balloon::after{left:30px;bottom:-13px;border-width:14px 11px 0 0;border-color:#fff transparent transparent transparent}
+  .case.r .balloon::before{right:26px;bottom:-19px;border-width:19px 0 0 16px;border-color:var(--frame) transparent transparent transparent}
+  .case.r .balloon::after{right:30px;bottom:-13px;border-width:14px 0 0 11px;border-color:#fff transparent transparent transparent}
+  .speaker{display:inline-block;white-space:nowrap;font:900 11px/1 "Noto Sans KR",sans-serif;margin-bottom:5px;padding:3px 8px;border-radius:4px;color:#fff}
+  .speaker.spk-m{background:var(--mina)}
+  .speaker.spk-j{background:var(--joon)}
+  .speaker.spk-h{background:var(--hana)}
+  .speaker.spk-o{background:var(--other)}
+  .kr{font-family:"Noto Sans KR",sans-serif;font-weight:700;font-size:19px;line-height:1.4;color:var(--ink)}
+  .kw{color:var(--gold-deep);font-weight:900;cursor:pointer;border-bottom:2.5px dotted rgba(184,146,78,.6);border-radius:3px;transition:background .15s}
+  .kw:hover,.kw:focus-visible{background:var(--gold-tint);outline:none}
+
+  .cell:not(.full) .balloon{top:10px;max-width:92%;padding:6px 9px 7px}
+  .cell:not(.full) .case.l .balloon{left:10px}
+  .cell:not(.full) .case.r .balloon{right:10px}
+  .cell:not(.full) .speaker{font-size:9px;padding:2px 6px;margin-bottom:3px}
+  .cell:not(.full) .kr{font-size:13px;line-height:1.25}
+  .cell:not(.full) .balloon::before{left:16px} .cell:not(.full) .balloon::after{left:20px}
+  .cell:not(.full) .case.r .balloon::before{right:16px;left:auto} .cell:not(.full) .case.r .balloon::after{right:20px;left:auto}
+  .cell:not(.full) .audio{width:30px;height:30px;right:9px;bottom:9px}
+  .cell:not(.full) .audio svg{width:13px;height:13px}
+
+  .caption{position:absolute;left:13px;bottom:13px;z-index:3;max-width:calc(100% - 74px);background:var(--gold-tint);border:2.5px solid var(--frame);border-radius:4px;padding:7px 11px;box-shadow:3px 3px 0 rgba(42,34,24,.2)}
+  .caption .rom{display:block;font-family:"Spectral",serif;font-style:italic;font-size:12px;color:#A08A5E;margin-bottom:2px}
+  body.no-rom .caption .rom{display:none}
+  .caption .fr{display:block;font-family:"Spectral",serif;font-weight:500;font-size:14.5px;color:var(--ink);line-height:1.3}
+
+  .narr{position:absolute;left:13px;top:13px;z-index:3;max-width:78%;background:var(--gold-tint);border:2.5px solid var(--frame);border-radius:4px;padding:8px 12px;box-shadow:3px 3px 0 rgba(42,34,24,.2);font-family:"Spectral",serif;font-style:italic;font-size:14.5px;color:var(--ink)}
+
+  .tl{margin:7px 3px 0;font-family:"Spectral",serif}
+  .tl .rom{display:block;font-style:italic;font-size:11px;color:#A08A5E;line-height:1.25}
+  body.no-rom .tl .rom{display:none}
+  .tl .fr{display:block;font-size:13px;color:var(--ink-soft);line-height:1.3}
+  .tl.center{text-align:center;margin-top:9px}
+  .tl.center .fr{font-style:italic;font-size:13.5px}
+
+  .audio{position:absolute;right:13px;bottom:13px;z-index:4;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:2.5px solid var(--frame);background:#fff;cursor:pointer;box-shadow:2px 2px 0 rgba(42,34,24,.22);transition:transform .12s,background .2s}
+  .audio svg{width:18px;height:18px;fill:none;stroke:var(--gold-deep);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .audio:hover{background:var(--gold-tint)}
+  .audio:active{transform:translate(1px,1px)}
+  .audio.on{background:var(--gold)}
+  .audio.on svg{stroke:#fff}
+  .case.speaking{outline:3px solid var(--gold);outline-offset:-3px}
+
+  .listen-all{display:inline-flex;align-items:center;gap:10px;margin:2px 0 14px;padding:12px 20px;border:3px solid var(--frame);border-radius:100px;cursor:pointer;background:var(--gold);color:#fff;font:900 14px/1 "Noto Sans KR",sans-serif;box-shadow:var(--shadow);transition:transform .12s}
+  .listen-all svg{width:16px;height:16px;fill:#fff}
+  .listen-all:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(42,34,24,.2)}
+  .listen-all.playing{background:var(--paper);color:var(--gold-deep)}
+  .listen-all.playing svg{fill:var(--gold-deep)}
+
+  .case{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s cubic-bezier(.34,1.3,.5,1)}
+  .case.shown{opacity:1;transform:none}
+
+  .vocab-pop{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(16px);z-index:80;max-width:340px;width:calc(100% - 32px);background:var(--ink);color:#fff;border:3px solid #000;border-radius:12px;padding:14px 16px;box-shadow:5px 5px 0 rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s}
+  .vocab-pop.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .vocab-pop .vp-ko{font-family:"Noto Sans KR",sans-serif;font-weight:900;font-size:18px;color:#F1D9A6}
+  .vocab-pop .vp-rom{font-style:italic;font-size:12.5px;color:rgba(255,255,255,.6);margin:2px 0 6px}
+  .vocab-pop .vp-fr{font-size:14px}
+  .vocab-pop .vp-x{position:absolute;top:7px;right:11px;color:rgba(255,255,255,.6);background:none;border:none;font-size:18px;cursor:pointer}
+
+  .end{text-align:center;margin:30px 0 0;color:var(--gold-deep)}
+  .end .ko{font-family:"Noto Sans KR",sans-serif;font-size:24px;font-weight:900}
+  .end .sub2{font-family:"Spectral",serif;font-style:italic;color:var(--ink-soft);font-size:14px;margin-top:4px}
+
+  @media (min-width:560px){ .splash-kr{font-size:44px} .kr{font-size:21px} }
+  @media (prefers-reduced-motion:reduce){ .case{opacity:1;transform:none;transition:none} *{scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+  <div class="progress"><span id="bar"></span></div>
+
+  <div class="top">
+    <a class="back" href="histoires.html"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Histoires</a>
+    <button class="pill-toggle" id="romBtn" aria-pressed="true">Aa Rom.</button>
+  </div>
+
+  <div class="wrap">
+
+    <div class="splash">
+      <img src="img/stories/histoire8.webp" alt="Mina et Joon au noraebang">
+      <div class="splash-cap">
+        <span class="splash-badge">Chapitre 8 · A1</span>
+        <div class="splash-kr">노래방에서</div>
+        <div class="splash-fr">Au karaoké</div>
+      </div>
+    </div>
+
+    <button class="listen-all" id="listenAll">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><span class="lbl">Lire la BD</span>
+    </button>
+
+    <div class="board" id="board">
+      <div class="cell full">
+        <figure class="case" style="aspect-ratio:16/9">
+          <div class="art" style="background-image:url(img/stories/h8-est.webp)"></div><div class="veil"></div>
+          <div class="narr">Après les cours, direction le noraebang !</div>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case r" data-speaker="joon" style="aspect-ratio:4/3">
+          <div class="art" style="background-image:url(img/stories/h8-1.webp);background-position:center 28%"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-j">준 Joon</span><div class="kr"><span class="kw" data-id="noraebang">노래방</span>에 가요 !</div></div>
+          <div class="caption"><span class="rom">No-rae-bang-e ga-yo !</span><span class="fr">On va au noraebang !</span></div>
+          <button class="audio" data-say="노래방에 가요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case l" data-speaker="mina" style="aspect-ratio:4/3">
+          <div class="art" style="background-image:url(img/stories/h8-2.webp);background-position:center 28%"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-m">미나 Mina</span><div class="kr"><span class="kw" data-id="sinnayo">신나요</span> ! <span class="kw" data-id="eotteon">어떤</span> <span class="kw" data-id="norae">노래</span> <span class="kw" data-id="bulreoyo">불러요</span> ?</div></div>
+          <div class="caption"><span class="rom">Sin-na-yo ! Eo-tteon no-rae bul-leo-yo ?</span><span class="fr">C'est trop fun ! Quelle chanson on chante ?</span></div>
+          <button class="audio" data-say="신나요 어떤 노래 불러요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case r" data-speaker="joon" style="aspect-ratio:4/3">
+          <div class="art" style="background-image:url(img/stories/h8-3.webp);background-position:center 28%"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-j">준 Joon</span><div class="kr">저는 이 <span class="kw" data-id="norae">노래</span> <span class="kw" data-id="joayo">좋아요</span> !</div></div>
+          <div class="caption"><span class="rom">Jeo-neun i no-rae jo-a-yo !</span><span class="fr">J'aime cette chanson !</span></div>
+          <button class="audio" data-say="저는 이 노래 좋아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case l" data-speaker="mina" style="aspect-ratio:4/3">
+          <div class="art" style="background-image:url(img/stories/h8-4.webp);background-position:center 28%"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-m">미나 Mina</span><div class="kr"><span class="kw" data-id="maikheu">마이크</span> 받아요 ~</div></div>
+          <div class="caption"><span class="rom">Ma-i-keu ba-da-yo ~</span><span class="fr">Prends le micro !</span></div>
+          <button class="audio" data-say="마이크 받아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell">
+        <figure class="case" style="aspect-ratio:1/1"><div class="art" style="background-image:url(img/stories/h8-mic.webp)"></div><div class="veil"></div></figure>
+        <div class="tl"><span class="fr" style="font-style:italic">마이크 — à toi de jouer !</span></div>
+      </div>
+      <div class="cell">
+        <figure class="case" style="aspect-ratio:1/1"><div class="art" style="background-image:url(img/stories/h8-screen.webp)"></div><div class="veil"></div></figure>
+        <div class="tl"><span class="fr" style="font-style:italic">Les paroles défilent à l'écran ~</span></div>
+      </div>
+      <div class="cell full">
+        <figure class="case r" data-speaker="joon" style="aspect-ratio:4/5">
+          <div class="art" style="background-image:url(img/stories/h8-5.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-j">준 Joon</span><div class="kr"><span class="kw" data-id="sori">소리</span>가 커요 !</div></div>
+          <div class="caption"><span class="rom">So-ri-ga keo-yo !</span><span class="fr">C'est fort !</span></div>
+          <button class="audio" data-say="소리가 커요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case l" data-speaker="mina" style="aspect-ratio:4/5">
+          <div class="art" style="background-image:url(img/stories/h8-6.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-m">미나 Mina</span><div class="kr"><span class="kw" data-id="motaeyo">못해요</span>... <span class="kw" data-id="dasi">다시</span> 해요 ?</div></div>
+          <div class="caption"><span class="rom">Mot-hae-yo... da-si hae-yo ?</span><span class="fr">Je suis nulle... On recommence ?</span></div>
+          <button class="audio" data-say="못해요 다시 해요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case r" data-speaker="joon" style="aspect-ratio:4/3">
+          <div class="art" style="background-image:url(img/stories/h8-7.webp);background-position:center 28%"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-j">준 Joon</span><div class="kr">아니요, <span class="kw" data-id="jalhaeyo">잘해요</span> !</div></div>
+          <div class="caption"><span class="rom">A-ni-yo, jal-hae-yo !</span><span class="fr">Mais non, tu chantes très bien !</span></div>
+          <button class="audio" data-say="아니요 잘해요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case l" data-speaker="mina" style="aspect-ratio:4/5">
+          <div class="art" style="background-image:url(img/stories/h8-8.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-m">미나 Mina</span><div class="kr"><span class="kw" data-id="jeomsu">점수</span>가 낮아요...</div></div>
+          <div class="caption"><span class="rom">Jeom-su-ga na-ja-yo...</span><span class="fr">Mon score est bas...</span></div>
+          <button class="audio" data-say="점수가 낮아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case r" data-speaker="joon" style="aspect-ratio:4/3">
+          <div class="art" style="background-image:url(img/stories/h8-9.webp);background-position:center 28%"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-j">준 Joon</span><div class="kr"><span class="kw" data-id="jinjjayo">진짜요</span> ? <span class="kw" data-id="joayo">좋아요</span> ~</div></div>
+          <div class="caption"><span class="rom">Jin-jja-yo ? Jo-a-yo ~</span><span class="fr">Vraiment ? Super !</span></div>
+          <button class="audio" data-say="진짜요 좋아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case l" data-speaker="mina" style="aspect-ratio:4/3">
+          <div class="art" style="background-image:url(img/stories/h8-10.webp);background-position:center 28%"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-m">미나 Mina</span><div class="kr">와 ! <span class="kw" data-id="baksu">박수</span> !</div></div>
+          <div class="caption"><span class="rom">Wa ! Bak-su !</span><span class="fr">Waou ! Applaudissements !</span></div>
+          <button class="audio" data-say="와 박수" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case r" data-speaker="joon" style="aspect-ratio:4/5">
+          <div class="art" style="background-image:url(img/stories/h8-11.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-j">준 Joon</span><div class="kr"><span class="kw" data-id="choegoyeyo">최고예요</span> !</div></div>
+          <div class="caption"><span class="rom">Choe-go-ye-yo !</span><span class="fr">C'est le top !</span></div>
+          <button class="audio" data-say="최고예요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+      <div class="cell full">
+        <figure class="case l" data-speaker="mina" style="aspect-ratio:16/9">
+          <div class="art" style="background-image:url(img/stories/h8-12.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker spk-m">미나 Mina</span><div class="kr">또 <span class="kw" data-id="nolayo">놀아요</span> !</div></div>
+          <div class="caption"><span class="rom">Tto no-la-yo !</span><span class="fr">On s'amuse encore !</span></div>
+          <button class="audio" data-say="또 놀아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+      </div>
+    </div>
+    <div class="end"><div class="ko">끝</div><div class="sub2">Fin du chapitre 8</div></div>
+  </div>
+
+  <div class="vocab-pop" id="vocabPop" role="dialog" aria-live="polite">
+    <button class="vp-x" id="vpClose" aria-label="Fermer">×</button>
+    <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
+  </div>
+
+<script src="ks.js"></script>
+<script>
+  var VOCAB={"noraebang": {"ko": "노래방", "rom": "no-rae-bang", "fr": "karaoké / noraebang"}, "sinnayo": {"ko": "신나요", "rom": "sin-na-yo", "fr": "c'est fun ! / excitant !"}, "eotteon": {"ko": "어떤", "rom": "eo-tteon", "fr": "quel(le) / lequel"}, "norae": {"ko": "노래", "rom": "no-rae", "fr": "chanson"}, "bulreoyo": {"ko": "불러요", "rom": "bul-leo-yo", "fr": "on chante"}, "joayo": {"ko": "좋아요", "rom": "jo-a-yo", "fr": "j'aime / c'est bien"}, "maikheu": {"ko": "마이크", "rom": "ma-i-keu", "fr": "micro"}, "sori": {"ko": "소리", "rom": "so-ri", "fr": "son / voix / bruit"}, "motaeyo": {"ko": "못해요", "rom": "mot-hae-yo", "fr": "je suis nul(le) / je n'y arrive pas"}, "dasi": {"ko": "다시", "rom": "da-si", "fr": "encore / de nouveau"}, "jalhaeyo": {"ko": "잘해요", "rom": "jal-hae-yo", "fr": "tu es doué(e) / tu chantes bien"}, "jeomsu": {"ko": "점수", "rom": "jeom-su", "fr": "score / points"}, "jinjjayo": {"ko": "진짜요", "rom": "jin-jja-yo", "fr": "vraiment ? / c'est vrai !"}, "baksu": {"ko": "박수", "rom": "bak-su", "fr": "applaudissements"}, "choegoyeyo": {"ko": "최고예요", "rom": "choe-go-ye-yo", "fr": "c'est le top ! / le meilleur !"}, "nolayo": {"ko": "놀아요", "rom": "no-la-yo", "fr": "on s'amuse / on joue"}};
+
+  var vMina=null, vJoon=null;
+  function pickVoices(){{
+    var vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
+    var ko=vs.filter(function(v){{return /ko(-|_)?KR/i.test(v.lang)||/korean|\ud55c\uad6d/i.test(v.name);}});
+    function find(re){{for(var i=0;i<ko.length;i++){{if(re.test(ko[i].name))return ko[i];}}return null;}}
+    vMina=find(/yuna|sora|female|\uc5ec\uc131|\uc5ec\uc790|heami|nari|seoyeon|sun-?hi|sunhi/i)||ko[0]||null;
+    vJoon=find(/injoon|in-?joon|male|\ub0a8\uc131|\ub0a8\uc790|minjun|dohyun|gyeong|jinho/i)||ko.find(function(v){{return v!==vMina;}})||ko[0]||null;
+  }}
+  pickVoices();
+  if(window.speechSynthesis) speechSynthesis.onvoiceschanged=pickVoices;
+
+  function voiceOf(el){{ var c=el&&el.closest('.case'); return c?c.getAttribute('data-speaker'):null; }}
+
+  function clearSpk(){{document.querySelectorAll('.audio.on').forEach(function(b){{b.classList.remove('on');}});document.querySelectorAll('.case.speaking').forEach(function(b){{b.classList.remove('speaking');}});}}
+
+  function ttsSpeak(text,btn){{
+    try{{window.speechSynthesis.cancel();}}catch(e){{}}
+    var u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=.92;
+    var who=voiceOf(btn);
+    if(who==='joon'){{ u.voice=vJoon||vMina||null; u.pitch=0.8; }}
+    else if(who==='mina'){{ u.voice=vMina||vJoon||null; u.pitch=1.18; }}
+    else {{ u.voice=vMina||vJoon||null; u.pitch=1; }}
+    try{{window.speechSynthesis.speak(u);}}catch(e){{}}
+    return u;
+  }}
+
+  function playLine(text,btn,onDone){{
+    clearSpk();
+    var c=btn?btn.closest('.case'):null;
+    if(btn){{btn.classList.add('on'); if(c)c.classList.add('speaking');}}
+    var done=function(){{ if(btn)btn.classList.remove('on'); if(c)c.classList.remove('speaking'); if(onDone)onDone(); }};
+    if(typeof window.speak==='function'){{
+      try{{ window.speak(text,btn,{{onended:done,onerror:done}}); return; }}catch(e){{}}
+    }}
+    var u=ttsSpeak(text,btn); if(u){{u.onend=u.onerror=done;}} else {{done();}}
+  }}
+
+  document.querySelectorAll('.audio').forEach(function(b){{b.addEventListener('click',function(){{playLine(b.getAttribute('data-say'),b);}});}});
+
+  var listen=document.getElementById('listenAll'),playing=false;
+  listen.addEventListener('click',function(){{
+    var btns=[].slice.call(document.querySelectorAll('.audio'));
+    if(playing){{playing=false;try{{window.speechSynthesis.cancel();}}catch(e){{}}try{{if(window._ksCurrentAudio)window._ksCurrentAudio.pause();}}catch(e){{}}clearSpk();listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Reprendre';return;}}
+    playing=true;listen.classList.add('playing');listen.querySelector('.lbl').textContent='Lecture…';var i=0;
+    (function step(){{
+      if(!playing)return;
+      if(i>=btns.length){{playing=false;listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Rejouer la BD';return;}}
+      var b=btns[i++];b.closest('.case').scrollIntoView({{behavior:'smooth',block:'center'}});
+      playLine(b.getAttribute('data-say'),b,function(){{ if(playing)setTimeout(step,450); }});
+    }})();
+  }});
+
+  var romBtn=document.getElementById('romBtn');
+  romBtn.addEventListener('click',function(){{var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);}});
+
+  var pop=document.getElementById('vocabPop');
+  function showVocab(id){{var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){{pop.classList.remove('show');}},5000);}}
+  document.querySelectorAll('.kw').forEach(function(k){{k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){{e.stopPropagation();showVocab(k.getAttribute('data-id'));}});k.addEventListener('keydown',function(e){{if(e.key==='Enter'||e.key===' '){{e.preventDefault();showVocab(k.getAttribute('data-id'));}}}});}});
+  document.getElementById('vpClose').addEventListener('click',function(){{pop.classList.remove('show');}});
+
+  var items=[].slice.call(document.querySelectorAll('.case'));
+  if('IntersectionObserver' in window){{var io=new IntersectionObserver(function(es){{es.forEach(function(e){{if(e.isIntersecting){{e.target.classList.add('shown');io.unobserve(e.target);}}}});}},{{threshold:.1}});items.forEach(function(t){{io.observe(t);}});}}
+  else{{items.forEach(function(t){{t.classList.add('shown');}});}}
+  setTimeout(function(){{items.forEach(function(t){{t.classList.add('shown');}});}},2600);
+
+  var bar=document.getElementById('bar');
+  function onScroll(){{var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;var p=max>40?Math.min(1,h.scrollTop/max):0;bar.style.width=(p*100)+'%';}}
+  window.addEventListener('scroll',onScroll,{{passive:true}});onScroll();
+</script>
+</body>
+</html>
