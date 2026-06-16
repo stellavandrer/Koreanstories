@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Histoire 3 — 식당에서 · Korean Stories (prototype)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Noto+Sans+KR:wght@400;500;700&family=Spectral:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF6EC;        /* fond papier ivoire */
+    --paper-2:#FFFDF8;       /* carte */
+    --ink:#23303F;           /* texte principal */
+    --ink-soft:#6F6555;       /* texte secondaire chaud */
+    --gold:#B8924E;
+    --gold-deep:#9A7637;
+    --gold-tint:#FBF1DE;
+    --rose:#F6ECEC;
+    --mina:#B8924E;          /* accent Mina = or */
+    --mina-bg:#FBF2E2;
+    --joon:#3E6EA8;          /* accent Joon = bleu */
+    --joon-bg:#EAF1FA;
+    --line:rgba(35,48,63,.10);
+    --shadow:0 14px 40px rgba(60,45,20,.13);
+    --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(1200px 500px at 50% -8%, #FFF7E9 0%, transparent 60%),
+      var(--paper);
+    color:var(--ink);
+    font-family:"Spectral",Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+    padding-bottom:120px;
+  }
+  /* fine texture papier */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:radial-gradient(rgba(150,120,70,.05) 1px,transparent 1px);
+    background-size:4px 4px;
+  }
+  .wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 18px}
+
+  /* ── Barre de progression de lecture ── */
+  .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:transparent}
+  .progress > span{display:block;height:100%;width:0;background:linear-gradient(90deg,#E9C77E,var(--gold));box-shadow:0 0 10px rgba(184,146,78,.55)}
+
+  /* ── Top bar ── */
+  .top{
+    position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+    background:linear-gradient(var(--paper),rgba(251,246,236,.86));
+    backdrop-filter:blur(8px);
+  }
+  .top a.back{display:inline-flex;align-items:center;gap:7px;color:var(--ink);text-decoration:none;font-weight:600;font-family:"Spectral",serif;font-size:14px}
+  .top a.back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .top .tools{display:flex;gap:8px}
+  .pill-toggle{
+    min-height:38px;display:inline-flex;align-items:center;gap:6px;
+    padding:0 13px;border-radius:100px;border:1.5px solid var(--line);
+    background:var(--paper-2);color:var(--ink-soft);font:600 12px/1 "Spectral",serif;cursor:pointer;
+    transition:border-color .2s,color .2s,background .2s;
+  }
+  .pill-toggle[aria-pressed="true"]{border-color:var(--gold);color:var(--gold-deep);background:var(--gold-tint)}
+  .pill-toggle:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  /* ── Couverture chapitre (illustration) ── */
+  .cover{
+    position:relative;margin:8px 0 0;border-radius:24px;overflow:hidden;
+    box-shadow:var(--shadow);aspect-ratio:16/10;
+  }
+  .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+  .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(28,22,12,.82) 0%,rgba(28,22,12,.30) 38%,transparent 66%)}
+  .cover-cap{position:absolute;left:20px;right:20px;bottom:18px;z-index:2}
+  .chapter-badge{
+    display:inline-flex;align-items:center;gap:7px;margin-bottom:9px;
+    padding:5px 12px;border-radius:100px;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.30);
+    color:#fff;font:700 10.5px/1 "Spectral",serif;letter-spacing:.14em;text-transform:uppercase;
+    backdrop-filter:blur(4px);
+  }
+  .chapter-badge .dot{width:5px;height:5px;border-radius:50%;background:#E9C77E}
+  .cover-kr{font-family:"Noto Sans KR",sans-serif;font-weight:700;color:#fff;font-size:34px;line-height:1.1;letter-spacing:-.01em;text-shadow:0 2px 18px rgba(0,0,0,.5)}
+  .cover-fr{font-family:"Playfair Display",serif;font-style:italic;font-weight:500;color:#F1D9A6;font-size:20px;margin-top:2px;text-shadow:0 2px 14px rgba(0,0,0,.5)}
+
+  /* ── Chapeau / intro ── */
+  .lede{font-size:16.5px;color:var(--ink-soft);margin:22px 2px 4px;max-width:60ch}
+  .lede b{color:var(--ink);font-weight:600}
+
+  /* ── Cast (personnages) ── */
+  .cast{display:flex;gap:10px;margin:20px 0 4px;flex-wrap:wrap}
+  .cast-chip{display:flex;align-items:center;gap:10px;background:var(--paper-2);border:1.5px solid var(--line);border-radius:16px;padding:8px 14px 8px 8px;flex:1 1 240px;min-width:0}
+  .cast-ava{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:700 16px/1 "Playfair Display",serif;flex-shrink:0}
+  .cast-ava.m{background:var(--mina-bg);color:var(--mina);border:1.5px solid #EAD3A6}
+  .cast-ava.j{background:var(--joon-bg);color:var(--joon);border:1.5px solid #Bcd3ef}
+  .cast-name{font-family:"Noto Sans KR",sans-serif;font-weight:700;font-size:14px;color:var(--ink)}
+  .cast-role{font-size:12px;color:var(--ink-soft);line-height:1.35}
+
+  /* ── Séparateur de section ── */
+  .rule{display:flex;align-items:center;gap:14px;margin:30px 2px 6px;color:var(--gold-deep)}
+  .rule::before,.rule::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+  .rule span{font:700 11px/1 "Spectral",serif;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+
+  /* ── Bouton principal : lecture audio ── */
+  .listen-all{
+    display:inline-flex;align-items:center;gap:10px;margin:6px 0 8px;
+    padding:13px 22px;border:none;border-radius:100px;cursor:pointer;
+    background:linear-gradient(135deg,#D9B36A,var(--gold-deep));color:#fff;
+    font:700 14px/1 "Spectral",serif;letter-spacing:.01em;
+    box-shadow:0 10px 24px rgba(154,118,55,.35);transition:transform .15s,box-shadow .15s;
+  }
+  .listen-all svg{width:16px;height:16px;fill:#fff}
+  .listen-all:hover{transform:translateY(-1px);box-shadow:0 14px 30px rgba(154,118,55,.45)}
+  .listen-all.playing{background:var(--gold-tint);color:var(--gold-deep);box-shadow:none}
+  .listen-all.playing svg{fill:var(--gold-deep)}
+
+  /* ── Dialogue ── */
+  .dialogue{margin-top:10px;display:flex;flex-direction:column;gap:20px}
+  .turn{display:flex;gap:12px;align-items:flex-end;max-width:88%}
+  .turn.j{flex-direction:row-reverse;margin-left:auto}
+  .turn .ava{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 15px/1 "Playfair Display",serif;flex-shrink:0;box-shadow:0 4px 12px rgba(60,45,20,.16)}
+  .turn.m .ava{background:var(--mina-bg);color:var(--mina);border:1.5px solid #EAD3A6}
+  .turn.j .ava{background:var(--joon-bg);color:var(--joon);border:1.5px solid #BCD3EF}
+
+  .bubble{position:relative;background:var(--paper-2);border-radius:20px;padding:15px 17px 13px;box-shadow:var(--shadow);border:1px solid var(--line);min-width:0}
+  .turn.m .bubble{border-bottom-left-radius:6px;background:linear-gradient(180deg,#FFFDF8,#FBF3E4)}
+  .turn.j .bubble{border-bottom-right-radius:6px;background:linear-gradient(180deg,#FBFDFF,#EDF3FB)}
+  .speaker{font:700 11px/1 "Noto Sans KR",sans-serif;letter-spacing:.02em;margin-bottom:7px}
+  .turn.m .speaker{color:var(--mina)}
+  .turn.j .speaker{color:var(--joon)}
+
+  .kr{font-family:"Noto Sans KR",sans-serif;font-weight:500;font-size:21px;line-height:1.55;color:var(--ink);letter-spacing:-.01em}
+  .kw{color:var(--gold-deep);font-weight:700;cursor:pointer;border-bottom:2px dotted rgba(184,146,78,.55);padding-bottom:1px;border-radius:3px;transition:background .15s}
+  .kw:hover,.kw:focus-visible{background:var(--gold-tint);outline:none}
+  .rom{font-family:"Spectral",serif;font-style:italic;font-size:13.5px;color:#A89876;margin-top:6px;transition:opacity .25s,max-height .25s}
+  body.no-rom .rom{display:none}
+  .fr{font-family:"Spectral",serif;font-size:15px;color:var(--ink-soft);margin-top:7px;padding-top:9px;border-top:1px solid var(--line)}
+
+  .audio{
+    position:absolute;top:11px;right:11px;width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;
+    transition:transform .15s,border-color .2s,background .2s;
+  }
+  .turn.j .audio{right:auto;left:11px}
+  .audio svg{width:15px;height:15px;fill:none;stroke:var(--gold-deep);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .audio:hover{border-color:var(--gold);background:var(--gold-tint)}
+  .audio.on{background:var(--gold);border-color:var(--gold)}
+  .audio.on svg{stroke:#fff}
+  .bubble.speaking{box-shadow:0 0 0 2px var(--gold),var(--shadow)}
+
+  /* reveal au scroll */
+  .turn{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.34,1.3,.5,1)}
+  .turn.shown{opacity:1;transform:none}
+
+  /* ── Popover vocabulaire ── */
+  .vocab-pop{
+    position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(16px);
+    z-index:80;max-width:340px;width:calc(100% - 32px);
+    background:#23303F;color:#fff;border-radius:16px;padding:14px 16px;
+    box-shadow:0 18px 44px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
+  }
+  .vocab-pop.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .vocab-pop .vp-ko{font-family:"Noto Sans KR",sans-serif;font-weight:700;font-size:18px;color:#F1D9A6}
+  .vocab-pop .vp-rom{font-style:italic;font-size:12.5px;color:rgba(255,255,255,.6);margin:2px 0 6px}
+  .vocab-pop .vp-fr{font-size:14px;color:#fff}
+  .vocab-pop .vp-x{position:absolute;top:8px;right:10px;color:rgba(255,255,255,.6);cursor:pointer;font-size:18px;line-height:1;border:none;background:none}
+
+  /* fin */
+  .end{text-align:center;margin:40px 0 0;color:var(--gold-deep)}
+  .end .ko{font-family:"Noto Sans KR",sans-serif;font-size:22px;font-weight:700}
+  .end .sub{font-family:"Spectral",serif;font-style:italic;color:var(--ink-soft);font-size:14px;margin-top:4px}
+  .end .deco{font-size:20px;letter-spacing:8px;color:var(--gold);opacity:.6;margin-top:10px}
+
+  @media (min-width:560px){ .cover-kr{font-size:42px} .kr{font-size:22px} }
+  @media (prefers-reduced-motion:reduce){ .turn{opacity:1;transform:none;transition:none} *{scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+  <div class="progress"><span id="bar"></span></div>
+
+  <div class="top">
+    <a class="back" href="histoires.html"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Histoires</a>
+    <div class="tools">
+      <button class="pill-toggle" id="romBtn" aria-pressed="true" title="Afficher / masquer la prononciation">Aa Rom.</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <!-- Couverture de chapitre -->
+    <div class="cover">
+      <img src="img/stories/histoire3.webp" alt="Mina et Joon au restaurant coréen">
+      <div class="cover-cap">
+        <span class="chapter-badge"><span class="dot"></span> Chapitre 3 · Niveau A1</span>
+        <div class="cover-kr">식당에서</div>
+        <div class="cover-fr">Au restaurant</div>
+      </div>
+    </div>
+
+    <p class="lede"><b>Mina</b> et <b>Joon</b> commandent un repas dans un restaurant coréen de Séoul. Lis leur conversation — touche les mots <span style="color:var(--gold-deep);font-weight:600;border-bottom:2px dotted rgba(184,146,78,.5)">surlignés</span> pour découvrir leur sens.</p>
+
+    <div class="cast">
+      <div class="cast-chip">
+        <div class="cast-ava m">M</div>
+        <div><div class="cast-name">미나 · Mina</div><div class="cast-role">Connaît tous les bons restaurants de Séoul.</div></div>
+      </div>
+      <div class="cast-chip">
+        <div class="cast-ava j">J</div>
+        <div><div class="cast-name">준 · Joon</div><div class="cast-role">Aime la cuisine coréenne… mais craint le piment !</div></div>
+      </div>
+    </div>
+
+    <div class="rule"><span>Le dialogue</span></div>
+
+    <button class="listen-all" id="listenAll">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <span class="lbl">Lire la conversation</span>
+    </button>
+
+    <div class="dialogue" id="dialogue">
+
+      <div class="turn m">
+        <div class="ava">M</div>
+        <div class="bubble">
+          <button class="audio" data-say="배고파요 식당 가요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">미나</div>
+          <div class="kr"><span class="kw" data-id="baegopayo">배고파요</span> ! <span class="kw" data-id="sikdang">식당</span> 가요 !</div>
+          <div class="rom">Bae-go-pa-yo ! Sik-dang ga-yo !</div>
+          <div class="fr">J'ai faim ! Allons au restaurant !</div>
+        </div>
+      </div>
+
+      <div class="turn j">
+        <div class="ava">J</div>
+        <div class="bubble">
+          <button class="audio" data-say="좋아요 메뉴 볼게요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">준</div>
+          <div class="kr">좋아요 ! <span class="kw" data-id="menyu">메뉴</span> 볼게요 !</div>
+          <div class="rom">Jo-a-yo ! Me-nyu bol-ge-yo !</div>
+          <div class="fr">Super ! Regardons le menu !</div>
+        </div>
+      </div>
+
+      <div class="turn m">
+        <div class="ava">M</div>
+        <div class="bubble">
+          <button class="audio" data-say="저는 비빔밥 주문할게요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">미나</div>
+          <div class="kr">저는 비빔밥 <span class="kw" data-id="jumun">주문</span>할게요 !</div>
+          <div class="rom">Jeo-neun bi-bim-bap ju-mun-hal-ge-yo !</div>
+          <div class="fr">Moi je vais commander un bibimbap !</div>
+        </div>
+      </div>
+
+      <div class="turn j">
+        <div class="ava">J</div>
+        <div class="bubble">
+          <button class="audio" data-say="매워요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">준</div>
+          <div class="kr"><span class="kw" data-id="mawoyo">매워요</span> ?</div>
+          <div class="rom">Mae-wo-yo ?</div>
+          <div class="fr">C'est épicé ?</div>
+        </div>
+      </div>
+
+      <div class="turn m">
+        <div class="ava">M</div>
+        <div class="bubble">
+          <button class="audio" data-say="조금요 괜찮아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">미나</div>
+          <div class="kr"><span class="kw" data-id="jogeum">조금</span>요. 괜찮아요 !</div>
+          <div class="rom">Jo-geum-yo. Gwaen-cha-na-yo !</div>
+          <div class="fr">Un peu. C'est okay !</div>
+        </div>
+      </div>
+
+      <div class="turn j">
+        <div class="ava">J</div>
+        <div class="bubble">
+          <button class="audio" data-say="물 주세요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">준</div>
+          <div class="kr"><span class="kw" data-id="mul">물</span> 주세요 !</div>
+          <div class="rom">Mul ju-se-yo !</div>
+          <div class="fr">De l'eau s'il vous plaît !</div>
+        </div>
+      </div>
+
+      <div class="turn m">
+        <div class="ava">M</div>
+        <div class="bubble">
+          <button class="audio" data-say="하하 맛있어요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">미나</div>
+          <div class="kr">하하 ! <span class="kw" data-id="masisseoyo">맛있어요</span> !</div>
+          <div class="rom">Ha-ha ! Ma-si-sseo-yo !</div>
+          <div class="fr">Haha ! C'est délicieux !</div>
+        </div>
+      </div>
+
+      <div class="turn j">
+        <div class="ava">J</div>
+        <div class="bubble">
+          <button class="audio" data-say="또 오고 싶어요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+          <div class="speaker">준</div>
+          <div class="kr"><span class="kw" data-id="ddo">또</span> 오고 싶어요 !</div>
+          <div class="rom">Ddo o-go si-peo-yo !</div>
+          <div class="fr">Je veux revenir !</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="end">
+      <div class="ko">끝</div>
+      <div class="sub">Fin du chapitre 3</div>
+      <div class="deco">✦ ✦ ✦</div>
+    </div>
+  </div>
+
+  <!-- Popover vocabulaire -->
+  <div class="vocab-pop" id="vocabPop" role="dialog" aria-live="polite">
+    <button class="vp-x" id="vpClose" aria-label="Fermer">×</button>
+    <div class="vp-ko" id="vpKo"></div>
+    <div class="vp-rom" id="vpRom"></div>
+    <div class="vp-fr" id="vpFr"></div>
+  </div>
+
+<script>
+  /* Dictionnaire de la leçon (prototype) */
+  var VOCAB = {
+    baegopayo:{ko:"배고파요",rom:"bae-go-pa-yo",fr:"avoir faim (j'ai faim)"},
+    sikdang:{ko:"식당",rom:"sik-dang",fr:"restaurant"},
+    menyu:{ko:"메뉴",rom:"me-nyu",fr:"le menu"},
+    jumun:{ko:"주문",rom:"ju-mun",fr:"commander / une commande"},
+    mawoyo:{ko:"매워요",rom:"mae-wo-yo",fr:"c'est épicé"},
+    jogeum:{ko:"조금",rom:"jo-geum",fr:"un peu"},
+    mul:{ko:"물",rom:"mul",fr:"l'eau"},
+    masisseoyo:{ko:"맛있어요",rom:"ma-si-sseo-yo",fr:"c'est délicieux"},
+    ddo:{ko:"또",rom:"ddo",fr:"encore, de nouveau"}
+  };
+
+  /* ── Audio (prototype : synthèse vocale ko-KR ; le vrai site utilise les voix enregistrées) ── */
+  var current=null;
+  function speak(text, btn){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    document.querySelectorAll('.audio.on').forEach(function(b){b.classList.remove('on');});
+    document.querySelectorAll('.bubble.speaking').forEach(function(b){b.classList.remove('speaking');});
+    var u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=.9;
+    if(btn){ btn.classList.add('on'); var bub=btn.closest('.bubble'); if(bub) bub.classList.add('speaking');
+      u.onend=u.onerror=function(){ btn.classList.remove('on'); if(bub) bub.classList.remove('speaking'); };
+    }
+    try{ window.speechSynthesis.speak(u); }catch(e){}
+    return u;
+  }
+  document.querySelectorAll('.audio').forEach(function(b){
+    b.addEventListener('click',function(){ speak(b.getAttribute('data-say'), b); });
+  });
+
+  /* ── Lire toute la conversation ── */
+  var listen=document.getElementById('listenAll'), playing=false;
+  listen.addEventListener('click',function(){
+    var btns=[].slice.call(document.querySelectorAll('.audio'));
+    if(playing){ playing=false; try{speechSynthesis.cancel();}catch(e){} listen.classList.remove('playing'); listen.querySelector('.lbl').textContent='Reprendre'; return; }
+    playing=true; listen.classList.add('playing'); listen.querySelector('.lbl').textContent='Lecture…';
+    var i=0;
+    (function step(){
+      if(!playing) return;
+      if(i>=btns.length){ playing=false; listen.classList.remove('playing'); listen.querySelector('.lbl').textContent='Rejouer la conversation'; return; }
+      var b=btns[i++]; b.closest('.turn').scrollIntoView({behavior:'smooth',block:'center'});
+      var u=speak(b.getAttribute('data-say'), b);
+      u.onend=u.onerror=function(){ b.classList.remove('on'); var bub=b.closest('.bubble'); if(bub)bub.classList.remove('speaking'); if(playing) setTimeout(step,420); };
+    })();
+  });
+
+  /* ── Romanisation on/off ── */
+  var romBtn=document.getElementById('romBtn');
+  romBtn.addEventListener('click',function(){
+    var on=romBtn.getAttribute('aria-pressed')==='true';
+    romBtn.setAttribute('aria-pressed', String(!on));
+    document.body.classList.toggle('no-rom', on);
+  });
+
+  /* ── Popover vocabulaire ── */
+  var pop=document.getElementById('vocabPop');
+  function showVocab(id){
+    var v=VOCAB[id]; if(!v) return;
+    document.getElementById('vpKo').textContent=v.ko;
+    document.getElementById('vpRom').textContent=v.rom;
+    document.getElementById('vpFr').textContent=v.fr;
+    pop.classList.add('show');
+    try{ speak(v.ko); }catch(e){}
+    clearTimeout(showVocab._t); showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);
+  }
+  document.querySelectorAll('.kw').forEach(function(k){
+    k.setAttribute('tabindex','0'); k.setAttribute('role','button');
+    k.addEventListener('click',function(){ showVocab(k.getAttribute('data-id')); });
+    k.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));} });
+  });
+  document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
+
+  /* ── Apparition au scroll + barre de progression ── */
+  var turns=[].slice.call(document.querySelectorAll('.turn'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('shown');io.unobserve(e.target);}});},{threshold:.14});
+    turns.forEach(function(t){io.observe(t);});
+  } else { turns.forEach(function(t){t.classList.add('shown');}); }
+
+  var bar=document.getElementById('bar');
+  function onScroll(){ var h=document.documentElement; var max=h.scrollHeight-h.clientHeight; var p=max>40?Math.min(1,h.scrollTop/max):0; bar.style.width=(p*100)+'%'; }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+</script>
+</body>
+</html>
