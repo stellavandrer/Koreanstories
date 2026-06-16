@@ -36,10 +36,29 @@
   .splash-kr{font-family:"Noto Sans KR",sans-serif;font-weight:900;color:#fff;font-size:36px;line-height:1.05;text-shadow:0 3px 16px rgba(0,0,0,.55)}
   .splash-fr{font-family:"Playfair Display",serif;font-style:italic;color:#F1D9A6;font-size:21px;margin-top:3px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
 
-  .board{display:flex;flex-direction:column;gap:18px}
+  .board{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
   /* ── Case BD : ratio donné par la vignette, tout à l'intérieur ── */
-  .case{position:relative;border:3px solid var(--frame);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:#E9DCC4}
+  .case{position:relative;grid-column:1 / -1;border:3px solid var(--frame);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:#E9DCC4}
+  /* en strip : 2 cases par ligne (dessin + bulle dans la case, trad en dessous) */
+  .cell-half{grid-column:span 1}
+  .cell-half .case{grid-column:auto;margin:0}
+  .case.half .balloon{top:10px;max-width:92%;padding:6px 9px 7px}
+  .case.half.m .balloon{left:10px}
+  .case.half.j .balloon{right:10px}
+  .case.half .speaker{font-size:9.5px;padding:2px 6px;margin-bottom:4px}
+  .case.half .kr{font-size:15px;line-height:1.3}
+  .case.half .balloon::before{left:20px}
+  .case.half .balloon::after{left:24px}
+  .case.half.j .balloon::before{right:20px}
+  .case.half.j .balloon::after{right:24px}
+  .case.half .audio{width:34px;height:34px;right:10px;bottom:10px}
+  .case.half .audio svg{width:15px;height:15px}
+  /* traduction sous la vignette */
+  .tl{margin:7px 4px 0;font-family:"Spectral",serif}
+  .tl .rom{display:block;font-style:italic;font-size:11px;color:#A08A5E;line-height:1.25}
+  body.no-rom .tl .rom{display:none}
+  .tl .fr{display:block;font-size:13px;color:var(--ink-soft);line-height:1.3}
   .case .art{position:absolute;inset:0;background-size:cover;background-position:center}
   .case .veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,250,240,.02),rgba(28,22,12,.04) 55%,rgba(28,22,12,.12))}
 
@@ -122,19 +141,23 @@
 
     <div class="board" id="board">
 
-      <figure class="case m" style="aspect-ratio:1/1">
-        <div class="art" style="background-image:url(img/stories/bd3-1.webp)"></div><div class="veil"></div>
-        <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr"><span class="kw" data-id="baegopayo">배고파요</span> ! <span class="kw" data-id="sikdang">식당</span> 가요 !</div></div>
-        <div class="caption"><span class="rom">Bae-go-pa-yo ! Sik-dang ga-yo !</span><span class="fr">J'ai faim ! Allons au restaurant !</span></div>
-        <button class="audio" data-say="배고파요 식당 가요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
-      </figure>
+      <div class="cell-half">
+        <figure class="case m half" style="aspect-ratio:1/1">
+          <div class="art" style="background-image:url(img/stories/bd3-1.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr"><span class="kw" data-id="baegopayo">배고파요</span> ! <span class="kw" data-id="sikdang">식당</span> 가요 !</div></div>
+          <button class="audio" data-say="배고파요 식당 가요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+        <div class="tl"><span class="rom">Bae-go-pa-yo ! Sik-dang ga-yo !</span><span class="fr">J'ai faim ! Allons au restaurant !</span></div>
+      </div>
 
-      <figure class="case j" style="aspect-ratio:1/1">
-        <div class="art" style="background-image:url(img/stories/bd3-2.webp)"></div><div class="veil"></div>
-        <div class="balloon"><span class="speaker">준 Joon</span><div class="kr">좋아요 ! <span class="kw" data-id="menyu">메뉴</span> 볼게요 !</div></div>
-        <div class="caption"><span class="rom">Jo-a-yo ! Me-nyu bol-ge-yo !</span><span class="fr">Super ! Regardons le menu !</span></div>
-        <button class="audio" data-say="좋아요 메뉴 볼게요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
-      </figure>
+      <div class="cell-half">
+        <figure class="case j half" style="aspect-ratio:1/1">
+          <div class="art" style="background-image:url(img/stories/bd3-2.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker">준 Joon</span><div class="kr">좋아요 ! <span class="kw" data-id="menyu">메뉴</span> 볼게요 !</div></div>
+          <button class="audio" data-say="좋아요 메뉴 볼게요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+        <div class="tl"><span class="rom">Jo-a-yo ! Me-nyu bol-ge-yo !</span><span class="fr">Super ! Regardons le menu !</span></div>
+      </div>
 
       <figure class="case m" style="aspect-ratio:1/1">
         <div class="art" style="background-image:url(img/stories/bd3-3.webp)"></div><div class="veil"></div>
@@ -155,19 +178,23 @@
         <div class="narr">Quelques minutes plus tard…</div>
       </figure>
 
-      <figure class="case m" style="aspect-ratio:1/1">
-        <div class="art" style="background-image:url(img/stories/bd3-5.webp)"></div><div class="veil"></div>
-        <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr"><span class="kw" data-id="jogeum">조금</span>요. 괜찮아요 !</div></div>
-        <div class="caption"><span class="rom">Jo-geum-yo. Gwaen-cha-na-yo !</span><span class="fr">Un peu. C'est okay !</span></div>
-        <button class="audio" data-say="조금요 괜찮아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
-      </figure>
+      <div class="cell-half">
+        <figure class="case m half" style="aspect-ratio:1/1">
+          <div class="art" style="background-image:url(img/stories/bd3-5.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker">미나 Mina</span><div class="kr"><span class="kw" data-id="jogeum">조금</span>요. 괜찮아요 !</div></div>
+          <button class="audio" data-say="조금요 괜찮아요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+        <div class="tl"><span class="rom">Jo-geum-yo. Gwaen-cha-na-yo !</span><span class="fr">Un peu. C'est okay !</span></div>
+      </div>
 
-      <figure class="case j" style="aspect-ratio:1/1">
-        <div class="art" style="background-image:url(img/stories/bd3-6.webp)"></div><div class="veil"></div>
-        <div class="balloon"><span class="speaker">준 Joon</span><div class="kr"><span class="kw" data-id="mul">물</span> 주세요 !</div></div>
-        <div class="caption"><span class="rom">Mul ju-se-yo !</span><span class="fr">De l'eau s'il vous plaît !</span></div>
-        <button class="audio" data-say="물 주세요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
-      </figure>
+      <div class="cell-half">
+        <figure class="case j half" style="aspect-ratio:1/1">
+          <div class="art" style="background-image:url(img/stories/bd3-6.webp)"></div><div class="veil"></div>
+          <div class="balloon"><span class="speaker">준 Joon</span><div class="kr"><span class="kw" data-id="mul">물</span> 주세요 !</div></div>
+          <button class="audio" data-say="물 주세요" aria-label="Écouter"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></button>
+        </figure>
+        <div class="tl"><span class="rom">Mul ju-se-yo !</span><span class="fr">De l'eau s'il vous plaît !</span></div>
+      </div>
 
       <figure class="case m" style="aspect-ratio:4/5">
         <div class="art" style="background-image:url(img/stories/bd3-7.webp)"></div><div class="veil"></div>
