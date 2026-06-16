@@ -258,6 +258,7 @@
     <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
   </div>
 
+<script src="ks.js"></script>
 <script>
   var VOCAB={
     baegopayo:{ko:"배고파요",rom:"bae-go-pa-yo",fr:"avoir faim (j'ai faim)"},
@@ -288,34 +289,50 @@
 
   function speakerOf(el){ if(!el)return null; var c=el.closest('.case.m')?'m':(el.closest('.case.j')?'j':null); return c; }
 
-  function speak(text,btn){
+  /* data-speaker → ks.js choisit la vraie voix enregistrée (mina/joon,
+     repli neuronal sunhi/injoon). */
+  document.querySelectorAll('.case.m').forEach(function(c){c.setAttribute('data-speaker','mina');});
+  document.querySelectorAll('.case.j').forEach(function(c){c.setAttribute('data-speaker','joon');});
+
+  function clearSpk(){document.querySelectorAll('.audio.on').forEach(function(b){b.classList.remove('on');});document.querySelectorAll('.case.speaking').forEach(function(b){b.classList.remove('speaking');});}
+
+  /* TTS de secours (uniquement si aucune voix enregistrée) */
+  function ttsSpeak(text,btn){
     try{window.speechSynthesis.cancel();}catch(e){}
-    document.querySelectorAll('.audio.on').forEach(function(b){b.classList.remove('on');});
-    document.querySelectorAll('.case.speaking').forEach(function(b){b.classList.remove('speaking');});
     var u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=.92;
     var who=speakerOf(btn);
     if(who==='j'){ u.voice=vJoon||vMina||null; u.pitch=0.8; }
     else if(who==='m'){ u.voice=vMina||vJoon||null; u.pitch=1.18; }
     else { u.voice=vMina||vJoon||null; u.pitch=1; }
-    if(btn){var c=btn.closest('.case'); btn.classList.add('on'); if(c)c.classList.add('speaking');
-      u.onend=u.onerror=function(){btn.classList.remove('on'); if(c)c.classList.remove('speaking');};}
     try{window.speechSynthesis.speak(u);}catch(e){}
     return u;
   }
-  document.querySelectorAll('.audio').forEach(function(b){b.addEventListener('click',function(){speak(b.getAttribute('data-say'),b);});});
+
+  /* Joue la réplique : vraie voix via ks.js si dispo, sinon TTS */
+  function playLine(text,btn,onDone){
+    clearSpk();
+    var c=btn?btn.closest('.case'):null;
+    if(btn){btn.classList.add('on'); if(c)c.classList.add('speaking');}
+    var done=function(){ if(btn)btn.classList.remove('on'); if(c)c.classList.remove('speaking'); if(onDone)onDone(); };
+    if(typeof window.speak==='function'){
+      try{ window.speak(text,btn,{onended:done,onerror:done}); return; }catch(e){}
+    }
+    var u=ttsSpeak(text,btn); if(u){u.onend=u.onerror=done;} else {done();}
+  }
+
+  document.querySelectorAll('.audio').forEach(function(b){b.addEventListener('click',function(){playLine(b.getAttribute('data-say'),b);});});
 
   /* Lire toute la BD : enchaîne chaque réplique en entier */
   var listen=document.getElementById('listenAll'),playing=false;
   listen.addEventListener('click',function(){
     var btns=[].slice.call(document.querySelectorAll('.audio'));
-    if(playing){playing=false;try{speechSynthesis.cancel();}catch(e){}listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Reprendre';return;}
+    if(playing){playing=false;try{window.speechSynthesis.cancel();}catch(e){}try{if(window._ksCurrentAudio)window._ksCurrentAudio.pause();}catch(e){}clearSpk();listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Reprendre';return;}
     playing=true;listen.classList.add('playing');listen.querySelector('.lbl').textContent='Lecture…';var i=0;
     (function step(){
       if(!playing)return;
       if(i>=btns.length){playing=false;listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Rejouer la BD';return;}
       var b=btns[i++];b.closest('.case').scrollIntoView({behavior:'smooth',block:'center'});
-      var u=speak(b.getAttribute('data-say'),b);
-      u.onend=u.onerror=function(){b.classList.remove('on');var c=b.closest('.case');if(c)c.classList.remove('speaking');if(playing)setTimeout(step,450);};
+      playLine(b.getAttribute('data-say'),b,function(){ if(playing)setTimeout(step,450); });
     })();
   });
 
