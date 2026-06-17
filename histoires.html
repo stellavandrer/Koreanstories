@@ -225,16 +225,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     }
     .scard-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
 
-    .scard-bd-btn{
-      display:flex;align-items:center;justify-content:center;gap:6px;
-      margin-top:8px;border-radius:10px;padding:8px 12px;
-      font-size:11px;font-weight:700;letter-spacing:.03em;
-      background:transparent;border:1.5px solid var(--gold);color:var(--gold);
-      cursor:pointer;transition:background .15s;
-    }
-    .scard-bd-btn:hover{background:rgba(201,169,110,.1)}
-    .scard-bd-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-
     /* ── Marque-page : progression de lecture sur la carte ── */
     .scard-progress{display:flex;align-items:center;gap:8px;margin:0 0 11px}
     .scard-progress-track{flex:1;height:6px;border-radius:100px;background:rgba(15,27,45,.09);overflow:hidden}
@@ -1085,10 +1075,6 @@ function renderCard(s) {
         ${wordsPills}
         ${progressBar}
         ${statusBtn}
-        ${!isLocked ? `<div class="scard-bd-btn" onclick="event.stopPropagation();location.href='${s.href.replace('.html','-bd.html')}'">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="9" rx="1"/><rect x="3" y="15" width="7" height="6" rx="1"/><rect x="14" y="15" width="7" height="6" rx="1"/></svg>
-          Lire en BD
-        </div>` : ''}
       </div>
     </${tag}>`;
 }

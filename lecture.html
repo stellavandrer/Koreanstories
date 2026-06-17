@@ -201,6 +201,13 @@
   background:#ef4444;color:white;
   padding:2px 7px;border-radius:100px;
 }
+/* BD pill */
+.story-bd-pill{
+  display:inline-flex;align-items:center;gap:3px;
+  font-size:10px;font-weight:800;letter-spacing:.05em;
+  background:var(--gold);color:white;
+  padding:2px 8px;border-radius:100px;vertical-align:middle;
+}
 </style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -301,6 +308,9 @@
   </button>
   <button class="flevel" data-filter="B2" onclick="filterStories('B2',this)">
     <span class="dot" style="background:#f59e0b"></span>B2
+  </button>
+  <button class="flevel" data-filter="bd" onclick="filterStories('bd',this)">
+    <span class="dot" style="background:var(--gold)"></span>Planches BD
   </button>
 </div>
 
@@ -425,17 +435,87 @@ const STORIES = [
    excerpt:'최근 몇 년 사이, 한국에서는 \'귀촌\'이라는 단어가 자주 들리기 시작했어요. 도시에서 시골로 이주하는 현상이에요...',xpKey:'ks_lect_b2_5'},
 ];
 
+const BD_STORIES = [
+  // ── A1 ──
+  {id:'bd_h1',level:'A1',href:'histoire1-bd.html',kr:'안녕하세요 !',fr:'Bonjour !',words:180,time:5,xp:30,isNew:false,excerpt:"Mina croise Joon dans la rue. Premiers mots, premiers sourires. Le coréen commence ici.",xpKey:'ks_bd_h1',format:'bd'},
+  {id:'bd_h2',level:'A1',href:'histoire2-bd.html',kr:'시장에서',fr:'Au marché',words:180,time:5,xp:30,isNew:false,excerpt:"Mina emmène Joon faire les courses. Fruits, légumes, et un vendeur qui parle vite vite vite.",xpKey:'ks_bd_h2',format:'bd'},
+  {id:'bd_h3',level:'A1',href:'histoire3-bd.html',kr:'식당에서',fr:'Au restaurant',words:180,time:5,xp:30,isNew:false,excerpt:"Bibimbap, kimchi, piment. Joon découvre la cuisine coréenne… et sa bouche est en feu.",xpKey:'ks_bd_h3',format:'bd'},
+  {id:'bd_h4',level:'A1',href:'histoire4-bd.html',kr:'카페에서',fr:'Au café',words:180,time:5,xp:30,isNew:false,excerpt:"Rendez-vous au café pour parler de tout et de rien. Mina veut un latte, Joon hésite.",xpKey:'ks_bd_h4',format:'bd'},
+  {id:'bd_h5',level:'A1',href:'histoire5-bd.html',kr:"편의점에서",fr:"À l'épicerie coréenne",words:180,time:5,xp:30,isNew:false,excerpt:"11h du soir, une faim de loup. Mina et Joon à la convenience store pour du ramyeon.",xpKey:'ks_bd_h5',format:'bd'},
+  {id:'bd_h6',level:'A1',href:'histoire6-bd.html',kr:'지하철에서',fr:'Dans le métro',words:180,time:5,xp:30,isNew:false,excerpt:"Ça se bouscule dans le métro de Séoul. Joon rate la porte et Mina court pour l'attraper.",xpKey:'ks_bd_h6',format:'bd'},
+  {id:'bd_h7',level:'A1',href:'histoire7-bd.html',kr:'친구 집에서',fr:'Chez un ami',words:180,time:5,xp:30,isNew:false,excerpt:"Mina invite tout le monde chez elle. On enlève les chaussures, on prépare le ramyeon.",xpKey:'ks_bd_h7',format:'bd'},
+  {id:'bd_h8',level:'A1',href:'histoire8-bd.html',kr:'노래방에서',fr:'Au norebang',words:180,time:5,xp:30,isNew:false,excerpt:"Le karaoké coréen, ça se prend au sérieux ! Joon découvre qu'il a (un peu) de talent.",xpKey:'ks_bd_h8',format:'bd'},
+  {id:'bd_h29',level:'A1',href:'histoire29-bd.html',kr:'경복궁에서',fr:'Au palais Gyeongbokgung',words:180,time:5,xp:12,isNew:false,excerpt:"Emma visite le palais royal avec Ji-woo. Cerisiers en fleurs, hanbok loué pour entrer gratuit.",xpKey:'ks_bd_h29',format:'bd'},
+  {id:'bd_h30',level:'A1',href:'histoire30-bd.html',kr:'병원에서',fr:'Chez le médecin',words:180,time:5,xp:12,isNew:false,excerpt:"Emma ne se sent pas bien depuis hier. Première visite à la clinique de quartier : symptômes, diagnostic.",xpKey:'ks_bd_h30',format:'bd'},
+  {id:'bd_h31',level:'A1',href:'histoire31-bd.html',kr:'우리 집에 오세요',fr:'Bienvenue chez moi',words:180,time:5,xp:15,isNew:false,excerpt:"Mina invite Emma chez elle pour la première fois. Le vocabulaire de la maison en situation.",xpKey:'ks_bd_h31',format:'bd'},
+  {id:'bd_h32',level:'A1',href:'histoire32-bd.html',kr:'카페에서',fr:'Au café avec Mina',words:180,time:5,xp:15,isNew:false,excerpt:"Mina retrouve Jiwoo au café. Commander, payer, parler du week-end — la conversation café type.",xpKey:'ks_bd_h32',format:'bd'},
+  {id:'bd_h33',level:'A1',href:'histoire33-bd.html',kr:'미나의 아침',fr:'Le matin de Mina',words:180,time:5,xp:15,isNew:false,excerpt:"7h du matin chez Mina : le réveil sonne, le kimchi-jjigae fume, il pleut dehors.",xpKey:'ks_bd_h33',format:'bd'},
+  // ── A2 ──
+  {id:'bd_h9',level:'A2',href:'histoire9-bd.html',kr:'병원에서',fr:"À l'hôpital",words:230,time:7,xp:30,isNew:false,excerpt:"Joon est malade. Visite chez le médecin avec Mina qui traduit. Vocabulaire médical de base.",xpKey:'ks_bd_h9',format:'bd'},
+  {id:'bd_h10',level:'A2',href:'histoire10-bd.html',kr:'쇼핑몰에서',fr:'Au centre commercial',words:230,time:7,xp:30,isNew:false,excerpt:"Myeongdong, les soldes, et Mina qui ne sait pas quoi choisir. Joon joue les stylistes.",xpKey:'ks_bd_h10',format:'bd'},
+  {id:'bd_h11',level:'A2',href:'histoire11-bd.html',kr:'집들이에서',fr:'Pendaison de crémaillère',words:230,time:7,xp:30,isNew:false,excerpt:"Joon a un nouvel appartement ! Tout le monde apporte des cadeaux et on fête ça ensemble.",xpKey:'ks_bd_h11',format:'bd'},
+  {id:'bd_h12',level:'A2',href:'histoire12-bd.html',kr:'사랑해요',fr:'K-Drama : romance',words:230,time:7,xp:12,isNew:false,excerpt:"Dialogues romantiques type K-drama. Vocabulaire émotionnel et phrases de mille séries coréennes.",xpKey:'ks_bd_h12',format:'bd'},
+  {id:'bd_h13',level:'A2',href:'histoire13-bd.html',kr:'홍대 주말',fr:'Un week-end à Hongdae',words:230,time:7,xp:12,isNew:false,excerpt:"Hongdae le week-end : art de rue, K-pop dans la rue, shopping, énergie nocturne.",xpKey:'ks_bd_h13',format:'bd'},
+  {id:'bd_h14',level:'A2',href:'histoire14-bd.html',kr:'인천공항에서',fr:"À l'aéroport d'Incheon",words:230,time:7,xp:12,isNew:false,excerpt:"Check-in, contrôles, embarquement à Incheon. Vocabulaire voyage essentiel pour la Corée.",xpKey:'ks_bd_h14',format:'bd'},
+  {id:'bd_h15',level:'A2',href:'histoire15-bd.html',kr:'서울의 병원',fr:'Emma chez le médecin à Séoul',words:230,time:7,xp:12,isNew:false,excerpt:"Symptômes, dialogue avec médecin et infirmière, prescription. 15 mots médicaux à connaître.",xpKey:'ks_bd_h15',format:'bd'},
+  {id:'bd_h27',level:'A2',href:'histoire27-bd.html',kr:'추석에',fr:'Chuseok en famille',words:230,time:7,xp:15,isNew:false,excerpt:"Ji-woo invite Emma chez ses parents à Daegu pour Chuseok. Songpyeon, dîner familial, pleine lune.",xpKey:'ks_bd_h27',format:'bd'},
+  {id:'bd_h28',level:'A2',href:'histoire28-bd.html',kr:'찜질방에서',fr:'Au jimjilbang',words:230,time:7,xp:15,isNew:false,excerpt:"Première fois au sauna coréen pour Emma. Ji-woo explique le rituel : se changer, sikhye et œufs.",xpKey:'ks_bd_h28',format:'bd'},
+  {id:'bd_h34',level:'A2',href:'histoire34-bd.html',kr:'부동산에서',fr:"À l'agence immobilière",words:230,time:7,xp:18,isNew:false,excerpt:"Emma cherche un studio avec Mina : budget, visites, comparaisons. Les structures 보다/더/제일 en situation.",xpKey:'ks_bd_h34',format:'bd'},
+  {id:'bd_h35',level:'A2',href:'histoire35-bd.html',kr:'김밥 만들기',fr:'Le kimbap de Joon',words:230,time:7,xp:18,isNew:false,excerpt:"Joon apprend à Mina à rouler le kimbap : expérience, instructions et dégustation comparée.",xpKey:'ks_bd_h35',format:'bd'},
+  {id:'bd_h36',level:'A2',href:'histoire36-bd.html',kr:'지우의 생일',fr:"L'anniversaire de Jiwoo",words:230,time:7,xp:18,isNew:false,excerpt:"Cadeau, miyeokguk et chanson : l'anniversaire coréen de Jiwoo fait travailler -잖아요 / -거든요.",xpKey:'ks_bd_h36',format:'bd'},
+  // ── B1 ──
+  {id:'bd_h16',level:'B1',href:'histoire16-bd.html',kr:'첫 출근',fr:'Premier jour au bureau',words:280,time:9,xp:15,isNew:false,excerpt:"Emma en stage. 존댓말 obligatoire, hiérarchie, déjeuner avec le 선배. Codes du milieu professionnel.",xpKey:'ks_bd_h16',format:'bd'},
+  {id:'bd_h17',level:'B1',href:'histoire17-bd.html',kr:'부산 여행',fr:'Week-end à Busan',words:280,time:9,xp:15,isNew:false,excerpt:"KTX, Haeundae, fruits de mer au marché Jagalchi. Structures -곤 했어요 (habitude passée).",xpKey:'ks_bd_h17',format:'bd'},
+  {id:'bd_h18',level:'B1',href:'histoire18-bd.html',kr:'여행 후기',fr:'Retour de voyage — Emma raconte',words:280,time:9,xp:15,isNew:false,excerpt:"Emma raconte son week-end. Discours indirect, conséquences inattendues (-는 바람에), enchaînement (-자마자).",xpKey:'ks_bd_h18',format:'bd'},
+  {id:'bd_h19',level:'B1',href:'histoire19-bd.html',kr:'토픽 시험',fr:"L'examen TOPIK d'Emma",words:280,time:9,xp:18,isNew:false,excerpt:"5 chapitres : préparation, veille, jour J, attente, résultats. Toutes les structures B1 en contexte.",xpKey:'ks_bd_h19',format:'bd'},
+  {id:'bd_h25',level:'B1',href:'histoire25-bd.html',kr:'서울의 밤',fr:'Séoul by night',words:280,time:9,xp:18,isNew:false,excerpt:"Vendredi soir avec amis internationaux. Rooftop à Itaewon, taxi vers Hongdae, art de rue et musique.",xpKey:'ks_bd_h25',format:'bd'},
+  {id:'bd_h26',level:'B1',href:'histoire26-bd.html',kr:'싸우고 화해하기',fr:'La dispute et la réconciliation',words:280,time:9,xp:18,isNew:false,excerpt:"Min-ji a une heure de retard. Ji-woo est fâché. Escalade puis apaisement — structures -아/어서, -니까.",xpKey:'ks_bd_h26',format:'bd'},
+  {id:'bd_h37',level:'B1',href:'histoire37-bd.html',kr:'에마의 면접',fr:"L'entretien d'embauche",words:280,time:9,xp:20,isNew:true,excerpt:"Emma passe un entretien tout en -습니다 : se présenter, argumenter, remercier. Le registre formel.",xpKey:'ks_bd_h37',format:'bd'},
+  {id:'bd_h38',level:'B1',href:'histoire38-bd.html',kr:'한강 캠핑',fr:'Soirée au bord du Han',words:280,time:9,xp:20,isNew:true,excerpt:"Tente, photos et ramyeon de minuit au Han. Entends la différence entre banmal et jondaemal.",xpKey:'ks_bd_h38',format:'bd'},
+  {id:'bd_h39',level:'B1',href:'histoire39-bd.html',kr:'할머니의 김치',fr:'Le kimchi de grand-mère',words:280,time:9,xp:20,isNew:true,excerpt:"Mina aide sa grand-mère au kimjang : souvenirs (-곤 했어요), paroles rapportées, regrets en B1.",xpKey:'ks_bd_h39',format:'bd'},
+  // ── B2 ──
+  {id:'bd_h20',level:'B2',href:'histoire20-bd.html',kr:'그날의 만남',fr:'Récit littéraire — La rencontre',words:320,time:11,xp:20,isNew:false,excerpt:"4 chapitres en prose littéraire. Structures B2 et temporalité narrative en contexte authentique.",xpKey:'ks_bd_h20',format:'bd'},
+  {id:'bd_h21',level:'B2',href:'histoire21-bd.html',kr:'한국어가 세계로',fr:'Article de presse — guidé',words:320,time:11,xp:20,isNew:false,excerpt:"Article sur la diffusion du coréen dans le monde. Connecteurs formels, vocabulaire académique.",xpKey:'ks_bd_h21',format:'bd'},
+  {id:'bd_h22',level:'B2',href:'histoire22-bd.html',kr:'달의 수호자',fr:'Webtoon — Le Gardien de la Lune',words:320,time:11,xp:20,isNew:false,excerpt:"4 panels de webtoon original (fiction). Argot, onomatopées, coréen jeune authentique.",xpKey:'ks_bd_h22',format:'bd'},
+  {id:'bd_h23',level:'B2',href:'histoire23-bd.html',kr:'우리, 한국 사람일까?',fr:'Podcast — Coréen naturel',words:320,time:11,xp:20,isNew:false,excerpt:"Podcast fictif sur l'identité post-Hallyu. 4 segments, -잖아요/-거든요/-더라고요 au débit naturel.",xpKey:'ks_bd_h23',format:'bd'},
+  {id:'bd_h24',level:'B2',href:'histoire24-bd.html',kr:'새벽의 부엌',fr:'Essai littéraire — Prose contemplative',words:320,time:11,xp:20,isNew:false,excerpt:"Court récit minimaliste coréen. Une fille revient au village de sa mère après douze ans.",xpKey:'ks_bd_h24',format:'bd'},
+  {id:'bd_h40',level:'B2',href:'histoire40-bd.html',kr:'에마의 첫 회식',fr:"Le premier hoesik d'Emma",words:320,time:11,xp:22,isNew:true,excerpt:"Premier dîner d'entreprise d'Emma : servir à deux mains, 드리다, 뵙겠습니다 et le rituel du 2차.",xpKey:'ks_bd_h40',format:'bd'},
+  {id:'bd_h41',level:'B2',href:'histoire41-bd.html',kr:'도시 대 시골',fr:'Le grand débat : ville ou campagne ?',words:320,time:11,xp:22,isNew:true,excerpt:"Trois amis, un débat : -기 마련이다, -(으)ㄹ 리가 없다 et les connecteurs formels du TOPIK II.",xpKey:'ks_bd_h41',format:'bd'},
+  {id:'bd_h42',level:'B2',href:'histoire42-bd.html',kr:'할아버지의 속담',fr:'Les proverbes de grand-père',words:320,time:11,xp:22,isNew:true,excerpt:"Mina apprend les 속담 avec son grand-père : trois proverbes transmis autour d'un dîner familial.",xpKey:'ks_bd_h42',format:'bd'},
+];
+
 // ── Compteur du hero : toujours aligné sur le catalogue réel ──
 (function(){
   const lbl = document.getElementById('totalStoriesLbl');
-  if (lbl) lbl.textContent = STORIES.length + ' histoires';
+  if (lbl) lbl.textContent = (STORIES.length + BD_STORIES.length) + ' histoires';
 })();
 
 // ── Story card renderer ──
 function renderCards(filter) {
   const grid = document.getElementById('storyGrid');
-  const filtered = filter === 'all' ? STORIES : STORIES.filter(s => s.level === filter);
+  const levels = ['A1','A2','B1','B2'];
+  const colors = {A1:'#22c55e',A2:'#3b82f6',B1:'#a78bfa',B2:'#f59e0b'};
+  const descs = {A1:'Débutant',A2:'Élémentaire',B1:'Intermédiaire',B2:'Avancé'};
+  let html = '';
 
+  if (filter === 'bd') {
+    levels.forEach(lv => {
+      const lvStories = BD_STORIES.filter(s => s.level === lv);
+      if (lvStories.length === 0) return;
+      html += `<div class="level-section-hdr">
+        <div class="lsh-dot" style="background:${colors[lv]}"></div>
+        <span class="lsh-lbl" style="color:${colors[lv]}">${lv} — ${descs[lv]}</span>
+        <div class="lsh-line"></div>
+        <span class="lsh-count">${lvStories.length} planche${lvStories.length>1?'s':''}</span>
+      </div>`;
+      lvStories.forEach((s, i) => { html += storyCardHtml(s, i); });
+    });
+    grid.innerHTML = html || `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Aucune planche BD disponible.</div>`;
+    setTimeout(() => { grid.querySelectorAll('.story-prog-fill[data-w]').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 100);
+    return;
+  }
+
+  const filtered = filter === 'all' ? STORIES : STORIES.filter(s => s.level === filter);
   if (filtered.length === 0) {
     grid.innerHTML = `<div class="empty-state">
       <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
@@ -444,12 +524,7 @@ function renderCards(filter) {
     return;
   }
 
-  // Group by level if showing all
-  let html = '';
   if (filter === 'all') {
-    const levels = ['A1','A2','B1','B2'];
-    const colors = {A1:'#22c55e',A2:'#3b82f6',B1:'#a78bfa',B2:'#f59e0b'};
-    const descs = {A1:'Débutant',A2:'Élémentaire',B1:'Intermédiaire',B2:'Avancé'};
     levels.forEach(lv => {
       const lvStories = STORIES.filter(s => s.level === lv);
       if (lvStories.length === 0) return;
@@ -466,7 +541,6 @@ function renderCards(filter) {
   }
 
   grid.innerHTML = html;
-  // Animate bars
   setTimeout(() => {
     grid.querySelectorAll('.story-prog-fill[data-w]').forEach(el => {
       el.style.width = el.dataset.w + '%';
@@ -494,7 +568,7 @@ function storyCardHtml(s, i) {
     <div class="story-top">
       <div>
         <span class="story-lvl-badge">${s.level}</span>
-        <span class="story-theme">${s.theme}</span>
+        ${s.format === 'bd' ? '<span class="story-bd-pill">BD</span>' : `<span class="story-theme">${s.theme}</span>`}
       </div>
     </div>
     <div class="story-kr-title">${s.kr}</div>
