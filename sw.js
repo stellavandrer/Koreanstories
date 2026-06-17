@@ -174,7 +174,10 @@ self.addEventListener('fetch', e => {
   // figés sur une vieille version chez les utilisateurs ayant la PWA.
   const isHTML = e.request.headers.get('accept')?.includes('text/html');
   const isCode = /\.(?:js|css)(?:\?|$)/i.test(url.pathname);
-  if (isHTML || isCode) {
+  // Le manifest audio grandit à chaque nouvelle voix/histoire : il DOIT rester
+  // frais, sinon les nouveaux MP3 n'ont pas de clé et l'audio reste muet.
+  const isManifest = /manifest\.json(?:\?|$)/i.test(url.pathname);
+  if (isHTML || isCode || isManifest) {
     e.respondWith(
       fetch(e.request).then(res => {
         if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
