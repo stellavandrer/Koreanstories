@@ -268,73 +268,73 @@
   var VOCAB={"noraebang": {"ko": "노래방", "rom": "no-rae-bang", "fr": "karaoké / noraebang"}, "sinnayo": {"ko": "신나요", "rom": "sin-na-yo", "fr": "c'est fun ! / excitant !"}, "eotteon": {"ko": "어떤", "rom": "eo-tteon", "fr": "quel(le) / lequel"}, "norae": {"ko": "노래", "rom": "no-rae", "fr": "chanson"}, "bulreoyo": {"ko": "불러요", "rom": "bul-leo-yo", "fr": "on chante"}, "joayo": {"ko": "좋아요", "rom": "jo-a-yo", "fr": "j'aime / c'est bien"}, "maikheu": {"ko": "마이크", "rom": "ma-i-keu", "fr": "micro"}, "sori": {"ko": "소리", "rom": "so-ri", "fr": "son / voix / bruit"}, "motaeyo": {"ko": "못해요", "rom": "mot-hae-yo", "fr": "je suis nul(le) / je n'y arrive pas"}, "dasi": {"ko": "다시", "rom": "da-si", "fr": "encore / de nouveau"}, "jalhaeyo": {"ko": "잘해요", "rom": "jal-hae-yo", "fr": "tu es doué(e) / tu chantes bien"}, "jeomsu": {"ko": "점수", "rom": "jeom-su", "fr": "score / points"}, "jinjjayo": {"ko": "진짜요", "rom": "jin-jja-yo", "fr": "vraiment ? / c'est vrai !"}, "baksu": {"ko": "박수", "rom": "bak-su", "fr": "applaudissements"}, "choegoyeyo": {"ko": "최고예요", "rom": "choe-go-ye-yo", "fr": "c'est le top ! / le meilleur !"}, "nolayo": {"ko": "놀아요", "rom": "no-la-yo", "fr": "on s'amuse / on joue"}};
 
   var vMina=null, vJoon=null;
-  function pickVoices(){{
+  function pickVoices(){
     var vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
-    var ko=vs.filter(function(v){{return /ko(-|_)?KR/i.test(v.lang)||/korean|\ud55c\uad6d/i.test(v.name);}});
-    function find(re){{for(var i=0;i<ko.length;i++){{if(re.test(ko[i].name))return ko[i];}}return null;}}
+    var ko=vs.filter(function(v){return /ko(-|_)?KR/i.test(v.lang)||/korean|\ud55c\uad6d/i.test(v.name);});
+    function find(re){for(var i=0;i<ko.length;i++){if(re.test(ko[i].name))return ko[i];}return null;}
     vMina=find(/yuna|sora|female|\uc5ec\uc131|\uc5ec\uc790|heami|nari|seoyeon|sun-?hi|sunhi/i)||ko[0]||null;
-    vJoon=find(/injoon|in-?joon|male|\ub0a8\uc131|\ub0a8\uc790|minjun|dohyun|gyeong|jinho/i)||ko.find(function(v){{return v!==vMina;}})||ko[0]||null;
-  }}
+    vJoon=find(/injoon|in-?joon|male|\ub0a8\uc131|\ub0a8\uc790|minjun|dohyun|gyeong|jinho/i)||ko.find(function(v){return v!==vMina;})||ko[0]||null;
+  }
   pickVoices();
   if(window.speechSynthesis) speechSynthesis.onvoiceschanged=pickVoices;
 
-  function voiceOf(el){{ var c=el&&el.closest('.case'); return c?c.getAttribute('data-speaker'):null; }}
+  function voiceOf(el){ var c=el&&el.closest('.case'); return c?c.getAttribute('data-speaker'):null; }
 
-  function clearSpk(){{document.querySelectorAll('.audio.on').forEach(function(b){{b.classList.remove('on');}});document.querySelectorAll('.case.speaking').forEach(function(b){{b.classList.remove('speaking');}});}}
+  function clearSpk(){document.querySelectorAll('.audio.on').forEach(function(b){b.classList.remove('on');});document.querySelectorAll('.case.speaking').forEach(function(b){b.classList.remove('speaking');});}
 
-  function ttsSpeak(text,btn){{
-    try{{window.speechSynthesis.cancel();}}catch(e){{}}
+  function ttsSpeak(text,btn){
+    try{window.speechSynthesis.cancel();}catch(e){}
     var u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=.92;
     var who=voiceOf(btn);
-    if(who==='joon'){{ u.voice=vJoon||vMina||null; u.pitch=0.8; }}
-    else if(who==='mina'){{ u.voice=vMina||vJoon||null; u.pitch=1.18; }}
-    else {{ u.voice=vMina||vJoon||null; u.pitch=1; }}
-    try{{window.speechSynthesis.speak(u);}}catch(e){{}}
+    if(who==='joon'){ u.voice=vJoon||vMina||null; u.pitch=0.8; }
+    else if(who==='mina'){ u.voice=vMina||vJoon||null; u.pitch=1.18; }
+    else { u.voice=vMina||vJoon||null; u.pitch=1; }
+    try{window.speechSynthesis.speak(u);}catch(e){}
     return u;
-  }}
+  }
 
-  function playLine(text,btn,onDone){{
+  function playLine(text,btn,onDone){
     clearSpk();
     var c=btn?btn.closest('.case'):null;
-    if(btn){{btn.classList.add('on'); if(c)c.classList.add('speaking');}}
-    var done=function(){{ if(btn)btn.classList.remove('on'); if(c)c.classList.remove('speaking'); if(onDone)onDone(); }};
-    if(typeof window.speak==='function'){{
-      try{{ window.speak(text,btn,{{onended:done,onerror:done}}); return; }}catch(e){{}}
-    }}
-    var u=ttsSpeak(text,btn); if(u){{u.onend=u.onerror=done;}} else {{done();}}
-  }}
+    if(btn){btn.classList.add('on'); if(c)c.classList.add('speaking');}
+    var done=function(){ if(btn)btn.classList.remove('on'); if(c)c.classList.remove('speaking'); if(onDone)onDone(); };
+    if(typeof window.speak==='function'){
+      try{ window.speak(text,btn,{onended:done,onerror:done}); return; }catch(e){}
+    }
+    var u=ttsSpeak(text,btn); if(u){u.onend=u.onerror=done;} else {done();}
+  }
 
-  document.querySelectorAll('.audio').forEach(function(b){{b.addEventListener('click',function(){{playLine(b.getAttribute('data-say'),b);}});}});
+  document.querySelectorAll('.audio').forEach(function(b){b.addEventListener('click',function(){playLine(b.getAttribute('data-say'),b);});});
 
   var listen=document.getElementById('listenAll'),playing=false;
-  listen.addEventListener('click',function(){{
+  listen.addEventListener('click',function(){
     var btns=[].slice.call(document.querySelectorAll('.audio'));
-    if(playing){{playing=false;try{{window.speechSynthesis.cancel();}}catch(e){{}}try{{if(window._ksCurrentAudio)window._ksCurrentAudio.pause();}}catch(e){{}}clearSpk();listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Reprendre';return;}}
+    if(playing){playing=false;try{window.speechSynthesis.cancel();}catch(e){}try{if(window._ksCurrentAudio)window._ksCurrentAudio.pause();}catch(e){}clearSpk();listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Reprendre';return;}
     playing=true;listen.classList.add('playing');listen.querySelector('.lbl').textContent='Lecture…';var i=0;
-    (function step(){{
+    (function step(){
       if(!playing)return;
-      if(i>=btns.length){{playing=false;listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Rejouer la BD';return;}}
-      var b=btns[i++];b.closest('.case').scrollIntoView({{behavior:'smooth',block:'center'}});
-      playLine(b.getAttribute('data-say'),b,function(){{ if(playing)setTimeout(step,450); }});
-    }})();
-  }});
+      if(i>=btns.length){playing=false;listen.classList.remove('playing');listen.querySelector('.lbl').textContent='Rejouer la BD';return;}
+      var b=btns[i++];b.closest('.case').scrollIntoView({behavior:'smooth',block:'center'});
+      playLine(b.getAttribute('data-say'),b,function(){ if(playing)setTimeout(step,450); });
+    })();
+  });
 
   var romBtn=document.getElementById('romBtn');
-  romBtn.addEventListener('click',function(){{var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);}});
+  romBtn.addEventListener('click',function(){var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);});
 
   var pop=document.getElementById('vocabPop');
-  function showVocab(id){{var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){{pop.classList.remove('show');}},5000);}}
-  document.querySelectorAll('.kw').forEach(function(k){{k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){{e.stopPropagation();showVocab(k.getAttribute('data-id'));}});k.addEventListener('keydown',function(e){{if(e.key==='Enter'||e.key===' '){{e.preventDefault();showVocab(k.getAttribute('data-id'));}}}});}});
-  document.getElementById('vpClose').addEventListener('click',function(){{pop.classList.remove('show');}});
+  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
+  document.querySelectorAll('.kw').forEach(function(k){k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){e.stopPropagation();showVocab(k.getAttribute('data-id'));});k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));}});});
+  document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
 
   var items=[].slice.call(document.querySelectorAll('.case'));
-  if('IntersectionObserver' in window){{var io=new IntersectionObserver(function(es){{es.forEach(function(e){{if(e.isIntersecting){{e.target.classList.add('shown');io.unobserve(e.target);}}}});}},{{threshold:.1}});items.forEach(function(t){{io.observe(t);}});}}
-  else{{items.forEach(function(t){{t.classList.add('shown');}});}}
-  setTimeout(function(){{items.forEach(function(t){{t.classList.add('shown');}});}},2600);
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('shown');io.unobserve(e.target);}});},{threshold:.1});items.forEach(function(t){io.observe(t);});}
+  else{items.forEach(function(t){t.classList.add('shown');});}
+  setTimeout(function(){items.forEach(function(t){t.classList.add('shown');});},2600);
 
   var bar=document.getElementById('bar');
-  function onScroll(){{var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;var p=max>40?Math.min(1,h.scrollTop/max):0;bar.style.width=(p*100)+'%';}}
-  window.addEventListener('scroll',onScroll,{{passive:true}});onScroll();
+  function onScroll(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;var p=max>40?Math.min(1,h.scrollTop/max):0;bar.style.width=(p*100)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 </script>
 </body>
 </html>
