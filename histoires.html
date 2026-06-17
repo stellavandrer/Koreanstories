@@ -477,17 +477,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
   <!-- HUB TABS -->
   <div class="hub-tabs">
-    <button class="hub-tab act" data-tab="chat" onclick="setTab('chat')">
-      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      <span>Histoires</span>
+    <button class="hub-tab act" data-tab="bd" onclick="setTab('bd')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="9" rx="1"/><rect x="3" y="15" width="7" height="6" rx="1"/><rect x="14" y="15" width="7" height="6" rx="1"/></svg>
+      <span>Planches BD</span>
     </button>
     <button class="hub-tab" data-tab="lect" onclick="setTab('lect')">
       <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-      <span>Lectures</span>
-    </button>
-    <button class="hub-tab" data-tab="bd" onclick="setTab('bd')">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="9" rx="1"/><rect x="3" y="15" width="7" height="6" rx="1"/><rect x="14" y="15" width="7" height="6" rx="1"/></svg>
-      <span>Planches BD</span>
+      <span>Lecture</span>
     </button>
   </div>
 
@@ -1307,39 +1303,44 @@ function renderLectureGrid(list) {
 // ─────────────────────────────────────
 // TABS + FILTER
 // ─────────────────────────────────────
-let currentTab = 'chat';      // chat | lect | bd
+// Onglets de cette page : 'bd' (Planches BD) + 'lect' (Lecture, vidé — à
+// redéfinir). L'onglet « Histoires » (chat) a été retiré à la demande ;
+// son code (STORIES / renderStories / renderCard) est conservé plus bas,
+// simplement non exposé, pour pouvoir le réactiver facilement.
+let currentTab = 'bd';        // bd | lect
 let currentFilter = 'all';
 
 const CHIP_SETS = {
-  chat: [['all','Tout'],['debutant','Débutant'],['a1','A1'],['a1plus','A1+'],['a2','A2'],['b1','B1'],['b2','B2']],
-  lect: [['all','Tout'],['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2']],
   bd:   [['all','Tout'],['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2']],
+  lect: [],   // onglet Lecture vidé : pas de filtres pour l'instant
 };
 
 function renderChips() {
   const wrap = document.getElementById('filterChips');
   if (!wrap) return;
-  wrap.innerHTML = CHIP_SETS[currentTab].map(([f,label]) =>
+  const set = CHIP_SETS[currentTab] || [];
+  wrap.innerHTML = set.map(([f,label]) =>
     `<button class="fchip${f===currentFilter?' act':''}" data-filter="${f}" onclick="setFilter('${f}')">${label}</button>`
   ).join('');
+  const w = document.querySelector('.filters-wrap');
+  if (w) w.style.display = set.length ? '' : 'none';
 }
 
 function setTab(t) {
   currentTab = t;
   currentFilter = 'all';
   // Mémorise l'onglet dans l'URL (deep-link + survit au rechargement)
-  try { history.replaceState(null, '', t === 'chat' ? location.pathname : '#' + (t === 'lect' ? 'lectures' : 'bd')); } catch(e) {}
+  try { history.replaceState(null, '', '#' + (t === 'lect' ? 'lectures' : 'bd')); } catch(e) {}
   document.querySelectorAll('.hub-tab').forEach(b => b.classList.toggle('act', b.dataset.tab === t));
   renderChips();
   render();
 }
 
-// Onglet initial selon l'ancre d'URL (#lectures, #bd)
+// Onglet initial selon l'ancre d'URL (#lectures), sinon Planches BD
 function initialTab() {
   const h = (location.hash || '').replace('#','').toLowerCase();
   if (h === 'lectures' || h === 'lect') return 'lect';
-  if (h === 'bd' || h === 'planches') return 'bd';
-  return 'chat';
+  return 'bd';
 }
 
 function setFilter(f) {
@@ -1350,9 +1351,19 @@ function setFilter(f) {
   render();
 }
 
+// Onglet Lecture vidé : pour l'instant un état « à venir »
+function renderLecturePlaceholder() {
+  const main = document.getElementById('storiesMain');
+  main.innerHTML = `<div class="empty-state" style="padding:64px 24px">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    <div style="font-weight:700;color:var(--t2);margin-bottom:4px">Section Lecture en préparation</div>
+    <div>Du nouveau contenu arrive bientôt ici.</div>
+  </div>`;
+}
+
 function render() {
-  if (currentTab === 'chat') { renderStories(); }
-  else { renderLectureGrid(currentTab === 'bd' ? BD_STORIES : LECTURES); }
+  if (currentTab === 'lect') { renderLecturePlaceholder(); }
+  else { renderLectureGrid(BD_STORIES); }   // bd
 }
 
 // ─────────────────────────────────────
