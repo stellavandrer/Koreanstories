@@ -35,7 +35,10 @@
 //        ks-stories.js (repli scène SVG si image absente) + couverture sur
 //        les cartes du hub. Les WebP se mettent en cache à la visite
 //        (stratégie cache-first des images).
-const CACHE = 'ks-v3.4';
+// v3.5 : purge forcée — d'anciens caches servaient encore une version
+//        cassée des planches BD (histoireN-bd.html) où le script JS était
+//        invalide, donc audio muet. Ce bump vide tout l'ancien cache.
+const CACHE = 'ks-v3.5';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
