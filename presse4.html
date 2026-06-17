@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0F1B2D"/>
+<title>쓰레기 분리수거 — Korean Stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="design.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden}
+.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}
+#readMain{flex:1;min-width:0;display:flex;flex-direction:column}
+.read-top{position:sticky;top:0;z-index:100;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.06)}
+.read-top-back{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);text-decoration:none;color:rgba(247,248,250,.8);transition:background .15s}
+.read-top-back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.read-top-info{flex:1;min-width:0}
+.read-top-kr{font-family:'Playfair Display',serif;font-size:17px;color:white;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.read-top-fr{font-size:11px;color:rgba(247,248,250,.4);margin-top:1px}
+.read-top-badge{flex-shrink:0;display:inline-flex;align-items:center;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.3);border-radius:100px;padding:4px 11px;font-size:10px;font-weight:700;color:#a78bfa;letter-spacing:.08em}
+.read-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 20px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0}
+.meta-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:100px;padding:4px 10px;font-size:11px;color:rgba(247,248,250,.5)}
+.meta-chip svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.read-prog-bar{height:3px;background:rgba(255,255,255,.06);flex-shrink:0}
+.read-prog-fill{height:100%;background:linear-gradient(90deg,#a78bfa,#a78bfa99);width:0%;transition:width .4s ease}
+.read-scroll{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+@media(min-width:960px){.read-scroll{padding-bottom:40px}}
+.read-area{padding:24px 20px 20px;max-width:680px;margin:0 auto}
+.read-intro{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.18);border-radius:16px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:var(--t2);line-height:1.65}
+.read-intro strong{color:#a78bfa}
+.read-para{margin-bottom:28px}
+.read-para-num{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
+.sent-block{margin-bottom:18px}
+.sent-kr{display:flex;flex-wrap:wrap;gap:4px;align-items:flex-end;margin-bottom:8px;line-height:1}
+.word{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;position:relative;padding:6px 5px 5px;border-radius:8px;transition:background .15s,transform .1s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.word:hover,.word.active{background:rgba(168,85,247,.12)}
+.word.active{transform:scale(1.04)}
+.word-kr{font-size:19px;color:var(--t);font-weight:500;line-height:1.2;letter-spacing:.02em}
+.word-rom{font-size:9px;color:var(--t3);letter-spacing:.04em}
+.word-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--navy);border:1px solid rgba(168,85,247,.3);border-radius:10px;padding:8px 12px;white-space:nowrap;font-size:12px;color:rgba(247,248,250,.9);z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .15s;min-width:80px;text-align:center}
+.word-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--navy)}
+.word.active .word-tip{opacity:1}
+.sent-fr{font-size:13px;color:var(--t3);font-style:italic;padding-left:4px;line-height:1.5}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(201,169,110,.15)}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px}
+@media(min-width:500px){.vocab-grid{grid-template-columns:repeat(3,1fr)}}
+.vocab-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;transition:border-color .15s}
+.vocab-card:hover{border-color:var(--bd2)}
+.vocab-kr{font-size:16px;color:var(--t);font-weight:500;margin-bottom:2px}
+.vocab-rom{font-size:10px;color:var(--t3);margin-bottom:4px}
+.vocab-fr{font-size:12px;color:var(--t2)}
+.vocab-type{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:4px;margin-top:5px}
+.vt-n{background:rgba(59,130,246,.1);color:#3b82f6}.vt-v{background:rgba(168,85,247,.1);color:#a855f7}
+.vt-adj{background:rgba(251,191,36,.1);color:#f59e0b}.vt-adv{background:rgba(34,197,94,.1);color:#22c55e}
+.vt-exp{background:rgba(239,68,68,.1);color:#ef4444}
+.quiz-q{background:var(--surf);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:10px}
+.quiz-q-num{font-size:10px;color:var(--t3);margin-bottom:6px;font-weight:600}
+.quiz-q-text{font-size:14px;color:var(--t);margin-bottom:12px;line-height:1.5}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quiz-opt{background:var(--s2);border:1.5px solid var(--bd);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-align:left;-webkit-tap-highlight-color:transparent}
+.quiz-opt:hover:not([disabled]){background:var(--s3);border-color:var(--bd2)}
+.quiz-opt.correct{background:rgba(168,85,247,.1);border-color:#a78bfa;color:#a78bfa;font-weight:600}
+.quiz-opt.wrong{background:rgba(239,68,68,.08);border-color:#ef4444;color:#ef4444}
+.check-btn{display:none;width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#b8955a);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;margin-bottom:28px;transition:opacity .15s}
+.check-btn:hover{opacity:.9}.check-btn.show{display:block}
+.xp-reward{display:none;background:var(--surf);border:1px solid var(--goldbd);border-radius:20px;padding:28px 20px;text-align:center;margin-bottom:28px}
+.xp-reward.show{display:block;animation:xpIn .5s ease both}
+@keyframes xpIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.xp-ico{margin-bottom:12px;color:var(--gold);line-height:0}.xp-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:6px}
+.xp-sub{font-size:13px;color:var(--t2);margin-bottom:16px}
+.xp-pill{display:inline-flex;align-items:center;gap:8px;background:var(--goldbg);border:1px solid var(--goldbd);border-radius:100px;padding:9px 22px;margin-bottom:22px;font-size:18px;font-weight:700;color:var(--gold)}
+.xp-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:#fff;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:opacity .15s}
+.btn-primary:hover{opacity:.88}
+.btn-secondary{background:transparent;color:var(--gold);border:1.5px solid var(--goldbd);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;transition:all .15s}
+.btn-secondary:hover{background:var(--goldbg)}
+.side-logo-wrap{padding:18px 18px 14px;border-bottom:1.5px solid var(--bd)}
+</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<div class="shell">
+  <div class="side">
+    <div class="side-logo-wrap"><img src="Logo/Logo - KoreanStories_logo_4x4_bleu.png" alt="Korean Stories" style="height:36px" loading="lazy" decoding="async" /></div>
+    <nav class="side-nav">
+      <a href="app.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
+      <a href="cours.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
+      <a href="histoires.html#lectures" class="sn on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+      <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
+      <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Records</a>
+      <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
+      <a href="ressources.html" class="sn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Ressources</a>
+    </nav>
+    <div class="side-theme"></div>
+  </div>
+  <div id="readMain">
+    <div class="read-top">
+      <a href="histoires.html#lectures" class="read-top-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+      <div class="read-top-info">
+        <div class="read-top-kr">쓰레기 분리수거</div>
+        <div class="read-top-fr">Le tri des déchets en Corée</div>
+      </div>
+      <div class="read-top-badge">A2</div>
+    </div>
+    <div class="read-meta">
+      <span class="meta-chip"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>~95 mots</span>
+      <span class="meta-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min</span>
+      <span class="meta-chip"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>+15 XP</span>
+      <span class="meta-chip" style="color:var(--t3)">Environnement · Élémentaire</span>
+    </div>
+    <div class="read-prog-bar"><div class="read-prog-fill" id="progressFill"></div></div>
+    <div class="read-scroll">
+      <div class="read-area">
+        <div class="read-intro"><strong>Article :</strong> Plastique, papier, déchets alimentaires : en Corée, jeter ses déchets suit des règles précises.</div>
+        <div class="read-para"><div class="read-para-num">Paragraphe 1</div><div class="sent-block"><div class="sent-kr" id="s1"></div><div class="sent-fr">En Corée, on jette les déchets en les triant par catégorie.</div></div><div class="sent-block"><div class="sent-kr" id="s2"></div><div class="sent-fr">On appelle cela le « tri sélectif ».</div></div></div><div class="read-para"><div class="read-para-num">Paragraphe 2</div><div class="sent-block"><div class="sent-kr" id="s3"></div><div class="sent-fr">On rassemble séparément le plastique, le papier, les canettes et le verre.</div></div><div class="sent-block"><div class="sent-kr" id="s4"></div><div class="sent-fr">Les déchets alimentaires aussi doivent être jetés à part.</div></div></div><div class="read-para"><div class="read-para-num">Paragraphe 3</div><div class="sent-block"><div class="sent-kr" id="s5"></div><div class="sent-fr">Si on ne trie pas, on peut même payer une amende.</div></div><div class="sent-block"><div class="sent-kr" id="s6"></div><div class="sent-fr">C'est pourquoi les gens respectent bien les règles.</div></div></div><div class="read-para"><div class="read-para-num">Paragraphe 4</div><div class="sent-block"><div class="sent-kr" id="s7"></div><div class="sent-fr">Le tri est un bon moyen de protéger l'environnement.</div></div><div class="sent-block"><div class="sent-kr" id="s8"></div><div class="sent-fr">C'est difficile au début, mais on s'y habitue vite.</div></div></div>
+        <div class="sec-lbl">Vocabulaire clé</div>
+        <div class="vocab-grid" id="vocabGrid"></div>
+        <div class="sec-lbl">Questions de compréhension</div>
+        <div id="quizSection"></div>
+        <button class="check-btn" id="checkBtn" onclick="checkAll()">Valider mes réponses</button>
+        <div class="xp-reward" id="xpReward">
+          <div class="xp-ico"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg></div>
+          <div class="xp-title">Bravo, tu l'as lu !</div>
+          <div class="xp-sub">Article complété · score <span id="scoreDisplay"></span>/4</div>
+          <div class="xp-pill">+15 XP gagnés</div>
+          <div class="xp-btns">
+            <a href="histoires.html#lectures" class="btn-secondary">Autres lectures</a>
+            <a href="presse5.html" class="btn-primary">Lecture suivante →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html#lectures" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+<script>
+const SENTENCES={"s1": [["한국에서는", "hangugeseoneun", "en Corée"], ["쓰레기를", "sseuregireul", "les déchets (obj)"], ["종류별로", "jongnyubyeollo", "par catégorie"], ["나눠서 버려요", "nanwoseo beoryeoyo", "on trie et on jette"]], "s2": [["이것을", "igeoseul", "cela (obj)"], ["'분리수거'라고 해요", "bullisugeo-rago haeyo", "on appelle « tri sélectif »"]], "s3": [["플라스틱, 종이, 캔, 유리를", "peullaseutik, jongi, kaen, yurireul", "plastique, papier, canettes, verre (obj)"], ["따로", "ttaro", "séparément"], ["모아요", "moayo", "on rassemble"]], "s4": [["음식물 쓰레기도", "eumsingmul sseuregido", "les déchets alimentaires aussi"], ["따로", "ttaro", "à part"], ["버려야 해요", "beoryeoya haeyo", "doivent être jetés"]], "s5": [["분리수거를 하지 않으면", "bullisugeoreul haji aneumyeon", "si on ne fait pas le tri"], ["벌금을", "beolgeumeul", "une amende (obj)"], ["낼 수도 있어요", "nael sudo isseoyo", "on peut même payer"]], "s6": [["그래서", "geuraeseo", "c'est pourquoi"], ["사람들은", "saramdeureun", "les gens"], ["규칙을", "gyuchigeul", "les règles (obj)"], ["잘 지켜요", "jal jikyeoyo", "respectent bien"]], "s7": [["분리수거는", "bullisugeoneun", "le tri"], ["환경을 보호하는", "hwangyeongeul bohohaneun", "qui protège l'environnement"], ["좋은 방법이에요", "joeun bangbeobieyo", "est un bon moyen"]], "s8": [["처음에는", "cheoeumeneun", "au début"], ["어렵지만", "eoryeopjiman", "c'est difficile mais"], ["곧", "got", "bientôt"], ["익숙해져요", "iksukhaejyeoyo", "on s'y habitue"]]};
+const VOCAB=[["쓰레기", "sseuregi", "déchet", "n"], ["분리수거", "bullisugeo", "tri sélectif", "n"], ["나누다", "nanuda", "diviser / trier", "v"], ["따로", "ttaro", "séparément", "adv"], ["벌금", "beolgeum", "amende", "n"], ["규칙", "gyuchik", "règle", "n"], ["환경", "hwangyeong", "environnement", "n"], ["익숙해지다", "iksukhaejida", "s'habituer", "v"]];
+const QUIZ=[["Que signifie « 분리수거 » ?", ["Le recyclage de l'eau", "Le tri sélectif des déchets", "Le nettoyage des rues", "La collecte d'eau de pluie"], 1], ["Que doit-on séparer en plus du plastique et du papier ?", ["Les vêtements", "Les canettes et le verre", "Les meubles", "Les livres"], 1], ["Que risque-t-on si on ne trie pas ?", ["Rien", "Une amende", "La prison", "Une médaille"], 1], ["Pourquoi le tri est-il important selon le texte ?", ["Pour gagner de l'argent", "Pour protéger l'environnement", "Pour faire du sport", "Pour rencontrer ses voisins"], 1]];
+const XP_KEY='ks_presse_4';
+const XP_VAL=15;
+const STORY_ID='presse_4';
+
+function renderSentences(){
+  Object.entries(SENTENCES).forEach(([id,words])=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    words.forEach(([kr,rom,fr])=>{
+      const w=document.createElement('div');
+      w.className='word';
+      w.innerHTML=`<span class="word-kr">${kr}</span><span class="word-rom">${rom}</span><div class="word-tip">${fr}</div>`;
+      w.addEventListener('click',e=>{
+        e.stopPropagation();
+        const was=w.classList.contains('active');
+        document.querySelectorAll('.word.active').forEach(x=>x.classList.remove('active'));
+        if(!was)w.classList.add('active');
+      });
+      el.appendChild(w);
+    });
+  });
+}
+
+function renderVocab(){
+  const grid=document.getElementById('vocabGrid');
+  const labels={n:'nom',v:'verbe',adj:'adjectif',adv:'adverbe',exp:'expression'};
+  VOCAB.forEach(v=>{
+    const d=document.createElement('div');
+    d.className='vocab-card';
+    d.innerHTML=`<div class="vocab-kr">${v[0]}</div><div class="vocab-rom">${v[1]}</div><div class="vocab-fr">${v[2]}</div><span class="vocab-type vt-${v[3]}">${labels[v[3]]||v[3]}</span>`;
+    grid.appendChild(d);
+  });
+}
+
+let selected={},done=false;
+function renderQuiz(){
+  const sec=document.getElementById('quizSection');
+  QUIZ.forEach((q,qi)=>{
+    const qd=document.createElement('div');
+    qd.className='quiz-q';
+    qd.innerHTML=`<div class="quiz-q-num">Question ${qi+1} / ${QUIZ.length}</div><div class="quiz-q-text">${q[0]}</div><div class="quiz-opts" id="opts${qi}"></div>`;
+    const opts=qd.querySelector(`#opts${qi}`);
+    q[1].forEach((opt,oi)=>{
+      const btn=document.createElement('button');
+      btn.className='quiz-opt';btn.textContent=opt;
+      btn.addEventListener('click',()=>{
+        if(done)return;
+        opts.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('correct'));
+        btn.classList.add('correct');
+        selected[qi]=oi;
+        if(Object.keys(selected).length===QUIZ.length)document.getElementById('checkBtn').classList.add('show');
+      });
+      opts.appendChild(btn);
+    });
+    sec.appendChild(qd);
+  });
+}
+
+function checkAll(){
+  done=true;let score=0;
+  QUIZ.forEach((q,qi)=>{
+    document.querySelectorAll(`#opts${qi} .quiz-opt`).forEach((b,oi)=>{
+      b.setAttribute('disabled','');
+      if(oi===q[2])b.classList.add('correct');
+      else if(oi===selected[qi]&&selected[qi]!==q[2])b.classList.add('wrong');
+    });
+    if(selected[qi]===q[2])score++;
+  });
+  document.getElementById('checkBtn').style.display='none';
+  document.getElementById('scoreDisplay').textContent=score;
+  if(!localStorage.getItem(XP_KEY)){
+    try{
+      localStorage.setItem('ks_xp',(parseInt(localStorage.getItem('ks_xp')||'0')+XP_VAL));
+      localStorage.setItem(XP_KEY,'1');
+      localStorage.setItem(XP_KEY+'_prog','100');
+      const prog=JSON.parse(localStorage.getItem('ks_lect_progress')||'{}');
+      prog[STORY_ID]={done:true,score,date:Date.now()};
+      localStorage.setItem('ks_lect_progress',JSON.stringify(prog));
+    }catch(e){}
+  }
+  const r=document.getElementById('xpReward');
+  r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function updateProgress(){
+  const fill=document.getElementById('progressFill');
+  if(!fill)return;
+  const total=document.documentElement.scrollHeight-window.innerHeight;
+  fill.style.width=(total>0?Math.min(100,(window.scrollY/total)*100):0)+'%';
+}
+window.addEventListener('scroll',updateProgress,{passive:true});
+document.addEventListener('click',()=>document.querySelectorAll('.word.active').forEach(el=>el.classList.remove('active')));
+renderSentences();renderVocab();renderQuiz();updateProgress();
+</script>
+<script src="ks.js"></script>
+</body>
+</html>

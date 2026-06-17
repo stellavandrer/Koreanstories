@@ -1244,6 +1244,15 @@ const BD_STORIES = [
   {level:'B2',href:'histoire42-bd.html',kr:'할아버지의 속담',fr:'Les proverbes de grand-père',words:320,time:11,xp:22,isNew:true,excerpt:"Mina apprend les 속담 avec son grand-père : trois proverbes transmis autour d'un dîner familial.",xpKey:'ks_bd_h42',format:'bd'},
 ];
 
+// ── Onglet « Lecture » : articles de presse coréens (contenu original) ──
+const ARTICLES = [
+  {level:'A2',href:'presse1.html',kr:'한국의 카페 문화',fr:'La culture des cafés en Corée',theme:'Société',words:90,time:5,xp:15,isNew:true,excerpt:"Un café à chaque coin de rue : pourquoi le café fait partie du quotidien coréen.",xpKey:'ks_presse_1'},
+  {level:'A2',href:'presse2.html',kr:'배달 음식의 나라',fr:'Le pays de la livraison',theme:'Vie quotidienne',words:95,time:5,xp:15,isNew:true,excerpt:"Poulet à minuit, livraison à l'aube : la Corée a fait de la livraison un art de vivre.",xpKey:'ks_presse_2'},
+  {level:'A2',href:'presse4.html',kr:'쓰레기 분리수거',fr:'Le tri des déchets en Corée',theme:'Environnement',words:95,time:6,xp:15,isNew:true,excerpt:"Plastique, papier, déchets alimentaires : jeter ses déchets suit des règles précises.",xpKey:'ks_presse_4'},
+  {level:'B1',href:'presse3.html',kr:'1인 가구가 늘고 있어요',fr:"La hausse des foyers d'une personne",theme:'Société',words:110,time:7,xp:20,isNew:true,excerpt:"De plus en plus de Coréens vivent seuls : un changement qui transforme les villes.",xpKey:'ks_presse_3'},
+  {level:'B1',href:'presse5.html',kr:'등산을 좋아하는 한국 사람들',fr:'Les Coréens et la randonnée',theme:'Loisirs',words:110,time:7,xp:20,isNew:true,excerpt:"Le week-end, les montagnes se remplissent : la randonnée, un loisir national.",xpKey:'ks_presse_5'},
+];
+
 // Carte au format « lecture » (onglets Lectures & Planches BD)
 function storyCardHtml(s, i) {
   let prog = 0;
@@ -1321,7 +1330,7 @@ let currentFilter = 'all';
 
 const CHIP_SETS = {
   bd:      [['all','Tout'],['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2']],
-  lect:    [],   // vidé : pas de filtres pour l'instant
+  lect:    [['all','Tout'],['A2','A2'],['B1','B1'],['B2','B2']],
   podcast: [],   // vidé : pas de filtres pour l'instant
 };
 
@@ -1376,7 +1385,7 @@ function renderPlaceholder(icon, title, sub) {
 
 function render() {
   if (currentTab === 'lect') {
-    renderPlaceholder(ICON_BOOK, 'Lecture — bientôt disponible', 'Articles de presse et textes authentiques venus de sites coréens.');
+    renderLectureGrid(ARTICLES);
   } else if (currentTab === 'podcast') {
     renderPlaceholder(ICON_MIC, 'Podcasts — bientôt disponibles', 'Des podcasts en coréen à écouter, avec transcription et traduction française.');
   } else {
