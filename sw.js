@@ -38,7 +38,11 @@
 // v3.5 : purge forcée — d'anciens caches servaient encore une version
 //        cassée des planches BD (histoireN-bd.html) où le script JS était
 //        invalide, donc audio muet. Ce bump vide tout l'ancien cache.
-const CACHE = 'ks-v3.5';
+// v3.6 : fusion des hubs — histoires.html regroupe désormais Histoires
+//        (chat), Lectures et Planches BD via 3 onglets. lecture.html
+//        devient une simple redirection. Bump pour purger l'ancienne
+//        version en cache chez les utilisateurs PWA.
+const CACHE = 'ks-v3.6';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [

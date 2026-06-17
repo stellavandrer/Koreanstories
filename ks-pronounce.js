@@ -31,7 +31,7 @@
   /* ── Pages exclues ─────────────────────────────────────────────── */
   var EXCLUDED = {
     'app.html':1, 'index.html':1, 'profil.html':1, 'reglages.html':1,
-    'cours.html':1, 'lecture.html':1, 'challenge.html':1,
+    'cours.html':1, 'histoires.html':1, 'challenge.html':1,
     'classement.html':1, 'statistiques.html':1, 'trophees.html':1,
     'aide.html':1, 'ressources.html':1, 'login.html':1, 'signup.html':1,
     'test-niveau.html':1, 'bienvenue.html':1, 'favoris.html':1

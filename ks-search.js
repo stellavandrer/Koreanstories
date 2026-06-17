@@ -28,7 +28,7 @@
   var QUICK_ACTIONS = [
     { type:'page', title:'Tableau de bord',         sub:'Vue d\'ensemble', href:'app.html',           icon:'home' },
     { type:'page', title:'Parcours',                sub:'Toutes les leçons',         href:'cours.html',         icon:'route' },
-    { type:'page', title:'Histoires',               sub:'Lecture immersive',         href:'lecture.html',       icon:'book' },
+    { type:'page', title:'Histoires',               sub:'Lecture immersive',         href:'histoires.html',       icon:'book' },
     { type:'page', title:'Défi du jour',            sub:'Mission quotidienne',       href:'challenge.html',     icon:'bolt' },
     { type:'page', title:'Records',                 sub:'Classement communauté',     href:'classement.html',    icon:'trophy' },
     { type:'page', title:'Profil',                  sub:'XP, streaks, badges',       href:'profil.html',        icon:'user' },

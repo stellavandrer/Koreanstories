@@ -292,7 +292,80 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     [data-theme="dark"] .sec-lbl{color:rgba(200,220,240,.38)}
     [data-theme="dark"] .sec-lbl::after{background:rgba(255,255,255,.08)}
     [data-theme="dark"] .scard-meta{color:rgba(200,220,240,.45)}
-  
+
+    /* ── HUB TABS (Histoires / Lectures / Planches BD) ── */
+    .hub-tabs{max-width:560px;margin:0 auto;padding:14px 16px 0;display:flex;gap:6px}
+    .hub-tab{
+      flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+      padding:10px 6px;border-radius:12px;
+      border:1.5px solid var(--bd);background:var(--surf);
+      font-size:12.5px;font-weight:700;color:var(--t2);
+      cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent;
+    }
+    .hub-tab svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+    .hub-tab:hover{border-color:var(--goldbd);color:var(--gold)}
+    .hub-tab.act{background:var(--navy);border-color:var(--navy);color:#fff}
+    .hub-tab.act:hover{color:#fff}
+    .hub-tab.act svg{stroke:#fff}
+    @media(max-width:400px){.hub-tab span{font-size:11px}.hub-tab{gap:4px;padding:10px 4px}}
+
+    /* ── LECTURE / BD CARD SYSTEM (onglets Lectures & Planches BD) ── */
+    .story-grid{max-width:580px;margin:0 auto;padding:14px 0 20px;display:flex;flex-direction:column;gap:14px}
+    .story-card{
+      background:var(--surf);border:1.5px solid var(--bd);
+      border-radius:20px;padding:18px 18px 16px;
+      text-decoration:none;color:var(--t);
+      display:block;position:relative;overflow:hidden;
+      transition:all .22s;animation:cardIn .35s ease both;
+    }
+    .story-card:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(15,27,45,.10);border-color:var(--goldbd)}
+    @keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .story-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:3px 0 0 3px}
+    .story-card[data-level="A1"]::before{background:#22c55e}
+    .story-card[data-level="A2"]::before{background:#3b82f6}
+    .story-card[data-level="B1"]::before{background:#a78bfa}
+    .story-card[data-level="B2"]::before{background:#f59e0b}
+    .story-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .story-lvl-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;letter-spacing:.08em;padding:3px 10px;border-radius:100px;flex-shrink:0}
+    .story-card[data-level="A1"] .story-lvl-badge{background:rgba(34,197,94,.12);color:#15803d}
+    .story-card[data-level="A2"] .story-lvl-badge{background:rgba(59,130,246,.12);color:#1d4ed8}
+    .story-card[data-level="B1"] .story-lvl-badge{background:rgba(167,139,250,.12);color:#7c3aed}
+    .story-card[data-level="B2"] .story-lvl-badge{background:rgba(245,158,11,.12);color:#B45309}
+    .story-card[data-level="A1"] .story-lvl-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#22c55e}
+    .story-card[data-level="A2"] .story-lvl-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#3b82f6}
+    .story-card[data-level="B1"] .story-lvl-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#a78bfa}
+    .story-card[data-level="B2"] .story-lvl-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:#f59e0b}
+    .story-theme{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:var(--t3);background:var(--s2);border:1px solid var(--bd);padding:2px 8px;border-radius:100px}
+    .story-bd-pill{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:800;letter-spacing:.05em;background:var(--gold);color:#fff;padding:2px 8px;border-radius:100px;vertical-align:middle}
+    .story-kr-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--t);line-height:1.25;margin-bottom:3px}
+    .story-fr-title{font-size:12px;color:var(--t3);margin-bottom:10px}
+    .story-excerpt{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .story-excerpt em{color:var(--navy);font-style:normal;font-weight:600}
+    .story-meta{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .story-meta-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .story-info{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--t3);font-weight:500}
+    .story-info svg{width:12px;height:12px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+    .story-btn{display:inline-flex;align-items:center;gap:5px;background:var(--gold);color:#fff;padding:7px 16px;border-radius:100px;font-size:12px;font-weight:700;flex-shrink:0;transition:all .18s}
+    .story-btn:hover{background:var(--goldl)}
+    .story-btn svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+    .story-prog{margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)}
+    .story-prog-bar{height:3px;background:var(--bd);border-radius:100px;overflow:hidden}
+    .story-prog-fill{height:100%;border-radius:100px;background:var(--gold);transition:width .6s ease}
+    .story-prog-lbl{font-size:10px;color:var(--t3);margin-top:4px}
+    [data-theme="dark"] .story-card{background:var(--surf);border-color:var(--bd)}
+    [data-theme="dark"] .story-excerpt em{color:#93c5fd}
+    [data-theme="dark"] .story-card[data-level="A2"]::before{background:#60a5fa}
+    [data-theme="dark"] .story-card[data-level="B1"]::before{background:#c4b5fd}
+    [data-theme="dark"] .story-card[data-level="B2"]::before{background:#fbbf24}
+    .level-section-hdr{display:flex;align-items:center;gap:10px;margin:6px 0 2px;padding:0 2px}
+    .lsh-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .lsh-lbl{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .lsh-line{flex:1;height:1px;background:var(--bd)}
+    .lsh-count{font-size:10px;color:var(--t3);font-weight:600}
+    .empty-state{text-align:center;padding:48px 20px;font-size:13px;color:var(--t3)}
+    .empty-state svg{width:40px;height:40px;stroke:var(--bd2);fill:none;stroke-width:1.5;margin:0 auto 12px;display:block}
+    .story-new{position:absolute;top:14px;right:14px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:#ef4444;color:#fff;padding:2px 7px;border-radius:100px}
+
 /* ── BNAV DOT NOTIFICATION ── */
 
 </style>
@@ -318,7 +391,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <nav class="side-nav">
     <a href="app.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Accueil</a>
     <a href="cours.html" class="sn"><svg viewBox="0 0 24 24"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="M13 13l6 6"/></svg>Parcours</a>
-    <a href="lecture.html" class="sn on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+    <a href="histoires.html" class="sn on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
     <a href="challenge.html" class="sn"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
     <a href="classement.html" class="sn"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Records</a>
     <a href="profil.html" class="sn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Profil</a>
@@ -402,17 +475,25 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </section>
 
+  <!-- HUB TABS -->
+  <div class="hub-tabs">
+    <button class="hub-tab act" data-tab="chat" onclick="setTab('chat')">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Histoires</span>
+    </button>
+    <button class="hub-tab" data-tab="lect" onclick="setTab('lect')">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span>Lectures</span>
+    </button>
+    <button class="hub-tab" data-tab="bd" onclick="setTab('bd')">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="9" rx="1"/><rect x="3" y="15" width="7" height="6" rx="1"/><rect x="14" y="15" width="7" height="6" rx="1"/></svg>
+      <span>Planches BD</span>
+    </button>
+  </div>
+
   <!-- FILTER CHIPS -->
   <div class="filters-wrap">
-    <div class="filters">
-      <button class="fchip act" data-filter="all" onclick="setFilter('all')">Tout</button>
-      <button class="fchip" data-filter="debutant" onclick="setFilter('debutant')">Débutant</button>
-      <button class="fchip" data-filter="a1" onclick="setFilter('a1')">A1</button>
-      <button class="fchip" data-filter="a1plus" onclick="setFilter('a1plus')">A1+</button>
-      <button class="fchip" data-filter="a2" onclick="setFilter('a2')">A2</button>
-      <button class="fchip" data-filter="b1" onclick="setFilter('b1')">B1</button>
-      <button class="fchip" data-filter="b2" onclick="setFilter('b2')">B2</button>
-    </div>
+    <div class="filters" id="filterChips"><!-- injected by JS --></div>
   </div>
 
   <!-- MAIN CONTENT -->
@@ -1080,16 +1161,198 @@ function renderCard(s) {
 }
 
 // ─────────────────────────────────────
-// FILTER
+// LECTURES (textes de lecture) + PLANCHES BD
 // ─────────────────────────────────────
+const LECTURES = [
+  // ── A1 ──
+  {level:'A1',href:'lect-a1-1.html',kr:'나의 하루',fr:'Ma journée quotidienne',theme:'Quotidien',words:120,time:5,xp:10,isNew:false,excerpt:'아침에 일어나요. 화장실에 가요. 세수하고 양치해요. 아침을 먹어요...',xpKey:'ks_lect_a1_1'},
+  {level:'A1',href:'lect-a1-2.html',kr:'우리 가족',fr:'Ma famille',theme:'Famille',words:150,time:6,xp:10,isNew:false,excerpt:'우리 가족은 네 명이에요. 아버지, 어머니, 오빠 그리고 저예요. 아버지는 회사원이에요...',xpKey:'ks_lect_a1_2'},
+  {level:'A1',href:'lect-a1-3.html',kr:'한국의 날씨',fr:'La météo en Corée',theme:'Culture',words:130,time:5,xp:10,isNew:false,excerpt:'한국에는 사계절이 있어요. 봄은 따뜻하고 좋아요. 여름은 덥고 습해요...',xpKey:'ks_lect_a1_3'},
+  {level:'A1',href:'lect-a1-4.html',kr:'시장에서 쇼핑',fr:'Faire les courses au marché',theme:'Quotidien',words:160,time:7,xp:15,isNew:false,excerpt:'오늘은 시장에 가요. 사과와 바나나를 사요. 얼마예요? 오천 원이에요...',xpKey:'ks_lect_a1_4'},
+  {level:'A1',href:'lect-a1-5.html',kr:'나의 학교',fr:'Mon école',theme:'Quotidien',words:140,time:6,xp:10,isNew:true,excerpt:'저는 학생이에요. 학교가 커요. 수업은 아홉 시에 시작해요. 국어와 수학을 좋아해요...',xpKey:'ks_lect_a1_5'},
+  {level:'A1',href:'lect-a1-6.html',kr:'반려동물',fr:'Mon animal de compagnie',theme:'Quotidien',words:120,time:5,xp:10,isNew:false,excerpt:'저는 강아지가 있어요. 이름은 몽구예요. 몽구는 하얗고 귀여워요...',xpKey:'ks_lect_a1_6'},
+  {level:'A1',href:'lect-a1-7.html',kr:'새 집',fr:'Le nouvel appartement',theme:'Maison',words:130,time:5,xp:10,isNew:true,excerpt:'에마는 오늘 새 집으로 이사해요. 새 집은 서울에 있어요. 거실에 소파가 있어요...',xpKey:'ks_lect_a1_7'},
+  // ── A2 ──
+  {level:'A2',href:'lect-a2-1.html',kr:'서울 여행',fr:'Un voyage à Séoul',theme:'Voyage',words:280,time:10,xp:20,isNew:false,excerpt:'지난주에 서울에 갔어요. 경복궁을 구경했어요. 사람이 정말 많았어요...',xpKey:'ks_lect_a2_1'},
+  {level:'A2',href:'lect-a2-2.html',kr:'한국 음식 이야기',fr:'La cuisine coréenne',theme:'Culture',words:260,time:9,xp:20,isNew:false,excerpt:'한국 음식은 매우 다양해요. 김치는 한국의 대표 음식이에요. 비빔밥, 삼겹살...',xpKey:'ks_lect_a2_2'},
+  {level:'A2',href:'lect-a2-3.html',kr:'친구와의 대화',fr:'Conversation entre amis',theme:'Dialogue',words:240,time:8,xp:15,isNew:false,excerpt:'민준: 오랜만이야! 어떻게 지냈어? 소연: 잘 지냈어. 요즘 한국어 공부해...',xpKey:'ks_lect_a2_3'},
+  {level:'A2',href:'lect-a2-4.html',kr:'전통 명절 추석',fr:'La fête de Chuseok',theme:'Culture',words:300,time:11,xp:20,isNew:false,excerpt:'추석은 한국의 중요한 명절이에요. 음력 8월 15일이에요. 가족이 모두 모여요...',xpKey:'ks_lect_a2_4'},
+  {level:'A2',href:'lect-a2-5.html',kr:'카페에서',fr:'Au café',theme:'Quotidien',words:220,time:8,xp:15,isNew:true,excerpt:'한국은 카페의 나라예요. 거리마다 카페가 있어요. 아메리카노와 크루아상을 주문해요...',xpKey:'ks_lect_a2_5'},
+  {level:'A2',href:'lect-a2-6.html',kr:'서울의 대중교통',fr:'Les transports en commun à Séoul',theme:'Vie urbaine',words:250,time:9,xp:20,isNew:false,excerpt:'서울의 대중교통은 매우 편리해요. 지하철이 도시 전체를 연결해요...',xpKey:'ks_lect_a2_6'},
+  {level:'A2',href:'lect-a2-7.html',kr:'한국의 봄',fr:'Le printemps en Corée',theme:'Culture',words:220,time:8,xp:18,isNew:true,excerpt:'한국의 봄은 정말 특별해요. 3월부터 5월까지 날씨가 따뜻해지고, 모든 것이 색깔로 가득해져요...',xpKey:'ks_lect_a2_7'},
+  // ── B1 ──
+  {level:'B1',href:'lect-b1-1.html',kr:'한강의 기적',fr:'Le miracle du Han',theme:'Histoire',words:420,time:14,xp:30,isNew:false,excerpt:'1950년대 한국은 세계에서 가장 가난한 나라 중 하나였어요. 불과 60년 만에 경제 대국이 되었어요...',xpKey:'ks_lect_b1_1'},
+  {level:'B1',href:'lect-b1-2.html',kr:'K-pop의 세계',fr:'Le monde du K-pop',theme:'Culture',words:380,time:13,xp:25,isNew:false,excerpt:'K-pop은 전 세계적인 문화 현상이 되었어요. BTS, 블랙핑크 같은 그룹들이 세계에서 활동해요...',xpKey:'ks_lect_b1_2'},
+  {level:'B1',href:'lect-b1-3.html',kr:'한국의 교육 문화',fr:'La culture éducative coréenne',theme:'Société',words:400,time:14,xp:30,isNew:false,excerpt:'한국은 매우 경쟁이 치열한 교육 시스템으로 알려져 있어요. 학생들은 밤늦게까지 공부해요...',xpKey:'ks_lect_b1_3'},
+  {level:'B1',href:'lect-b1-4.html',kr:'한국 영화의 역사',fr:'Histoire du cinéma coréen',theme:'Culture',words:360,time:13,xp:25,isNew:true,excerpt:'한국 영화는 1910년대부터 긴 역사를 가지고 있어요. 2019년 기생충이 칸에서 황금종려상을 받았어요...',xpKey:'ks_lect_b1_4'},
+  {level:'B1',href:'lect-b1-5.html',kr:'한국의 환경 문제',fr:'Les défis environnementaux en Corée',theme:'Société',words:390,time:13,xp:30,isNew:false,excerpt:'한국은 심각한 환경 문제에 직면해 있어요. 미세먼지는 심각한 문제예요. 재생에너지에 투자해요...',xpKey:'ks_lect_b1_5'},
+  {level:'B1',href:'lect-b1-6.html',kr:'재택근무',fr:'Le télétravail',theme:'Société moderne',words:350,time:13,xp:25,isNew:true,excerpt:'코로나19 이후, 한국의 직장 문화는 크게 바뀌었어요. 이제는 재택근무가 일반화되고 있어요...',xpKey:'ks_lect_b1_6'},
+  // ── B2 ──
+  {level:'B2',href:'lect-b2-1.html',kr:'조선 시대의 생활',fr:"La vie à l'époque Joseon",theme:'Histoire',words:580,time:18,xp:40,isNew:false,excerpt:'조선 왕조(1392~1910년)는 한국 역사에서 가장 긴 왕조 시대였어요. 유교 사상이 사회 전반을 지배했어요...',xpKey:'ks_lect_b2_1'},
+  {level:'B2',href:'lect-b2-2.html',kr:'현대 한국 사회의 변화',fr:'Les mutations de la société coréenne',theme:'Société',words:550,time:18,xp:40,isNew:false,excerpt:'대한민국은 수십 년 동안 깊은 사회 변화를 경험했어요. 출산율은 세계 최저 수준이에요...',xpKey:'ks_lect_b2_2'},
+  {level:'B2',href:'lect-b2-3.html',kr:'한국 현대 문학',fr:'La littérature coréenne contemporaine',theme:'Culture',words:520,time:17,xp:40,isNew:true,excerpt:'한국 현대 문학은 전례 없는 국제적 인지도를 얻고 있어요. 2024년 한강이 노벨 문학상을 수상했어요...',xpKey:'ks_lect_b2_3'},
+  {level:'B2',href:'lect-b2-4.html',kr:'남북한 분단 이야기',fr:'La division des deux Corées',theme:'Histoire',words:560,time:18,xp:40,isNew:false,excerpt:'1945년 한반도의 분단은 온 민족의 운명을 깊이 바꾸어 놓았어요. 수백만 가족이 헤어져 살았어요...',xpKey:'ks_lect_b2_4'},
+  {level:'B2',href:'lect-b2-5.html',kr:'도시와 시골 사이',fr:'Entre ville et campagne',theme:'Société contemporaine',words:500,time:18,xp:30,isNew:true,excerpt:"최근 몇 년 사이, 한국에서는 '귀촌'이라는 단어가 자주 들리기 시작했어요. 도시에서 시골로 이주하는 현상이에요...",xpKey:'ks_lect_b2_5'},
+];
+
+const BD_STORIES = [
+  // ── A1 ──
+  {level:'A1',href:'histoire1-bd.html',kr:'안녕하세요 !',fr:'Bonjour !',words:180,time:5,xp:30,isNew:false,excerpt:"Mina croise Joon dans la rue. Premiers mots, premiers sourires. Le coréen commence ici.",xpKey:'ks_bd_h1',format:'bd'},
+  {level:'A1',href:'histoire2-bd.html',kr:'시장에서',fr:'Au marché',words:180,time:5,xp:30,isNew:false,excerpt:"Mina emmène Joon faire les courses. Fruits, légumes, et un vendeur qui parle vite vite vite.",xpKey:'ks_bd_h2',format:'bd'},
+  {level:'A1',href:'histoire3-bd.html',kr:'식당에서',fr:'Au restaurant',words:180,time:5,xp:30,isNew:false,excerpt:"Bibimbap, kimchi, piment. Joon découvre la cuisine coréenne… et sa bouche est en feu.",xpKey:'ks_bd_h3',format:'bd'},
+  {level:'A1',href:'histoire4-bd.html',kr:'카페에서',fr:'Au café',words:180,time:5,xp:30,isNew:false,excerpt:"Rendez-vous au café pour parler de tout et de rien. Mina veut un latte, Joon hésite.",xpKey:'ks_bd_h4',format:'bd'},
+  {level:'A1',href:'histoire5-bd.html',kr:"편의점에서",fr:"À l'épicerie coréenne",words:180,time:5,xp:30,isNew:false,excerpt:"11h du soir, une faim de loup. Mina et Joon à la convenience store pour du ramyeon.",xpKey:'ks_bd_h5',format:'bd'},
+  {level:'A1',href:'histoire6-bd.html',kr:'지하철에서',fr:'Dans le métro',words:180,time:5,xp:30,isNew:false,excerpt:"Ça se bouscule dans le métro de Séoul. Joon rate la porte et Mina court pour l'attraper.",xpKey:'ks_bd_h6',format:'bd'},
+  {level:'A1',href:'histoire7-bd.html',kr:'친구 집에서',fr:'Chez un ami',words:180,time:5,xp:30,isNew:false,excerpt:"Mina invite tout le monde chez elle. On enlève les chaussures, on prépare le ramyeon.",xpKey:'ks_bd_h7',format:'bd'},
+  {level:'A1',href:'histoire8-bd.html',kr:'노래방에서',fr:'Au norebang',words:180,time:5,xp:30,isNew:false,excerpt:"Le karaoké coréen, ça se prend au sérieux ! Joon découvre qu'il a (un peu) de talent.",xpKey:'ks_bd_h8',format:'bd'},
+  {level:'A1',href:'histoire29-bd.html',kr:'경복궁에서',fr:'Au palais Gyeongbokgung',words:180,time:5,xp:12,isNew:false,excerpt:"Emma visite le palais royal avec Ji-woo. Cerisiers en fleurs, hanbok loué pour entrer gratuit.",xpKey:'ks_bd_h29',format:'bd'},
+  {level:'A1',href:'histoire30-bd.html',kr:'병원에서',fr:'Chez le médecin',words:180,time:5,xp:12,isNew:false,excerpt:"Emma ne se sent pas bien depuis hier. Première visite à la clinique : symptômes, diagnostic.",xpKey:'ks_bd_h30',format:'bd'},
+  {level:'A1',href:'histoire31-bd.html',kr:'우리 집에 오세요',fr:'Bienvenue chez moi',words:180,time:5,xp:15,isNew:false,excerpt:"Mina invite Emma chez elle pour la première fois. Le vocabulaire de la maison en situation.",xpKey:'ks_bd_h31',format:'bd'},
+  {level:'A1',href:'histoire32-bd.html',kr:'카페에서',fr:'Au café avec Mina',words:180,time:5,xp:15,isNew:false,excerpt:"Mina retrouve Jiwoo au café. Commander, payer, parler du week-end — la conversation café type.",xpKey:'ks_bd_h32',format:'bd'},
+  {level:'A1',href:'histoire33-bd.html',kr:'미나의 아침',fr:'Le matin de Mina',words:180,time:5,xp:15,isNew:false,excerpt:"7h du matin chez Mina : le réveil sonne, le kimchi-jjigae fume, il pleut dehors.",xpKey:'ks_bd_h33',format:'bd'},
+  // ── A2 ──
+  {level:'A2',href:'histoire9-bd.html',kr:'병원에서',fr:"À l'hôpital",words:230,time:7,xp:30,isNew:false,excerpt:"Joon est malade. Visite chez le médecin avec Mina qui traduit. Vocabulaire médical de base.",xpKey:'ks_bd_h9',format:'bd'},
+  {level:'A2',href:'histoire10-bd.html',kr:'쇼핑몰에서',fr:'Au centre commercial',words:230,time:7,xp:30,isNew:false,excerpt:"Myeongdong, les soldes, et Mina qui ne sait pas quoi choisir. Joon joue les stylistes.",xpKey:'ks_bd_h10',format:'bd'},
+  {level:'A2',href:'histoire11-bd.html',kr:'집들이에서',fr:'Pendaison de crémaillère',words:230,time:7,xp:30,isNew:false,excerpt:"Joon a un nouvel appartement ! Tout le monde apporte des cadeaux et on fête ça ensemble.",xpKey:'ks_bd_h11',format:'bd'},
+  {level:'A2',href:'histoire12-bd.html',kr:'사랑해요',fr:'K-Drama : romance',words:230,time:7,xp:12,isNew:false,excerpt:"Dialogues romantiques type K-drama. Vocabulaire émotionnel et phrases de mille séries coréennes.",xpKey:'ks_bd_h12',format:'bd'},
+  {level:'A2',href:'histoire13-bd.html',kr:'홍대 주말',fr:'Un week-end à Hongdae',words:230,time:7,xp:12,isNew:false,excerpt:"Hongdae le week-end : art de rue, K-pop dans la rue, shopping, énergie nocturne.",xpKey:'ks_bd_h13',format:'bd'},
+  {level:'A2',href:'histoire14-bd.html',kr:'인천공항에서',fr:"À l'aéroport d'Incheon",words:230,time:7,xp:12,isNew:false,excerpt:"Check-in, contrôles, embarquement à Incheon. Vocabulaire voyage essentiel pour la Corée.",xpKey:'ks_bd_h14',format:'bd'},
+  {level:'A2',href:'histoire15-bd.html',kr:'서울의 병원',fr:'Emma chez le médecin à Séoul',words:230,time:7,xp:12,isNew:false,excerpt:"Symptômes, dialogue avec médecin et infirmière, prescription. 15 mots médicaux à connaître.",xpKey:'ks_bd_h15',format:'bd'},
+  {level:'A2',href:'histoire27-bd.html',kr:'추석에',fr:'Chuseok en famille',words:230,time:7,xp:15,isNew:false,excerpt:"Ji-woo invite Emma chez ses parents à Daegu pour Chuseok. Songpyeon, dîner familial, pleine lune.",xpKey:'ks_bd_h27',format:'bd'},
+  {level:'A2',href:'histoire28-bd.html',kr:'찜질방에서',fr:'Au jimjilbang',words:230,time:7,xp:15,isNew:false,excerpt:"Première fois au sauna coréen pour Emma. Ji-woo explique le rituel : se changer, sikhye et œufs.",xpKey:'ks_bd_h28',format:'bd'},
+  {level:'A2',href:'histoire34-bd.html',kr:'부동산에서',fr:"À l'agence immobilière",words:230,time:7,xp:18,isNew:false,excerpt:"Emma cherche un studio avec Mina : budget, visites, comparaisons. Les structures 보다/더/제일.",xpKey:'ks_bd_h34',format:'bd'},
+  {level:'A2',href:'histoire35-bd.html',kr:'김밥 만들기',fr:'Le kimbap de Joon',words:230,time:7,xp:18,isNew:false,excerpt:"Joon apprend à Mina à rouler le kimbap : expérience, instructions et dégustation comparée.",xpKey:'ks_bd_h35',format:'bd'},
+  {level:'A2',href:'histoire36-bd.html',kr:'지우의 생일',fr:"L'anniversaire de Jiwoo",words:230,time:7,xp:18,isNew:false,excerpt:"Cadeau, miyeokguk et chanson : l'anniversaire coréen de Jiwoo fait travailler -잖아요 / -거든요.",xpKey:'ks_bd_h36',format:'bd'},
+  // ── B1 ──
+  {level:'B1',href:'histoire16-bd.html',kr:'첫 출근',fr:'Premier jour au bureau',words:280,time:9,xp:15,isNew:false,excerpt:"Emma en stage. 존댓말 obligatoire, hiérarchie, déjeuner avec le 선배. Codes du milieu pro.",xpKey:'ks_bd_h16',format:'bd'},
+  {level:'B1',href:'histoire17-bd.html',kr:'부산 여행',fr:'Week-end à Busan',words:280,time:9,xp:15,isNew:false,excerpt:"KTX, Haeundae, fruits de mer au marché Jagalchi. Structures -곤 했어요 (habitude passée).",xpKey:'ks_bd_h17',format:'bd'},
+  {level:'B1',href:'histoire18-bd.html',kr:'여행 후기',fr:'Retour de voyage — Emma raconte',words:280,time:9,xp:15,isNew:false,excerpt:"Emma raconte son week-end. Discours indirect, conséquences inattendues (-는 바람에), -자마자.",xpKey:'ks_bd_h18',format:'bd'},
+  {level:'B1',href:'histoire19-bd.html',kr:'토픽 시험',fr:"L'examen TOPIK d'Emma",words:280,time:9,xp:18,isNew:false,excerpt:"5 chapitres : préparation, veille, jour J, attente, résultats. Toutes les structures B1 en contexte.",xpKey:'ks_bd_h19',format:'bd'},
+  {level:'B1',href:'histoire25-bd.html',kr:'서울의 밤',fr:'Séoul by night',words:280,time:9,xp:18,isNew:false,excerpt:"Vendredi soir avec amis internationaux. Rooftop à Itaewon, taxi vers Hongdae, art de rue et musique.",xpKey:'ks_bd_h25',format:'bd'},
+  {level:'B1',href:'histoire26-bd.html',kr:'싸우고 화해하기',fr:'La dispute et la réconciliation',words:280,time:9,xp:18,isNew:false,excerpt:"Min-ji a une heure de retard. Ji-woo est fâché. Escalade puis apaisement — structures -아/어서, -니까.",xpKey:'ks_bd_h26',format:'bd'},
+  {level:'B1',href:'histoire37-bd.html',kr:'에마의 면접',fr:"L'entretien d'embauche",words:280,time:9,xp:20,isNew:true,excerpt:"Emma passe un entretien tout en -습니다 : se présenter, argumenter, remercier. Le registre formel.",xpKey:'ks_bd_h37',format:'bd'},
+  {level:'B1',href:'histoire38-bd.html',kr:'한강 캠핑',fr:'Soirée au bord du Han',words:280,time:9,xp:20,isNew:true,excerpt:"Tente, photos et ramyeon de minuit au Han. Entends la différence entre banmal et jondaemal.",xpKey:'ks_bd_h38',format:'bd'},
+  {level:'B1',href:'histoire39-bd.html',kr:'할머니의 김치',fr:'Le kimchi de grand-mère',words:280,time:9,xp:20,isNew:true,excerpt:"Mina aide sa grand-mère au kimjang : souvenirs (-곤 했어요), paroles rapportées, regrets en B1.",xpKey:'ks_bd_h39',format:'bd'},
+  // ── B2 ──
+  {level:'B2',href:'histoire20-bd.html',kr:'그날의 만남',fr:'Récit littéraire — La rencontre',words:320,time:11,xp:20,isNew:false,excerpt:"4 chapitres en prose littéraire. Structures B2 et temporalité narrative en contexte authentique.",xpKey:'ks_bd_h20',format:'bd'},
+  {level:'B2',href:'histoire21-bd.html',kr:'한국어가 세계로',fr:'Article de presse — guidé',words:320,time:11,xp:20,isNew:false,excerpt:"Article sur la diffusion du coréen dans le monde. Connecteurs formels, vocabulaire académique.",xpKey:'ks_bd_h21',format:'bd'},
+  {level:'B2',href:'histoire22-bd.html',kr:'달의 수호자',fr:'Webtoon — Le Gardien de la Lune',words:320,time:11,xp:20,isNew:false,excerpt:"4 panels de webtoon original (fiction). Argot, onomatopées, coréen jeune authentique.",xpKey:'ks_bd_h22',format:'bd'},
+  {level:'B2',href:'histoire23-bd.html',kr:'우리, 한국 사람일까?',fr:'Podcast — Coréen naturel',words:320,time:11,xp:20,isNew:false,excerpt:"Podcast fictif sur l'identité post-Hallyu. 4 segments, -잖아요/-거든요/-더라고요 au débit naturel.",xpKey:'ks_bd_h23',format:'bd'},
+  {level:'B2',href:'histoire24-bd.html',kr:'새벽의 부엌',fr:'Essai littéraire — Prose contemplative',words:320,time:11,xp:20,isNew:false,excerpt:"Court récit minimaliste coréen. Une fille revient au village de sa mère après douze ans.",xpKey:'ks_bd_h24',format:'bd'},
+  {level:'B2',href:'histoire40-bd.html',kr:'에마의 첫 회식',fr:"Le premier hoesik d'Emma",words:320,time:11,xp:22,isNew:true,excerpt:"Premier dîner d'entreprise d'Emma : servir à deux mains, 드리다, 뵙겠습니다 et le rituel du 2차.",xpKey:'ks_bd_h40',format:'bd'},
+  {level:'B2',href:'histoire41-bd.html',kr:'도시 대 시골',fr:'Le grand débat : ville ou campagne ?',words:320,time:11,xp:22,isNew:true,excerpt:"Trois amis, un débat : -기 마련이다, -(으)ㄹ 리가 없다 et les connecteurs formels du TOPIK II.",xpKey:'ks_bd_h41',format:'bd'},
+  {level:'B2',href:'histoire42-bd.html',kr:'할아버지의 속담',fr:'Les proverbes de grand-père',words:320,time:11,xp:22,isNew:true,excerpt:"Mina apprend les 속담 avec son grand-père : trois proverbes transmis autour d'un dîner familial.",xpKey:'ks_bd_h42',format:'bd'},
+];
+
+// Carte au format « lecture » (onglets Lectures & Planches BD)
+function storyCardHtml(s, i) {
+  let prog = 0;
+  try { prog = parseInt(localStorage.getItem(s.xpKey + '_prog') || '0'); } catch(e) {}
+  const done = prog >= 100;
+  const started = prog > 0 && !done;
+  const progBar = (started || done) ? `
+    <div class="story-prog">
+      <div class="story-prog-bar"><div class="story-prog-fill" data-w="${prog}" style="width:0%${done?';background:#22c55e':''}"></div></div>
+      <div class="story-prog-lbl">${done ? 'Lue' : prog + '% lu'}</div>
+    </div>` : '';
+  return `<a href="${s.href}" class="story-card" data-level="${s.level}" style="animation-delay:${i*0.05}s">
+    ${s.isNew ? '<span class="story-new">Nouveau</span>' : ''}
+    <div class="story-top"><div>
+      <span class="story-lvl-badge">${s.level}</span>
+      ${s.format === 'bd' ? '<span class="story-bd-pill">BD</span>' : `<span class="story-theme">${s.theme}</span>`}
+    </div></div>
+    <div class="story-kr-title">${s.kr}</div>
+    <div class="story-fr-title">${s.fr}</div>
+    <div class="story-excerpt">${s.excerpt}</div>
+    <div class="story-meta">
+      <div class="story-meta-left">
+        <div class="story-info"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>~${s.time} min</div>
+        <div class="story-info"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>${s.words} mots</div>
+        <div class="story-info"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>+${s.xp} XP</div>
+      </div>
+      <div class="story-btn">${done ? 'Relire' : started ? 'Continuer' : 'Lire'}<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
+    </div>
+    ${progBar}
+  </a>`;
+}
+
+// Grille « lecture » groupée par niveau (A1→B2) pour les onglets Lectures & BD
+function renderLectureGrid(list) {
+  const main = document.getElementById('storiesMain');
+  const levels = ['A1','A2','B1','B2'];
+  const colors = {A1:'#22c55e',A2:'#3b82f6',B1:'#a78bfa',B2:'#f59e0b'};
+  const descs = {A1:'Débutant',A2:'Élémentaire',B1:'Intermédiaire',B2:'Avancé'};
+  const isBd = (list === BD_STORIES);
+  const noun = isBd ? 'planche' : 'lecture';
+  let html = '<div class="story-grid">';
+  let any = false;
+  levels.forEach(lv => {
+    if (currentFilter !== 'all' && currentFilter !== lv) return;
+    const items = list.filter(s => s.level === lv);
+    if (!items.length) return;
+    any = true;
+    html += `<div class="level-section-hdr">
+      <div class="lsh-dot" style="background:${colors[lv]}"></div>
+      <span class="lsh-lbl" style="color:${colors[lv]}">${lv} — ${descs[lv]}</span>
+      <div class="lsh-line"></div>
+      <span class="lsh-count">${items.length} ${noun}${items.length>1?'s':''}</span>
+    </div>`;
+    items.forEach((s, i) => { html += storyCardHtml(s, i); });
+  });
+  html += '</div>';
+  main.innerHTML = any ? html : `<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>Rien ici pour ce niveau.</div>`;
+  setTimeout(() => { main.querySelectorAll('.story-prog-fill[data-w]').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 100);
+}
+
+// ─────────────────────────────────────
+// TABS + FILTER
+// ─────────────────────────────────────
+let currentTab = 'chat';      // chat | lect | bd
 let currentFilter = 'all';
+
+const CHIP_SETS = {
+  chat: [['all','Tout'],['debutant','Débutant'],['a1','A1'],['a1plus','A1+'],['a2','A2'],['b1','B1'],['b2','B2']],
+  lect: [['all','Tout'],['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2']],
+  bd:   [['all','Tout'],['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2']],
+};
+
+function renderChips() {
+  const wrap = document.getElementById('filterChips');
+  if (!wrap) return;
+  wrap.innerHTML = CHIP_SETS[currentTab].map(([f,label]) =>
+    `<button class="fchip${f===currentFilter?' act':''}" data-filter="${f}" onclick="setFilter('${f}')">${label}</button>`
+  ).join('');
+}
+
+function setTab(t) {
+  currentTab = t;
+  currentFilter = 'all';
+  // Mémorise l'onglet dans l'URL (deep-link + survit au rechargement)
+  try { history.replaceState(null, '', t === 'chat' ? location.pathname : '#' + (t === 'lect' ? 'lectures' : 'bd')); } catch(e) {}
+  document.querySelectorAll('.hub-tab').forEach(b => b.classList.toggle('act', b.dataset.tab === t));
+  renderChips();
+  render();
+}
+
+// Onglet initial selon l'ancre d'URL (#lectures, #bd)
+function initialTab() {
+  const h = (location.hash || '').replace('#','').toLowerCase();
+  if (h === 'lectures' || h === 'lect') return 'lect';
+  if (h === 'bd' || h === 'planches') return 'bd';
+  return 'chat';
+}
 
 function setFilter(f) {
   currentFilter = f;
-  document.querySelectorAll('.fchip').forEach(c => {
+  document.querySelectorAll('#filterChips .fchip').forEach(c => {
     c.classList.toggle('act', c.dataset.filter === f);
   });
-  renderStories();
+  render();
+}
+
+function render() {
+  if (currentTab === 'chat') { renderStories(); }
+  else { renderLectureGrid(currentTab === 'bd' ? BD_STORIES : LECTURES); }
 }
 
 // ─────────────────────────────────────
@@ -1187,7 +1450,10 @@ function renderStories() {
 // INIT
 // ─────────────────────────────────────
 updateStats();
-renderStories();
+currentTab = initialTab();
+document.querySelectorAll('.hub-tab').forEach(b => b.classList.toggle('act', b.dataset.tab === currentTab));
+renderChips();
+render();
 </script>
 <script>
 </script>
@@ -1206,7 +1472,7 @@ renderStories();
     <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
     <span>Cours</span>
   </a>
-  <a href="lecture.html" class="bni act">
+  <a href="histoires.html" class="bni act">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
     <span>Histoires</span>
   </a>
