@@ -485,6 +485,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
       <span>Lecture</span>
     </button>
+    <button class="hub-tab" data-tab="podcast" onclick="setTab('podcast')">
+      <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+      <span>Podcast</span>
+    </button>
   </div>
 
   <!-- FILTER CHIPS -->
@@ -1303,16 +1307,22 @@ function renderLectureGrid(list) {
 // ─────────────────────────────────────
 // TABS + FILTER
 // ─────────────────────────────────────
-// Onglets de cette page : 'bd' (Planches BD) + 'lect' (Lecture, vidé — à
-// redéfinir). L'onglet « Histoires » (chat) a été retiré à la demande ;
-// son code (STORIES / renderStories / renderCard) est conservé plus bas,
-// simplement non exposé, pour pouvoir le réactiver facilement.
-let currentTab = 'bd';        // bd | lect
+// Onglets de cette page :
+//   'bd'      → Planches BD (actif, 42 planches)
+//   'lect'    → Lecture (à venir : articles de presse coréens, textes
+//                authentiques venus de sites coréens)
+//   'podcast' → Podcast (à venir : podcasts en coréen à écouter, avec
+//                transcription + traduction FR ; voix coréennes ajoutées
+//                plus tard via le studio de voix — cf project_typecast_voices)
+// L'onglet « Histoires » (chat) a été retiré ; son code (STORIES /
+// renderStories / renderCard) est conservé plus bas, non exposé.
+let currentTab = 'bd';        // bd | lect | podcast
 let currentFilter = 'all';
 
 const CHIP_SETS = {
-  bd:   [['all','Tout'],['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2']],
-  lect: [],   // onglet Lecture vidé : pas de filtres pour l'instant
+  bd:      [['all','Tout'],['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2']],
+  lect:    [],   // vidé : pas de filtres pour l'instant
+  podcast: [],   // vidé : pas de filtres pour l'instant
 };
 
 function renderChips() {
@@ -1330,16 +1340,18 @@ function setTab(t) {
   currentTab = t;
   currentFilter = 'all';
   // Mémorise l'onglet dans l'URL (deep-link + survit au rechargement)
-  try { history.replaceState(null, '', '#' + (t === 'lect' ? 'lectures' : 'bd')); } catch(e) {}
+  const HASH = { lect:'lectures', podcast:'podcast', bd:'bd' };
+  try { history.replaceState(null, '', '#' + (HASH[t] || 'bd')); } catch(e) {}
   document.querySelectorAll('.hub-tab').forEach(b => b.classList.toggle('act', b.dataset.tab === t));
   renderChips();
   render();
 }
 
-// Onglet initial selon l'ancre d'URL (#lectures), sinon Planches BD
+// Onglet initial selon l'ancre d'URL (#lectures, #podcast), sinon Planches BD
 function initialTab() {
   const h = (location.hash || '').replace('#','').toLowerCase();
   if (h === 'lectures' || h === 'lect') return 'lect';
+  if (h === 'podcast' || h === 'podcasts') return 'podcast';
   return 'bd';
 }
 
@@ -1351,19 +1363,25 @@ function setFilter(f) {
   render();
 }
 
-// Onglet Lecture vidé : pour l'instant un état « à venir »
-function renderLecturePlaceholder() {
-  const main = document.getElementById('storiesMain');
-  main.innerHTML = `<div class="empty-state" style="padding:64px 24px">
-    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-    <div style="font-weight:700;color:var(--t2);margin-bottom:4px">Section Lecture en préparation</div>
-    <div>Du nouveau contenu arrive bientôt ici.</div>
+// État « à venir » générique pour les onglets pas encore remplis
+const ICON_BOOK = '<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>';
+const ICON_MIC  = '<rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/>';
+function renderPlaceholder(icon, title, sub) {
+  document.getElementById('storiesMain').innerHTML = `<div class="empty-state" style="padding:64px 24px">
+    <svg viewBox="0 0 24 24">${icon}</svg>
+    <div style="font-weight:700;color:var(--t2);margin-bottom:4px">${title}</div>
+    <div>${sub}</div>
   </div>`;
 }
 
 function render() {
-  if (currentTab === 'lect') { renderLecturePlaceholder(); }
-  else { renderLectureGrid(BD_STORIES); }   // bd
+  if (currentTab === 'lect') {
+    renderPlaceholder(ICON_BOOK, 'Lecture — bientôt disponible', 'Articles de presse et textes authentiques venus de sites coréens.');
+  } else if (currentTab === 'podcast') {
+    renderPlaceholder(ICON_MIC, 'Podcasts — bientôt disponibles', 'Des podcasts en coréen à écouter, avec transcription et traduction française.');
+  } else {
+    renderLectureGrid(BD_STORIES);   // bd
+  }
 }
 
 // ─────────────────────────────────────
