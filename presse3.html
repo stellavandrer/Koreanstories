@@ -9,77 +9,95 @@
 <title>1인 가구가 늘고 있어요 — Korean Stories</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Nanum+Myeongjo:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="design.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;overflow-x:hidden}
 .bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}
 #readMain{flex:1;min-width:0;display:flex;flex-direction:column}
-.read-top{position:sticky;top:0;z-index:100;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:14px 20px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.06)}
-.read-top-back{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);text-decoration:none;color:rgba(247,248,250,.8);transition:background .15s}
-.read-top-back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.read-top-info{flex:1;min-width:0}
-.read-top-kr{font-family:'Playfair Display',serif;font-size:17px;color:white;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.read-top-fr{font-size:11px;color:rgba(247,248,250,.4);margin-top:1px}
-.read-top-badge{flex-shrink:0;display:inline-flex;align-items:center;background:rgba(168,85,247,.14);border:1px solid rgba(168,85,247,.3);border-radius:100px;padding:4px 11px;font-size:10px;font-weight:700;color:#a78bfa;letter-spacing:.08em}
-.read-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 20px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0}
-.meta-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:100px;padding:4px 10px;font-size:11px;color:rgba(247,248,250,.5)}
-.meta-chip svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+/* ── barre appli minimale ── */
+.np-bar{position:sticky;top:0;z-index:100;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.08)}
+.np-back{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);text-decoration:none;color:rgba(247,248,250,.85)}
+.np-back svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.np-bar-title{flex:1;min-width:0;text-align:center;font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:#fff;letter-spacing:.06em}
+.np-frtoggle{flex-shrink:0;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.18);border-radius:100px;padding:6px 12px;font-size:11px;font-weight:700;color:rgba(247,248,250,.75);cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.np-frtoggle .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .15s}
+.np-frtoggle[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#fff}
+.np-frtoggle[aria-pressed="true"] .dot{background:#fff}
 .read-prog-bar{height:3px;background:rgba(255,255,255,.06);flex-shrink:0}
-.read-prog-fill{height:100%;background:linear-gradient(90deg,#a78bfa,#a78bfa99);width:0%;transition:width .4s ease}
-.read-scroll{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
-@media(min-width:960px){.read-scroll{padding-bottom:40px}}
-.read-area{padding:24px 20px 20px;max-width:680px;margin:0 auto}
-.read-intro{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.18);border-radius:16px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:var(--t2);line-height:1.65}
-.read-intro strong{color:#a78bfa}
-.read-para{margin-bottom:28px}
-.read-para-num{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px}
-.sent-block{margin-bottom:18px}
-.sent-kr{display:flex;flex-wrap:wrap;gap:4px;align-items:flex-end;margin-bottom:8px;line-height:1}
-.word{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;position:relative;padding:6px 5px 5px;border-radius:8px;transition:background .15s,transform .1s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-.word:hover,.word.active{background:rgba(168,85,247,.12)}
-.word.active{transform:scale(1.04)}
-.word-kr{font-size:19px;color:var(--t);font-weight:500;line-height:1.2;letter-spacing:.02em}
-.word-rom{font-size:9px;color:var(--t3);letter-spacing:.04em}
-.word-tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--navy);border:1px solid rgba(168,85,247,.3);border-radius:10px;padding:8px 12px;white-space:nowrap;font-size:12px;color:rgba(247,248,250,.9);z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .15s;min-width:80px;text-align:center}
-.word-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--navy)}
-.word.active .word-tip{opacity:1}
-.sent-fr{font-size:13px;color:var(--t3);font-style:italic;padding-left:4px;line-height:1.5}
-.sec-lbl{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(201,169,110,.15)}
-.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:28px}
+.read-prog-fill{height:100%;background:var(--gold);width:0%;transition:width .4s ease}
+.np-scroll{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+@media(min-width:960px){.np-scroll{padding-bottom:40px}}
+/* ── journal ── */
+.np{max-width:720px;margin:0 auto;padding:22px 20px 8px;background:var(--surf)}
+@media(min-width:760px){.np{padding:34px 44px 8px}}
+.np-mast{text-align:center;border-top:3px double var(--t);border-bottom:3px double var(--t);padding:12px 0 10px;margin-bottom:14px}
+.np-mast-name{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:clamp(30px,9vw,46px);letter-spacing:.04em;line-height:1;color:var(--t)}
+.np-mast-sub{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--t3);margin-top:8px;font-weight:600}
+.np-dateline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--bd);padding-bottom:10px;margin-bottom:22px;font-weight:600}
+.np-kicker{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.np-headline{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:clamp(27px,7vw,40px);line-height:1.16;color:var(--t);letter-spacing:-.01em;margin-bottom:14px}
+.np-standfirst{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(16px,4.4vw,20px);line-height:1.5;color:var(--t2);margin-bottom:16px}
+.np-byline{display:flex;align-items:center;gap:10px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-weight:600;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:9px 0;margin-bottom:22px}
+.np-byline .sep{flex:1;height:0}
+.np-figure{margin:0 0 24px}
+.np-figure img{width:100%;height:auto;display:block;border:1px solid var(--bd);filter:saturate(.96)}
+.np-figcap{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--t3);font-style:italic;margin-top:7px;line-height:1.4}
+.np-figcap .credit{font-style:normal;letter-spacing:.06em;text-transform:uppercase;font-size:9px;opacity:.8;white-space:nowrap}
+/* corps de texte */
+.np-body{font-family:'Nanum Myeongjo',serif;font-size:17.5px;line-height:1.92;color:var(--t);text-align:justify;-webkit-hyphens:auto;hyphens:auto}
+.art-p{margin-bottom:15px}
+.np-body .art-p:first-of-type::first-letter{font-family:'Playfair Display',serif;float:left;font-size:3.1em;line-height:.8;font-weight:800;padding:6px 10px 0 0;color:var(--gold)}
+.s{ }
+.w{position:relative;cursor:pointer;border-bottom:1px solid transparent;transition:background .12s,border-color .12s;border-radius:3px;-webkit-tap-highlight-color:transparent}
+.w:hover{background:var(--goldbg);border-bottom-color:var(--goldbd)}
+.w.on{background:var(--goldbg);border-bottom-color:var(--gold)}
+.w>i{position:absolute;left:50%;bottom:calc(100% + 7px);transform:translateX(-50%);background:var(--navy);color:#fff;font-family:'Inter',sans-serif;font-style:normal;font-size:12px;font-weight:500;line-height:1.35;letter-spacing:0;white-space:nowrap;max-width:78vw;padding:7px 11px;border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .14s;z-index:60;text-align:center}
+.w>i b{color:var(--gold);font-weight:700}
+.w>i::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--navy)}
+.w.on>i,.w:hover>i{opacity:1}
+/* traduction FR — masquée par défaut, affichée si l'option est activée */
+.fr{display:none}
+.show-fr .fr{display:block;font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.5;color:var(--t2);font-style:italic;text-align:left;border-left:2px solid var(--goldbd);padding-left:11px;margin:5px 0 13px}
+.show-fr .fr::before{content:'FR';font-style:normal;font-weight:800;font-size:8.5px;letter-spacing:.1em;color:var(--gold);display:inline-block;margin-right:7px;vertical-align:1px}
+/* encadrés (lexique, quiz) facon presse */
+.np-box{border:1px solid var(--bd);border-top:3px solid var(--t);background:var(--bg);border-radius:0 0 4px 4px;padding:18px 16px;margin:30px 0 0}
+.np-box-lbl{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:15px;color:var(--t);letter-spacing:.02em;margin-bottom:14px;display:flex;align-items:baseline;gap:8px}
+.np-box-lbl span{font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(min-width:500px){.vocab-grid{grid-template-columns:repeat(3,1fr)}}
-.vocab-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;transition:border-color .15s}
-.vocab-card:hover{border-color:var(--bd2)}
-.vocab-kr{font-size:16px;color:var(--t);font-weight:500;margin-bottom:2px}
+.vocab-card{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:11px 12px}
+.vocab-kr{font-family:'Nanum Myeongjo',serif;font-size:17px;color:var(--t);font-weight:700;margin-bottom:2px}
 .vocab-rom{font-size:10px;color:var(--t3);margin-bottom:4px}
 .vocab-fr{font-size:12px;color:var(--t2)}
 .vocab-type{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:4px;margin-top:5px}
-.vt-n{background:rgba(59,130,246,.1);color:#3b82f6}.vt-v{background:rgba(168,85,247,.1);color:#a855f7}
-.vt-adj{background:rgba(251,191,36,.1);color:#f59e0b}.vt-adv{background:rgba(34,197,94,.1);color:#22c55e}
-.vt-exp{background:rgba(239,68,68,.1);color:#ef4444}
-.quiz-q{background:var(--surf);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-bottom:10px}
-.quiz-q-num{font-size:10px;color:var(--t3);margin-bottom:6px;font-weight:600}
-.quiz-q-text{font-size:14px;color:var(--t);margin-bottom:12px;line-height:1.5}
+.vt-n{background:rgba(59,130,246,.12);color:#3b82f6}.vt-v{background:rgba(168,85,247,.12);color:#a855f7}
+.vt-adj{background:rgba(251,191,36,.14);color:#d97706}.vt-adv{background:rgba(34,197,94,.12);color:#16a34a}
+.vt-exp{background:rgba(239,68,68,.12);color:#ef4444}
+.quiz-q{padding:0 0 14px;border-bottom:1px solid var(--bd);margin-bottom:14px}
+.quiz-q:last-of-type{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.quiz-q-num{font-size:10px;color:var(--t3);margin-bottom:6px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.quiz-q-text{font-size:14.5px;color:var(--t);margin-bottom:12px;line-height:1.5;font-weight:500}
 .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.quiz-opt{background:var(--s2);border:1.5px solid var(--bd);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-align:left;-webkit-tap-highlight-color:transparent}
-.quiz-opt:hover:not([disabled]){background:var(--s3);border-color:var(--bd2)}
-.quiz-opt.correct{background:rgba(168,85,247,.1);border-color:#a78bfa;color:#a78bfa;font-weight:600}
+@media(max-width:420px){.quiz-opts{grid-template-columns:1fr}}
+.quiz-opt{background:var(--surf);border:1.5px solid var(--bd);border-radius:9px;padding:10px 12px;font-size:13px;color:var(--t2);cursor:pointer;transition:all .15s;text-align:left;-webkit-tap-highlight-color:transparent}
+.quiz-opt:hover:not([disabled]){border-color:var(--bd2)}
+.quiz-opt.correct{background:rgba(34,197,94,.1);border-color:#16a34a;color:#15803d;font-weight:600}
 .quiz-opt.wrong{background:rgba(239,68,68,.08);border-color:#ef4444;color:#ef4444}
-.check-btn{display:none;width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#b8955a);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;margin-bottom:28px;transition:opacity .15s}
+.check-btn{display:none;width:100%;padding:14px;border-radius:10px;background:var(--t);color:var(--bg);font-size:15px;font-weight:700;border:none;cursor:pointer;margin-top:16px;transition:opacity .15s;font-family:'Inter',sans-serif}
 .check-btn:hover{opacity:.9}.check-btn.show{display:block}
-.xp-reward{display:none;background:var(--surf);border:1px solid var(--goldbd);border-radius:20px;padding:28px 20px;text-align:center;margin-bottom:28px}
+.xp-reward{display:none;border:1px solid var(--goldbd);border-top:3px solid var(--gold);background:var(--bg);border-radius:0 0 4px 4px;padding:26px 20px;text-align:center;margin-top:18px}
 .xp-reward.show{display:block;animation:xpIn .5s ease both}
-@keyframes xpIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
-.xp-ico{margin-bottom:12px;color:var(--gold);line-height:0}.xp-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin-bottom:6px}
+@keyframes xpIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.xp-ico{margin-bottom:10px;color:var(--gold);line-height:0}
+.xp-title{font-family:'Nanum Myeongjo',serif;font-weight:800;font-size:21px;color:var(--t);margin-bottom:6px}
 .xp-sub{font-size:13px;color:var(--t2);margin-bottom:16px}
-.xp-pill{display:inline-flex;align-items:center;gap:8px;background:var(--goldbg);border:1px solid var(--goldbd);border-radius:100px;padding:9px 22px;margin-bottom:22px;font-size:18px;font-weight:700;color:var(--gold)}
+.xp-pill{display:inline-flex;align-items:center;gap:8px;background:var(--goldbg);border:1px solid var(--goldbd);border-radius:100px;padding:9px 22px;margin-bottom:20px;font-size:17px;font-weight:700;color:var(--gold)}
 .xp-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.btn-primary{background:var(--gold);color:#fff;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:opacity .15s}
-.btn-primary:hover{opacity:.88}
-.btn-secondary{background:transparent;color:var(--gold);border:1.5px solid var(--goldbd);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;transition:all .15s}
-.btn-secondary:hover{background:var(--goldbg)}
+.btn-primary{background:var(--gold);color:#fff;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:700;text-decoration:none;border:none;cursor:pointer}
+.btn-secondary{background:transparent;color:var(--gold);border:1.5px solid var(--goldbd);padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer}
+.np-end{text-align:center;color:var(--t3);font-size:18px;letter-spacing:.4em;margin:26px 0 6px}
 .side-logo-wrap{padding:18px 18px 14px;border-bottom:1.5px solid var(--bd)}
 </style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -105,41 +123,61 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <div class="side-theme"></div>
   </div>
   <div id="readMain">
-    <div class="read-top">
-      <a href="histoires.html#lectures" class="read-top-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
-      <div class="read-top-info">
-        <div class="read-top-kr">1인 가구가 늘고 있어요</div>
-        <div class="read-top-fr">La hausse des foyers d'une personne</div>
-      </div>
-      <div class="read-top-badge">B1</div>
-    </div>
-    <div class="read-meta">
-      <span class="meta-chip"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>~110 mots</span>
-      <span class="meta-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>7 min</span>
-      <span class="meta-chip"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>+20 XP</span>
-      <span class="meta-chip" style="color:var(--t3)">Société · Intermédiaire</span>
+    <div class="np-bar">
+      <a href="histoires.html#lectures" class="np-back" aria-label="Retour"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+      <div class="np-bar-title">한국 소식</div>
+      <button class="np-frtoggle" id="frToggle" aria-pressed="false" onclick="toggleFr()"><span class="dot"></span>Trad. FR</button>
     </div>
     <div class="read-prog-bar"><div class="read-prog-fill" id="progressFill"></div></div>
-    <div class="read-scroll">
-      <div class="read-area">
-        <div class="read-intro"><strong>Article :</strong> De plus en plus de Coréens vivent seuls. Un changement de société qui transforme les villes.</div>
-        <div class="read-para"><div class="read-para-num">Paragraphe 1</div><div class="sent-block"><div class="sent-kr" id="s1"></div><div class="sent-fr">De nos jours en Corée, le nombre de personnes vivant seules augmente.</div></div><div class="sent-block"><div class="sent-kr" id="s2"></div><div class="sent-fr">On appelle ce type de foyer « foyer d'une personne ».</div></div></div><div class="read-para"><div class="read-para-num">Paragraphe 2</div><div class="sent-block"><div class="sent-kr" id="s3"></div><div class="sent-fr">Les gens qui se marient tard ou pas du tout sont devenus nombreux.</div></div><div class="sent-block"><div class="sent-kr" id="s4"></div><div class="sent-fr">Certains trouvent aussi la vie en solo confortable.</div></div></div><div class="read-para"><div class="read-para-num">Paragraphe 3</div><div class="sent-block"><div class="sent-kr" id="s5"></div><div class="sent-fr">Du coup, les petits logements et les restaurants pour une personne sont populaires.</div></div><div class="sent-block"><div class="sent-kr" id="s6"></div><div class="sent-fr">Manger seul, le « honbap », est aussi devenu naturel.</div></div></div><div class="read-para"><div class="read-para-num">Paragraphe 4</div><div class="sent-block"><div class="sent-kr" id="s7"></div><div class="sent-fr">Cependant, ceux qui ressentent la solitude ne sont pas rares.</div></div><div class="sent-block"><div class="sent-kr" id="s8"></div><div class="sent-fr">La société aussi change pour s'adapter à cette évolution.</div></div></div>
-        <div class="sec-lbl">Vocabulaire clé</div>
-        <div class="vocab-grid" id="vocabGrid"></div>
-        <div class="sec-lbl">Questions de compréhension</div>
-        <div id="quizSection"></div>
-        <button class="check-btn" id="checkBtn" onclick="checkAll()">Valider mes réponses</button>
+    <div class="np-scroll">
+      <article class="np" id="article">
+        <div class="np-mast">
+          <div class="np-mast-name">한국 소식</div>
+          <div class="np-mast-sub">Le quotidien · Korean Stories</div>
+        </div>
+        <div class="np-dateline">
+          <span id="npDate">서울</span>
+          <span>제 3 호</span>
+          <span>무료 · GRATUIT</span>
+        </div>
+        <div class="np-kicker">사회 · SOCIÉTÉ</div>
+        <h1 class="np-headline">1인 가구가 늘고 있어요</h1>
+        <div class="np-standfirst">La hausse des foyers d&#x27;une personne</div>
+        <div class="np-byline"><span>한국 소식 편집부</span><span class="sep"></span><span>~7 min · 110 mots</span></div>
+        <figure class="np-figure">
+          <img src="img/press/presse3.webp" alt="La hausse des foyers d&#x27;une personne" loading="lazy" decoding="async" onerror="this.closest('.np-figure').style.display='none'"/>
+          <figcaption class="np-figcap"><span>Dans les grandes villes, de plus en plus de personnes vivent seules.</span><span class="credit">Photo · Unsplash</span></figcaption>
+        </figure>
+        <div class="np-body" id="body">
+          <p class="art-p"><span class="s"><span class="w">요즘<i>yojeum · <b>ces temps-ci</b></i></span> <span class="w">한국에서는<i>hangugeseoneun · <b>en Corée</b></i></span> <span class="w">혼자 사는 사람이<i>honja saneun sarami · <b>les personnes vivant seules</b></i></span> <span class="w">늘고 있어요<i>neulgo isseoyo · <b>augmente</b></i></span></span> <span class="fr">De nos jours en Corée, le nombre de personnes vivant seules augmente.</span> <span class="s"><span class="w">이런 가구를<i>ireon gagureul · <b>ce type de foyer</b></i></span> <span class="w">'1인 가구'라고<i>irin gagu-rago · <b>« foyer d&#x27;une personne »</b></i></span> <span class="w">불러요<i>bulleoyo · <b>on appelle</b></i></span></span> <span class="fr">On appelle ce type de foyer « foyer d&#x27;une personne ».</span> </p>
+          <p class="art-p"><span class="s"><span class="w">결혼을<i>gyeolhoneul · <b>le mariage (obj)</b></i></span> <span class="w">늦게 하거나<i>neutge hageona · <b>faire tard ou</b></i></span> <span class="w">안 하는 사람이<i>an haneun sarami · <b>ceux qui ne le font pas</b></i></span> <span class="w">많아졌어요<i>manajyeosseoyo · <b>sont devenus nombreux</b></i></span></span> <span class="fr">Les gens qui se marient tard ou pas du tout sont devenus nombreux.</span> <span class="s"><span class="w">혼자 사는 생활이<i>honja saneun saenghwari · <b>la vie en solo</b></i></span> <span class="w">편하다고<i>pyeonhadago · <b>qu&#x27;elle est confortable</b></i></span> <span class="w">느끼는 사람도 있어요<i>neukkineun saramdo isseoyo · <b>il y a aussi des gens qui le ressentent</b></i></span></span> <span class="fr">Certains trouvent aussi la vie en solo confortable.</span> </p>
+          <p class="art-p"><span class="s"><span class="w">그래서<i>geuraeseo · <b>du coup</b></i></span> <span class="w">작은 집과<i>jageun jipgwa · <b>les petits logements et</b></i></span> <span class="w">1인용 식당이<i>irinyong sikdangi · <b>les restaurants pour une personne</b></i></span> <span class="w">인기예요<i>ingiyeyo · <b>sont populaires</b></i></span></span> <span class="fr">Du coup, les petits logements et les restaurants pour une personne sont populaires.</span> <span class="s"><span class="w">혼자 밥을 먹는<i>honja babeul meongneun · <b>manger seul</b></i></span> <span class="w">'혼밥'도<i>honbap-do · <b>le « honbap » aussi</b></i></span> <span class="w">자연스러워졌어요<i>jayeonseureowojyeosseoyo · <b>est devenu naturel</b></i></span></span> <span class="fr">Manger seul, le « honbap », est aussi devenu naturel.</span> </p>
+          <p class="art-p"><span class="s"><span class="w">하지만<i>hajiman · <b>cependant</b></i></span> <span class="w">외로움을<i>oeroumeul · <b>la solitude (obj)</b></i></span> <span class="w">느끼는 사람도<i>neukkineun saramdo · <b>ceux qui ressentent aussi</b></i></span> <span class="w">적지 않아요<i>jeokji anayo · <b>ne sont pas rares</b></i></span></span> <span class="fr">Cependant, ceux qui ressentent la solitude ne sont pas rares.</span> <span class="s"><span class="w">사회도<i>sahoedo · <b>la société aussi</b></i></span> <span class="w">이런 변화에 맞춰<i>ireon byeonhwae matchwo · <b>en s&#x27;adaptant à ce changement</b></i></span> <span class="w">바뀌고 있어요<i>bakkwigo isseoyo · <b>est en train de changer</b></i></span></span> <span class="fr">La société aussi change pour s&#x27;adapter à cette évolution.</span> </p>
+        </div>
+        <div class="np-end">— ◆ —</div>
+
+        <div class="np-box">
+          <div class="np-box-lbl">어휘 <span>Lexique</span></div>
+          <div class="vocab-grid" id="vocabGrid"></div>
+        </div>
+
+        <div class="np-box">
+          <div class="np-box-lbl">이해 확인 <span>Compréhension</span></div>
+          <div id="quizSection"></div>
+          <button class="check-btn" id="checkBtn" onclick="checkAll()">Valider mes réponses</button>
+        </div>
+
         <div class="xp-reward" id="xpReward">
-          <div class="xp-ico"><svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg></div>
-          <div class="xp-title">Bravo, tu l'as lu !</div>
-          <div class="xp-sub">Article complété · score <span id="scoreDisplay"></span>/4</div>
-          <div class="xp-pill">+20 XP gagnés</div>
+          <div class="xp-ico"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg></div>
+          <div class="xp-title">Article lu !</div>
+          <div class="xp-sub">Score <span id="scoreDisplay"></span>/4</div>
+          <div class="xp-pill">+20 XP</div>
           <div class="xp-btns">
             <a href="histoires.html#lectures" class="btn-secondary">Autres lectures</a>
             <a href="presse4.html" class="btn-primary">Lecture suivante →</a>
           </div>
         </div>
-      </div>
+      </article>
     </div>
   </div>
 </div>
@@ -152,33 +190,49 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
 </nav>
 <script>
-const SENTENCES={"s1": [["요즘", "yojeum", "ces temps-ci"], ["한국에서는", "hangugeseoneun", "en Corée"], ["혼자 사는 사람이", "honja saneun sarami", "les personnes vivant seules"], ["늘고 있어요", "neulgo isseoyo", "augmente"]], "s2": [["이런 가구를", "ireon gagureul", "ce type de foyer"], ["'1인 가구'라고", "irin gagu-rago", "« foyer d'une personne »"], ["불러요", "bulleoyo", "on appelle"]], "s3": [["결혼을", "gyeolhoneul", "le mariage (obj)"], ["늦게 하거나", "neutge hageona", "faire tard ou"], ["안 하는 사람이", "an haneun sarami", "ceux qui ne le font pas"], ["많아졌어요", "manajyeosseoyo", "sont devenus nombreux"]], "s4": [["혼자 사는 생활이", "honja saneun saenghwari", "la vie en solo"], ["편하다고", "pyeonhadago", "qu'elle est confortable"], ["느끼는 사람도 있어요", "neukkineun saramdo isseoyo", "il y a aussi des gens qui ressentent"]], "s5": [["그래서", "geuraeseo", "du coup"], ["작은 집과", "jageun jipgwa", "les petits logements et"], ["1인용 식당이", "irinyong sikdangi", "les restaurants pour une personne"], ["인기예요", "ingiyeyo", "sont populaires"]], "s6": [["혼자 밥을 먹는", "honja babeul meongneun", "manger seul"], ["'혼밥'도", "honbap-do", "le « honbap » aussi"], ["자연스러워졌어요", "jayeonseureowojyeosseoyo", "est devenu naturel"]], "s7": [["하지만", "hajiman", "cependant"], ["외로움을", "oeroumeul", "la solitude (obj)"], ["느끼는 사람도", "neukkineun saramdo", "ceux qui ressentent aussi"], ["적지 않아요", "jeokji anayo", "ne sont pas rares"]], "s8": [["사회도", "sahoedo", "la société aussi"], ["이런 변화에 맞춰", "ireon byeonhwae matchwo", "en s'adaptant à ce changement"], ["바뀌고 있어요", "bakkwigo isseoyo", "est en train de changer"]]};
 const VOCAB=[["1인 가구", "irin gagu", "foyer d'une personne", "n"], ["혼자", "honja", "seul", "adv"], ["결혼", "gyeolhon", "mariage", "n"], ["편하다", "pyeonhada", "être confortable", "adj"], ["혼밥", "honbap", "repas en solo", "n"], ["외로움", "oeroum", "solitude", "n"], ["변화", "byeonhwa", "changement", "n"], ["늘다", "neulda", "augmenter", "v"]];
 const QUIZ=[["Qu'est-ce qu'un « 1인 가구 » ?", ["Une grande famille", "Un foyer d'une seule personne", "Un couple marié", "Un groupe d'amis"], 1], ["Pourquoi y a-t-il plus de foyers d'une personne ?", ["Les gens se marient plus tôt", "Les gens se marient tard ou pas du tout", "Le logement a baissé", "Les familles s'agrandissent"], 1], ["Que signifie « 혼밥 » ?", ["Cuisiner pour des amis", "Manger seul", "Un plat traditionnel", "Un restaurant de luxe"], 1], ["Quel inconvénient le texte mentionne-t-il ?", ["Le bruit", "La solitude", "Le manque de logements", "La pollution"], 1]];
 const XP_KEY='ks_presse_3';
 const XP_VAL=20;
 const STORY_ID='presse_3';
 
-function renderSentences(){
-  Object.entries(SENTENCES).forEach(([id,words])=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    words.forEach(([kr,rom,fr])=>{
-      const w=document.createElement('div');
-      w.className='word';
-      w.innerHTML=`<span class="word-kr">${kr}</span><span class="word-rom">${rom}</span><div class="word-tip">${fr}</div>`;
-      w.addEventListener('click',e=>{
-        e.stopPropagation();
-        const was=w.classList.contains('active');
-        document.querySelectorAll('.word.active').forEach(x=>x.classList.remove('active'));
-        if(!was)w.classList.add('active');
-      });
-      el.appendChild(w);
-    });
-  });
-}
+/* ── Date du jour (coréen) dans la manchette ── */
+(function(){
+  try{
+    const d=new Date();
+    const jours=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+    document.getElementById('npDate').textContent=`서울 · ${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${jours[d.getDay()]}`;
+  }catch(e){}
+})();
 
-function renderVocab(){
+/* ── Mots cliquables : romanisation + sens (survol/tap) ── */
+const body=document.getElementById('body');
+body.addEventListener('click',e=>{
+  const w=e.target.closest('.w');
+  if(!w){document.querySelectorAll('.w.on').forEach(x=>x.classList.remove('on'));return;}
+  e.stopPropagation();
+  const was=w.classList.contains('on');
+  document.querySelectorAll('.w.on').forEach(x=>x.classList.remove('on'));
+  if(!was)w.classList.add('on');
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.w'))document.querySelectorAll('.w.on').forEach(x=>x.classList.remove('on'));});
+
+/* ── Traduction FR optionnelle ── */
+function applyFr(on){
+  const a=document.getElementById('article');
+  const btn=document.getElementById('frToggle');
+  a.classList.toggle('show-fr',on);
+  btn.setAttribute('aria-pressed',on?'true':'false');
+}
+function toggleFr(){
+  const on=document.getElementById('frToggle').getAttribute('aria-pressed')!=='true';
+  applyFr(on);
+  try{localStorage.setItem('ks_pref_artfr',on?'1':'0');}catch(e){}
+}
+try{ if(localStorage.getItem('ks_pref_artfr')==='1') applyFr(true); }catch(e){}
+
+/* ── Lexique ── */
+(function(){
   const grid=document.getElementById('vocabGrid');
   const labels={n:'nom',v:'verbe',adj:'adjectif',adv:'adverbe',exp:'expression'};
   VOCAB.forEach(v=>{
@@ -187,10 +241,11 @@ function renderVocab(){
     d.innerHTML=`<div class="vocab-kr">${v[0]}</div><div class="vocab-rom">${v[1]}</div><div class="vocab-fr">${v[2]}</div><span class="vocab-type vt-${v[3]}">${labels[v[3]]||v[3]}</span>`;
     grid.appendChild(d);
   });
-}
+})();
 
+/* ── Quiz ── */
 let selected={},done=false;
-function renderQuiz(){
+(function(){
   const sec=document.getElementById('quizSection');
   QUIZ.forEach((q,qi)=>{
     const qd=document.createElement('div');
@@ -211,7 +266,7 @@ function renderQuiz(){
     });
     sec.appendChild(qd);
   });
-}
+})();
 
 function checkAll(){
   done=true;let score=0;
@@ -240,6 +295,7 @@ function checkAll(){
   r.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
+/* ── Progression de lecture ── */
 function updateProgress(){
   const fill=document.getElementById('progressFill');
   if(!fill)return;
@@ -247,8 +303,7 @@ function updateProgress(){
   fill.style.width=(total>0?Math.min(100,(window.scrollY/total)*100):0)+'%';
 }
 window.addEventListener('scroll',updateProgress,{passive:true});
-document.addEventListener('click',()=>document.querySelectorAll('.word.active').forEach(el=>el.classList.remove('active')));
-renderSentences();renderVocab();renderQuiz();updateProgress();
+updateProgress();
 </script>
 <script src="ks.js"></script>
 </body>
