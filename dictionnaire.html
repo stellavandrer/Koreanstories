@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0F1B2D"/>
+<title>Dictionnaire coréen-français — Korean Stories</title>
+<meta name="description" content="Dictionnaire coréen ⇄ français intelligent : recherche instantanée, audio, romanisation automatique et conjugaison complète des verbes et adjectifs coréens."/>
+<link rel="canonical" href="https://koreanstories.fr/dictionnaire.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,600&family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="design.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;-webkit-font-smoothing:antialiased;padding-bottom:90px}
+.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}
+
+/* HERO / SEARCH */
+.dic-hero{background:linear-gradient(160deg,var(--navy,#0F1B2D),#16263d);color:#fff;padding:calc(22px + env(safe-area-inset-top)) 20px 30px}
+.dic-top{display:flex;align-items:center;justify-content:space-between;max-width:760px;margin:0 auto 22px}
+.dic-back{display:inline-flex;align-items:center;gap:7px;color:rgba(255,255,255,.85);font-size:14px;font-weight:600}
+.dic-back svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.dic-badge{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold2,#e0c48a)}
+.dic-hd{max-width:760px;margin:0 auto;text-align:center}
+.dic-hd h1{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(24px,5vw,36px);margin-bottom:8px}
+.dic-hd p{font-size:14px;color:rgba(255,255,255,.6);margin-bottom:22px}
+.search-wrap{position:relative;max-width:620px;margin:0 auto}
+.search-wrap svg.si{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:22px;height:22px;stroke:var(--t3,#8FA5BE);fill:none;stroke-width:2;pointer-events:none}
+#q{width:100%;border:none;border-radius:100px;padding:17px 52px 17px 50px;font-size:17px;font-family:inherit;background:#fff;color:#0D1823;box-shadow:0 14px 40px rgba(0,0,0,.28)}
+#q:focus{outline:3px solid var(--gold,#C9A96E)}
+.q-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;background:var(--bg,#EEF2FB);display:none;align-items:center;justify-content:center;color:var(--t2)}
+.q-clear.show{display:flex}
+.q-clear svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round}
+.dir-hint{text-align:center;font-size:12px;color:rgba(255,255,255,.5);margin-top:12px}
+
+/* CONTENT */
+.dic-main{max-width:760px;margin:0 auto;padding:22px 16px 0}
+.res-count{font-size:12.5px;color:var(--t3);font-weight:600;margin:4px 2px 14px;letter-spacing:.02em}
+.entry{background:var(--surf);border:1px solid var(--bd);border-radius:18px;margin-bottom:12px;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.entry:hover{border-color:var(--bd2)}
+.entry-head{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;cursor:pointer}
+.entry-main{flex:1;min-width:0}
+.entry-ko{font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:23px;color:var(--t);line-height:1.2;display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pos-tag{font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:100px;vertical-align:middle}
+.pos-verbe,.pos-adj{background:rgba(168,139,250,.16);color:#7c5cd6}
+.pos-nom{background:rgba(59,130,246,.14);color:#2563eb}
+.pos-expr,.pos-salut,.pos-interj{background:rgba(239,68,68,.13);color:#dc2626}
+.pos-adv,.pos-conj,.pos-part,.pos-pron,.pos-num,.pos-interr{background:rgba(34,197,94,.14);color:#16a34a}
+.entry-rom{font-size:13px;color:var(--t3);margin-top:3px;font-style:italic}
+.entry-fr{font-size:15.5px;color:var(--t);font-weight:600;margin-top:6px}
+.entry-ex{font-size:13px;color:var(--t2);margin-top:7px;line-height:1.5}
+.entry-ex .exk{font-family:'Noto Sans KR',sans-serif;color:var(--t)}
+.spk{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--goldbg,#FBF2E3);border:1px solid var(--goldbd,#E0CBA0);display:flex;align-items:center;justify-content:center;color:var(--gold-deep,#B8924E);transition:transform .12s}
+.spk:hover{transform:scale(1.08)}.spk.playing{background:var(--gold,#C9A96E);color:#fff}
+.spk svg{width:20px;height:20px;fill:currentColor}
+.conj-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12.5px;font-weight:700;color:var(--gold-deep,#B8924E);background:var(--goldbg,#FBF2E3);border:1px solid var(--goldbd);border-radius:100px;padding:7px 14px}
+.conj-toggle svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;transition:transform .25s}
+.entry.open .conj-toggle svg{transform:rotate(180deg)}
+.conj-panel{max-height:0;overflow:hidden;transition:max-height .35s ease;background:var(--s2)}
+.entry.open .conj-panel{max-height:640px}
+.conj-inner{padding:16px 18px 18px;border-top:1px solid var(--bd)}
+.conj-title{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.conj-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--bd)}
+.conj-row:last-child{border-bottom:0}
+.conj-lbl{flex-shrink:0;width:120px;font-size:12px;color:var(--t2);font-weight:600}
+.conj-val{flex:1;font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:17px;color:var(--t)}
+.conj-val .rom{display:block;font-family:'Inter',sans-serif;font-weight:400;font-style:italic;font-size:11px;color:var(--t3);margin-top:1px}
+.conj-spk{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;color:var(--gold-deep)}
+.conj-spk svg{width:15px;height:15px;fill:currentColor}
+.conj-note{font-size:11px;color:var(--t3);margin-top:12px;font-style:italic;line-height:1.4}
+
+/* empty / no result */
+.empty{text-align:center;padding:30px 16px;color:var(--t2)}
+.empty .big{font-family:'Noto Sans KR',sans-serif;font-size:34px;color:var(--t);margin-bottom:6px}
+.empty .rom{font-style:italic;color:var(--t3);font-size:14px;margin-bottom:14px}
+.empty p{font-size:14px;line-height:1.6;max-width:380px;margin:0 auto 6px}
+.empty .spk{margin:10px auto}
+.suggest{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.chip{background:var(--surf);border:1px solid var(--bd);border-radius:100px;padding:8px 15px;font-size:13px;font-weight:600;color:var(--t);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--gold);color:var(--gold-deep)}
+.chip .k{font-family:'Noto Sans KR',sans-serif;font-weight:700;margin-right:5px}
+.sec-lbl{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin:6px 2px 14px;display:flex;align-items:center;gap:9px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--bd)}
+.intro-card{background:var(--surf);border:1px solid var(--bd);border-radius:18px;padding:18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start}
+.intro-card svg{width:26px;height:26px;flex-shrink:0;stroke:var(--gold-deep);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.intro-card h3{font-size:15px;font-weight:700;margin-bottom:3px}
+.intro-card p{font-size:13.5px;color:var(--t2);line-height:1.55}
+</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+</head>
+<body>
+
+<header class="dic-hero">
+  <div class="dic-top">
+    <a class="dic-back" href="histoires.html"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Retour</a>
+    <span class="dic-badge">사전 · Dictionnaire</span>
+  </div>
+  <div class="dic-hd">
+    <h1>Dictionnaire coréen ⇄ français</h1>
+    <p>Cherche en français ou en coréen — avec audio, romanisation et conjugaison automatiques.</p>
+    <div class="search-wrap">
+      <svg class="si" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="q" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex : 사랑, manger, 가다, école…" aria-label="Rechercher un mot"/>
+      <button class="q-clear" id="qClear" aria-label="Effacer"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div class="dir-hint" id="dirHint">607 mots · tape un mot coréen ou français</div>
+  </div>
+</header>
+
+<main class="dic-main" id="main"></main>
+
+<nav class="bnav">
+  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
+  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
+  <a href="histoires.html" class="bni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
+  <a href="dictionnaire.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/><line x1="12" y1="7" x2="12" y2="21"/></svg><span>Dico</span></a>
+  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
+  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
+</nav>
+
+<script src="ks-dictionary.js"></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   Dictionnaire intelligent — recherche, romanisation auto, conjugaison.
+   Données : KSDict.raw() (≈607 entrées { ko: {fr, rom, pos, ex} }).
+   ═══════════════════════════════════════════════════════════════════ */
+var DICT = (window.KSDict && KSDict.raw()) ? KSDict.raw() : {};
+var ENTRIES = Object.keys(DICT).map(function(ko){ var e=DICT[ko]; return {ko:ko, fr:e.fr||'', rom:e.rom||'', pos:e.pos||'', ex:e.ex||''}; });
+
+/* ── Hangeul : décomposition / composition ── */
+var LITS=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+var VOWS=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+function dec(ch){var c=ch.charCodeAt(0)-0xAC00;if(c<0||c>11171)return null;return {l:Math.floor(c/588),v:Math.floor((c%588)/28),t:c%28};}
+function comp(l,v,t){return String.fromCharCode(0xAC00+(l*21+v)*28+(t||0));}
+function isHangeul(s){return /[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(s);}
+
+/* ── Romanisation (RR, syllabe par syllabe, approximation pédagogique) ── */
+var L_ROM=['g','kk','n','d','tt','r','m','b','pp','s','ss','','j','jj','ch','k','t','p','h'];
+var V_ROM=['a','ae','ya','yae','eo','e','yeo','ye','o','wa','wae','oe','yo','u','wo','we','wi','yu','eu','ui','i'];
+var T_ROM=['','k','k','k','n','n','n','t','l','k','m','l','l','l','p','l','m','p','p','t','t','ng','t','t','k','t','p','t'];
+function romanize(text){
+  var out='';
+  for(var i=0;i<text.length;i++){
+    var d=dec(text[i]);
+    if(d){ out+=L_ROM[d.l]+V_ROM[d.v]+T_ROM[d.t]; }
+    else out+=text[i];
+  }
+  return out;
+}
+
+/* ── Conjugueur ──────────────────────────────────────────────────────
+   Couvre régulier + 하다 + contractions vocaliques + irréguliers
+   ㄷ, ㅂ, ㅅ, 르, 으, ㅎ, ㄹ. Formes générées (haut→bas registre). */
+var IRR_D={'듣':1,'걷':1,'묻':1,'싣':1,'깨닫':1,'붇':1};            // ㄷ → ㄹ
+var IRR_B={'덥':1,'춥':1,'쉽':1,'어렵':1,'무겁':1,'가볍':1,'아름답':1,'반갑':1,'맵':1,'싱겁':1,'귀엽':1,'더럽':1,'눕':1,'줍':1,'곱':1,'돕':1,'굽':1,'고맙':1};  // ㅂ → 우/와
+var IRR_S={'짓':1,'낫':1,'붓':1,'긋':1,'잇':1};                    // ㅅ drop
+var IRR_H={'그렇':1,'어떻':1,'이렇':1,'저렇':1,'빨갛':1,'파랗':1,'노랗':1,'하얗':1,'까맣':1,'동그랗':1};  // ㅎ
+var REU_REGULAR={'따르':1,'들르':1,'치르':1};                      // 르 mais régulier (으-drop)
+function bright(v){return v===0||v===8;}  // ㅏ ou ㅗ → voyelle claire (아)
+
+/* Forme « 아/어 » (= base du présent poli sans 요, et du tutoiement) */
+function infin(stem){
+  if(stem.charAt(stem.length-1)==='하') return stem.slice(0,-1)+'해';
+  var last=stem.charAt(stem.length-1), d=dec(last), pre=stem.slice(0,-1);
+  if(!d) return stem+'어';
+  /* 르 irrégulier */
+  if(last==='르' && stem.length>=2 && !REU_REGULAR[stem]){
+    var pc=dec(stem.charAt(stem.length-2));
+    if(pc){ var nv=bright(pc.v)?0:4; return stem.slice(0,-2)+comp(pc.l,pc.v,8)+comp(5,nv,0); }
+  }
+  if(d.t!==0){
+    if(d.t===7 && IRR_D[stem]){ var vv=bright(d.v)?'아':'어'; return pre+comp(d.l,d.v,8)+vv; }          // ㄷ→ㄹ +아/어
+    if(d.t===17 && IRR_B[stem]){ var base=comp(d.l,d.v,0); return pre+base+((stem==='돕'||stem==='곱')?'와':'워'); } // ㅂ→우/와
+    if(d.t===19 && IRR_S[stem]){ var v2=bright(d.v)?'아':'어'; return pre+comp(d.l,d.v,0)+v2; }          // ㅅ drop
+    if(d.t===27 && IRR_H[stem]){ var nv2=(d.v===2)?3:1; return pre+comp(d.l,nv2,0); }                    // ㅎ → ㅐ/ㅒ
+    return stem+(bright(d.v)?'아':'어');                                                                  // régulier consonne
+  }
+  switch(d.v){
+    case 0: case 4: case 1: case 5: return stem;                 // ㅏㅓㅐㅔ : pas de changement
+    case 8: return pre+comp(d.l,9,0);                            // ㅗ→ㅘ
+    case 13: return pre+comp(d.l,14,0);                          // ㅜ→ㅝ
+    case 20: return pre+comp(d.l,6,0);                           // ㅣ→ㅕ
+    case 11: return pre+comp(d.l,10,0);                          // ㅚ→ㅙ
+    case 18: { var hb=false; if(pre){var pd=dec(pre.charAt(pre.length-1)); if(pd) hb=bright(pd.v);} return pre+comp(d.l,hb?0:4,0); } // ㅡ drop
+    default: return stem+'어';
+  }
+}
+function addSS(infForm){ /* ajoute ㅆ à la dernière syllabe (pour le passé) */
+  var last=infForm.charAt(infForm.length-1), d=dec(last);
+  if(!d) return infForm+'었';
+  return infForm.slice(0,-1)+comp(d.l,d.v,20)+'어'; /* ㅆ=20 */
+}
+function formal(stem){
+  var last=stem.charAt(stem.length-1), d=dec(last), pre=stem.slice(0,-1);
+  if(!d) return stem+'습니다';
+  if(d.t===0||d.t===8) return pre+comp(d.l,d.v,17)+'니다';  /* voyelle ou ㄹ → ㅂ니다 (합니다, 삽니다) */
+  return stem+'습니다';
+}
+function vstem(stem){ /* radical avant 으/ㄹ (futur, impératif) → {s, eul:bool} */
+  if(stem.charAt(stem.length-1)==='하') return {s:stem, eul:false};
+  var last=stem.charAt(stem.length-1), d=dec(last), pre=stem.slice(0,-1);
+  if(!d) return {s:stem, eul:true};
+  if(last==='르' && !REU_REGULAR[stem]) return {s:stem, eul:false};     /* 르 → +ㄹ */
+  if(d.t===0) return {s:stem, eul:false};                               /* voyelle → +ㄹ */
+  if(d.t===8) return {s:pre+comp(d.l,d.v,0), eul:false};                /* ㄹ drop → +ㄹ */
+  if(d.t===7 && IRR_D[stem]) return {s:pre+comp(d.l,d.v,8), eul:true}; /* ㄷ→ㄹ +을 */
+  if(d.t===17 && IRR_B[stem]) return {s:pre+comp(d.l,d.v,0)+'우', eul:false}; /* ㅂ→우 +ㄹ */
+  if(d.t===19 && IRR_S[stem]) return {s:pre+comp(d.l,d.v,0), eul:true}; /* ㅅ drop +을 */
+  if(d.t===27 && IRR_H[stem]) return {s:pre+comp(d.l,d.v,0), eul:false}; /* ㅎ drop → +ㄹ */
+  return {s:stem, eul:true};                                           /* régulier consonne +을 */
+}
+function addRieul(s){ var last=s.charAt(s.length-1),d=dec(last); if(!d)return s+'ㄹ'; return s.slice(0,-1)+comp(d.l,d.v,8); }
+function conjugate(word){
+  if(!word||word.charAt(word.length-1)!=='다') return null;
+  var stem=word.slice(0,-1);
+  if(!stem||!dec(stem.charAt(stem.length-1))) return null;
+  var inf=infin(stem);
+  var vs=vstem(stem);
+  var futurBase = vs.eul ? vs.s+'을' : addRieul(vs.s);
+  var imper = vs.eul ? (vs.s+'으세요') : (vs.s+'세요');  /* voyelle → 세요 ; consonne → 으세요 */
+  var forms=[
+    ['Présent (poli)', inf+'요'],
+    ['Présent (formel)', formal(stem)],
+    ['Passé', addSS(inf)+'요'],
+    ['Futur', futurBase+' 거예요'],
+    ['Impératif (poli)', imper],
+    ['Tutoiement', inf]
+  ];
+  return forms;
+}
+
+/* ── Audio : synthèse vocale coréenne (fonctionne pour tout mot) ── */
+var _krVoice=null;
+function pickVoice(){ try{ var vs=speechSynthesis.getVoices(); _krVoice=vs.filter(function(v){return /ko(-|_)?/i.test(v.lang);})[0]||null; }catch(e){} }
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
+function speak(text,btn){
+  try{
+    speechSynthesis.cancel();
+    document.querySelectorAll('.spk.playing').forEach(function(b){b.classList.remove('playing');});
+    var u=new SpeechSynthesisUtterance(text);
+    u.lang='ko-KR'; u.rate=.85; if(_krVoice)u.voice=_krVoice;
+    if(btn){btn.classList.add('playing'); u.onend=u.onerror=function(){btn.classList.remove('playing');};}
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* ── Recherche ── */
+function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim(); }
+function search(qRaw){
+  var q=norm(qRaw); if(!q) return [];
+  var kr=isHangeul(qRaw);
+  var scored=[];
+  for(var i=0;i<ENTRIES.length;i++){
+    var e=ENTRIES[i], sc=-1;
+    if(kr){
+      if(e.ko===qRaw) sc=100; else if(e.ko.indexOf(qRaw)===0) sc=80; else if(e.ko.indexOf(qRaw)>=0) sc=55;
+      else if(norm(e.rom).indexOf(q)>=0) sc=30;
+    } else {
+      var f=norm(e.fr), r=norm(e.rom);
+      if(f===q) sc=100; else if(f.split(/[\s/(),]+/).indexOf(q)>=0) sc=82;
+      else if(f.indexOf(q)===0) sc=70; else if(f.indexOf(q)>=0) sc=50;
+      else if(r===q) sc=60; else if(r.indexOf(q)===0) sc=40; else if(r.indexOf(q)>=0) sc=25;
+    }
+    if(sc>=0) scored.push({e:e,sc:sc});
+  }
+  scored.sort(function(a,b){ return b.sc-a.sc || a.e.ko.length-b.e.ko.length || a.e.ko.localeCompare(b.e.ko); });
+  return scored.slice(0,60).map(function(x){return x.e;});
+}
+
+/* ── Rendu ── */
+var POS_LBL={nom:'nom',verbe:'verbe',adj:'adjectif',adv:'adverbe',expr:'expression',conj:'conjonction',part:'particule',pron:'pronom',num:'nombre',interr:'interrogatif',interj:'interjection',salut:'salutation'};
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+var SPK_SVG='<svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>';
+
+function entryHTML(e){
+  var canConj=(e.pos==='verbe'||e.pos==='adj') && e.ko.charAt(e.ko.length-1)==='다';
+  var h='<div class="entry'+(canConj?' has-conj':'')+'" data-ko="'+esc(e.ko)+'">';
+  h+='<div class="entry-head">';
+  h+='<div class="entry-main">';
+  h+='<div class="entry-ko">'+esc(e.ko)+(e.pos?'<span class="pos-tag pos-'+e.pos+'">'+(POS_LBL[e.pos]||e.pos)+'</span>':'')+'</div>';
+  h+='<div class="entry-rom">'+esc(e.rom||romanize(e.ko))+'</div>';
+  h+='<div class="entry-fr">'+esc(e.fr)+'</div>';
+  if(e.ex) h+='<div class="entry-ex"><span class="exk">'+esc(e.ex)+'</span></div>';
+  if(canConj) h+='<button class="conj-toggle" type="button">Conjuguer <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>';
+  h+='</div>';
+  h+='<button class="spk" aria-label="Écouter" data-say="'+esc(e.ko)+'">'+SPK_SVG+'</button>';
+  h+='</div>';
+  if(canConj){
+    var forms=conjugate(e.ko);
+    if(forms){
+      h+='<div class="conj-panel"><div class="conj-inner">';
+      h+='<div class="conj-title">Conjugaison · '+esc(e.ko)+'</div>';
+      forms.forEach(function(f){
+        h+='<div class="conj-row"><span class="conj-lbl">'+f[0]+'</span><span class="conj-val">'+esc(f[1])+'<span class="rom">'+esc(romanize(f[1].replace(/\s/g,'')))+'</span></span><button class="conj-spk" aria-label="Écouter" data-say="'+esc(f[1])+'">'+SPK_SVG+'</button></div>';
+      });
+      h+='<div class="conj-note">Formes générées automatiquement — les cas très irréguliers peuvent varier.</div>';
+      h+='</div></div>';
+    }
+  }
+  h+='</div>';
+  return h;
+}
+
+var main=document.getElementById('main'), qEl=document.getElementById('q'), qClear=document.getElementById('qClear'), dirHint=document.getElementById('dirHint');
+
+function renderResults(list, q){
+  if(!list.length){ renderEmpty(q); return; }
+  var h='<div class="res-count">'+list.length+(list.length>=60?'+':'')+' résultat'+(list.length>1?'s':'')+'</div>';
+  list.forEach(function(e){ h+=entryHTML(e); });
+  main.innerHTML=h;
+}
+function renderEmpty(q){
+  var kr=isHangeul(q);
+  var h='<div class="empty">';
+  if(kr){
+    var conj=conjugate(q);
+    h+='<div class="big">'+esc(q)+'</div><div class="rom">'+esc(romanize(q))+'</div>';
+    h+='<button class="spk" aria-label="Écouter" data-say="'+esc(q)+'">'+SPK_SVG+'</button>';
+    h+='<p>Ce mot n\'est pas encore dans notre dictionnaire, mais voici sa lecture'+(conj?' et sa conjugaison':'')+'.</p>';
+    h+='</div>';
+    if(conj){
+      h+='<div class="entry open" style="margin-top:8px"><div class="conj-panel" style="max-height:640px"><div class="conj-inner"><div class="conj-title">Conjugaison · '+esc(q)+'</div>';
+      conj.forEach(function(f){ h+='<div class="conj-row"><span class="conj-lbl">'+f[0]+'</span><span class="conj-val">'+esc(f[1])+'<span class="rom">'+esc(romanize(f[1].replace(/\s/g,'')))+'</span></span><button class="conj-spk" data-say="'+esc(f[1])+'" aria-label="Écouter">'+SPK_SVG+'</button></div>'; });
+      h+='<div class="conj-note">Formes générées automatiquement.</div></div></div></div>';
+    }
+  } else {
+    h+='<div class="big">🔍</div><p>Aucun résultat pour « '+esc(q)+' ».</p><p style="color:var(--t3)">Essaie un autre mot, en français ou en coréen.</p></div>';
+  }
+  main.innerHTML=h;
+}
+function renderHome(){
+  var samples=['사랑','학교','먹다','예쁘다','감사합니다','가다','행복','시간','친구','맛있다','공부하다','물'];
+  var h='';
+  h+='<div class="intro-card"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><h3>Un dictionnaire qui conjugue pour toi</h3><p>Cherche un mot en français ou en coréen. Pour chaque verbe et adjectif, retrouve la conjugaison complète — présent, passé, futur, formel… avec l\'audio.</p></div></div>';
+  h+='<div class="sec-lbl">Essaie avec</div><div class="suggest">';
+  samples.forEach(function(w){ var e=DICT[w]; h+='<button class="chip" data-go="'+esc(w)+'"><span class="k">'+esc(w)+'</span>'+(e?esc(e.fr.split('/')[0].trim()):'')+'</button>'; });
+  h+='</div>';
+  main.innerHTML=h;
+}
+
+/* ── Événements ── */
+var t;
+function run(){
+  var q=qEl.value.trim();
+  qClear.classList.toggle('show', !!q);
+  if(!q){ renderHome(); dirHint.textContent='607 mots · tape un mot coréen ou français'; return; }
+  var list=search(q);
+  dirHint.textContent = isHangeul(q)? 'Recherche coréen → français' : 'Recherche français → coréen';
+  renderResults(list,q);
+}
+qEl.addEventListener('input', function(){ clearTimeout(t); t=setTimeout(run,120); });
+qClear.addEventListener('click', function(){ qEl.value=''; qEl.focus(); run(); });
+
+main.addEventListener('click', function(ev){
+  var spk=ev.target.closest('.spk,.conj-spk');
+  if(spk){ ev.stopPropagation(); speak(spk.getAttribute('data-say'), spk.classList.contains('spk')?spk:null); return; }
+  var tog=ev.target.closest('.conj-toggle');
+  if(tog){ tog.closest('.entry').classList.toggle('open'); return; }
+  var chip=ev.target.closest('.chip');
+  if(chip){ qEl.value=chip.getAttribute('data-go'); run(); window.scrollTo({top:0,behavior:'smooth'}); qEl.focus(); return; }
+  var head=ev.target.closest('.entry-head');
+  if(head && head.parentNode.classList.contains('has-conj')) head.parentNode.classList.toggle('open');
+});
+
+/* préremplissage via ?q= ou #mot */
+var pre=new URLSearchParams(location.search).get('q')||decodeURIComponent((location.hash||'').slice(1));
+if(pre){ qEl.value=pre; }
+run();
+</script>
+<script src="ks.js" defer></script>
+</body>
+</html>

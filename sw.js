@@ -48,7 +48,9 @@
 // v3.8 : refonte complète de la page d'accueil (index.html) — hero, vitrine
 //        des histoires, parcours, tarifs freemium, à propos, FAQ. Tour
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
-const CACHE = 'ks-v3.8';
+// v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
+//        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
+const CACHE = 'ks-v3.9';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -58,6 +60,8 @@ const CORE = [
   'cours.html',
   'profil.html',
   'histoires.html',
+  'dictionnaire.html',
+  'ks-dictionary.js',
   'exercice.html',
   'vocabulaire.html',
   'hangeul.html',
