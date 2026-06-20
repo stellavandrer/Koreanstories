@@ -1540,51 +1540,16 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch (e) {}
 })();
 
-/* ─────────────────────────────────────────────────────────────────────
-   Complétion des planches BD ouvertes depuis le parcours.
-   Le parcours (cours.html / ks-curriculum.js) pointe désormais vers
-   histoireN-bd.html. Ces planches n'avaient pas de logique de validation
-   d'étape (contrairement aux pages chat avec quiz). Ici : quand le lecteur
-   atteint la fin de la planche, on marque l'étape de cours (clé ks_xxx)
-   comme « done » et on crédite les XP — une seule fois.
-   Map N → [clé de cours, XP], extraite de cours.html (34 histoires du
-   parcours ; les planches hors parcours sont simplement ignorées). */
+/* Charge le module d'améliorations des planches BD sur histoireN-bd.html
+   (romanisation retirée, narration en coréen + FR optionnel, bulles mobiles,
+   « déjà lu » + validation de l'étape de parcours). Voir ks-bd.js. */
 (function () {
   try {
-    var m = (location.pathname.split('/').pop() || '').toLowerCase().match(/^histoire(\d+)-bd\.html$/);
-    if (!m) return;
-    var MAP = {'1':['ks_a03',12],'2':['ks_a15',12],'3':['ks_a27',15],'12':['ks_b09',12],'13':['ks_b12',12],'14':['ks_b17',12],'15':['ks_b31',12],'16':['ks_c13',12],'17':['ks_c16',12],'18':['ks_c21',12],'19':['ks_c23',15],'20':['ks_d06',12],'21':['ks_d09',12],'22':['ks_d22',12],'23':['ks_d23',12],'24':['ks_d24',15],'25':['ks_c30',12],'26':['ks_c31',12],'27':['ks_b37',12],'28':['ks_b38',12],'29':['ks_a41',12],'30':['ks_a42',10],'31':['ks_a43',15],'32':['ks_a35',15],'33':['ks_a37',15],'34':['ks_b43',18],'35':['ks_b44',18],'36':['ks_b45',18],'37':['ks_c36',20],'38':['ks_c37',20],'39':['ks_c38',20],'40':['ks_d35',22],'41':['ks_d36',22],'42':['ks_d37',22]};
-    var e = MAP[m[1]];
-    if (!e) return;
-    var KEY = e[0], XP = e[1];
-    if (localStorage.getItem(KEY) === 'done') return;
-    var marked = false;
-    function markDone() {
-      if (marked) return;
-      try {
-        if (localStorage.getItem(KEY) === 'done') { marked = true; return; }
-        localStorage.setItem(KEY, 'done');
-        localStorage.setItem('ks_xp', String((parseInt(localStorage.getItem('ks_xp') || '0', 10) || 0) + XP));
-        /* objectif quotidien + série, comme à la fin des autres activités */
-        var today = new Date().toISOString().slice(0, 10);
-        var l = localStorage.getItem('ks_lastplay'), st = parseInt(localStorage.getItem('ks_streak') || '0', 10) || 0;
-        if (l !== today) {
-          localStorage.setItem('ks_streak', String(l && (new Date(today) - new Date(l)) / 86400000 === 1 ? st + 1 : 1));
-          localStorage.setItem('ks_lastplay', today);
-        }
-        marked = true;
-        window.removeEventListener('scroll', check);
-      } catch (err) {}
-    }
-    function check() {
-      var sc = document.scrollingElement || document.documentElement;
-      var max = sc.scrollHeight - sc.clientHeight;
-      var y = window.scrollY || sc.scrollTop || 0;
-      if (max <= 40 || y >= max - 90) markDone();
-    }
-    window.addEventListener('scroll', check, { passive: true });
-    window.addEventListener('load', function () { setTimeout(check, 500); });
-    if (document.readyState !== 'loading') setTimeout(check, 500);
-    else document.addEventListener('DOMContentLoaded', function () { setTimeout(check, 500); });
+    var f = (location.pathname.split('/').pop() || '').toLowerCase();
+    if (!/^histoire\d+-bd\.html$/.test(f)) return;
+    if (document.querySelector('script[src="ks-bd.js"]')) return;
+    var s = document.createElement('script');
+    s.src = 'ks-bd.js'; s.defer = true;
+    (document.head || document.documentElement).appendChild(s);
   } catch (e) {}
 })();

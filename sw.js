@@ -42,7 +42,10 @@
 //        (chat), Lectures et Planches BD via 3 onglets. lecture.html
 //        devient une simple redirection. Bump pour purger l'ancienne
 //        version en cache chez les utilisateurs PWA.
-const CACHE = 'ks-v3.6';
+// v3.7 : planches BD — romanisation retirée, narration en coréen (FR en
+//        option), bulles adaptées au mobile, « déjà lu » (ks-bd.js).
+//        Parcours pointant vers les planches BD. Articles de presse + B2.
+const CACHE = 'ks-v3.7';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -74,6 +77,7 @@ const CORE = [
   // Modules JS partagés
   'ks.js',
   'ks-stories.js',
+  'ks-bd.js',
   'ks-curriculum.js',
   'ks-sync.js',
   'ks-search.js',
