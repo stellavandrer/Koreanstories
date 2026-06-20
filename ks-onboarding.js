@@ -14,9 +14,10 @@
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   if (ls('ks_onboarded')) return;
 
-  /* Skip hors pages d'accueil */
+  /* Tour réservé au tableau de bord de l'app — JAMAIS sur la landing
+     publique (index.html / racine), qui est une page marketing. */
   var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  if (here !== 'app.html' && here !== 'index.html' && here !== '') return;
+  if (here !== 'app.html') return;
 
   /* Skip si l'utilisateur arrive d'une page interne (clic « back » vers l'app)
      plutôt qu'un cold start. On laisse 1 chance par session. */

@@ -45,7 +45,10 @@
 // v3.7 : planches BD — romanisation retirée, narration en coréen (FR en
 //        option), bulles adaptées au mobile, « déjà lu » (ks-bd.js).
 //        Parcours pointant vers les planches BD. Articles de presse + B2.
-const CACHE = 'ks-v3.7';
+// v3.8 : refonte complète de la page d'accueil (index.html) — hero, vitrine
+//        des histoires, parcours, tarifs freemium, à propos, FAQ. Tour
+//        d'onboarding désormais réservé à app.html (plus sur la landing).
+const CACHE = 'ks-v3.8';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [

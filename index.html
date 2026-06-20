@@ -8,7 +8,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Korean Stories — Apprends le coréen à travers des histoires</title>
-  <meta name="description" content="Plateforme gratuite d'apprentissage du coréen pour francophones. Curriculum complet A1 → B2 : Hangeul, vocabulaire, exercices interactifs, 30 histoires originales. Sans publicité."/>
+  <meta name="description" content="Apprends le coréen pour francophones à travers des histoires illustrées, des planches BD et de vraies voix. Parcours complet A1 → B2 : Hangeul, vocabulaire, exercices. Gratuit pour démarrer."/>
 
   <!-- SEO essentiels -->
   <link rel="canonical" href="https://koreanstories.fr/"/>
@@ -16,14 +16,14 @@
   <meta name="googlebot" content="index, follow"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <meta name="author" content="Design by Stelva"/>
-  <meta name="keywords" content="apprendre le coréen, cours coréen gratuit, hangeul, méthode coréen français, TOPIK, K-pop coréen, apprentissage coréen, vocabulaire coréen"/>
+  <meta name="keywords" content="apprendre le coréen, cours coréen, hangeul, méthode coréen français, TOPIK, K-pop coréen, apprentissage coréen, vocabulaire coréen, histoires coréennes"/>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website"/>
   <meta property="og:locale" content="fr_FR"/>
   <meta property="og:site_name" content="Korean Stories"/>
   <meta property="og:title" content="Korean Stories — Apprends le coréen à travers des histoires"/>
-  <meta property="og:description" content="Plateforme gratuite d'apprentissage du coréen pour francophones. Curriculum A1 → B2, 30 histoires originales, exercices interactifs. Sans publicité."/>
+  <meta property="og:description" content="Apprends le coréen à travers des histoires illustrées, des planches BD et de vraies voix. Curriculum A1 → B2. Gratuit pour démarrer."/>
   <meta property="og:url" content="https://koreanstories.fr/"/>
   <meta property="og:image" content="https://koreanstories.fr/Logo/Logo - KoreanStories.png"/>
   <meta property="og:image:alt" content="Logo Korean Stories"/>
@@ -31,10 +31,10 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Korean Stories — Apprends le coréen à travers des histoires"/>
-  <meta name="twitter:description" content="Plateforme gratuite d'apprentissage du coréen pour francophones. Curriculum A1 → B2, 30 histoires originales."/>
+  <meta name="twitter:description" content="Apprends le coréen à travers des histoires illustrées et de vraies voix. Curriculum A1 → B2."/>
   <meta name="twitter:image" content="https://koreanstories.fr/Logo/Logo - KoreanStories.png"/>
 
-  <!-- JSON-LD : EducationalOrganization + WebSite -->
+  <!-- JSON-LD : EducationalOrganization + WebSite + Course -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -45,7 +45,7 @@
         "name": "Korean Stories",
         "url": "https://koreanstories.fr/",
         "logo": "https://koreanstories.fr/Logo/Logo - KoreanStories.png",
-        "description": "Plateforme gratuite d'apprentissage du coréen pour francophones, du niveau débutant Hangeul jusqu'au B2 avancé.",
+        "description": "Plateforme d'apprentissage du coréen pour francophones, à travers des histoires illustrées — du niveau débutant Hangeul jusqu'au B2 avancé.",
         "email": "contact@koreanstories.fr",
         "areaServed": "Francophonie",
         "inLanguage": ["fr", "ko"]
@@ -61,1248 +61,667 @@
       {
         "@type": "Course",
         "name": "Curriculum Korean Stories — Coréen A1 à B2",
-        "description": "Parcours complet d'apprentissage du coréen pour francophones : Hangeul, A1, A2, B1, B2. Plus de 120 activités, 30 histoires originales, exercices interactifs.",
+        "description": "Parcours complet d'apprentissage du coréen pour francophones : Hangeul, A1, A2, B1, B2. Plus de 120 activités, 42 histoires illustrées, exercices interactifs.",
         "provider": { "@id": "https://koreanstories.fr/#org" },
         "inLanguage": "fr-FR",
-        "isAccessibleForFree": true,
         "educationalLevel": "Beginner to Upper-Intermediate (CEFR A1-B2)"
       }
     ]
   }
   </script>
 
-  <!-- Preload du logo hero WebP : déclenche le fetch avant le parsing du <img> → LCP optimisé -->
-  <link rel="preload" as="image" type="image/webp" href="img/logo-bleu.webp" fetchpriority="high"/>
+  <link rel="preload" as="image" type="image/webp" href="img/logo-blanc.webp" fetchpriority="high"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-  <style>
-/* ═══════════════════════════════════════════════════════
-   RESET & TOKENS
-═══════════════════════════════════════════════════════ */
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet"/></noscript>
+<style>
+/* ═══════════════ RESET & TOKENS ═══════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 :root{
-  --navy:#0F1B2D; --navy2:#1a2f4a; --navy3:#0a1220;
-  --gold:#C9A96E; --gold2:#e0c48a; --goldbg:rgba(201,169,110,.10); --goldbd:rgba(201,169,110,.22);
-  --bg:#EEF2FB; --surf:#fff; --s2:#F5F7FF;
+  --navy:#0F1B2D; --navy2:#16263d; --navy3:#0a1422;
+  --gold:#C9A96E; --gold2:#e0c48a; --gold-deep:#B8924E;
+  --goldbg:rgba(201,169,110,.10); --goldbd:rgba(201,169,110,.28);
+  --bg:#EEF2FB; --surf:#fff; --s2:#F5F7FF; --cream:#FBF8F1;
   --t:#0D1823; --t2:#475E78; --t3:#8FA5BE;
   --bd:#DAE3F2;
-  --green:#22c55e; --red:#ef4444;
+  --green:#22c55e; --pink:#FF8EA8;
+  --r:14px; --rl:22px; --rxl:30px;
   --tr:.2s cubic-bezier(.4,0,.2,1);
-  --r:14px; --rl:20px;
+  --max:1140px;
+  --sh1:0 2px 14px rgba(15,30,80,.06);
+  --sh2:0 14px 40px rgba(15,30,80,.12);
 }
-body{font-family:'Inter',sans-serif;color:var(--t);overflow-x:hidden;background:#fff;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--t);background:var(--surf);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
 a{text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent}
-button{font-family:inherit;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;border:none;cursor:pointer;background:none;-webkit-tap-highlight-color:transparent}
 img{display:block;max-width:100%}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.kr{font-family:'Noto Sans KR',sans-serif}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep)}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--gold);border-radius:2px}
 
-/* ═══════════════════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════════════════ */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  height:64px;padding:0 24px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:background .3s,backdrop-filter .3s,box-shadow .3s;
-}
-.nav.dark{background:transparent}
-.nav.light{background:rgba(255,255,255,.96);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--bd)}
-.nav-logo{display:inline-flex;align-items:center}
-.nav-logo picture{display:inline-block;height:28px;line-height:0}
-.nav-logo img{height:28px;width:auto;display:block}
-.nav-logo .nav-pic-dark{display:inline-block}
-.nav-logo .nav-pic-light{display:none}
-.nav.light .nav-pic-dark{display:none}
-.nav.light .nav-pic-light{display:inline-block}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-links a{
-  font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;
-  transition:all var(--tr);
-}
-.nav.dark .nav-links a{color:rgba(255,255,255,.65)}
-.nav.dark .nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
-.nav.light .nav-links a{color:var(--t2)}
-.nav.light .nav-links a:hover{color:var(--t);background:var(--s2)}
-.nav-cta{
-  padding:9px 20px;border-radius:100px;
-  font-size:13px;font-weight:700;transition:all var(--tr);
-  letter-spacing:.01em;
-}
-.nav.dark .nav-cta{background:var(--gold);color:var(--navy)}
-.nav.dark .nav-cta:hover{background:var(--gold2);transform:scale(1.03)}
-.nav.light .nav-cta{background:var(--navy);color:#fff}
-.nav.light .nav-cta:hover{background:var(--navy2);transform:scale(1.03)}
-.nav-mob{display:none;align-items:center;gap:10px}
-/* Lien Connexion : couleur pilotée par l'état du header (sombre/clair au scroll) */
-.nav-login{font-size:13px;font-weight:500;transition:color var(--tr,.2s)}
-.nav.dark .nav-login{color:rgba(247,248,250,.6)}
-.nav.dark .nav-login:hover{color:#fff}
-.nav.light .nav-login{color:var(--t2)}
-.nav.light .nav-login:hover{color:var(--t)}
-.nav-mob .nav-cta{display:block}
-.mbtn{
-  width:38px;height:38px;border-radius:8px;border:none;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
-  background:transparent;cursor:pointer;
-}
-.mbtn span{display:block;width:20px;height:2px;border-radius:2px;transition:all .25s}
-.nav.dark .mbtn span{background:#fff}
-.nav.light .mbtn span{background:var(--navy)}
-
-@media(max-width:760px){
-  .nav-links{display:none}
-  .nav-mob{display:flex}
-}
-
-/* ═══════════════════════════════════════════════════════
-   HERO — DARK CINEMATIC
-═══════════════════════════════════════════════════════ */
-.hero{
-  min-height:100svh;background:var(--navy3);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;padding:100px 24px 80px;
-  text-align:center;
-}
-
-/* Animated orbs */
-.hero-orb{
-  position:absolute;border-radius:50%;pointer-events:none;
-  filter:blur(80px);opacity:.5;
-}
-.orb1{will-change:transform;width:500px;height:500px;background:radial-gradient(circle,rgba(201,169,110,.22) 0%,transparent 70%);top:-100px;left:-150px;animation:drift1 18s ease-in-out infinite}
-.orb2{will-change:transform;width:400px;height:400px;background:radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%);bottom:-80px;right:-100px;animation:drift2 22s ease-in-out infinite}
-.orb3{will-change:transform;width:300px;height:300px;background:radial-gradient(circle,rgba(201,169,110,.12) 0%,transparent 70%);bottom:20%;left:30%;animation:drift3 16s ease-in-out infinite}
-@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
-@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,-30px)}}
-@keyframes drift3{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-50px)}}
-
-/* Floating Korean chars */
-.hero-chars{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.hc{
-  position:absolute;
-  font-family:'Playfair Display',serif;
-  color:rgba(201,169,110,.055);line-height:1;
-  user-select:none;will-change:transform,opacity;animation:float linear infinite;
-}
-@keyframes float{0%{transform:translateY(100vh) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:.4}100%{transform:translateY(-120px) rotate(20deg);opacity:0}}
-
-/* Grid overlay */
-.hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(201,169,110,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,169,110,.04) 1px,transparent 1px);
-  background-size:60px 60px;
-}
-
-/* Hero content */
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.22);
-  color:var(--gold);padding:6px 16px;border-radius:100px;
-  font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  margin-bottom:36px;position:relative;z-index:1;
-}
-.badge-dot{will-change:transform;width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
-
-.hero-logo{position:relative;z-index:1;margin-bottom:32px;text-align:center}
-.hero-logo picture{display:inline-block;height:56px;line-height:0}
-.hero-logo img{height:56px;width:auto;display:block;margin:0 auto}
-
-.hero-h1{
-  position:relative;z-index:1;
-  font-size:clamp(36px,6vw,72px);line-height:1.06;
-  color:#fff;letter-spacing:-.03em;margin-bottom:24px;
-  font-weight:800;max-width:820px;
-}
-.hero-h1 em{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-weight:700}
-.hero-sub{
-  position:relative;z-index:1;
-  font-size:clamp(15px,1.8vw,18px);color:rgba(237,242,250,.72);
-  line-height:1.8;max-width:520px;margin:0 auto 44px;
-}
-.hero-btns{
-  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
-  position:relative;z-index:1;margin-bottom:64px;
-}
-.btn-gold{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--gold);color:var(--navy);
-  padding:16px 32px;border-radius:100px;
-  font-weight:700;font-size:15px;transition:all .25s;
-  box-shadow:0 8px 32px rgba(201,169,110,.3);letter-spacing:.01em;
-}
-.btn-gold:hover{background:var(--gold2);transform:translateY(-3px);box-shadow:0 16px 48px rgba(201,169,110,.4)}
-.btn-gold svg{width:18px;height:18px;stroke:var(--navy);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.btn-outline{
-  display:inline-flex;align-items:center;gap:8px;
-  background:transparent;color:rgba(237,242,250,.65);
-  border:1.5px solid rgba(237,242,250,.15);
-  padding:15px 28px;border-radius:100px;
-  font-weight:500;font-size:15px;transition:all .2s;
-}
-.btn-outline:hover{border-color:rgba(237,242,250,.4);color:#fff}
-
-/* Stats */
-.hero-stats{
-  display:flex;flex-wrap:wrap;gap:0;justify-content:center;
-  position:relative;z-index:1;
-}
-.hstat{
-  padding:0 28px;display:flex;flex-direction:column;gap:4px;align-items:center;
-  border-right:1px solid rgba(237,242,250,.08);
-}
-.hstat:last-child{border-right:none}
-.hstat-n{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);line-height:1;font-weight:700}
-.hstat-l{font-size:11px;color:rgba(237,242,250,.55);text-transform:uppercase;letter-spacing:.1em}
-
-/* Scroll hint */
-.scroll-hint{
-  position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  color:rgba(237,242,250,.55);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  z-index:1;animation:bob 2.5s ease-in-out infinite;
-}
-@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
-.scroll-hint svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5}
-
-/* ═══════════════════════════════════════════════════════
-   GOLD DIVIDER BAND
-═══════════════════════════════════════════════════════ */
-.quote-band{
-  background:var(--gold);padding:24px 32px;text-align:center;
-  display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
-}
-.quote-band p{
-  font-family:'Playfair Display',serif;font-style:italic;
-  font-size:clamp(14px,2.2vw,17px);color:var(--navy);
-  line-height:1.65;max-width:700px;
-}
-.quote-kr{
-  font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);opacity:.35;
-  font-style:normal;flex-shrink:0;
-}
-
-/* ═══════════════════════════════════════════════════════
-   COMMONS — LIGHT SECTIONS
-═══════════════════════════════════════════════════════ */
-.section{padding:96px 24px}
-.section-inner{max-width:1100px;margin:0 auto}
-.section-hd{text-align:center;margin-bottom:64px}
-.label{
-  display:inline-block;font-size:11px;font-weight:700;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--gold);
-  margin-bottom:14px;
-}
-.h2{font-size:clamp(28px,4.5vw,46px);line-height:1.1;color:var(--navy);font-weight:800;letter-spacing:-.025em}
-.h2 em{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;color:var(--gold)}
-.h2w{color:#fff}
-.hsub{margin-top:16px;font-size:clamp(14px,1.5vw,16px);color:var(--t3);line-height:1.85;max-width:520px;margin-left:auto;margin-right:auto}
-
-/* Fade-in on scroll */
-.fw{opacity:0;transform:translateY(28px);transition:opacity .65s,transform .65s}
+/* fade-in on scroll */
+.fw{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
 .fw.v{opacity:1;transform:none}
-.fw.d1{transition-delay:.1s}
-.fw.d2{transition-delay:.2s}
-.fw.d3{transition-delay:.3s}
-.fw.d4{transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.fw{opacity:1;transform:none;transition:none}}
 
-/* ═══════════════════════════════════════════════════════
-   PILLARS — MÉTHODE
-═══════════════════════════════════════════════════════ */
-.pillars-section{background:#fff}
-.pillars{display:grid;grid-template-columns:1fr;gap:20px}
-@media(min-width:640px){.pillars{grid-template-columns:1fr 1fr}}
-@media(min-width:960px){.pillars{grid-template-columns:repeat(3,1fr)}}
-.pillar{
-  background:var(--bg);border:1.5px solid var(--bd);
-  border-radius:22px;padding:36px 32px;
-  transition:all .3s;position:relative;overflow:hidden;
-}
-.pillar::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(201,169,110,.06) 0%,transparent 60%);
-  opacity:0;transition:opacity .3s;
-}
-.pillar:hover{transform:translateY(-6px);box-shadow:0 24px 56px rgba(15,27,45,.09);border-color:var(--goldbd)}
-.pillar:hover::before{opacity:1}
-.pillar-num{
-  font-family:'Playfair Display',serif;font-size:56px;
-  color:rgba(201,169,110,.2);line-height:1;margin-bottom:20px;font-weight:700;
-}
-.pillar-icon{
-  width:48px;height:48px;background:var(--goldbg);border:1.5px solid var(--goldbd);
-  border-radius:14px;display:flex;align-items:center;justify-content:center;
-  margin-bottom:20px;
-}
-.pillar-icon svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.pillar h3{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);margin-bottom:10px;font-weight:700}
-.pillar p{font-size:14px;color:var(--t2);line-height:1.85}
-.pillar-tag{display:inline-block;margin-top:16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);background:var(--goldbg);padding:3px 10px;border-radius:100px}
+/* ═══════════════ BUTTONS ═══════════════ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:700;border-radius:100px;transition:all var(--tr);white-space:nowrap}
+.btn svg{width:18px;height:18px;flex-shrink:0}
+.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#3a2c12;padding:14px 26px;font-size:15px;box-shadow:0 8px 24px rgba(201,169,110,.4)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,169,110,.5)}
+.btn-gold svg{fill:#3a2c12}
+.btn-outline{border:1.5px solid rgba(255,255,255,.3);color:#fff;padding:13px 24px;font-size:15px}
+.btn-outline:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5)}
+.btn-ghost{border:1.5px solid var(--bd);color:var(--t);padding:13px 24px;font-size:15px;background:var(--surf)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold-deep)}
 
-/* ═══════════════════════════════════════════════════════
-   NIVEAUX — PARCOURS
-═══════════════════════════════════════════════════════ */
-.niveaux-section{background:var(--bg)}
-.niveaux{display:grid;grid-template-columns:1fr;gap:14px}
-@media(min-width:640px){.niveaux{grid-template-columns:1fr 1fr}}
-@media(min-width:960px){.niveaux{grid-template-columns:repeat(5,1fr)}}
-.niveau{
-  background:var(--surf);border:1.5px solid var(--bd);
-  border-radius:18px;padding:26px 22px;transition:all .3s;
-  display:flex;flex-direction:column;gap:12px;
-  cursor:pointer;text-decoration:none;color:inherit;
-}
-.niveau:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(15,27,45,.1);border-color:var(--gold)}
-.niveau-badge{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:40px;height:40px;border-radius:12px;
-  font-size:12px;font-weight:800;letter-spacing:.06em;
-}
-.niveau-hangeul .niveau-badge{background:rgba(245,158,11,.12);color:#b45309}
-.niveau-a1 .niveau-badge{background:rgba(37,99,235,.1);color:#1d4ed8}
-.niveau-a2 .niveau-badge{background:rgba(34,197,94,.1);color:#15803d}
-.niveau-b1 .niveau-badge{background:rgba(139,92,246,.1);color:#7c3aed}
-.niveau-b2 .niveau-badge{background:rgba(239,68,68,.1);color:#b91c1c}
-.niveau h4{font-size:14px;font-weight:700;color:var(--navy)}
-.niveau p{font-size:12px;color:var(--t3);line-height:1.7}
-.niveau-count{font-size:11px;font-weight:600;color:var(--gold);margin-top:auto}
-.niveau-bar{height:3px;background:var(--bd);border-radius:2px;margin-top:6px}
-.niveau-bar-fill{height:100%;border-radius:2px;background:var(--gold)}
+/* ═══════════════ NAV ═══════════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,box-shadow .3s}
+.nav.dark{background:transparent}
+.nav.light{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--bd)}
+.nav-logo picture{display:block;height:26px;line-height:0}
+.nav-logo img{height:26px;width:auto}
+.nav .nav-pic-light{display:none}.nav .nav-pic-dark{display:block}
+.nav.light .nav-pic-dark{display:none}.nav.light .nav-pic-light{display:block}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a:not(.nav-cta):not(.nav-login){font-size:13.5px;font-weight:500;padding:8px 13px;border-radius:8px;transition:all var(--tr)}
+.nav.dark .nav-links a:not(.nav-cta):not(.nav-login){color:rgba(255,255,255,.68)}
+.nav.dark .nav-links a:not(.nav-cta):not(.nav-login):hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav.light .nav-links a:not(.nav-cta):not(.nav-login){color:var(--t2)}
+.nav.light .nav-links a:not(.nav-cta):not(.nav-login):hover{color:var(--t);background:var(--s2)}
+.nav-login{font-size:13.5px;font-weight:600;padding:8px 14px;border-radius:8px;margin-left:4px}
+.nav.dark .nav-login{color:#fff}.nav.light .nav-login{color:var(--t)}
+.nav-cta{padding:9px 20px;border-radius:100px;font-size:13.5px;font-weight:700;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#3a2c12;transition:all var(--tr)}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(201,169,110,.45)}
+.nav-mob{display:none;align-items:center;gap:8px}
+.nav-mob .nav-cta{padding:8px 15px;font-size:12.5px}
+.mbtn{width:40px;height:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4.5px;border-radius:10px}
+.mbtn span{width:20px;height:2px;border-radius:2px;background:#fff;transition:var(--tr)}
+.nav.light .mbtn span{background:var(--t)}
 
-/* ═══════════════════════════════════════════════════════
-   HISTOIRES — PREVIEW
-═══════════════════════════════════════════════════════ */
-.stories-section{background:#fff}
-.stories-grid{display:grid;grid-template-columns:1fr;gap:24px}
-@media(min-width:640px){.stories-grid{grid-template-columns:1fr 1fr}}
-@media(min-width:960px){.stories-grid{grid-template-columns:repeat(3,1fr)}}
-.story-card{
-  background:var(--surf);border:1.5px solid var(--bd);
-  border-radius:20px;overflow:hidden;transition:all .3s;
-  display:flex;flex-direction:column;text-decoration:none;color:inherit;
-}
-.story-card:hover{transform:translateY(-6px);box-shadow:0 24px 56px rgba(15,27,45,.1);border-color:var(--goldbd)}
-.story-visual{
-  height:180px;display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-}
-.sv1{background:linear-gradient(135deg,#0f1b2d 0%,#1a2f4a 100%)}
-.sv2{background:linear-gradient(135deg,#1e3a5f 0%,#2d5a8e 100%)}
-.sv3{background:linear-gradient(135deg,#2d1b4e 0%,#5b2d8e 100%)}
-.story-kr{
-  font-family:'Playfair Display',serif;font-size:52px;color:rgba(201,169,110,.35);
-  font-weight:700;user-select:none;z-index:0;
-}
-.story-level{
-  position:absolute;top:12px;right:12px;
-  background:rgba(201,169,110,.2);border:1px solid rgba(201,169,110,.3);
-  color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.1em;
-  padding:3px 10px;border-radius:100px;text-transform:uppercase;
-}
-.story-body{padding:20px 22px 24px;flex:1;display:flex;flex-direction:column;gap:8px}
-.story-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy);font-weight:700;line-height:1.3}
-.story-desc{font-size:13px;color:var(--t2);line-height:1.75;flex:1}
-.story-meta{display:flex;align-items:center;gap:10px;margin-top:8px}
-.story-tag{font-size:11px;font-weight:600;color:var(--t3)}
-.story-dot{width:3px;height:3px;border-radius:50%;background:var(--bd)}
-.story-link{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:12px;font-weight:700;color:var(--gold);margin-top:auto;padding-top:12px;
-  border-top:1px solid var(--bd);
-}
-.story-link svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
-.story-card:hover .story-link svg{transform:translateX(3px)}
+/* drawer */
+.overlay{position:fixed;inset:0;background:rgba(8,14,24,.55);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:.3s;z-index:300}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(82vw,320px);background:var(--surf);z-index:400;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);padding:74px 16px 24px;display:flex;flex-direction:column;gap:3px;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.drawer.open{transform:none}
+.drawer-close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--t2)}
+.drawer-close svg{width:22px;height:22px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;fill:none}
+.drawer>a{display:flex;align-items:center;font-size:15px;font-weight:600;color:var(--t);padding:13px 14px;border-radius:11px;transition:var(--tr)}
+.drawer>a:hover{background:var(--s2)}
+.drawer .btn-gold{margin-top:10px;justify-content:center}
 
-/* ═══════════════════════════════════════════════════════
-   FEATURES — DARK SECTION
-═══════════════════════════════════════════════════════ */
-.features-section{background:var(--navy)}
-.feat-grid{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:640px){.feat-grid{grid-template-columns:1fr 1fr}}
-@media(min-width:960px){.feat-grid{grid-template-columns:repeat(3,1fr)}}
-.feat{
-  padding:28px 24px;border-radius:18px;
-  border:1.5px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.04);
-  transition:all .3s;
-}
-.feat:hover{background:rgba(255,255,255,.07);border-color:rgba(201,169,110,.2)}
-.feat-ic{
-  width:44px;height:44px;border-radius:12px;
-  background:rgba(201,169,110,.1);border:1.5px solid rgba(201,169,110,.18);
-  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
-}
-.feat-ic svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.feat h3,.feat h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.3}
-.feat p{font-size:13px;color:rgba(237,242,250,.78);line-height:1.7}
+/* ═══════════════ HERO ═══════════════ */
+.hero{position:relative;background:radial-gradient(120% 90% at 80% -10%,#1d3a5c 0,transparent 60%),linear-gradient(160deg,var(--navy) 0,var(--navy2) 100%);color:#fff;overflow:hidden;padding:120px 0 90px}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none}
+.orb1{width:420px;height:420px;background:#274a73;top:-120px;right:-80px}
+.orb2{width:340px;height:340px;background:rgba(201,169,110,.5);bottom:-120px;left:-90px;opacity:.32}
+.orb3{width:280px;height:280px;background:#1e3a5c;top:40%;left:55%}
+.hero-chars{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.hc{position:absolute;bottom:-12%;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:rgba(255,255,255,.05);animation:floatUp linear infinite}
+@keyframes floatUp{to{transform:translateY(-118vh) rotate(22deg)}}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:100px;padding:7px 15px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.88);margin-bottom:22px}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(34,197,94,.2)}
+.hero h1{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(34px,5.4vw,58px);line-height:1.08;letter-spacing:-.01em;margin-bottom:20px}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:clamp(15px,2.2vw,18px);color:rgba(255,255,255,.6);max-width:480px;margin-bottom:30px;line-height:1.65}
+.hero-btns{display:flex;gap:13px;flex-wrap:wrap;margin-bottom:34px}
+.hero-stats{display:flex;gap:30px;flex-wrap:wrap}
+.hstat-n{font-family:'Playfair Display',serif;font-weight:700;font-size:30px;color:#fff;display:block;line-height:1}
+.hstat-l{font-size:12px;color:rgba(255,255,255,.5);font-weight:500}
+/* hero visual : collage de couvertures */
+.hero-art{position:relative;height:440px}
+.ha-card{position:absolute;width:210px;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);border:3px solid rgba(255,255,255,.9)}
+.ha-card img{width:100%;height:270px;object-fit:cover}
+.ha-cap{background:#fff;padding:9px 12px}
+.ha-cap .k{font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:15px;color:var(--t)}
+.ha-cap .f{font-size:11px;color:var(--t3)}
+.ha-1{top:20px;left:14%;transform:rotate(-7deg);z-index:1}
+.ha-2{top:64px;right:6%;transform:rotate(6deg);z-index:3}
+.ha-3{bottom:8px;left:34%;transform:rotate(-2deg);z-index:2}
+.ha-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#3a2c12;font-size:9.5px;font-weight:800;padding:3px 8px;border-radius:100px;letter-spacing:.04em}
 
-/* ═══════════════════════════════════════════════════════
-   COMPARATIF TABLE
-═══════════════════════════════════════════════════════ */
-.compare-section{background:var(--navy);padding-top:0}
-.cmp-wrap{max-width:860px;margin:0 auto}
-.cmp-hd{text-align:center;margin-bottom:48px}
-.tbl-outer{overflow-x:auto;border-radius:20px;border:1.5px solid rgba(255,255,255,.07)}
-table{width:100%;border-collapse:collapse;min-width:540px}
-thead th{
-  padding:16px 20px;font-size:11px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(237,242,250,.55);text-align:center;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-thead th:first-child{text-align:left}
-thead th.ks-h{color:var(--gold)}
-tbody tr{border-bottom:1px solid rgba(255,255,255,.04)}
-tbody tr:last-child{border-bottom:none}
-tbody td{
-  padding:14px 20px;font-size:13px;
-  color:rgba(237,242,250,.60);text-align:center;vertical-align:middle;
-}
-tbody td:first-child{text-align:left;font-weight:500;color:rgba(237,242,250,.75)}
-.ks-col{background:rgba(201,169,110,.05)}
-.ok{color:#4ade80;font-size:16px}
-.no{color:rgba(237,242,250,.6);font-size:13px}
-.part{color:var(--gold);font-size:12px}
+.scroll-hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:3px;color:rgba(255,255,255,.4);font-size:11px;font-weight:600;letter-spacing:.05em;animation:bob 2s ease-in-out infinite}
+.scroll-hint svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 
-/* ═══════════════════════════════════════════════════════
-   RESSOURCES PREVIEW
-═══════════════════════════════════════════════════════ */
-.resources-section{background:var(--bg)}
-.res-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(min-width:640px){.res-grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:960px){.res-grid{grid-template-columns:repeat(6,1fr)}}
-.res-card{
-  background:var(--surf);border:1.5px solid var(--bd);
-  border-radius:14px;padding:18px 16px;
-  display:flex;flex-direction:column;gap:8px;
-  transition:all .25s;cursor:pointer;text-decoration:none;color:inherit;
-}
-.res-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(15,27,45,.09);border-color:var(--goldbd)}
-.res-icon{
-  width:36px;height:36px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;margin-bottom:4px;
-}
-.res-title{font-size:12px;font-weight:700;color:var(--navy);line-height:1.4}
-.res-level{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+/* ═══════════════ QUOTE BAND ═══════════════ */
+.quote-band{background:var(--navy);color:rgba(255,255,255,.82);text-align:center;padding:30px 22px;display:flex;align-items:center;justify-content:center;gap:26px;border-top:1px solid rgba(255,255,255,.06)}
+.quote-band p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(15px,2.4vw,19px);max-width:640px;line-height:1.5}
+.quote-kr{font-family:'Noto Sans KR',sans-serif;font-weight:900;font-size:clamp(28px,5vw,46px);color:rgba(201,169,110,.3);flex-shrink:0}
 
-/* ═══════════════════════════════════════════════════════
-   FINALE CTA — DARK
-═══════════════════════════════════════════════════════ */
-.cta-section{
-  background:var(--navy3);padding:112px 24px;text-align:center;
-  position:relative;overflow:hidden;
-}
-.cta-section::before{
-  content:'한국어';position:absolute;
-  font-family:'Playfair Display',serif;font-size:clamp(180px,28vw,320px);
-  color:rgba(201,169,110,.04);font-weight:700;
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  pointer-events:none;user-select:none;white-space:nowrap;
-}
-.cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
-.cta-kr{
-  font-family:'Playfair Display',serif;font-size:48px;
-  color:rgba(201,169,110,.25);margin-bottom:24px;display:block;
-}
-.cta-inner h2{
-  font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-.03em;
-  color:#fff;margin-bottom:16px;line-height:1.1;
-}
-.cta-inner h2 em{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold)}
-.cta-inner p{font-size:16px;color:rgba(237,242,250,.66);margin-bottom:40px;line-height:1.8}
+/* ═══════════════ SECTIONS ═══════════════ */
+section.s{padding:84px 0}
+.s-head{text-align:center;max-width:660px;margin:0 auto 46px}
+.s-head h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(27px,4vw,42px);line-height:1.12;margin:14px 0 14px;letter-spacing:-.01em}
+.s-head p{font-size:16px;color:var(--t2);line-height:1.65}
 
-/* ═══════════════════════════════════════════════════════
-   NEWSLETTER
-═══════════════════════════════════════════════════════ */
-.nl-section{
-  background:linear-gradient(180deg,var(--navy3) 0%,#0b1626 100%);
-  padding:64px 24px;text-align:center;
-  border-top:1px solid rgba(201,169,110,.08);
-  position:relative;overflow:hidden;
+/* méthode (3 piliers) */
+.method{background:var(--surf)}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.pillar{background:var(--s2);border:1px solid var(--bd);border-radius:var(--rl);padding:30px 26px;transition:var(--tr)}
+.pillar:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--goldbd)}
+.pillar-ic{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,var(--navy),var(--navy2));display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.pillar-ic svg{width:26px;height:26px;stroke:var(--gold2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pillar h3{font-family:'Playfair Display',serif;font-weight:700;font-size:21px;margin-bottom:9px}
+.pillar p{font-size:14.5px;color:var(--t2);line-height:1.6}
+
+/* vitrine histoires */
+.showcase{background:linear-gradient(180deg,var(--bg),var(--surf))}
+.formats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.fmt{display:inline-flex;align-items:center;gap:8px;background:var(--surf);border:1px solid var(--bd);border-radius:100px;padding:9px 18px;font-size:13.5px;font-weight:600;color:var(--t)}
+.fmt svg{width:16px;height:16px;stroke:var(--gold-deep);fill:none;stroke-width:2;stroke-linecap:round}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.story-card{display:block;background:var(--surf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh1);transition:var(--tr)}
+.story-card:hover{transform:translateY(-5px);box-shadow:var(--sh2)}
+.story-cover{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--navy)}
+.story-cover img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.story-card:hover .story-cover img{transform:scale(1.05)}
+.story-lvl{position:absolute;top:11px;left:11px;background:rgba(15,27,45,.82);backdrop-filter:blur(6px);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:100px}
+.story-body{padding:15px 17px 17px}
+.story-body .k{font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:17px;color:var(--t)}
+.story-body .f{font-size:13px;color:var(--t2);margin-top:2px}
+.showcase-cta{text-align:center;margin-top:40px}
+
+/* parcours (niveaux) */
+.path{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.path .s-head h2{color:#fff}.path .s-head p{color:rgba(255,255,255,.6)}
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative;z-index:2}
+.lvl{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--rl);padding:24px 18px;transition:var(--tr)}
+.lvl:hover{background:rgba(255,255,255,.07);transform:translateY(-4px)}
+.lvl-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--gold2);background:var(--goldbg);border:1px solid var(--goldbd);padding:3px 11px;border-radius:100px;margin-bottom:13px}
+.lvl h4{font-family:'Playfair Display',serif;font-weight:700;font-size:18px;margin-bottom:7px}
+.lvl p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.55}
+
+/* fonctionnalités */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat{display:flex;gap:16px;background:var(--surf);border:1px solid var(--bd);border-radius:var(--rl);padding:24px;transition:var(--tr)}
+.feat:hover{border-color:var(--goldbd);box-shadow:var(--sh1)}
+.feat-ic{flex-shrink:0;width:46px;height:46px;border-radius:13px;background:var(--goldbg);border:1px solid var(--goldbd);display:flex;align-items:center;justify-content:center}
+.feat-ic svg{width:23px;height:23px;stroke:var(--gold-deep);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.feat h4{font-size:16px;font-weight:700;margin-bottom:5px}
+.feat p{font-size:13.5px;color:var(--t2);line-height:1.55}
+
+/* gamification band */
+.game{background:linear-gradient(135deg,var(--navy2),var(--navy));color:#fff}
+.game-inner{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;background:transparent}
+.game-txt h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(25px,3.4vw,36px);line-height:1.15;margin-bottom:14px}
+.game-txt h2 em{color:var(--gold);font-style:italic}
+.game-txt p{color:rgba(255,255,255,.62);font-size:15.5px;max-width:440px;line-height:1.65}
+.game-pills{display:flex;flex-direction:column;gap:12px;min-width:230px}
+.gp{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:13px 16px}
+.gp svg{width:22px;height:22px;stroke:var(--gold2);fill:none;stroke-width:2;flex-shrink:0}
+.gp b{font-size:14.5px;font-weight:700}.gp span{font-size:12px;color:rgba(255,255,255,.5);display:block}
+
+/* à propos */
+.about-inner{display:grid;grid-template-columns:300px 1fr;gap:54px;align-items:center}
+.about-photo{position:relative;aspect-ratio:1;border-radius:var(--rxl);background:linear-gradient(150deg,var(--navy),var(--navy2));display:flex;align-items:center;justify-content:center;box-shadow:var(--sh2);overflow:hidden}
+.about-photo::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 60% at 70% 20%,rgba(201,169,110,.22),transparent 60%)}
+.about-emblem{position:relative;z-index:1;text-align:center}
+.about-emblem .k{font-family:'Noto Sans KR',sans-serif;font-weight:900;font-size:74px;color:var(--gold2);line-height:1}
+.about-emblem .n{margin-top:8px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:600}
+.about-txt .eyebrow{margin-bottom:14px}
+.about-txt h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(25px,3.4vw,38px);margin-bottom:18px;line-height:1.15}
+.about-txt p{font-size:15.5px;color:var(--t2);line-height:1.75;margin-bottom:14px}
+.about-txt p strong{color:var(--t)}
+.about-sign{font-family:'Playfair Display',serif;font-style:italic;font-size:19px;color:var(--gold-deep);margin-top:6px}
+.about-social{display:flex;gap:10px;margin-top:20px}
+.about-social a{width:42px;height:42px;border-radius:12px;border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;color:var(--t2);transition:var(--tr)}
+.about-social a:hover{border-color:var(--gold);color:var(--gold-deep);transform:translateY(-2px)}
+.about-social svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* tarifs */
+.pricing{background:var(--bg)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.price{display:flex;flex-direction:column;background:var(--surf);border:1.5px solid var(--bd);border-radius:var(--rxl);padding:30px 26px;position:relative;transition:var(--tr)}
+.price:hover{box-shadow:var(--sh2);transform:translateY(-4px)}
+.price.feat-price{border-color:var(--gold);box-shadow:0 18px 50px rgba(201,169,110,.22)}
+.price-tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold2),var(--gold));color:#3a2c12;font-size:11px;font-weight:800;letter-spacing:.05em;padding:5px 16px;border-radius:100px}
+.price-name{font-size:14px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--t2)}
+.price-amt{font-family:'Playfair Display',serif;font-weight:800;font-size:42px;margin:12px 0 2px;line-height:1}
+.price-amt small{font-size:15px;font-weight:600;color:var(--t3);font-family:'Inter',sans-serif}
+.price-desc{font-size:13.5px;color:var(--t2);margin-bottom:18px;min-height:38px}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:24px;flex:1}
+.price-feats li{display:flex;gap:10px;font-size:14px;color:var(--t);line-height:1.45}
+.price-feats svg{width:18px;height:18px;flex-shrink:0;stroke:var(--green);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+.price .btn{width:100%}
+.price-note{text-align:center;font-size:13px;color:var(--t3);margin-top:24px}
+
+/* faq */
+.faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:var(--surf);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:19px 22px;font-size:16px;font-weight:600;text-align:left;color:var(--t)}
+.faq-q svg{width:20px;height:20px;stroke:var(--gold-deep);fill:none;stroke-width:2.4;flex-shrink:0;transition:transform .3s}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a p{padding:0 22px 19px;font-size:14.5px;color:var(--t2);line-height:1.7}
+
+/* cta final */
+.final{background:linear-gradient(140deg,var(--navy),var(--navy2));color:#fff;text-align:center;padding:90px 22px;position:relative;overflow:hidden}
+.final .orb1{opacity:.4}
+.final-in{position:relative;z-index:2;max-width:640px;margin:0 auto}
+.final h2{font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(28px,4.4vw,46px);line-height:1.12;margin-bottom:16px}
+.final h2 em{color:var(--gold);font-style:italic}
+.final p{color:rgba(255,255,255,.62);font-size:16.5px;margin-bottom:30px}
+.final .hero-btns{justify-content:center}
+
+/* footer */
+.foot{background:var(--navy3);color:rgba(255,255,255,.6);padding:60px 0 30px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.3fr;gap:38px;margin-bottom:44px}
+.foot-logo img{height:30px;margin-bottom:14px}
+.foot-brand p{font-size:13.5px;line-height:1.65;max-width:260px;margin-bottom:16px}
+.foot-col h5{color:#fff;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.foot-col a{display:block;font-size:13.5px;padding:5px 0;color:rgba(255,255,255,.6);transition:var(--tr)}
+.foot-col a:hover{color:var(--gold2)}
+.nl-form{display:flex;gap:8px;margin-top:6px}
+.nl-form input{flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:11px 13px;color:#fff;font-size:13.5px;font-family:inherit}
+.nl-form input::placeholder{color:rgba(255,255,255,.4)}
+.nl-form button{background:var(--gold);color:#3a2c12;font-weight:700;font-size:13px;padding:0 16px;border-radius:10px;white-space:nowrap}
+.nl-msg{font-size:12.5px;margin-top:9px;min-height:16px}
+.nl-msg.ok{color:var(--green)}.nl-msg.err{color:var(--pink)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:13px}
+.foot-social{display:flex;gap:10px}
+.foot-social a{width:36px;height:36px;border-radius:9px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.6);transition:var(--tr)}
+.foot-social a:hover{border-color:var(--gold);color:var(--gold2)}
+.foot-social svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2}
+.foot-bottom .heart{color:var(--pink)}
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media(max-width:920px){
+  .hero-grid{grid-template-columns:1fr;gap:30px;text-align:center}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-btns,.hero-stats{justify-content:center}
+  .hero-art{height:330px;max-width:420px;margin:0 auto}
+  .game-inner{grid-template-columns:1fr}
+  .about-inner{grid-template-columns:1fr;gap:30px;text-align:center}
+  .about-photo{max-width:240px;margin:0 auto}
+  .about-txt .eyebrow,.about-social{justify-content:center}
+  .foot-grid{grid-template-columns:1fr 1fr}
 }
-.nl-section::before{
-  content:'소식';position:absolute;top:50%;left:50%;
-  font-family:'Playfair Display',serif;font-size:clamp(120px,18vw,200px);
-  color:rgba(201,169,110,.04);font-weight:700;
-  transform:translate(-50%,-50%);pointer-events:none;user-select:none;
+@media(max-width:760px){
+  .nav-links{display:none}.nav-mob{display:flex}
+  .pillars,.story-grid,.feat-grid,.price-grid{grid-template-columns:1fr}
+  .levels{grid-template-columns:repeat(2,1fr)}
+  .story-grid{grid-template-columns:1fr 1fr}
+  section.s{padding:62px 0}
+  .quote-band{gap:14px}
 }
-.nl-inner{position:relative;z-index:1;max-width:520px;margin:0 auto}
-.nl-kr{
-  display:inline-block;font-family:'Playfair Display',serif;
-  color:var(--gold);font-size:13px;letter-spacing:.18em;text-transform:uppercase;
-  margin-bottom:8px;opacity:.7;
-}
-.nl-section h3{
-  font-size:clamp(24px,4vw,32px);font-weight:800;letter-spacing:-.02em;
-  color:#fff;margin:0 0 12px;line-height:1.2;font-family:'Playfair Display',serif;
-}
-.nl-section h3 em{font-style:italic;color:var(--gold)}
-.nl-section p{
-  font-size:14px;color:rgba(237,242,250,.7);margin:0 auto 24px;
-  line-height:1.7;max-width:440px;
-}
-.nl-form{
-  display:flex;gap:8px;max-width:440px;margin:0 auto;
-  flex-wrap:wrap;justify-content:center;
-}
-.nl-form input[type=email]{
-  flex:1 1 220px;min-width:0;
-  padding:14px 18px;font-size:14px;
-  background:rgba(255,255,255,.06);
-  border:1.5px solid rgba(255,255,255,.1);
-  border-radius:100px;color:#fff;font-family:inherit;
-  outline:none;transition:border-color .2s,background .2s;
-}
-.nl-form input[type=email]::placeholder{color:rgba(237,242,250,.46)}
-.nl-form input[type=email]:focus{border-color:var(--gold);background:rgba(255,255,255,.08)}
-.nl-btn{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:14px 24px;border:none;border-radius:100px;cursor:pointer;
-  background:var(--gold);color:#0a1220;
-  font-family:inherit;font-size:14px;font-weight:700;
-  transition:background .2s,transform .1s,box-shadow .2s;
-  box-shadow:0 8px 24px rgba(201,169,110,.22);
-}
-.nl-btn:hover{background:var(--gold2);box-shadow:0 10px 28px rgba(201,169,110,.32)}
-.nl-btn:active{transform:scale(.97)}
-.nl-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
-.nl-btn[disabled]{opacity:.6;cursor:wait;box-shadow:none}
-.nl-note{
-  margin-top:12px;font-size:11.5px;color:rgba(237,242,250,.5);
-  display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.nl-note svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2}
-.nl-msg{
-  margin-top:18px;font-size:14px;line-height:1.6;
-  padding:14px 18px;border-radius:14px;display:none;text-align:center;
-}
-.nl-msg.ok{
-  display:block;background:rgba(34,197,94,.1);
-  border:1px solid rgba(34,197,94,.25);color:#86efac;
-}
-.nl-msg.err{
-  display:block;background:rgba(220,38,38,.08);
-  border:1px solid rgba(220,38,38,.25);color:#fca5a5;
-}
-.nl-msg strong{color:#fff}
 @media(max-width:480px){
-  .nl-form{flex-direction:column}
-  .nl-form input[type=email],.nl-btn{width:100%;justify-content:center}
+  .story-grid{grid-template-columns:1fr}
+  .levels{grid-template-columns:1fr}
+  .hero-stats{gap:22px}
+  .foot-grid{grid-template-columns:1fr}
+  .ha-card{width:175px}.ha-card img{height:225px}
 }
-
-/* ═══════════════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════════════ */
-footer{
-  background:#05101a;padding:52px 24px 36px;
-  border-top:1px solid rgba(255,255,255,.04);
-}
-.foot-inner{max-width:1100px;margin:0 auto}
-.foot-top{
-  display:grid;grid-template-columns:1fr;gap:40px;
-  margin-bottom:48px;padding-bottom:40px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-@media(min-width:640px){.foot-top{grid-template-columns:1.6fr 1fr 1fr 1fr 1fr}}
-.foot-brand img{height:26px;margin-bottom:16px}
-.foot-brand p{font-size:13px;color:rgba(237,242,250,.55);line-height:1.75;max-width:220px}
-.foot-col h5{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(237,242,250,.25);margin-bottom:14px}
-.foot-col a{display:block;font-size:13px;color:rgba(237,242,250,.66);margin-bottom:10px;transition:color .2s}
-.foot-col a:hover{color:var(--gold)}
-.foot-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.foot-copy{font-size:12px;color:rgba(237,242,250,.2)}
-.foot-copy span{color:var(--gold)}
-.foot-kr{font-size:13px;color:rgba(201,169,110,.2);font-family:'Playfair Display',serif}
-
-/* ═══════════════════════════════════════════════════════
-   MOBILE DRAWER
-═══════════════════════════════════════════════════════ */
-.drawer{
-  position:fixed;top:0;right:0;bottom:0;width:280px;
-  background:var(--navy);z-index:300;
-  transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
-  padding:24px;display:flex;flex-direction:column;gap:8px;
-  box-shadow:-24px 0 60px rgba(0,0,0,.4);
-}
-.drawer.open{transform:translateX(0)}
-.drawer-close{
-  align-self:flex-end;width:36px;height:36px;
-  background:rgba(255,255,255,.07);border:none;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;margin-bottom:16px;
-}
-.drawer-close svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
-.drawer a{
-  padding:13px 16px;border-radius:12px;font-size:14px;font-weight:500;
-  color:rgba(237,242,250,.65);transition:all .2s;
-  display:flex;align-items:center;
-}
-.drawer a:hover{background:rgba(255,255,255,.07);color:#fff}
-.drawer .btn-gold{margin-top:12px;justify-content:center;border-radius:14px;padding:15px}
-.overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:290;
-  backdrop-filter:blur(4px);
-}
-.overlay.show{display:block}
-
-@media(max-width:480px){
-  /* 2×2 propre au lieu de 3+1 déséquilibré */
-  .hero-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 0;max-width:320px;margin-left:auto;margin-right:auto}
-  .hstat{padding:0 12px;border-right:none}
-  .hstat:nth-child(odd){border-right:1px solid rgba(237,242,250,.08)}
-  .hstat-n{font-size:22px}
-  .hero-btns{flex-direction:column;align-items:center}
-  .btn-gold,.btn-outline{width:100%;max-width:280px;justify-content:center}
-}
-  </style>
+</style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ═══════════ NAV ═══════════ -->
 <nav class="nav dark" id="nav">
-  <a href="index.html" class="nav-logo">
-    <picture class="nav-pic-dark"><source srcset="img/logo-bleu.webp" type="image/webp"><img src="img/logo-bleu.png" alt="Korean Stories" class="nav-logo-dark" loading="eager" decoding="async" fetchpriority="high" width="491" height="100" /></picture>
-    <picture class="nav-pic-light"><source srcset="img/logo-dark.webp" type="image/webp"><img src="img/logo-dark.png" alt="Korean Stories" class="nav-logo-light" loading="eager" decoding="async" fetchpriority="high" width="491" height="100" /></picture>
+  <a href="index.html" class="nav-logo" aria-label="Korean Stories — accueil">
+    <picture class="nav-pic-dark"><source srcset="img/logo-blanc.webp" type="image/webp"><img src="img/logo-blanc.png" alt="Korean Stories" width="491" height="100"/></picture>
+    <picture class="nav-pic-light"><source srcset="img/logo-dark.webp" type="image/webp"><img src="img/logo-dark.png" alt="Korean Stories" width="491" height="100"/></picture>
   </a>
   <div class="nav-links">
     <a href="cours.html">Cours</a>
     <a href="histoires.html">Histoires</a>
-    <a href="ressources.html">Ressources</a>
-    <a href="blog.html">Blog</a>
     <a href="hangeul.html">Hangeul</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="blog.html">Blog</a>
     <a href="bienvenue.html" class="nav-login">Se connecter</a>
     <a href="app.html" class="nav-cta">Commencer →</a>
   </div>
   <div class="nav-mob">
-    <a href="bienvenue.html" class="nav-login" style="margin-right:4px">Connexion</a>
     <a href="app.html" class="nav-cta">Commencer</a>
-    <button class="mbtn" id="mbtn" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="mbtn" id="mbtn" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
-<!-- DRAWER MOBILE -->
+<!-- ═══════════ DRAWER MOBILE ═══════════ -->
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
-<div class="drawer" id="drawer">
-  <button class="drawer-close" onclick="closeDrawer()" aria-label="Fermer le menu">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
-  <a href="cours.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Cours</a>
-  <a href="histoires.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
-  <a href="hangeul.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>Hangeul</a>
-  <a href="ressources.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Ressources</a>
-  <a href="blog.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Blog</a>
-  <a href="grammaire.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Grammaire</a>
-  <a href="challenge.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Défi du jour</a>
-  <a href="bienvenue.html" onclick="closeDrawer()" style="margin-top:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:10px;flex-shrink:0"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>Se connecter</a>
-  <a href="app.html" class="btn-gold" onclick="closeDrawer()">Commencer gratuitement →</a>
+<div class="drawer" id="drawer" role="dialog" aria-label="Menu">
+  <button class="drawer-close" onclick="closeDrawer()" aria-label="Fermer le menu"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <a href="cours.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Cours</a>
+  <a href="histoires.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Histoires</a>
+  <a href="hangeul.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>Hangeul</a>
+  <a href="ressources.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Ressources</a>
+  <a href="blog.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Blog</a>
+  <a href="#tarifs" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Tarifs</a>
+  <a href="bienvenue.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>Se connecter</a>
+  <a href="app.html" class="btn btn-gold" onclick="closeDrawer()">Commencer gratuitement →</a>
 </div>
 
 <!-- ═══════════ HERO ═══════════ -->
-<section class="hero">
-  <div class="hero-orb orb1"></div>
-  <div class="hero-orb orb2"></div>
-  <div class="hero-orb orb3"></div>
+<header class="hero">
+  <div class="hero-orb orb1"></div><div class="hero-orb orb2"></div><div class="hero-orb orb3"></div>
   <div class="hero-chars" id="hchars"></div>
-
-  <span class="hero-badge"><span class="badge-dot"></span>100% gratuit · Mobile first</span>
-
-  <div class="hero-logo">
-    <picture><source srcset="img/logo-bleu.webp" type="image/webp"><img src="img/logo-bleu.png" alt="Korean Stories" loading="eager" decoding="async" fetchpriority="high" width="491" height="100" /></picture>
-  </div>
-
-  <h1 class="hero-h1">
-    Apprends le coréen à travers<br><em>de vraies histoires</em>
-  </h1>
-  <p class="hero-sub">
-    Une méthode immersive et naturelle — Hangeul, vocabulaire, grammaire et culture à travers des histoires captivantes.
-  </p>
-
-  <div class="hero-btns">
-    <a href="app.html" class="btn-gold">
-      <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-      Commencer maintenant
-    </a>
-    <a href="cours.html" class="btn-outline">Voir le programme →</a>
-  </div>
-
-  <div class="hero-stats">
-    <div class="hstat">
-      <span class="hstat-n">5</span>
-      <span class="hstat-l">Niveaux</span>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="hero-badge"><span class="badge-dot"></span>Gratuit pour démarrer · Sans pub</span>
+      <h1>Apprends le coréen<br>à travers <em>de vraies histoires</em></h1>
+      <p class="hero-sub">Pas des listes de mots. Des histoires illustrées, des planches BD et de vraies voix coréennes — du tout premier mot jusqu'au niveau B2.</p>
+      <div class="hero-btns">
+        <a href="app.html" class="btn btn-gold"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>Commencer gratuitement</a>
+        <a href="histoires.html" class="btn btn-outline">Voir une histoire →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><span class="hstat-n">42</span><span class="hstat-l">Histoires illustrées</span></div>
+        <div class="hstat"><span class="hstat-n">5</span><span class="hstat-l">Niveaux · A1→B2</span></div>
+        <div class="hstat"><span class="hstat-n">100%</span><span class="hstat-l">En français</span></div>
+      </div>
     </div>
-    <div class="hstat">
-      <span class="hstat-n">100+</span>
-      <span class="hstat-l">Leçons</span>
-    </div>
-    <div class="hstat">
-      <span class="hstat-n">42</span>
-      <span class="hstat-l">Histoires</span>
-    </div>
-    <div class="hstat">
-      <span class="hstat-n">31</span>
-      <span class="hstat-l">PDFs gratuits</span>
+    <div class="hero-art" aria-hidden="true">
+      <div class="ha-card ha-1"><span class="ha-badge">A1</span><img src="img/stories/histoire3.webp" alt=""><div class="ha-cap"><div class="k">식당에서</div><div class="f">Au restaurant</div></div></div>
+      <div class="ha-card ha-3"><span class="ha-badge">B1</span><img src="img/stories/histoire17.webp" alt=""><div class="ha-cap"><div class="k">부산 여행</div><div class="f">Week-end à Busan</div></div></div>
+      <div class="ha-card ha-2"><span class="ha-badge">B2</span><img src="img/stories/histoire22.webp" alt=""><div class="ha-cap"><div class="k">달의 수호자</div><div class="f">Le Gardien de la Lune</div></div></div>
     </div>
   </div>
-
-  <div class="scroll-hint">
-    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-    <span>Découvrir</span>
-  </div>
-</section>
+  <div class="scroll-hint"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg><span>Découvrir</span></div>
+</header>
 
 <!-- GOLD QUOTE BAND -->
 <div class="quote-band">
-  <span class="quote-kr">배움</span>
-  <p>« Le voyage de mille lieues commence par un premier pas. »<br>— 시작이 반이다 · Le commencement, c'est la moitié.</p>
   <span class="quote-kr">시작</span>
+  <p>« Le commencement, c'est déjà la moitié du chemin. »<br>시작이 반이다</p>
+  <span class="quote-kr">반</span>
 </div>
 
 <!-- ═══════════ MÉTHODE ═══════════ -->
-<section class="section pillars-section">
-  <div class="section-inner">
-    <div class="section-hd">
-      <span class="label fw">Notre approche</span>
-      <h2 class="h2 fw d1">Une méthode pensée pour <em>durer</em></h2>
-      <p class="hsub fw d2">Fini les listes de mots sans contexte. Korean Stories t'apprend le coréen comme tu as appris ta langue maternelle.</p>
-    </div>
+<section class="s method">
+  <div class="wrap">
+    <div class="s-head fw"><span class="eyebrow">La méthode</span><h2>Apprendre une langue ne devrait pas être ennuyeux</h2><p>On retient ce qui nous touche. Alors on apprend le coréen comme on dévore une série : par l'histoire, l'émotion et le son.</p></div>
     <div class="pillars">
       <div class="pillar fw">
-        <div class="pillar-icon">
-          <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
-        </div>
-        <h3>Histoires immersives</h3>
-        <p>Lis des histoires progressives avec des personnages attachants. Chaque mot apparaît dans son contexte naturel pour une mémorisation durable.</p>
-        <span class="pillar-tag">21 histoires disponibles</span>
+        <div class="pillar-ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+        <h3>Des histoires, pas des fiches</h3>
+        <p>Chaque mot et chaque règle s'apprend en contexte, à travers des récits illustrés avec Mina, Joon et Emma. La grammaire devient vivante.</p>
       </div>
-      <div class="pillar fw d1">
-        <div class="pillar-icon">
-          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        </div>
-        <h3>Progression structurée</h3>
-        <p>De l'alphabet Hangeul jusqu'au niveau B2 avec TOPIK. Chaque niveau est soigneusement construit pour un apprentissage sans lacunes.</p>
-        <span class="pillar-tag">Hangeul → B2</span>
+      <div class="pillar fw">
+        <div class="pillar-ic"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></div>
+        <h3>De vraies voix coréennes</h3>
+        <p>Chaque réplique est audible, voix par personnage. Tu entends le vrai rythme, la vraie intonation — et tu répètes naturellement.</p>
       </div>
-      <div class="pillar fw d2">
-        <div class="pillar-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        </div>
-        <h3>Ressources téléchargeables</h3>
-        <p>31 fiches PDF premium entièrement gratuites — vocabulaire, grammaire, culture, TOPIK. Imprimables et utilisables hors ligne.</p>
-        <span class="pillar-tag">31 PDFs gratuits</span>
+      <div class="pillar fw">
+        <div class="pillar-ic"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Un vrai parcours, pas du hasard</h3>
+        <p>Un programme progressif du Hangeul au B2 : leçons, exercices, quiz et révisions intelligentes. Tu sais toujours quoi faire ensuite.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ NIVEAUX ═══════════ -->
-<section class="section niveaux-section">
-  <div class="section-inner">
-    <div class="section-hd">
-      <span class="label fw">Programme complet</span>
-      <h2 class="h2 fw d1">De zéro à <em>courant</em></h2>
-      <p class="hsub fw d2">Un parcours clair et progressif, du premier caractère coréen jusqu'à la maîtrise avancée.</p>
+<!-- ═══════════ VITRINE HISTOIRES ═══════════ -->
+<section class="s showcase" id="histoires">
+  <div class="wrap">
+    <div class="s-head fw"><span class="eyebrow">Le contenu</span><h2>Plonge dans 42 histoires illustrées</h2><p>Trois formats pour ne jamais s'ennuyer — et tout est en français à côté du coréen.</p></div>
+    <div class="formats fw">
+      <span class="fmt"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="9" rx="1"/><rect x="3" y="15" width="7" height="6" rx="1"/><rect x="14" y="15" width="7" height="6" rx="1"/></svg>Planches BD</span>
+      <span class="fmt"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Lectures &amp; presse</span>
+      <span class="fmt"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0"/><line x1="12" y1="17" x2="12" y2="22"/></svg>Podcasts <small style="opacity:.6;font-weight:600">(bientôt)</small></span>
     </div>
-    <div class="niveaux">
-      <a href="hangeul.html" class="niveau niveau-hangeul fw">
-        <span class="niveau-badge">한글</span>
-        <h3>Hangeul</h3>
-        <p>L'alphabet coréen, prononciation et règles de base.</p>
-        <span class="niveau-count">8 leçons · Fondamental</span>
-        <div class="niveau-bar"><div class="niveau-bar-fill" style="width:100%"></div></div>
-      </a>
-      <a href="cours.html#a1" class="niveau niveau-a1 fw d1">
-        <span class="niveau-badge">A1</span>
-        <h3>Débutant</h3>
-        <p>Premiers mots, présentations, vie quotidienne.</p>
-        <span class="niveau-count">20+ leçons · 6 PDFs</span>
-        <div class="niveau-bar"><div class="niveau-bar-fill" style="width:90%"></div></div>
-      </a>
-      <a href="cours.html#a2" class="niveau niveau-a2 fw d2">
-        <span class="niveau-badge">A2</span>
-        <h3>Élémentaire</h3>
-        <p>Conversations simples, sorties, voyages en Corée.</p>
-        <span class="niveau-count">20+ leçons · 7 PDFs</span>
-        <div class="niveau-bar"><div class="niveau-bar-fill" style="width:75%"></div></div>
-      </a>
-      <a href="cours.html#b1" class="niveau niveau-b1 fw d3">
-        <span class="niveau-badge">B1</span>
-        <h3>Intermédiaire</h3>
-        <p>Débats, sujets complexes, culture coréenne.</p>
-        <span class="niveau-count">26 leçons · 6 PDFs</span>
-        <div class="niveau-bar"><div class="niveau-bar-fill" style="width:55%"></div></div>
-      </a>
-      <a href="cours.html#b2" class="niveau niveau-b2 fw d4">
-        <span class="niveau-badge">B2</span>
-        <h3>Avancé</h3>
-        <p>Littérature, business, argot et TOPIK II niveau 4.</p>
-        <span class="niveau-count">17 leçons · 6 PDFs</span>
-        <div class="niveau-bar"><div class="niveau-bar-fill" style="width:35%"></div></div>
-      </a>
+    <div class="story-grid">
+      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">Débutant</span><img src="img/stories/histoire1.webp" alt="안녕하세요 — Bonjour" loading="lazy"></div><div class="story-body"><div class="k">안녕하세요 !</div><div class="f">Bonjour ! · Première rencontre</div></div></a>
+      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">A2</span><img src="img/stories/histoire13.webp" alt="홍대 주말 — Un week-end à Hongdae" loading="lazy"></div><div class="story-body"><div class="k">홍대 주말</div><div class="f">Un week-end à Hongdae</div></div></a>
+      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">A2</span><img src="img/stories/histoire27.webp" alt="추석에 — Chuseok en famille" loading="lazy"></div><div class="story-body"><div class="k">추석에</div><div class="f">Chuseok en famille</div></div></a>
+      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">B1</span><img src="img/stories/histoire17.webp" alt="부산 여행 — Week-end à Busan" loading="lazy"></div><div class="story-body"><div class="k">부산 여행</div><div class="f">Week-end à Busan</div></div></a>
+      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">B2</span><img src="img/stories/histoire22.webp" alt="달의 수호자 — Le Gardien de la Lune" loading="lazy"></div><div class="story-body"><div class="k">달의 수호자</div><div class="f">Webtoon · Le Gardien de la Lune</div></div></a>
+      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">B2</span><img src="img/stories/histoire40.webp" alt="에마의 첫 회식 — Le premier hoesik d'Emma" loading="lazy"></div><div class="story-body"><div class="k">에마의 첫 회식</div><div class="f">Le premier hoesik d'Emma</div></div></a>
+    </div>
+    <div class="showcase-cta fw"><a href="histoires.html" class="btn btn-ghost">Explorer les 42 histoires →</a></div>
+  </div>
+</section>
+
+<!-- ═══════════ PARCOURS ═══════════ -->
+<section class="s path">
+  <div class="hero-orb orb2" style="top:-80px;right:-60px;left:auto"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="s-head fw"><span class="eyebrow" style="color:var(--gold2)">Le parcours</span><h2>Du tout premier caractère au coréen courant</h2><p>Un chemin clair, balisé, du débutant absolu au niveau B2.</p></div>
+    <div class="levels">
+      <div class="lvl fw"><span class="lvl-tag">Hangeul</span><h4>L'alphabet</h4><p>Lire et écrire le coréen en quelques jours, lettre par lettre.</p></div>
+      <div class="lvl fw"><span class="lvl-tag">A1</span><h4>Premiers mots</h4><p>Se présenter, commander, compter. Les bases du quotidien.</p></div>
+      <div class="lvl fw"><span class="lvl-tag">A2</span><h4>Conversations</h4><p>Raconter sa journée, voyager, sortir entre amis.</p></div>
+      <div class="lvl fw"><span class="lvl-tag">B1</span><h4>Autonomie</h4><p>Travail, opinions, récits — le coréen du monde réel.</p></div>
+      <div class="lvl fw"><span class="lvl-tag">B2</span><h4>Aisance</h4><p>Débats, littérature, registres soutenus. Tu t'exprimes librement.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ HISTOIRES ═══════════ -->
-<section class="section stories-section">
-  <div class="section-inner">
-    <div class="section-hd">
-      <span class="label fw">Immersion</span>
-      <h2 class="h2 fw d1">Apprends à travers des <em>histoires</em></h2>
-      <p class="hsub fw d2">Des récits captivants avec vocabulaire et traduction intégrés. Plus tu lis, mieux tu retiens.</p>
-    </div>
-    <div class="stories-grid">
-      <a href="histoire1.html" class="story-card fw">
-        <div class="story-visual sv1">
-          <span class="story-kr">만남</span>
-          <span class="story-level">A1</span>
-        </div>
-        <div class="story-body">
-          <div class="story-title">La Première Rencontre</div>
-          <p class="story-desc">Mina arrive à Séoul pour la première fois. Elle rencontre Joon dans le métro et apprend à se présenter.</p>
-          <div class="story-meta">
-            <span class="story-tag">Débutant</span>
-            <span class="story-dot"></span>
-            <span class="story-tag">~5 min</span>
-          </div>
-          <span class="story-link">Lire l'histoire <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-        </div>
-      </a>
-      <a href="histoire5.html" class="story-card fw d1">
-        <div class="story-visual sv2">
-          <span class="story-kr">시장</span>
-          <span class="story-level">A2</span>
-        </div>
-        <div class="story-body">
-          <div class="story-title">Au Marché de Gwangjang</div>
-          <p class="story-desc">Hana et Mina explorent le marché traditionnel. Négociation, street food et expressions idiomatiques.</p>
-          <div class="story-meta">
-            <span class="story-tag">Élémentaire</span>
-            <span class="story-dot"></span>
-            <span class="story-tag">~7 min</span>
-          </div>
-          <span class="story-link">Lire l'histoire <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-        </div>
-      </a>
-      <a href="histoire12.html" class="story-card fw d2">
-        <div class="story-visual sv3">
-          <span class="story-kr">꿈</span>
-          <span class="story-level">B1</span>
-        </div>
-        <div class="story-body">
-          <div class="story-title">Le Rêve de Joon</div>
-          <p class="story-desc">Joon prépare son entretien d'embauche dans une entreprise de K-pop. Vocabulaire professionnel et niveaux de politesse.</p>
-          <div class="story-meta">
-            <span class="story-tag">Intermédiaire</span>
-            <span class="story-dot"></span>
-            <span class="story-tag">~10 min</span>
-          </div>
-          <span class="story-link">Lire l'histoire <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
-        </div>
-      </a>
-    </div>
-    <div style="text-align:center;margin-top:40px">
-      <a href="histoires.html" class="btn-outline" style="border-color:var(--bd);color:var(--t2);display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:100px;font-weight:600;font-size:14px;transition:all .2s">
-        Voir les 21 histoires →
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ FEATURES DARK ═══════════ -->
-<section class="section features-section">
-  <div class="section-inner">
-    <div class="section-hd">
-      <span class="label fw" style="color:var(--gold)">Pourquoi Korean Stories</span>
-      <h2 class="h2 h2w fw d1">Tout ce dont tu as <em>besoin</em></h2>
-      <p class="hsub fw d2" style="color:rgba(237,242,250,.62)">Une plateforme complète, pensée pour les apprenants francophones.</p>
-    </div>
+<!-- ═══════════ FONCTIONNALITÉS ═══════════ -->
+<section class="s">
+  <div class="wrap">
+    <div class="s-head fw"><span class="eyebrow">Tout-en-un</span><h2>Tout ce qu'il te faut, au même endroit</h2><p>Fini de jongler entre dix applis. Korean Stories réunit tout pour apprendre sérieusement.</p></div>
     <div class="feat-grid">
-      <div class="feat fw">
-        <div class="feat-ic">
-          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        </div>
-        <h3>42 histoires immersives</h3>
-        <p>Vocabulaire et grammaire dans leur contexte, du Hangeul au B2. On apprend comme on découvre une série.</p>
-      </div>
-      <div class="feat fw d1">
-        <div class="feat-ic">
-          <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        </div>
-        <h3>Voix 100% natives</h3>
-        <p>Chaque mot, chaque dialogue est prononcé par de vraies voix coréennes neuronales. Jamais de voix robotique.</p>
-      </div>
-      <div class="feat fw d2">
-        <div class="feat-ic">
-          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"/></svg>
-        </div>
-        <h3>Clavier coréen intégré</h3>
-        <p>Apprends à taper le Hangeul directement dans le navigateur, avec dictée audio — sans rien installer.</p>
-      </div>
-      <div class="feat fw d3">
-        <div class="feat-ic">
-          <svg viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-        </div>
-        <h3>Mix du jour & révision</h3>
-        <p>Une session quotidienne qui pioche dans tout ce que tu as appris — la répétition espacée qui ancre vraiment.</p>
-      </div>
-      <div class="feat fw d2">
-        <div class="feat-ic">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <h3>100% en français</h3>
-        <p>Toutes les explications sont en français — pas de jargon anglais, une vraie pédagogie pour francophones.</p>
-      </div>
-      <div class="feat fw d3">
-        <div class="feat-ic">
-          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </div>
-        <h3>Hors-ligne & 31 PDFs</h3>
-        <p>Télécharge tout le parcours pour réviser dans l'avion ou le métro, plus 31 fiches imprimables gratuites.</p>
+      <div class="feat fw"><div class="feat-ic"><svg viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></div><div><h4>Hangeul interactif</h4><p>Apprends à lire et écrire avec un clavier guidé et des exercices de tracé.</p></div></div>
+      <div class="feat fw"><div class="feat-ic"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div><h4>Vocabulaire &amp; révisions</h4><p>Des cartes mémoire en répétition espacée pour ancrer durablement chaque mot.</p></div></div>
+      <div class="feat fw"><div class="feat-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div><h4>Quiz &amp; exercices</h4><p>Valide chaque leçon par des exercices variés et des mini-quiz de compréhension.</p></div></div>
+      <div class="feat fw"><div class="feat-ic"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg></div><div><h4>Audio natif</h4><p>Écoute chaque phrase par de vraies voix coréennes et travaille ta prononciation.</p></div></div>
+      <div class="feat fw"><div class="feat-ic"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><h4>Défi du jour &amp; XP</h4><p>Un mix quotidien, des XP, des séries et des trophées pour garder le rythme.</p></div></div>
+      <div class="feat fw"><div class="feat-ic"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></div><div><h4>Hors-ligne (PWA)</h4><p>Installe l'appli et révise partout, même sans connexion. Sans publicité.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GAMIFICATION ═══════════ -->
+<section class="s game">
+  <div class="wrap game-inner">
+    <div class="game-txt fw">
+      <span class="eyebrow" style="color:var(--gold2)">Motivation</span>
+      <h2 style="margin-top:14px">Apprendre devient <em>un jeu</em></h2>
+      <p>Des points, des séries, un classement et des défis quotidiens. On garde la motivation parce qu'on s'amuse — exactement comme dans tes applis préférées.</p>
+    </div>
+    <div class="game-pills fw">
+      <div class="gp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><div><b>XP &amp; niveaux</b><span>Gagne de l'expérience à chaque activité</span></div></div>
+      <div class="gp"><svg viewBox="0 0 24 24"><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/><circle cx="12" cy="8" r="6"/></svg><div><b>Classement &amp; trophées</b><span>Compare-toi et débloque des récompenses</span></div></div>
+      <div class="gp"><svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4 2 7-5.5-4-5.5 4 2-7L3 9h7z"/></svg><div><b>Défi quotidien</b><span>Un rendez-vous de 3 minutes par jour</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ À PROPOS ═══════════ -->
+<!-- 💡 Stelva : remplace l'emblème par ta vraie photo en mettant
+     <img src="img/stelva.jpg" alt="Stelva"> dans .about-photo, et personnalise le texte. -->
+<section class="s" id="apropos">
+  <div class="wrap about-inner">
+    <div class="about-photo fw">
+      <div class="about-emblem"><div class="k">스텔바</div><div class="n">Design by Stelva</div></div>
+    </div>
+    <div class="about-txt fw">
+      <span class="eyebrow">La personne derrière</span>
+      <h2>Salut, moi c'est Stelva 👋</h2>
+      <p>Comme toi, j'ai voulu apprendre le coréen — et j'ai vite été <strong>perdue entre dix applis</strong>, des fiches sans fin et des cours qui oubliaient le plaisir d'apprendre.</p>
+      <p>Alors j'ai créé Korean Stories : la méthode que <strong>j'aurais aimé avoir</strong>. Des histoires illustrées, de vraies voix, un parcours clair, en français — pour apprendre le coréen <strong>sans s'ennuyer</strong>.</p>
+      <p class="about-sign">« On apprend mieux ce qui nous fait rêver. »</p>
+      <div class="about-social">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        <a href="mailto:contact@koreanstories.fr" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></a>
+        <a href="a-propos.html" aria-label="En savoir plus"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ COMPARATIF ═══════════ -->
-<section class="section compare-section">
-  <div class="section-inner cmp-wrap">
-    <div class="section-hd cmp-hd">
-      <span class="label fw" style="color:var(--gold)">Comparatif</span>
-      <h2 class="h2 h2w fw d1">Pourquoi pas les <em>autres</em> ?</h2>
+<!-- ═══════════ TARIFS ═══════════ -->
+<section class="s pricing" id="tarifs">
+  <div class="wrap">
+    <div class="s-head fw"><span class="eyebrow">Tarifs</span><h2>Commence gratuitement, passe à l'illimité quand tu veux</h2><p>Apprends sans payer. Le premium retire simplement la limite de vies et débloque tout, pour toujours.</p></div>
+    <div class="price-grid">
+      <div class="price fw">
+        <div class="price-name">Gratuit</div>
+        <div class="price-amt">0€</div>
+        <div class="price-desc">Pour découvrir et apprendre à ton rythme.</div>
+        <ul class="price-feats">
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tout le parcours Hangeul → B2</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Histoires, leçons &amp; exercices</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>5 vies par jour</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sans publicité</li>
+        </ul>
+        <a href="app.html" class="btn btn-ghost">Commencer gratuitement</a>
+      </div>
+      <div class="price fw">
+        <div class="price-name">Premium</div>
+        <div class="price-amt">5€<small> /mois</small></div>
+        <div class="price-desc">Apprends sans jamais être interrompu·e.</div>
+        <ul class="price-feats">
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tout le gratuit, et&hellip;</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Vies illimitées</strong></li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Mode hors-ligne complet</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sans engagement, résiliable</li>
+        </ul>
+        <a href="app.html" class="btn btn-ghost">Passer au Premium</a>
+      </div>
+      <div class="price feat-price fw">
+        <span class="price-tag">Meilleure offre</span>
+        <div class="price-name">À vie</div>
+        <div class="price-amt">79€<small> une fois</small></div>
+        <div class="price-desc">Un seul paiement, accès pour toujours.</div>
+        <ul class="price-feats">
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Tout le Premium, à vie</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Vies illimitées pour toujours</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Toutes les futures mises à jour</li>
+          <li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Aucun abonnement à gérer</li>
+        </ul>
+        <a href="app.html" class="btn btn-gold">Accès à vie</a>
+      </div>
     </div>
-    <div class="tbl-outer fw d1">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th class="ks-h">Korean Stories</th>
-            <th>Duolingo</th>
-            <th>Cours en ligne</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Entièrement gratuit</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="part">Partiel</span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-          </tr>
-          <tr>
-            <td>Apprentissage par histoires</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-            <td><span class="part">Parfois</span></td>
-          </tr>
-          <tr>
-            <td>Explications en français</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-            <td><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-          </tr>
-          <tr>
-            <td>Voix 100% natives</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="part">Synthèse</span></td>
-            <td><span class="part">Parfois</span></td>
-          </tr>
-          <tr>
-            <td>Clavier coréen pour écrire</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-          </tr>
-          <tr>
-            <td>Fonctionne hors-ligne</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="part">Payant</span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-          </tr>
-          <tr>
-            <td>PDFs téléchargeables</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-            <td><span class="part">Parfois</span></td>
-          </tr>
-          <tr>
-            <td>Niveaux Hangeul → B2</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="part">Limité</span></td>
-            <td><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-          </tr>
-          <tr>
-            <td>Préparation TOPIK</td>
-            <td class="ks-col"><span class="ok"><svg class="ks-i" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"/></svg></span></td>
-            <td><span class="no"><svg class="ks-i" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span></td>
-            <td><span class="part">Parfois</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <p class="price-note">Pas de carte requise pour commencer · Annulable à tout moment</p>
+  </div>
+</section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="s" style="background:var(--s2)">
+  <div class="wrap">
+    <div class="s-head fw"><span class="eyebrow">Questions fréquentes</span><h2>Tout ce que tu te demandes</h2></div>
+    <div class="faq-list">
+      <div class="faq-item fw"><button class="faq-q">C'est vraiment gratuit ?<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-a"><p>Oui. Tout le parcours, les histoires et les exercices sont accessibles gratuitement, sans publicité. Le gratuit inclut 5 vies par jour ; le Premium les rend illimitées.</p></div></div>
+      <div class="faq-item fw"><button class="faq-q">Comment fonctionnent les « vies » ?<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-a"><p>Comme dans Duolingo : en version gratuite, une erreur coûte une vie (5 par jour). Elles se rechargent avec le temps. Le Premium (5€/mois) ou l'accès à vie (79€) débloque les vies illimitées.</p></div></div>
+      <div class="faq-item fw"><button class="faq-q">Je suis grand débutant, c'est pour moi ?<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-a"><p>Absolument. On commence au tout début : l'alphabet Hangeul, lettre par lettre. Aucune connaissance préalable n'est nécessaire — tout est expliqué en français.</p></div></div>
+      <div class="faq-item fw"><button class="faq-q">Quelle différence avec Duolingo ?<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-a"><p>Korean Stories est pensé <strong>pour les francophones</strong> et 100% dédié au coréen. On apprend à travers de vraies histoires illustrées et de vraies voix, avec des explications de grammaire claires — pas juste des phrases isolées.</p></div></div>
+      <div class="faq-item fw"><button class="faq-q">Puis-je apprendre sur mon téléphone ?<svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button><div class="faq-a"><p>Oui, le site est pensé mobile d'abord. Tu peux même l'installer comme une application (PWA) et l'utiliser hors-ligne avec le Premium.</p></div></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════ RESSOURCES ═══════════ -->
-<section class="section resources-section">
-  <div class="section-inner">
-    <div class="section-hd">
-      <span class="label fw">Fiches de révision</span>
-      <h2 class="h2 fw d1">31 PDFs <em>gratuits</em></h2>
-      <p class="hsub fw d2">Télécharge nos fiches premium à imprimer. Vocabulaire, grammaire, culture, TOPIK — tout est là.</p>
+<!-- ═══════════ CTA FINAL ═══════════ -->
+<section class="final">
+  <div class="hero-orb orb1"></div>
+  <div class="final-in fw">
+    <h2>Prêt·e à apprendre le coréen <em>autrement</em> ?</h2>
+    <p>Rejoins les francophones qui apprennent le coréen à travers les histoires. Gratuit pour commencer, aucune carte requise.</p>
+    <div class="hero-btns">
+      <a href="app.html" class="btn btn-gold"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>Commencer gratuitement</a>
+      <a href="cours.html" class="btn btn-outline">Voir le programme →</a>
     </div>
-    <div class="res-grid">
-      <a href="ressources.html" class="res-card fw" title="Tableau Hangeul">
-        <div class="res-icon" style="background:rgba(245,158,11,.1)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg></div>
-        <div class="res-title">Tableau Hangeul</div>
-        <div class="res-level">Hangeul</div>
-      </a>
-      <a href="ressources.html" class="res-card fw d1" title="Vocabulaire A1">
-        <div class="res-icon" style="background:rgba(37,99,235,.08)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-        <div class="res-title">Vocabulaire A1</div>
-        <div class="res-level">A1 · 200 mots</div>
-      </a>
-      <a href="ressources.html" class="res-card fw d2" title="Grammaire A2">
-        <div class="res-icon" style="background:rgba(34,197,94,.08)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
-        <div class="res-title">Grammaire A2</div>
-        <div class="res-level">A2 · Structures</div>
-      </a>
-      <a href="ressources.html" class="res-card fw d1" title="Vocabulaire B1">
-        <div class="res-icon" style="background:rgba(139,92,246,.08)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg></div>
-        <div class="res-title">Vocabulaire B1</div>
-        <div class="res-level">B1 · 200 mots</div>
-      </a>
-      <a href="ressources.html" class="res-card fw d2" title="TOPIK II B1">
-        <div class="res-icon" style="background:rgba(239,68,68,.08)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
-        <div class="res-title">Prépa TOPIK II</div>
-        <div class="res-level">B1-B2 · Examen</div>
-      </a>
-      <a href="ressources.html" class="res-card fw d3" style="background:var(--goldbg);border-color:var(--goldbd)">
-        <div class="res-icon" style="background:rgba(201,169,110,.15)">+</div>
-        <div class="res-title" style="color:var(--gold)">Voir tous les PDFs</div>
-        <div class="res-level" style="color:var(--gold)">31 fiches disponibles</div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ CTA FINALE ═══════════ -->
-<section class="cta-section">
-  <div class="cta-inner">
-    <span class="cta-kr">시작</span>
-    <h2>Prêt(e) à commencer <em>l'aventure</em> ?</h2>
-    <p>Rejoins des milliers d'apprenants francophones et commence ton voyage en coréen dès aujourd'hui. Gratuit, sans inscription.</p>
-    <div class="hero-btns" style="justify-content:center">
-      <a href="app.html" class="btn-gold">
-        <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-        Commencer gratuitement
-      </a>
-      <a href="cours.html" class="btn-outline">Voir le programme</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ NEWSLETTER ═══════════ -->
-<section class="nl-section">
-  <div class="nl-inner">
-    <span class="nl-kr">Newsletter</span>
-    <h3>Reste <em>informé</em></h3>
-    <p>Nouvelles leçons, ressources PDF gratuites, conseils pour ne pas lâcher — directement dans ta boîte mail. Une à deux fois par mois, jamais plus.</p>
-    <form id="nlForm" class="nl-form" novalidate>
-      <input type="email" name="email" id="nlEmail" placeholder="ton@email.com" required autocomplete="email" aria-label="Adresse e-mail" />
-      <button type="submit" class="nl-btn" id="nlBtn">
-        <span id="nlBtnLabel">Je m'inscris</span>
-        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-      </button>
-    </form>
-    <div class="nl-note">
-      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-      Pas de spam · Désabonnement en un clic · Tes données restent en France
-    </div>
-    <div id="nlMsg" class="nl-msg"></div>
   </div>
 </section>
 
 <!-- ═══════════ FOOTER ═══════════ -->
-<footer>
-  <div class="foot-inner">
-    <div class="foot-top">
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
       <div class="foot-brand">
-        <picture><source srcset="img/logo-bleu.webp" type="image/webp"><img src="img/logo-bleu.png" alt="Korean Stories" loading="lazy" decoding="async" width="491" height="100" /></picture>
-        <p>Apprends le coréen à travers des histoires. Méthode immersive, 100% gratuite, en français.</p>
+        <div class="foot-logo"><picture><source srcset="img/logo-blanc.webp" type="image/webp"><img src="img/logo-blanc.png" alt="Korean Stories"></picture></div>
+        <p>Apprends le coréen à travers de vraies histoires illustrées. Du Hangeul au B2, en français.</p>
       </div>
       <div class="foot-col">
-        <h4>Apprendre</h4>
-        <a href="hangeul.html">Hangeul</a>
-        <a href="cours.html">Cours</a>
-        <a href="grammaire.html">Grammaire</a>
+        <h5>Apprendre</h5>
+        <a href="cours.html">Le parcours</a>
         <a href="histoires.html">Histoires</a>
-      </div>
-      <div class="foot-col">
-        <h4>Ressources</h4>
-        <a href="ressources.html">PDFs gratuits</a>
+        <a href="hangeul.html">Hangeul</a>
+        <a href="grammaire.html">Grammaire</a>
         <a href="challenge.html">Défi du jour</a>
-        <a href="classement.html">Records</a>
-        <a href="app.html">Mon espace</a>
       </div>
       <div class="foot-col">
-        <h4>Niveaux</h4>
-        <a href="cours.html#hangeul">Hangeul</a>
-        <a href="cours.html#a1">Niveau A1</a>
-        <a href="cours.html#a2">Niveau A2</a>
-        <a href="cours.html#b1">Niveau B1</a>
-        <a href="cours.html#b2">Niveau B2</a>
+        <h5>Ressources</h5>
+        <a href="ressources.html">Ressources</a>
+        <a href="blog.html">Blog</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="a-propos.html">À propos</a>
+        <a href="aide.html">Aide</a>
       </div>
       <div class="foot-col">
-        <h4>Contact</h4>
-        <a href="mailto:contact@koreanstories.fr">contact@koreanstories.fr</a>
-        <a href="mailto:contact@koreanstories.fr?subject=Korean%20Stories%20—%20Une%20question">Nous écrire</a>
-        <a href="mailto:contact@koreanstories.fr?subject=Korean%20Stories%20—%20Signaler%20un%20bug">Signaler un bug</a>
+        <h5>Reste informé·e</h5>
+        <p style="font-size:13.5px;line-height:1.6;margin-bottom:4px">Nouvelles histoires, astuces et bons plans coréen.</p>
+        <form class="nl-form" id="nlForm" novalidate>
+          <input type="email" id="nlEmail" placeholder="Ton e-mail" autocomplete="email" required>
+          <button type="submit" id="nlBtn"><span id="nlBtnLabel">OK</span></button>
+        </form>
+        <div class="nl-msg" id="nlMsg"></div>
       </div>
     </div>
-    <div class="foot-bot">
-      <span class="foot-copy">© 2025 <span>Korean Stories</span> · Fait avec pour les passionnés de coréen · <a href="mailto:contact@koreanstories.fr" style="color:inherit;text-decoration:none">contact@koreanstories.fr</a></span>
-      <span class="foot-kr">한국어를 배우자</span>
+    <div class="foot-bottom">
+      <span>© 2026 Korean Stories · Fait avec <span class="heart">❤</span> par Design by Stelva</span>
+      <div style="display:flex;align-items:center;gap:18px">
+        <a href="mentions-legales.html" style="color:rgba(255,255,255,.5)">Mentions légales</a>
+        <div class="foot-social">
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="mailto:contact@koreanstories.fr" aria-label="Email"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></a>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
 
 <script>
-/* ── Nav scroll behaviour ── */
-const nav = document.getElementById('nav');
-function updateNav(){
-  if(window.scrollY > 60){
-    nav.classList.remove('dark');
-    nav.classList.add('light');
-  } else {
-    nav.classList.remove('light');
-    nav.classList.add('dark');
-  }
-}
-window.addEventListener('scroll', updateNav, {passive:true});
-updateNav();
+/* ── Nav scroll : sombre sur le hero, clair après ── */
+var nav=document.getElementById('nav');
+function updateNav(){ if(window.scrollY>60){nav.classList.remove('dark');nav.classList.add('light');}else{nav.classList.remove('light');nav.classList.add('dark');} }
+window.addEventListener('scroll',updateNav,{passive:true}); updateNav();
 
-/* ── Mobile drawer ── */
-const drawer = document.getElementById('drawer');
-const overlay = document.getElementById('overlay');
-document.getElementById('mbtn').addEventListener('click', () => {
-  drawer.classList.add('open');
-  overlay.classList.add('show');
-  document.body.style.overflow = 'hidden';
-});
-function closeDrawer(){
-  drawer.classList.remove('open');
-  overlay.classList.remove('show');
-  document.body.style.overflow = '';
-}
+/* ── Tiroir mobile ── */
+var drawer=document.getElementById('drawer'),overlay=document.getElementById('overlay');
+document.getElementById('mbtn').addEventListener('click',function(){drawer.classList.add('open');overlay.classList.add('show');document.body.style.overflow='hidden';});
+function closeDrawer(){drawer.classList.remove('open');overlay.classList.remove('show');document.body.style.overflow='';}
 
-/* ── Floating Korean chars in hero ── */
-const chars = ['한','국','어','배','움','사','랑','꿈','별','달','산','강','서','울','이','야','기','시','작','끝','마','음','빛','길','봄'];
-const container = document.getElementById('hchars');
-chars.forEach((ch, i) => {
-  const el = document.createElement('span');
-  el.className = 'hc';
-  el.textContent = ch;
-  const size = Math.random() * 60 + 30;
-  el.style.cssText = `
-    font-size:${size}px;
-    left:${Math.random() * 95}%;
-    animation-duration:${Math.random() * 20 + 15}s;
-    animation-delay:${Math.random() * 15}s;
-  `;
-  container.appendChild(el);
+/* ── Caractères coréens flottants dans le hero ── */
+(function(){
+  var chars=['한','국','어','배','움','사','랑','꿈','별','달','산','강','서','울','이','야','기','시','작'];
+  var c=document.getElementById('hchars'); if(!c)return;
+  chars.forEach(function(ch){
+    var el=document.createElement('span'); el.className='hc'; el.textContent=ch;
+    var size=Math.random()*52+28;
+    el.style.cssText='font-size:'+size+'px;left:'+(Math.random()*95)+'%;animation-duration:'+(Math.random()*18+16)+'s;animation-delay:'+(Math.random()*16)+'s';
+    c.appendChild(el);
+  });
+})();
+
+/* ── Apparition au scroll ── */
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.fw').forEach(function(el){io.observe(el);});
+})();
+
+/* ── FAQ accordéon ── */
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click',function(){
+    var item=q.closest('.faq-item'), a=item.querySelector('.faq-a'), open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(o){o.classList.remove('open');o.querySelector('.faq-a').style.maxHeight=null;});
+    if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+  });
 });
 
-/* ── Intersection observer for fade-in ── */
-const fw = document.querySelectorAll('.fw');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('v') });
-}, { threshold: 0.12 });
-fw.forEach(el => observer.observe(el));
-
-/* ─────────────────────────────────────────────────────────────
-   NEWSLETTER — envoi vers contact@koreanstories.fr via FormSubmit
-   ─────────────────────────────────────────────────────────────
-   FormSubmit relaie le contenu du formulaire vers ton adresse
-   Hostinger. À la première soumission, tu recevras un mail de
-   confirmation à valider (une seule fois). Ensuite chaque
-   inscription arrive dans la boîte contact@koreanstories.fr.
-
-   Le mail local (localStorage 'ks_newsletter') sert de filet de
-   sécurité : si le réseau ou FormSubmit est en panne, l'email
-   est quand même mémorisé pour un re-essai au prochain chargement.
-
-   Pour migrer vers Brevo / Mailchimp / Hostinger Reach plus tard :
-   remplace l'URL POST par celle fournie par le service. */
-(function () {
-  var form = document.getElementById('nlForm');
-  if (!form) return;
-  var input  = document.getElementById('nlEmail');
-  var btn    = document.getElementById('nlBtn');
-  var lbl    = document.getElementById('nlBtnLabel');
-  var msg    = document.getElementById('nlMsg');
-  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  var ENDPOINT = 'https://formsubmit.co/ajax/contact@koreanstories.fr';
-
-  function backup(email) {
-    try {
-      var list = JSON.parse(localStorage.getItem('ks_newsletter') || '[]');
-      if (list.indexOf(email) === -1) list.push(email);
-      localStorage.setItem('ks_newsletter', JSON.stringify(list));
-    } catch (e) {}
-  }
-
-  function setMsg(kind, html) {
-    msg.className = 'nl-msg ' + kind;
-    msg.innerHTML = html;
-  }
-
-  form.addEventListener('submit', function (e) {
+/* ── Newsletter (FormSubmit -> contact@koreanstories.fr) ── */
+(function(){
+  var form=document.getElementById('nlForm'); if(!form)return;
+  var input=document.getElementById('nlEmail'),btn=document.getElementById('nlBtn'),lbl=document.getElementById('nlBtnLabel'),msg=document.getElementById('nlMsg');
+  var RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/, EP='https://formsubmit.co/ajax/contact@koreanstories.fr';
+  function setMsg(k,h){msg.className='nl-msg '+k;msg.innerHTML=h;}
+  form.addEventListener('submit',function(e){
     e.preventDefault();
-    var email = (input.value || '').trim();
-    if (!EMAIL_RE.test(email)) {
-      setMsg('err', "Vérifie l'adresse e-mail — elle ne semble pas valide.");
-      input.focus();
-      return;
-    }
-
-    btn.disabled = true;
-    lbl.textContent = 'Envoi…';
-    setMsg('', '');
-
-    backup(email);
-
-    fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        email: email,
-        _subject: 'Korean Stories — Nouvelle inscription newsletter',
-        _captcha: 'false',
-        _template: 'table'
-      })
-    })
-    .then(function (res) {
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      return res.json().catch(function () { return {}; });
-    })
-    .then(function () {
-      form.style.display = 'none';
-      setMsg('ok',
-        "<strong>Merci&nbsp;!</strong> On t'écrira sur <strong>" + email + "</strong>.<br/>" +
-        "<span style=\"font-size:12px;opacity:.75\">Pense à confirmer ton inscription si on te demande.</span>");
-    })
-    .catch(function () {
-      btn.disabled = false;
-      lbl.textContent = "Je m'inscris";
-      setMsg('err',
-        "Impossible d'envoyer pour le moment. Réessaie dans un instant, ou écris-nous à " +
-        "<a href=\"mailto:contact@koreanstories.fr\" style=\"color:inherit;font-weight:700\">contact@koreanstories.fr</a>.");
-    });
+    var email=(input.value||'').trim();
+    if(!RE.test(email)){setMsg('err','E-mail invalide.');input.focus();return;}
+    btn.disabled=true; lbl.textContent='…'; setMsg('','');
+    try{var l=JSON.parse(localStorage.getItem('ks_newsletter')||'[]');if(l.indexOf(email)<0)l.push(email);localStorage.setItem('ks_newsletter',JSON.stringify(l));}catch(_){}
+    fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,_subject:'Korean Stories — Nouvelle inscription newsletter',_captcha:'false',_template:'table'})})
+      .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{};});})
+      .then(function(){form.style.display='none';setMsg('ok','<strong>Merci !</strong> On revient vers toi très vite.');})
+      .catch(function(){btn.disabled=false;lbl.textContent='OK';setMsg('err','Réessaie dans un instant.');});
   });
 })();
 </script>
