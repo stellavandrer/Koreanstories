@@ -1053,6 +1053,25 @@
 .dw-grid{order:4 !important;max-width:680px !important;margin:14px auto 0 !important}
 #factCard,#mixCard,.discover-list,#wrCard,#weeklyChart,
 .sec-lbl:has(+ .discover-list),.sec-lbl:has(+ #wrCard),#actSeclbl{display:none !important}
+
+/* « Défis de la semaine » consolidé avec « Défi du jour » → masqué (doublon). */
+#wklyCard{display:none !important}
+
+/* ════ ÉTAT JOUR-1 (nouvel utilisateur, ks_xp=0) ════════════════════
+   Onboarding focalisé : on ne montre QUE salutation → Reprendre
+   (sa 1ʳᵉ leçon) → carte « Commence en 3 étapes ». On masque les
+   jauges à zéro, le défi, les sections et les widgets pour ne pas
+   accueillir l'utilisateur par un mur de zéros décourageant.
+   (.ks-new est posé par le script d'état en bas de page ; sinon
+   l'affichage « actif » complet s'applique par défaut.) */
+#appContent.ks-new .goal-strip,
+#appContent.ks-new .defi-card,
+#appContent.ks-new #defiSeclbl,
+#appContent.ks-new .sec-grid,
+#appContent.ks-new .dw-grid,
+#appContent.ks-new #revCard,
+#appContent.ks-new .sec-lbl:has(+ .sec-grid),
+#appContent.ks-new .sec-lbl:has(+ #revCard){display:none !important}
 </style>
 
 <!-- ══ MAIN ════════════════════════════════════ -->
@@ -3980,6 +3999,26 @@ document.addEventListener('click', function(e){
 </div><!-- .shell -->
 
 <!-- BOTTOM NAV -->
+
+<!-- État du tableau de bord : jour-1 (onboarding focalisé) vs utilisateur actif -->
+<script>
+(function(){
+  try{
+    var ac = document.getElementById('appContent');
+    if(!ac) return;
+    var xp = parseInt(localStorage.getItem('ks_xp')||'0',10) || 0;
+    if(xp === 0){
+      ac.classList.add('ks-new');
+      // « Reprendre » n'a pas de sens le jour 1 → « Commence ici »
+      var cc = document.querySelector('.cont-card');
+      if(cc){
+        var lbl = cc.previousElementSibling;
+        if(lbl && lbl.classList && lbl.classList.contains('sec-lbl')) lbl.textContent = 'Commence ici';
+      }
+    }
+  }catch(e){}
+})();
+</script>
 
 </body>
 </html>
