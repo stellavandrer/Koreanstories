@@ -154,4 +154,17 @@
     sb.addEventListener('click', open);
     sideNav.appendChild(sb);
   }
+
+  /* ── Logo cliquable → tableau de bord (app.html), sur toutes les pages ── */
+  document.querySelectorAll('.bar-logo, .side-logo, .ksm-logo').forEach(function (lg) {
+    lg.style.cursor = 'pointer';
+    lg.style.pointerEvents = 'auto';
+    lg.setAttribute('role', 'link');
+    lg.setAttribute('aria-label', 'Aller au tableau de bord');
+    lg.setAttribute('tabindex', '0');
+    lg.addEventListener('click', function () { location.href = 'app.html'; });
+    lg.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); location.href = 'app.html'; }
+    });
+  });
 })();
