@@ -82,7 +82,7 @@ body{
   background:var(--bg);color:var(--t);
   -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100svh;
   transition:background .25s,color .25s;
-  padding-bottom:calc(64px + env(safe-area-inset-bottom));
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
 }
 a{text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -666,6 +666,10 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
    le logo : l'utilisateur sait où il est (il y a le bouton retour). */
 @media (max-width: 599px) {
   .bar.bar-has-tools .bar-logo { display: none; }
+  /* La barre porte désormais un hamburger (à gauche) ; sur les pages avec
+     bouton retour, le logo centré entrerait en collision. On le masque —
+     la marque « Korean Stories » reste visible en tête du tiroir du menu. */
+  .bar:has(.bar-back) .bar-logo { display: none; }
 }
 
 /* ── WIDGETS FLOTTANTS — anti-collision ──────────────────────────────
@@ -679,7 +683,7 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 .hg-fab {
   left: 14px !important;
   right: auto !important;
-  bottom: calc(76px + env(safe-area-inset-bottom)) !important;
+  bottom: calc(20px + env(safe-area-inset-bottom)) !important;
 }
 
 /* ── RESPONSIVE DESKTOP ──────────────────────────────────────────── */

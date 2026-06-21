@@ -76,9 +76,12 @@
 
   /* ── Styles ── */
   var css = [
-    '.ksm-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:11px;background:transparent;border:none;cursor:pointer;color:inherit;flex-shrink:0;-webkit-tap-highlight-color:transparent}',
-    '.ksm-btn span{display:block;width:19px;height:2px;border-radius:2px;background:currentColor;margin:2.3px 0;transition:.2s}',
-    '.ksm-btn.ksm-float{position:fixed;top:calc(10px + env(safe-area-inset-top));left:12px;z-index:1200;background:var(--surf,#fff);box-shadow:0 4px 14px rgba(0,0,0,.14);color:var(--t,#0D1823)}',
+    '.ksm-btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:100px;background:var(--goldbg,#FBF2E3);border:1.5px solid var(--gold,#C9A96E);cursor:pointer;color:var(--gold-text,#8B6B3D);font:700 12.5px/1 inherit;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:.15s}',
+    '.ksm-btn:hover{filter:brightness(.97)}',
+    '.ksm-btn .ksm-ico{display:flex;flex-direction:column;justify-content:center;gap:3px;width:15px}',
+    '.ksm-btn .ksm-ico i{display:block;height:2px;border-radius:2px;background:currentColor}',
+    '.ksm-btn .ksm-txt{letter-spacing:.01em}',
+    '.ksm-btn.ksm-float{position:fixed;top:calc(10px + env(safe-area-inset-top));left:12px;z-index:1200;background:var(--surf,#fff);border-color:var(--gold,#C9A96E);box-shadow:0 4px 14px rgba(0,0,0,.16);height:38px;padding:0 15px}',
     '.ksm-side-btn{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border-radius:12px;border:1px dashed var(--bd,#DAE3F2);background:transparent;color:var(--t2,#475E78);font:600 14px/1 inherit;cursor:pointer;margin-top:6px}',
     '.ksm-side-btn:hover{border-color:var(--gold,#C9A96E);color:var(--gold-text,#8B6B3D)}',
     '.ksm-side-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}',
@@ -138,7 +141,7 @@
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && drawer.classList.contains('open')) close(); });
 
   /* ── Bouton déclencheur ── */
-  function makeBtn(cls){ var b=document.createElement('button'); b.className='ksm-btn'+(cls?' '+cls:''); b.setAttribute('aria-label','Ouvrir le menu'); b.innerHTML='<span></span><span></span><span></span>'; b.addEventListener('click',open); return b; }
+  function makeBtn(cls){ var b=document.createElement('button'); b.className='ksm-btn'+(cls?' '+cls:''); b.setAttribute('aria-label','Ouvrir le menu'); b.innerHTML='<span class="ksm-ico"><i></i><i></i><i></i></span><span class="ksm-txt">Menu</span>'; b.addEventListener('click',open); return b; }
   var bar = document.querySelector('nav.bar, .bar, .read-top, .top');
   if (bar) { bar.insertBefore(makeBtn(), bar.firstChild); }
   else { document.body.appendChild(makeBtn('ksm-float')); }

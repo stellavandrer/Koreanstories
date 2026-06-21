@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["추석은", "chusŏgŭn", "Chuseok"], ["한국의", "hangugeui", "de Corée"], ["중요한", "jungyohan", "importante"], ["전통 명절이에요", "jŏntong myŏngjŏriéyo", "est une fête traditionnelle"]], "s2": [["음력", "ŭmnyŏk", "calendrier lunaire"], ["8월 15일이에요", "palwŏl siboriréyo", "c'est le 15 août"]], "s3": [["가족이", "gajogi", "la famille (sujet)"], ["모두", "modu", "tous"], ["모여요", "moyŏyo", "se réunit"], ["할머니 댁에", "halmŏni daege", "chez grand-mère"], ["가요", "gayo", "on va"]], "s4": [["오랫동안", "oraetdongan", "après longtemps"], ["못 봤던", "mot bwatdŏn", "qu'on n'avait pas vu"], ["가족을", "gajogŭl", "famille (obj)"], ["만나요", "mannayo", "on retrouve"]], "s5": [["함께", "hamkke", "ensemble"], ["송편을", "songpyŏnŭl", "songpyeon (obj)"], ["만들어요", "mandŭrŏyo", "nous faisons"]], "s6": [["송편은", "songpyŏnŭn", "le songpyeon"], ["반달 모양의", "bandal moyangui", "en forme de demi-lune"], ["쌀떡이에요", "ssalddeŏgiéyo", "est un gâteau de riz"]], "s7": [["차례를", "charyerŭl", "les rites (obj)"], ["지내요", "jinaéyo", "nous effectuons"]], "s8": [["추석은", "chusŏgŭn", "Chuseok"], ["한국의", "hangugeui", "coréen"], ["추수감사절이에요", "chusugamsajŏriéyo", "est le Thanksgiving"]]};
 const VOCAB=[["명절", "myŏngjŏl", "fête traditionnelle", "n"], ["추석", "chusŏk", "Chuseok (fête)", "n"], ["음력", "ŭmnyŏk", "calendrier lunaire", "n"], ["모이다", "moida", "se réunir", "v"], ["송편", "songpyŏn", "gâteau de riz de Chuseok", "n"], ["만들다", "mandŭlda", "faire / fabriquer", "v"], ["차례", "charye", "rites ancestraux", "n"], ["할머니", "halmŏni", "grand-mère", "n"], ["반달", "bandal", "demi-lune", "n"], ["전통", "jŏntong", "tradition", "n"], ["오랫동안", "oraetdongan", "pendant longtemps", "adv"], ["추수감사절", "chusu-gamsajŏl", "Thanksgiving", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

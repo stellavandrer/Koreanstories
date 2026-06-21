@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["저는", "jŏnŭn", "je"], ["강아지가", "kangajiga", "un chien (sujet)"], ["있어요", "issŏyo", "j'ai"], ["이름은", "irŭmŭn", "son nom"], ["몽구예요", "Mongguyéyo", "est Monggu"]], "s2": [["몽구는", "Monggunŭn", "Monggu"], ["하얗고", "hayatko", "est blanc et"], ["귀여워요", "gwiyŏwŏyo", "est mignon"]], "s3": [["매일 아침", "maeil achim", "chaque matin"], ["공원에서", "kongwŏnesŏ", "au parc"], ["산책해요", "sanchŏkhaeyo", "je le promène"]], "s4": [["몽구는", "Monggunŭn", "Monggu"], ["아주", "aju", "très"], ["빨리", "ppalli", "vite"], ["달려요", "dallyŏyo", "court"]], "s5": [["하루에", "harue", "par jour"], ["두 번", "du bŏn", "deux fois"], ["먹어요", "mŏgŏyo", "il mange"]], "s6": [["간식을", "gansigŭl", "les friandises (obj)"], ["좋아해요", "joahaeyo", "il aime"]], "s7": [["저녁에", "jŏnyŏge", "le soir"], ["제 방에서", "je bange-sŏ", "dans ma chambre"], ["자요", "jayo", "il dort"]], "s8": [["몽구는", "Monggunŭn", "Monggu"], ["제", "je", "mon"], ["가장", "gajang", "meilleur"], ["친구예요", "chinguyéyo", "ami"]]};
 const VOCAB=[["반려동물", "ballyŏdongmul", "animal de compagnie", "n"], ["강아지", "kangaji", "chiot / chien", "n"], ["고양이", "goyangi", "chat", "n"], ["산책하다", "sanchŏkhada", "se promener / promener", "v"], ["공원", "kongwŏn", "parc", "n"], ["달리다", "dallida", "courir", "v"], ["귀엽다", "gwiyŏpda", "être mignon", "adj"], ["하얗다", "hayata", "être blanc", "adj"], ["간식", "gansik", "friandise / collation", "n"], ["하루에", "harue", "par jour", "exp"], ["두 번", "du bŏn", "deux fois", "exp"], ["가장", "gajang", "le plus / meilleur", "adv"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

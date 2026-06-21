@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["K-pop은", "K-popŭn", "le K-pop"], ["전 세계적인", "jŏn-segyejŏgin", "mondial"], ["문화 현상이", "munhwa hyŏnsangi", "phénomène culturel (sujet)"], ["되었어요", "doeyŏssŏyo", "est devenu"]], "s2": [["BTS", "BTS", "BTS"], ["블랙핑크", "Beullaekpingkŭ", "BLACKPINK"], ["같은 그룹들이", "katŭn gŭrupdŭri", "des groupes comme (sujet)"], ["전 세계에서", "jŏn segyesŏ", "dans le monde entier"], ["인기 있어요", "ingi issŏyo", "sont populaires"]], "s3": [["한국 아이돌", "hanguk aidol", "idoles coréennes"], ["시스템은", "sisŭtemŭn", "le système"], ["매우 엄격해요", "maeu ŏmgyŏkhaéyo", "est très strict"]], "s4": [["연습생들이", "yŏnsŭpsaengdŭri", "les stagiaires (sujet)"], ["데뷔 전에", "debwi jŏne", "avant de débuter"], ["몇 년 동안", "myŏt nyŏn dongan", "pendant plusieurs années"], ["훈련해요", "hunlyŏnhaeyo", "s'entraînent"]], "s5": [["댄스", "daensŭ", "la danse"], ["보컬", "bokŏl", "le chant"], ["비주얼", "bijuŏl", "l'image"], ["모두", "modu", "tous"], ["중요해요", "jungyohaeyo", "sont importants"]], "s6": [["전 세계", "jŏn segye", "le monde entier"], ["팬들이", "paendŭri", "les fans (sujet)"], ["좋아하는 아티스트를", "joahananŭn atisŭtŭrŭl", "leurs artistes préférés (obj)"], ["응원해요", "ŭngwŏnhaeyo", "soutiennent"]], "s7": [["K-pop 덕분에", "K-pop dŏkbune", "grâce au K-pop"], ["한국어에 대한", "hangugo-e daehan", "pour le coréen"], ["관심이", "gwansimi", "l'intérêt (sujet)"], ["폭발적으로 늘었어요", "pokbaljŏgŭro nŭrŏssŏyo", "a explosé"]], "s8": [["많은 사람들이", "manŭn saramdŭri", "beaucoup de gens (sujet)"], ["노래를 이해하려고", "noraerŭl ihaeharyŏgo", "pour comprendre les chansons"], ["한국어를 배워요", "hangugo-rŭl baewŏyo", "apprennent le coréen"]]};
 const VOCAB=[["현상", "hyŏnsang", "phénomène", "n"], ["아이돌", "aidol", "idole (K-pop)", "n"], ["연습생", "yŏnsŭpsaeng", "stagiaire (agence)", "n"], ["데뷔", "debwi", "débuts (artistique)", "n"], ["훈련하다", "hunlyŏnhada", "s'entraîner", "v"], ["팬", "paen", "fan", "n"], ["응원하다", "ŭngwŏnhada", "soutenir / encourager", "v"], ["관심", "gwansim", "intérêt / attention", "n"], ["폭발적", "pokbaljŏk", "explosif", "adj"], ["덕분에", "dŏkbune", "grâce à", "exp"], ["엄격하다", "ŏmgyŏkhada", "être strict", "adj"], ["인기", "ingi", "popularité", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

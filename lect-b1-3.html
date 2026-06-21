@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["한국은", "hanguggŭn", "la Corée"], ["매우 경쟁이 치열한", "maeu gyŏnjaengi chiŏran", "très compétitif"], ["교육 시스템으로", "gyoyuk sisŭtemŭro", "pour son système éducatif"], ["알려져 있어요", "allyŏjyŏ issŏyo", "est connue"]], "s2": [["학생들은", "haksaengdŭrŭn", "les élèves"], ["밤늦게까지", "bamnetkejikkaji", "jusqu'à tard le soir"], ["열심히", "yŏlsimhi", "énormément"], ["공부해요", "kongbuhaeyo", "étudient"]], "s3": [["학교가 끝나면", "hakkyo-ga kkŭtnamyŏn", "après l'école"], ["많은 학생들이", "manŭn haksaengdŭri", "beaucoup d'élèves (sujet)"], ["학원에", "hagwŏne", "au hagwon"], ["가요", "gayo", "vont"]], "s4": [["거기서", "kŏgisŏ", "là-bas"], ["수학", "suhak", "les mathématiques"], ["영어", "yŏngŏ", "l'anglais"], ["음악 등을", "ŭmak dŭngŭl", "la musique etc. (obj)"], ["배워요", "baewŏyo", "on apprend"]], "s5": [["대학 입시 시험인", "daehak ipsi sihemin", "l'examen d'entrée universitaire"], ["수능은", "sunŭngŭn", "le Suneung"], ["일 년 중", "il nyŏn jung", "dans l'année"], ["가장 중요한 날이에요", "gajang jungyohan nariéyo", "est le jour le plus important"]], "s6": [["사회 전체가", "sahoe jŏnchega", "toute la société (sujet)"], ["학생들이 집중할 수 있도록", "haksaengdŭri jipjunhal su itdorok", "pour que les élèves puissent se concentrer"], ["멈춰요", "mŏmchŭwŏyo", "s'arrête"]], "s7": [["이 시스템은", "i sisŭtemŭn", "ce système"], ["큰 압박을", "kŭn apbaggŭl", "une forte pression (obj)"], ["만들지만", "mandŭljiman", "crée mais"], ["우수한 결과도", "usuhan gyŏlgwado", "d'excellents résultats aussi"], ["나와요", "nawayo", "produit"]], "s8": [["한국은", "hanguggŭn", "la Corée"], ["미래를 위해", "mirae-rŭl wihae", "pour l'avenir"], ["교육에", "gyoyuge", "dans l'éducation"], ["많이 투자해요", "manhi tujahaeyo", "investit beaucoup"]]};
 const VOCAB=[["교육", "gyoyuk", "éducation", "n"], ["경쟁", "gyŏnjaeng", "compétition", "n"], ["학원", "hagwŏn", "académie privée (hagwon)", "n"], ["수능", "sunŭng", "Suneung (examen bac)", "n"], ["입시", "ipsi", "concours d'entrée", "n"], ["압박", "apbak", "pression", "n"], ["집중하다", "jipjunghada", "se concentrer", "v"], ["투자하다", "tujahada", "investir", "v"], ["열심히", "yŏlsimhi", "avec ardeur / beaucoup", "adv"], ["우수하다", "usuhada", "être excellent", "adj"], ["경쟁이 치열하다", "gyŏnjaengi chiŏlhada", "être très compétitif", "exp"], ["미래", "mirae", "avenir / futur", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

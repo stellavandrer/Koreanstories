@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["오늘은", "onŭrŭn", "aujourd'hui"], ["시장에", "sijange", "au marché"], ["가요", "gayo", "je vais"]], "s2": [["시장은", "sijanggŭn", "le marché"], ["우리 집", "uri jip", "chez moi"], ["근처에", "gŭnchŏe", "près"], ["있어요", "issŏyo", "il y a/est"]], "s3": [["사과와", "sagwawa", "des pommes et"], ["바나나를", "bananarŭl", "des bananes (obj)"], ["사요", "sayo", "j'achète"]], "s4": [["얼마예요", "ŏlmayéyo", "combien ça coûte ?"], ["오천", "ochŏn", "cinq mille"], ["원이에요", "wŏniéyo", "wons"]], "s5": [["채소도", "chaesodo", "des légumes aussi"], ["사요", "sayo", "j'achète"]], "s6": [["당근과", "danggŭngwa", "des carottes et"], ["양파요", "yangpayo", "des oignons"]], "s7": [["아저씨가", "ajŏssiga", "le vendeur (sujet)"], ["친절해요", "chinjeréyo", "est gentil"]], "s8": [["조금", "jogŭm", "un peu"], ["더", "dŏ", "plus"], ["주세요", "juseyo", "donnez-moi"], ["감사해요", "gamsahaéyo", "merci"]]};
 const VOCAB=[["시장", "sijang", "marché", "n"], ["쇼핑", "syoping", "shopping", "n"], ["사다", "sada", "acheter", "v"], ["사과", "sagwa", "pomme", "n"], ["바나나", "banana", "banane", "n"], ["채소", "chaeso", "légume", "n"], ["당근", "danggŭn", "carotte", "n"], ["양파", "yangpa", "oignon", "n"], ["얼마", "ŏlma", "combien", "adv"], ["원", "wŏn", "won (monnaie)", "n"], ["친절하다", "chinjerhada", "être gentil", "adj"], ["감사하다", "gamsahada", "être reconnaissant / merci", "exp"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

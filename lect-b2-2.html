@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["대한민국은", "Daehanmingugŭn", "la Corée du Sud"], ["수십 년 동안", "susip nyŏn dongan", "depuis plusieurs décennies"], ["깊은 사회 변화를", "gipŭn sahoe byŏnhwarŭl", "des transformations profondes (obj)"], ["경험했어요", "kyŏnghŏmhassŏyo", "a connues"]], "s2": [["급격한 경제 성장이", "gŭpgyŏkan gyŏngje sŏngjangi", "la rapide croissance économique (sujet)"], ["생활 방식을", "saenghwal bangsigŭl", "les modes de vie (obj)"], ["근본적으로 바꾸었어요", "gŭnbonjŏgŭro bakkuŏssŏyo", "a radicalement modifiés"]], "s3": [["한국의 출산율은", "hangugeui chulsanyurŭn", "le taux de natalité coréen"], ["세계 최저 수준으로", "segye choejŏ sujunŭro", "à l'un des niveaux les plus bas"], ["심각한 인구 문제를", "simgakan ingu munje-rŭl", "un défi démographique majeur (obj)"], ["야기해요", "yagihaeyo", "constitue"]], "s4": [["고령화는", "goryŏnghwanŭn", "le vieillissement de la population"], ["사회 보장 시스템에", "sahoe bojang sisŭteme", "sur le système de protection sociale"], ["부담을 줘요", "budamŭl jwŏyo", "pèse"]], "s5": [["MZ 세대는", "emŭji sedaenŭn", "la génération MZ"], ["전통적 가치관을", "jŏntongjeok gachigwanŭl", "les valeurs traditionnelles (obj)"], ["재고하고 있어요", "jaegohago issŏyo", "remet en question"]], "s6": [["결혼과 출산이", "gyŏrhongwa chulsani", "le mariage et la naissance d'enfants (sujet)"], ["더 이상", "dŏ isang", "ne...plus"], ["필수적으로", "pilsujeogŭro", "comme obligatoires"], ["여겨지지 않아요", "yŏgyŏjiji anayo", "ne sont plus considérés"]], "s7": [["한국 사회는", "hanguk sahoénŭn", "la société coréenne"], ["전통과", "jŏntongwa", "entre tradition"], ["현대성 사이의", "hyŏndaesŏng saieui", "et modernité"], ["균형을 찾고 있어요", "gyunhyŏngŭl chatgo issŏyo", "cherche un équilibre"]], "s8": [["이러한 사회적 과제들은", "irŏhan sahoejŏk gwajédŭrŭn", "ces défis sociaux complexes"], ["혁신적이고 집단적인", "hyŏksinjŏgigo jipdanjŏgin", "innovantes et collectives"], ["해결책을", "haegyŏlchaegŭl", "des solutions (obj)"], ["필요로 해요", "pilyoro haeyo", "nécessitent"]]};
 const VOCAB=[["출산율", "chulsanyul", "taux de natalité", "n"], ["고령화", "goryŏnghwa", "vieillissement de la population", "n"], ["인구", "ingu", "population", "n"], ["사회 보장", "sahoe bojang", "protection sociale", "n"], ["MZ 세대", "emŭji sedae", "génération MZ (millénaire/Z)", "n"], ["가치관", "gachigwan", "valeurs / vision du monde", "n"], ["재고하다", "jaegohada", "remettre en question", "v"], ["균형", "gyunhyŏng", "équilibre", "n"], ["혁신적", "hyŏksinjŏk", "innovant", "adj"], ["집단적", "jipdanjŏk", "collectif", "adj"], ["필수적", "pilsujŏk", "obligatoire / essentiel", "adj"], ["야기하다", "yagihada", "causer / constituer", "v"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

@@ -50,9 +50,9 @@
       target: '.ks-search-fab'
     },
     {
-      title: 'Navigation principale',
-      body:  'En bas : Accueil, Cours, Histoires, Défi, Records, Profil. Tout est à portée de pouce.',
-      target: '.bnav'
+      title: 'Tout le menu',
+      body:  'Touche le bouton ☰ en haut pour ouvrir le menu complet : cours, histoires, dictionnaire, exercices, profil… tout est là.',
+      target: '.ksm-btn'
     },
     {
       title: 'Tu es prêt·e ! 화이팅',

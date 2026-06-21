@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["서울의", "sŏulŭi", "de Séoul"], ["대중교통은", "daejunggyotonggŭn", "les transports en commun"], ["매우", "maeu", "très"], ["편리해요", "pyŏllihaéyo", "sont pratiques"]], "s2": [["많은 사람들이", "manŭn saramdŭri", "beaucoup de gens (sujet)"], ["매일", "maeil", "chaque jour"], ["이용해요", "iyonghaéyo", "utilisent"]], "s3": [["지하철이", "jiha-cheŏri", "le métro (sujet)"], ["도시 전체를", "dosi jŏnchérŭl", "toute la ville (obj)"], ["연결해요", "yŏngyŏlhaéyo", "dessert/relie"]], "s4": [["지하철 노선이", "jiha-cheŏl nosŏni", "les lignes de métro (sujet)"], ["아홉 개", "ahop gae", "neuf"], ["있어요", "issŏyo", "il y en a"]], "s5": [["버스도", "bŏsŭdo", "les bus aussi"], ["도시", "dosi", "la ville"], ["곳곳을", "gotgosŭl", "partout (obj)"], ["다녀요", "danyŏyo", "circulent"]], "s6": [["택시도", "taeksido", "un taxi aussi"], ["탈 수 있어요", "tal su issŏyo", "on peut prendre"]], "s7": [["T-머니", "tŏ-mŏni", "T-money"], ["카드로", "kadŭro", "avec la carte"], ["요금을", "yogŭmŭl", "le prix (obj)"], ["내요", "naéyo", "on paie"]], "s8": [["택시보다", "taeksiboda", "que le taxi"], ["더", "dŏ", "plus"], ["싸고", "ssago", "moins cher et"], ["빨라요", "ppallayo", "rapide"]]};
 const VOCAB=[["대중교통", "daejunggyotong", "transports en commun", "n"], ["지하철", "jiha-cheŏl", "métro", "n"], ["버스", "bŏsŭ", "bus", "n"], ["택시", "taeksi", "taxi", "n"], ["노선", "nosŏn", "ligne (transport)", "n"], ["편리하다", "pyŏllihada", "être pratique", "adj"], ["이용하다", "iyonghada", "utiliser", "v"], ["연결하다", "yŏngyŏlhada", "relier / connecter", "v"], ["요금", "yogŭm", "tarif / prix", "n"], ["내다", "naeda", "payer / produire", "v"], ["빠르다", "ppareuda", "être rapide", "adj"], ["싸다", "ssada", "être bon marché", "adj"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

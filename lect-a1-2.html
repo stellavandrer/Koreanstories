@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["우리", "uri", "notre/ma"], ["가족은", "gajogŭn", "famille (sujet)"], ["네", "ne", "quatre"], ["명이에요", "myŏngiéyo", "personnes"]], "s2": [["아버지", "abŏji", "père"], ["어머니", "ŏmŏni", "mère"], ["오빠", "oppa", "grand frère (f→h)"], ["그리고", "kŭrigo", "et"], ["저예요", "jŏyéyo", "c'est moi"]], "s3": [["아버지는", "abŏjinŭn", "père (thème)"], ["회사원이에요", "hoesawŏniéyo", "est employé de bureau"]], "s4": [["어머니는", "ŏmŏninŭn", "mère (thème)"], ["선생님이에요", "sŏnsaengnimiéyo", "est professeure"]], "s5": [["오빠는", "oppanŭn", "grand frère (thème)"], ["대학생이에요", "daeháksaengiéyo", "est étudiant universitaire"]], "s6": [["스물두", "sŭmuldu", "vingt-deux"], ["살이에요", "sariéyo", "ans (avoir)"]], "s7": [["매일", "maeil", "chaque jour"], ["저녁에", "jŏnyŏge", "le soir"], ["함께", "hamkke", "ensemble"], ["먹어요", "mŏgŏyo", "nous mangeons"]], "s8": [["우리", "uri", "notre"], ["가족은", "gajogŭn", "famille"], ["행복해요", "haengbokéyo", "est heureuse"]]};
 const VOCAB=[["가족", "gajok", "famille", "n"], ["아버지", "abŏji", "père", "n"], ["어머니", "ŏmŏni", "mère", "n"], ["오빠", "oppa", "grand frère (dit par une fille)", "n"], ["회사원", "hoesawŏn", "employé de bureau", "n"], ["선생님", "sŏnsaengnim", "professeur(e)", "n"], ["대학생", "daeháksaeng", "étudiant(e) universitaire", "n"], ["살", "sal", "an (âge)", "n"], ["함께", "hamkke", "ensemble", "adv"], ["행복하다", "haengbokhada", "être heureux/se", "adj"], ["매일", "maeil", "chaque jour", "adv"], ["네 명", "ne myŏng", "quatre personnes", "exp"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

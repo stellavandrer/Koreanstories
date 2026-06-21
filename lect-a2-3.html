@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["민준 :", "Minjun :", "Min-jun :"], ["오랜만이야!", "oraenmaniya!", "ça fait longtemps !"], ["어떻게", "ŏttŏke", "comment"], ["지냈어?", "jinaessŏ?", "tu allais ?"]], "s2": [["소연 :", "Soyŏn :", "So-yeon :"], ["잘", "jal", "bien"], ["지냈어.", "jinaessŏ.", "j'allais."], ["너는?", "nŏnŭn?", "et toi ?"]], "s3": [["민준 :", "Minjun :", "Min-jun :"], ["나도", "nado", "moi aussi"], ["잘 지냈어.", "jal jinaessŏ.", "j'allais bien."], ["요즘", "yojŭm", "ces derniers temps"], ["뭐 해?", "mwo hae?", "tu fais quoi ?"]], "s4": [["소연 :", "Soyŏn :", "So-yeon :"], ["한국어", "hangugo", "le coréen"], ["공부해.", "kongbuhae.", "j'étudie."], ["어렵지만", "ŏryŏpjiman", "difficile mais"], ["재미있어.", "jaemiissŏ.", "intéressant."]], "s5": [["민준 :", "Minjun :", "Min-jun :"], ["그래?", "kŭrae?", "vraiment ?"], ["얼마나", "ŏlmana", "combien de temps"], ["배웠어?", "baewŏssŏ?", "tu as appris ?"]], "s6": [["소연 :", "Soyŏn :", "So-yeon :"], ["육 개월", "yuk gaewŏl", "six mois"], ["됐어.", "dwaessŏ.", "ça fait."], ["한국에", "hankuge", "en Corée"], ["가고 싶어.", "gago sipŏ.", "je veux aller."]], "s7": [["민준 :", "Minjun :", "Min-jun :"], ["좋겠다!", "joketa!", "super !"], ["언제", "ŏnje", "un jour"], ["같이", "gachi", "ensemble"], ["공부하자.", "kongbuhaja.", "étudions."]], "s8": [["소연 :", "Soyŏn :", "So-yeon :"], ["그래!", "kŭrae!", "oui !"], ["좋은 생각이야.", "joeun saenggagiya.", "bonne idée."], ["나중에 봐!", "najunge bwa!", "à bientôt !"]]};
 const VOCAB=[["오랜만", "oraenman", "longtemps (sans se voir)", "exp"], ["요즘", "yojŭm", "ces derniers temps", "adv"], ["공부하다", "kongbuhada", "étudier", "v"], ["어렵다", "ŏryŏpda", "être difficile", "adj"], ["재미있다", "jaemiitda", "être intéressant / amusant", "adj"], ["얼마나", "ŏlmana", "combien", "adv"], ["개월", "gaewŏl", "mois (compteur)", "n"], ["같이", "gachi", "ensemble", "adv"], ["언제", "ŏnje", "quand / un jour", "adv"], ["나중에", "najunge", "plus tard / à bientôt", "exp"], ["반말", "banmal", "langage familier coréen", "n"], ["배우다", "baeuda", "apprendre", "v"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

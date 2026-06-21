@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["저는", "jŏnŭn", "je (thème)"], ["학생이에요", "haksaengiéyo", "suis élève"], ["학교가", "hakkyoga", "l'école (sujet)"], ["커요", "kŏyo", "est grande"]], "s2": [["수업은", "suŏbŭn", "les cours"], ["아홉 시에", "ahop sie", "à neuf heures"], ["시작해요", "sijakhaeyo", "commencent"]], "s3": [["국어와", "gugŏwa", "le coréen et"], ["수학을", "suhaggŭl", "les maths (obj)"], ["좋아해요", "joahaeyo", "j'aime"]], "s4": [["과학은", "gwahagŭn", "les sciences"], ["어려워요", "ŏryŏwŏyo", "sont difficiles"]], "s5": [["친구들이", "chingudŭri", "les amis (sujet)"], ["친절해요", "chinjerhaeyo", "sont gentils"]], "s6": [["우리는", "urinŭn", "nous"], ["식당에서", "sikdangesŏ", "à la cantine"], ["같이", "gachi", "ensemble"], ["먹어요", "mŏgŏyo", "mangeons"]], "s7": [["학교 후에", "hakkyo hue", "après l'école"], ["도서관에", "dosŏgwane", "à la bibliothèque"], ["가요", "gayo", "je vais"]], "s8": [["여섯 시까지", "yŏsŏt sikkaji", "jusqu'à six heures"], ["공부해요", "kongbuhaeyo", "j'étudie"]]};
 const VOCAB=[["학교", "hakkyo", "école", "n"], ["학생", "haksaeng", "élève / étudiant", "n"], ["수업", "suŏp", "cours / leçon", "n"], ["국어", "gugŏ", "langue coréenne (matière)", "n"], ["수학", "suhak", "mathématiques", "n"], ["과학", "gwahak", "sciences", "n"], ["어렵다", "ŏryŏpda", "être difficile", "adj"], ["식당", "sikdang", "cantine / restaurant", "n"], ["도서관", "dosŏgwan", "bibliothèque", "n"], ["공부하다", "kongbuhada", "étudier", "v"], ["시작하다", "sijakhada", "commencer", "v"], ["같이", "gachi", "ensemble / pareil", "adv"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

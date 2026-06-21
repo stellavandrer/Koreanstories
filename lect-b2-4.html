@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["1945년 한반도의", "chŏn-gu-baek-sasip-o-nyŏn hanband-oŭi", "de la péninsule coréenne en 1945"], ["분단은", "bŭndanŭn", "la division"], ["온 민족의 운명을", "on minjogŭi unmyŏngŭl", "le destin de tout un peuple (obj)"], ["깊이 바꾸어 놓았어요", "gipi bakkuŏ noassŏyo", "a profondément marqué"]], "s2": [["일제 강점기에서 해방된 후", "ilje gangjŏmgisŏ haebangdoen hu", "après la libération du joug japonais"], ["한반도는", "hanbandŏnŭn", "la péninsule coréenne"], ["두 개의 영향권으로", "du gaeeui yŏnghyanggwŏnŭro", "en deux zones d'influence"], ["나뉘었어요", "nanuiŏssŏyo", "fut séparée"]], "s3": [["한국 전쟁(1950~1953)이", "hanguk jŏnjaeng-i", "la guerre de Corée (sujet)"], ["이 분단을", "i bŭndanŭl", "cette division (obj)"], ["유혈 충돌로", "yuhyŏl chŭngdollo", "en un conflit sanglant"], ["심화시켰어요", "simhwasikyŏssŏyo", "intensifia"]], "s4": [["1953년에", "chŏn-gu-baek-osip-sam-nyŏne", "en 1953"], ["정전 협정이", "jŏngjŏn hyŏpjŏngi", "un armistice (sujet)"], ["체결되었지만", "chegyŏldoeyŏtjiman", "fut signé mais"], ["평화 조약은", "pyŏnghwa joyagŭn", "un traité de paix"], ["맺어지지 않았어요", "maejŏjiji anassŏyo", "ne fut pas conclu"]], "s5": [["수백만 가족이", "subaekmman gajogi", "des millions de familles (sujet)"], ["38선 양쪽에서", "samsip-pal sŏn yangjogesŏ", "des deux côtés du 38e parallèle"], ["헤어져 살았어요", "heyŏjyŏ sarassŏyo", "ont été séparées et ont vécu"]], "s6": [["이산 가족 상봉이", "isan gajok sangbongi", "des réunions de familles séparées (sujet)"], ["상징적인 순간에", "sangjigjŏgin sunganŭ", "à des moments symboliques"], ["이루어졌어요", "irueojyŏssŏyo", "ont eu lieu"]], "s7": [["통일은", "tongilŭn", "la réunification"], ["한국 정치 담론에서", "hanguk jŏngchi damronnesŏ", "dans le discours politique coréen"], ["여전히 섬세하고 복잡한", "yŏjŏnhi sŏmsehago bokjapan", "toujours délicat et complexe"], ["주제예요", "jujéyéyo", "est un sujet"]], "s8": [["새로운 세대는", "saeroun sedaenŭn", "les nouvelles générations"], ["이 문제를", "i munje-rŭl", "cette question (obj)"], ["윗세대와는 다른", "witssedaewanŭn darŭn", "différent de leurs aînés"], ["시각으로 바라봐요", "sigagŭro barabwayo", "envisagent sous un angle"]]};
 const VOCAB=[["분단", "bŭndan", "division (du pays)", "n"], ["한반도", "hanbando", "péninsule coréenne", "n"], ["정전", "jŏngjŏn", "armistice / cessez-le-feu", "n"], ["평화", "pyŏnghwa", "paix", "n"], ["이산 가족", "isan gajok", "familles séparées (par la division)", "n"], ["상봉", "sangbong", "réunion (de personnes séparées)", "n"], ["통일", "tongil", "réunification", "n"], ["38선", "samsip-pal sŏn", "38e parallèle", "n"], ["담론", "damron", "discours / débat", "n"], ["심화시키다", "simhasikhida", "intensifier", "v"], ["체결하다", "chegyŏlhada", "signer (un accord)", "v"], ["섬세하다", "sŏmsehada", "être délicat / subtil", "adj"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

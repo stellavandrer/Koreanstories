@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["한국에는", "hanguge-nŭn", "en Corée"], ["사계절이", "sagye-jŏri", "quatre saisons (sujet)"], ["있어요", "issŏyo", "il y a"]], "s2": [["봄은", "bomŭn", "le printemps"], ["따뜻하고", "ddattŭthago", "est chaud et"], ["좋아요", "joayo", "agréable/bon"]], "s3": [["여름은", "yŏrŭmŭn", "l'été"], ["덥고", "dŏpko", "est chaud et"], ["습해요", "sŭphaéyo", "humide"]], "s4": [["칠월에", "chirwŏre", "en juillet"], ["비가", "biga", "la pluie (sujet)"], ["많이", "manhi", "beaucoup"], ["와요", "wayo", "vient/tombe"]], "s5": [["가을은", "gaŭrŭn", "l'automne"], ["시원하고", "siwŏnhago", "est frais et"], ["단풍이", "danpungi", "les feuilles (sujet)"], ["예뻐요", "yeppŏyo", "sont belles"]], "s6": [["가을에는", "gaŭrŭ-nŭn", "en automne"], ["하늘이", "hanŭri", "le ciel (sujet)"], ["파래요", "paraéyo", "est bleu"]], "s7": [["겨울은", "gyŏurŭn", "l'hiver"], ["추워요", "chuwŏyo", "est froid"]], "s8": [["서울에", "sŏure", "à Séoul"], ["가끔", "gakkŭm", "parfois"], ["눈이", "nuni", "la neige (sujet)"], ["와요", "wayo", "tombe"]]};
 const VOCAB=[["날씨", "nalsi", "météo", "n"], ["봄", "bom", "printemps", "n"], ["여름", "yŏrŭm", "été", "n"], ["가을", "gaŭl", "automne", "n"], ["겨울", "gyŏul", "hiver", "n"], ["따뜻하다", "ddattŭthada", "être chaud (agréable)", "adj"], ["덥다", "dŏpda", "être chaud (étouffant)", "adj"], ["춥다", "chupda", "être froid", "adj"], ["시원하다", "siwŏnhada", "être frais", "adj"], ["비", "bi", "pluie", "n"], ["눈", "nun", "neige / œil", "n"], ["단풍", "danpung", "feuilles d'automne", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

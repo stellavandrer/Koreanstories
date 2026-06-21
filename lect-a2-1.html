@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["지난주에", "jinandue", "la semaine dernière"], ["서울에", "sŏure", "à Séoul"], ["갔어요", "gassŏyo", "je suis allé(e)"], ["처음이었어요", "chŏŭmiyŏssŏyo", "c'était la première fois"]], "s2": [["아침에", "achime", "le matin"], ["KTX를", "KTX-rŭl", "le KTX (obj)"], ["타고", "tako", "en prenant"], ["출발했어요", "chulbalaessŏyo", "je suis parti(e)"]], "s3": [["경복궁을", "Kyŏngbokkung-ŭl", "Gyeongbokgung (obj)"], ["구경했어요", "kugyŏnghaessŏyo", "j'ai visité"], ["사람이", "sarami", "des gens (sujet)"], ["많았어요", "manassŏyo", "il y en avait beaucoup"]], "s4": [["한복을", "hanbogŭl", "le hanbok (obj)"], ["입은", "ibŭn", "portant"], ["관광객들이", "kwangwanggaekdŭri", "les touristes (sujet)"], ["사진을", "sajinŭl", "des photos (obj)"], ["찍었어요", "jjigŏssŏyo", "prenaient"]], "s5": [["남대문 시장에서", "Namdaemun sijange-sŏ", "au marché de Namdaemun"], ["떡볶이를", "ddŏkpokkiŭl", "des tteokbokki (obj)"], ["먹었어요", "mŏgŏssŏyo", "j'ai mangé"]], "s6": [["매웠지만", "maewŏtjiman", "c'était épicé mais"], ["정말", "jŏngmal", "vraiment"], ["맛있었어요", "masisŏssŏyo", "c'était délicieux"]], "s7": [["저녁에", "jŏnyŏge", "le soir"], ["한강을", "Hangang-ŭl", "le fleuve Han (obj)"], ["봤어요", "bwassŏyo", "j'ai vu"], ["정말 아름다웠어요", "jŏngmal arŭmdawŏssŏyo", "c'était vraiment magnifique"]], "s8": [["서울에", "sŏure", "à Séoul"], ["또", "ddo", "encore"], ["가고 싶어요", "gago sipŏyo", "je voudrais aller"]]};
 const VOCAB=[["여행", "yŏhaeng", "voyage", "n"], ["지난주", "jinangu", "la semaine dernière", "n"], ["경복궁", "Kyŏngbokkung", "palais Gyeongbokgung", "n"], ["한복", "hanbok", "tenue traditionnelle coréenne", "n"], ["관광객", "kwangwanggaek", "touriste", "n"], ["떡볶이", "ddŏkpokki", "gâteaux de riz épicés", "n"], ["남대문 시장", "Namdaemun sijang", "marché de Namdaemun", "n"], ["한강", "Hangang", "fleuve Han", "n"], ["맵다", "maepda", "être épicé", "adj"], ["맛있다", "masitda", "être délicieux", "adj"], ["-고 싶다", "-go sipda", "vouloir faire", "exp"], ["처음", "chŏŭm", "la première fois", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

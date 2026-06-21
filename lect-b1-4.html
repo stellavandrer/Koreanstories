@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["한국 영화는", "hanguk yŏnghwanŭn", "le cinéma coréen"], ["1910년대부터", "chŏn-gubaek-sipnyŏndaebutŏ", "depuis les années 1910"], ["긴 역사를", "gin yŏksarŭl", "une longue histoire (obj)"], ["가지고 있어요", "gajigo issŏyo", "possède"]], "s2": [["초기 한국 영화들은", "chogi hanguk yŏnghwadŭrŭn", "les premiers films coréens"], ["무성 영화였어요", "musŏng yŏnghwayŏssŏyo", "étaient des films muets"]], "s3": [["1990년대에", "chŏn-gu-baek-gugip-nyŏndaee", "dans les années 1990"], ["한국 영화가", "hanguk yŏnghwaga", "le cinéma coréen (sujet)"], ["부흥했어요", "buhŭnghaessŏyo", "a connu un renouveau"]], "s4": [["재능 있는 감독들이", "jaenŭng innŭn gamdokdŭri", "des réalisateurs talentueux (sujet)"], ["독창적인 작품들을 가지고", "dokchangjŏgin jakpumdŭrŭl gajigo", "avec des œuvres originales"], ["등장했어요", "dŭngjanghassŏyo", "ont émergé"]], "s5": [["2019년에", "I-chŏn-sipgu-nyŏne", "en 2019"], ["봉준호 감독의", "Bong Juno gamdogŭi", "du réalisateur Bong Joon-ho"], ["기생충이", "Gisaengchungi", "Parasite (sujet)"], ["칸 영화제에서", "kan yŏnghwajesesŏ", "au festival de Cannes"], ["황금종려상을 받았어요", "hwanggŭmjongnyŏsangŭl badassŏyo", "a remporté la Palme d'or"]], "s6": [["그 다음 해에", "gŭ daŭm haee", "l'année suivante"], ["아카데미 최우수 작품상을", "akaedemi choeusŭ jakpumsangŭl", "l'Oscar du meilleur film (obj)"], ["받았어요", "badassŏyo", "a remporté"]], "s7": [["한국 영화는", "hanguk yŏnghwanŭn", "le cinéma coréen"], ["이제", "ije", "maintenant"], ["전 세계에서", "jŏn segyesŏ", "dans le monde entier"], ["인정받고 있어요", "injŏngbakko issŏyo", "est reconnu"]], "s8": [["사회적 주제를", "sahoejŏk jujérŭl", "les thèmes sociaux (obj)"], ["독창적인 서사와", "dokchangjŏgin sŏsawa", "avec une narration originale"], ["결합해요", "gyŏlaphaéyo", "il mêle"]]};
 const VOCAB=[["영화", "yŏnghwa", "film / cinéma", "n"], ["역사", "yŏksa", "histoire", "n"], ["무성 영화", "musŏng yŏnghwa", "film muet", "n"], ["감독", "gamdok", "réalisateur", "n"], ["부흥", "buhŭng", "renouveau / renaissance", "n"], ["독창적", "dokchangjŏk", "original / créatif", "adj"], ["황금종려상", "hwanggŭmjongnyŏsang", "Palme d'or", "n"], ["인정받다", "injŏngbakda", "être reconnu", "v"], ["사회적", "sahoejŏk", "social", "adj"], ["서사", "sŏsa", "narration / épopée", "n"], ["재능", "jaenŭng", "talent", "n"], ["작품", "jakpum", "œuvre", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

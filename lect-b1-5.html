@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["한국은", "hanguggŭn", "la Corée"], ["심각한", "simgakan", "sérieux"], ["환경 문제에", "hwangyŏng munje-e", "aux défis environnementaux"], ["직면해 있어요", "jingmyŏnhae issŏyo", "fait face"]], "s2": [["미세먼지는", "misemŏnjinŭn", "la fine particule"], ["심각한", "simgakan", "majeur"], ["문제예요", "munje-yéyo", "est un problème"]], "s3": [["겨울에는", "gyŏure-nŭn", "en hiver"], ["한국 도시들이", "hanguk dosidŭri", "les villes coréennes (sujet)"], ["스모그로 뒤덮여요", "sŭmogŭro dwidŏpyŏyo", "sont recouvertes de smog"]], "s4": [["사람들이", "saramdŭri", "les gens (sujet)"], ["보호하기 위해", "bohohagi wihae", "pour se protéger"], ["마스크를", "masŭkŭrŭl", "des masques (obj)"], ["써요", "ssŏyo", "portent"]], "s5": [["정부는", "jŏngbunŭn", "le gouvernement"], ["태양광", "taeyangkwang", "solaire"], ["풍력 같은", "pungnyŏk katŭn", "éolien comme"], ["재생에너지에", "jaesaeng-enerujie", "dans les énergies renouvelables"], ["투자해요", "tujahaeyo", "investit"]], "s6": [["전기차 수가", "jŏngija suga", "le nombre de voitures électriques (sujet)"], ["매년", "maenyŏn", "chaque année"], ["증가하고 있어요", "jŭngga-hago issŏyo", "augmente"]], "s7": [["한국인들은", "hanguginŭidŭrŭn", "les Coréens"], ["점점 더", "jŏmjŏm dŏ", "de plus en plus"], ["환경 문제를", "hwangyŏng munje-rŭl", "les problèmes environnementaux (obj)"], ["의식하고 있어요", "ŭisikago issŏyo", "sont conscients"]], "s8": [["쓰레기를 줄이고", "ssŭregi-rŭl juigo", "réduire les déchets"], ["더 많이 재활용하려고", "dŏ manhi jaehwaryongharyŏgo", "pour recycler davantage"], ["노력해요", "noryŏkhaeyo", "ils font des efforts"]]};
 const VOCAB=[["환경", "hwangyŏng", "environnement", "n"], ["미세먼지", "misemŏnji", "particules fines (smog)", "n"], ["재생에너지", "jaesaeng-eneruji", "énergies renouvelables", "n"], ["태양광", "taeyangkwang", "énergie solaire", "n"], ["풍력", "pungnyŏk", "énergie éolienne", "n"], ["전기차", "jŏngija", "voiture électrique", "n"], ["쓰레기", "ssŭregi", "déchets", "n"], ["재활용", "jaehwaryong", "recyclage", "n"], ["의식하다", "ŭisikhada", "être conscient", "v"], ["노력하다", "noryŏkhada", "faire des efforts", "v"], ["투자하다", "tujahada", "investir", "v"], ["심각하다", "simgakhada", "être grave / sérieux", "adj"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

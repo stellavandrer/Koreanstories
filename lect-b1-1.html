@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["1950년대", "chŏn-gubaeng-o-nyŏndae", "dans les années 1950"], ["한국은", "hanguggŭn", "la Corée"], ["세계에서", "segyesŏ", "dans le monde"], ["가장 가난한", "gajang gananhan", "la plus pauvre"], ["나라 중 하나였어요", "nara jung hana-yŏssŏyo", "était l'un des pays"]], "s2": [["한국 전쟁이", "hanguk jŏnjaengi", "la guerre de Corée (sujet)"], ["모든 것을", "modŭn gŏsŭl", "tout (obj)"], ["파괴했어요", "pagwehaessŏyo", "avait détruit"]], "s3": [["그러나", "gŭrŏna", "cependant"], ["불과 60년 만에", "bulgwa yukship-nyŏn mane", "en seulement 60 ans"], ["세계 10위권의", "segye sipwigwŏn-ui", "top 10 mondial"], ["경제 대국이", "gyŏngje daegugi", "puissance économique (sujet)"], ["되었어요", "doeyŏssŏyo", "est devenue"]], "s4": [["이것을", "igŏsŭl", "ceci (obj)"], ["한강의 기적이라고", "hangangŭi gijeogirago", "miracle du Han"], ["불러요", "bullŏyo", "on appelle"]], "s5": [["철강", "cheolgang", "acier"], ["조선", "josŏn", "construction navale"], ["전자산업이", "jŏnja-sanŏbi", "l'industrie électronique (sujet)"], ["발전했어요", "baljŏnhaessŏyo", "s'est développée"]], "s6": [["삼성", "Samsung", "Samsung"], ["현대 같은", "Hyundae katŭn", "comme Hyundai"], ["기업들이", "giŏpdŭri", "les entreprises (sujet)"], ["전 세계에", "jŏn segyee", "dans le monde entier"], ["알려져 있어요", "allyŏjyŏ issŏyo", "sont connues"]], "s7": [["교육과", "gyoyuggwa", "l'éducation et"], ["한국인의", "hanguginŭi", "du peuple coréen"], ["근면함이", "gŭnmyŏnhami", "le travail acharné (sujet)"], ["성공의 열쇠였어요", "sŏngongŭi yŏlsway-yŏssŏyo", "était la clé du succès"]], "s8": [["오늘날", "onŭlnal", "aujourd'hui"], ["한국은", "hanguggŭn", "la Corée"], ["많은 나라들에게", "manŭn naradŭrege", "pour de nombreux pays"], ["발전의 모델이에요", "baljŏnŭi moderiéyo", "est un modèle de développement"]]};
 const VOCAB=[["기적", "gijeok", "miracle", "n"], ["전쟁", "jŏnjaeng", "guerre", "n"], ["파괴하다", "pagwehada", "détruire", "v"], ["경제", "gyŏngje", "économie", "n"], ["대국", "daeguk", "grande puissance", "n"], ["발전하다", "baljŏnhada", "se développer", "v"], ["철강", "cheolgang", "acier", "n"], ["조선", "josŏn", "construction navale / époque Joseon", "n"], ["전자산업", "jŏnja-sanŏp", "industrie électronique", "n"], ["근면하다", "gŭnmyŏnhada", "être travailleur", "adj"], ["성공", "sŏngong", "succès", "n"], ["모델", "model", "modèle", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

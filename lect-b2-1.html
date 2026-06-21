@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["조선 왕조", "Josŏn wangjo", "la dynastie Joseon"], ["(1392~1910년)는", "(1392~1910-nyŏn)-nŭn", "(1392-1910)"], ["한국 역사에서", "hanguk yŏksaesŏ", "dans l'histoire coréenne"], ["가장 긴 왕조", "gajang gin wangjo", "la plus longue"], ["시대였어요", "sidaeyŏssŏyo", "était la période dynastique"]], "s2": [["유교 사상이", "yugyo sasangi", "la philosophie confucéenne (sujet)"], ["사회 전반을", "sahoe jŏnbanŭl", "tous les aspects de la société (obj)"], ["지배했어요", "jibaehassŏyo", "dominait"]], "s3": [["양반", "yangban", "les yangban"], ["중인", "jungin", "les jungIn"], ["상민", "sangmin", "les sangmin"], ["천민으로", "chŏnminŭro", "et cheonmin"], ["엄격한 신분 제도가", "ŏmgyŏkan sinbun jedoga", "un système de classes strict (sujet)"], ["존재했어요", "jonjaehassŏyo", "existait"]], "s4": [["문인 귀족인", "munin gwijogin", "l'aristocratie lettrée"], ["양반이", "yangbani", "les yangban (sujet)"], ["위계질서의", "wigejilsŏŭi", "de la hiérarchie"], ["정점을", "jŏngjeomŭl", "le sommet (obj)"], ["차지했어요", "chajihassŏyo", "occupaient"]], "s5": [["과거 시험은", "gwago siheomŭn", "l'examen gwageo"], ["재능 있는 남성들이", "jaenŭng innŭn namsŏngdŭri", "les hommes de talent (sujet)"], ["관직에 오를 수 있게", "gwanjige orŭl su itge", "d'accéder aux fonctions"], ["해주었어요", "haejuŏssŏyo", "permettait"]], "s6": [["그러나", "gŭrŏna", "cependant"], ["실제로는", "siljeronŭn", "en réalité"], ["양반만이", "yangbanmani", "seuls les yangban (sujet)"], ["이 시험을", "i siheomŭl", "cet examen (obj)"], ["볼 수 있었어요", "bol su issŏssŏyo", "pouvaient passer"]], "s7": [["세종대왕은", "Sejong-daewangŭn", "le roi Sejong le Grand"], ["1443년에", "chŏn-sa-baek-sa-sip-sam-nyŏne", "en 1443"], ["백성을 위해", "baeksŏngŭl wihae", "pour le peuple"], ["한글을", "hangŭrŭl", "le hangul (obj)"], ["창제했어요", "changjehassŏyo", "inventa"]], "s8": [["이 발명은", "i balmyŏngŭn", "cette invention"], ["한국의 문화와", "hangugeui munhwawa", "la culture coréenne et"], ["교육을", "gyoyugŭl", "l'éducation (obj)"], ["혁명적으로 바꾸었어요", "hyŏngmyŏngjŏgŭro bakkuŏssŏyo", "révolutionna"]]};
 const VOCAB=[["왕조", "wangjo", "dynastie", "n"], ["유교", "yugyo", "confucianisme", "n"], ["신분 제도", "sinbun jedo", "système de classes sociales", "n"], ["양반", "yangban", "classe noble / lettrée", "n"], ["과거", "gwago", "examen impérial", "n"], ["관직", "gwanjik", "fonction officielle", "n"], ["세종대왕", "Sejong-daewang", "roi Sejong le Grand", "n"], ["한글", "hangŭl", "alphabet coréen", "n"], ["창제하다", "changjeha-da", "inventer / créer", "v"], ["지배하다", "jibaehada", "dominer", "v"], ["혁명적", "hyŏngmyŏngjŏk", "révolutionnaire", "adj"], ["백성", "baeksŏng", "le peuple (terme historique)", "n"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

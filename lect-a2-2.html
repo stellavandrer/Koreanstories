@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["한국 음식은", "hanguk ŭmsigŭn", "la cuisine coréenne"], ["매우", "maeu", "très"], ["다양해요", "dayanghaéyo", "est variée"]], "s2": [["김치는", "gimchinŭn", "le kimchi"], ["한국의", "hangugeui", "de Corée"], ["대표 음식이에요", "daepyo ŭmsigi-éyo", "est le plat représentatif"]], "s3": [["비빔밥은", "bibimbabŭn", "le bibimbap"], ["여러 가지", "yŏrŏ gaji", "divers"], ["채소와", "chaesowa", "légumes et"], ["밥이에요", "babi-éyo", "est du riz"]], "s4": [["먹기 전에", "mŏkgi jŏne", "avant de manger"], ["잘", "jal", "bien"], ["비벼요", "bibyŏyo", "on mélange"]], "s5": [["삼겹살은", "samgyŏpsarŭn", "le samgyeopsal"], ["구운", "kuun", "grillée"], ["돼지고기예요", "dwaejigogiyéyo", "est de la poitrine de porc"]], "s6": [["상추에", "sangchue", "dans la salade"], ["싸서", "ssasŏ", "en enroulant"], ["먹어요", "mŏgŏyo", "on mange"], ["맛있어요", "masisŏyo", "c'est délicieux"]], "s7": [["한국 음식은", "hanguk ŭmsigŭn", "la cuisine coréenne"], ["매운", "maeun", "épicée"], ["발효 음식이", "balhyo ŭmsigi", "fermentée (sujet)"], ["많아요", "manayo", "il y en a beaucoup"]], "s8": [["한국 사람들은", "hanguk saramdŭrŭn", "les Coréens"], ["자기 나라", "jagi nara", "leur propre pays"], ["음식을", "ŭmsigŭl", "cuisine (obj)"], ["정말 좋아해요", "jŏngmal joahaeyo", "adorent vraiment"]]};
 const VOCAB=[["음식", "ŭmsik", "nourriture / plat", "n"], ["김치", "gimchi", "kimchi", "n"], ["비빔밥", "bibimbab", "bibimbap", "n"], ["삼겹살", "samgyŏpsal", "poitrine de porc grillée", "n"], ["상추", "sangchu", "salade (feuille)", "n"], ["맵다", "maepda", "être épicé", "adj"], ["발효", "balhyo", "fermentation", "n"], ["다양하다", "dayanhada", "être varié", "adj"], ["대표", "daepyo", "représentatif", "adj"], ["비비다", "bibida", "mélanger", "v"], ["굽다", "kupda", "griller", "v"], ["싸다", "ssada", "enrouler / bon marché", "v"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>

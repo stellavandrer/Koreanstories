@@ -143,14 +143,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </div>
 </div>
-<nav class="bnav">
-  <a href="app.html" class="bni"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Accueil</span></a>
-  <a href="cours.html" class="bni"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span>Cours</span></a>
-  <a href="histoires.html" class="bni act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Histoires</span></a>
-  <a href="challenge.html" class="bni"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Défi</span></a>
-  <a href="classement.html" class="bni"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Records</span></a>
-  <a href="profil.html" class="bni"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profil</span></a>
-</nav>
 <script>
 const SENTENCES={"s1": [["한국은", "hanguggŭn", "la Corée"], ["카페의", "kapé-ui", "des cafés"], ["나라예요", "narayéyo", "est le pays"]], "s2": [["거리마다", "kŏrimadag", "partout dans les rues"], ["카페가", "kapéga", "des cafés (sujet)"], ["있어요", "issŏyo", "il y a"]], "s3": [["저는", "jŏnŭn", "je"], ["공부하러", "kongbuharŏ", "pour étudier"], ["자주", "jaju", "souvent"], ["카페에 가요", "kapée gayo", "vais au café"]], "s4": [["아메리카노와", "amerikanorang", "un americano et"], ["크루아상을", "kŭruasangŭl", "un croissant (obj)"], ["주문해요", "jumunhaeyo", "je commande"]], "s5": [["카페는", "kapénŭn", "le café"], ["조용하고", "joyonghago", "est calme et"], ["분위기가", "bunuigiga", "l'ambiance (sujet)"], ["좋아요", "joayo", "est bonne"]], "s6": [["이어폰으로", "iyŏponŭro", "avec mes écouteurs"], ["음악을", "ŭmaggŭl", "de la musique (obj)"], ["들어요", "dŭrŏyo", "j'écoute"]], "s7": [["친구들을", "chingudŭrŭl", "des amis (obj)"], ["만나기도", "mannagiado", "je rencontre aussi"], ["해요", "haeyo", "je fais"]], "s8": [["커피를", "kŏpirŭl", "du café (obj)"], ["마시면서", "masiryŏnsŏ", "en buvant"], ["오래", "orae", "longtemps"], ["이야기해요", "iyagihaeyo", "on discute"]]};
 const VOCAB=[["카페", "kapé", "café", "n"], ["아메리카노", "amerikano", "americano", "n"], ["주문하다", "jumunhada", "commander", "v"], ["조용하다", "joyonghada", "être calme", "adj"], ["분위기", "bunuigi", "ambiance / atmosphère", "n"], ["이어폰", "iyŏpon", "écouteurs", "n"], ["음악", "ŭmak", "musique", "n"], ["들다", "dŭlda", "écouter / tenir / entrer", "v"], ["자주", "jaju", "souvent", "adv"], ["오래", "orae", "longtemps", "adv"], ["이야기하다", "iyagihada", "discuter / raconter", "v"], ["-면서", "-myŏnsŏ", "en faisant (simultané)", "exp"]];
@@ -250,5 +242,6 @@ document.addEventListener('click',()=>document.querySelectorAll('.word.active').
 renderSentences();renderVocab();renderQuiz();updateProgress();
 </script>
 <script src="ks.js"></script>
+  <script src="ks-menu.js" defer></script>
 </body>
 </html>
