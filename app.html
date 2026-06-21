@@ -1047,6 +1047,17 @@
    pour aérer la page (anecdote, mix du jour, « À découvrir »,
    doublons « Cette semaine » : récap + graphe d'activité). */
 #appContent{display:flex;flex-direction:column}
+/* L'en-tête desktop ne doit JAMAIS apparaître sur mobile (le JS le montrait
+   si la page était chargée en large puis rétrécie, sans le re-masquer). */
+@media(max-width:899px){#deskHdr{display:none !important}}
+/* Carte « streak en danger » : sur mobile, on empile les deux boutons
+   (« Sauver mon streak » et « Gel ») pleine largeur. Avant ils étaient
+   collés côte à côte → en visant « Gel » on touchait par erreur le gros
+   bouton rouge qui ouvre une leçon (« page bizarre » signalée). */
+@media(max-width:599px){
+  #streakWarn .sw-btns{flex-direction:column}
+  #streakWarn .sw-cta,#streakWarn .sw-gel{width:100% !important;flex:0 0 auto !important}
+}
 .greeting{order:1 !important}
 .goal-strip{order:2 !important}
 #appContent>main{order:3 !important}
