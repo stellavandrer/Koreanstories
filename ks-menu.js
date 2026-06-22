@@ -144,6 +144,24 @@
   wrap.innerHTML = html;
   while (wrap.firstChild) document.body.appendChild(wrap.firstChild);
 
+  /* ── « Tu es ici » : surligne le hub d'une sous-page (orientation) ──
+     Si aucun lien n'a matché exactement, on relie la famille de page
+     (leçon, exercice, histoire, jeu…) à son entrée de menu. */
+  if (!document.querySelector('.ksm-link.on')) {
+    var HUBS = [
+      [/^exercice\d/,                                            'exercice.html'],
+      [/^histoire\d/,                                            'histoires.html'],
+      [/^(lecon|quiz\d|jeu\d|flash\d|conseil\d|anecdote\d|pro\d|lect-|prem-)/, 'cours.html']
+    ];
+    for (var hi = 0; hi < HUBS.length; hi++) {
+      if (HUBS[hi][0].test(here)) {
+        var hub = document.querySelector('.ksm-link[href="' + HUBS[hi][1] + '"]');
+        if (hub) hub.classList.add('on');
+        break;
+      }
+    }
+  }
+
   var overlay = document.getElementById('ksmOverlay');
   var drawer = document.getElementById('ksmDrawer');
   function open(){ overlay.classList.add('open'); drawer.classList.add('open'); document.body.style.overflow='hidden'; }
