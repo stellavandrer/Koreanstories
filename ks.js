@@ -1195,6 +1195,31 @@ window.ksConfetti = _ksConfetti;
   else init();
 })();
 
+/* ── « Retour aux histoires » en bas des histoires complètes du hub ────
+   Les pages histoireN.html (lecture complète, depuis histoires.html) n'ont
+   pas de CTA en bas. On injecte un lien retour. NB : ne matche PAS les
+   planches histoireN-bd.html (gérées plus haut) ni histoires.html (pluriel). */
+(function ksStoryBackCTA(){
+  function init(){
+    if (!/\/histoire\d+\.html$/i.test(location.pathname)) return;
+    if (document.getElementById('ksStoryBack')) return;
+    var st = document.createElement('style');
+    st.textContent = '.ks-storyback{display:flex;justify-content:center;padding:10px 16px calc(30px + env(safe-area-inset-bottom))}'
+      + '.ks-storyback a{display:inline-flex;align-items:center;gap:8px;background:var(--surf,#fff);border:1.5px solid var(--bd,#DAE3F2);color:var(--t2,#475E78);font:700 14px/1 inherit;padding:13px 24px;border-radius:100px;text-decoration:none}'
+      + '.ks-storyback a:hover{border-color:var(--gold,#C9A96E);color:var(--gold-text,#8B6B3D)}'
+      + '.ks-storyback svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}';
+    document.head.appendChild(st);
+    var wrap = document.createElement('div');
+    wrap.id = 'ksStoryBack'; wrap.className = 'ks-storyback';
+    wrap.innerHTML = '<a href="histoires.html"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Retour aux histoires</a>';
+    var panel = document.querySelector('.story-panel');
+    if (panel && panel.parentNode) panel.parentNode.insertBefore(wrap, panel.nextSibling);
+    else (document.querySelector('.main, main') || document.body).appendChild(wrap);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   /* ── View Transitions API : crossfade entre pages ──
