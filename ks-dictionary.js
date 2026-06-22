@@ -1906,7 +1906,108 @@
     '둘째': { fr: 'deuxième', rom: 'duljjae', pos: 'nom' },
     '셋째': { fr: 'troisième', rom: 'setjjae', pos: 'nom' },
     '번째': { fr: '-ième (ordinal)', rom: 'beonjjae', pos: 'nom' },
-    '마지막': { fr: 'dernier', rom: 'majimak', pos: 'nom' }
+    '마지막': { fr: 'dernier', rom: 'majimak', pos: 'nom' },
+
+    /* ═══════════════════════════════════════════════════════════════
+       VOCABULAIRE ÉTENDU — LOT 5 (mots réels supplémentaires).
+       ═══════════════════════════════════════════════════════════════ */
+
+    /* === VERBES — PERCEPTION, MOUVEMENT, ÉTAT === */
+    '깨닫다': { fr: 'prendre conscience / réaliser', rom: 'kkaedatda', pos: 'verbe' },
+    '가리키다': { fr: 'montrer du doigt / indiquer', rom: 'garikida', pos: 'verbe' },
+    '보이다': { fr: 'être visible / montrer', rom: 'boida', pos: 'verbe' },
+    '들리다': { fr: "être audible / s'entendre", rom: 'deullida', pos: 'verbe' },
+    '닮다': { fr: 'ressembler', rom: 'damda', pos: 'verbe' },
+    '빛나다': { fr: 'briller', rom: 'binnada', pos: 'verbe' },
+    '반짝이다': { fr: 'scintiller', rom: 'banjjagida', pos: 'verbe' },
+    '떨다': { fr: 'trembler', rom: 'tteolda', pos: 'verbe' },
+    '흔들리다': { fr: 'être secoué / vaciller', rom: 'heundeullida', pos: 'verbe' },
+    '무너지다': { fr: "s'effondrer", rom: 'muneojida', pos: 'verbe' },
+    '넘어지다': { fr: 'trébucher / tomber', rom: 'neomeojida', pos: 'verbe' },
+    '미끄러지다': { fr: 'glisser', rom: 'mikkeureojida', pos: 'verbe' },
+    '빠지다': { fr: 'tomber dans / manquer', rom: 'ppajida', pos: 'verbe' },
+    '잠그다': { fr: 'verrouiller / fermer à clé', rom: 'jamgeuda', pos: 'verbe' },
+    '열리다': { fr: "s'ouvrir", rom: 'yeollida', pos: 'verbe' },
+    '닫히다': { fr: 'se fermer', rom: 'dachida', pos: 'verbe' },
+    '깨지다': { fr: 'se casser / se briser', rom: 'kkaejida', pos: 'verbe' },
+    '부러지다': { fr: 'se briser (os, branche)', rom: 'bureojida', pos: 'verbe' },
+    '찢다': { fr: 'déchirer', rom: 'jjitda', pos: 'verbe' },
+    '긁다': { fr: 'gratter', rom: 'geukda', pos: 'verbe' },
+    '쓸다': { fr: 'balayer', rom: 'sseulda', pos: 'verbe' },
+    '속이다': { fr: 'tromper / duper', rom: 'sogida', pos: 'verbe' },
+    '속다': { fr: 'être trompé', rom: 'sokda', pos: 'verbe' },
+    '훔치다': { fr: 'voler / dérober', rom: 'humchida', pos: 'verbe' },
+    '잃어버리다': { fr: 'perdre / égarer', rom: 'ireobeorida', pos: 'verbe' },
+    '알아내다': { fr: 'découvrir / élucider', rom: 'aranaeda', pos: 'verbe' },
+    '익히다': { fr: 'apprendre / maîtriser', rom: 'ikhida', pos: 'verbe' },
+    '쌓다': { fr: 'empiler / accumuler', rom: 'ssatda', pos: 'verbe' },
+    '터지다': { fr: 'exploser / éclater', rom: 'teojida', pos: 'verbe' },
+    '식다': { fr: 'refroidir', rom: 'sikda', pos: 'verbe' },
+    '데우다': { fr: 'réchauffer', rom: 'deuda', pos: 'verbe' },
+    '말리다': { fr: 'faire sécher / empêcher', rom: 'mallida', pos: 'verbe' },
+
+    /* === SONS, LUMIÈRE & APPARENCE === */
+    '소리': { fr: 'son / bruit', rom: 'sori', pos: 'nom' },
+    '목소리': { fr: 'voix', rom: 'moksori', pos: 'nom' },
+    '향기': { fr: 'parfum / arôme', rom: 'hyanggi', pos: 'nom' },
+    '빛': { fr: 'lumière', rom: 'bit', pos: 'nom' },
+    '그림자': { fr: 'ombre', rom: 'geurimja', pos: 'nom' },
+    '모습': { fr: 'apparence / allure', rom: 'moseup', pos: 'nom' },
+    '외모': { fr: 'apparence physique', rom: 'oemo', pos: 'nom' },
+    '표정': { fr: 'expression du visage', rom: 'pyojeong', pos: 'nom' },
+    '인상': { fr: 'impression', rom: 'insang', pos: 'nom' },
+    '분위기': { fr: 'ambiance / atmosphère', rom: 'bunwigi', pos: 'nom' },
+    '태도': { fr: 'attitude', rom: 'taedo', pos: 'nom' },
+    '버릇': { fr: 'habitude / manie', rom: 'beoreut', pos: 'nom' },
+    '매력': { fr: 'charme / attrait', rom: 'maeryeok', pos: 'nom' },
+    '온도': { fr: 'température', rom: 'ondo', pos: 'nom' },
+    '속도': { fr: 'vitesse', rom: 'sokdo', pos: 'nom' },
+
+    /* === RELATIONS & VIE SOCIALE === */
+    '우정': { fr: 'amitié', rom: 'ujeong', pos: 'nom' },
+    '연애': { fr: 'relation amoureuse', rom: 'yeonae', pos: 'nom' },
+    '이별': { fr: 'séparation / rupture', rom: 'ibyeol', pos: 'nom' },
+    '모임': { fr: 'réunion / rassemblement', rom: 'moim', pos: 'nom' },
+    '잔치': { fr: 'banquet / fête', rom: 'janchi', pos: 'nom' },
+    '파티': { fr: 'fête / soirée', rom: 'pati', pos: 'nom' },
+    '결혼식': { fr: 'cérémonie de mariage', rom: 'gyeolhonsik', pos: 'nom' },
+    '장례식': { fr: 'funérailles', rom: 'jangnyesik', pos: 'nom' },
+
+    /* === TRAITS DE CARACTÈRE (adjectifs) === */
+    '까다롭다': { fr: 'être exigeant / difficile', rom: 'kkadaropda', pos: 'adj' },
+    '차분하다': { fr: 'être posé / calme', rom: 'chabunhada', pos: 'adj' },
+    '활발하다': { fr: 'être vif / dynamique', rom: 'hwalbalhada', pos: 'adj' },
+    '명랑하다': { fr: 'être gai / enjoué', rom: 'myeongnanghada', pos: 'adj' },
+    '우울하다': { fr: 'être déprimé / morose', rom: 'uulhada', pos: 'adj' },
+    '신중하다': { fr: 'être prudent / réfléchi', rom: 'sinjunghada', pos: 'adj' },
+    '성실하다': { fr: 'être sérieux / consciencieux', rom: 'seongsilhada', pos: 'adj' },
+    '못되다': { fr: 'être méchant', rom: 'motdoeda', pos: 'adj' },
+    '무례하다': { fr: 'être impoli', rom: 'muryehada', pos: 'adj' },
+    '겸손하다': { fr: 'être modeste / humble', rom: 'gyeomsonhada', pos: 'adj' },
+    '느긋하다': { fr: 'être détendu / serein', rom: 'neugeuthada', pos: 'adj' },
+
+    /* === NOURRITURE (compléments) === */
+    '참기름': { fr: 'huile de sésame', rom: 'chamgireum', pos: 'nom' },
+    '미역': { fr: 'algue wakame', rom: 'miyeok', pos: 'nom' },
+    '멸치': { fr: 'anchois (séché)', rom: 'myeolchi', pos: 'nom' },
+    '콩나물': { fr: 'germes de soja', rom: 'kongnamul', pos: 'nom' },
+    '시금치': { fr: 'épinard', rom: 'sigeumchi', pos: 'nom' },
+    '깻잎': { fr: 'feuille de périlla', rom: 'kkaennip', pos: 'nom' },
+    '후식': { fr: 'dessert', rom: 'husik', pos: 'nom' },
+
+    /* === COMMUNICATION & EXPRESSIONS (noms) === */
+    '진심': { fr: 'sincérité', rom: 'jinsim', pos: 'nom' },
+    '농담': { fr: 'blague / plaisanterie', rom: 'nongdam', pos: 'nom' },
+    '소문': { fr: 'rumeur', rom: 'somun', pos: 'nom' },
+    '핑계': { fr: 'excuse / prétexte', rom: 'pinggye', pos: 'nom' },
+    '변명': { fr: 'justification', rom: 'byeonmyeong', pos: 'nom' },
+    '칭찬': { fr: 'compliment / éloge', rom: 'chingchan', pos: 'nom' },
+    '인사': { fr: 'salutation', rom: 'insa', pos: 'nom' },
+    '환영': { fr: 'accueil / bienvenue', rom: 'hwanyeong', pos: 'nom' },
+    '축하': { fr: 'félicitations', rom: 'chukha', pos: 'nom' },
+    '위로': { fr: 'réconfort', rom: 'wiro', pos: 'nom' },
+    '조언': { fr: 'conseil', rom: 'joeon', pos: 'nom' },
+    '충고': { fr: 'avertissement / conseil', rom: 'chunggo', pos: 'nom' }
   };
 
   /* ── Particules à retirer en fin de mot pour matcher la racine ── */

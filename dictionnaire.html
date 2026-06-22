@@ -107,7 +107,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <input id="q" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex : 사랑, manger, 가다, école…" aria-label="Rechercher un mot"/>
       <button class="q-clear" id="qClear" aria-label="Effacer"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
-    <div class="dir-hint" id="dirHint">607 mots · tape un mot coréen ou français</div>
+    <div class="dir-hint" id="dirHint">tape un mot coréen ou français</div>
   </div>
 </header>
 
@@ -339,7 +339,7 @@ var t;
 function run(){
   var q=qEl.value.trim();
   qClear.classList.toggle('show', !!q);
-  if(!q){ renderHome(); dirHint.textContent='607 mots · tape un mot coréen ou français'; return; }
+  if(!q){ renderHome(); dirHint.textContent=ENTRIES.length+' mots · tape un mot coréen ou français'; return; }
   var list=search(q);
   dirHint.textContent = isHangeul(q)? 'Recherche coréen → français' : 'Recherche français → coréen';
   renderResults(list,q);
