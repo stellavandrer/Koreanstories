@@ -283,6 +283,20 @@ function unlocked(tag){
   return false;
 }
 
+/* A complété au moins une leçon/activité ? (le mix se base sur les mots appris) */
+function hasProgress(){
+  try{
+    for (let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if (k && /^ks_(l\d|h\d|a\d|b\d|c\d|d\d)/.test(k)){
+        const v=localStorage.getItem(k);
+        if (v==='done'||v==='1'||v==='true') return true;
+      }
+    }
+  }catch(e){}
+  return false;
+}
+
 /* ── Construire le mix du jour ── */
 function buildMix(){
   const date = seoulDate();
@@ -310,7 +324,9 @@ function buildMix(){
   /* distracteurs : autres mots du pool complet */
   qs.forEach(q=>{
     if (q.type==='kr2fr'||q.type==='fr2kr'||q.type==='audio'){
-      const others = seededShuffle(MC.filter(x=>x.kr!==q.it.kr), rnd).slice(0,3);
+      const unl = MC.filter(x=>x.kr!==q.it.kr && unlocked(x.tag));
+      const dpool = unl.length>=3 ? unl : MC.filter(x=>x.kr!==q.it.kr);
+      const others = seededShuffle(dpool, rnd).slice(0,3);
       q.opts = seededShuffle([q.it, ...others], rnd);
     }
   });
@@ -319,11 +335,25 @@ function buildMix(){
 
 /* ── UI accueil ── */
 let MIX = buildMix();
+let mixLocked = false;
 (function initHome(){
   const d = new Date();
   document.getElementById('mixDate').textContent = 'Mix du ' + d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}) + ' — identique pour tout le monde, basé sur TES leçons';
   document.getElementById('statPool').textContent = MIX.poolSize;
   document.getElementById('statStreak').textContent = ls('ks_mix_streak')||'0';
+  /* Jour-1 : aucune leçon faite → le mix n'a aucun « tes mots » à piocher.
+     On gate (invite à commencer) plutôt que de servir des mots au hasard jamais vus. */
+  if (!hasProgress()){
+    mixLocked = true;
+    document.getElementById('mixDate').textContent = 'Ton mix se base sur les mots de tes leçons.';
+    const stats = document.querySelector('.mix-stats'); if (stats) stats.style.display='none';
+    const btn = document.getElementById('startBtn');
+    btn.textContent = 'Commencer ma première leçon →';
+    const note = document.getElementById('doneNote');
+    note.style.display='block';
+    note.innerHTML = 'Termine au moins une leçon et ton mix quotidien se débloque — il piochera alors dans <strong>tes</strong> mots, pas au hasard. 화이팅!';
+    return;
+  }
   if (ls('ks_mix_done_'+MIX.date)){
     const btn = document.getElementById('startBtn');
     btn.textContent = 'Mix du jour terminé';
@@ -466,7 +496,7 @@ function endQuiz(){
   else { document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>'; document.getElementById('endTitle').textContent='C\'est noté !'; document.getElementById('endSub').textContent='Les mots ratés reviendront dans les prochains mix. Repasse aussi par les Révisions SRS.'; }
 }
 
-document.getElementById('startBtn').onclick=startQuiz;
+document.getElementById('startBtn').onclick=function(){ if (mixLocked){ location.href='cours.html'; } else { startQuiz(); } };
 document.getElementById('quitBtn').onclick=e=>{ e.preventDefault();
   document.getElementById('quizScreen').style.display='none';
   document.getElementById('quizBar').style.display='none';
