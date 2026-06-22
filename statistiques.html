@@ -2,6 +2,7 @@
 <html lang="fr" data-theme="light">
 <head>
 <script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script>/* Jour-1 : aucune activité (0 XP + aucune clé ks_*='done') → on masque le mur de zéros et on montre une invite. Posé sur <html> avant le rendu pour éviter tout flash. */try{var _xp=parseInt(localStorage.getItem('ks_xp')||'0',10)||0,_dn=false,_i,_k;for(_i=0;_i<localStorage.length;_i++){_k=localStorage.key(_i);if(_k&&_k.indexOf('ks_')===0&&localStorage.getItem(_k)==='done'){_dn=true;break;}}if(!_xp&&!_dn)document.documentElement.classList.add('ks-stat-empty');}catch(e){}</script>
 <script src="gate.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -89,6 +90,16 @@
     .best-day-card .d-date{font-size:11.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
     .best-day-card .d-xp{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);font-weight:700;line-height:1}
     .best-day-card .d-sub{font-size:12px;color:var(--t2);margin-top:6px}
+    /* État jour-1 : carte d'invite à la place du mur de zéros */
+    #statEmpty{display:none}
+    .ks-stat-empty main>*:not(#statEmpty){display:none !important}
+    .ks-stat-empty #statEmpty{display:block}
+    #statEmpty{text-align:center;background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:38px 22px;box-shadow:var(--sh);margin-top:8px}
+    #statEmpty .se-ic{width:54px;height:54px;border-radius:14px;background:rgba(201,169,110,.13);color:var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+    #statEmpty .se-ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #statEmpty .se-t{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin:0 0 8px;font-weight:700}
+    #statEmpty .se-p{font-size:14px;color:var(--t2);line-height:1.6;max-width:340px;margin:0 auto 20px}
+    #statEmpty .se-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e0c48a,var(--gold));color:#3a2c12;font-weight:800;font-size:14px;padding:13px 24px;border-radius:100px;text-decoration:none;box-shadow:0 8px 22px rgba(201,169,110,.3)}
 
     .empty{padding:32px 18px;text-align:center;font-size:13px;color:var(--t3)}
   </style>
@@ -118,6 +129,14 @@
 </div>
 
 <main>
+  <!-- ÉTAT JOUR-1 (affiché via html.ks-stat-empty, masque les sections de zéros) -->
+  <div id="statEmpty">
+    <div class="se-ic"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+    <h2 class="se-t">Tes statistiques arrivent</h2>
+    <p class="se-p">Termine ta première activité et tu verras ici ton XP, ta série, ta progression par niveau et ton vocabulaire grandir.</p>
+    <a class="se-cta" href="cours.html">Commencer le parcours →</a>
+  </div>
+
   <!-- VUE D'ENSEMBLE -->
   <span class="sec-lbl">Vue d'ensemble</span>
   <div class="big-grid">
