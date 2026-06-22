@@ -795,6 +795,33 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
 
   <div class="page-enter">
 
+  <style id="ks-cours-v2">
+  /* ── Refonte cours.html : héros conscient de l'état, accordéon, dé-doublonnage ── */
+  .ks-sronly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .prog-lbl{display:none}                 /* le % est déjà donné par la barre + la tuile */
+  .chal{display:none}                     /* « Défi du jour » : vit sur app.html, pas sur la page programme */
+  .ks-search-fab{display:none!important}  /* la barre de recherche de la page rend ce flottant redondant */
+
+  /* Jour 1 : on enlève le mur de zéros, on invite à commencer */
+  .page-enter.ks-new .stats,
+  .page-enter.ks-new .prog-track{display:none}
+  .hero-cta{grid-column:1/-1;margin-top:14px}
+  .hero-cta-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e0c48a,var(--gold));color:#3a2c12;font-weight:800;font-size:14px;padding:12px 20px;border-radius:100px;text-decoration:none;box-shadow:0 8px 22px rgba(201,169,110,.35)}
+  .hero-cta-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .hero-path{margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--t3)}
+
+  /* Accordéon par niveau : seul le niveau courant est déplié */
+  .lvc-toggle{cursor:pointer}
+  .lvc-chev{display:flex;justify-content:center;padding:4px 0 10px;color:var(--t3)}
+  .lvc-chev svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+  .lv-sec.open .lvc-chev svg{transform:rotate(180deg)}
+  .lv-body{display:none}
+  .lv-sec.open .lv-body{display:block;animation:lvIn .3s ease}
+  @keyframes lvIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .roadmap.filtering .lv-body{display:block!important}  /* recherche/filtre : on traverse tous les niveaux */
+  </style>
+  <h1 class="ks-sronly">Parcours d'apprentissage du coréen — du Hangeul au niveau B2</h1>
+
   <!-- HERO -->
   <div class="page">
     <div class="hero">
@@ -1693,6 +1720,7 @@ function applyVisibility(){
   const searching=q.length>0;
   const roadmap=document.getElementById('roadmap');
   if(roadmap) roadmap.classList.toggle('searching',searching);
+  if(roadmap) roadmap.classList.toggle('filtering', searching || _activeFilter!=='all');
 
   let visible=0;
   document.querySelectorAll('.nrow').forEach(r=>{
@@ -2119,14 +2147,25 @@ function rPdfs(lv){
     gDone+=lvDone;doneMap[lv.id]=lvDone;
     const pct=acts.length?Math.round(lvDone/acts.length*100):0;
 
-    sec.appendChild(rBanner(lv,lvDone,acts.length,pct));
+    /* Bannière = en-tête d'accordéon : un clic plie / déplie le niveau */
+    const banner=rBanner(lv,lvDone,acts.length,pct);
+    banner.classList.add('lvc-toggle');
+    const chev=document.createElement('div');
+    chev.className='lvc-chev';
+    chev.innerHTML=`<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>`;
+    banner.appendChild(chev);
+    banner.addEventListener('click',()=>{ sec.classList.toggle('open'); });
+    sec.appendChild(banner);
+
+    const lvBody=document.createElement('div');lvBody.className='lv-body';
 
     const pl=document.createElement('div');pl.className='path-line';
     pl.style.background=`linear-gradient(180deg,transparent,${lv.color}12 5%,${lv.color}08 95%,transparent)`;
-    sec.appendChild(pl);
+    lvBody.appendChild(pl);
 
     let prev=true;
     let lastGroup='';
+    let levelHasActive=false;
     acts.forEach((act,i)=>{
       const done=isDone(act.key);
       const isSoon = window.KSCurriculum && window.KSCurriculum.isComingSoon
@@ -2134,7 +2173,7 @@ function rPdfs(lv){
       let st;
       if(done){st='done';prev=true;}
       else if(isSoon){st='soon';}                       /* page pas encore créée */
-      else if(!found){st='active';found=true;activeHref=act.href;}
+      else if(!found){st='active';found=true;activeHref=act.href;levelHasActive=true;}
       else{st='todo';}
 
       // Group header
@@ -2143,17 +2182,26 @@ function rPdfs(lv){
         const gh=document.createElement('div');
         gh.className='act-group-hdr';
         gh.innerHTML=`<span class="act-group-lbl">${act.group}</span><span class="act-group-line"></span>`;
-        sec.appendChild(gh);
+        lvBody.appendChild(gh);
       }
 
-      sec.appendChild(rNode(act,st,'L',i));
+      lvBody.appendChild(rNode(act,st,'L',i));
     });
 
-    sec.appendChild(rMs(lv,lvDone>=acts.length));
-    if(lv.sc)sec.appendChild(rSc(lv.sc));
-    const pdfs=rPdfs(lv);if(pdfs)sec.appendChild(pdfs);
+    lvBody.appendChild(rMs(lv,lvDone>=acts.length));
+    if(lv.sc)lvBody.appendChild(rSc(lv.sc));
+    const pdfs=rPdfs(lv);if(pdfs)lvBody.appendChild(pdfs);
+    sec.appendChild(lvBody);
+
+    if(levelHasActive) sec.classList.add('open');  /* niveau courant déplié par défaut */
     roadmap.appendChild(sec);
   });
+
+  /* Si aucun niveau n'est « courant » (tout terminé, ou cas limite) : déplier le premier */
+  if(!roadmap.querySelector('.lv-sec.open')){
+    const firstBody=roadmap.querySelector('.lv-sec .lv-body');
+    if(firstBody) firstBody.parentElement.classList.add('open');
+  }
 
   buildTabs(doneMap);
 
@@ -2180,6 +2228,17 @@ function rPdfs(lv){
     fab.href=activeHref;fab.classList.add('show');
   }
 
+  /* Jour 1 : héros conscient de l'état — pas de mur de zéros, un CTA clair */
+  if(gDone===0){
+    const pe=document.querySelector('.page-enter'); if(pe) pe.classList.add('ks-new');
+    const hero=document.querySelector('.hero');
+    if(hero && !hero.querySelector('.hero-cta')){
+      const cta=document.createElement('div'); cta.className='hero-cta';
+      cta.innerHTML=`<a class="hero-cta-btn" href="${activeHref||'lecon.html'}">Commencer par le Hangeul <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a><div class="hero-path">Hangeul → A1 → A2 → B1 → B2</div>`;
+      hero.appendChild(cta);
+    }
+  }
+
   /* Scroll automatique vers la dernière leçon visitée — quand on revient
      d'une leçon, on retrouve sa carte mise en évidence. */
   try {
@@ -2189,6 +2248,7 @@ function rPdfs(lv){
       setTimeout(function(){
         var card = document.querySelector('.nrow[data-href="' + fromHref + '"]');
         if (card) {
+          var psec = card.closest('.lv-sec'); if (psec) psec.classList.add('open');
           card.scrollIntoView({ behavior: 'smooth', block: 'center' });
           card.classList.add('nrow-highlight');
           setTimeout(function(){ card.classList.remove('nrow-highlight'); }, 2400);
@@ -2197,6 +2257,13 @@ function rPdfs(lv){
     }
   } catch (e) {}
 })();
+
+/* Ouvrir le niveau ciblé quand on clique un onglet de niveau (#lv-…) */
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href^="#lv-"]'); if(!a) return;
+  var s=document.querySelector(a.getAttribute('href'));
+  if(s&&s.classList.contains('lv-sec')) s.classList.add('open');
+});
 
 /* ── MODAL ──────────────────────────────────── */
 function openPrem(){document.getElementById('premModal').classList.add('on');document.body.style.overflow='hidden'}
