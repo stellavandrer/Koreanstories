@@ -130,7 +130,7 @@
     for (var i = 0; i < heads.length; i++) {
       var raw = (heads[i].textContent || '').replace(/\s+/g, ' ').trim();
       if (/[가-힣]/.test(raw)) {
-        var m = raw.match(/^([가-힣\s!?.…~·]+)(.*)$/);
+        var m = raw.match(/^([가-힣\s!?.…~·,，、‘’"“”]+)(.*)$/);
         if (m && m[1].trim()) { kr = m[1].trim().replace(/[·\s]+$/, ''); fr = (m[2] || '').replace(/^[—\-·:\s]+/, '').trim(); }
         else { fr = raw; }
         break;
