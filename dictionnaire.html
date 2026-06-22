@@ -88,6 +88,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .intro-card svg{width:26px;height:26px;flex-shrink:0;stroke:var(--gold-deep);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .intro-card h3{font-size:15px;font-weight:700;margin-bottom:3px}
 .intro-card p{font-size:13.5px;color:var(--t2);line-height:1.55}
+.dic-credit{max-width:760px;margin:26px auto 0;padding:0 18px 4px;text-align:center;font-size:11px;color:var(--t3);line-height:1.55}
+.dic-credit a{color:var(--gold-deep,#B8924E);font-weight:600;text-decoration:none}
 </style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -112,16 +114,32 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </header>
 
 <main class="dic-main" id="main"></main>
+<p class="dic-credit">Vocabulaire enrichi par le <a href="https://krdict.korean.go.kr" target="_blank" rel="noopener">한국어기초사전</a> du 국립국어원 (National Institute of Korean Language) — <a href="https://creativecommons.org/licenses/by-sa/2.0/kr/deed.fr" target="_blank" rel="noopener">CC BY-SA 2.0 KR</a>.</p>
 
 
 <script src="ks-dictionary.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════
    Dictionnaire intelligent — recherche, romanisation auto, conjugaison.
-   Données : KSDict.raw() (≈607 entrées { ko: {fr, rom, pos, ex} }).
+   Données : KSDict.raw() (noyau curé, chargé immédiatement)
+   + ks-krdict.json (한국어기초사전 du 국립국어원, CC BY-SA) chargé en différé.
    ═══════════════════════════════════════════════════════════════════ */
 var DICT = (window.KSDict && KSDict.raw()) ? KSDict.raw() : {};
 var ENTRIES = Object.keys(DICT).map(function(ko){ var e=DICT[ko]; return {ko:ko, fr:e.fr||'', rom:e.rom||'', pos:e.pos||'', ex:e.ex||''}; });
+
+/* ── Élargissement différé : dictionnaire complet krdict (≈40k mots, CC BY-SA).
+   Le noyau curé reste instantané ; krdict se fond dans l'index une fois chargé. ── */
+(function(){
+  var seen={}; for(var i=0;i<ENTRIES.length;i++) seen[ENTRIES[i].ko]=1;
+  fetch('ks-krdict.json').then(function(r){ return r.ok?r.json():null; }).then(function(extra){
+    if(!extra) return;
+    var added=0;
+    for(var ko in extra){ if(seen[ko]) continue; var e=extra[ko]; ENTRIES.push({ko:ko, fr:e.fr||'', rom:'', pos:e.pos||'', ex:''}); seen[ko]=1; added++; }
+    if(!added) return;
+    if(qEl && !qEl.value.trim()){ if(dirHint) dirHint.textContent=ENTRIES.length+' mots · tape un mot coréen ou français'; }
+    else if(typeof run==='function'){ run(); }   /* relance la recherche en cours avec le corpus complet */
+  }).catch(function(){});
+})();
 
 /* ── Hangeul : décomposition / composition ── */
 var LITS=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
