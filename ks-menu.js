@@ -105,7 +105,10 @@
     '.ksm-foot{padding:14px 16px;border-top:1px solid var(--bd,#DAE3F2);display:flex;gap:10px;flex-shrink:0}',
     '.ksm-foot a{flex:1;text-align:center;padding:11px;border-radius:11px;font-size:13.5px;font-weight:700;text-decoration:none}',
     '.ksm-cta{background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12}',
-    '.ksm-ghost{border:1.5px solid var(--bd,#DAE3F2);color:var(--t2,#475E78)}'
+    '.ksm-ghost{border:1.5px solid var(--bd,#DAE3F2);color:var(--t2,#475E78)}',
+    '.ksm-theme{width:100%;border:none;background:transparent;cursor:pointer;font:inherit;text-align:left}',
+    '.ksm-theme #ksmThemeLbl{font-weight:500}',
+    '.ksm-theme svg{stroke:var(--gold,#C9A96E)}'
   ].join('');
   var st = document.createElement('style'); st.textContent = css;
   document.head.appendChild(st);
@@ -125,6 +128,9 @@
     });
     html += '</div>';
   });
+  html += '<div class="ksm-sec"><div class="ksm-sec-t">Affichage</div>'
+    + '<button class="ksm-link ksm-theme" id="ksmTheme" type="button">'+svg('<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>')+'<span id="ksmThemeLbl">Mode sombre</span></button>'
+    + '</div>';
   html += '</div>'
     + '<div class="ksm-foot"><a class="ksm-ghost" href="index.html">Accueil</a><a class="ksm-cta" href="app.html">Mon espace</a></div>'
     + '</aside>';
@@ -139,6 +145,22 @@
   overlay.addEventListener('click', close);
   document.getElementById('ksmClose').addEventListener('click', close);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && drawer.classList.contains('open')) close(); });
+
+  /* ── Bascule thème (le menu remplace le bouton de l'ancienne sidebar) ── */
+  var themeBtn = document.getElementById('ksmTheme'), themeLbl = document.getElementById('ksmThemeLbl');
+  function ksmDark(){ return document.documentElement.getAttribute('data-theme') === 'dark'; }
+  function ksmThemeSync(){ if (themeLbl) themeLbl.textContent = ksmDark() ? 'Mode clair' : 'Mode sombre'; }
+  ksmThemeSync();
+  if (themeBtn) themeBtn.addEventListener('click', function () {
+    if (typeof window.toggleTheme === 'function') { window.toggleTheme(); }
+    else {
+      var d = !ksmDark();
+      if (d) document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      try { localStorage.setItem('ks_theme', d ? 'dark' : 'light'); } catch (e) {}
+    }
+    ksmThemeSync();
+  });
 
   /* ── Bouton déclencheur ── */
   function makeBtn(cls){ var b=document.createElement('button'); b.className='ksm-btn'+(cls?' '+cls:''); b.setAttribute('aria-label','Ouvrir le menu'); b.innerHTML='<span class="ksm-ico"><i></i><i></i><i></i></span><span class="ksm-txt">Menu</span>'; b.addEventListener('click',open); return b; }
