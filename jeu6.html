@@ -253,7 +253,7 @@ function renderQ() {
   document.getElementById('progLabel').textContent = `Scénario ${currentQ+1} / 10`;
   document.getElementById('progBar').style.width = ((currentQ+1)/10*100)+'%';
   document.getElementById('scoreRunning').textContent = `Score : ${score} / ${currentQ}`;
-  document.getElementById('locEmoji').textContent = s.emoji;
+  document.getElementById('locEmoji').innerHTML = s.emoji;  /* s.emoji est une icône SVG, pas du texte */
   document.getElementById('locText').textContent = s.location;
   document.getElementById('instrKr').textContent = s.instrKr;
   document.getElementById('instrRom').textContent = s.instrRom;

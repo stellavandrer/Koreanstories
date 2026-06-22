@@ -1157,6 +1157,44 @@ function ksFinish(opts) {
 window.ksFinish = ksFinish;
 window.ksConfetti = _ksConfetti;
 
+/* ── CTA de fin auto pour les planches d'histoire du parcours ──────────
+   Les pages histoireN-bd.html (activités « histoire » du curriculum) n'ont
+   AUCUN mécanisme de complétion (pas de #doneBtn, pas de setItem de clé) :
+   sans ça elles ne se valident jamais dans cours.html et ne renvoient pas
+   vers la suite. On injecte un bouton flottant en bas qui appelle ksFinish
+   → marque fait + XP + overlay « Suivant » (prochaine activité du parcours
+   via KSCurriculum.next). Ciblé sur t==='histoire' : ces pages n'ont aucune
+   UI concurrente, donc zéro risque de double-complétion. */
+(function ksAutoFinishCTA(){
+  function init(){
+    if (document.getElementById('doneBtn') || document.getElementById('ksAutoFinish')) return;
+    if (typeof _ksEnsureCurriculum !== 'function') return;
+    _ksEnsureCurriculum().then(function(){
+      if (!window.KSCurriculum || !KSCurriculum.activities) return;
+      var here = (location.pathname.split('/').pop() || '').toLowerCase();
+      var act = KSCurriculum.activities.filter(function(a){ return (a.href||'').toLowerCase() === here; })[0];
+      if (!act || act.t !== 'histoire') return;
+      var done = KSCurriculum.isDone(act.key);
+      var st = document.createElement('style');
+      st.textContent = '.ks-autofinish{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom));z-index:1100}'
+        + '.ks-autofinish-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12;font:800 14px/1 inherit;padding:13px 24px;border:none;border-radius:100px;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.28)}'
+        + '.ks-autofinish-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}';
+      document.head.appendChild(st);
+      var wrap = document.createElement('div');
+      wrap.id = 'ksAutoFinish'; wrap.className = 'ks-autofinish';
+      wrap.innerHTML = '<button type="button" class="ks-autofinish-btn">'
+        + (done ? 'Activité suivante' : "J'ai terminé · Continuer")
+        + ' <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>';
+      document.body.appendChild(wrap);
+      wrap.firstChild.addEventListener('click', function(){
+        if (typeof ksFinish === 'function') ksFinish({ key: act.key, xp: done ? 0 : 12 });
+      });
+    }).catch(function(){});
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+
 /* ── Page entrance animation ───────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   /* ── View Transitions API : crossfade entre pages ──

@@ -203,7 +203,8 @@ function renderQuestion() {
   q.shuffledAns.forEach(ans => {
     const btn = document.createElement('button');
     btn.className = 'choice';
-    btn.textContent = ans;
+    btn.innerHTML = ans;   /* ans peut contenir une icône SVG (ex. choix du badge) */
+    btn._ans = ans;        /* identité fiable : textContent perdrait le SVG */
     btn.onclick = () => selectAnswer(ans, btn, q);
     choicesEl.appendChild(btn);
   });
@@ -226,7 +227,7 @@ function selectAnswer(ans, btn, q) {
     expl.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> ' + q.expl;
   } else {
     btn.classList.add('wrong');
-    allBtns.forEach(b => { if (b.textContent === q.correct) b.classList.add('correct'); });
+    allBtns.forEach(b => { if (b._ans === q.correct) b.classList.add('correct'); });
     const expl = document.getElementById('expl');
     expl.className = 'expl ko';
     expl.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> ' + q.expl;
