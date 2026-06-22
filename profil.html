@@ -804,6 +804,9 @@ function setXPPeriod(d){
   document.getElementById('xpPeriodSub').textContent=d===7?'cette semaine':'ce mois';
   drawXP();
 }
+// Date LOCALE YYYY-MM-DD — évite le décalage UTC (toISOString sur un minuit
+// local renvoyait la veille en UTC+1/+2), aligné sur le calendrier du dashboard.
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 // XP par jour — reconstruit depuis les clés ks_xp_day_<date>
 function getXpHist(){
   const h={};
@@ -822,7 +825,7 @@ function drawXP(){
   const hist=getXpHist();
   const now=new Date();
   const days=[];
-  for(let i=xpP-1;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);days.push(d.toISOString().slice(0,10));}
+  for(let i=xpP-1;i>=0;i--){const d=new Date(now);d.setDate(d.getDate()-i);days.push(ymd(d));}
   const vals=days.map(d=>hist[d]||0);
   const total=vals.reduce((a,b)=>a+b,0);
   document.getElementById('xpPeriodTotal').textContent=total+' XP';
@@ -830,7 +833,7 @@ function drawXP(){
   const W=300,H=60,gap=4;
   const bw=Math.floor((W-(days.length-1)*gap)/days.length);
   let bars='';
-  const today=new Date().toISOString().slice(0,10);
+  const today=ymd(new Date());
   vals.forEach((v,i)=>{
     const bh=Math.max(4,Math.round((v/mx)*(H-4)));
     const x=i*(bw+gap),y=H-bh;
@@ -848,7 +851,7 @@ function drawHeatmap(){
   for(let w=11;w>=0;w--){
     for(let d=6;d>=0;d--){
       const dt=new Date(now);dt.setDate(dt.getDate()-(w*7+d));
-      const key=dt.toISOString().slice(0,10);
+      const key=ymd(dt);
       const v=hist[key]||0;if(v>0)active++;
       let bg='var(--bd)';
       if(v>0&&v<20)bg='rgba(201,169,110,.28)';

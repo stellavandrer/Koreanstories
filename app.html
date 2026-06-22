@@ -1184,6 +1184,13 @@
     .dw-btn-ghost svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     .dw-timer-foot{display:flex;justify-content:space-between;margin-top:13px;font-size:12px;color:var(--t3)}
     .dw-timer-foot b{color:var(--t);font-weight:700}
+    .dw-goal{margin-top:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .dw-goal-bar{height:6px;background:var(--s3,#E9EEFA);border-radius:4px;overflow:hidden}
+    .dw-goal-fill{height:100%;width:0;background:linear-gradient(90deg,#e0c48a,var(--gold));border-radius:4px;transition:width .5s cubic-bezier(.3,1,.4,1)}
+    .dw-goal-txt{display:flex;justify-content:space-between;align-items:center;margin-top:5px;font-size:11px;color:var(--t3)}
+    .dw-goal-lbl{border-bottom:1px dotted var(--t3,#8FA5BE);line-height:1.3}
+    .dw-goal.met .dw-goal-fill{background:linear-gradient(90deg,#22C55E,#16A34A)}
+    .dw-goal.met #dwGoalState{color:#16A34A;font-weight:700}
     .dw-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
     .dw-cal-head button{width:30px;height:30px;border-radius:9px;border:1px solid var(--bd);background:var(--surf);color:var(--t2);font-size:17px;cursor:pointer;line-height:1}
     .dw-cal-head .dw-lbl{font-size:12px}
@@ -1215,6 +1222,10 @@
         <button class="dw-btn dw-btn-ghost" id="dwReset" aria-label="Réinitialiser"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></button>
       </div>
       <div class="dw-timer-foot"><span>Aujourd'hui <b id="dwToday">0 min</b></span><span>Total <b id="dwTotal">0 h</b></span></div>
+      <div class="dw-goal" id="dwGoal" role="button" tabindex="0" title="Changer l'objectif quotidien (10 → 60 min)">
+        <div class="dw-goal-bar"><div class="dw-goal-fill" id="dwGoalFill"></div></div>
+        <div class="dw-goal-txt"><span class="dw-goal-lbl" id="dwGoalLbl">Objectif 15 min/j</span><span id="dwGoalState">0 / 15 min</span></div>
+      </div>
     </div>
     <div class="dw-card dw-cal">
       <div class="dw-cal-head"><button id="dwPrev" aria-label="Mois précédent">‹</button><span class="dw-lbl" id="dwMonth">—</span><button id="dwNext" aria-label="Mois suivant">›</button></div>
@@ -1252,13 +1263,31 @@
     function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60;return pad(h)+':'+pad(m)+':'+pad(x);}
     function human(s){var h=Math.floor(s/3600),m=Math.round((s%3600)/60); if(h>0)return h+' h'+(m?' '+m:''); return m+' min';}
     function paintFoot(){ elToday.textContent=human(lsInt('ks_study_'+today)); elTotal.textContent=human(lsInt('ks_study_total')); }
-    function tick(){ session++; lsSet('ks_study_'+today, lsInt('ks_study_'+today)+1); lsSet('ks_study_total', lsInt('ks_study_total')+1); elTime.textContent=fmt(session); paintFoot(); }
+    /* Objectif de temps d'étude quotidien (minutes) — cliquer/Entrée pour changer le palier */
+    var GOAL_PRESETS=[10,15,20,30,45,60];
+    function studyGoalMin(){ var v=lsInt('ks_study_goal'); return v>0?v:15; }
+    var elGoal=document.getElementById('dwGoal'), elGoalFill=document.getElementById('dwGoalFill'),
+        elGoalLbl=document.getElementById('dwGoalLbl'), elGoalState=document.getElementById('dwGoalState');
+    function paintGoal(){
+      var gMin=studyGoalMin(), goalSec=gMin*60, todaySec=lsInt('ks_study_'+today);
+      var pct=Math.min(100, Math.round(todaySec/goalSec*100)), met=todaySec>=goalSec;
+      if(elGoalFill) elGoalFill.style.width=pct+'%';
+      if(elGoalLbl) elGoalLbl.textContent='Objectif '+gMin+' min/j';
+      if(elGoalState) elGoalState.textContent= met ? 'Objectif atteint' : Math.round(todaySec/60)+' / '+gMin+' min';
+      if(elGoal) elGoal.classList.toggle('met', met);
+    }
+    function cycleGoal(){ var p=GOAL_PRESETS, i=p.indexOf(studyGoalMin()); lsSet('ks_study_goal', p[(i+1)%p.length]); paintGoal(); }
+    if(elGoal){
+      elGoal.addEventListener('click', cycleGoal);
+      elGoal.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); cycleGoal(); } });
+    }
+    function tick(){ session++; lsSet('ks_study_'+today, lsInt('ks_study_'+today)+1); lsSet('ks_study_total', lsInt('ks_study_total')+1); elTime.textContent=fmt(session); paintFoot(); paintGoal(); }
     function start(){ running=true; elToggle.textContent='Pause'; elToggle.classList.add('running'); iv=setInterval(tick,1000); }
     function stop(){ running=false; elToggle.textContent=session?'Reprendre':'Démarrer'; elToggle.classList.remove('running'); clearInterval(iv); }
     elToggle.addEventListener('click',function(){ running?stop():start(); });
     elReset.addEventListener('click',function(){ stop(); session=0; elTime.textContent=fmt(0); elToggle.textContent='Démarrer'; });
     document.addEventListener('visibilitychange',function(){ if(document.hidden&&running) stop(); });
-    elTime.textContent=fmt(0); paintFoot();
+    elTime.textContent=fmt(0); paintFoot(); paintGoal();
 
     /* Calendrier d'activité */
     var MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
@@ -2060,7 +2089,8 @@
       const _now = new Date();
       for(let i=0; i<7; i++){
         const _d = new Date(_now); _d.setDate(_now.getDate() - i);
-        const _v = parseInt(ls('ks_xp_day_' + _d.toISOString().slice(0,10)) || '0', 10);
+        const _dk = _d.getFullYear()+'-'+String(_d.getMonth()+1).padStart(2,'0')+'-'+String(_d.getDate()).padStart(2,'0');
+        const _v = parseInt(ls('ks_xp_day_' + _dk) || '0', 10);
         weekXp += isNaN(_v) ? 0 : _v;
       }
     } catch(e){}
@@ -3374,7 +3404,7 @@ function renderWeeklyChart(){
   }catch(e){ activity={}; }
 
   var dayVals = reordered.map(function(d){
-    var key = d.toISOString().slice(0,10);
+    var key = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
     return activity[key] || 0;
   });
 
@@ -3546,8 +3576,10 @@ document.addEventListener('click', function(e){
   function lsInt(k){ try { return parseInt(localStorage.getItem(k)||'0',10)||0; } catch(e){ return 0; } }
 
   function dateKey(d){
-    /* Format YYYY-MM-DD aligné sur ce que le reste du site écrit */
-    return d.toISOString().slice(0,10);
+    /* Date LOCALE YYYY-MM-DD (comme le calendrier). Avant : toISOString()
+       sur un minuit local renvoyait la veille en UTC+1/+2 → tout le récap
+       était décalé d'un jour (l'XP du jour n'apparaissait jamais). */
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   }
 
   function gatherLast7(){
