@@ -108,7 +108,12 @@
     '.ksm-ghost{border:1.5px solid var(--bd,#DAE3F2);color:var(--t2,#475E78)}',
     '.ksm-theme{width:100%;border:none;background:transparent;cursor:pointer;font:inherit;text-align:left}',
     '.ksm-theme #ksmThemeLbl{font-weight:500}',
-    '.ksm-theme svg{stroke:var(--gold,#C9A96E)}'
+    '.ksm-theme svg{stroke:var(--gold,#C9A96E)}',
+    '.ksm-search{display:flex;align-items:center;gap:10px;width:100%;margin-bottom:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--bd,#DAE3F2);background:var(--s2,#F5F7FF);color:var(--t3,#8FA5BE);font:500 14px/1 inherit;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent;transition:border-color .15s}',
+    '.ksm-search:hover{border-color:var(--gold,#C9A96E)}',
+    '.ksm-search svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}',
+    '.ksm-search kbd{margin-left:auto;font:600 11px/1 inherit;background:var(--surf,#fff);border:1px solid var(--bd,#DAE3F2);border-radius:5px;padding:3px 6px;color:var(--t3,#8FA5BE)}',
+    '@media(max-width:600px){.ksm-search kbd{display:none}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = css;
   document.head.appendChild(st);
@@ -119,7 +124,8 @@
     + '<aside class="ksm-drawer" id="ksmDrawer" role="dialog" aria-label="Menu" aria-modal="true">'
     + '<div class="ksm-head"><span class="ksm-logo">Korean <em>Stories</em></span>'
     + '<button class="ksm-close" id="ksmClose" aria-label="Fermer le menu"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>'
-    + '<div class="ksm-body">';
+    + '<div class="ksm-body">'
+    + '<button class="ksm-search" id="ksmSearch" type="button" aria-label="Rechercher dans tout le parcours">'+svg('<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>')+'<span>Rechercher…</span><kbd>⌘K</kbd></button>';
   SECTIONS.forEach(function(sec){
     html += '<div class="ksm-sec"><div class="ksm-sec-t">'+sec.title+'</div>';
     sec.items.forEach(function(it){
@@ -145,6 +151,17 @@
   overlay.addEventListener('click', close);
   document.getElementById('ksmClose').addEventListener('click', close);
   document.addEventListener('keydown', function(e){ if(e.key==='Escape' && drawer.classList.contains('open')) close(); });
+
+  /* ── Recherche globale (remplace le bouton loupe flottant) ── */
+  var searchBtn = document.getElementById('ksmSearch');
+  function openSearch(tries){
+    if (window.KSSearch && window.KSSearch.open) { window.KSSearch.open(); return; }
+    if (tries > 0) setTimeout(function(){ openSearch(tries - 1); }, 120);
+  }
+  if (searchBtn) searchBtn.addEventListener('click', function(){
+    close();
+    setTimeout(function(){ openSearch(10); }, 180);
+  });
 
   /* ── Bascule thème (le menu remplace le bouton de l'ancienne sidebar) ── */
   var themeBtn = document.getElementById('ksmTheme'), themeLbl = document.getElementById('ksmThemeLbl');

@@ -553,6 +553,10 @@
   /* ── Bouton FAB ──────────────────────────────────────────── */
   function injectFAB(){
     if (document.querySelector('.ks-search-fab')) return;
+    /* Le menu hamburger global expose déjà l'entrée « Rechercher » →
+       inutile (et gênant) d'afficher un bouton loupe flottant par-dessus le contenu.
+       On ne garde le FAB qu'en secours, sur les rares pages sans menu. */
+    if (window.__ksMenuLoaded || document.querySelector('.ksm-btn, #ksmDrawer')) return;
     injectCSS();
     var btn = document.createElement('button');
     btn.className = 'ks-search-fab';
