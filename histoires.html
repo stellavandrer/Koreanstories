@@ -475,6 +475,30 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     </div>
   </section>
 
+  <style id="ks-hist-v2">
+  /* Jour 1 : pas de mur de zéros dans le héros, on invite à lire la 1re histoire */
+  .hero.ks-new .hero-stats,
+  .hero.ks-new .prog-track,
+  .hero.ks-new #heroProgLbl{display:none}
+  .hero-cta{margin-top:18px}
+  .hero-cta-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12;font-weight:800;font-size:14px;padding:13px 22px;border-radius:100px;text-decoration:none;box-shadow:0 8px 22px rgba(201,169,110,.3)}
+  .hero-cta-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  </style>
+  <script>
+  (function(){
+    var anyRead = Object.keys(localStorage).some(function(k){ return k.indexOf('ks_read_')===0 && localStorage.getItem(k); });
+    if (anyRead) return;                       /* a déjà lu : héros normal avec stats */
+    var hero = document.querySelector('.hero-inner');
+    var heroSec = document.querySelector('.hero');
+    if (!hero || !heroSec || hero.querySelector('.hero-cta')) return;
+    heroSec.classList.add('ks-new');
+    var cta = document.createElement('div');
+    cta.className = 'hero-cta';
+    cta.innerHTML = '<a class="hero-cta-btn" href="histoire1.html">Commencer la première histoire <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>';
+    hero.appendChild(cta);
+  })();
+  </script>
+
   <!-- HUB TABS -->
   <div class="hub-tabs">
     <button class="hub-tab act" data-tab="bd" onclick="setTab('bd')">
