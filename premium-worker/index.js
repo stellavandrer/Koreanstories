@@ -29,30 +29,6 @@ export default {
       return handleWebhook(request, env);
     }
 
-    // ── Diagnostic temporaire : teste l'envoi Resend et renvoie sa réponse brute.
-    //    À RETIRER après le débogage de l'email.
-    if (request.method === 'GET' && url.pathname === '/selftest') {
-      if (url.searchParams.get('token') !== 'kstest2026') {
-        return json({ error: 'token invalide' }, 403);
-      }
-      const to = url.searchParams.get('to') || 'justinetilleul27@gmail.com';
-      const from = env.RESEND_FROM || 'Korean Stories <contact@koreanstories.fr>';
-      const r = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from, to,
-          subject: 'Korean Stories — test technique',
-          html: '<p>Test d\'envoi Resend ✅ — si tu lis ceci, la chaîne email fonctionne.</p>'
-        })
-      });
-      const text = await r.text();
-      return json({ httpStatus: r.status, from, to, resend: safeParse(text) });
-    }
-
     return new Response('Korean Stories Premium API', { status: 200 });
   }
 };
@@ -248,8 +224,6 @@ function json(data, status = 200) {
     }
   });
 }
-
-function safeParse(t) { try { return JSON.parse(t); } catch { return t; } }
 
 function corsResponse(body, status) {
   return new Response(body, {
