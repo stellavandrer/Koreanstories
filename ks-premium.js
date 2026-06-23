@@ -64,18 +64,18 @@
   /* ── Vérification d’une clé de licence via Cloudflare Worker ── */
   function verifyKey(licenseKey){
     return new Promise(function(resolve){
-      licenseKey = (licenseKey || ‘’).trim().toUpperCase();
-      if (!licenseKey) return resolve({ ok:false, msg:’Entre ta clé de licence.’ });
-      fetch(VERIFY_URL + ‘?key=’ + encodeURIComponent(licenseKey))
+      licenseKey = (licenseKey || '').trim().toUpperCase();
+      if (!licenseKey) return resolve({ ok:false, msg:'Entre ta clé de licence.' });
+      fetch(VERIFY_URL + '?key=' + encodeURIComponent(licenseKey))
         .then(function(r){ return r.json(); })
         .then(function(d){
           if (d && d.success) {
             resolve({ ok:true });
           } else {
-            resolve({ ok:false, msg: d.message || ‘Clé invalide ou abonnement inactif.’ });
+            resolve({ ok:false, msg: d.message || 'Clé invalide ou abonnement inactif.' });
           }
         })
-        .catch(function(){ resolve({ ok:false, msg:’Vérification impossible (réseau). Réessaie dans un instant.’ }); });
+        .catch(function(){ resolve({ ok:false, msg:'Vérification impossible (réseau). Réessaie dans un instant.' }); });
     });
   }
   function unlock(licenseKey){
