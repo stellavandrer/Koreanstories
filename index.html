@@ -189,6 +189,27 @@ img{display:block;max-width:100%}
 .scroll-hint svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none}
 @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 
+/* float des cartes hero */
+@keyframes floatCard1{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(-7deg) translateY(-10px)}}
+@keyframes floatCard2{0%,100%{transform:rotate(6deg) translateY(0)}50%{transform:rotate(6deg) translateY(-13px)}}
+@keyframes floatCard3{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(-2deg) translateY(-8px)}}
+.ha-1{animation:floatCard1 5s ease-in-out infinite}
+.ha-2{animation:floatCard2 6.5s ease-in-out infinite 1s}
+.ha-3{animation:floatCard3 5.8s ease-in-out infinite 2.5s}
+@media(prefers-reduced-motion:reduce){.ha-1,.ha-2,.ha-3{animation:none}}
+
+/* ═══════════════ COMMENT ÇA MARCHE ═══════════════ */
+.how{background:var(--s2)}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative;max-width:820px;margin:0 auto}
+.how-steps::before{content:"";position:absolute;top:38px;left:calc(16.6% + 20px);right:calc(16.6% + 20px);height:2px;background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 8px,transparent 8px,transparent 18px);opacity:.4;pointer-events:none}
+@media(max-width:600px){.how-steps{grid-template-columns:1fr;gap:28px}.how-steps::before{display:none}}
+.how-step{text-align:center;padding:0 16px}
+.how-step-num{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(201,169,110,.15),rgba(201,169,110,.06));border:2px solid rgba(201,169,110,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;position:relative;z-index:1}
+.how-step-num svg{width:30px;height:30px;stroke:var(--gold);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.how-step h3{font-size:1rem;font-weight:700;color:var(--t);margin-bottom:8px}
+.how-step p{font-size:.88rem;color:var(--t2);line-height:1.55}
+.how-num-badge{position:absolute;top:-4px;right:-4px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#3a2c12;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+
 /* ═══════════════ QUOTE BAND ═══════════════ */
 .quote-band{background:var(--navy);color:rgba(255,255,255,.82);text-align:center;padding:30px 22px;display:flex;align-items:center;justify-content:center;gap:26px;border-top:1px solid rgba(255,255,255,.06)}
 .quote-band p{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(15px,2.4vw,19px);max-width:640px;line-height:1.5}
@@ -433,6 +454,40 @@ section.s{padding:84px 0}
   <p>« Le commencement, c'est déjà la moitié du chemin. »<br>시작이 반이다</p>
   <span class="quote-kr">반</span>
 </div>
+
+<!-- ═══════════ COMMENT ÇA MARCHE ═══════════ -->
+<section class="s how">
+  <div class="wrap">
+    <div class="s-head fw"><span class="eyebrow">C'est simple</span><h2>Comment ça marche ?</h2><p>Trois étapes, et tu parles coréen avant même de t'en rendre compte.</p></div>
+    <div class="how-steps">
+      <div class="how-step fw">
+        <div class="how-step-num">
+          <div class="how-num-badge">1</div>
+          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+        <h3>Choisis une histoire</h3>
+        <p>Parcours les 42 histoires illustrées par niveau, du débutant absolu jusqu'au B2. Chaque histoire introduit du vocabulaire et de la grammaire en contexte.</p>
+      </div>
+      <div class="how-step fw">
+        <div class="how-step-num">
+          <div class="how-num-badge">2</div>
+          <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
+        </div>
+        <h3>Lis &amp; écoute en coréen</h3>
+        <p>Chaque réplique est audible, avec traduction en français à côté. Tu t'imprègnes du rythme, de la prononciation et des tournures naturelles.</p>
+      </div>
+      <div class="how-step fw">
+        <div class="how-step-num">
+          <div class="how-num-badge">3</div>
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <h3>Pratique &amp; progresse</h3>
+        <p>Exercices, quiz et révisions après chaque histoire. Le système XP et les défis quotidiens gardent ta motivation au top, jour après jour.</p>
+      </div>
+    </div>
+    <div class="showcase-cta fw" style="margin-top:40px"><a href="app.html" class="btn btn-gold"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>Essayer maintenant — c'est gratuit</a></div>
+  </div>
+</section>
 
 <!-- ═══════════ MÉTHODE ═══════════ -->
 <section class="s method">
