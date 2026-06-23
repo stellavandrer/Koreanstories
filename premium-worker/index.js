@@ -173,11 +173,9 @@ async function sendLicenseEmail(email, key, env) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      // Par défaut : expéditeur partagé Resend (livre vers l'email du compte Resend,
-      // fonctionne sans vérification de domaine — idéal pour tester).
-      // En prod : définir la variable RESEND_FROM dans Cloudflare une fois le domaine
-      // koreanstories.fr vérifié, ex. "Korean Stories <premium@koreanstories.fr>".
-      from: env.RESEND_FROM || 'Korean Stories <onboarding@resend.dev>',
+      // Domaine koreanstories.fr vérifié dans Resend → envoi depuis l'adresse du site.
+      // Surchargeable via la variable RESEND_FROM dans Cloudflare si besoin.
+      from: env.RESEND_FROM || 'Korean Stories <contact@koreanstories.fr>',
       to: email,
       subject: '💛 Ta clé Premium Korean Stories',
       html
