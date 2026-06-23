@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hobby Match — Loisirs — Korean Stories</title>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    .wrap{padding:1rem;max-width:540px;margin:0 auto}
+    h2{color:var(--navy);margin:0 0 .3rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#6D28D9;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#c4b5fd}
+    .hud{display:flex;justify-content:space-between;align-items:center;margin:1rem 0 .6rem;font-weight:700}
+    .timer{color:#7C3AED}.timer.low{color:#ef4444}
+    .streak{font-size:.85rem;color:var(--tx-muted)}
+    .bar2{height:6px;background:var(--bd);border-radius:100px;overflow:hidden;margin-bottom:1rem}
+    .bar2-fill{height:100%;background:#7C3AED;width:100%;border-radius:100px;transition:width 1s linear}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.3rem 1.2rem;text-align:center}
+    .sit{font-size:1.05rem;font-weight:600;line-height:1.5;margin-bottom:1rem}
+    .opt{padding:.7rem .9rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;margin:.45rem 0;font-size:1.05rem;font-weight:600;background:var(--bg);transition:.12s}
+    .opt:hover{border-color:#7C3AED}
+    .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.12);color:#15803D}
+    .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.1);color:#dc2626}
+    .start-btn,.again-btn{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1rem}
+    .result{text-align:center;padding:1.5rem 0}
+    .result .big{font-size:2.6rem;font-weight:800;color:#7C3AED}
+    .intro{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;text-align:center}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Hobby Match</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div class="wrap">
+  <h2>Hobby Match 🎨</h2>
+  <span class="pill">A2 · 90 secondes</span>
+  <div id="introArea" class="intro" style="margin-top:1rem">
+    <p style="color:var(--tx-muted);line-height:1.6">Réponds vite aux questions sur les loisirs ! Trouve la bonne phrase coréenne avant la fin du chrono.</p>
+    <button class="start-btn" onclick="startGame()">Commencer →</button>
+  </div>
+  <div id="gameArea" style="display:none">
+    <div class="hud"><span class="timer" id="timer">90</span><span class="streak" id="streak">Série : 0</span></div>
+    <div class="bar2"><div class="bar2-fill" id="barFill"></div></div>
+    <div class="card">
+      <div class="sit" id="sit"></div>
+      <div id="opts"></div>
+    </div>
+  </div>
+  <div id="resultArea" style="display:none" class="result">
+    <div class="big" id="finalScore">0</div>
+    <p style="color:var(--tx-muted)" id="finalMsg"></p>
+    <button class="again-btn" onclick="startGame()">Rejouer</button>
+    <a class="again-btn" href="#" style="background:none;border:1.5px solid var(--bd);color:var(--tx)" onclick="finish();return false;">Terminer · +10 XP</a>
+  </div>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+const QUESTIONS=[
+  {sit:"« J'aime les films. »",ok:"저는 영화를 좋아해요",alts:["저는 영화가 좋아해요","저는 영화를 못해요"]},
+  {sit:"Demande : « c'est quoi ton hobby ? »",ok:"취미가 뭐예요?",alts:["취미가 어디예요?","취미를 좋아해요?"]},
+  {sit:"« Je cuisine bien. »",ok:"저는 요리를 잘해요",alts:["저는 요리를 못해요","저는 요리를 좋아요"]},
+  {sit:"« Je suis nul en sport. »",ok:"저는 운동을 못해요",alts:["저는 운동을 잘해요","저는 운동이 좋아해요"]},
+  {sit:"« Écouter de la musique »",ok:"음악을 들어요",alts:["음악을 봐요","음악을 읽어요"]},
+  {sit:"« Mon hobby, c'est la randonnée. »",ok:"제 취미는 등산이에요",alts:["제 취미가 등산을 해요","제 취미는 등산을 좋아요"]},
+  {sit:"« Le week-end, je regarde souvent des films. »",ok:"주말에 자주 영화를 봐요",alts:["자주 주말에 봐요 영화를","영화를 봐요 주말에 자주"]},
+  {sit:"« On regarde un film ensemble ? »",ok:"같이 영화 볼래요?",alts:["같이 영화 좋아해요?","같이 영화 봐요만?"]},
+  {sit:"« Faire de la randonnée »",ok:"등산하다",alts:["요리하다","운동하다"]},
+  {sit:"« Prendre des photos »",ok:"사진을 찍다",alts:["사진을 보다","사진을 듣다"]},
+  {sit:"« Parfois »",ok:"가끔",alts:["자주","항상"]},
+  {sit:"« Pas du tout (aimer) »",ok:"전혀 안 좋아해요",alts:["자주 좋아해요","별로 잘해요"]}
+];
+let order=[],idx=0,score=0,streak=0,timeLeft=90,timer=null,locked=false;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startGame(){
+  order=shuffle(QUESTIONS.slice());idx=0;score=0;streak=0;timeLeft=90;locked=false;
+  document.getElementById('introArea').style.display='none';
+  document.getElementById('resultArea').style.display='none';
+  document.getElementById('gameArea').style.display='block';
+  clearInterval(timer);
+  timer=setInterval(()=>{timeLeft--;updTimer();if(timeLeft<=0)endGame();},1000);
+  updTimer();render();
+}
+function updTimer(){
+  const t=document.getElementById('timer');t.textContent=timeLeft;
+  t.classList.toggle('low',timeLeft<=15);
+  document.getElementById('barFill').style.width=(timeLeft/90*100)+'%';
+}
+function render(){
+  if(idx>=order.length)order=shuffle(QUESTIONS.slice()),idx=0;
+  const q=order[idx];locked=false;
+  document.getElementById('sit').textContent=q.sit;
+  const opts=shuffle([{t:q.ok,c:true},...q.alts.map(a=>({t:a,c:false}))]);
+  const box=document.getElementById('opts');box.innerHTML='';
+  opts.forEach(o=>{const b=document.createElement('div');b.className='opt';b.textContent=o.t;b.onclick=()=>pick(b,o.c,q);box.appendChild(b);});
+  document.getElementById('streak').textContent='Série : '+streak;
+}
+function pick(el,correct,q){
+  if(locked)return;locked=true;
+  if(correct){el.classList.add('ok');score++;streak++;if(window.speak)window.speak(q.ok);}
+  else{el.classList.add('ko');streak=0;document.querySelectorAll('.opt').forEach(o=>{if(o.textContent===q.ok)o.classList.add('ok');});}
+  setTimeout(()=>{idx++;render();},650);
+}
+function endGame(){
+  clearInterval(timer);
+  document.getElementById('gameArea').style.display='none';
+  const r=document.getElementById('resultArea');r.style.display='block';
+  document.getElementById('finalScore').textContent=score+' réponses';
+  document.getElementById('finalMsg').textContent=score>=12?'Roi des loisirs ! 🏆':score>=7?'Bien joué — continue !':'Encore un peu d\'entraînement.';
+}
+function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_b55',xp:10});else{if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_b55');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>

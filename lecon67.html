@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Loisirs & hobbies — Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/lecon67.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h3{color:#7C3AED;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#6D28D9;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#c4b5fd}
+    .xp-badge{background:rgba(124,58,237,.12);color:#6D28D9;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#c4b5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(124,58,237,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#6D28D9;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#c4b5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#6D28D9,#7C3AED);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(124,58,237,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(124,58,237,.2)}
+    .speak-btn.playing{background:#7C3AED}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#7C3AED;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0}
+    th{background:rgba(124,58,237,.1);color:#6D28D9;padding:.5rem .7rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#c4b5fd}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    td .ko{color:#6D28D9;font-weight:700}
+    [data-theme="dark"] td .ko{color:#c4b5fd}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#7C3AED}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Loisirs & hobbies</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h2>Loisirs & hobbies</h2>
+  <span class="pill">A2 · Conversation</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">« C'est quoi ton hobby ? » est LA question pour faire connaissance en Corée. Apprends à parler de tes loisirs, dire ce que tu aimes, et à quelle fréquence.</p>
+
+  <h3>1 — Les activités</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Coréen</th><th>Sens</th></tr>
+      <tr><td><span class="ko">영화를 보다</span></td><td>Regarder des films</td></tr>
+      <tr><td><span class="ko">음악을 듣다</span></td><td>Écouter de la musique</td></tr>
+      <tr><td><span class="ko">책을 읽다</span></td><td>Lire des livres</td></tr>
+      <tr><td><span class="ko">운동하다</span></td><td>Faire du sport</td></tr>
+      <tr><td><span class="ko">등산하다</span></td><td>Faire de la randonnée</td></tr>
+      <tr><td><span class="ko">요리하다</span></td><td>Cuisiner</td></tr>
+      <tr><td><span class="ko">사진을 찍다</span></td><td>Prendre des photos</td></tr>
+      <tr><td><span class="ko">게임하다</span></td><td>Jouer aux jeux vidéo</td></tr>
+    </table></div>
+  </div>
+
+  <h3>2 — Dire ce qu'on aime : 좋아하다</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem"><strong>~을/를 좋아하다</strong> = aimer quelque chose. La chose aimée prend l'objet 을/를 :</p>
+    <div class="ex-block">
+      <div class="ko">저는 영화를 좋아해요 <button class="speak-btn" onclick="window.speak('저는 영화를 좋아해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">J'aime les films.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">제 취미는 등산이에요 <button class="speak-btn" onclick="window.speak('제 취미는 등산이에요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Mon hobby, c'est la randonnée. (취미 = hobby)</div>
+    </div>
+  </div>
+
+  <h3>3 — La fréquence</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem">L'adverbe se place <strong>avant le verbe</strong> :</p>
+    <div class="table-wrap"><table>
+      <tr><th>Coréen</th><th>Sens</th></tr>
+      <tr><td><span class="ko">항상</span></td><td>Toujours</td></tr>
+      <tr><td><span class="ko">자주</span></td><td>Souvent</td></tr>
+      <tr><td><span class="ko">보통</span></td><td>D'habitude</td></tr>
+      <tr><td><span class="ko">가끔</span></td><td>Parfois</td></tr>
+      <tr><td><span class="ko">별로 안 ~</span></td><td>Pas vraiment</td></tr>
+      <tr><td><span class="ko">전혀 안 ~</span></td><td>Pas du tout</td></tr>
+    </table></div>
+    <div class="ex-block">
+      <div class="ko">주말에 자주 영화를 봐요 <button class="speak-btn" onclick="window.speak('주말에 자주 영화를 봐요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Le week-end, je regarde souvent des films. (주말에 = le week-end)</div>
+    </div>
+  </div>
+
+  <h3>4 — Être doué (ou pas) : 잘하다 / 못하다</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">저는 요리를 잘해요 <button class="speak-btn" onclick="window.speak('저는 요리를 잘해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je cuisine bien. (잘하다 = être doué / bien faire)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">저는 운동을 못해요 <button class="speak-btn" onclick="window.speak('저는 운동을 못해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je suis nul·le en sport. (못하다 = ne pas savoir bien faire)</div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">취미가 뭐예요? <button class="speak-btn" onclick="window.speak('취미가 뭐예요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« C'est quoi ton hobby ? » La question qui lance toutes les conversations en Corée. Réponds : 제 취미는 [activité]예요/이에요, ou 저는 [chose]를 좋아해요.</span>
+  </div>
+
+  <div class="tip"><strong>같이 ~할래요?</strong> = « On le fait ensemble ? » → 같이 영화 볼래요? (on regarde un film ensemble ?). Parfait pour proposer une sortie autour d'un loisir commun.</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« J'aime les films » :</p>
+    <div class="opt" onclick="a(this,'ok')">저는 영화를 좋아해요</div>
+    <div class="opt" onclick="a(this,'ko')">저는 영화가 좋아해요</div>
+    <div class="opt" onclick="a(this,'ko')">저는 영화를 못해요</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">Pour demander « c'est quoi ton hobby ? » :</p>
+    <div class="opt" onclick="a(this,'ok')">취미가 뭐예요?</div>
+    <div class="opt" onclick="a(this,'ko')">취미를 좋아해요?</div>
+    <div class="opt" onclick="a(this,'ko')">취미가 어디예요?</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« Souvent » se dit :</p>
+    <div class="opt" onclick="a(this,'ko')">가끔</div>
+    <div class="opt" onclick="a(this,'ok')">자주</div>
+    <div class="opt" onclick="a(this,'ko')">전혀</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« Je cuisine bien » :</p>
+    <div class="opt" onclick="a(this,'ok')">저는 요리를 잘해요</div>
+    <div class="opt" onclick="a(this,'ko')">저는 요리를 못해요</div>
+    <div class="opt" onclick="a(this,'ko')">저는 요리를 좋아요</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Le week-end, je regarde souvent des films » — ordre correct :</p>
+    <div class="opt" onclick="a(this,'ok')">주말에 자주 영화를 봐요</div>
+    <div class="opt" onclick="a(this,'ko')">자주 주말에 봐요 영화를</div>
+    <div class="opt" onclick="a(this,'ko')">영화를 주말에 봐요 자주</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b53',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b53');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>

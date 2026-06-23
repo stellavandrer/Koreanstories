@@ -50,7 +50,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.0';
+const CACHE = 'ks-v7.1';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -133,7 +133,11 @@ const CORE = [
   'histoire35.html','histoire36.html','histoire37.html','histoire38.html',
   'histoire39.html','histoire40.html','histoire41.html','histoire42.html',
   'lecon61.html','lecon62.html','lecon63.html',
-  'jeu13.html','conseil9.html','anecdote20.html',
+  'lecon64.html','lecon65.html','lecon66.html','lecon67.html',
+  'exercice25.html','exercice26.html','exercice27.html','exercice28.html',
+  'jeu13.html','jeu14.html','jeu15.html','jeu16.html','jeu17.html',
+  'pdf/restaurant-a1.html','pdf/decrire-a1.html','pdf/transports-a2.html','pdf/loisirs-a2.html',
+  'conseil9.html','anecdote20.html',
   'voix.html',
   'blog.html','blog-premier-voyage-coree.html','blog-cuisine-coreenne-debutants.html',
   'blog-etiquette-coreenne.html','blog-combien-temps-apprendre-coreen.html',
