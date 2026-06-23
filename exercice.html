@@ -2809,8 +2809,8 @@
             input.focus();
         }
         function checkBlank() {
-            const input = document.getElementById('blank-input').value.trim().toLowerCase();
-            const correct = blankCurrent.kr.toLowerCase();
+            const input = document.getElementById('blank-input').value.trim().toLowerCase().normalize('NFC');
+            const correct = blankCurrent.kr.toLowerCase().normalize('NFC');
             if(input === correct) {
                 addXP(20); addStreak(); launchConfetti(); addCorrect();
                 gameState.wrongAttempts = 0;
