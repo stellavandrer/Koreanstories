@@ -1286,6 +1286,50 @@ const ARTICLES = [
   {level:'B2',href:'presse7.html',kr:'한류, 작은 나라의 큰 문화',fr:'Le Hallyu, la grande culture d\'un petit pays',theme:'Culture',words:350,time:16,xp:35,isNew:true,excerpt:"De la K-pop à « Squid Game » : comment la culture d'un petit pays est devenue un « soft power » mondial.",xpKey:'ks_presse_7'},
 ];
 
+// Podcasts (onglet Podcast) — épisodes audio + transcription KR/FR.
+// soon:true = épisode à venir (pas d'audio) → carte « Bientôt » non cliquable.
+const PODCASTS = [
+  {level:'A2', href:'podcast1.html', kr:'한국의 카페 문화', fr:'La culture des cafés en Corée', theme:'Société', time:4, host:'Mina', isNew:true, soon:false},
+  {level:'A2', href:'#', kr:'아침 루틴', fr:'Ma routine du matin', theme:'Quotidien', time:5, host:'Joon', soon:true},
+  {level:'B1', href:'#', kr:'한국의 사계절', fr:'Les quatre saisons en Corée', theme:'Culture', time:6, host:'Mina', soon:true}
+];
+
+// Carte « podcast »
+function podcastCardHtml(s, i){
+  const tag = s.soon ? 'div' : 'a';
+  const href = s.soon ? '' : `href="${s.href}"`;
+  const mic = '<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/>';
+  const clock = '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>';
+  const arrow = '<path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>';
+  return `<${tag} ${href} class="story-card" data-level="${s.level}" style="animation-delay:${i*0.05}s${s.soon?';opacity:.62;cursor:default':''}">
+    ${s.isNew ? '<span class="story-new">Nouveau</span>' : ''}
+    <div class="story-top"><div>
+      <span class="story-lvl-badge">${s.level}</span>
+      <span class="story-bd-pill" style="background:rgba(201,169,110,.16);color:#8B6B3D">Podcast</span>
+    </div></div>
+    <div class="story-kr-title">${s.kr}</div>
+    <div class="story-fr-title">${s.fr}</div>
+    <div class="story-meta">
+      <div class="story-meta-left">
+        <div class="story-info"><svg viewBox="0 0 24 24">${mic}</svg>${s.host}</div>
+        <div class="story-info"><svg viewBox="0 0 24 24">${clock}</svg>~${s.time} min</div>
+      </div>
+      <div class="story-btn"${s.soon?' style="background:var(--bd);color:var(--gray)"':''}>${s.soon?'Bientôt':'Écouter'}<svg viewBox="0 0 24 24">${s.soon?clock:arrow}</svg></div>
+    </div>
+  </${tag}>`;
+}
+
+// Grille des épisodes podcast (tous niveaux + intro)
+function renderPodcastGrid(){
+  const main = document.getElementById('storiesMain');
+  const intro = `<div style="display:flex;align-items:center;gap:13px;background:var(--surf);border:1px solid var(--bd);border-radius:16px;padding:14px 16px;margin-bottom:18px">
+    <div style="flex:0 0 42px;width:42px;height:42px;border-radius:12px;background:var(--goldbg,rgba(201,169,110,.12));display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:var(--gold,#C9A96E);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></div>
+    <div style="line-height:1.4"><strong style="display:block;color:var(--t);font-size:14.5px">Podcasts en coréen</strong><span style="font-size:12.5px;color:var(--t2)">Écoute, suis la transcription, affiche la traduction. Les voix arrivent bientôt.</span></div>
+  </div>`;
+  const cards = PODCASTS.map((s,i)=>podcastCardHtml(s,i)).join('');
+  main.innerHTML = intro + '<div class="story-grid">' + cards + '</div>';
+}
+
 // Carte au format « lecture » (onglets Lectures & Planches BD)
 function storyCardHtml(s, i) {
   let prog = 0;
@@ -1420,7 +1464,7 @@ function render() {
   if (currentTab === 'lect') {
     renderLectureGrid(ARTICLES);
   } else if (currentTab === 'podcast') {
-    renderPlaceholder(ICON_MIC, 'Podcasts — bientôt disponibles', 'Des podcasts en coréen à écouter, avec transcription et traduction française.');
+    renderPodcastGrid();
   } else {
     renderLectureGrid(BD_STORIES);   // bd
   }
