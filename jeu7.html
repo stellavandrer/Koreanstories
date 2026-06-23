@@ -111,27 +111,30 @@ function renderQ() {
   document.getElementById('feedback').textContent='';
   const box=document.getElementById('choices');
   box.innerHTML='';
-  q.choices.forEach((c,i)=>{
+  // Mélange les choix pour que la bonne réponse ne soit pas toujours à la même place
+  const opts=q.choices.map((c,i)=>({text:c,correct:i===q.ans}));
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+  opts.forEach(o=>{
     const b=document.createElement('button');
-    b.className='choice-btn';b.textContent=c;
-    b.onclick=()=>answer(i,b);
+    b.className='choice-btn';b.textContent=o.text;
+    b.onclick=()=>answer(o.correct,b);
     box.appendChild(b);
   });
   answered=false;
 }
 
-function answer(i,btn) {
+function answer(isCorrect,btn) {
   if(answered)return;
   answered=true;
   const q=QUESTIONS[cur];
   const btns=document.querySelectorAll('.choice-btn');
-  if(i===q.ans){
+  if(isCorrect){
     btn.classList.add('correct');
     score++;
     document.getElementById('feedback').innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Bravo ! '+q.exp;
   } else {
     btn.classList.add('wrong');
-    btns[q.ans].classList.add('correct');
+    btns.forEach(b=>{ if(b.textContent===q.choices[q.ans]) b.classList.add('correct'); });
     lives--;
     const lv=document.getElementById('lives');
     const hearts=['<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>','<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>'];
