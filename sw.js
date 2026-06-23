@@ -50,7 +50,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v6.9';
+const CACHE = 'ks-v7.0';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -92,6 +92,7 @@ const CORE = [
   'ks-premium.js',
   'premium.html',
   'premium-success.html',
+  'blog-apprendre-coreen-kdrama.html',
   'ks-install-prompt.js',
   'ks-sw-update.js',
   'ks-onboarding.js',
