@@ -15,11 +15,10 @@
   'use strict';
   if (window.KSPremium) return;
 
-  /* ── CONFIG — à compléter par Stelva une fois le produit Gumroad créé ── */
-  var GUMROAD_PRODUCT_ID = '';   /* Réglages du produit Gumroad → « product_id » */
-  var BUY_URL_MONTHLY    = '';   /* Lien Gumroad — abonnement 5 €/mois */
-  var BUY_URL_LIFETIME   = '';   /* Lien Gumroad — accès à vie 79 € */
-  var VERIFY_PROXY       = '';   /* (optionnel) URL d'un proxy si Gumroad bloque l'appel direct (CORS) */
+  /* ── CONFIG Stripe + Cloudflare Worker ── */
+  var BUY_URL_MONTHLY  = 'https://buy.stripe.com/test_5kQbJ35BtcZH36f1NSe7m00';
+  var BUY_URL_LIFETIME = 'https://buy.stripe.com/test_aFaaEZfc3cZH9uDeAEe7m01';
+  var VERIFY_URL       = 'https://ks-premium.delicate-voice-1d19.workers.dev/verify';
 
   var KEY = 'ks_premium', KEY_LIC = 'ks_premium_key';
 
@@ -62,30 +61,21 @@
     } catch(e){}
   }
 
-  /* ── Vérification d'une clé de licence Gumroad ── */
+  /* ── Vérification d’une clé de licence via Cloudflare Worker ── */
   function verifyKey(licenseKey){
     return new Promise(function(resolve){
-      licenseKey = (licenseKey || '').trim();
-      if (!licenseKey) return resolve({ ok:false, msg:'Entre ta clé de licence.' });
-      if (!GUMROAD_PRODUCT_ID && !VERIFY_PROXY) {
-        return resolve({ ok:false, msg:'La boutique n’est pas encore ouverte — reviens très bientôt !' });
-      }
-      var url = VERIFY_PROXY || 'https://api.gumroad.com/v2/licenses/verify';
-      var body = 'product_id=' + encodeURIComponent(GUMROAD_PRODUCT_ID) +
-                 '&license_key=' + encodeURIComponent(licenseKey) +
-                 '&increment_uses_count=false';
-      fetch(url, { method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded' }, body:body })
+      licenseKey = (licenseKey || ‘’).trim().toUpperCase();
+      if (!licenseKey) return resolve({ ok:false, msg:’Entre ta clé de licence.’ });
+      fetch(VERIFY_URL + ‘?key=’ + encodeURIComponent(licenseKey))
         .then(function(r){ return r.json(); })
         .then(function(d){
-          var p = d && d.purchase;
-          if (d && d.success && p && !p.refunded && !p.chargebacked &&
-              !p.subscription_cancelled_at && !p.subscription_failed_at) {
+          if (d && d.success) {
             resolve({ ok:true });
           } else {
-            resolve({ ok:false, msg:'Clé invalide ou abonnement inactif.' });
+            resolve({ ok:false, msg: d.message || ‘Clé invalide ou abonnement inactif.’ });
           }
         })
-        .catch(function(){ resolve({ ok:false, msg:'Vérification impossible (réseau). Réessaie dans un instant.' }); });
+        .catch(function(){ resolve({ ok:false, msg:’Vérification impossible (réseau). Réessaie dans un instant.’ }); });
     });
   }
   function unlock(licenseKey){
