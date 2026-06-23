@@ -1404,6 +1404,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.head.appendChild(s);
   })();
 
+  /* Charge l'état Premium (KSPremium : isPremium / openUpgrade / déblocage clé) */
+  (function(){
+    if (document.getElementById('ks-premium-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-premium-script';
+    s.src = 'ks-premium.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
+
   /* Charge le prompt PWA d'installation (Chrome/Edge/Samsung) */
   (function(){
     if (document.getElementById('ks-install-prompt-script')) return;

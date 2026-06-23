@@ -167,6 +167,21 @@
   </div>
 
   <main>
+    <!-- PREMIUM -->
+    <span class="rg-sec-lbl">Premium</span>
+    <div class="rg-card">
+      <div class="rg-row" id="rgPremRow" style="cursor:pointer" onclick="window.KSPremium&&KSPremium.openUpgrade()">
+        <div class="rg-ic" style="color:var(--gold)">
+          <svg viewBox="0 0 24 24"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5L3 7z"/></svg>
+        </div>
+        <div class="rg-row-body">
+          <div class="rg-row-t" id="rgPremTitle">Passe en Premium</div>
+          <div class="rg-row-s" id="rgPremSub">Débloque les bonus (PDF, certificat, podcasts à venir…) et soutiens le projet.</div>
+        </div>
+        <div class="rg-act"><button class="rg-btn" id="rgPremBtn">Voir</button></div>
+      </div>
+    </div>
+
     <!-- COMPTE -->
     <span class="rg-sec-lbl">Compte</span>
     <div class="rg-card">
@@ -1182,6 +1197,26 @@
   refreshStatus();
 })();
 </script>
+  <script>
+  /* Synchro de la carte Premium avec l'état KSPremium (chargé en defer par ks.js) */
+  (function(){
+    function sync(){
+      var on = window.KSPremium && KSPremium.isPremium();
+      var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn');
+      if (on) {
+        if (t) t.textContent = 'Premium actif 💛';
+        if (s) s.textContent = 'Merci de soutenir Korean Stories ! Tous les bonus sont débloqués.';
+        if (b) b.textContent = 'Gérer';
+      } else {
+        if (t) t.textContent = 'Passe en Premium';
+        if (s) s.textContent = 'Débloque les bonus (PDF, certificat, podcasts à venir…) et soutiens le projet.';
+        if (b) b.textContent = 'Voir';
+      }
+    }
+    document.addEventListener('ks-premium-change', sync);
+    var n = 0; (function wait(){ if (window.KSPremium) sync(); else if (n++ < 50) setTimeout(wait, 100); })();
+  })();
+  </script>
   <script src="ks-menu.js" defer></script>
 </body>
 </html>
