@@ -295,6 +295,21 @@ section.s{padding:84px 0}
 .about-social a:hover{border-color:var(--gold);color:var(--gold-deep);transform:translateY(-2px)}
 .about-social svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
 
+/* témoignages */
+.reviews{background:var(--surf)}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rv{background:var(--s2);border:1px solid var(--bd);border-radius:var(--rl);padding:24px 22px;position:relative}
+.rv-stars{display:flex;gap:3px;margin-bottom:14px}
+.rv-stars svg{width:14px;height:14px;fill:var(--gold);stroke:none}
+.rv-quote{font-size:15px;color:var(--t);line-height:1.65;margin-bottom:16px;font-style:italic}
+.rv-quote::before{content:"\201C";font-family:'Playfair Display',serif;font-size:32px;color:var(--gold);line-height:0;vertical-align:-12px;margin-right:3px}
+.rv-author{display:flex;align-items:center;gap:11px}
+.rv-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--navy2));display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif;font-weight:900;font-size:14px;color:var(--gold);flex-shrink:0}
+.rv-name{font-size:13.5px;font-weight:700;color:var(--t)}
+.rv-ctx{font-size:11.5px;color:var(--t3);margin-top:1px}
+@media(max-width:720px){.review-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.review-grid{grid-template-columns:1fr}}
+
 /* tarifs */
 .pricing{background:var(--bg)}
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
@@ -576,6 +591,59 @@ section.s{padding:84px 0}
       <div class="gp"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><div><b>XP &amp; niveaux</b><span>Gagne de l'expérience à chaque activité</span></div></div>
       <div class="gp"><svg viewBox="0 0 24 24"><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/><circle cx="12" cy="8" r="6"/></svg><div><b>Classement &amp; trophées</b><span>Compare-toi et débloque des récompenses</span></div></div>
       <div class="gp"><svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4 2 7-5.5-4-5.5 4 2-7L3 9h7z"/></svg><div><b>Défi quotidien</b><span>Un rendez-vous de 3 minutes par jour</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TÉMOIGNAGES ═══════════ -->
+<section class="s reviews">
+  <div class="wrap">
+    <div class="s-head fw"><span class="eyebrow">Ils apprennent avec nous</span><h2>Ce qu'ils en disent</h2></div>
+    <div class="review-grid">
+      <div class="rv fw">
+        <div class="rv-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <p class="rv-quote">En deux mois j'ai réussi à lire l'Hangeul et à comprendre des dialogues simples dans mes K-dramas. Les histoires rendent tout naturel, c'est vraiment différent de Duolingo.</p>
+        <div class="rv-author"><div class="rv-avatar">마</div><div><div class="rv-name">Margot T.</div><div class="rv-ctx">Niveau A2 · Lyon</div></div></div>
+      </div>
+      <div class="rv fw">
+        <div class="rv-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <p class="rv-quote">Je cherchais une méthode sérieuse en français depuis des mois. Les explications de grammaire sont claires, le parcours est structuré — enfin quelque chose qui tient la route pour le coréen.</p>
+        <div class="rv-author"><div class="rv-avatar">클</div><div><div class="rv-name">Clément R.</div><div class="rv-ctx">Niveau B1 · Bruxelles</div></div></div>
+      </div>
+      <div class="rv fw">
+        <div class="rv-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <p class="rv-quote">J'ai essayé plein d'apps mais j'abandonnais toujours. Là le format BD me donne vraiment envie de continuer chaque jour. Mon streak est à 47 jours et je n'aurais jamais cru tenir aussi longtemps.</p>
+        <div class="rv-author"><div class="rv-avatar">소</div><div><div class="rv-name">Sophie M.</div><div class="rv-ctx">Niveau A1 · Paris</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ À PROPOS ═══════════ -->
+<section class="s" style="background:var(--cream)">
+  <div class="wrap">
+    <div class="about-inner">
+      <div class="about-photo fw">
+        <div class="about-emblem">
+          <div class="k">스</div>
+          <div class="n">Stelva</div>
+        </div>
+      </div>
+      <div class="about-txt fw">
+        <span class="eyebrow">Derrière le projet</span>
+        <h2>Créé avec passion,<br>pour les francophones</h2>
+        <p>Korean Stories est né d'un constat simple : il n'existait pas de parcours coréen <strong>structuré, gratuit et pensé pour les francophones</strong> — du tout premier caractère jusqu'à un niveau B2 capable de regarder un K-drama sans sous-titres.</p>
+        <p>Je m'appelle Stelva. Designer &amp; passionnée de coréen, j'ai construit cette plateforme pour que la méthode que j'aurais voulu avoir existe enfin. Chaque leçon est validée pour coller au coréen contemporain réellement parlé — pas à une version manuel scolaire figée.</p>
+        <div class="about-sign">— Stelva</div>
+        <div class="about-social">
+          <a href="a-propos.html" title="En savoir plus" aria-label="À propos">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </a>
+          <a href="mailto:contact@koreanstories.fr" title="Écrire à Stelva" aria-label="Email">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
