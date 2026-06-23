@@ -82,7 +82,8 @@ async function handleWebhook(request, env) {
 // ── Nouveau paiement (abonnement ou à vie) ────────────────────────────────────
 async function handleCheckout(session, env) {
   const email = session.customer_email || session.customer_details?.email;
-  if (!email) return;
+  console.log('[KS] checkout email:', email, '| mode:', session.mode);
+  if (!email) { console.log('[KS] no email found, aborting'); return; }
 
   const isLifetime = session.mode === 'payment';
 
@@ -164,7 +165,8 @@ async function sendLicenseEmail(email, key, env) {
     </div>
   `;
 
-  await fetch('https://api.resend.com/emails', {
+  console.log('[KS] sending email to:', email, '| key:', key);
+  const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${env.RESEND_API_KEY}`,
@@ -177,6 +179,8 @@ async function sendLicenseEmail(email, key, env) {
       html
     })
   });
+  const resJson = await res.json();
+  console.log('[KS] Resend response:', JSON.stringify(resJson));
 }
 
 // ── Génération de clé lisible ──────────────────────────────────────────────────
