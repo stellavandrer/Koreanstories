@@ -2190,7 +2190,17 @@ function rPdfs(lv){
 
     lvBody.appendChild(rMs(lv,lvDone>=acts.length));
     if(lv.sc)lvBody.appendChild(rSc(lv.sc));
-    const pdfs=rPdfs(lv);if(pdfs)lvBody.appendChild(pdfs);
+    const pdfs=rPdfs(lv);
+    if(pdfs){
+      const prem=()=>{try{return localStorage.getItem('ks_premium')==='1';}catch(e){return false;}};
+      if(prem()) lvBody.appendChild(pdfs);
+      else {
+        /* Re-append quand l'utilisateur débloque le premium en cours de session */
+        document.addEventListener('ks-premium-change',function h(e){
+          if(e.detail&&e.detail.premium){lvBody.appendChild(pdfs);document.removeEventListener('ks-premium-change',h);}
+        });
+      }
+    }
     sec.appendChild(lvBody);
 
     if(levelHasActive) sec.classList.add('open');  /* niveau courant déplié par défaut */

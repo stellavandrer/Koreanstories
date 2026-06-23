@@ -676,10 +676,35 @@ function _celebrateIfFresh() {
 /* Boot */
 try { var t = localStorage.getItem('ks_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch(e){}
 window.addEventListener('DOMContentLoaded', function(){
-  render();
-  _celebrateIfFresh();
-  /* Re-render après auth (le nom peut venir de Firebase) */
-  setTimeout(render, 600);
+  /* Gate premium : attend que ks-premium.js soit chargé (injecté async via ks.js) */
+  function checkPremium(){
+    var prem=false;try{prem=localStorage.getItem('ks_premium')==='1';}catch(e){}
+    if(!prem){
+      /* Affiche un écran de gate minimal en attendant KSPremium */
+      var gate=document.createElement('div');
+      gate.id='cert-gate';
+      gate.style.cssText='position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg,#fff);text-align:center;padding:32px';
+      gate.innerHTML='<div style="font-size:2.5rem;margin-bottom:16px">💛</div>'
+        +'<h2 style="font-family:Playfair Display,serif;color:var(--navy,#0F1B2D);margin:0 0 8px">Certificat Premium</h2>'
+        +'<p style="color:var(--tx-muted,#6b7280);max-width:28ch;line-height:1.6;margin:0 0 24px">Le certificat est réservé aux membres Premium.</p>'
+        +'<button onclick="if(window.KSPremium)KSPremium.openUpgrade();else location.href=\'reglages.html\'" '
+        +'style="background:linear-gradient(135deg,#0F1B2D,#1b2c47);color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer">Voir le Premium</button>'
+        +'<a href="cours.html" style="display:block;margin-top:16px;color:var(--tx-muted,#6b7280);font-size:14px">← Retour au parcours</a>';
+      document.body.appendChild(gate);
+      document.addEventListener('ks-premium-change',function h(e){
+        if(e.detail&&e.detail.premium){
+          var g=document.getElementById('cert-gate');if(g)g.remove();
+          render();_celebrateIfFresh();
+          document.removeEventListener('ks-premium-change',h);
+        }
+      });
+      return;
+    }
+    render();
+    _celebrateIfFresh();
+    setTimeout(render, 600);
+  }
+  checkPremium();
 });
 </script>
 <script src="ks-menu.js" defer></script>
