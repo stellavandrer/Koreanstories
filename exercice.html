@@ -2264,6 +2264,17 @@
         };
 
         // ===== BUILDER GAME =====
+        // Recolle les particules (조사) au mot précédent pour un espacement coréen correct
+        // ex : ['저','는','학생이에요'] → "저는 학생이에요" (et non "저 는 학생이에요")
+        const KO_PARTICLES = {'은':1,'는':1,'이':1,'가':1,'을':1,'를':1,'에':1,'의':1,'도':1,'만':1,'과':1,'와':1,'로':1,'으로':1,'에서':1,'에게':1,'한테':1,'께':1,'부터':1,'까지':1,'보다':1,'처럼':1,'마다':1,'밖에':1,'고':1,'라고':1,'이라고':1};
+        function joinKoTokens(tokens){
+            let out = '';
+            tokens.forEach((t, i) => {
+                if(i > 0 && KO_PARTICLES[t]) out += t;
+                else out += (out ? ' ' : '') + t;
+            });
+            return out;
+        }
         let builderCurrent = null, builderRound = 0, builderOrder = [], builderDone = 0;
         function initBuilder() {
             builderRound = 0;
@@ -2356,7 +2367,7 @@
                 } else {
                     loseHeart();
                     document.getElementById('builder-kr').style.display = 'block';
-                    document.getElementById('builder-kr').textContent = '→ ' + builderCurrent.tokens.join(' ');
+                    document.getElementById('builder-kr').textContent = '→ ' + joinKoTokens(builderCurrent.tokens);
                     showToast('Dommage... on passe à la suivante');
                     gameState.wrongAttempts = 0;
                     builderDone++;
