@@ -10,7 +10,7 @@
 ─────────────────────────────────────────────────────────────────── */
 (function () {
   var GATE_ENABLED = true;
-  var PASSWORD     = 'korea2026';          // ← change le mot de passe ici
+  var PASSWORD     = 'Jae';                // ← change le mot de passe ici
   var STORE_KEY    = 'ks_site_access';     // mémorise l'accès sur l'appareil
 
   /* Force HTTPS — évite l'avertissement "connexion non sécurisée". */
