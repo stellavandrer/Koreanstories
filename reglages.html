@@ -180,6 +180,15 @@
         </div>
         <div class="rg-act"><button class="rg-btn" id="rgPremBtn">Voir</button></div>
       </div>
+      <!-- Activation clé de licence (visible seulement si non-premium) -->
+      <div id="rgLicSection" style="border-top:1px solid var(--bd);padding:16px 16px 10px;display:none">
+        <div class="rg-form-lbl">Tu as déjà une clé de licence ?</div>
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <input id="rgLicInput" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" style="width:100%;padding:10px 13px;font-size:13.5px;font-family:monospace;letter-spacing:.05em;background:var(--surf);color:var(--t);border:1.5px solid var(--bd2);border-radius:10px;outline:none;transition:border-color .18s;box-sizing:border-box;margin:0">
+          <button id="rgLicBtn" onclick="rgActivateLic()" style="flex-shrink:0;padding:10px 15px;border-radius:10px;background:var(--navy);color:#fff;border:none;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap">Activer</button>
+        </div>
+        <div id="rgLicMsg" style="font-size:12px;font-weight:600;margin-top:7px;min-height:1.1em"></div>
+      </div>
     </div>
 
     <!-- COMPTE -->
@@ -1202,20 +1211,53 @@
   (function(){
     function sync(){
       var on = window.KSPremium && KSPremium.isPremium();
-      var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn');
+      var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn'), lic = document.getElementById('rgLicSection');
       if (on) {
         if (t) t.textContent = 'Premium actif 💛';
         if (s) s.textContent = 'Merci de soutenir Korean Stories ! Tous les bonus sont débloqués.';
         if (b) b.textContent = 'Gérer';
+        if (lic) lic.style.display = 'none';
       } else {
         if (t) t.textContent = 'Passe en Premium';
         if (s) s.textContent = 'Débloque les bonus (PDF, certificat, podcasts à venir…) et soutiens le projet.';
         if (b) b.textContent = 'Voir';
+        if (lic) lic.style.display = 'block';
       }
     }
     document.addEventListener('ks-premium-change', sync);
     var n = 0; (function wait(){ if (window.KSPremium) sync(); else if (n++ < 50) setTimeout(wait, 100); })();
   })();
+
+  function rgActivateLic(){
+    var inp = document.getElementById('rgLicInput');
+    var msg = document.getElementById('rgLicMsg');
+    var btn = document.getElementById('rgLicBtn');
+    var key = inp ? inp.value.trim() : '';
+    if (!key) { msg.textContent = 'Entre ta clé de licence.'; msg.style.color = '#dc2626'; return; }
+    msg.textContent = 'Vérification…'; msg.style.color = 'var(--t3)';
+    btn.disabled = true;
+    function tryUnlock(){
+      if (window.KSPremium) {
+        KSPremium.unlock(key).then(function(res){
+          btn.disabled = false;
+          if (res.ok) {
+            msg.textContent = 'Premium activé ! Bienvenue 💛'; msg.style.color = '#16a34a';
+            if (inp) inp.value = '';
+          } else {
+            msg.textContent = res.msg || 'Clé invalide.'; msg.style.color = '#dc2626';
+          }
+        });
+      } else { setTimeout(tryUnlock, 200); }
+    }
+    tryUnlock();
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    var inp = document.getElementById('rgLicInput');
+    if (inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter') rgActivateLic(); });
+    var licInp = document.getElementById('rgLicInput');
+    if (licInp) licInp.addEventListener('focus', function(){ this.style.borderColor='var(--gold)'; });
+    if (licInp) licInp.addEventListener('blur', function(){ this.style.borderColor='var(--bd2)'; });
+  });
   </script>
   <script src="ks-menu.js" defer></script>
 </body>
