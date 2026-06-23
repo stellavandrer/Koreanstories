@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Merci ! — Korean Stories Premium</title>
+<link rel="stylesheet" href="design.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap" media="print" onload="this.media='all'">
+<style>
+  body{margin:0;background:var(--bg);color:var(--tx);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;box-sizing:border-box}
+  .sc-card{max-width:440px;width:100%;text-align:center}
+  .sc-icon{width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,#e0c48a,#C9A96E);display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+  .sc-icon svg{width:40px;height:40px;fill:#3a2c12}
+  h1{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:800;color:var(--navy);margin:0 0 10px;line-height:1.2}
+  [data-theme=dark] h1{color:#f5f5f5}
+  .sc-sub{color:var(--t3);font-size:.95rem;line-height:1.6;margin:0 0 32px}
+  .sc-steps{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:20px 22px;text-align:left;margin-bottom:28px}
+  .sc-steps-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:14px}
+  .sc-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+  .sc-step:last-child{margin-bottom:0}
+  .sc-num{flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:rgba(201,169,110,.15);color:#C9A96E;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .sc-step-text{font-size:.88rem;color:var(--tx);line-height:1.5}
+  .sc-step-text strong{color:var(--navy)}
+  [data-theme=dark] .sc-step-text strong{color:#f5f5f5}
+
+  /* Champ clé -->  */
+  .sc-lic{margin-bottom:28px}
+  .sc-lic-label{font-size:.8rem;font-weight:700;color:var(--t3);margin-bottom:8px;text-align:left}
+  .sc-lic-row{display:flex;gap:8px}
+  .sc-lic-input{flex:1;border:1.5px solid var(--bd);border-radius:10px;padding:12px 14px;font-size:.9rem;background:var(--bg);color:var(--tx);outline:none;font-family:monospace;letter-spacing:.06em}
+  .sc-lic-input:focus{border-color:#C9A96E}
+  .sc-lic-btn{padding:12px 16px;border-radius:10px;background:#0F1B2D;color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.88rem;white-space:nowrap}
+  [data-theme=dark] .sc-lic-btn{background:#C9A96E;color:#3a2c12}
+  .sc-lic-msg{font-size:.82rem;margin-top:8px;min-height:1.2em}
+  .sc-lic-msg.ok{color:#16a34a;font-weight:600}
+  .sc-lic-msg.err{color:#dc2626}
+
+  .sc-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,#0F1B2D,#1b3a5c);color:#fff;font-size:1rem;font-weight:700;text-decoration:none;box-sizing:border-box;transition:.15s}
+  .sc-btn:hover{filter:brightness(1.1)}
+  .sc-note{color:var(--t3);font-size:.78rem;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="sc-card">
+  <div class="sc-icon">
+    <svg viewBox="0 0 24 24"><path d="M2 20h20M5 20l-2-9 5 4 4-8 4 8 5-4-2 9z"/></svg>
+  </div>
+  <h1>Merci pour ton soutien ! 💛</h1>
+  <p class="sc-sub">Ta commande est confirmée. Tu vas recevoir un email avec ta clé de licence dans quelques instants.</p>
+
+  <div class="sc-steps">
+    <div class="sc-steps-title">Comment activer ton Premium</div>
+    <div class="sc-step">
+      <div class="sc-num">1</div>
+      <div class="sc-step-text">Vérifie ta boîte mail (et les spams) — tu recevras <strong>un email avec ta clé</strong></div>
+    </div>
+    <div class="sc-step">
+      <div class="sc-num">2</div>
+      <div class="sc-step-text">Copie ta clé et colle-la dans le champ ci-dessous</div>
+    </div>
+    <div class="sc-step">
+      <div class="sc-num">3</div>
+      <div class="sc-step-text">Clique <strong>Débloquer</strong> — ton Premium est activé instantanément</div>
+    </div>
+  </div>
+
+  <div class="sc-lic">
+    <div class="sc-lic-label">Entre ta clé de licence</div>
+    <div class="sc-lic-row">
+      <input class="sc-lic-input" id="licInput" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
+      <button class="sc-lic-btn" id="licBtn">Débloquer</button>
+    </div>
+    <div class="sc-lic-msg" id="licMsg"></div>
+  </div>
+
+  <a href="app.html" class="sc-btn">Aller dans l'app →</a>
+  <p class="sc-note">Tu peux aussi activer ta clé plus tard dans <strong>Réglages → Premium</strong></p>
+</div>
+
+<script src="ks.js"></script>
+<script>
+document.getElementById('licBtn').addEventListener('click', function(){
+  var key = document.getElementById('licInput').value.trim();
+  var msg = document.getElementById('licMsg');
+  if (!key) { msg.textContent = 'Entre ta clé de licence.'; msg.className = 'sc-lic-msg err'; return; }
+  msg.textContent = 'Vérification…'; msg.className = 'sc-lic-msg';
+  function tryUnlock(){
+    if (window.KSPremium) {
+      KSPremium.unlock(key).then(function(res){
+        if (res.ok) {
+          msg.textContent = 'Premium activé ! Bienvenue dans la team 💛'; msg.className = 'sc-lic-msg ok';
+          setTimeout(function(){ location.href = 'app.html'; }, 1800);
+        } else {
+          msg.textContent = res.msg || 'Clé invalide.'; msg.className = 'sc-lic-msg err';
+        }
+      });
+    } else { setTimeout(tryUnlock, 200); }
+  }
+  tryUnlock();
+});
+document.getElementById('licInput').addEventListener('keydown', function(e){
+  if(e.key==='Enter') document.getElementById('licBtn').click();
+});
+</script>
+</body>
+</html>
