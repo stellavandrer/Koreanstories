@@ -486,7 +486,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   </style>
   <script>
   (function(){
-    var anyRead = Object.keys(localStorage).some(function(k){ return k.indexOf('ks_read_')===0 && localStorage.getItem(k); });
+    var anyRead = Object.keys(localStorage).some(function(k){
+      return (/^ks_bd_h\d+_prog$/.test(k) && (parseInt(localStorage.getItem(k)||'0',10)||0) >= 100)  /* planche BD lue */
+          || (k.indexOf('ks_read_')===0 && localStorage.getItem(k));                                  /* ancien chat */
+    });
     if (anyRead) return;                       /* a déjà lu : héros normal avec stats */
     var hero = document.querySelector('.hero-inner');
     var heroSec = document.querySelector('.hero');
@@ -494,7 +497,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     heroSec.classList.add('ks-new');
     var cta = document.createElement('div');
     cta.className = 'hero-cta';
-    cta.innerHTML = '<a class="hero-cta-btn" href="histoire1.html">Commencer la première histoire <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>';
+    cta.innerHTML = '<a class="hero-cta-btn" href="histoire1-bd.html">Commencer la première histoire <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>';
     hero.appendChild(cta);
   })();
   </script>
@@ -1046,16 +1049,20 @@ function getState(s) {
 // STATS
 // ─────────────────────────────────────
 function updateStats() {
-  const done = STORIES.filter(s => ls(s.key)==='done');
-  const lues = done.length;
-  const xp = lues * 30;
-  const mots = done.reduce((acc,s)=>acc+s.wordsCount,0);
+  /* Le hub affiche les planches BD → on suit la VRAIE progression de lecture
+     BD (clé ks_bd_h<N>_prog>=100, écrite par ks-bd.js, = ce que lisent aussi
+     les cartes via storyCardHtml). Avant : basé sur l'ancien chat masqué (s.key)
+     → restait bloqué à 0. */
+  const read = BD_STORIES.filter(s => (parseInt(ls(s.xpKey + '_prog') || '0', 10) || 0) >= 100);
+  const lues = read.length;
+  const xp = read.reduce((acc,s)=>acc+(s.xp||0),0);
+  const mots = read.reduce((acc,s)=>acc+(s.words||0),0);
   document.getElementById('heroLues').textContent = lues;
   document.getElementById('heroXP').textContent = xp;
   document.getElementById('heroMots').textContent = mots;
-  const pct = Math.round(lues/STORIES.length*100);
+  const pct = Math.round(lues/BD_STORIES.length*100);
   document.getElementById('heroProgFill').style.width = pct+'%';
-  document.getElementById('heroProgLbl').textContent = lues + ' / ' + STORIES.length + ' histoires';
+  document.getElementById('heroProgLbl').textContent = lues + ' / ' + BD_STORIES.length + ' histoires';
   const _xpEl = document.getElementById('xpEl') || document.getElementById('xpVal');
   if(_xpEl) _xpEl.textContent = parseInt(ls('ks_xp')||'0');
 }
