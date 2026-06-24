@@ -71,8 +71,10 @@ async function handleWebhook(request, env) {
       await handleRenewal(event.data.object, env);
       break;
     case 'customer.subscription.deleted':
+      await handleCancellation(event.data.object, env, true);  // vraie résiliation → email
+      break;
     case 'invoice.payment_failed':
-      await handleCancellation(event.data.object, env);
+      await handleCancellation(event.data.object, env, false); // échec paiement → pas d'email
       break;
   }
 
@@ -95,6 +97,7 @@ async function handleCheckout(session, env) {
       data.status = 'active';
       if (isLifetime) data.type = 'lifetime';
       await env.KS_LICENSES.put(existingKey, JSON.stringify(data));
+      if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, existingKey);
       await sendLicenseEmail(email, existingKey, env);
       return;
     }
@@ -110,6 +113,9 @@ async function handleCheckout(session, env) {
     stripeCustomerId: session.customer || null
   }));
   await env.KS_LICENSES.put(`email:${email}`, key);
+  // Index inverse client → clé (permet de retrouver la licence à la résiliation,
+  // car l'événement subscription.deleted ne contient pas l'e-mail).
+  if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, key);
   await sendLicenseEmail(email, key, env);
 }
 
@@ -129,17 +135,21 @@ async function handleRenewal(invoice, env) {
 }
 
 // ── Annulation / échec ────────────────────────────────────────────────────────
-async function handleCancellation(obj, env) {
-  const email = obj.customer_email;
-  if (!email) return;
-
-  const key = await env.KS_LICENSES.get(`email:${email}`);
-  if (!key) return;
+async function handleCancellation(obj, env, notify) {
+  // obj = subscription (subscription.deleted) ou invoice (payment_failed).
+  // On retrouve la clé via l'index client (l'e-mail n'est pas dans subscription.deleted),
+  // avec repli sur l'e-mail si présent (ex. invoice.payment_failed).
+  let key = null;
+  if (obj.customer) key = await env.KS_LICENSES.get('cust:' + obj.customer);
+  if (!key && obj.customer_email) key = await env.KS_LICENSES.get(`email:${obj.customer_email}`);
+  if (!key) { console.log('[KS] résiliation : licence introuvable pour', obj.customer || obj.customer_email); return; }
 
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
   if (data && data.type === 'monthly') {
     data.status = 'cancelled';
     await env.KS_LICENSES.put(key, JSON.stringify(data));
+    console.log('[KS] licence résiliée :', key);
+    if (notify && data.email) await sendCancellationEmail(data.email, env);
   }
 }
 
@@ -185,6 +195,35 @@ async function sendLicenseEmail(email, key, env) {
   });
   const resJson = await res.json();
   console.log('[KS] Resend response:', JSON.stringify(resJson));
+}
+
+// ── Email de confirmation de résiliation via Resend ──────────────────────────────
+async function sendCancellationEmail(email, env) {
+  const html = `
+    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
+      <h2 style="color:#1a2744">Résiliation confirmée</h2>
+      <p>Ton abonnement Premium mensuel à Korean Stories a bien été résilié.</p>
+      <p>Tu conserves l'accès Premium jusqu'à la <strong>fin de la période déjà payée</strong> ; aucun nouveau prélèvement ne sera effectué ensuite.</p>
+      <p>Tout le parcours d'apprentissage reste évidemment <strong>gratuit</strong> — tu peux continuer à apprendre sans rien changer.</p>
+      <p style="font-size:13px;color:#555">Tu changes d'avis ? Tu peux te réabonner à tout moment depuis la page Premium. Merci d'avoir soutenu le projet 💛</p>
+      <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
+    </div>
+  `;
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      from: env.RESEND_FROM || 'Korean Stories <contact@koreanstories.fr>',
+      to: email,
+      subject: 'Confirmation de résiliation — Korean Stories',
+      html
+    })
+  });
+  const resJson = await res.json();
+  console.log('[KS] cancellation email:', email, '|', JSON.stringify(resJson));
 }
 
 // ── Génération de clé lisible ──────────────────────────────────────────────────

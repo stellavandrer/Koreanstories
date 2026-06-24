@@ -116,20 +116,29 @@
   </div>
 </div>
 
+<!-- ACCEPTATION CGV -->
+<div class="pm-cgv" style="max-width:560px;margin:0 auto;padding:22px 20px 0">
+  <label style="display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:var(--tx);line-height:1.5;cursor:pointer">
+    <input type="checkbox" id="cgvCheck" style="margin-top:3px;width:18px;height:18px;flex-shrink:0;accent-color:#C9A96E">
+    <span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener" style="color:#C9A96E;font-weight:600">Conditions Générales de Vente</a> et la <a href="confidentialite.html" target="_blank" rel="noopener" style="color:#C9A96E;font-weight:600">Politique de confidentialité</a>.</span>
+  </label>
+  <div id="cgvErr" style="font-size:.8rem;color:#dc2626;margin-top:6px;min-height:1em"></div>
+</div>
+
 <!-- PLANS -->
 <div class="pm-plans">
   <div class="plan">
     <div class="plan-name">Mensuel</div>
     <div class="plan-price">5€<small> /mois</small></div>
     <div class="plan-desc">Sans engagement, résiliable à tout moment.</div>
-    <a href="https://buy.stripe.com/aFaaEZfc3cZH9uDeAEe7m01" class="plan-btn plan-btn-outline" target="_blank" rel="noopener">Choisir ce plan</a>
+    <a href="https://buy.stripe.com/aFaaEZfc3cZH9uDeAEe7m01" data-buy="1" class="plan-btn plan-btn-outline" target="_blank" rel="noopener">Choisir ce plan</a>
   </div>
   <div class="plan best">
     <div class="plan-tag">Meilleure offre</div>
     <div class="plan-name">À vie</div>
     <div class="plan-price">79€<small> une fois</small></div>
     <div class="plan-desc">Paiement unique, accès pour toujours.</div>
-    <a href="https://buy.stripe.com/5kQbJ35BtcZH36f1NSe7m00" class="plan-btn plan-btn-gold" target="_blank" rel="noopener">Accès à vie</a>
+    <a href="https://buy.stripe.com/5kQbJ35BtcZH36f1NSe7m00" data-buy="1" class="plan-btn plan-btn-gold" target="_blank" rel="noopener">Accès à vie</a>
   </div>
 </div>
 
@@ -185,6 +194,22 @@ document.getElementById('licBtn').addEventListener('click', function(){
 });
 document.getElementById('licInput').addEventListener('keydown', function(e){
   if(e.key==='Enter') document.getElementById('licBtn').click();
+});
+
+/* Bloque les boutons d'achat tant que les CGV ne sont pas acceptées */
+document.querySelectorAll('a[data-buy]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    if(!document.getElementById('cgvCheck').checked){
+      e.preventDefault();
+      var err=document.getElementById('cgvErr');
+      err.textContent='Merci d\'accepter les CGV avant de continuer.';
+      var box=document.querySelector('.pm-cgv');
+      if(box){ box.style.outline='2px solid #dc2626'; box.style.borderRadius='10px'; box.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(function(){ box.style.outline=''; },1800); }
+    }
+  });
+});
+document.getElementById('cgvCheck').addEventListener('change', function(){
+  if(this.checked) document.getElementById('cgvErr').textContent='';
 });
 </script>
 <script src="ks-menu.js" defer></script>
