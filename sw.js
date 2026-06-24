@@ -50,7 +50,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.7';
+const CACHE = 'ks-v7.8';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -80,6 +80,8 @@ const CORE = [
   'a-propos.html',
   'aide.html',
   'mentions-legales.html',
+  'cgv.html',
+  'confidentialite.html',
 
   // Modules JS partagés
   'ks.js',
