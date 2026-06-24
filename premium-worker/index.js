@@ -156,21 +156,30 @@ async function handleCancellation(obj, env, notify) {
 
 // ── Résiliation programmée (à la fin de période) → confirmation immédiate ────────
 async function handleSubscriptionUpdated(event, env) {
-  const sub  = event.data.object;
-  const prev = event.data.previous_attributes || {};
-  // On n'agit qu'au moment où l'annulation vient d'être programmée (false → true).
-  if (!(sub.cancel_at_period_end === true && prev.cancel_at_period_end === false)) return;
+  const sub = event.data.object;
+  console.log('[KS] sub.updated | cancel_at_period_end:', sub.cancel_at_period_end, '| cust:', sub.customer);
 
   const key = await findLicenseKey(sub, env);
-  if (!key) { console.log('[KS] résiliation programmée : licence introuvable', sub.customer); return; }
-
+  if (!key) { console.log('[KS] sub.updated : licence introuvable pour', sub.customer); return; }
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
-  if (!data) return;
-  // L'accès reste ACTIF jusqu'à la fin de la période — on ne désactive pas ici.
-  if (!data.cancelEmailSent && data.email) {
-    await sendCancellationEmail(data.email, env, sub.current_period_end || sub.cancel_at);
-    data.cancelEmailSent = true;
+  if (!data) { console.log('[KS] sub.updated : données licence absentes', key); return; }
+
+  if (sub.cancel_at_period_end === true) {
+    // Résiliation programmée. L'accès reste ACTIF jusqu'à la fin de période.
+    // Garde anti-doublon : on n'envoie l'e-mail qu'une fois.
+    if (!data.cancelEmailSent && data.email) {
+      await sendCancellationEmail(data.email, env, sub.current_period_end || sub.cancel_at);
+      data.cancelEmailSent = true;
+      await env.KS_LICENSES.put(key, JSON.stringify(data));
+      console.log('[KS] résiliation programmée → e-mail envoyé à', data.email);
+    } else {
+      console.log('[KS] résiliation déjà notifiée, e-mail non renvoyé');
+    }
+  } else if (data.cancelEmailSent) {
+    // Réabonnement / réactivation : on réarme pour une future résiliation.
+    data.cancelEmailSent = false;
     await env.KS_LICENSES.put(key, JSON.stringify(data));
+    console.log('[KS] abonnement réactivé → garde e-mail réarmée');
   }
 }
 
