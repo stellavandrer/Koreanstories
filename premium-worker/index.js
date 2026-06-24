@@ -9,8 +9,8 @@
 //   RESEND_API_KEY          re_...
 // KV binding : KS_LICENSES
 
-const PRICE_MONTHLY  = 'price_1TlSZWPab8Hr1KXaBRSn6YZo';
-const PRICE_LIFETIME = 'price_1TlSZvPab8Hr1KXaXLoambKW';
+const PRICE_MONTHLY  = 'price_1TlkvnPab8Hr1KXaK2D5ZSvn';
+const PRICE_LIFETIME = 'price_1TlkwTPab8Hr1KXaM5WwjXWX';
 
 export default {
   async fetch(request, env) {

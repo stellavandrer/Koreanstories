@@ -16,8 +16,8 @@
   if (window.KSPremium) return;
 
   /* ── CONFIG Stripe + Cloudflare Worker ── */
-  var BUY_URL_MONTHLY  = 'https://buy.stripe.com/test_5kQbJ35BtcZH36f1NSe7m00';
-  var BUY_URL_LIFETIME = 'https://buy.stripe.com/test_aFaaEZfc3cZH9uDeAEe7m01';
+  var BUY_URL_MONTHLY  = 'https://buy.stripe.com/aFaaEZfc3cZH9uDeAEe7m01';
+  var BUY_URL_LIFETIME = 'https://buy.stripe.com/5kQbJ35BtcZH36f1NSe7m00';
   var VERIFY_URL       = 'https://ks-premium.delicate-voice-1d19.workers.dev/verify';
 
   var KEY = 'ks_premium', KEY_LIC = 'ks_premium_key';
