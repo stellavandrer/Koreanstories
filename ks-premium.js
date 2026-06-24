@@ -19,6 +19,8 @@
   var BUY_URL_MONTHLY  = 'https://buy.stripe.com/aFaaEZfc3cZH9uDeAEe7m01';
   var BUY_URL_LIFETIME = 'https://buy.stripe.com/5kQbJ35BtcZH36f1NSe7m00';
   var VERIFY_URL       = 'https://ks-premium.delicate-voice-1d19.workers.dev/verify';
+  /* Portail client Stripe (gérer / résilier un abonnement mensuel). Vide = masqué. */
+  var PORTAL_URL       = 'https://billing.stripe.com/p/login/5kQbJ35BtcZH36f1NSe7m00';
 
   var KEY = 'ks_premium', KEY_LIC = 'ks_premium_key';
 
@@ -166,7 +168,9 @@
           '<div class="ksp-active"><div class="ksp-crown">' + CROWN + '</div>' +
           '<h3>Tu es Premium 💛</h3>' +
           '<p>Merci de soutenir Korean Stories ! Tous les bonus sont débloqués sur ce compte.</p></div></div>' +
-        '<div class="ksp-body"><button class="ksp-buy ksp-buy-alt" id="kspClose2">Fermer</button></div>';
+        '<div class="ksp-body">' +
+          (PORTAL_URL ? '<a class="ksp-buy ksp-buy-main" href="' + PORTAL_URL + '" target="_blank" rel="noopener">Gérer / résilier mon abonnement</a>' : '') +
+          '<button class="ksp-buy ksp-buy-alt" id="kspClose2">Fermer</button></div>';
     } else {
       var perksHtml = PERKS.map(function(p){
         return '<li>' + TICK + '<span>' + p[0] + (p[1] ? ' <small>' + p[1] + '</small>' : '') + '</span></li>';
@@ -221,7 +225,8 @@
     unlock: unlock,
     verifyKey: verifyKey,
     openUpgrade: openUpgrade,
-    closeUpgrade: closeUpgrade
+    closeUpgrade: closeUpgrade,
+    portalUrl: PORTAL_URL
   };
 
   /* init */

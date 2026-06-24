@@ -161,6 +161,8 @@ async function sendLicenseEmail(email, key, env) {
         <li>Colle ta clé → clique sur <strong>Débloquer</strong></li>
       </ol>
       <p>Conserve cet email précieusement — ta clé est unique.</p>
+      <p style="font-size:13px;color:#555">Abonnement mensuel : tu peux le gérer ou le résilier à tout moment depuis le
+        <a href="https://billing.stripe.com/p/login/5kQbJ35BtcZH36f1NSe7m00" style="color:#B8924E">portail client sécurisé</a>.</p>
       <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
     </div>
   `;

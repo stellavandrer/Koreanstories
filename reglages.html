@@ -189,6 +189,11 @@
         </div>
         <div id="rgLicMsg" style="font-size:12px;font-weight:600;margin-top:7px;min-height:1.1em"></div>
       </div>
+      <!-- Gérer / résilier l'abonnement (visible seulement si premium actif) -->
+      <a id="rgManageSub" href="https://billing.stripe.com/p/login/5kQbJ35BtcZH36f1NSe7m00" target="_blank" rel="noopener" style="display:none;border-top:1px solid var(--bd);padding:14px 16px;align-items:center;gap:8px;text-decoration:none;color:var(--gold);font-weight:600;font-size:13.5px">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+        Gérer / résilier mon abonnement
+      </a>
     </div>
 
     <!-- COMPTE -->
@@ -1211,17 +1216,19 @@
   (function(){
     function sync(){
       var on = window.KSPremium && KSPremium.isPremium();
-      var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn'), lic = document.getElementById('rgLicSection');
+      var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn'), lic = document.getElementById('rgLicSection'), mng = document.getElementById('rgManageSub');
       if (on) {
         if (t) t.textContent = 'Premium actif 💛';
         if (s) s.textContent = 'Merci de soutenir Korean Stories ! Tous les bonus sont débloqués.';
         if (b) b.textContent = 'Gérer';
         if (lic) lic.style.display = 'none';
+        if (mng) mng.style.display = 'flex';
       } else {
         if (t) t.textContent = 'Passe en Premium';
         if (s) s.textContent = 'Débloque les bonus (PDF, certificat, podcasts à venir…) et soutiens le projet.';
         if (b) b.textContent = 'Voir';
         if (lic) lic.style.display = 'block';
+        if (mng) mng.style.display = 'none';
       }
     }
     document.addEventListener('ks-premium-change', sync);
