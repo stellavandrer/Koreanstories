@@ -9,7 +9,7 @@
    sensibles.
 ─────────────────────────────────────────────────────────────────── */
 (function () {
-  var GATE_ENABLED = true;
+  var GATE_ENABLED = false;
   var PASSWORD     = 'Jae';                // ← change le mot de passe ici
   var STORE_KEY    = 'ks_site_access';     // mémorise l'accès sur l'appareil
 
