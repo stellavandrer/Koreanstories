@@ -142,9 +142,7 @@ async function handleCancellation(obj, env, notify) {
   // obj = subscription (subscription.deleted) ou invoice (payment_failed).
   // On retrouve la clé via l'index client (l'e-mail n'est pas dans subscription.deleted),
   // avec repli sur l'e-mail si présent (ex. invoice.payment_failed).
-  let key = null;
-  if (obj.customer) key = await env.KS_LICENSES.get('cust:' + obj.customer);
-  if (!key && obj.customer_email) key = await env.KS_LICENSES.get(`email:${obj.customer_email}`);
+  const key = await findLicenseKey(obj, env);
   if (!key) { console.log('[KS] résiliation : licence introuvable pour', obj.customer || obj.customer_email); return; }
 
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
@@ -163,7 +161,7 @@ async function handleSubscriptionUpdated(event, env) {
   // On n'agit qu'au moment où l'annulation vient d'être programmée (false → true).
   if (!(sub.cancel_at_period_end === true && prev.cancel_at_period_end === false)) return;
 
-  const key = sub.customer ? await env.KS_LICENSES.get('cust:' + sub.customer) : null;
+  const key = await findLicenseKey(sub, env);
   if (!key) { console.log('[KS] résiliation programmée : licence introuvable', sub.customer); return; }
 
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
@@ -259,6 +257,35 @@ async function sendCancellationEmail(email, env, endTs) {
   });
   const resJson = await res.json();
   console.log('[KS] cancellation email:', email, '|', JSON.stringify(resJson));
+}
+
+// ── Retrouver la clé de licence à partir d'un objet Stripe ───────────────────────
+// Essaie : index client → e-mail présent dans l'objet → e-mail récupéré via l'API
+// Stripe (pour les abonnements créés avant l'index). Recrée l'index au passage.
+async function findLicenseKey(obj, env) {
+  const customerId = obj.customer || null;
+  if (customerId) {
+    const k = await env.KS_LICENSES.get('cust:' + customerId);
+    if (k) return k;
+  }
+  let email = obj.customer_email || null;
+  if (!email && customerId) email = await emailForCustomer(customerId, env);
+  if (!email) return null;
+  const key = await env.KS_LICENSES.get('email:' + email);
+  if (key && customerId) await env.KS_LICENSES.put('cust:' + customerId, key); // backfill
+  return key;
+}
+
+// ── E-mail d'un client via l'API Stripe ──────────────────────────────────────────
+async function emailForCustomer(customerId, env) {
+  try {
+    const r = await fetch('https://api.stripe.com/v1/customers/' + customerId, {
+      headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY }
+    });
+    if (!r.ok) { console.log('[KS] Stripe customer fetch', r.status); return null; }
+    const c = await r.json();
+    return c.email || null;
+  } catch (e) { console.log('[KS] emailForCustomer err', String(e)); return null; }
 }
 
 // ── Génération de clé lisible ──────────────────────────────────────────────────
