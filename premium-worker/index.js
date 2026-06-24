@@ -70,8 +70,11 @@ async function handleWebhook(request, env) {
     case 'invoice.payment_succeeded':
       await handleRenewal(event.data.object, env);
       break;
+    case 'customer.subscription.updated':
+      await handleSubscriptionUpdated(event, env);            // résiliation programmée → email immédiat
+      break;
     case 'customer.subscription.deleted':
-      await handleCancellation(event.data.object, env, true);  // vraie résiliation → email
+      await handleCancellation(event.data.object, env, true);  // fin de période → désactivation (+ email si pas déjà envoyé)
       break;
     case 'invoice.payment_failed':
       await handleCancellation(event.data.object, env, false); // échec paiement → pas d'email
@@ -147,9 +150,29 @@ async function handleCancellation(obj, env, notify) {
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
   if (data && data.type === 'monthly') {
     data.status = 'cancelled';
-    await env.KS_LICENSES.put(key, JSON.stringify(data));
     console.log('[KS] licence résiliée :', key);
-    if (notify && data.email) await sendCancellationEmail(data.email, env);
+    if (notify && data.email && !data.cancelEmailSent) await sendCancellationEmail(data.email, env);
+    await env.KS_LICENSES.put(key, JSON.stringify(data));
+  }
+}
+
+// ── Résiliation programmée (à la fin de période) → confirmation immédiate ────────
+async function handleSubscriptionUpdated(event, env) {
+  const sub  = event.data.object;
+  const prev = event.data.previous_attributes || {};
+  // On n'agit qu'au moment où l'annulation vient d'être programmée (false → true).
+  if (!(sub.cancel_at_period_end === true && prev.cancel_at_period_end === false)) return;
+
+  const key = sub.customer ? await env.KS_LICENSES.get('cust:' + sub.customer) : null;
+  if (!key) { console.log('[KS] résiliation programmée : licence introuvable', sub.customer); return; }
+
+  const data = await env.KS_LICENSES.get(key, { type: 'json' });
+  if (!data) return;
+  // L'accès reste ACTIF jusqu'à la fin de la période — on ne désactive pas ici.
+  if (!data.cancelEmailSent && data.email) {
+    await sendCancellationEmail(data.email, env, sub.current_period_end || sub.cancel_at);
+    data.cancelEmailSent = true;
+    await env.KS_LICENSES.put(key, JSON.stringify(data));
   }
 }
 
@@ -197,13 +220,25 @@ async function sendLicenseEmail(email, key, env) {
   console.log('[KS] Resend response:', JSON.stringify(resJson));
 }
 
+// ── Date au format français (sans dépendre de l'ICU du runtime) ──────────────────
+function frDate(ts) {
+  if (!ts) return '';
+  const d = new Date(ts * 1000);
+  const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  return d.getUTCDate() + ' ' + mois[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+}
+
 // ── Email de confirmation de résiliation via Resend ──────────────────────────────
-async function sendCancellationEmail(email, env) {
+async function sendCancellationEmail(email, env, endTs) {
+  const endStr = frDate(endTs);
+  const endLine = endStr
+    ? `Ton accès Premium reste actif jusqu'au <strong>${endStr}</strong>, puis s'arrête sans nouveau prélèvement.`
+    : `Tu conserves l'accès Premium jusqu'à la <strong>fin de la période déjà payée</strong> ; aucun nouveau prélèvement ne sera effectué ensuite.`;
   const html = `
     <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
       <h2 style="color:#1a2744">Résiliation confirmée</h2>
       <p>Ton abonnement Premium mensuel à Korean Stories a bien été résilié.</p>
-      <p>Tu conserves l'accès Premium jusqu'à la <strong>fin de la période déjà payée</strong> ; aucun nouveau prélèvement ne sera effectué ensuite.</p>
+      <p>${endLine}</p>
       <p>Tout le parcours d'apprentissage reste évidemment <strong>gratuit</strong> — tu peux continuer à apprendre sans rien changer.</p>
       <p style="font-size:13px;color:#555">Tu changes d'avis ? Tu peux te réabonner à tout moment depuis la page Premium. Merci d'avoir soutenu le projet 💛</p>
       <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
