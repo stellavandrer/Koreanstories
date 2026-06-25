@@ -97,23 +97,31 @@
       '.ksp-card{background:var(--surf,#fff);width:100%;max-width:440px;border-radius:22px 22px 0 0;box-shadow:0 -8px 40px rgba(8,14,24,.3);transform:translateY(24px);transition:transform .26s cubic-bezier(.3,1,.4,1);max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch}',
       '.ksp-overlay.show .ksp-card{transform:none}',
       '@media(min-width:560px){.ksp-card{border-radius:22px}}',
-      '.ksp-head{position:relative;background:linear-gradient(160deg,#0F1B2D,#1b2c47);color:#fff;padding:26px 22px 22px;border-radius:22px 22px 0 0;text-align:center}',
+      '.ksp-head{position:relative;overflow:hidden;background:linear-gradient(160deg,#0F1B2D,#1b2c47);color:#fff;padding:26px 22px 22px;border-radius:22px 22px 0 0;text-align:center}',
       '@media(min-width:560px){.ksp-head{border-radius:22px 22px 0 0}}',
-      '.ksp-crown{width:50px;height:50px;margin:0 auto 12px;border-radius:14px;background:linear-gradient(135deg,#e0c48a,#C9A96E);display:flex;align-items:center;justify-content:center}',
-      '.ksp-crown svg{width:26px;height:26px;fill:#3a2c12}',
-      '.ksp-h{font-family:"Playfair Display",Georgia,serif;font-size:23px;font-weight:800;margin:0 0 5px}',
+      '.ksp-head::before{content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(201,169,110,.30),transparent 62%);pointer-events:none}',
+      '.ksp-head>*{position:relative}',
+      '.ksp-pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.03em;color:#e8d3a6;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.3);border-radius:100px;padding:4px 11px;margin-bottom:12px}',
+      '.ksp-pill .d{width:5px;height:5px;border-radius:50%;background:#C9A96E}',
+      '.ksp-crown{width:54px;height:54px;margin:0 auto 12px;border-radius:15px;background:linear-gradient(135deg,#f0dcab,#C9A96E);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(201,169,110,.4)}',
+      '.ksp-crown svg{width:27px;height:27px;fill:#3a2c12}',
+      '.ksp-h{font-family:"Playfair Display",Georgia,serif;font-size:23px;font-weight:800;margin:0 0 5px;color:#fff}',
       '.ksp-sub{font-size:13px;color:#c7d2e3;line-height:1.5;margin:0}',
-      '.ksp-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-size:19px;line-height:1;display:flex;align-items:center;justify-content:center}',
+      '.ksp-close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;font-size:19px;line-height:1;display:flex;align-items:center;justify-content:center;z-index:2}',
       '.ksp-body{padding:20px 22px 24px}',
-      '.ksp-perks{list-style:none;margin:0 0 20px;padding:0;display:flex;flex-direction:column;gap:11px}',
-      '.ksp-perks li{display:flex;align-items:flex-start;gap:11px;font-size:14px;color:var(--t,#0D1823);line-height:1.4}',
-      '.ksp-perks li small{display:block;color:var(--t3,#8FA5BE);font-size:11.5px;font-weight:600}',
-      '.ksp-tick{flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:var(--goldbg,rgba(201,169,110,.14));display:flex;align-items:center;justify-content:center;margin-top:1px}',
+      '.ksp-status{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:#15803d;background:rgba(22,163,74,.12);border-radius:100px;padding:5px 14px;margin-bottom:4px}',
+      '.ksp-status .d{width:7px;height:7px;border-radius:50%;background:#16a34a}',
+      '.ksp-perks{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:8px}',
+      '.ksp-perks li{display:flex;align-items:flex-start;gap:11px;font-size:13.5px;color:var(--t,#0D1823);line-height:1.4;background:var(--surf,#fff);border:1px solid var(--bd,#DAE3F2);border-radius:12px;padding:11px 13px}',
+      '.ksp-perks li small{display:inline-block;color:var(--gold,#C9A96E);font-size:10.5px;font-weight:800;background:var(--goldbg,rgba(201,169,110,.14));border-radius:100px;padding:1px 7px;margin-left:4px}',
+      '.ksp-tick{flex:0 0 22px;width:22px;height:22px;border-radius:7px;background:var(--goldbg,rgba(201,169,110,.14));display:flex;align-items:center;justify-content:center;margin-top:1px}',
       '.ksp-tick svg{width:12px;height:12px;stroke:var(--gold,#C9A96E);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}',
       '.ksp-buys{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}',
-      '.ksp-buy{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:13px;padding:14px;font-weight:800;font-size:14.5px;text-decoration:none;cursor:pointer;border:none}',
+      '.ksp-buy{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:13px;padding:14px;font-weight:800;font-size:14.5px;text-decoration:none;cursor:pointer;border:none;transition:.15s}',
       '.ksp-buy-main{background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12;box-shadow:0 8px 22px rgba(201,169,110,.32)}',
+      '.ksp-buy-main:hover{filter:brightness(1.05);transform:translateY(-1px)}',
       '.ksp-buy-alt{background:var(--s2,#F5F7FF);color:var(--t,#0D1823);border:1.5px solid var(--bd,#DAE3F2)}',
+      '.ksp-buy-alt:hover{border-color:var(--gold,#C9A96E)}',
       '.ksp-buy small{font-weight:600;opacity:.7}',
       '.ksp-buy[aria-disabled="true"]{opacity:.55;pointer-events:none}',
       '.ksp-or{text-align:center;font-size:11.5px;color:var(--t3,#8FA5BE);text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}',
@@ -125,11 +133,8 @@
       '.ksp-msg.show{display:block}',
       '.ksp-msg.err{color:#dc2626}',
       '.ksp-msg.ok{color:#16a34a;font-weight:700}',
-      '.ksp-active{text-align:center;padding:6px 0 4px}',
-      '.ksp-active .ksp-crown{width:58px;height:58px}',
-      '.ksp-active h3{font-family:"Playfair Display",Georgia,serif;font-size:21px;margin:4px 0 6px;color:var(--t,#0D1823)}',
-      '.ksp-active p{font-size:13.5px;color:var(--t2,#475E78);line-height:1.5;margin:0}',
-      '[data-theme="dark"] .ksp-buy-alt{background:rgba(255,255,255,.06)}'
+      '[data-theme="dark"] .ksp-buy-alt{background:rgba(255,255,255,.06)}',
+      '[data-theme="dark"] .ksp-perks li{background:rgba(255,255,255,.04)}'
     ].join('');
     var s = document.createElement('style'); s.id = 'ks-premium-css'; s.textContent = css;
     document.head.appendChild(s);
@@ -165,12 +170,15 @@
     if (isPremium()) {
       inner =
         '<div class="ksp-head"><button class="ksp-close" aria-label="Fermer">×</button>' +
-          '<div class="ksp-active"><div class="ksp-crown">' + CROWN + '</div>' +
-          '<h3>Tu es Premium 💛</h3>' +
-          '<p>Merci de soutenir Korean Stories ! Tous les bonus sont débloqués sur ce compte.</p></div></div>' +
-        '<div class="ksp-body">' +
-          (PORTAL_URL ? '<a class="ksp-buy ksp-buy-main" href="' + PORTAL_URL + '" target="_blank" rel="noopener">Gérer / résilier mon abonnement</a>' : '') +
-          '<button class="ksp-buy ksp-buy-alt" id="kspClose2">Fermer</button></div>';
+          '<div class="ksp-crown">' + CROWN + '</div>' +
+          '<h2 class="ksp-h">Tu es Premium 💛</h2>' +
+          '<p class="ksp-sub">Merci de soutenir Korean Stories ! Tous les bonus sont débloqués sur ce compte.</p></div>' +
+        '<div class="ksp-body" style="text-align:center">' +
+          '<span class="ksp-status"><span class="d"></span> Abonnement actif</span>' +
+          '<div class="ksp-buys" style="margin-top:14px">' +
+            '<a class="ksp-buy ksp-buy-main" href="app.html">Continuer l\'apprentissage</a>' +
+            (PORTAL_URL ? '<a class="ksp-buy ksp-buy-alt" href="' + PORTAL_URL + '" target="_blank" rel="noopener">Gérer / résilier mon abonnement</a>' : '') +
+          '</div></div>';
     } else {
       var perksHtml = PERKS.map(function(p){
         return '<li>' + TICK + '<span>' + p[0] + (p[1] ? ' <small>' + p[1] + '</small>' : '') + '</span></li>';
@@ -183,6 +191,7 @@
         : '<a class="ksp-buy ksp-buy-alt" aria-disabled="true">Accès à vie — 79 € <small>(bientôt)</small></a>';
       inner =
         '<div class="ksp-head"><button class="ksp-close" aria-label="Fermer">×</button>' +
+          '<span class="ksp-pill"><span class="d"></span> Soutiens le projet</span>' +
           '<div class="ksp-crown">' + CROWN + '</div>' +
           '<h2 class="ksp-h">Passe en Premium</h2>' +
           '<p class="ksp-sub">Le parcours reste 100 % gratuit. Le Premium débloque les bonus et soutient le projet.</p></div>' +
