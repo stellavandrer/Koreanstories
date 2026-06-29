@@ -206,11 +206,21 @@
   /* ── Bouton déclencheur ── */
   function makeBtn(cls){ var b=document.createElement('button'); b.className='ksm-btn'+(cls?' '+cls:''); b.setAttribute('aria-label','Ouvrir le menu'); b.innerHTML='<span class="ksm-ico"><i></i><i></i><i></i></span><span class="ksm-txt">Menu</span>'; b.addEventListener('click',open); return b; }
   var bar = document.querySelector('nav.bar, .bar, .read-top, .top');
-  if (bar) { bar.insertBefore(makeBtn(), bar.firstChild); }
+  var barBtn = null;
+  if (bar) { barBtn = makeBtn(); bar.insertBefore(barBtn, bar.firstChild); }
   else { document.body.appendChild(makeBtn('ksm-float')); }
   /* Sur desktop avec sidebar, ajoute un accès « Tout le menu » */
   var sideNav = document.querySelector('.side-nav');
   if (sideNav) {
+    /* La sidebar fournit déjà la navigation : on masque le bouton « Menu » de la
+       barre quand la sidebar est RÉELLEMENT visible (évite le doublon), et on le
+       réaffiche dès qu'elle est cachée (mobile). Basé sur la visibilité réelle,
+       pas sur un breakpoint supposé → sûr sur toutes les pages. */
+    if (barBtn) {
+      var syncBtn = function(){ barBtn.style.display = (sideNav.offsetParent !== null) ? 'none' : ''; };
+      syncBtn();
+      window.addEventListener('resize', syncBtn);
+    }
     var sb = document.createElement('button');
     sb.className = 'ksm-side-btn';
     sb.innerHTML = '<svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg> Tout le menu';
