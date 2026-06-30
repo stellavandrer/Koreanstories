@@ -52,6 +52,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .score-badge .score-lbl{font-size:12px;color:var(--t2)}
     .scene-box{background:var(--navy);border-radius:14px;padding:20px;margin-bottom:14px;text-align:center}
     .scene-emoji{font-size:56px;margin-bottom:10px;display:block}
+    .scene-img{width:100%;max-width:230px;aspect-ratio:1/1;object-fit:cover;border-radius:14px;margin:0 auto 12px;box-shadow:0 3px 14px rgba(15,30,80,.14)}
     .scene-context{font-size:12px;color:rgba(237,242,250,.5);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase;font-weight:700}
     .sentence-kr{font-size:18px;color:#EDF2FA;font-weight:700;line-height:1.4}
     .sentence-blank{color:var(--gold);font-size:20px}
@@ -103,6 +104,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <div class="card">
       <div class="scene-box">
         <span class="scene-emoji" id="sceneEmoji"></span>
+        <img class="scene-img" id="sceneImg" alt="" style="display:none">
         <div class="scene-context" id="sceneContext">Contexte : une robe rouge</div>
         <div class="sentence-kr" id="sentenceKr">이 드레스는 <span class="sentence-blank">___</span>.</div>
         <div class="sentence-rom" id="sentenceRom">i deureseuneun ___</div>
@@ -127,16 +129,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
 <script>
 const questions = [
-  {emoji:'',context:'Contexte : une robe rouge',kr:'이 드레스는 _____.',rom:'i deureseuneun ___.',answer:'빨간 드레스예요',options:['빨간 드레스예요','파란 드레스예요','노란 드레스예요'],translation:'이 드레스는 빨간 드레스예요. = Cette robe est rouge. (빨간 = rouge, 파란 = bleu, 노란 = jaune)'},
-  {emoji:'',context:'Contexte : le ciel est bleu',kr:'하늘은 ___.',rom:'haneureun ___.',answer:'파래요',options:['파래요','빨개요','초록이에요'],translation:'하늘은 파래요. = Le ciel est bleu. (파래요 = est bleu, 빨개요 = est rouge, 초록이에요 = est vert)'},
-  {emoji:'',context:'Contexte : une grande maison',kr:'이 집은 ___.',rom:'i jibeun ___.',answer:'커요',options:['커요','작아요','예뻐요'],translation:'이 집은 커요. = Cette maison est grande. (커요 = est grand(e), 작아요 = est petit(e), 예뻐요 = est joli(e))'},
-  {emoji:'',context:'Contexte : un café délicieux',kr:'이 커피는 ___.',rom:'i keopineun ___.',answer:'맛있어요',options:['맛있어요','맛없어요','매워요'],translation:'이 커피는 맛있어요. = Ce café est délicieux. (맛있어요 = délicieux, 맛없어요 = sans goût, 매워요 = épicé)'},
-  {emoji:'',context:'Contexte : un petit chat mignon',kr:'이 고양이는 ___.',rom:'i goyangyineun ___.',answer:'작고 귀여워요',options:['작고 귀여워요','크고 귀여워요','작고 무서워요'],translation:'이 고양이는 작고 귀여워요. = Ce chat est petit et mignon. (작고 = petit et, 귀여워요 = est mignon/cute)'},
-  {emoji:'',context:'Contexte : la neige est blanche',kr:'눈은 ___.',rom:'nuneun ___.',answer:'하얘요',options:['하얘요','까매요','빨개요'],translation:'눈은 하얘요. = La neige est blanche. (하얘요 = est blanc, 까매요 = est noir, 빨개요 = est rouge)'},
-  {emoji:'',context:'Contexte : un film triste',kr:'이 영화는 ___.',rom:'i yeonghwaneun ___.',answer:'슬퍼요',options:['슬퍼요','재미있어요','무서워요'],translation:'이 영화는 슬퍼요. = Ce film est triste. (슬퍼요 = est triste, 재미있어요 = est intéressant/fun, 무서워요 = est effrayant)'},
-  {emoji:'',context:'Contexte : la pizza est chaude',kr:'피자가 ___.',rom:'pijaga ___.',answer:'뜨거워요',options:['뜨거워요','차가워요','시원해요'],translation:'피자가 뜨거워요. = La pizza est chaude. (뜨거워요 = est chaud(e), 차가워요 = est froid(e), 시원해요 = est frais/agréable)'},
-  {emoji:'',context:'Contexte : un sac lourd',kr:'내 가방은 ___.',rom:'nae gabangeun ___.',answer:'무거워요',options:['무거워요','가벼워요','예뻐요'],translation:'내 가방은 무거워요. = Mon sac est lourd. (무거워요 = est lourd, 가벼워요 = est léger, 예뻐요 = est joli)'},
-  {emoji:'·',context:'Contexte : de jolies fleurs',kr:'꽃이 ___.',rom:'kkochi ___.',answer:'예뻐요',options:['예뻐요','못생겼어요','작아요'],translation:'꽃이 예뻐요. = Les fleurs sont jolies. (예뻐요 = est joli(e), 못생겼어요 = est laid(e), 작아요 = est petit(e))'},
+  {emoji:'',img:'img/vocab/ex5-dress.webp',context:'Contexte : une robe rouge',kr:'이 드레스는 _____.',rom:'i deureseuneun ___.',answer:'빨간 드레스예요',options:['빨간 드레스예요','파란 드레스예요','노란 드레스예요'],translation:'이 드레스는 빨간 드레스예요. = Cette robe est rouge. (빨간 = rouge, 파란 = bleu, 노란 = jaune)'},
+  {emoji:'',img:'img/vocab/ex5-sky.webp',context:'Contexte : le ciel est bleu',kr:'하늘은 ___.',rom:'haneureun ___.',answer:'파래요',options:['파래요','빨개요','초록이에요'],translation:'하늘은 파래요. = Le ciel est bleu. (파래요 = est bleu, 빨개요 = est rouge, 초록이에요 = est vert)'},
+  {emoji:'',img:'img/vocab/ex5-house.webp',context:'Contexte : une grande maison',kr:'이 집은 ___.',rom:'i jibeun ___.',answer:'커요',options:['커요','작아요','예뻐요'],translation:'이 집은 커요. = Cette maison est grande. (커요 = est grand(e), 작아요 = est petit(e), 예뻐요 = est joli(e))'},
+  {emoji:'',img:'img/vocab/ex5-coffee.webp',context:'Contexte : un café délicieux',kr:'이 커피는 ___.',rom:'i keopineun ___.',answer:'맛있어요',options:['맛있어요','맛없어요','매워요'],translation:'이 커피는 맛있어요. = Ce café est délicieux. (맛있어요 = délicieux, 맛없어요 = sans goût, 매워요 = épicé)'},
+  {emoji:'',img:'img/vocab/ex5-cat.webp',context:'Contexte : un petit chat mignon',kr:'이 고양이는 ___.',rom:'i goyangyineun ___.',answer:'작고 귀여워요',options:['작고 귀여워요','크고 귀여워요','작고 무서워요'],translation:'이 고양이는 작고 귀여워요. = Ce chat est petit et mignon. (작고 = petit et, 귀여워요 = est mignon/cute)'},
+  {emoji:'',img:'img/vocab/ex5-snow.webp',context:'Contexte : la neige est blanche',kr:'눈은 ___.',rom:'nuneun ___.',answer:'하얘요',options:['하얘요','까매요','빨개요'],translation:'눈은 하얘요. = La neige est blanche. (하얘요 = est blanc, 까매요 = est noir, 빨개요 = est rouge)'},
+  {emoji:'',img:'img/vocab/loisir-film.webp',context:'Contexte : un film triste',kr:'이 영화는 ___.',rom:'i yeonghwaneun ___.',answer:'슬퍼요',options:['슬퍼요','재미있어요','무서워요'],translation:'이 영화는 슬퍼요. = Ce film est triste. (슬퍼요 = est triste, 재미있어요 = est intéressant/fun, 무서워요 = est effrayant)'},
+  {emoji:'',img:'img/vocab/ex5-pizza.webp',context:'Contexte : la pizza est chaude',kr:'피자가 ___.',rom:'pijaga ___.',answer:'뜨거워요',options:['뜨거워요','차가워요','시원해요'],translation:'피자가 뜨거워요. = La pizza est chaude. (뜨거워요 = est chaud(e), 차가워요 = est froid(e), 시원해요 = est frais/agréable)'},
+  {emoji:'',img:'img/vocab/ex5-bag.webp',context:'Contexte : un sac lourd',kr:'내 가방은 ___.',rom:'nae gabangeun ___.',answer:'무거워요',options:['무거워요','가벼워요','예뻐요'],translation:'내 가방은 무거워요. = Mon sac est lourd. (무거워요 = est lourd, 가벼워요 = est léger, 예뻐요 = est joli)'},
+  {emoji:'',img:'img/vocab/ex5-flowers.webp',context:'Contexte : de jolies fleurs',kr:'꽃이 ___.',rom:'kkochi ___.',answer:'예뻐요',options:['예뻐요','못생겼어요','작아요'],translation:'꽃이 예뻐요. = Les fleurs sont jolies. (예뻐요 = est joli(e), 못생겼어요 = est laid(e), 작아요 = est petit(e))'},
 ];
 
 let currentQ = 0;
@@ -148,7 +150,10 @@ function renderQ() {
   document.getElementById('progLabel').textContent = `Question ${currentQ+1} / 10`;
   document.getElementById('progBar').style.width = ((currentQ+1)/10*100)+'%';
   document.getElementById('scoreRunning').textContent = `Score : ${score} / ${currentQ}`;
-  document.getElementById('sceneEmoji').textContent = q.emoji;
+  const sceneImg = document.getElementById('sceneImg');
+  const sceneEmoji = document.getElementById('sceneEmoji');
+  if (q.img) { sceneImg.src = q.img; sceneImg.alt = q.context||''; sceneImg.style.display = 'block'; sceneEmoji.style.display = 'none'; }
+  else { sceneImg.style.display = 'none'; sceneImg.removeAttribute('src'); sceneEmoji.style.display = 'block'; sceneEmoji.textContent = q.emoji; }
   document.getElementById('sceneContext').textContent = q.context;
   document.getElementById('sentenceKr').innerHTML = q.kr.replace('_____','<span class="sentence-blank">___</span>').replace('___','<span class="sentence-blank">___</span>');
   document.getElementById('sentenceRom').textContent = q.rom;

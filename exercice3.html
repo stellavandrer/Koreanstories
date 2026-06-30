@@ -51,6 +51,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .score-badge .score-num{font-size:40px;font-weight:800;color:var(--gold)}
     .score-badge .score-lbl{font-size:12px;color:var(--t2)}
     .situation-prompt{background:var(--s3);border-radius:12px;padding:16px;margin-bottom:14px;font-size:15px;font-weight:600;color:var(--t);text-align:center;line-height:1.5}
+    .q-img{width:100%;max-width:240px;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block;margin:0 auto 14px;box-shadow:0 2px 10px rgba(15,30,80,.12)}
     .explain-box{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--t);margin-top:8px;line-height:1.5}
     .explain-box strong{color:var(--gold)}
     .score-running{font-size:13px;font-weight:700;color:var(--t3);text-align:right;margin-bottom:8px}
@@ -98,6 +99,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:12.5%"></div></div>
 
     <div class="card">
+      <img class="q-img" id="qImg" alt="" style="display:none">
       <div class="situation-prompt" id="situationPrompt">Mon père s'appelle Jean</div>
       <div class="choices" id="choices"></div>
       <div class="feedback" id="feedback"></div>
@@ -145,18 +147,21 @@ const questions = [
   },
   {
     situation:"Ma mère est médecin",
+    img:"img/vocab/famille-doctor.webp", imgAlt:"의사 (médecin)",
     options:['어머니는 의사예요','아버지는 의사예요','언니는 의사예요'],
     answer:'어머니는 의사예요',
     explain:'<strong>어머니</strong> = mère (formel). <strong>의사</strong> = médecin. <strong>아버지</strong> = père (formel), <strong>언니</strong> = grande sœur.'
   },
   {
     situation:"Nous sommes 4 dans ma famille",
+    img:"img/vocab/famille-famille.webp", imgAlt:"가족 (famille)",
     options:['우리 가족은 네 명이에요','우리 가족은 사 명이에요','우리 집에 넷이에요'],
     answer:'우리 가족은 네 명이에요',
     explain:'<strong>가족</strong> = famille. <strong>네 명</strong> = 4 personnes (네 = 4 en système natif + 명 = compteur de personnes). On utilise le système natif + 명 pour compter des personnes.'
   },
   {
     situation:"Mon grand-père est à Busan",
+    img:"img/vocab/famille-grandparents.webp", imgAlt:"할아버지 · 할머니 (grands-parents)",
     options:['할아버지는 부산에 계세요','할머니는 부산에 계세요','삼촌은 부산에 있어요'],
     answer:'할아버지는 부산에 계세요',
     explain:'<strong>할아버지</strong> = grand-père. <strong>계세요</strong> = forme honorifique de 있어요 (être/se trouver). On utilise 계세요 pour les personnes plus âgées/respectées.'
@@ -179,6 +184,9 @@ function renderQ() {
   document.getElementById('progBar').style.width = ((currentQ+1)/8*100)+'%';
   document.getElementById('scoreRunning').textContent = `Score : ${score} / ${currentQ}`;
   document.getElementById('situationPrompt').textContent = q.situation;
+  const qImg = document.getElementById('qImg');
+  if (q.img) { qImg.src = q.img; qImg.alt = q.imgAlt||''; qImg.style.display = 'block'; }
+  else { qImg.style.display = 'none'; qImg.removeAttribute('src'); }
   document.getElementById('feedback').className = 'feedback';
   document.getElementById('explainBox').style.display = 'none';
   answered = false;

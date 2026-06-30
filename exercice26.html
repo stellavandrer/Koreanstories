@@ -20,6 +20,7 @@
     .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem 1.2rem;margin:.9rem 0}
     .q-fr{font-size:.82rem;color:var(--tx-muted);margin-bottom:.2rem}
     .q-txt{font-weight:600;font-size:1rem;margin-bottom:.8rem;line-height:1.5}
+    .q-img{width:100%;max-width:240px;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block;margin:0 auto .8rem;box-shadow:0 2px 10px rgba(15,30,80,.12)}
     .opt{padding:.6rem .85rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;margin:.4rem 0;font-size:.92rem;background:var(--bg);transition:.15s}
     .opt:hover{border-color:#2563EB}
     .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#15803D;font-weight:600}
@@ -56,9 +57,9 @@
 <script>
 const QS=[
   {fr:"« Mon ami est gentil. »",txt:"제 친구는 ___",opts:["친절해요","키가 커요","머리가 길어요"],ans:0,exp:"친절해요 = est gentil/serviable."},
-  {fr:"« Elle est grande. »",txt:"___ 커요",opts:["키가","머리가","눈이"],ans:0,exp:"키 = la taille → 키가 커요 = être grand."},
+  {fr:"« Elle est grande. »",txt:"___ 커요",img:"img/vocab/decrire-tall.webp",imgAlt:"키가 커요 (grand)",opts:["키가","머리가","눈이"],ans:0,exp:"키 = la taille → 키가 커요 = être grand."},
   {fr:"« Une personne gentille » (adjectif + nom).",txt:"___ 사람",opts:["친절한","친절해요","친절하다"],ans:0,exp:"Adjectif + nom : 친절하다 → 친절한 사람."},
-  {fr:"« Cheveux longs » (adjectif + nom).",txt:"___ 머리",opts:["긴","길은","길다"],ans:0,exp:"길다 → 긴 (le ㄹ tombe devant ㄴ)."},
+  {fr:"« Cheveux longs » (adjectif + nom).",txt:"___ 머리",img:"img/vocab/decrire-longhair.webp",imgAlt:"긴 머리 (cheveux longs)",opts:["긴","길은","길다"],ans:0,exp:"길다 → 긴 (le ㄹ tombe devant ㄴ)."},
   {fr:"« C'est quel genre de personne ? »",txt:"___ 사람이에요?",opts:["어떤","누구","몇"],ans:0,exp:"어떤 = quel genre de…"},
   {fr:"« Il est mignon. »",txt:"___",opts:["귀여워요","똑똑해요","조용해요"],ans:0,exp:"귀여워요 = mignon (귀엽다, ㅂ irrégulier)."},
   {fr:"« Quelqu'un de drôle » (adjectif + nom).",txt:"___ 사람",opts:["재미있는","재미있은","재미있어요"],ans:0,exp:"-있다/-없다 → -는 : 재미있는 사람."},
@@ -71,7 +72,9 @@ function render(){
   document.getElementById('progFill').style.width=(cur/order.length*100)+'%';
   const opts=q.opts.map((o,i)=>({text:o,correct:i===q.ans}));
   for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
-  let html='<div class="card"><div class="q-fr">'+q.fr+'</div><div class="q-txt">'+q.txt+'</div>';
+  let html='<div class="card"><div class="q-fr">'+q.fr+'</div>';
+  if(q.img){html+='<img class="q-img" src="'+q.img+'" alt="'+(q.imgAlt||'')+'" loading="lazy">';}
+  html+='<div class="q-txt">'+q.txt+'</div>';
   opts.forEach(o=>{html+='<div class="opt" data-c="'+(o.correct?1:0)+'">'+o.text+'</div>';});
   html+='<div class="fb" id="fb"></div><button class="next" id="nextBtn" style="display:none" onclick="next()">Suivant →</button></div>';
   document.getElementById('quizArea').innerHTML=html;
