@@ -3,8 +3,9 @@
    ──────────────────────────────────────────────────────────────────
    Style Busuu / Bunpo : illustrations vectorielles SVG par scène.
    Source : unDraw.co (1000+ illustrations, MIT licensed, gratuit
-   commercial). Servies via le CDN jsDelivr depuis le mirror GitHub :
-   https://cdn.jsdelivr.net/gh/balazser/undraw-svg-collection/svgs/
+   commercial). Servies via GitHub raw depuis le mirror :
+   https://raw.githubusercontent.com/balazser/undraw-svg-collection/master/svgs/
+   (jsDelivr renvoyait 503 sur ce repo → bannière bloquée sur « Chargement… »).
 
    On ne peut pas changer la couleur de la marque (gris #f2f2f2 fixe
    dans ces SVGs publics) mais le rendu est propre et cohérent.
@@ -15,8 +16,8 @@
 (function () {
   'use strict';
 
-  /* CDN unDraw via jsDelivr (GitHub mirror) */
-  var BASE = 'https://cdn.jsdelivr.net/gh/balazser/undraw-svg-collection/svgs/';
+  /* unDraw via GitHub raw (jsDelivr renvoyait 503 sur ce repo) */
+  var BASE = 'https://raw.githubusercontent.com/balazser/undraw-svg-collection/master/svgs/';
 
   /* ── Mapping page → nom de fichier unDraw ─────────────────────── */
   var CURATED = {
@@ -361,7 +362,12 @@
     banner.innerHTML = '<div class="ks-banner-loader">Chargement…</div>';
     target.insertBefore(banner, target.firstChild);
 
-    loadSVG(name).then(function(svgText){
+    /* Sécurité : si la source ne répond pas vite, on retire la bannière
+       au lieu de la laisser bloquée sur « Chargement… ». */
+    var timeout = new Promise(function(_, reject){
+      setTimeout(function(){ reject(new Error('timeout')); }, 8000);
+    });
+    Promise.race([loadSVG(name), timeout]).then(function(svgText){
       banner.innerHTML = svgText;
       var svg = banner.querySelector('svg');
       if (svg) {
