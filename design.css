@@ -324,6 +324,13 @@ button:focus-visible,
 /* ── LAYOUT SHELL ─────────────────────────────────────────────────── */
 .shell{display:flex;min-height:100svh}
 .main{flex:1;min-width:0;display:flex;flex-direction:column}
+/* .wrap / .page sont des flex-items de .main (flex column) : avec
+   `margin:0 auto` ils se rétractent à la largeur de leur contenu (~200px)
+   au lieu d'occuper leur max-width → contenu étriqué et mal centré sur
+   desktop. width:100% les force à prendre toute la largeur (plafonnée par
+   leur propre max-width), puis margin:auto les centre correctement. */
+.shell .main > .wrap,
+.shell .main > .page{width:100%}
 
 /* ── SIDEBAR ─────────────────────────────────────────────────────── */
 .side{
