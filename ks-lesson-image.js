@@ -307,7 +307,26 @@
     'quiz6.html': 'img/lessons/exam.webp',
     'quiz7.html': 'img/lessons/study.webp',
     'quiz8.html': 'img/lessons/certificate.webp',
-    'quiz9.html': 'img/lessons/exam.webp'
+    'quiz9.html': 'img/lessons/exam.webp',
+
+    /* === Conseils (astuces d'apprentissage) === */
+    'conseil1.html': 'img/lessons/tips.webp',
+    'conseil2.html': 'img/anecdotes/books.webp',
+    'conseil3.html': 'img/lessons/tips.webp',
+    'conseil4.html': 'img/anecdotes/books.webp',
+    'conseil5.html': 'img/lessons/tips.webp',
+    'conseil6.html': 'img/anecdotes/books.webp',
+    'conseil7.html': 'img/lessons/tips.webp',
+    'conseil8.html': 'img/anecdotes/books.webp',
+    'conseil9.html': 'img/lessons/tips.webp',
+
+    /* === Chansons === */
+    'chanson1.html': 'img/lessons/music.webp',
+    'chanson2.html': 'img/vocab/loisir-musique.webp',
+    'chanson3.html': 'img/anecdotes/noraebang.webp',
+    'chanson4.html': 'img/lessons/music.webp',
+    'chanson5.html': 'img/vocab/loisir-musique.webp',
+    'chanson6.html': 'img/anecdotes/noraebang.webp'
   };
 
   /* ── Pages à NE PAS toucher ─────────────────────────────────────
