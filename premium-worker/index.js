@@ -3,6 +3,7 @@
 //   POST /webhook  — reçoit les événements Stripe
 //   GET  /verify?key=XXX — vérifie une clé de licence depuis l'app
 //   POST /newsletter — inscription/désinscription newsletter (Resend Contacts)
+//   GET  /newsletter/unsubscribe?email=… — lien de désinscription en un clic (depuis l'e-mail)
 //
 // Variables d'environnement à configurer dans Cloudflare (jamais dans le code) :
 //   STRIPE_SECRET_KEY       sk_live_...
@@ -32,6 +33,10 @@ export default {
 
     if (request.method === 'POST' && url.pathname === '/newsletter') {
       return handleNewsletter(request, env);
+    }
+
+    if (request.method === 'GET' && url.pathname === '/newsletter/unsubscribe') {
+      return handleNewsletterUnsubscribeLink(request, env);
     }
 
     return new Response('Korean Stories Premium API', { status: 200 });
@@ -69,21 +74,58 @@ async function handleNewsletter(request, env) {
     return json({ success: false, message: 'E-mail invalide' }, 400);
   }
 
-  const headers = { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' };
-
   if (unsubscribe) {
-    const res = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
-      method: 'PATCH', headers, body: JSON.stringify({ unsubscribed: true })
-    });
-    // 404 = le contact n'existait pas → rien à désinscrire, on considère que c'est OK.
-    if (!res.ok && res.status !== 404) {
-      console.log('[KS] newsletter unsubscribe error', res.status, await res.text());
-      return json({ success: false, message: 'Erreur serveur' }, 502);
-    }
+    const ok = await resendUnsubscribe(email, env);
+    if (!ok) return json({ success: false, message: 'Erreur serveur' }, 502);
+    await sendNewsletterGoodbyeEmail(email, env);
     return json({ success: true });
   }
 
-  // Inscription : création du contact, ou réactivation s'il existe déjà.
+  const ok = await resendSubscribe(email, env);
+  if (!ok) return json({ success: false, message: 'Erreur serveur' }, 502);
+  await sendNewsletterWelcomeEmail(email, env);
+  return json({ success: true });
+}
+
+// ── Lien de désinscription en un clic (ouvert depuis l'e-mail, GET simple) ───
+async function handleNewsletterUnsubscribeLink(request, env) {
+  const url = new URL(request.url);
+  const email = (url.searchParams.get('email') || '').trim().toLowerCase();
+  const page = (title, msg) => new Response(
+    `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>${title} — Korean Stories</title>
+     <meta name="viewport" content="width=device-width,initial-scale=1"></head>
+     <body style="font-family:sans-serif;max-width:480px;margin:80px auto;padding:0 24px;text-align:center;color:#1a2744">
+       <h2>${title}</h2><p>${msg}</p>
+       <p style="margin-top:24px"><a href="https://koreanstories.fr" style="color:#B8924E;font-weight:bold">← Retour à Korean Stories</a></p>
+     </body></html>`,
+    { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+  );
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return page('E-mail invalide', "Le lien utilisé n'est pas valide.");
+  }
+  const ok = await resendUnsubscribe(email, env);
+  if (!ok) return page('Erreur', "Une erreur est survenue, réessaie plus tard ou écris-nous à contact@koreanstories.fr.");
+  await sendNewsletterGoodbyeEmail(email, env);
+  return page('Désinscription confirmée', `L'adresse <strong>${email}</strong> ne recevra plus la newsletter Korean Stories.`);
+}
+
+// ── Resend Contacts : inscrire / désinscrire (partagé POST JSON + lien e-mail) ──
+async function resendUnsubscribe(email, env) {
+  const headers = { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' };
+  const res = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
+    method: 'PATCH', headers, body: JSON.stringify({ unsubscribed: true })
+  });
+  // 404 = le contact n'existait pas → rien à désinscrire, on considère que c'est OK.
+  if (!res.ok && res.status !== 404) {
+    console.log('[KS] newsletter unsubscribe error', res.status, await res.text());
+    return false;
+  }
+  return true;
+}
+
+async function resendSubscribe(email, env) {
+  const headers = { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' };
   let res = await fetch('https://api.resend.com/contacts', {
     method: 'POST', headers, body: JSON.stringify({ email, unsubscribed: false })
   });
@@ -94,10 +136,10 @@ async function handleNewsletter(request, env) {
     });
     if (!res.ok) {
       console.log('[KS] newsletter reactivate error', res.status, await res.text());
-      return json({ success: false, message: 'Erreur serveur' }, 502);
+      return false;
     }
   }
-  return json({ success: true });
+  return true;
 }
 
 // ── Réception des webhooks Stripe ─────────────────────────────────────────────
@@ -232,6 +274,26 @@ async function handleSubscriptionUpdated(event, env) {
   }
 }
 
+// ── Envoi générique d'un e-mail via Resend ────────────────────────────────────
+// Domaine koreanstories.fr vérifié dans Resend → envoi depuis l'adresse du
+// site. Surchargeable via la variable RESEND_FROM dans Cloudflare si besoin.
+async function sendEmail(to, subject, html, env) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      from: env.RESEND_FROM || 'Korean Stories <contact@koreanstories.fr>',
+      to, subject, html
+    })
+  });
+  const resJson = await res.json();
+  console.log('[KS] Resend send:', to, '|', subject, '|', JSON.stringify(resJson));
+  return resJson;
+}
+
 // ── Email de licence via Resend ───────────────────────────────────────────────
 async function sendLicenseEmail(email, key, env) {
   const html = `
@@ -255,25 +317,7 @@ async function sendLicenseEmail(email, key, env) {
       <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
     </div>
   `;
-
-  console.log('[KS] sending email to:', email, '| key:', key);
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      // Domaine koreanstories.fr vérifié dans Resend → envoi depuis l'adresse du site.
-      // Surchargeable via la variable RESEND_FROM dans Cloudflare si besoin.
-      from: env.RESEND_FROM || 'Korean Stories <contact@koreanstories.fr>',
-      to: email,
-      subject: '💛 Ta clé Premium Korean Stories',
-      html
-    })
-  });
-  const resJson = await res.json();
-  console.log('[KS] Resend response:', JSON.stringify(resJson));
+  await sendEmail(email, '💛 Ta clé Premium Korean Stories', html, env);
 }
 
 // ── Date au format français (sans dépendre de l'ICU du runtime) ──────────────────
@@ -300,21 +344,34 @@ async function sendCancellationEmail(email, env, endTs) {
       <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
     </div>
   `;
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: env.RESEND_FROM || 'Korean Stories <contact@koreanstories.fr>',
-      to: email,
-      subject: 'Confirmation de résiliation — Korean Stories',
-      html
-    })
-  });
-  const resJson = await res.json();
-  console.log('[KS] cancellation email:', email, '|', JSON.stringify(resJson));
+  await sendEmail(email, 'Confirmation de résiliation — Korean Stories', html, env);
+}
+
+// ── Emails newsletter (bienvenue / désinscription) via Resend ────────────────
+async function sendNewsletterWelcomeEmail(email, env) {
+  const unsubUrl = 'https://ks-premium.delicate-voice-1d19.workers.dev/newsletter/unsubscribe?email=' + encodeURIComponent(email);
+  const html = `
+    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
+      <h2 style="color:#1a2744">Bienvenue dans la newsletter Korean Stories 💛</h2>
+      <p>Merci de t'être inscrit·e ! Tu recevras environ <strong>1 à 2 e-mails par mois</strong> : nouvelles leçons, ressources gratuites, conseils pour apprendre le coréen.</p>
+      <p>En attendant, continue ton parcours sur <a href="https://koreanstories.fr/app.html" style="color:#B8924E">koreanstories.fr</a>.</p>
+      <p style="font-size:13px;color:#555;margin-top:24px">Tu peux te désinscrire à tout moment en cliquant <a href="${unsubUrl}" style="color:#B8924E">ici</a>.</p>
+      <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
+    </div>
+  `;
+  await sendEmail(email, 'Bienvenue dans la newsletter Korean Stories', html, env);
+}
+
+async function sendNewsletterGoodbyeEmail(email, env) {
+  const html = `
+    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
+      <h2 style="color:#1a2744">Désinscription confirmée</h2>
+      <p>Tu ne recevras plus la newsletter Korean Stories. C'est noté !</p>
+      <p style="font-size:13px;color:#555">Tu changes d'avis ? Tu peux te réinscrire à tout moment depuis <a href="https://koreanstories.fr" style="color:#B8924E">koreanstories.fr</a> ou tes Réglages.</p>
+      <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
+    </div>
+  `;
+  await sendEmail(email, 'Désinscription confirmée — Korean Stories', html, env);
 }
 
 // ── Retrouver la clé de licence à partir d'un objet Stripe ───────────────────────
