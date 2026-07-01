@@ -204,6 +204,31 @@
     'pro':      'co-workers'
   };
 
+  /* ── Photos réelles locales (prioritaires sur unDraw) ──────────────
+     Bannière = vraie photo générée (libre de droits) au lieu du dessin. */
+  var LOCAL = {
+    'anecdote1.html':  'img/anecdotes/sejong.webp',
+    'anecdote2.html':  'img/anecdotes/bow.webp',
+    'anecdote3.html':  'img/anecdotes/friends.webp',
+    'anecdote4.html':  'img/anecdotes/chimaek.webp',
+    'anecdote5.html':  'img/vocab/transport-metro.webp',
+    'anecdote6.html':  'img/anecdotes/pcbang.webp',
+    'anecdote7.html':  'img/anecdotes/kbeauty.webp',
+    'anecdote8.html':  'img/anecdotes/noraebang.webp',
+    'anecdote9.html':  'img/anecdotes/jeju.webp',
+    'anecdote10.html': 'img/anecdotes/pcbang.webp',
+    'anecdote11.html': 'img/anecdotes/books.webp',
+    'anecdote12.html': 'img/anecdotes/friends.webp',
+    'anecdote13.html': 'img/anecdotes/festival.webp',
+    'anecdote14.html': 'img/anecdotes/cafe.webp',
+    'anecdote15.html': 'img/anecdotes/kbeauty.webp',
+    'anecdote16.html': 'img/anecdotes/hoesik.webp',
+    'anecdote17.html': 'img/anecdotes/mukbang.webp',
+    'anecdote18.html': 'img/anecdotes/age.webp',
+    'anecdote19.html': 'img/anecdotes/superstition.webp',
+    'anecdote20.html': 'img/anecdotes/konglish.webp'
+  };
+
   /* ── Pages à NE PAS toucher ─────────────────────────────────────
      • Toutes les pages "Hangeul" (lecon 1-4 + 9, exercice 1-2, quiz1)
        → demande explicite : pas d'illustration sur le module alphabet
@@ -280,6 +305,11 @@
         'animation:ksFloat 6s ease-in-out infinite',
       '}',
       '.ks-banner-img.loaded{opacity:1}',
+      /* Variante PHOTO réelle : l'image remplit toute la bannière. */
+      '.ks-banner--photo{padding:0}',
+      '.ks-banner-photo{position:absolute;inset:0;width:100%;height:100%;',
+        'object-fit:cover;opacity:0;transition:opacity .5s ease;z-index:1}',
+      '.ks-banner-photo.loaded{opacity:1}',
       /* Flottement subtil pour donner vie à la scène (3px d\'amplitude) */
       '@keyframes ksFloat{',
         '0%,100%{transform:translateY(0)}',
@@ -347,6 +377,24 @@
        (en-tête via ks-stories.js) → on n'ajoute pas la bannière générique. */
     var path = location.pathname.split('/').pop() || '';
     if (/^histoire\d+\.html$/i.test(path)) return;
+
+    /* Priorité : vraie photo locale si disponible pour cette page. */
+    var local = LOCAL[path];
+    if (local) {
+      var tp = findInsertionPoint();
+      if (!tp || tp.querySelector('.ks-banner')) return;
+      injectCSS();
+      var bp = document.createElement('div');
+      bp.className = 'ks-banner ks-banner--photo';
+      var im = document.createElement('img');
+      im.className = 'ks-banner-photo';
+      im.alt = ''; im.loading = 'lazy';
+      im.onload = function(){ im.classList.add('loaded'); };
+      im.src = local;
+      bp.appendChild(im);
+      tp.insertBefore(bp, tp.firstChild);
+      return;
+    }
 
     var name = getIllustrationName();
     if (!name) return;
