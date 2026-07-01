@@ -4,6 +4,9 @@
 //   GET  /verify?key=XXX — vérifie une clé de licence depuis l'app
 //   POST /newsletter — inscription/désinscription newsletter (Resend Contacts)
 //   GET  /newsletter/unsubscribe?email=… — lien de désinscription en un clic (depuis l'e-mail)
+//   GET  /newsletter/test-send?theme=culture|histoire|actu&token=... — déclenchement
+//        manuel d'une édition (test, ou renvoi si un Cron a raté son horaire).
+//        Nécessite la variable NEWSLETTER_TEST_TOKEN (voir plus bas).
 //
 // Cron Triggers (à configurer dans Cloudflare → Worker ks-premium → Triggers) :
 //   Chaque expression déclenche scheduled() ; on distingue via controller.cron.
@@ -15,6 +18,7 @@
 //   STRIPE_SECRET_KEY       sk_live_...
 //   STRIPE_WEBHOOK_SECRET   whsec_...
 //   RESEND_API_KEY          re_...
+//   NEWSLETTER_TEST_TOKEN   une chaîne aléatoire au choix (protège /newsletter/test-send)
 // KV binding : KS_LICENSES
 
 const PRICE_MONTHLY  = 'price_1TlkvnPab8Hr1KXaK2D5ZSvn';
@@ -43,6 +47,19 @@ export default {
 
     if (request.method === 'GET' && url.pathname === '/newsletter/unsubscribe') {
       return handleNewsletterUnsubscribeLink(request, env);
+    }
+
+    // Déclenchement manuel d'une édition (test, ou renvoi si un Cron a raté
+    // son horaire) — la route standard Cloudflare /cdn-cgi/handler/scheduled
+    // ne fonctionne qu'en local (wrangler dev), pas sur un Worker déployé via
+    // le dashboard, d'où cette route maison protégée par un jeton.
+    if (request.method === 'GET' && url.pathname === '/newsletter/test-send') {
+      const theme = url.searchParams.get('theme');
+      const token = url.searchParams.get('token');
+      if (!env.NEWSLETTER_TEST_TOKEN || token !== env.NEWSLETTER_TEST_TOKEN) return new Response('Forbidden', { status: 403 });
+      if (!NEWSLETTER_CONTENT[theme]) return json({ success: false, message: 'Thème inconnu (culture/histoire/actu)' }, 400);
+      await sendNewsletterEdition(theme, env);
+      return json({ success: true, message: `Édition ${theme} envoyée.` });
     }
 
     return new Response('Korean Stories Premium API', { status: 200 });
