@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <title>Podcast — Les supérettes coréennes · Korean Stories</title>
+  <meta name="description" content="Podcast coréen niveau A2 : les supérettes (편의점). Transcription coréenne + traduction française, lecture vocale."/>
+  <link rel="stylesheet" href="design.css"/>
+  <link rel="stylesheet" href="ks-podcast.css"/>
+  <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+</head>
+<body>
+<nav class="bar">
+  <button class="back-btn" aria-label="Retour" onclick="history.length>1?history.back():location.href='histoires.html#podcast'">←</button>
+  <span class="bar-title">Podcast</span>
+  <span style="margin-left:auto;display:inline-flex;gap:8px">
+    <button id="frBtn" class="bar-theme" aria-pressed="false" title="Afficher la traduction française" style="width:auto;padding:0 12px;font:700 12px/1 inherit;gap:6px">FR</button>
+    <button onclick="toggleTheme()" class="bar-theme" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </span>
+</nav>
+<header class="pc-hero"><div class="pc-hero-in">
+  <div class="pc-badges"><span class="pc-badge">Podcast</span><span class="pc-badge pc-lvl">A2</span></div>
+  <div class="pc-kr">한국의 편의점</div>
+  <div class="pc-fr">Les supérettes coréennes</div>
+  <div class="pc-host"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg> Animé par Mina · ~5 min</div>
+</div></header>
+<div class="pc-wrap">
+  <div class="pc-demo">Appuie sur <strong>▶</strong> : la transcription est lue à voix haute (voix de synthèse coréenne). Suis le texte, active <strong>FR</strong> pour la traduction. Termine l'épisode pour gagner de l'XP.</div>
+  <div class="pc-player"><div class="pc-play-row">
+    <button class="pc-play" id="pcPlay" aria-label="Lecture"><svg id="pcIco" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></button>
+    <div class="pc-meta"><div class="pc-track" id="pcTrack"><div class="pc-track-fill" id="pcFill"></div></div><div class="pc-times"><span id="pcCur">0/6</span><span id="pcDur">6 parties</span></div></div>
+    <button class="pc-rate" id="pcRate" title="Vitesse de lecture">1×</button>
+  </div>
+  <div class="pc-soon" id="pcSoon">La lecture vocale n'est pas disponible sur ce navigateur. La transcription ci-dessous reste lisible.</div></div>
+  <div class="pc-hint">Astuce : touche un passage pour l'écouter, ou <strong>FR</strong> en haut pour la traduction.</div>
+
+  <div class="pc-sec-lbl">Transcription</div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">안녕하세요, 여러분! 오늘은 한국의 편의점에 대해 이야기해 볼게요.</div><div class="pc-seg-fr">Bonjour à tous ! Aujourd'hui, on va parler des supérettes coréennes.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">한국에는 편의점이 정말 많아요. 그리고 보통 24시간 문을 열어요.</div><div class="pc-seg-fr">En Corée, il y a vraiment beaucoup de supérettes. Et elles sont généralement ouvertes 24h/24.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">편의점에서는 뭐든지 살 수 있어요. 음료수, 도시락, 그리고 우산까지 있어요.</div><div class="pc-seg-fr">On peut y acheter de tout : des boissons, des plateaux-repas, et même des parapluies.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">요즘 편의점 도시락이 아주 인기예요. 싸고 맛있어서 학생들이 자주 사 먹어요.</div><div class="pc-seg-fr">Ces temps-ci, les plateaux-repas de supérette sont très populaires. Ils sont bon marché et bons, alors les étudiants en achètent souvent.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">게다가 편의점 안에서 바로 먹을 수도 있어요. 테이블과 전자레인지가 있거든요.</div><div class="pc-seg-fr">En plus, on peut manger sur place, dans la supérette. Parce qu'il y a des tables et un micro-ondes.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">한국에 가면 편의점에 꼭 가 보세요. 정말 편리해요! 다음 시간에 또 만나요.</div><div class="pc-seg-fr">Si vous allez en Corée, allez absolument dans une supérette. C'est vraiment pratique ! On se retrouve la prochaine fois.</div></div>
+
+  <div class="pc-reward" id="pcReward"><div class="pcr-t">Épisode terminé !</div><div class="pcr-s">Tu as écouté tout l'épisode et suivi la transcription.</div><div class="pcr-pill"><span class="pcr-xp">+15 XP</span></div><div style="margin-top:16px"><a class="pc-back" href="podcast4.html" style="border-color:var(--goldbd,rgba(201,169,110,.4));color:var(--gold-text,#8B6B3D)">Épisode suivant →</a></div></div>
+  <div class="pc-note">Astuce : touche <strong>FR</strong> en haut pour afficher ou masquer la traduction française.</div>
+  <a class="pc-back" href="histoires.html#podcast"><svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg> Retour aux podcasts</a>
+</div>
+<script>window.KS_POD={key:'ks_pod_3',xp:15,id:'pod_3'};</script>
+<script src="ks.js"></script>
+<script src="ks-podcast.js"></script>
+<script src="ks-menu.js" defer></script>
+</body></html>

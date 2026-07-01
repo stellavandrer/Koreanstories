@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <title>Podcast — Les quatre saisons · Korean Stories</title>
+  <meta name="description" content="Podcast coréen niveau B1 : les quatre saisons en Corée. Transcription coréenne + traduction française, lecture vocale."/>
+  <link rel="stylesheet" href="design.css"/>
+  <link rel="stylesheet" href="ks-podcast.css"/>
+  <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+</head>
+<body>
+<nav class="bar">
+  <button class="back-btn" aria-label="Retour" onclick="history.length>1?history.back():location.href='histoires.html#podcast'">←</button>
+  <span class="bar-title">Podcast</span>
+  <span style="margin-left:auto;display:inline-flex;gap:8px">
+    <button id="frBtn" class="bar-theme" aria-pressed="false" title="Afficher la traduction française" style="width:auto;padding:0 12px;font:700 12px/1 inherit;gap:6px">FR</button>
+    <button onclick="toggleTheme()" class="bar-theme" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button>
+  </span>
+</nav>
+<header class="pc-hero"><div class="pc-hero-in">
+  <div class="pc-badges"><span class="pc-badge">Podcast</span><span class="pc-badge pc-lvl">B1</span></div>
+  <div class="pc-kr">한국의 사계절</div>
+  <div class="pc-fr">Les quatre saisons en Corée</div>
+  <div class="pc-host"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg> Animé par Mina · ~6 min</div>
+</div></header>
+<div class="pc-wrap">
+  <div class="pc-demo">Appuie sur <strong>▶</strong> : la transcription est lue à voix haute (voix de synthèse coréenne). Suis le texte, active <strong>FR</strong> pour la traduction. Termine l'épisode pour gagner de l'XP.</div>
+  <div class="pc-player"><div class="pc-play-row">
+    <button class="pc-play" id="pcPlay" aria-label="Lecture"><svg id="pcIco" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></button>
+    <div class="pc-meta"><div class="pc-track" id="pcTrack"><div class="pc-track-fill" id="pcFill"></div></div><div class="pc-times"><span id="pcCur">0/7</span><span id="pcDur">7 parties</span></div></div>
+    <button class="pc-rate" id="pcRate" title="Vitesse de lecture">1×</button>
+  </div>
+  <div class="pc-soon" id="pcSoon">La lecture vocale n'est pas disponible sur ce navigateur. La transcription ci-dessous reste lisible.</div></div>
+  <div class="pc-hint">Astuce : touche un passage pour l'écouter, ou <strong>FR</strong> en haut pour la traduction.</div>
+
+  <div class="pc-sec-lbl">Transcription</div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">안녕하세요, 여러분. 오늘은 한국의 사계절에 대해 이야기해 볼게요.</div><div class="pc-seg-fr">Bonjour à tous. Aujourd'hui, on va parler des quatre saisons en Corée.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">한국에는 봄, 여름, 가을, 겨울이 아주 뚜렷해요. 계절마다 풍경이 완전히 달라져요.</div><div class="pc-seg-fr">En Corée, le printemps, l'été, l'automne et l'hiver sont très marqués. À chaque saison, le paysage change complètement.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">봄에는 벚꽃이 피어요. 사람들은 꽃구경을 하러 공원으로 나가요.</div><div class="pc-seg-fr">Au printemps, les cerisiers fleurissent. Les gens sortent dans les parcs pour admirer les fleurs.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">여름은 덥고 습해요. 그래서 많은 사람들이 바다나 계곡으로 휴가를 떠나요.</div><div class="pc-seg-fr">L'été est chaud et humide. Alors beaucoup de gens partent en vacances à la mer ou dans les vallées.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">가을은 단풍으로 유명해요. 산이 빨갛고 노랗게 물들어서 등산하기에 딱 좋아요.</div><div class="pc-seg-fr">L'automne est célèbre pour ses feuilles rouges. Les montagnes se teintent de rouge et de jaune : c'est parfait pour la randonnée.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">겨울에는 눈이 내리고 아주 추워요. 하지만 스키장은 언제나 사람들로 붐벼요.</div><div class="pc-seg-fr">En hiver, il neige et il fait très froid. Mais les stations de ski sont toujours bondées.</div></div>
+  <div class="pc-seg"><div class="pc-seg-spk">Mina</div><div class="pc-seg-kr">여러분은 어느 계절을 가장 좋아하세요? 다음 시간에 또 만나요.</div><div class="pc-seg-fr">Et vous, quelle saison préférez-vous ? On se retrouve la prochaine fois.</div></div>
+
+  <div class="pc-reward" id="pcReward"><div class="pcr-t">Épisode terminé !</div><div class="pcr-s">Tu as écouté tout l'épisode et suivi la transcription.</div><div class="pcr-pill"><span class="pcr-xp">+18 XP</span></div><div style="margin-top:16px"><a class="pc-back" href="podcast5.html" style="border-color:var(--goldbd,rgba(201,169,110,.4));color:var(--gold-text,#8B6B3D)">Épisode suivant →</a></div></div>
+  <div class="pc-note">Astuce : touche <strong>FR</strong> en haut pour afficher ou masquer la traduction française.</div>
+  <a class="pc-back" href="histoires.html#podcast"><svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg> Retour aux podcasts</a>
+</div>
+<script>window.KS_POD={key:'ks_pod_4',xp:18,id:'pod_4'};</script>
+<script src="ks.js"></script>
+<script src="ks-podcast.js"></script>
+<script src="ks-menu.js" defer></script>
+</body></html>

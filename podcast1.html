@@ -7,51 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <title>Podcast — La culture des cafés · Korean Stories</title>
-  <meta name="description" content="Podcast coréen à écouter, avec transcription coréenne et traduction française optionnelle."/>
+  <meta name="description" content="Podcast coréen à écouter (voix de synthèse), avec transcription coréenne et traduction française optionnelle."/>
   <link rel="stylesheet" href="design.css"/>
+  <link rel="stylesheet" href="ks-podcast.css"/>
   <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
-  <style>
-    body{font-family:'Inter',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:40px}
-    .pc-wrap{max-width:680px;margin:0 auto;padding:0 18px}
-    /* Hero */
-    .pc-hero{background:linear-gradient(160deg,#0F1B2D,#1b2c47);color:#fff;border-radius:0 0 26px 26px;padding:22px 20px 26px;margin-bottom:18px}
-    .pc-hero-in{max-width:680px;margin:0 auto}
-    .pc-badges{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-    .pc-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:rgba(201,169,110,.18);color:#e0c48a;border:1px solid rgba(201,169,110,.35);border-radius:100px;padding:4px 11px}
-    .pc-lvl{background:rgba(255,255,255,.1);color:#cdd8ea;border-color:rgba(255,255,255,.16)}
-    .pc-kr{font-family:'Noto Sans KR',sans-serif;font-weight:800;font-size:26px;line-height:1.25;margin:2px 0 4px}
-    .pc-fr{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:16px;color:#c7d2e3}
-    .pc-host{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12.5px;color:#aab8cd}
-    .pc-host svg{width:15px;height:15px;stroke:#e0c48a;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-    /* Player */
-    .pc-player{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:16px 18px;box-shadow:var(--sh,0 4px 18px rgba(15,30,80,.06));margin-bottom:8px}
-    .pc-play-row{display:flex;align-items:center;gap:14px}
-    .pc-play{flex:0 0 56px;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(201,169,110,.34);transition:transform .12s}
-    .pc-play:active{transform:scale(.94)}
-    .pc-play svg{width:24px;height:24px;fill:currentColor}
-    .pc-play[disabled]{filter:grayscale(.7);opacity:.6;cursor:not-allowed;box-shadow:none}
-    .pc-meta{flex:1;min-width:0}
-    .pc-track{height:7px;border-radius:100px;background:var(--s3,#E9EEFA);overflow:hidden;cursor:pointer;margin-bottom:7px}
-    .pc-track-fill{height:100%;width:0;background:linear-gradient(90deg,#e0c48a,var(--gold,#C9A96E));border-radius:100px}
-    .pc-times{display:flex;justify-content:space-between;font-size:11.5px;color:var(--t3,#8FA5BE);font-variant-numeric:tabular-nums}
-    .pc-soon{display:none;margin-top:12px;font-size:12.5px;color:var(--t2,#475E78);background:var(--goldbg,rgba(201,169,110,.1));border:1px dashed var(--gold,#C9A96E);border-radius:11px;padding:9px 13px;line-height:1.5}
-    .pc-soon.show{display:block}
-    .pc-rate{flex:0 0 auto;border:1px solid var(--bd);background:var(--surf);color:var(--t2,#475E78);border-radius:9px;padding:6px 9px;font:700 12px/1 inherit;cursor:pointer}
-    /* Transcript */
-    .pc-sec-lbl{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gray,#8FA5BE);margin:22px 4px 10px;display:flex;align-items:center;gap:10px}
-    .pc-sec-lbl::after{content:'';flex:1;height:1px;background:var(--bd)}
-    .pc-seg{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:13px 15px;margin-bottom:10px;transition:border-color .15s}
-    .pc-seg.on{border-color:var(--gold,#C9A96E);box-shadow:0 0 0 2px rgba(201,169,110,.12)}
-    .pc-seg-spk{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-text,#8B6B3D);margin-bottom:5px}
-    .pc-seg-kr{font-family:'Noto Sans KR',sans-serif;font-size:16.5px;line-height:1.6;color:var(--t,#0D1823)}
-    .pc-seg-fr{display:none;font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:14px;color:var(--t2,#475E78);margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd)}
-    body.show-fr .pc-seg-fr{display:block}
-    .pc-note{text-align:center;font-size:11.5px;color:var(--t3,#8FA5BE);line-height:1.6;margin:18px 0 6px}
-    .pc-back{display:inline-flex;align-items:center;gap:7px;margin:14px auto 0;color:var(--gold-text,#8B6B3D);font-weight:700;font-size:13px;text-decoration:none;border:1.5px solid var(--bd);border-radius:100px;padding:10px 18px}
-    .pc-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-    .pc-demo{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#92600c;border-radius:11px;padding:9px 13px;font-size:12px;line-height:1.5;margin-bottom:16px}
-    [data-theme="dark"] .pc-demo{color:#fcd9a0}
-  </style>
 </head>
 <body>
 
@@ -81,7 +40,7 @@
 
 <div class="pc-wrap">
 
-  <div class="pc-demo">Épisode de <strong>démonstration</strong> — la bande-son arrive bientôt (voix coréennes). Remplace le MP3 et la transcription pour publier un vrai épisode.</div>
+  <div class="pc-demo">Appuie sur <strong>▶</strong> : la transcription est lue à voix haute (voix de synthèse coréenne). Suis le texte, active <strong>FR</strong> pour la traduction. Termine l'épisode pour gagner de l'XP.</div>
 
   <!-- Lecteur -->
   <div class="pc-player">
@@ -91,45 +50,52 @@
       </button>
       <div class="pc-meta">
         <div class="pc-track" id="pcTrack"><div class="pc-track-fill" id="pcFill"></div></div>
-        <div class="pc-times"><span id="pcCur">0:00</span><span id="pcDur">--:--</span></div>
+        <div class="pc-times"><span id="pcCur">0/5</span><span id="pcDur">5 parties</span></div>
       </div>
       <button class="pc-rate" id="pcRate" title="Vitesse de lecture">1×</button>
     </div>
-    <div class="pc-soon" id="pcSoon">🎧 La bande-son de cet épisode n'est pas encore disponible. La transcription ci-dessous est déjà lisible — l'audio sera ajouté prochainement.</div>
-    <audio id="pcAudio" preload="metadata" src="audio/podcast/podcast1.mp3"></audio>
+    <div class="pc-soon" id="pcSoon">La lecture vocale n'est pas disponible sur ce navigateur. La transcription ci-dessous reste entièrement lisible.</div>
   </div>
+  <div class="pc-hint">Astuce : touche un passage pour l'écouter, ou <strong>FR</strong> en haut pour la traduction.</div>
 
   <!-- Transcription -->
   <div class="pc-sec-lbl">Transcription</div>
 
-  <div class="pc-seg" data-t="0">
+  <div class="pc-seg">
     <div class="pc-seg-spk">Mina</div>
     <div class="pc-seg-kr">안녕하세요, 여러분! 오늘도 ‘코리안 스토리즈’ 팟캐스트에 오신 걸 환영해요.</div>
     <div class="pc-seg-fr">Bonjour à tous ! Bienvenue, aujourd'hui encore, dans le podcast « Korean Stories ».</div>
   </div>
 
-  <div class="pc-seg" data-t="7">
+  <div class="pc-seg">
     <div class="pc-seg-spk">Mina</div>
     <div class="pc-seg-kr">오늘은 한국의 카페 문화에 대해 이야기해 볼게요.</div>
     <div class="pc-seg-fr">Aujourd'hui, on va parler de la culture des cafés en Corée.</div>
   </div>
 
-  <div class="pc-seg" data-t="13">
+  <div class="pc-seg">
     <div class="pc-seg-spk">Mina</div>
     <div class="pc-seg-kr">한국에는 카페가 정말 많아요. 길마다 카페가 있어요.</div>
     <div class="pc-seg-fr">En Corée, il y a vraiment beaucoup de cafés. Il y en a dans chaque rue.</div>
   </div>
 
-  <div class="pc-seg" data-t="20">
+  <div class="pc-seg">
     <div class="pc-seg-spk">Mina</div>
     <div class="pc-seg-kr">사람들은 카페에서 공부하거나 친구를 만나요. 커피 한 잔에 몇 시간씩 앉아 있기도 해요.</div>
     <div class="pc-seg-fr">Les gens étudient ou retrouvent des amis au café. Il leur arrive même de rester des heures pour un seul café.</div>
   </div>
 
-  <div class="pc-seg" data-t="29">
+  <div class="pc-seg">
     <div class="pc-seg-spk">Mina</div>
     <div class="pc-seg-kr">여러분도 한국에 가면 꼭 카페에 가 보세요! 그럼, 다음 시간에 또 만나요.</div>
     <div class="pc-seg-fr">Vous aussi, si vous allez en Corée, allez absolument dans un café ! Alors, on se retrouve la prochaine fois.</div>
+  </div>
+
+  <div class="pc-reward" id="pcReward">
+    <div class="pcr-t">Épisode terminé !</div>
+    <div class="pcr-s">Tu as écouté tout l'épisode et suivi la transcription.</div>
+    <div class="pcr-pill"><span class="pcr-xp">+15 XP</span></div>
+    <div style="margin-top:16px"><a class="pc-back" href="podcast2.html" style="border-color:var(--goldbd,rgba(201,169,110,.4));color:var(--gold-text,#8B6B3D)">Épisode suivant →</a></div>
   </div>
 
   <div class="pc-note">Astuce : touche <strong>FR</strong> en haut pour afficher ou masquer la traduction française.</div>
@@ -141,91 +107,8 @@
 
 </div>
 
+<script>window.KS_POD={key:'ks_pod_1',xp:15,id:'pod_1'};</script>
 <script src="ks.js"></script>
-<script>
-(function(){
-  /* ── Bascule traduction FR (préférence mémorisée) ── */
-  var frBtn = document.getElementById('frBtn');
-  function syncFr(){
-    var on = localStorage.getItem('ks_pref_podfr') === '1';
-    document.body.classList.toggle('show-fr', on);
-    if (frBtn) frBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-  }
-  try { syncFr(); } catch(e){}
-  if (frBtn) frBtn.addEventListener('click', function(){
-    var on = document.body.classList.toggle('show-fr');
-    try { localStorage.setItem('ks_pref_podfr', on ? '1' : '0'); } catch(e){}
-    frBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-  });
-
-  /* ── Lecteur audio (se dégrade proprement si le MP3 manque) ── */
-  var a = document.getElementById('pcAudio');
-  var playBtn = document.getElementById('pcPlay');
-  var ico = document.getElementById('pcIco');
-  var fill = document.getElementById('pcFill');
-  var track = document.getElementById('pcTrack');
-  var curEl = document.getElementById('pcCur');
-  var durEl = document.getElementById('pcDur');
-  var soon = document.getElementById('pcSoon');
-  var rateBtn = document.getElementById('pcRate');
-  var ICO_PLAY = '<polygon points="6 4 20 12 6 20 6 4"/>';
-  var ICO_PAUSE = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
-  var ready = false;
-
-  function fmt(s){ s = Math.max(0, Math.floor(s||0)); var m = Math.floor(s/60); var x = s%60; return m + ':' + (x<10?'0':'') + x; }
-
-  function disableAudio(){
-    ready = false;
-    playBtn.setAttribute('disabled','');
-    if (soon) soon.classList.add('show');
-    durEl.textContent = '--:--';
-  }
-
-  a.addEventListener('loadedmetadata', function(){
-    if (isFinite(a.duration) && a.duration > 0) { ready = true; durEl.textContent = fmt(a.duration); if (soon) soon.classList.remove('show'); }
-  });
-  a.addEventListener('error', disableAudio);
-  /* Si rien n'est chargé après un court délai (fichier absent), on bascule en « bientôt » */
-  setTimeout(function(){ if (!ready && (!a.duration || isNaN(a.duration))) disableAudio(); }, 1500);
-
-  a.addEventListener('timeupdate', function(){
-    if (!a.duration) return;
-    fill.style.width = (a.currentTime / a.duration * 100) + '%';
-    curEl.textContent = fmt(a.currentTime);
-    /* surligne le segment courant */
-    var segs = document.querySelectorAll('.pc-seg'); var active = null;
-    for (var i=0;i<segs.length;i++){ var t = parseFloat(segs[i].getAttribute('data-t')||'0'); if (t <= a.currentTime + 0.25) active = segs[i]; }
-    segs.forEach(function(s){ s.classList.toggle('on', s === active); });
-  });
-  a.addEventListener('ended', function(){ ico.innerHTML = ICO_PLAY; fill.style.width = '0%'; });
-
-  playBtn.addEventListener('click', function(){
-    if (!ready) return;
-    if (a.paused) { a.play(); ico.innerHTML = ICO_PAUSE; }
-    else { a.pause(); ico.innerHTML = ICO_PLAY; }
-  });
-
-  track.addEventListener('click', function(e){
-    if (!ready || !a.duration) return;
-    var r = track.getBoundingClientRect();
-    a.currentTime = Math.min(a.duration, Math.max(0, (e.clientX - r.left) / r.width * a.duration));
-  });
-
-  /* clic sur un segment → saute à son horodatage (quand l'audio existe) */
-  document.querySelectorAll('.pc-seg').forEach(function(seg){
-    seg.addEventListener('click', function(){
-      if (!ready || !a.duration) return;
-      var t = parseFloat(seg.getAttribute('data-t')||'0');
-      a.currentTime = t; if (a.paused){ a.play(); ico.innerHTML = ICO_PAUSE; }
-    });
-  });
-
-  var RATES = [1, 1.25, 1.5, 0.75]; var ri = 0;
-  rateBtn.addEventListener('click', function(){
-    ri = (ri + 1) % RATES.length; a.playbackRate = RATES[ri];
-    rateBtn.textContent = RATES[ri] + '×';
-  });
-})();
-</script>
+<script src="ks-podcast.js"></script>
 <script src="ks-menu.js" defer></script>
 </body></html>
