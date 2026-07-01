@@ -812,7 +812,7 @@ document.querySelectorAll('.faq-q').forEach(function(q){
 (function(){
   var form=document.getElementById('nlForm'); if(!form)return;
   var input=document.getElementById('nlEmail'),btn=document.getElementById('nlBtn'),lbl=document.getElementById('nlBtnLabel'),msg=document.getElementById('nlMsg');
-  var RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/, EP='https://formsubmit.co/ajax/contact@koreanstories.fr';
+  var RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/, EP='https://ks-premium.delicate-voice-1d19.workers.dev/newsletter';
   function setMsg(k,h){msg.className='nl-msg '+k;msg.innerHTML=h;}
   form.addEventListener('submit',function(e){
     e.preventDefault();
@@ -820,9 +820,9 @@ document.querySelectorAll('.faq-q').forEach(function(q){
     if(!RE.test(email)){setMsg('err','E-mail invalide.');input.focus();return;}
     btn.disabled=true; lbl.textContent='…'; setMsg('','');
     try{var l=JSON.parse(localStorage.getItem('ks_newsletter')||'[]');if(l.indexOf(email)<0)l.push(email);localStorage.setItem('ks_newsletter',JSON.stringify(l));}catch(_){}
-    fetch(EP,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({email:email,_subject:'Korean Stories — Nouvelle inscription newsletter',_captcha:'false',_template:'table'})})
-      .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{};});})
-      .then(function(){form.style.display='none';setMsg('ok','<strong>Merci !</strong> On revient vers toi très vite.');})
+    fetch(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,action:'subscribe'})})
+      .then(function(r){if(!r.ok)throw 0;return r.json();})
+      .then(function(d){if(!d||!d.success)throw 0;form.style.display='none';setMsg('ok','<strong>Merci !</strong> On revient vers toi très vite.');})
       .catch(function(){btn.disabled=false;lbl.textContent='OK';setMsg('err','Réessaie dans un instant.');});
   });
 })();

@@ -2,6 +2,7 @@
 // Routes:
 //   POST /webhook  — reçoit les événements Stripe
 //   GET  /verify?key=XXX — vérifie une clé de licence depuis l'app
+//   POST /newsletter — inscription/désinscription newsletter (Resend Contacts)
 //
 // Variables d'environnement à configurer dans Cloudflare (jamais dans le code) :
 //   STRIPE_SECRET_KEY       sk_live_...
@@ -29,6 +30,10 @@ export default {
       return handleWebhook(request, env);
     }
 
+    if (request.method === 'POST' && url.pathname === '/newsletter') {
+      return handleNewsletter(request, env);
+    }
+
     return new Response('Korean Stories Premium API', { status: 200 });
   }
 };
@@ -49,6 +54,50 @@ async function handleVerify(request, env) {
   }
 
   return json({ success: true, type: data.type, email: data.email });
+}
+
+// ── Newsletter : inscription / désinscription via Resend Contacts ────────────
+// Base de contacts réelle (dashboard resend.com/audience, export CSV inclus) —
+// remplace l'ancien flux FormSubmit (e-mail simple, sans base consultable).
+async function handleNewsletter(request, env) {
+  let body;
+  try { body = await request.json(); } catch { return json({ success: false, message: 'Requête invalide' }, 400); }
+
+  const email = (body.email || '').trim().toLowerCase();
+  const unsubscribe = body.action === 'unsubscribe';
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json({ success: false, message: 'E-mail invalide' }, 400);
+  }
+
+  const headers = { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' };
+
+  if (unsubscribe) {
+    const res = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
+      method: 'PATCH', headers, body: JSON.stringify({ unsubscribed: true })
+    });
+    // 404 = le contact n'existait pas → rien à désinscrire, on considère que c'est OK.
+    if (!res.ok && res.status !== 404) {
+      console.log('[KS] newsletter unsubscribe error', res.status, await res.text());
+      return json({ success: false, message: 'Erreur serveur' }, 502);
+    }
+    return json({ success: true });
+  }
+
+  // Inscription : création du contact, ou réactivation s'il existe déjà.
+  let res = await fetch('https://api.resend.com/contacts', {
+    method: 'POST', headers, body: JSON.stringify({ email, unsubscribed: false })
+  });
+  if (!res.ok) {
+    console.log('[KS] newsletter create response', res.status, await res.text());
+    res = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
+      method: 'PATCH', headers, body: JSON.stringify({ unsubscribed: false })
+    });
+    if (!res.ok) {
+      console.log('[KS] newsletter reactivate error', res.status, await res.text());
+      return json({ success: false, message: 'Erreur serveur' }, 502);
+    }
+  }
+  return json({ success: true });
 }
 
 // ── Réception des webhooks Stripe ─────────────────────────────────────────────

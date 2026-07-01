@@ -297,7 +297,7 @@
       </div>
       <div class="rg-guest-msg" id="nlGuestMsg" style="display:none">Crée un compte pour t'inscrire à la newsletter avec ton adresse e-mail.</div>
     </div>
-    <p class="rg-note" id="nlNote">Pas de spam, désabonnement en un clic. Adresse stockée chez nous via <a href="mailto:contact@koreanstories.fr" style="color:var(--gold);text-decoration:none;font-weight:600">contact@koreanstories.fr</a>.</p>
+    <p class="rg-note" id="nlNote">Pas de spam, désabonnement en un clic. Adresse conservée via notre prestataire d'e-mail (Resend) — voir la <a href="confidentialite.html#donnees" style="color:var(--gold);text-decoration:none;font-weight:600">politique de confidentialité</a>.</p>
 
     <!-- APPARENCE -->
     <span class="rg-sec-lbl">Apparence</span>
@@ -779,35 +779,26 @@
   }
   syncNewsletterUI();
 
+  var NL_EP = 'https://ks-premium.delicate-voice-1d19.workers.dev/newsletter';
   window.toggleNewsletter=function(){
     if(isGuest) return;
     var optedIn = ls('ks_newsletter_opt')==='yes';
     if(optedIn){
       try{ localStorage.setItem('ks_newsletter_opt','no'); }catch(e){}
       syncNewsletterUI();
-      /* La désinscription n'est PAS purement locale : comme les
-         inscriptions arrivent par e-mail (FormSubmit) sans base de
-         données centralisée, on envoie aussi une demande explicite de
-         retrait pour qu'elle soit traitée manuellement côté éditeur
-         (obligation RGPD : le retrait doit atteindre le responsable
-         du traitement, pas seulement rester dans le navigateur). */
+      /* Désinscription réelle : marque le contact "unsubscribed" dans la
+         base Resend (dashboard resend.com/audience), pas seulement en local. */
       var unsubEmail = user && user.email;
       if(unsubEmail){
-        fetch('https://formsubmit.co/ajax/contact@koreanstories.fr', {
+        fetch(NL_EP, {
           method:'POST',
-          headers:{'Content-Type':'application/json','Accept':'application/json'},
-          body: JSON.stringify({
-            email: unsubEmail,
-            source: 'reglages',
-            _subject: 'Korean Stories — DÉSINSCRIPTION newsletter',
-            _captcha: 'false',
-            _template:'table'
-          })
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ email: unsubEmail, action:'unsubscribe' })
         }).catch(function(){});
       }
       return;
     }
-    /* Opt-in : on inscrit l'email Firebase auprès de FormSubmit. */
+    /* Opt-in : on inscrit l'email Firebase comme contact Resend. */
     var email = user && user.email;
     if(!email) return;
     nlSwitch.disabled = true;
@@ -818,18 +809,12 @@
       localStorage.setItem('ks_newsletter', JSON.stringify(list));
     }catch(e){}
 
-    fetch('https://formsubmit.co/ajax/contact@koreanstories.fr', {
+    fetch(NL_EP, {
       method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify({
-        email: email,
-        source: 'reglages',
-        _subject: 'Korean Stories — Inscription newsletter (depuis Réglages)',
-        _captcha: 'false',
-        _template:'table'
-      })
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email: email, action:'subscribe' })
     })
-    .then(function(res){ if(!res.ok) throw new Error('HTTP '+res.status); })
+    .then(function(res){ return res.json().then(function(d){ if(!res.ok || !d || !d.success) throw new Error('newsletter'); }); })
     .then(function(){
       try{ localStorage.setItem('ks_newsletter_opt','yes'); }catch(e){}
       syncNewsletterUI();
