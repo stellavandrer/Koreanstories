@@ -1768,6 +1768,21 @@ function applyVisibility(){
 
   const empty=document.getElementById('searchEmpty');
   if(empty) empty.style.display=(searching&&visible===0)?'':'none';
+
+  /* Compteur de résultats — repère clair quand on filtre ou cherche. */
+  const filtering=searching||_activeFilter!=='all';
+  let rc=document.getElementById('ks-result-count');
+  if(filtering&&visible>0){
+    if(!rc){
+      rc=document.createElement('div');
+      rc.id='ks-result-count';
+      rc.style.cssText='max-width:620px;margin:0 auto 10px;padding:0 16px;font-size:12px;font-weight:700;color:var(--t3)';
+      const rmEl=document.getElementById('roadmap');
+      if(rmEl&&rmEl.parentNode) rmEl.parentNode.insertBefore(rc,rmEl);
+    }
+    rc.textContent=visible+(visible>1?' résultats':' résultat');
+    rc.style.display='';
+  } else if(rc){ rc.style.display='none'; }
 }
 
 function setFilter(key,allMobChips,allMobItems,allSideItems){
