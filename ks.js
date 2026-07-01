@@ -1354,6 +1354,18 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   var _ksIsLight = !!KS_LIGHT_PAGES[_ksHere];
 
+  /* Charge le bandeau de consentement cookies (RGPD/ePrivacy) — sur
+     TOUTES les pages, y compris les pages "light" (mentions légales,
+     accueil…), car le consentement doit être demandé partout. */
+  (function(){
+    if (document.getElementById('ks-cookie-consent-script')) return;
+    var s = document.createElement('script');
+    s.id = 'ks-cookie-consent-script';
+    s.src = 'ks-cookie-consent.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  })();
+
   /* Charge la bannière visuelle de leçon (auto-skip si page exclue) */
   if (!_ksIsLight) (function(){
     if (document.getElementById('ks-lesson-image-script')) return;

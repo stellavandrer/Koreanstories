@@ -50,7 +50,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.25';
+const CACHE = 'ks-v7.26';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -100,6 +100,8 @@ const CORE = [
   'ks-onboarding.js',
   'gate.js',
   'design.css',
+  'fonts/ks-fonts.css',
+  'ks-cookie-consent.js',
 
   // Leçons Hangeul (Débutant)
   'lecon.html','lecon2.html','lecon3.html','lecon4.html','lecon5.html',

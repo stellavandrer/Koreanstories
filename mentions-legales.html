@@ -83,9 +83,10 @@
       <li><strong>Cloudflare</strong> (Cloudflare, Inc.) — génération et vérification des clés de licence Premium (Worker + stockage KV).</li>
       <li><strong>Resend</strong> (Resend, Inc.) — envoi de l'e-mail contenant la clé de licence.</li>
       <li><strong>Firebase</strong> (Google LLC) — authentification et synchronisation des données utilisateur. Région de stockage : europe-west3 (Francfort, UE).</li>
-      <li><strong>Google Fonts</strong> — fourniture des polices Playfair Display et Inter.</li>
-      <li><strong>DiceBear</strong> — génération des avatars utilisateur (api.dicebear.com).</li>
+      <li><strong>DiceBear</strong> — génération des avatars utilisateur (api.dicebear.com), soumis au consentement fonctionnel pour l'affichage des avatars d'autrui.</li>
+      <li><strong>FormSubmit</strong> (FormSubmit.co) — transmission par e-mail des inscriptions à la newsletter.</li>
     </ul>
+    <p style="font-size:.83rem;color:var(--tx-muted);margin-top:.6rem">Les polices du site sont auto-hébergées : aucune requête n'est plus envoyée à Google Fonts.</p>
     <p style="font-size:.83rem;color:var(--tx-muted);margin-top:.6rem">Le détail des traitements de données figure dans la <a href="confidentialite.html">Politique de confidentialité</a>.</p>
   </div>
 
@@ -138,8 +139,12 @@
     <h4>Stockage local du navigateur</h4>
     <p>L'application utilise le <strong>localStorage</strong> de ton navigateur pour conserver ta progression hors-ligne (clés préfixées <code>ks_</code>). Aucune donnée n'est transmise à un tiers via ce mécanisme.</p>
 
-    <h4>Cookies fonctionnels</h4>
+    <h4>Cookies nécessaires</h4>
     <p>Lorsque tu te connectes, Firebase Auth dépose un cookie de session strictement nécessaire au fonctionnement du service. Aucun consentement explicite n'est requis pour ce cookie (article 82 de la loi Informatique et Libertés).</p>
+
+    <h4>Cookies fonctionnels (soumis à ton choix)</h4>
+    <p>Un bandeau te permet, dès ta première visite, d'accepter ou de refuser l'affichage des avatars DiceBear d'autres membres (ex. classement). Ce choix est mémorisé sur ton appareil et modifiable à tout moment via le bouton ci-dessous ou dans la <a href="confidentialite.html#cookies">Politique de confidentialité</a>.</p>
+    <button onclick="if(window.KSCookieConsent)window.KSCookieConsent.open()" style="margin-top:.4rem;padding:.6rem 1.1rem;border-radius:100px;background:var(--gold);color:#fff;border:none;font-weight:700;font-size:.85rem;cursor:pointer">Gérer mes cookies</button>
   </div>
 
   <h3 id="propriete">5. Propriété intellectuelle</h3>
