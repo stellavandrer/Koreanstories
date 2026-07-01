@@ -192,6 +192,14 @@
         <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
         Gérer / résilier mon abonnement
       </a>
+      <!-- Factures (Stripe conserve et génère les factures conformes ; le
+           portail client permet de les consulter/télécharger et Stripe les
+           envoie aussi automatiquement par e-mail après chaque paiement). -->
+      <a id="rgInvoices" href="https://billing.stripe.com/p/login/5kQbJ35BtcZH36f1NSe7m00" target="_blank" rel="noopener" style="display:none;border-top:1px solid var(--bd);padding:14px 16px;align-items:center;gap:8px;text-decoration:none;color:var(--t2);font-weight:600;font-size:13.5px">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0"><path d="M9 12h6M9 16h6M9 8h1"/><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Voir / télécharger mes factures
+      </a>
+      <p class="rg-note" id="rgInvoicesNote" style="display:none;padding:0 16px 12px">Une facture t'est aussi envoyée automatiquement par e-mail après chaque paiement.</p>
     </div>
 
     <!-- COMPTE -->
@@ -775,10 +783,28 @@
     if(isGuest) return;
     var optedIn = ls('ks_newsletter_opt')==='yes';
     if(optedIn){
-      /* Désinscription locale (purement client — on garde l'email côté
-         serveur jusqu'au prochain envoi pour purge manuelle). */
       try{ localStorage.setItem('ks_newsletter_opt','no'); }catch(e){}
       syncNewsletterUI();
+      /* La désinscription n'est PAS purement locale : comme les
+         inscriptions arrivent par e-mail (FormSubmit) sans base de
+         données centralisée, on envoie aussi une demande explicite de
+         retrait pour qu'elle soit traitée manuellement côté éditeur
+         (obligation RGPD : le retrait doit atteindre le responsable
+         du traitement, pas seulement rester dans le navigateur). */
+      var unsubEmail = user && user.email;
+      if(unsubEmail){
+        fetch('https://formsubmit.co/ajax/contact@koreanstories.fr', {
+          method:'POST',
+          headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body: JSON.stringify({
+            email: unsubEmail,
+            source: 'reglages',
+            _subject: 'Korean Stories — DÉSINSCRIPTION newsletter',
+            _captcha: 'false',
+            _template:'table'
+          })
+        }).catch(function(){});
+      }
       return;
     }
     /* Opt-in : on inscrit l'email Firebase auprès de FormSubmit. */
@@ -1214,19 +1240,23 @@
   (function(){
     function sync(){
       var on = window.KSPremium && KSPremium.isPremium();
-      var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn'), lic = document.getElementById('rgLicSection'), mng = document.getElementById('rgManageSub');
+      var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn'), lic = document.getElementById('rgLicSection'), mng = document.getElementById('rgManageSub'), inv = document.getElementById('rgInvoices'), invNote = document.getElementById('rgInvoicesNote');
       if (on) {
         if (t) t.textContent = 'Premium actif 💛';
         if (s) s.textContent = 'Merci de soutenir Korean Stories ! Tous les bonus sont débloqués.';
         if (b) b.textContent = 'Gérer';
         if (lic) lic.style.display = 'none';
         if (mng) mng.style.display = 'flex';
+        if (inv) inv.style.display = 'flex';
+        if (invNote) invNote.style.display = 'block';
       } else {
         if (t) t.textContent = 'Passe en Premium';
         if (s) s.textContent = 'Débloque les bonus (PDF, certificat, podcasts à venir…) et soutiens le projet.';
         if (b) b.textContent = 'Voir';
         if (lic) lic.style.display = 'block';
         if (mng) mng.style.display = 'none';
+        if (inv) inv.style.display = 'none';
+        if (invNote) invNote.style.display = 'none';
       }
     }
     document.addEventListener('ks-premium-change', sync);
