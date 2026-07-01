@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0F1B2D"/>
+<title>한국의 지하철 — Korean Stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Nanum+Myeongjo:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="design.css"/>
+<link rel="stylesheet" href="ks-presse.css"/>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+</head>
+<body>
+<div class="shell">
+  <div id="readMain">
+    <div class="np-bar">
+      <a href="histoires.html#lectures" class="np-back" aria-label="Retour"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+      <div class="np-bar-title">한국 소식</div>
+      <button class="np-frtoggle" id="frToggle" aria-pressed="false" onclick="toggleFr()"><span class="dot"></span>Trad. FR</button>
+    </div>
+    <div class="read-prog-bar"><div class="read-prog-fill" id="progressFill"></div></div>
+    <div class="np-scroll">
+      <article class="np" id="article">
+        <div class="np-mast">
+          <div class="np-mast-name">한국 소식</div>
+          <div class="np-mast-sub">Le quotidien · Korean Stories</div>
+        </div>
+        <div class="np-dateline"><span id="npDate">서울</span><span>제 8 호</span><span>무료 · GRATUIT</span></div>
+        <div class="np-kicker">생활 · VIE PRATIQUE · A1</div>
+        <h1 class="np-headline">한국의 지하철</h1>
+        <div class="np-standfirst">Le métro coréen</div>
+        <div class="np-byline"><span>한국 소식 편집부</span><span class="sep"></span><span>~6 min · A1</span></div>
+        <div class="np-body" id="body">
+          <p class="art-p"><span class="s">한국의 지하철은 아주 <span class="w">편리해요<i>pyeollihaeyo · <b>être pratique</b></i></span>.</span> <span class="fr">Le métro coréen est très pratique.</span> <span class="s">서울에는 지하철 <span class="w">노선<i>noseon · <b>ligne</b></i></span>이 정말 많아요.</span> <span class="fr">À Séoul, il y a vraiment beaucoup de lignes de métro.</span></p>
+          <p class="art-p"><span class="s">지하철은 <span class="w">깨끗하고<i>kkaekkeuthago · <b>propre (et)</b></i></span> 빨라요.</span> <span class="fr">Le métro est propre et rapide.</span> <span class="s">그리고 <span class="w">값<i>gap · <b>prix</b></i></span>도 싸요.</span> <span class="fr">Et le prix aussi est bas.</span></p>
+          <p class="art-p"><span class="s">지하철역에는 <span class="w">안내판<i>annaepan · <b>panneau d'information</b></i></span>이 많아요.</span> <span class="fr">Dans les stations de métro, il y a beaucoup de panneaux d'information.</span> <span class="s">그래서 길을 찾기 쉬워요. 한국어를 잘 몰라도 <span class="w">괜찮아요<i>gwaenchanayo · <b>ça va, pas de souci</b></i></span>.</span> <span class="fr">Du coup, c'est facile de trouver son chemin. Même si on ne connaît pas bien le coréen, ça va.</span></p>
+          <p class="art-p"><span class="s">카드 한 장이면 버스도 지하철도 탈 수 있어요.</span> <span class="fr">Avec une seule carte, on peut prendre le bus et le métro.</span> <span class="s">이 카드를 ‘<span class="w">교통카드<i>gyotongkadeu · <b>carte de transport</b></i></span>’라고 해요.</span> <span class="fr">On appelle cette carte une « carte de transport ».</span></p>
+          <p class="art-p"><span class="s">한국에 가면 지하철을 꼭 <span class="w">타 보세요<i>ta boseyo · <b>essayez de prendre</b></i></span>.</span> <span class="fr">Si vous allez en Corée, prenez absolument le métro.</span> <span class="s">정말 편해요!</span> <span class="fr">C'est vraiment pratique !</span></p>
+        </div>
+        <div class="np-end">— ◆ —</div>
+
+        <div class="np-box">
+          <div class="np-box-lbl">어휘 <span>Lexique</span></div>
+          <div class="vocab-grid" id="vocabGrid"></div>
+        </div>
+        <div class="np-box">
+          <div class="np-box-lbl">이해 확인 <span>Compréhension</span></div>
+          <div id="quizSection"></div>
+          <button class="check-btn" id="checkBtn" onclick="checkAll()">Valider mes réponses</button>
+        </div>
+        <div class="xp-reward" id="xpReward">
+          <div class="xp-ico"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg></div>
+          <div class="xp-title">Article lu !</div>
+          <div class="xp-sub">Score <span id="scoreDisplay"></span>/4</div>
+          <div class="xp-pill">+12 XP</div>
+          <div class="xp-btns"><a href="histoires.html#lectures" class="btn-secondary">Autres lectures</a><a href="presse9.html" class="btn-primary">Lecture suivante →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+<script>window.ART={xpKey:'ks_presse_8',xp:12,id:'presse_8',
+vocab:[["편리하다","pyeollihada","être pratique","adj"],["노선","noseon","ligne (de métro)","n"],["깨끗하다","kkaekkeuthada","être propre","adj"],["값","gap","prix","n"],["안내판","annaepan","panneau d'information","n"],["교통카드","gyotongkadeu","carte de transport","n"]],
+quiz:[["Le métro de Séoul, comment est-il ?",["Il a peu de lignes","Il a beaucoup de lignes et il est pratique","Il est cher","Il est lent"],1],["Le prix du métro est…",["élevé","bas","gratuit","variable"],1],["Pourquoi est-il facile de s'orienter ?",["Il y a beaucoup de panneaux","Il y a peu de monde","Les stations sont petites","Tout est en français"],0],["Avec la carte de transport, on peut prendre…",["seulement le métro","seulement le bus","le bus et le métro","le taxi"],2]]};</script>
+<script src="ks.js"></script>
+<script src="ks-presse.js"></script>
+<script src="ks-menu.js" defer></script>
+</body>
+</html>

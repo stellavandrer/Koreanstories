@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#0F1B2D"/>
+<title>한국의 김밥 — Korean Stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Nanum+Myeongjo:wght@400;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="design.css"/>
+<link rel="stylesheet" href="ks-presse.css"/>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+</head>
+<body>
+<div class="shell">
+  <div id="readMain">
+    <div class="np-bar">
+      <a href="histoires.html#lectures" class="np-back" aria-label="Retour"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></a>
+      <div class="np-bar-title">한국 소식</div>
+      <button class="np-frtoggle" id="frToggle" aria-pressed="false" onclick="toggleFr()"><span class="dot"></span>Trad. FR</button>
+    </div>
+    <div class="read-prog-bar"><div class="read-prog-fill" id="progressFill"></div></div>
+    <div class="np-scroll">
+      <article class="np" id="article">
+        <div class="np-mast">
+          <div class="np-mast-name">한국 소식</div>
+          <div class="np-mast-sub">Le quotidien · Korean Stories</div>
+        </div>
+        <div class="np-dateline"><span id="npDate">서울</span><span>제 9 호</span><span>무료 · GRATUIT</span></div>
+        <div class="np-kicker">음식 · CUISINE · A1</div>
+        <h1 class="np-headline">한국의 김밥</h1>
+        <div class="np-standfirst">Le kimbap, le rouleau coréen</div>
+        <div class="np-byline"><span>한국 소식 편집부</span><span class="sep"></span><span>~6 min · A1</span></div>
+        <div class="np-body" id="body">
+          <p class="art-p"><span class="s">한국 사람들은 <span class="w">김밥<i>gimbap · <b>kimbap (rouleau de riz)</b></i></span>을 아주 좋아해요.</span> <span class="fr">Les Coréens aiment beaucoup le kimbap.</span> <span class="s">김밥은 밥과 여러 <span class="w">재료<i>jaeryo · <b>ingrédient</b></i></span>를 김으로 말아요.</span> <span class="fr">Le kimbap, c'est du riz et plusieurs ingrédients roulés dans une feuille d'algue.</span></p>
+          <p class="art-p"><span class="s">김밥 안에는 <span class="w">채소<i>chaeso · <b>légume</b></i></span>, 계란, 그리고 고기가 들어가요.</span> <span class="fr">Dans le kimbap, il y a des légumes, de l'œuf et de la viande.</span> <span class="s">색깔이 정말 <span class="w">예뻐요<i>yeppeoyo · <b>c'est joli</b></i></span>.</span> <span class="fr">Les couleurs sont vraiment jolies.</span></p>
+          <p class="art-p"><span class="s">김밥은 <span class="w">싸고<i>ssago · <b>bon marché (et)</b></i></span> 맛있어요.</span> <span class="fr">Le kimbap est bon marché et délicieux.</span> <span class="s">그래서 학생들이 자주 사 먹어요.</span> <span class="fr">C'est pourquoi les étudiants en achètent souvent.</span></p>
+          <p class="art-p"><span class="s"><span class="w">소풍<i>sopung · <b>pique-nique, sortie</b></i></span>을 갈 때 많은 사람들이 김밥을 싸 가요.</span> <span class="fr">Quand on part en pique-nique, beaucoup de gens emportent du kimbap.</span> <span class="s">손으로 쉽게 먹을 수 있거든요.</span> <span class="fr">Parce qu'on peut le manger facilement avec les mains.</span></p>
+          <p class="art-p"><span class="s">여러분도 한국에서 김밥을 <span class="w">드셔 보세요<i>deusyeo boseyo · <b>goûtez (poli)</b></i></span>.</span> <span class="fr">Vous aussi, goûtez le kimbap en Corée.</span> <span class="s">정말 맛있어요!</span> <span class="fr">C'est vraiment délicieux !</span></p>
+        </div>
+        <div class="np-end">— ◆ —</div>
+
+        <div class="np-box">
+          <div class="np-box-lbl">어휘 <span>Lexique</span></div>
+          <div class="vocab-grid" id="vocabGrid"></div>
+        </div>
+        <div class="np-box">
+          <div class="np-box-lbl">이해 확인 <span>Compréhension</span></div>
+          <div id="quizSection"></div>
+          <button class="check-btn" id="checkBtn" onclick="checkAll()">Valider mes réponses</button>
+        </div>
+        <div class="xp-reward" id="xpReward">
+          <div class="xp-ico"><svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg></div>
+          <div class="xp-title">Article lu !</div>
+          <div class="xp-sub">Score <span id="scoreDisplay"></span>/4</div>
+          <div class="xp-pill">+12 XP</div>
+          <div class="xp-btns"><a href="histoires.html#lectures" class="btn-secondary">Autres lectures</a><a href="presse1.html" class="btn-primary">Lecture suivante →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+<script>window.ART={xpKey:'ks_presse_9',xp:12,id:'presse_9',
+vocab:[["김밥","gimbap","kimbap (rouleau de riz)","n"],["재료","jaeryo","ingrédient","n"],["채소","chaeso","légume","n"],["예쁘다","yeppeuda","être joli","adj"],["싸다","ssada","être bon marché","adj"],["소풍","sopung","pique-nique, sortie","n"]],
+quiz:[["Le kimbap est roulé dans…",["du pain","une feuille d'algue (김)","du papier","une crêpe"],1],["Qu'est-ce qu'on met dans le kimbap ?",["des légumes, de l'œuf et de la viande","du chocolat","du fromage seulement","des fruits"],0],["Pourquoi les étudiants en mangent souvent ?",["c'est cher","c'est bon marché et délicieux","c'est chaud","c'est rare"],1],["Quand emporte-t-on souvent du kimbap ?",["au pique-nique","au travail de nuit","jamais","à l'hôpital"],0]]};</script>
+<script src="ks.js"></script>
+<script src="ks-presse.js"></script>
+<script src="ks-menu.js" defer></script>
+</body>
+</html>

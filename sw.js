@@ -50,7 +50,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.24';
+const CACHE = 'ks-v7.25';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -147,6 +147,10 @@ const CORE = [
   // Podcasts (transcription + lecture vocale + XP)
   'ks-podcast.js','ks-podcast.css',
   'podcast1.html','podcast2.html','podcast3.html','podcast4.html','podcast5.html',
+
+  // Lectures — articles de presse (modules partagés + nouveaux A1)
+  'ks-presse.js','ks-presse.css',
+  'presse8.html','presse9.html',
 ];
 
 // ── Install : précharge les pages core ──
