@@ -271,7 +271,43 @@
     'lecon48.html': 'img/anecdotes/books.webp',
     'lecon55.html': 'img/lessons/study.webp',
     'lecon56.html': 'img/anecdotes/books.webp',
-    'lecon57.html': 'img/lessons/study.webp'
+    'lecon57.html': 'img/lessons/study.webp',
+
+    /* === Leçons B1 === */
+    'lecon28.html': 'img/lessons/study.webp',
+    'lecon29.html': 'img/anecdotes/friends.webp',        /* Conversation */
+    'lecon30.html': 'img/lessons/study.webp',
+    'lecon31.html': 'img/anecdotes/books.webp',
+    'lecon32.html': 'img/lessons/meeting.webp',          /* Affaires */
+    'lecon33.html': 'img/anecdotes/hoesik.webp',
+    'lecon34.html': 'img/lessons/study.webp',
+    'lecon35.html': 'img/anecdotes/books.webp',          /* Savoir */
+    'lecon49.html': 'img/lessons/study.webp',
+    'lecon50.html': 'img/anecdotes/books.webp',
+    'lecon51.html': 'img/lessons/study.webp',
+    'lecon52.html': 'img/anecdotes/books.webp',
+    'lecon53.html': 'img/lessons/study.webp',
+    'lecon54.html': 'img/anecdotes/books.webp',
+
+    /* === Leçons B2 === */
+    'lecon36.html': 'img/anecdotes/friends.webp',        /* Conversation */
+    'lecon37.html': 'img/lessons/study.webp',
+    'lecon38.html': 'img/lessons/newspaper.webp',        /* Presse */
+    'lecon39.html': 'img/lessons/meeting.webp',          /* Affaires */
+    'lecon40.html': 'img/lessons/study.webp',
+    'lecon40b.html':'img/anecdotes/books.webp',
+    'lecon40c.html':'img/lessons/meeting.webp',
+    'lecon40d.html':'img/lessons/colors.webp',           /* Art */
+
+    /* === Quiz / checkpoints === */
+    'quiz2.html': 'img/lessons/certificate.webp',
+    'quiz3.html': 'img/lessons/exam.webp',
+    'quiz4.html': 'img/lessons/certificate.webp',
+    'quiz5.html': 'img/lessons/certificate.webp',
+    'quiz6.html': 'img/lessons/exam.webp',
+    'quiz7.html': 'img/lessons/study.webp',
+    'quiz8.html': 'img/lessons/certificate.webp',
+    'quiz9.html': 'img/lessons/exam.webp'
   };
 
   /* ── Pages à NE PAS toucher ─────────────────────────────────────
