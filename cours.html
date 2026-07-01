@@ -2256,13 +2256,17 @@ function rPdfs(lv){
     fab.href=activeHref;fab.classList.add('show');
   }
 
-  /* Jour 1 : héros conscient de l'état — pas de mur de zéros, un CTA clair */
-  if(gDone===0){
-    const pe=document.querySelector('.page-enter'); if(pe) pe.classList.add('ks-new');
+  /* Héros conscient de l'état : CTA clair pour démarrer OU reprendre. */
+  {
     const hero=document.querySelector('.hero');
     if(hero && !hero.querySelector('.hero-cta')){
       const cta=document.createElement('div'); cta.className='hero-cta';
-      cta.innerHTML=`<a class="hero-cta-btn" href="${activeHref||'lecon.html'}">Commencer par le Hangeul <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a><div class="hero-path">Hangeul → A1 → A2 → B1 → B2</div>`;
+      if(gDone===0){
+        const pe=document.querySelector('.page-enter'); if(pe) pe.classList.add('ks-new');
+        cta.innerHTML=`<a class="hero-cta-btn" href="${activeHref||'lecon.html'}">Commencer par le Hangeul <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a><div class="hero-path">Hangeul → A1 → A2 → B1 → B2</div>`;
+      } else {
+        cta.innerHTML=`<a class="hero-cta-btn" href="${activeHref||'lecon.html'}"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> Reprendre l'apprentissage</a><div class="hero-path">${gDone}/${gTotal} activités · ${pct}% du parcours complété</div>`;
+      }
       hero.appendChild(cta);
     }
   }
