@@ -226,7 +226,52 @@
     'anecdote17.html': 'img/anecdotes/mukbang.webp',
     'anecdote18.html': 'img/anecdotes/age.webp',
     'anecdote19.html': 'img/anecdotes/superstition.webp',
-    'anecdote20.html': 'img/anecdotes/konglish.webp'
+    'anecdote20.html': 'img/anecdotes/konglish.webp',
+
+    /* === Leçons A1 === */
+    'lecon5.html':  'img/anecdotes/bow.webp',            /* Salutations */
+    'lecon6.html':  'img/lessons/numbers.webp',          /* Chiffres */
+    'lecon6b.html': 'img/lessons/numbers.webp',          /* Chiffres natifs */
+    'lecon7.html':  'img/vocab/famille-famille.webp',    /* Famille */
+    'lecon8.html':  'img/lessons/colors.webp',           /* Couleurs */
+    'lecon10.html': 'img/lessons/food.webp',             /* Nourriture */
+    'lecon11.html': 'img/lessons/places.webp',           /* Lieux */
+    'lecon12.html': 'img/lessons/directions.webp',       /* Directions */
+    'lecon13.html': 'img/lessons/study.webp',            /* Négation */
+    'lecon14.html': 'img/anecdotes/books.webp',          /* Questions */
+    'lecon15.html': 'img/lessons/study.webp',            /* Particules */
+    'lecon16.html': 'img/anecdotes/books.webp',          /* Particules suite */
+    'lecon41.html': 'img/lessons/study.webp',            /* Verbes */
+    'lecon42.html': 'img/lessons/clock.webp',            /* Heure & jours */
+    'lecon43.html': 'img/vocab/ex5-sky.webp',            /* Météo */
+    'lecon44.html': 'img/lessons/numbers.webp',          /* Compteurs */
+    'lecon58.html': 'img/vocab/famille-doctor.webp',     /* Corps & santé */
+    'lecon59.html': 'img/vocab/magasin-jacket.webp',     /* Vêtements */
+    'lecon60.html': 'img/anecdotes/friends.webp',        /* Émotions */
+    'lecon64.html': 'img/vocab/resto-menu.webp',         /* Restaurant */
+    'lecon65.html': 'img/vocab/decrire-longhair.webp',   /* Décrire qqn */
+    'lecon66.html': 'img/vocab/transport-metro.webp',    /* Transports */
+    'lecon67.html': 'img/vocab/loisir-film.webp',        /* Loisirs */
+
+    /* === Leçons A2 === */
+    'lecon17.html': 'img/lessons/study.webp',
+    'lecon18.html': 'img/anecdotes/hoesik.webp',         /* Travail en équipe */
+    'lecon19.html': 'img/vocab/magasin-store.webp',      /* Achats en ligne */
+    'lecon20.html': 'img/lessons/travel.webp',           /* Voyage */
+    'lecon21.html': 'img/anecdotes/books.webp',
+    'lecon22.html': 'img/lessons/study.webp',
+    'lecon23.html': 'img/lessons/study.webp',
+    'lecon24.html': 'img/vocab/magasin-store.webp',      /* Envies / wishlist */
+    'lecon25.html': 'img/anecdotes/books.webp',
+    'lecon26.html': 'img/anecdotes/hoesik.webp',         /* Affaires */
+    'lecon27.html': 'img/lessons/clock.webp',            /* Calendrier */
+    'lecon45.html': 'img/lessons/study.webp',
+    'lecon46.html': 'img/anecdotes/friends.webp',        /* Souvenir */
+    'lecon47.html': 'img/lessons/study.webp',
+    'lecon48.html': 'img/anecdotes/books.webp',
+    'lecon55.html': 'img/lessons/study.webp',
+    'lecon56.html': 'img/anecdotes/books.webp',
+    'lecon57.html': 'img/lessons/study.webp'
   };
 
   /* ── Pages à NE PAS toucher ─────────────────────────────────────
