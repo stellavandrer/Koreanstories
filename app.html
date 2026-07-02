@@ -3781,10 +3781,15 @@ document.addEventListener('click', function(e){
       }
     } catch(e){}
     try { if (typeof renderStreakCard === 'function') renderStreakCard(); } catch(e){}
-    /* Remplace la carte par un toast de confirmation */
+    /* Remplace la carte par un toast de confirmation
+       (on cible .sw-card, pas #streakWarn : ce dernier contient aussi le
+       <style> du widget en enfant direct — le remplacer via innerHTML
+       détruisait les règles .sw-toast/.sw-toast svg, d'où l'icône géante
+       non stylée observée en prod) */
     var box = document.getElementById('streakWarn');
-    if (box) {
-      box.innerHTML =
+    var card = box ? box.querySelector('.sw-card') : null;
+    if (box && card) {
+      card.outerHTML =
         '<div class="sw-toast">' +
           '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' +
           'Streak protégé pour aujourd\'hui — repos bien mérité' +
