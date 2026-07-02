@@ -13,12 +13,12 @@
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
   <title>Histoire 2 — 시장에서 · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/histoire2.html"/>
-  <meta name="description" content="Deuxième histoire en coréen. Mina et Joon au marché — écoute, lis, teste-toi !"/>
+  <meta name="description" content="Mina et Joon font leurs courses au marché de Séoul (시장에서) : suis leur conversation et clique sur les mots surlignés pour apprendre. Histoire A1."/>
   <meta property="og:title" content="Histoire 2 — 시장에서 · Korean Stories"/>
   <meta property="og:description" content="Mina et Joon font leurs courses au marché de Séoul. Lis le dialogue, clique les mots, teste-toi."/>
   <meta property="og:type" content="website"/>
   <meta name="twitter:card" content="summary"/>
-<link rel="stylesheet" href="fonts/ks-fonts.css"/>
+<link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
   <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -734,7 +734,7 @@
   const grid = document.getElementById('vocabGrid');
   if(grid) {
     grid.innerHTML = STORY_WORDS.map(w => `
-      <div class="recap-item" id="ri-${w.id}" onclick="playRecap('${w.id}','${w.audio}')">
+      <div class="recap-item" id="ri-${w.id}" onclick="playRecap('${w.id}','${w.audio}')" tabindex="0" role="button" aria-label="Écouter ce mot" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();playRecap('${w.id}','${w.audio}')}">
         <div class="recap-kr">${w.kr}</div>
         <div class="recap-info">
           <div class="recap-fr">${w.fr}</div>

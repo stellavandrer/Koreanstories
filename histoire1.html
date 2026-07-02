@@ -14,7 +14,7 @@
   <title>Histoire 1 — 안녕하세요 ! · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/histoire1.html"/>
   <meta name="description" content="Ta première histoire en coréen. Lis un dialogue entre Mina et Joon avec les mots que tu as appris."/>
-<link rel="stylesheet" href="fonts/ks-fonts.css"/>
+<link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
   <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -844,7 +844,7 @@
   const grid = document.getElementById('vocabGrid');
   if(grid) {
     grid.innerHTML = STORY_WORDS.map(w => `
-      <div class="recap-item" id="ri-${w.id}" onclick="playRecap('${w.id}','${w.audio}')">
+      <div class="recap-item" id="ri-${w.id}" onclick="playRecap('${w.id}','${w.audio}')" tabindex="0" role="button" aria-label="Écouter ce mot" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();playRecap('${w.id}','${w.audio}')}">
         <div class="recap-kr">${w.kr}</div>
         <div class="recap-info">
           <div class="recap-fr">${w.fr}</div>

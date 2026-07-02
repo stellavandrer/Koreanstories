@@ -18,7 +18,7 @@
   <meta property="og:description" content="Leçon 1 : apprends ㄱ (g), ㄴ (n), ㅏ (a) et lis ta première syllabe 가. Audio natif, exercices interactifs."/>
   <meta property="og:type" content="website"/>
   <meta name="twitter:card" content="summary"/>
-<link rel="stylesheet" href="fonts/ks-fonts.css"/>
+<link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
   <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -1039,7 +1039,7 @@ function render(step) {
       <div class="mcq">
         <span class="q-cnt">Question ${qNum} / ${TOTAL_Q}</span>
         <p class="q-prompt">${step.prompt}</p>
-        <div class="q-big" id="qMain" onclick="speak('${step.mainAudio||step.main}', null)" title="Écouter">${step.main}</div>
+        <div class="q-big" id="qMain" onclick="speak('${step.mainAudio||step.main}', null)" title="Écouter" tabindex="0" role="button" aria-label="Écouter" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();speak('${step.mainAudio||step.main}', null)}">${step.main}</div>
         <p class="q-hint" style="font-size:11px;color:var(--gray);margin-bottom:18px">Appuie sur le caractère pour l'entendre</p>
         <div class="choices">${step.choices.map(c=>`<button class="ch" data-c="${c}">${c}</button>`).join('')}</div>
         <div class="fb" id="fb"></div>

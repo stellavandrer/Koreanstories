@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Exercice : Décrire quelqu'un — Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/exercice26.html"/>
-<meta name="description" content="Exercice : Décrire quelqu'un : exercice interactif pour pratiquer ton coréen, corrigé immédiat et suivi de progression sur Korean Stories."/>
+<meta name="description" content="Décris des personnes en coréen avec 8 questions sur l'apparence et le caractère, en utilisant la forme adjectif + nom. Exercice A1."/>
   <meta name="theme-color" content="#0F1B2D"/>
   <link rel="stylesheet" href="design.css">
   <style>
@@ -80,7 +80,7 @@ function render(){
   opts.forEach(o=>{html+='<div class="opt" data-c="'+(o.correct?1:0)+'">'+o.text+'</div>';});
   html+='<div class="fb" id="fb"></div><button class="next" id="nextBtn" style="display:none" onclick="next()">Suivant →</button></div>';
   document.getElementById('quizArea').innerHTML=html;
-  document.querySelectorAll('.opt').forEach(o=>o.onclick=()=>pick(o,q));
+  document.querySelectorAll('.opt').forEach(o=>{o.onclick=()=>pick(o,q);o.tabIndex=0;o.setAttribute('role','button');o.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(o,q);}};});
 }
 function pick(el,q){
   if(document.querySelector('.opt.ok,.opt.ko'))return;
