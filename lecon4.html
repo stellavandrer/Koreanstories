@@ -825,7 +825,7 @@ function renderChoices(step) {
   const qTyp = step.type;
   let mainHtml = '';
   if(qTyp === 'mcq') {
-    mainHtml = `<div class="q-big" onclick="speak('${step.mainAudio||step.main}',null)" title="Écouter">${step.main}</div><p class="q-hint">Appuie sur la syllabe pour l'entendre</p>`;
+    mainHtml = `<div class="q-big" onclick="speak('${step.mainAudio||step.main}',null)" title="Écouter" tabindex="0" role="button" aria-label="Écouter" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();speak('${step.mainAudio||step.main}',null)}">${step.main}</div><p class="q-hint">Appuie sur la syllabe pour l'entendre</p>`;
   } else if(qTyp === 'word') {
     mainHtml = `<div class="word-card" style="margin-bottom:16px">
       <div class="word-big">${step.word}</div>

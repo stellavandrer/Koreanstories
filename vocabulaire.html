@@ -596,7 +596,7 @@
 
   <!-- Flip card -->
   <div id="studyCardWrap" style="perspective:1000px;width:100%;max-width:340px;margin-bottom:32px">
-    <div id="studyCardInner" style="position:relative;width:100%;height:220px;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);cursor:pointer" onclick="flipStudyCard()">
+    <div id="studyCardInner" style="position:relative;width:100%;height:220px;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);cursor:pointer" onclick="flipStudyCard()" tabindex="0" role="button" aria-label="Retourner la carte" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();flipStudyCard()}">
       <!-- Front: Korean -->
       <div style="position:absolute;inset:0;backface-visibility:hidden;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
         <div id="studyKr" style="font-size:64px;font-weight:300;color:white;line-height:1;letter-spacing:-.02em">—</div>
@@ -991,15 +991,15 @@ function renderCards(filter) {
     const m = getMastery(w.id);
     const dot = m >= 2 ? 'good' : m === 1 ? 'mid' : 'new';
     const badgeStyle = `background:${lecColors[w.lec]}22;color:${lecColors[w.lec]}`;
-    return `<div class="flip-wrap" id="fw-${w.id}">
+    return `<div class="flip-wrap" id="fw-${w.id}" tabindex="0" role="button" aria-label="Retourner la carte ${w.kr}" onclick="flipCard('${w.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();flipCard('${w.id}')}">
       <div class="flip-inner">
-        <div class="flip-front" onclick="flipCard('${w.id}')">
+        <div class="flip-front">
           <div class="card-kr">${w.kr}</div>
           <div class="card-rom">${w.rom}</div>
           <div class="card-lec-badge" style="${badgeStyle}">${lecNames[w.lec]}</div>
           <div class="card-hint">Appuie pour voir</div>
         </div>
-        <div class="flip-back" onclick="flipCard('${w.id}')">
+        <div class="flip-back">
           <div class="card-back-kr">${w.kr}</div>
           <div class="card-back-fr">${w.fr}</div>
           <div class="card-back-break">${w.break}</div>

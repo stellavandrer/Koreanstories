@@ -292,7 +292,7 @@ function renderMCQ(idx){
     <div class="mcq">
       <span class="q-cnt">Question ${idx+1} / ${MCQ.length}</span>
       <div class="q-prompt">${q.q}</div>
-      <div class="q-big" onclick="speak('${q.big}',null)">${q.big}</div>
+      <div class="q-big" onclick="speak('${q.big}',null)" tabindex="0" role="button" aria-label="Écouter" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();speak('${q.big}',null)}">${q.big}</div>
       <div class="choices" id="chs">
         ${q.choices.map((c,i)=>`<button class="ch" onclick="pick(${i},${idx})">${c}</button>`).join('')}
       </div>

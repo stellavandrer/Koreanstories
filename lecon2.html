@@ -886,7 +886,7 @@ function render(step) {
       <div class="mcq">
         <span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span>
         <p class="q-prompt">${step.prompt}</p>
-        <div class="q-big" onclick="speak('${step.mainAudio||step.main}',null)" title="Écouter">${step.main}</div>
+        <div class="q-big" onclick="speak('${step.mainAudio||step.main}',null)" title="Écouter" tabindex="0" role="button" aria-label="Écouter" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();speak('${step.mainAudio||step.main}',null)}">${step.main}</div>
         <p class="q-hint">Appuie sur le caractère pour l'entendre</p>
         <div class="choices">${step.choices.map(c=>`<button class="ch" data-c="${c}">${c}</button>`).join('')}</div>
         <div class="fb" id="fb"></div>

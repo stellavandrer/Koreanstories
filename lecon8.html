@@ -708,7 +708,7 @@ function sbtn(t,l){return `<button class="speak-btn" onclick="var b=this;speak('
 
 function renderQ(step){
   let mh='';
-  if(step.type==='mcq') mh=`<div class="q-big" onclick="speak('${step.mainAudio||step.main}',null)">${step.main}</div><p class="q-hint">Écouter</p>`;
+  if(step.type==='mcq') mh=`<div class="q-big" onclick="speak('${step.mainAudio||step.main}',null)" tabindex="0" role="button" aria-label="Écouter" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();speak('${step.mainAudio||step.main}',null)}">${step.main}</div><p class="q-hint">Écouter</p>`;
   return `<div class="mcq"><span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span><p class="q-prompt">${step.prompt}</p>${mh}<div class="choices">${step.choices.map(c=>`<button class="ch" data-c="${c}">${c}</button>`).join('')}</div><div class="fb" id="fb"></div><button class="nxt" id="nxt">Continuer →</button></div>`;
 }
 

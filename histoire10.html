@@ -465,7 +465,7 @@ const RECAP_IDS = ['syopingmol','seil','ot','ibeobwayo','saijeu','eoullyeoyo','n
 const grid = document.getElementById('vocabGrid');
 if(grid){
   grid.innerHTML = RECAP_IDS.map(id=>STORY_WORDS.find(w=>w.id===id)).filter(Boolean).map(w=>`
-    <div class="recap-item" onclick="playAudio('${w.audio}',this)">
+    <div class="recap-item" onclick="playAudio('${w.audio}',this)" tabindex="0" role="button" aria-label="Écouter ce mot" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();playAudio('${w.audio}',this)}">
       <div class="recap-audio-dot"></div>
       <div class="recap-kr">${w.kr}</div>
       <div class="recap-rom">${w.rom}</div>

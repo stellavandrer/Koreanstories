@@ -562,7 +562,7 @@
   const grid = document.getElementById('vocabGrid');
   if(grid) {
     grid.innerHTML = recapWords.map(w => `
-      <div class="recap-item" onclick="speak('${w.audio}',this)">
+      <div class="recap-item" onclick="speak('${w.audio}',this)" tabindex="0" role="button" aria-label="Écouter ce mot" onkeydown="if(event.key===&#39;Enter&#39;||event.key===&#39; &#39;){event.preventDefault();speak('${w.audio}',this)}">
         <div class="recap-kr">${w.kr}</div>
         <div class="recap-info">
           <div class="recap-fr">${w.fr}</div>
