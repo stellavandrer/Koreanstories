@@ -3768,8 +3768,19 @@ document.addEventListener('click', function(e){
       }
     }
     if (!used) return;
-    /* On marque le streak comme "protégé" pour la journée */
-    try { localStorage.setItem('ks_streak_protected_' + todayKey(), '1'); } catch(e){}
+    /* Marque aujourd'hui comme "joué" pour que le streak ne casse pas ce soir
+       (même logique que la validation d'activité normale : ks_lastplay + incrément) */
+    try {
+      var t = todayKey();
+      var l = localStorage.getItem('ks_lastplay');
+      if (l !== t) {
+        var s = lsInt('ks_streak');
+        var sk = (l && (new Date(t) - new Date(l)) / 86400000 === 1) ? s + 1 : 1;
+        localStorage.setItem('ks_streak', String(sk));
+        localStorage.setItem('ks_lastplay', t);
+      }
+    } catch(e){}
+    try { if (typeof renderStreakCard === 'function') renderStreakCard(); } catch(e){}
     /* Remplace la carte par un toast de confirmation */
     var box = document.getElementById('streakWarn');
     if (box) {
