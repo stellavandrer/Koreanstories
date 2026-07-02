@@ -809,10 +809,11 @@
       localStorage.setItem('ks_newsletter', JSON.stringify(list));
     }catch(e){}
 
+    var firstName = (user && user.name ? String(user.name) : '').trim().split(' ')[0] || null;
     fetch(NL_EP, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ email: email, action:'subscribe' })
+      body: JSON.stringify({ email: email, action:'subscribe', firstName: firstName })
     })
     .then(function(res){ return res.json().then(function(d){ if(!res.ok || !d || !d.success) throw new Error('newsletter'); }); })
     .then(function(){

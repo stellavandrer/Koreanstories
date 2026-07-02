@@ -116,6 +116,9 @@ async function handleNewsletter(request, env) {
   try { body = await request.json(); } catch { return json({ success: false, message: 'Requête invalide' }, 400); }
 
   const email = (body.email || '').trim().toLowerCase();
+  // Prénom facultatif (utilisé pour personnaliser le salut dans les e-mails) —
+  // tronqué et nettoyé, jamais bloquant si absent ou mal formé.
+  const firstName = (body.firstName || '').trim().slice(0, 40).replace(/[<>]/g, '') || null;
   const unsubscribe = body.action === 'unsubscribe';
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return json({ success: false, message: 'E-mail invalide' }, 400);
@@ -128,9 +131,9 @@ async function handleNewsletter(request, env) {
     return json({ success: true });
   }
 
-  const ok = await resendSubscribe(email, env);
+  const ok = await resendSubscribe(email, env, firstName);
   if (!ok) return json({ success: false, message: 'Erreur serveur' }, 502);
-  await sendNewsletterWelcomeEmail(email, env);
+  await sendNewsletterWelcomeEmail(email, env, firstName);
   return json({ success: true });
 }
 
@@ -171,15 +174,18 @@ async function resendUnsubscribe(email, env) {
   return true;
 }
 
-async function resendSubscribe(email, env) {
+async function resendSubscribe(email, env, firstName = null) {
   const headers = { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' };
+  const payload = { email, unsubscribed: false };
+  if (firstName) payload.first_name = firstName;
   let res = await fetch('https://api.resend.com/contacts', {
-    method: 'POST', headers, body: JSON.stringify({ email, unsubscribed: false })
+    method: 'POST', headers, body: JSON.stringify(payload)
   });
   if (!res.ok) {
     console.log('[KS] newsletter create response', res.status, await res.text());
+    const { email: _omit, ...patchPayload } = payload;
     res = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
-      method: 'PATCH', headers, body: JSON.stringify({ unsubscribed: false })
+      method: 'PATCH', headers, body: JSON.stringify(patchPayload)
     });
     if (!res.ok) {
       console.log('[KS] newsletter reactivate error', res.status, await res.text());
@@ -481,9 +487,10 @@ async function sendCancellationEmail(email, env, endTs) {
 }
 
 // ── Emails newsletter (bienvenue / désinscription) via Resend ────────────────
-async function sendNewsletterWelcomeEmail(email, env) {
+async function sendNewsletterWelcomeEmail(email, env, firstName = null) {
   const unsubUrl = 'https://ks-premium.delicate-voice-1d19.workers.dev/newsletter/unsubscribe?email=' + encodeURIComponent(email);
   const bodyHtml = `
+    <p style="font-weight:700;margin:0 0 10px">Salut${firstName ? ' ' + firstName : ''} !</p>
     <p>Merci de t'être inscrit·e ! Tu recevras jusqu'à <strong>3 e-mails par semaine</strong>, chacun sur un thème différent :</p>
     <ul style="line-height:1.9;padding-left:20px">
       <li><strong>Culture</strong> — traditions, cuisine, vie quotidienne en Corée</li>
@@ -514,81 +521,135 @@ async function sendNewsletterGoodbyeEmail(email, env) {
 const NEWSLETTER_CONTENT = {
   culture: [
     { subject: 'Le hanbok, bien plus qu\'un costume', hangeul: '한복', title: 'Le hanbok',
+      hook: 'Un hanbok, ce n\'est jamais juste un vêtement — sous Joseon, c\'était presque une carte d\'identité brodée.',
       related: { label: 'Suis Emma en hanbok à Gyeongbokgung, le grand palais de Séoul.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire29.html', image: 'https://koreanstories.fr/img/stories/histoire29.webp' }, html:
       `<p>Le <strong>hanbok</strong> (한복) est le vêtement traditionnel coréen, porté aujourd'hui surtout lors des grandes occasions : Seollal (nouvel an lunaire), Chuseok, mariages.</p>
        <p>Il se compose pour les femmes d'un <strong>jeogori</strong> (veste courte) et d'une <strong>chima</strong> (jupe ample et haute), et pour les hommes d'un <strong>jeogori</strong> plus long porté avec un <strong>baji</strong> (pantalon bouffant). Les couleurs et motifs n'étaient pas choisis au hasard sous Joseon : elles indiquaient le rang social, l'âge ou le statut marital.</p>
        <p>Aujourd'hui, de nombreux jeunes Coréens louent un hanbok moderne pour visiter les palais de Séoul (comme Gyeongbokgung) — l'entrée y est même gratuite si tu en portes un !</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한복이 예뻐요</strong> (hanbogi yeoppeoyo) — « le hanbok est joli ».</p>` },
     { subject: 'Le kimchi, un art plus qu\'un plat', hangeul: '김치', title: 'Le kimchi',
+      hook: 'Il existe plus d\'une centaine de kimchis différents. Toi, tu en connais combien ?',
       related: { label: 'Sauras-tu reconnaître les plats coréens rien qu\'en image ?', cta: 'Jouer maintenant', url: 'https://koreanstories.fr/jeu5.html', image: null }, html:
       `<p>Le <strong>kimchi</strong> (김치) désigne en réalité toute une famille de légumes fermentés — on en compte plus d'une centaine de variétés selon la région et la saison, le plus connu étant à base de chou chinois (napa) et de piment.</p>
        <p>Sa fabrication (<strong>gimjang</strong>, 김장) était traditionnellement un événement communautaire à l'automne : familles et voisins préparaient ensemble assez de kimchi pour tenir tout l'hiver. Cette tradition est inscrite au patrimoine culturel immatériel de l'UNESCO depuis 2013.</p>
        <p>Le kimchi accompagne quasiment tous les repas coréens, servi comme <strong>banchan</strong> (반찬, accompagnement) — jamais seul comme plat principal.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>김치 주세요</strong> (gimchi juseyo) — « du kimchi, s'il vous plaît ».</p>` },
-    { subject: 'Chuseok, la grande fête des récoltes', hangeul: '추석', title: 'Chuseok',
+    { subject: 'Chuseok : Noël, Thanksgiving et un road-trip, en un seul week-end', hangeul: '추석', title: 'Chuseok',
+      hook: 'Imagine Noël, Thanksgiving et un road-trip familial compressés en un seul week-end. Bienvenue à Chuseok.',
       related: { label: 'Vis un vrai Chuseok à travers l\'histoire d\'une famille coréenne.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire27.html', image: 'https://koreanstories.fr/img/stories/histoire27.webp' }, html:
       `<p><strong>Chuseok</strong> (추석), parfois appelé « Thanksgiving coréen », est l'une des deux plus grandes fêtes du pays avec le nouvel an lunaire. Elle a lieu au 15e jour du 8e mois lunaire, généralement en septembre.</p>
        <p>Les familles se rassemblent, souvent après de longs trajets (les embouteillages de Chuseok sont légendaires en Corée), pour honorer les ancêtres lors d'un rite appelé <strong>charye</strong> (차례) et partager un repas de fête.</p>
        <p>Le plat emblématique est le <strong>songpyeon</strong> (송편), un petit gâteau de riz gluant en forme de demi-lune, fourré de sésame, haricots ou châtaignes, cuit à la vapeur sur des aiguilles de pin.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>추석 잘 보내세요</strong> (chuseok jal bonaeseyo) — « passe un bon Chuseok ».</p>` },
     { subject: 'Le nunchi, cet art coréen de « lire » les gens', hangeul: '눈치', title: 'Le nunchi',
+      hook: 'Il n\'existe aucun mot français pour ça — et c\'est bien tout le problème.',
       related: { label: 'Retrouve 눈치 (et sa prononciation) dans le dictionnaire coréen-français.', cta: 'Voir le mot', url: 'https://koreanstories.fr/dictionnaire.html?q=%EB%88%88%EC%B9%98', image: null }, html:
       `<p>Le <strong>nunchi</strong> (눈치, littéralement « mesure des yeux ») est une notion centrale de la culture coréenne : la capacité à percevoir rapidement l'humeur et les intentions d'un groupe, pour adapter son comportement en conséquence.</p>
        <p>Avoir « du nunchi » (눈치가 있다), c'est savoir quand parler ou se taire, quand proposer de payer l'addition, quand quitter une réunion. À l'inverse, en manquer (눈치가 없다) est une critique sociale assez sévère.</p>
        <p>Ce sens de l'observation collective est lié à une société où la hiérarchie (âge, statut) structure fortement les interactions et le langage — d'où l'importance du <strong>존댓말</strong> (jondaetmal), le registre poli du coréen.</p>
-       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>눈치가 빠르다</strong> (nunchiga ppareuda) — « avoir du flair social », littéralement « le nunchi est rapide ».</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>눈치가 빠르다</strong> (nunchiga ppareuda) — « avoir du flair social », littéralement « le nunchi est rapide ».</p>` },
+    { subject: 'Seollal : la tradition qui peut te rapporter de l\'argent', hangeul: '설날', title: 'Seollal',
+      hook: 'Chuseok a une fête sœur : Seollal, le nouvel an lunaire — et elle a ses propres règles (et ses propres avantages).',
+      related: { label: 'Découvre les 5 fêtes coréennes incontournables, dont Seollal.', cta: 'Lire l\'anecdote', url: 'https://koreanstories.fr/anecdote13.html', image: null }, html:
+      `<p><strong>Seollal</strong> (설날) est le nouvel an lunaire coréen, l'autre grande fête familiale du pays avec Chuseok. Toute la famille se réunit, souvent en hanbok, pour un rituel bien précis.</p>
+       <p>Le geste central s'appelle le <strong>sebae</strong> (세배) : les plus jeunes font une révérence profonde devant les aînés, qui leur donnent en retour de l'argent (<strong>세뱃돈</strong>, sebaetdon) accompagné de quelques mots de sagesse (<strong>덕담</strong>, dokdam).</p>
+       <p>Le plat obligatoire est le <strong>tteokguk</strong> (떡국), une soupe de gâteaux de riz — et selon la tradition, en manger un bol le jour de Seollal fait symboliquement gagner un an d'âge !</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>새해 복 많이 받으세요</strong> (saehae bok mani badeuseyo) — « bonne année », la formule qu'on utilise précisément à Seollal.</p>` },
+    { subject: 'Le jjimjilbang, ou comment les Coréens réinventent la détente', hangeul: '찜질방', title: 'Le jjimjilbang',
+      hook: 'Un sauna, une salle de sieste collective et des œufs cuits à la vapeur, ouvert 24h/24 — bienvenue au jjimjilbang.',
+      related: { label: 'Suis Emma dans son premier jjimjilbang coréen.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire28.html', image: 'https://koreanstories.fr/img/stories/histoire28.webp' }, html:
+      `<p>Le <strong>jjimjilbang</strong> (찜질방) est un établissement de bains publics et de sauna, immense institution du quotidien coréen. Zones de bains séparées par sexe, mais espaces communs (saunas, salle de repos, restauration) mixtes — ouverts jour et nuit.</p>
+       <p>Le détail qui ne trompe pas : la fameuse serviette pliée en forme d'oreilles de mouton (<strong>양머리</strong>, yangmeori) que tout le monde porte sur la tête. On y trouve aussi des saunas à thème (sel, charbon, glace), et deux en-cas incontournables : l'œuf cuit à la vapeur et le <strong>sikhye</strong> (식혜), une boisson sucrée au riz.</p>
+       <p>Beaucoup de Coréens y passent la nuit — moins cher qu'un hôtel, et un vrai moment de détente entre amis ou en famille, pas juste un lieu d'hygiène.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>찜질방 가자!</strong> (jjimjilbang gaja !) — « allons au jjimjilbang ! ».</p>` }
   ],
   histoire: [
-    { subject: 'Le roi Sejong et la naissance du hangeul', hangeul: '세종대왕', title: 'Le roi Sejong le Grand',
+    { subject: 'Le roi qui a inventé un alphabet pour que tout le monde sache lire', hangeul: '세종대왕', title: 'Le roi Sejong le Grand',
+      hook: 'Un roi qui invente un alphabet en quelques années pour que TOUT le monde puisse lire — dans l\'Histoire, ça n\'arrive presque jamais.',
       related: { label: 'L\'anecdote complète du Roi Sejong et de l\'invention du Hangeul.', cta: 'Lire l\'anecdote', url: 'https://koreanstories.fr/anecdote1.html', image: null }, html:
       `<p>En 1443, le roi <strong>Sejong</strong> (세종, 1397-1450), quatrième souverain de la dynastie Joseon, fait créer le <strong>hangeul</strong> (한글) : un alphabet pensé pour que le peuple, qui n'avait pas accès aux caractères chinois classiques réservés à l'élite lettrée, puisse enfin lire et écrire facilement.</p>
        <p>Le système est publié en 1446 dans le <em>Hunminjeongeum</em> (훈민정음, « les sons corrects pour l'instruction du peuple »). Les formes des consonnes imitent la position de la bouche et de la langue en les prononçant — un alphabet conçu scientifiquement, chose rarissime dans l'histoire de l'écriture.</p>
        <p>Le 9 octobre, jour du Hangeul (한글날), est aujourd'hui férié en Corée du Sud pour célébrer cette invention.</p>
        <p style="font-size:13px;color:#475E78">Sans Sejong, tu ne lirais pas les leçons de Korean Stories en hangeul aujourd'hui !</p>` },
     { subject: 'Joseon, cinq siècles qui ont façonné la Corée', hangeul: '조선', title: 'La dynastie Joseon',
+      hook: 'Cinq siècles. Une seule dynastie. La Corée moderne lui doit (presque) tout, de la langue aux dramas historiques.',
       related: { label: 'Un texte de lecture niveau B2 sur la vie quotidienne sous la dynastie Joseon.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/lect-b2-1.html', image: null }, html:
       `<p>La dynastie <strong>Joseon</strong> (조선, 1392-1897) est la plus longue de l'histoire coréenne : plus de cinq siècles, fondée par le général <strong>Yi Seong-gye</strong>.</p>
        <p>Elle installe le confucianisme comme doctrine d'État, structurant en profondeur la société : respect des aînés, importance de l'éducation et des examens d'État (<strong>gwageo</strong>), hiérarchie stricte entre classes sociales (yangban, roturiers).</p>
        <p>C'est aussi l'âge d'or culturel et scientifique du pays sous Sejong (hangeul, astronomie, imprimerie), et la période où Séoul (alors Hanyang) devient capitale, avec la construction du palais <strong>Gyeongbokgung</strong> — toujours visitable aujourd'hui.</p>
        <p style="font-size:13px;color:#475E78">Beaucoup de dramas historiques coréens (« sageuk », 사극) se déroulent sous Joseon.</p>` },
     { subject: 'Les Trois Royaumes : aux origines de la Corée', hangeul: '삼국시대', title: 'Les Trois Royaumes',
+      hook: 'Avant qu\'il n\'y ait « la Corée », il y en avait trois, qui se disputaient la péninsule depuis des siècles.',
       related: { label: 'Découvre toutes nos histoires en coréen — BD, articles et podcasts, du niveau A1 au B2.', cta: 'Explorer', url: 'https://koreanstories.fr/histoires.html', image: null }, html:
       `<p>Avant l'unification, la péninsule coréenne était partagée entre trois royaumes rivaux, du 1er siècle avant J.-C. au 7e siècle : <strong>Goguryeo</strong> (au nord, le plus vaste, jusqu'en Mandchourie), <strong>Baekje</strong> (au sud-ouest, réputé pour son raffinement artistique) et <strong>Silla</strong> (au sud-est).</p>
        <p>C'est Silla qui finit par unifier la péninsule en 668, alliée à la dynastie chinoise Tang — donnant naissance à la période de « Silla unifié ».</p>
        <p>Cette ère a laissé un immense patrimoine : tombes royales de Gyeongju (ancienne capitale de Silla, aujourd'hui classée UNESCO), bouddhisme florissant, et les bases du système d'écriture et d'administration qui influenceront toute la suite de l'histoire coréenne.</p>
        <p style="font-size:13px;color:#475E78">Le nom « Corée » lui-même vient de <strong>Goryeo</strong> (고려), la dynastie qui succède à Silla en 918.</p>` },
-    { subject: '1945 : la division de la Corée', hangeul: '분단', title: 'La division de la Corée',
+    { subject: 'Une frontière tracée sans qu\'un seul Coréen soit consulté', hangeul: '분단', title: 'La division de la Corée',
+      hook: 'En 1945, une ligne a été tracée sur une carte sans qu\'aucun Coréen ne soit consulté. 80 ans plus tard, elle est toujours là.',
       related: { label: 'Un texte de lecture niveau B2 sur l\'histoire de la division Nord-Sud.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/lect-b2-4.html', image: null }, html:
       `<p>En 1945, la libération de la Corée de l'occupation japonaise (1910-1945) s'accompagne d'une division du pays au 38e parallèle, entre une zone d'occupation soviétique au nord et américaine au sud — décision prise sans consultation du peuple coréen, dans le contexte de la guerre froide naissante.</p>
        <p>Cette division se durcit avec la fondation de deux États séparés en 1948, puis la <strong>guerre de Corée</strong> (1950-1953), qui fait des millions de victimes et se termine par un armistice — jamais suivi d'un traité de paix formel à ce jour.</p>
        <p>La <strong>zone démilitarisée</strong> (DMZ), l'une des frontières les plus surveillées au monde, sépare toujours aujourd'hui la Corée du Nord et la Corée du Sud.</p>
-       <p style="font-size:13px;color:#475E78">Un sujet sensible et encore très présent dans la société sud-coréenne d'aujourd'hui.</p>` }
+       <p style="font-size:13px;color:#475E78">Un sujet sensible et encore très présent dans la société sud-coréenne d'aujourd'hui.</p>` },
+    { subject: 'Le mythe qui explique pourquoi la Corée existe depuis 4000 ans', hangeul: '단군', title: 'Dangun, le mythe fondateur',
+      hook: 'Un ours transformé en femme, un fils du ciel, et un royaume vieux de plus de 4000 ans — voici comment naît la légende de la Corée.',
+      related: { label: 'Découvre toutes nos histoires en coréen — BD, articles et podcasts, du niveau A1 au B2.', cta: 'Explorer', url: 'https://koreanstories.fr/histoires.html', image: null }, html:
+      `<p>Selon la légende fondatrice de la Corée, <strong>Hwanung</strong> (환웅), fils du roi céleste, descend sur terre. Un ours et un tigre, qui rêvent de devenir humains, lui demandent de l'aide — à condition de survivre 100 jours dans une grotte en ne mangeant que de l'armoise et de l'ail.</p>
+       <p>Seul l'ours tient bon : il se transforme en femme, <strong>Ungnyeo</strong> (웅녀), épouse Hwanung, et leur fils <strong>Dangun</strong> (단군) fonde en 2333 av. J.-C. le royaume de <strong>Gojoseon</strong> (고조선), premier royaume coréen de l'histoire.</p>
+       <p>Ce mythe, enseigné à tous les écoliers coréens, est célébré chaque 3 octobre lors du <strong>Gaecheonjeol</strong> (개천절, jour de la fondation nationale) — un jour férié en Corée du Sud, encore aujourd'hui.</p>
+       <p style="font-size:13px;color:#475E78">Les historiens débattent encore des dates exactes de Gojoseon, mais le mythe, lui, reste une pierre fondatrice de l'identité coréenne.</p>` },
+    { subject: 'Le jour où toute la Corée a dit non, en même temps', hangeul: '삼일운동', title: 'Le mouvement du 1er mars',
+      hook: 'Le 1er mars 1919, des millions de Coréens sont descendus dans la rue au même moment, dans tout le pays, pour dire un seul mot : liberté.',
+      related: { label: 'Découvre toutes nos histoires en coréen — BD, articles et podcasts, du niveau A1 au B2.', cta: 'Explorer', url: 'https://koreanstories.fr/histoires.html', image: null }, html:
+      `<p>En 1910, la Corée est annexée par le Japon, qui met fin à la dynastie Joseon. Le 1er mars 1919, 33 représentants coréens lisent publiquement à Séoul une <strong>déclaration d'indépendance</strong> (독립선언서) — le point de départ d'un mouvement de protestation pacifique sans précédent.</p>
+       <p>Des manifestations éclatent dans presque toutes les provinces du pays, réunissant selon les estimations près de deux millions de participants dans les semaines qui suivent — réprimées avec une grande brutalité par les autorités coloniales japonaises.</p>
+       <p>Ce mouvement mène directement à la création d'un gouvernement provisoire coréen en exil à Shanghai. <strong>Yu Gwan-sun</strong> (유관순), lycéenne activiste morte en prison après y avoir participé, est aujourd'hui une héroïne nationale étudiée par tous les écoliers.</p>
+       <p style="font-size:13px;color:#475E78">Le 1er mars (삼일절, Samiljeol) est un jour férié en Corée du Sud, en mémoire de ce mouvement.</p>` }
   ],
   actu: [
     { subject: 'La Hallyu : comment la Corée a conquis le monde', hangeul: '한류', title: 'La vague coréenne',
+      hook: 'En 1997, la Corée du Sud était en pleine crise financière. 25 ans plus tard, elle exporte sa culture dans le monde entier. Comment ?',
       related: { label: 'Un vrai article de presse coréen sur la Hallyu, expliqué et traduit.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/presse7.html', image: 'https://koreanstories.fr/img/press/presse7.webp' }, html:
       `<p>La <strong>Hallyu</strong> (한류, « vague coréenne ») désigne l'essor mondial de la culture populaire sud-coréenne depuis la fin des années 1990 : d'abord les dramas dans le reste de l'Asie, puis la K-pop et le cinéma à l'échelle planétaire (Parasite, Squid Game, BTS, BLACKPINK…).</p>
        <p>Ce succès s'appuie sur un vrai soutien de l'État coréen à ses industries culturelles depuis la crise financière de 1997, où le pays a fait le pari de la « soft power » comme relais de croissance.</p>
        <p>Résultat : la demande pour apprendre le coréen a explosé dans le monde entier ces dernières années — et si tu lis ceci, tu en fais sûrement partie !</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한류 팬이에요</strong> (hallyu paenieyo) — « je suis fan de la Hallyu ».</p>` },
     { subject: 'Pourquoi les Coréens adorent les cafés à thème', hangeul: '카페', title: 'La culture des cafés',
+      hook: 'À Séoul, il existe littéralement un café pour chaque obsession possible. Toi aussi, tu as ta place quelque part.',
       related: { label: 'Retrouve Mina dans un café coréen — en BD, avec audio et traduction.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire32-bd.html', image: 'https://koreanstories.fr/img/stories/histoire32.webp' }, html:
       `<p>La Corée du Sud compte l'une des plus fortes densités de cafés au monde, en particulier à Séoul. Mais au-delà du café lui-même, ce sont des lieux de vie : on y étudie, on y travaille, on y retrouve des amis pendant des heures.</p>
        <p>Le pays s'est aussi fait une spécialité des <strong>cafés à thème</strong> : cafés à chats ou à chiens, cafés Lego, cafés dédiés à un groupe de K-pop, cafés robots... Le décor devient souvent aussi important que la boisson, pensé pour être partagé sur les réseaux sociaux.</p>
        <p>C'est aussi le reflet d'une vraie compétition entre commerces : pour se démarquer, les cafés innovent sans cesse sur l'ambiance et le concept plutôt que sur le prix.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>카페에 가요</strong> (kapeae gayo) — « je vais au café ».</p>` },
     { subject: 'Les webtoons, la BD qui se lit sur ton téléphone', hangeul: '웹툰', title: 'Le phénomène webtoon',
+      hook: 'Pas de pages à tourner, pas de format fixe : la BD coréenne a réinventé ses propres règles, pensées pour ton téléphone.',
       related: { label: 'Lis un vrai webtoon coréen, en lecture guidée avec vocabulaire expliqué.', cta: 'Lecture guidée', url: 'https://koreanstories.fr/histoire22.html', image: 'https://koreanstories.fr/img/stories/histoire22.webp' }, html:
       `<p>Le <strong>webtoon</strong> (웹툰) est un format de bande dessinée numérique né en Corée dans les années 2000 : lecture verticale, en scrollant sur le téléphone, souvent en couleur et parfois animée — pensé dès le départ pour le mobile plutôt qu'adapté du papier.</p>
        <p>Des plateformes comme Naver Webtoon ou Kakao Webtoon publient des milliers de séries, beaucoup gratuites (avec un système d'épisodes en avance-première payants), couvrant tous les genres : romance, fantasy, thriller, tranche de vie.</p>
        <p>De nombreux dramas et films à succès (comme <em>Sweet Home</em> ou <em>The Uncanny Counter</em>) sont aujourd'hui adaptés de webtoons — un vrai pilier de l'industrie culturelle coréenne.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>웹툰 봐요?</strong> (weptun bwayo?) — « tu lis des webtoons ? ».</p>` },
     { subject: '빨리빨리 : vivre à la vitesse coréenne', hangeul: '빨리빨리', title: 'La culture du « vite, vite »',
+      hook: 'La livraison en 30 minutes n\'est pas née par hasard en Corée. Ça a même un nom : 빨리빨리.',
       related: { label: 'Écoute un épisode de podcast sur la culture du ppalli-ppalli, en coréen naturel.', cta: 'Écouter le podcast', url: 'https://koreanstories.fr/podcast5.html', image: null }, html:
       `<p>Impossible de comprendre la Corée moderne sans connaître le <strong>ppalli-ppalli</strong> (빨리빨리, « vite vite ») : cette exigence de rapidité qu'on retrouve dans la livraison ultra-rapide, l'un des internets les plus rapides au monde, ou l'impatience générale dans la vie quotidienne.</p>
        <p>Cette culture a largement porté le développement économique fulgurant du pays depuis les années 1960 (le fameux « miracle sur le fleuve Han »). Mais elle a aussi un revers : un rythme de travail parmi les plus soutenus des pays de l'OCDE, et une pression sociale forte.</p>
        <p>D'où l'intérêt croissant, chez les jeunes générations, pour des concepts plus lents : le « <strong>워라밸</strong> » (work-life balance) ou la « vie lente » (소확행, « petit bonheur certain »).</p>
-       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>빨리빨리!</strong> (ppalli-ppalli) — l'expression que tu entendras partout en Corée.</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>빨리빨리!</strong> (ppalli-ppalli) — l'expression que tu entendras partout en Corée.</p>` },
+    { subject: 'Ce qu\'il se passe vraiment avant qu\'un groupe de K-pop débute', hangeul: '아이돌', title: 'L\'industrie des idols',
+      hook: 'Avant de monter sur scène, un idol de K-pop s\'entraîne en moyenne plusieurs années. Bienvenue dans le système des trainees.',
+      related: { label: 'Plonge dans le monde de la K-pop, expliqué en coréen (niveau B1).', cta: 'Lire l\'article', url: 'https://koreanstories.fr/lect-b1-2.html', image: null }, html:
+      `<p>Derrière chaque groupe de K-pop se cache un système bien rodé : les grandes agences (SM, YG, JYP, HYBE...) repèrent de jeunes talents via des castings, parfois dans le monde entier, dès l'adolescence, et les signent comme <strong>trainees</strong> (연습생, yeonseupsaeng).</p>
+       <p>S'ensuivent des années d'entraînement intensif — chant, danse, langues, parfois à l'étranger — avant qu'une petite fraction seulement ne <strong>débute</strong> (데뷔, debwi). C'est l'agence qui compose le groupe et façonne son concept, pas les membres eux-mêmes.</p>
+       <p>Ce système explique les chorégraphies ultra-synchronisées et les univers visuels léchés à chaque comeback — mais il est aussi critiqué pour la pression et la compétition qu'il impose aux trainees.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>데뷔</strong> (debwi, de l'anglais « debut ») — le grand jour où un trainee devient enfin officiellement idol.</p>` },
+    { subject: 'Ces mots « anglais » que seuls les Coréens comprennent', hangeul: '콩글리시', title: 'Le Konglish',
+      hook: 'Si tu commandes un « hand-phone » ou demandes le « service » en Corée, tu parles peut-être déjà un peu konglish sans le savoir.',
+      related: { label: 'Découvre ces mots « anglais » qui n\'existent qu\'en coréen.', cta: 'Lire l\'anecdote', url: 'https://koreanstories.fr/anecdote20.html', image: null }, html:
+      `<p>Le <strong>konglish</strong> (콩글리시, contraction de 한국 « Corée » et « English ») désigne des mots empruntés à l'anglais, mais utilisés en coréen avec un sens différent — ou carrément inventés.</p>
+       <p>Exemples : <strong>핸드폰</strong> (haendeu-pon, « hand phone ») pour téléphone portable, <strong>서비스</strong> (seobiseu, « service ») pour un petit cadeau offert par un commerce (pas le service client !), ou <strong>아이쇼핑</strong> (ai-syoping, « eye shopping ») pour le lèche-vitrines.</p>
+       <p>Ce ne sont pas des erreurs : c'est une vraie composante créative du coréen parlé moderne — et de quoi surprendre un anglophone la première fois qu'il les entend.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>화이팅!</strong> (hwaiting, de « fighting ») — un encouragement, pas une bagarre !</p>` }
   ]
 };
 
@@ -622,16 +683,21 @@ async function sendNewsletterEdition(theme, env, testRecipient = null) {
   const noteMatch = edition.html.match(/<p style="font-size:13px;color:#475E78">([\s\S]*?)<\/p>\s*$/);
   const noteHtml = noteMatch ? noteMatch[1] : '';
   const bodyHtml = noteMatch ? edition.html.slice(0, noteMatch.index).trim() : edition.html;
+  // Accroche punchy affichée juste après le salut, avant le corps factuel.
+  const hookHtml = edition.hook ? `<p style="font-size:17px;font-weight:700;color:#0F1B2D;line-height:1.4;margin:0 0 16px">${edition.hook}</p>` : '';
 
   let sent = 0, failed = 0;
   for (const contact of contacts) {
     const unsubUrl = 'https://ks-premium.delicate-voice-1d19.workers.dev/newsletter/unsubscribe?email=' + encodeURIComponent(contact.email);
+    // Salut personnalisé par contact (prénom Resend s'il existe) — le reste
+    // du corps est partagé et calculé une seule fois au-dessus de la boucle.
+    const greeting = `<p style="font-weight:700;margin:0 0 10px">Salut${contact.first_name ? ' ' + contact.first_name : ''} !</p>`;
     const html = emailLayout({
       preheader: edition.title,
       title: edition.subject,
       kicker: `Korean Stories · ${meta.label}`,
       hero: { word: edition.hangeul, sub: edition.title, bg: meta.bg, color: meta.color, fontSize: heroFontSize, image: edition.related?.image || null },
-      bodyHtml,
+      bodyHtml: greeting + hookHtml + bodyHtml,
       noteHtml,
       related: edition.related,
       unsubUrl
