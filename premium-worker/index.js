@@ -24,6 +24,11 @@
 const PRICE_MONTHLY  = 'price_1TlkvnPab8Hr1KXaK2D5ZSvn';
 const PRICE_LIFETIME = 'price_1TlkwTPab8Hr1KXaM5WwjXWX';
 
+// Tous les envois déclenchés via /newsletter/test-send partent vers cette
+// adresse (jamais vers la vraie liste de contacts) — c'est un destinataire
+// de test, pas un secret, donc pas besoin de variable d'environnement.
+const NEWSLETTER_TEST_RECIPIENT = 'justinetilleul27@gmail.com';
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -58,8 +63,8 @@ export default {
       const token = url.searchParams.get('token');
       if (!env.NEWSLETTER_TEST_TOKEN || token !== env.NEWSLETTER_TEST_TOKEN) return new Response('Forbidden', { status: 403 });
       if (!NEWSLETTER_CONTENT[theme]) return json({ success: false, message: 'Thème inconnu (culture/histoire/actu)' }, 400);
-      await sendNewsletterEdition(theme, env);
-      return json({ success: true, message: `Édition ${theme} envoyée.` });
+      await sendNewsletterEdition(theme, env, NEWSLETTER_TEST_RECIPIENT);
+      return json({ success: true, message: `Édition ${theme} envoyée en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
     }
 
     return new Response('Korean Stories Premium API', { status: 200 });
@@ -507,17 +512,19 @@ const NEWSLETTER_CONTENT = {
 };
 
 // ── Envoi hebdomadaire d'une édition (culture / histoire / actu) ─────────────
-async function sendNewsletterEdition(theme, env) {
+// testRecipient : si fourni, envoie uniquement à cette adresse (test manuel)
+// et n'avance PAS la rotation d'éditions partagée avec les envois réels.
+async function sendNewsletterEdition(theme, env, testRecipient = null) {
   const editions = NEWSLETTER_CONTENT[theme];
   if (!editions || !editions.length) { console.log('[KS] aucune édition pour le thème', theme); return; }
 
   const idxKey = `nl_idx:${theme}`;
   const idx = parseInt(await env.KS_LICENSES.get(idxKey) || '0', 10) || 0;
   const edition = editions[idx % editions.length];
-  await env.KS_LICENSES.put(idxKey, String(idx + 1));
+  if (!testRecipient) await env.KS_LICENSES.put(idxKey, String(idx + 1));
 
-  const contacts = await listActiveContacts(env);
-  console.log(`[KS] newsletter ${theme} · édition ${idx % editions.length} · ${contacts.length} destinataires`);
+  const contacts = testRecipient ? [{ email: testRecipient }] : await listActiveContacts(env);
+  console.log(`[KS] newsletter ${theme} · édition ${idx % editions.length} · ${contacts.length} destinataires${testRecipient ? ' (test)' : ''}`);
 
   let sent = 0, failed = 0;
   for (const contact of contacts) {
