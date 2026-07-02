@@ -1,7 +1,7 @@
 /* ── Site Access Gate ─────────────────────────────────────────────
-   ACCÈS PROTÉGÉ PAR MOT DE PASSE — réactivé le 2026-06-23 (phase de test).
-   Pour rouvrir le site au public : remettre GATE_ENABLED = false
-   (ou vider ce fichier comme avant). Le mot de passe se change ci-dessous.
+   Site public depuis le 2026-06-24 — gate désactivée (GATE_ENABLED = false).
+   Conservé comme mécanisme d'urgence pour re-fermer temporairement le
+   site si besoin. Changer le mot de passe ci-dessous avant de réactiver.
 
    ⚠️ Protection « rideau » côté navigateur : suffisante pour empêcher
    le visiteur lambda d'accéder au site pendant les tests, mais le code
@@ -10,7 +10,7 @@
 ─────────────────────────────────────────────────────────────────── */
 (function () {
   var GATE_ENABLED = false;
-  var PASSWORD     = 'Jae';                // ← change le mot de passe ici
+  var PASSWORD     = 'change-me-before-enabling'; // ← change le mot de passe ici
   var STORE_KEY    = 'ks_site_access';     // mémorise l'accès sur l'appareil
 
   /* Force HTTPS — évite l'avertissement "connexion non sécurisée". */

@@ -239,7 +239,7 @@
     }
     var s = document.createElement('script');
     s.id = 'ks-curriculum-script';
-    s.src = 'ks-curriculum.js';
+    s.src = '/ks-curriculum.js';
     s.onload = cb;
     document.head.appendChild(s);
   }

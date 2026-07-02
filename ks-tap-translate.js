@@ -44,7 +44,7 @@
     }
     var s = document.createElement('script');
     s.id = 'ks-dict-script';
-    s.src = 'ks-dictionary.js';
+    s.src = '/ks-dictionary.js';
     s.onload = cb;
     document.head.appendChild(s);
   }
