@@ -67,6 +67,22 @@ export default {
       return json({ success: true, message: `Édition ${theme} envoyée en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
     }
 
+    // Déclenchement manuel des e-mails licence/résiliation (normalement
+    // envoyés par les webhooks Stripe) — mêmes garde-fous que /newsletter/test-send.
+    if (request.method === 'GET' && url.pathname === '/test-send') {
+      const type = url.searchParams.get('type');
+      const token = url.searchParams.get('token');
+      if (!env.NEWSLETTER_TEST_TOKEN || token !== env.NEWSLETTER_TEST_TOKEN) return new Response('Forbidden', { status: 403 });
+      if (type === 'license') {
+        await sendLicenseEmail(NEWSLETTER_TEST_RECIPIENT, 'TEST-DEMO-0000-KSFR', env);
+      } else if (type === 'cancellation') {
+        await sendCancellationEmail(NEWSLETTER_TEST_RECIPIENT, env, Math.floor(Date.now() / 1000) + 15 * 24 * 3600);
+      } else {
+        return json({ success: false, message: 'Type inconnu (license/cancellation)' }, 400);
+      }
+      return json({ success: true, message: `E-mail ${type} envoyé en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
+    }
+
     return new Response('Korean Stories Premium API', { status: 200 });
   },
 
