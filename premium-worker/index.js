@@ -141,7 +141,7 @@ async function handleNewsletterUnsubscribeLink(request, env) {
   const page = (title, msg) => new Response(
     `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>${title} — Korean Stories</title>
      <meta name="viewport" content="width=device-width,initial-scale=1"></head>
-     <body style="font-family:sans-serif;max-width:480px;margin:80px auto;padding:0 24px;text-align:center;color:#1a2744">
+     <body style="font-family:sans-serif;max-width:480px;margin:80px auto;padding:0 24px;text-align:center;color:#0F1B2D">
        <h2>${title}</h2><p>${msg}</p>
        <p style="margin-top:24px"><a href="https://koreanstories.fr" style="color:#B8924E;font-weight:bold">← Retour à Korean Stories</a></p>
      </body></html>`,
@@ -341,29 +341,90 @@ async function sendEmail(to, subject, html, env) {
   return resJson;
 }
 
+// ── Mise en page HTML partagée (branding cohérent sur tous les emails) ───────
+// Structure en tables (compatible Outlook/Gmail/Apple Mail) : bandeau logo sur
+// fond marine, bandeau « héros » coloré optionnel (utilisé par la newsletter),
+// corps de texte, pied de page avec lien de désinscription optionnel.
+function emailLayout({ preheader = '', kicker = '', title = '', hero = null, bodyHtml = '', noteHtml = '', ctaLabel = 'Continuer mon apprentissage', ctaUrl = 'https://koreanstories.fr/app.html', unsubUrl = null }) {
+  const heroBlock = hero ? `
+        <tr><td style="padding:24px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="background:${hero.bg};border-radius:16px;padding:36px 24px;text-align:center">
+              <div style="font-family:Georgia,'Times New Roman',serif;font-size:${hero.fontSize}px;line-height:1.15;color:${hero.color};font-weight:700">${hero.word}</div>
+              ${hero.sub ? `<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:${hero.color};opacity:.85;margin-top:12px">${hero.sub}</div>` : ''}
+            </td></tr>
+          </table>
+        </td></tr>` : '';
+
+  const noteBlock = noteHtml ? `
+        <tr><td style="padding:4px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="background:#FBF2E3;border:1px solid #E0CBA0;border-radius:12px;padding:16px 18px">
+              <p style="margin:0 0 4px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8B6B3D;font-weight:700">✦ À retenir</p>
+              <div style="font-size:14px;line-height:1.6;color:#0D1823">${noteHtml}</div>
+            </td></tr>
+          </table>
+        </td></tr>` : '';
+
+  const unsubLine = unsubUrl
+    ? `<p style="margin:10px 0 0;font-size:11px"><a href="${unsubUrl}" style="color:#8FA5BE;text-decoration:underline">Se désabonner</a></p>`
+    : '';
+
+  return `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>
+<body style="margin:0;padding:0;background:#EEF2FB;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0">${preheader}</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EEF2FB">
+    <tr><td align="center" style="padding:32px 16px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFFFF;border-radius:20px;overflow:hidden;border:1px solid #DAE3F2">
+        <tr><td style="background:#0F1B2D;padding:24px 32px;text-align:center">
+          <span style="font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:21px;font-weight:800;color:#FFFFFF;letter-spacing:-.01em">Korean </span><span style="font-family:Georgia,'Times New Roman',serif;font-size:23px;font-style:italic;font-weight:700;color:#CAA96E">Stories</span>
+        </td></tr>
+        ${heroBlock}
+        <tr><td style="padding:${hero ? '24px' : '36px'} 32px 8px">
+          ${kicker ? `<p style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#B8924E;font-weight:700;margin:0 0 12px">${kicker}</p>` : ''}
+          <div style="font-size:15px;line-height:1.75;color:#0D1823">${bodyHtml}</div>
+        </td></tr>
+        ${noteBlock}
+        <tr><td style="padding:26px 32px 4px;text-align:center">
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto">
+            <tr><td style="background:#B8924E;border-radius:999px">
+              <a href="${ctaUrl}" style="display:inline-block;padding:13px 30px;font-size:14px;font-weight:700;color:#FFFFFF;text-decoration:none">${ctaLabel}</a>
+            </td></tr>
+          </table>
+        </td></tr>
+        <tr><td style="padding:24px 32px 0"><div style="border-top:1px solid #DAE3F2;font-size:0;line-height:0">&nbsp;</div></td></tr>
+        <tr><td style="padding:18px 32px 30px;text-align:center">
+          <p style="margin:0;font-size:12px;color:#8FA5BE">Korean Stories · koreanstories.fr</p>
+          ${unsubLine}
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
 // ── Email de licence via Resend ───────────────────────────────────────────────
 async function sendLicenseEmail(email, key, env) {
-  const html = `
-    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
-      <h2 style="color:#1a2744">Ta clé Premium Korean Stories 💛</h2>
-      <p>Merci pour ton soutien — tu fais partie de l'aventure !</p>
-      <p style="margin-bottom:8px"><strong>Ta clé de licence :</strong></p>
-      <p style="font-size:22px;font-weight:bold;letter-spacing:6px;
-                background:#f5f0e8;padding:16px 24px;border-radius:10px;
-                text-align:center;color:#1a2744">${key}</p>
-      <h3 style="color:#1a2744">Comment activer le Premium :</h3>
-      <ol style="line-height:2">
-        <li>Ouvre l'app <strong>Korean Stories</strong></li>
-        <li>Va dans <strong>Réglages</strong></li>
-        <li>Section <strong>Premium</strong> → clique sur « Voir »</li>
-        <li>Colle ta clé → clique sur <strong>Débloquer</strong></li>
-      </ol>
-      <p>Conserve cet email précieusement — ta clé est unique.</p>
-      <p style="font-size:13px;color:#555">Abonnement mensuel : tu peux le gérer ou le résilier à tout moment depuis le
-        <a href="https://billing.stripe.com/p/login/5kQbJ35BtcZH36f1NSe7m00" style="color:#B8924E">portail client sécurisé</a>.</p>
-      <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
-    </div>
+  const bodyHtml = `
+    <p>Merci pour ton soutien — tu fais partie de l'aventure !</p>
+    <p style="margin-bottom:8px"><strong>Ta clé de licence :</strong></p>
+    <p style="font-size:22px;font-weight:bold;letter-spacing:6px;
+              background:#FBF2E3;padding:16px 24px;border-radius:10px;
+              text-align:center;color:#0F1B2D">${key}</p>
+    <h3 style="color:#0F1B2D;margin-bottom:8px">Comment activer le Premium :</h3>
+    <ol style="line-height:2;margin-top:0">
+      <li>Ouvre l'app <strong>Korean Stories</strong></li>
+      <li>Va dans <strong>Réglages</strong></li>
+      <li>Section <strong>Premium</strong> → clique sur « Voir »</li>
+      <li>Colle ta clé → clique sur <strong>Débloquer</strong></li>
+    </ol>
+    <p>Conserve cet email précieusement — ta clé est unique.</p>
+    <p style="font-size:13px;color:#475E78">Abonnement mensuel : tu peux le gérer ou le résilier à tout moment depuis le
+      <a href="https://billing.stripe.com/p/login/5kQbJ35BtcZH36f1NSe7m00" style="color:#B8924E">portail client sécurisé</a>.</p>
   `;
+  const hero = { word: '💛', sub: 'Accès Premium débloqué', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 48 };
+  const html = emailLayout({ preheader: 'Ta clé Premium Korean Stories', title: 'Ta clé Premium', kicker: 'Korean Stories · Premium', hero, bodyHtml });
   await sendEmail(email, '💛 Ta clé Premium Korean Stories', html, env);
 }
 
@@ -381,48 +442,41 @@ async function sendCancellationEmail(email, env, endTs) {
   const endLine = endStr
     ? `Ton accès Premium reste actif jusqu'au <strong>${endStr}</strong>, puis s'arrête sans nouveau prélèvement.`
     : `Tu conserves l'accès Premium jusqu'à la <strong>fin de la période déjà payée</strong> ; aucun nouveau prélèvement ne sera effectué ensuite.`;
-  const html = `
-    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
-      <h2 style="color:#1a2744">Résiliation confirmée</h2>
-      <p>Ton abonnement Premium mensuel à Korean Stories a bien été résilié.</p>
-      <p>${endLine}</p>
-      <p>Tout le parcours d'apprentissage reste évidemment <strong>gratuit</strong> — tu peux continuer à apprendre sans rien changer.</p>
-      <p style="font-size:13px;color:#555">Tu changes d'avis ? Tu peux te réabonner à tout moment depuis la page Premium. Merci d'avoir soutenu le projet 💛</p>
-      <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
-    </div>
+  const bodyHtml = `
+    <p>Ton abonnement Premium mensuel à Korean Stories a bien été résilié.</p>
+    <p>${endLine}</p>
+    <p>Tout le parcours d'apprentissage reste évidemment <strong>gratuit</strong> — tu peux continuer à apprendre sans rien changer.</p>
+    <p style="font-size:13px;color:#475E78">Tu changes d'avis ? Tu peux te réabonner à tout moment depuis la page Premium. Merci d'avoir soutenu le projet 💛</p>
   `;
+  const hero = { word: '조심히 가요', sub: 'Résiliation confirmée', bg: 'linear-gradient(135deg,#0F1B2D,#1a2f4a)', color: '#D5BA8A', fontSize: 30 };
+  const html = emailLayout({ preheader: 'Confirmation de résiliation', title: 'Résiliation confirmée', kicker: 'Korean Stories · Premium', hero, bodyHtml });
   await sendEmail(email, 'Confirmation de résiliation — Korean Stories', html, env);
 }
 
 // ── Emails newsletter (bienvenue / désinscription) via Resend ────────────────
 async function sendNewsletterWelcomeEmail(email, env) {
   const unsubUrl = 'https://ks-premium.delicate-voice-1d19.workers.dev/newsletter/unsubscribe?email=' + encodeURIComponent(email);
-  const html = `
-    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
-      <h2 style="color:#1a2744">Bienvenue dans la newsletter Korean Stories 💛</h2>
-      <p>Merci de t'être inscrit·e ! Tu recevras jusqu'à <strong>3 e-mails par semaine</strong>, chacun sur un thème différent :</p>
-      <ul style="line-height:1.9">
-        <li><strong>Culture</strong> — traditions, cuisine, vie quotidienne en Corée</li>
-        <li><strong>Histoire</strong> — dynasties, grandes figures, événements marquants</li>
-        <li><strong>Tendances</strong> — Hallyu, société coréenne d'aujourd'hui</li>
-      </ul>
-      <p>En attendant, continue ton parcours sur <a href="https://koreanstories.fr/app.html" style="color:#B8924E">koreanstories.fr</a>.</p>
-      <p style="font-size:13px;color:#555;margin-top:24px">Tu peux te désinscrire à tout moment en cliquant <a href="${unsubUrl}" style="color:#B8924E">ici</a>.</p>
-      <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
-    </div>
+  const bodyHtml = `
+    <p>Merci de t'être inscrit·e ! Tu recevras jusqu'à <strong>3 e-mails par semaine</strong>, chacun sur un thème différent :</p>
+    <ul style="line-height:1.9;padding-left:20px">
+      <li><strong>Culture</strong> — traditions, cuisine, vie quotidienne en Corée</li>
+      <li><strong>Histoire</strong> — dynasties, grandes figures, événements marquants</li>
+      <li><strong>Tendances</strong> — Hallyu, société coréenne d'aujourd'hui</li>
+    </ul>
+    <p>En attendant, continue ton parcours sur <a href="https://koreanstories.fr/app.html" style="color:#B8924E">koreanstories.fr</a>.</p>
   `;
+  const hero = { word: '환영해요', sub: 'Bienvenue dans la newsletter', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 34 };
+  const html = emailLayout({ preheader: 'Bienvenue dans la newsletter Korean Stories', title: 'Bienvenue', kicker: 'Korean Stories · Newsletter', hero, bodyHtml, unsubUrl });
   await sendEmail(email, 'Bienvenue dans la newsletter Korean Stories', html, env);
 }
 
 async function sendNewsletterGoodbyeEmail(email, env) {
-  const html = `
-    <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
-      <h2 style="color:#1a2744">Désinscription confirmée</h2>
-      <p>Tu ne recevras plus la newsletter Korean Stories. C'est noté !</p>
-      <p style="font-size:13px;color:#555">Tu changes d'avis ? Tu peux te réinscrire à tout moment depuis <a href="https://koreanstories.fr" style="color:#B8924E">koreanstories.fr</a> ou tes Réglages.</p>
-      <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
-    </div>
+  const bodyHtml = `
+    <p>Tu ne recevras plus la newsletter Korean Stories. C'est noté !</p>
+    <p style="font-size:13px;color:#475E78">Tu changes d'avis ? Tu peux te réinscrire à tout moment depuis <a href="https://koreanstories.fr" style="color:#B8924E">koreanstories.fr</a> ou tes Réglages.</p>
   `;
+  const hero = { word: '안녕', sub: 'Désinscription confirmée', bg: 'linear-gradient(135deg,#0F1B2D,#1a2f4a)', color: '#D5BA8A', fontSize: 44 };
+  const html = emailLayout({ preheader: 'Désinscription confirmée', title: 'Désinscription confirmée', kicker: 'Korean Stories · Newsletter', hero, bodyHtml });
   await sendEmail(email, 'Désinscription confirmée — Korean Stories', html, env);
 }
 
@@ -432,83 +486,78 @@ async function sendNewsletterGoodbyeEmail(email, env) {
 // tout moment (pas besoin de toucher au reste du code).
 const NEWSLETTER_CONTENT = {
   culture: [
-    { subject: 'Le hanbok, bien plus qu\'un costume', html:
-      `<h2 style="color:#1a2744">한복 · Le hanbok</h2>
-       <p>Le <strong>hanbok</strong> (한복) est le vêtement traditionnel coréen, porté aujourd'hui surtout lors des grandes occasions : Seollal (nouvel an lunaire), Chuseok, mariages.</p>
+    { subject: 'Le hanbok, bien plus qu\'un costume', hangeul: '한복', title: 'Le hanbok', html:
+      `<p>Le <strong>hanbok</strong> (한복) est le vêtement traditionnel coréen, porté aujourd'hui surtout lors des grandes occasions : Seollal (nouvel an lunaire), Chuseok, mariages.</p>
        <p>Il se compose pour les femmes d'un <strong>jeogori</strong> (veste courte) et d'une <strong>chima</strong> (jupe ample et haute), et pour les hommes d'un <strong>jeogori</strong> plus long porté avec un <strong>baji</strong> (pantalon bouffant). Les couleurs et motifs n'étaient pas choisis au hasard sous Joseon : elles indiquaient le rang social, l'âge ou le statut marital.</p>
        <p>Aujourd'hui, de nombreux jeunes Coréens louent un hanbok moderne pour visiter les palais de Séoul (comme Gyeongbokgung) — l'entrée y est même gratuite si tu en portes un !</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>한복이 예뻐요</strong> (hanbogi yeoppeoyo) — « le hanbok est joli ».</p>` },
-    { subject: 'Le kimchi, un art plus qu\'un plat', html:
-      `<h2 style="color:#1a2744">김치 · Le kimchi</h2>
-       <p>Le <strong>kimchi</strong> (김치) désigne en réalité toute une famille de légumes fermentés — on en compte plus d'une centaine de variétés selon la région et la saison, le plus connu étant à base de chou chinois (napa) et de piment.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한복이 예뻐요</strong> (hanbogi yeoppeoyo) — « le hanbok est joli ».</p>` },
+    { subject: 'Le kimchi, un art plus qu\'un plat', hangeul: '김치', title: 'Le kimchi', html:
+      `<p>Le <strong>kimchi</strong> (김치) désigne en réalité toute une famille de légumes fermentés — on en compte plus d'une centaine de variétés selon la région et la saison, le plus connu étant à base de chou chinois (napa) et de piment.</p>
        <p>Sa fabrication (<strong>gimjang</strong>, 김장) était traditionnellement un événement communautaire à l'automne : familles et voisins préparaient ensemble assez de kimchi pour tenir tout l'hiver. Cette tradition est inscrite au patrimoine culturel immatériel de l'UNESCO depuis 2013.</p>
        <p>Le kimchi accompagne quasiment tous les repas coréens, servi comme <strong>banchan</strong> (반찬, accompagnement) — jamais seul comme plat principal.</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>김치 주세요</strong> (gimchi juseyo) — « du kimchi, s'il vous plaît ».</p>` },
-    { subject: 'Chuseok, la grande fête des récoltes', html:
-      `<h2 style="color:#1a2744">추석 · Chuseok</h2>
-       <p><strong>Chuseok</strong> (추석), parfois appelé « Thanksgiving coréen », est l'une des deux plus grandes fêtes du pays avec le nouvel an lunaire. Elle a lieu au 15e jour du 8e mois lunaire, généralement en septembre.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>김치 주세요</strong> (gimchi juseyo) — « du kimchi, s'il vous plaît ».</p>` },
+    { subject: 'Chuseok, la grande fête des récoltes', hangeul: '추석', title: 'Chuseok', html:
+      `<p><strong>Chuseok</strong> (추석), parfois appelé « Thanksgiving coréen », est l'une des deux plus grandes fêtes du pays avec le nouvel an lunaire. Elle a lieu au 15e jour du 8e mois lunaire, généralement en septembre.</p>
        <p>Les familles se rassemblent, souvent après de longs trajets (les embouteillages de Chuseok sont légendaires en Corée), pour honorer les ancêtres lors d'un rite appelé <strong>charye</strong> (차례) et partager un repas de fête.</p>
        <p>Le plat emblématique est le <strong>songpyeon</strong> (송편), un petit gâteau de riz gluant en forme de demi-lune, fourré de sésame, haricots ou châtaignes, cuit à la vapeur sur des aiguilles de pin.</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>추석 잘 보내세요</strong> (chuseok jal bonaeseyo) — « passe un bon Chuseok ».</p>` },
-    { subject: 'Le nunchi, cet art coréen de « lire » les gens', html:
-      `<h2 style="color:#1a2744">눈치 · Le nunchi</h2>
-       <p>Le <strong>nunchi</strong> (눈치, littéralement « mesure des yeux ») est une notion centrale de la culture coréenne : la capacité à percevoir rapidement l'humeur et les intentions d'un groupe, pour adapter son comportement en conséquence.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>추석 잘 보내세요</strong> (chuseok jal bonaeseyo) — « passe un bon Chuseok ».</p>` },
+    { subject: 'Le nunchi, cet art coréen de « lire » les gens', hangeul: '눈치', title: 'Le nunchi', html:
+      `<p>Le <strong>nunchi</strong> (눈치, littéralement « mesure des yeux ») est une notion centrale de la culture coréenne : la capacité à percevoir rapidement l'humeur et les intentions d'un groupe, pour adapter son comportement en conséquence.</p>
        <p>Avoir « du nunchi » (눈치가 있다), c'est savoir quand parler ou se taire, quand proposer de payer l'addition, quand quitter une réunion. À l'inverse, en manquer (눈치가 없다) est une critique sociale assez sévère.</p>
        <p>Ce sens de l'observation collective est lié à une société où la hiérarchie (âge, statut) structure fortement les interactions et le langage — d'où l'importance du <strong>존댓말</strong> (jondaetmal), le registre poli du coréen.</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>눈치가 빠르다</strong> (nunchiga ppareuda) — « avoir du flair social », littéralement « le nunchi est rapide ».</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>눈치가 빠르다</strong> (nunchiga ppareuda) — « avoir du flair social », littéralement « le nunchi est rapide ».</p>` }
   ],
   histoire: [
-    { subject: 'Le roi Sejong et la naissance du hangeul', html:
-      `<h2 style="color:#1a2744">세종대왕 · Le roi Sejong le Grand</h2>
-       <p>En 1443, le roi <strong>Sejong</strong> (세종, 1397-1450), quatrième souverain de la dynastie Joseon, fait créer le <strong>hangeul</strong> (한글) : un alphabet pensé pour que le peuple, qui n'avait pas accès aux caractères chinois classiques réservés à l'élite lettrée, puisse enfin lire et écrire facilement.</p>
+    { subject: 'Le roi Sejong et la naissance du hangeul', hangeul: '세종대왕', title: 'Le roi Sejong le Grand', html:
+      `<p>En 1443, le roi <strong>Sejong</strong> (세종, 1397-1450), quatrième souverain de la dynastie Joseon, fait créer le <strong>hangeul</strong> (한글) : un alphabet pensé pour que le peuple, qui n'avait pas accès aux caractères chinois classiques réservés à l'élite lettrée, puisse enfin lire et écrire facilement.</p>
        <p>Le système est publié en 1446 dans le <em>Hunminjeongeum</em> (훈민정음, « les sons corrects pour l'instruction du peuple »). Les formes des consonnes imitent la position de la bouche et de la langue en les prononçant — un alphabet conçu scientifiquement, chose rarissime dans l'histoire de l'écriture.</p>
        <p>Le 9 octobre, jour du Hangeul (한글날), est aujourd'hui férié en Corée du Sud pour célébrer cette invention.</p>
-       <p style="font-size:13px;color:#555">Sans Sejong, tu ne lirais pas les leçons de Korean Stories en hangeul aujourd'hui !</p>` },
-    { subject: 'Joseon, cinq siècles qui ont façonné la Corée', html:
-      `<h2 style="color:#1a2744">조선 왕조 · La dynastie Joseon</h2>
-       <p>La dynastie <strong>Joseon</strong> (조선, 1392-1897) est la plus longue de l'histoire coréenne : plus de cinq siècles, fondée par le général <strong>Yi Seong-gye</strong>.</p>
+       <p style="font-size:13px;color:#475E78">Sans Sejong, tu ne lirais pas les leçons de Korean Stories en hangeul aujourd'hui !</p>` },
+    { subject: 'Joseon, cinq siècles qui ont façonné la Corée', hangeul: '조선', title: 'La dynastie Joseon', html:
+      `<p>La dynastie <strong>Joseon</strong> (조선, 1392-1897) est la plus longue de l'histoire coréenne : plus de cinq siècles, fondée par le général <strong>Yi Seong-gye</strong>.</p>
        <p>Elle installe le confucianisme comme doctrine d'État, structurant en profondeur la société : respect des aînés, importance de l'éducation et des examens d'État (<strong>gwageo</strong>), hiérarchie stricte entre classes sociales (yangban, roturiers).</p>
        <p>C'est aussi l'âge d'or culturel et scientifique du pays sous Sejong (hangeul, astronomie, imprimerie), et la période où Séoul (alors Hanyang) devient capitale, avec la construction du palais <strong>Gyeongbokgung</strong> — toujours visitable aujourd'hui.</p>
-       <p style="font-size:13px;color:#555">Beaucoup de dramas historiques coréens (« sageuk », 사극) se déroulent sous Joseon.</p>` },
-    { subject: 'Les Trois Royaumes : aux origines de la Corée', html:
-      `<h2 style="color:#1a2744">삼국시대 · La période des Trois Royaumes</h2>
-       <p>Avant l'unification, la péninsule coréenne était partagée entre trois royaumes rivaux, du 1er siècle avant J.-C. au 7e siècle : <strong>Goguryeo</strong> (au nord, le plus vaste, jusqu'en Mandchourie), <strong>Baekje</strong> (au sud-ouest, réputé pour son raffinement artistique) et <strong>Silla</strong> (au sud-est).</p>
+       <p style="font-size:13px;color:#475E78">Beaucoup de dramas historiques coréens (« sageuk », 사극) se déroulent sous Joseon.</p>` },
+    { subject: 'Les Trois Royaumes : aux origines de la Corée', hangeul: '삼국시대', title: 'Les Trois Royaumes', html:
+      `<p>Avant l'unification, la péninsule coréenne était partagée entre trois royaumes rivaux, du 1er siècle avant J.-C. au 7e siècle : <strong>Goguryeo</strong> (au nord, le plus vaste, jusqu'en Mandchourie), <strong>Baekje</strong> (au sud-ouest, réputé pour son raffinement artistique) et <strong>Silla</strong> (au sud-est).</p>
        <p>C'est Silla qui finit par unifier la péninsule en 668, alliée à la dynastie chinoise Tang — donnant naissance à la période de « Silla unifié ».</p>
        <p>Cette ère a laissé un immense patrimoine : tombes royales de Gyeongju (ancienne capitale de Silla, aujourd'hui classée UNESCO), bouddhisme florissant, et les bases du système d'écriture et d'administration qui influenceront toute la suite de l'histoire coréenne.</p>
-       <p style="font-size:13px;color:#555">Le nom « Corée » lui-même vient de <strong>Goryeo</strong> (고려), la dynastie qui succède à Silla en 918.</p>` },
-    { subject: '1945 : la division de la Corée', html:
-      `<h2 style="color:#1a2744">분단 · La division de la Corée</h2>
-       <p>En 1945, la libération de la Corée de l'occupation japonaise (1910-1945) s'accompagne d'une division du pays au 38e parallèle, entre une zone d'occupation soviétique au nord et américaine au sud — décision prise sans consultation du peuple coréen, dans le contexte de la guerre froide naissante.</p>
+       <p style="font-size:13px;color:#475E78">Le nom « Corée » lui-même vient de <strong>Goryeo</strong> (고려), la dynastie qui succède à Silla en 918.</p>` },
+    { subject: '1945 : la division de la Corée', hangeul: '분단', title: 'La division de la Corée', html:
+      `<p>En 1945, la libération de la Corée de l'occupation japonaise (1910-1945) s'accompagne d'une division du pays au 38e parallèle, entre une zone d'occupation soviétique au nord et américaine au sud — décision prise sans consultation du peuple coréen, dans le contexte de la guerre froide naissante.</p>
        <p>Cette division se durcit avec la fondation de deux États séparés en 1948, puis la <strong>guerre de Corée</strong> (1950-1953), qui fait des millions de victimes et se termine par un armistice — jamais suivi d'un traité de paix formel à ce jour.</p>
        <p>La <strong>zone démilitarisée</strong> (DMZ), l'une des frontières les plus surveillées au monde, sépare toujours aujourd'hui la Corée du Nord et la Corée du Sud.</p>
-       <p style="font-size:13px;color:#555">Un sujet sensible et encore très présent dans la société sud-coréenne d'aujourd'hui.</p>` }
+       <p style="font-size:13px;color:#475E78">Un sujet sensible et encore très présent dans la société sud-coréenne d'aujourd'hui.</p>` }
   ],
   actu: [
-    { subject: 'La Hallyu : comment la Corée a conquis le monde', html:
-      `<h2 style="color:#1a2744">한류 · La vague coréenne</h2>
-       <p>La <strong>Hallyu</strong> (한류, « vague coréenne ») désigne l'essor mondial de la culture populaire sud-coréenne depuis la fin des années 1990 : d'abord les dramas dans le reste de l'Asie, puis la K-pop et le cinéma à l'échelle planétaire (Parasite, Squid Game, BTS, BLACKPINK…).</p>
+    { subject: 'La Hallyu : comment la Corée a conquis le monde', hangeul: '한류', title: 'La vague coréenne', html:
+      `<p>La <strong>Hallyu</strong> (한류, « vague coréenne ») désigne l'essor mondial de la culture populaire sud-coréenne depuis la fin des années 1990 : d'abord les dramas dans le reste de l'Asie, puis la K-pop et le cinéma à l'échelle planétaire (Parasite, Squid Game, BTS, BLACKPINK…).</p>
        <p>Ce succès s'appuie sur un vrai soutien de l'État coréen à ses industries culturelles depuis la crise financière de 1997, où le pays a fait le pari de la « soft power » comme relais de croissance.</p>
        <p>Résultat : la demande pour apprendre le coréen a explosé dans le monde entier ces dernières années — et si tu lis ceci, tu en fais sûrement partie !</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>한류 팬이에요</strong> (hallyu paenieyo) — « je suis fan de la Hallyu ».</p>` },
-    { subject: 'Pourquoi les Coréens adorent les cafés à thème', html:
-      `<h2 style="color:#1a2744">카페 문화 · La culture des cafés</h2>
-       <p>La Corée du Sud compte l'une des plus fortes densités de cafés au monde, en particulier à Séoul. Mais au-delà du café lui-même, ce sont des lieux de vie : on y étudie, on y travaille, on y retrouve des amis pendant des heures.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한류 팬이에요</strong> (hallyu paenieyo) — « je suis fan de la Hallyu ».</p>` },
+    { subject: 'Pourquoi les Coréens adorent les cafés à thème', hangeul: '카페', title: 'La culture des cafés', html:
+      `<p>La Corée du Sud compte l'une des plus fortes densités de cafés au monde, en particulier à Séoul. Mais au-delà du café lui-même, ce sont des lieux de vie : on y étudie, on y travaille, on y retrouve des amis pendant des heures.</p>
        <p>Le pays s'est aussi fait une spécialité des <strong>cafés à thème</strong> : cafés à chats ou à chiens, cafés Lego, cafés dédiés à un groupe de K-pop, cafés robots... Le décor devient souvent aussi important que la boisson, pensé pour être partagé sur les réseaux sociaux.</p>
        <p>C'est aussi le reflet d'une vraie compétition entre commerces : pour se démarquer, les cafés innovent sans cesse sur l'ambiance et le concept plutôt que sur le prix.</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>카페에 가요</strong> (kapeae gayo) — « je vais au café ».</p>` },
-    { subject: 'Les webtoons, la BD qui se lit sur ton téléphone', html:
-      `<h2 style="color:#1a2744">웹툰 · Le phénomène webtoon</h2>
-       <p>Le <strong>webtoon</strong> (웹툰) est un format de bande dessinée numérique né en Corée dans les années 2000 : lecture verticale, en scrollant sur le téléphone, souvent en couleur et parfois animée — pensé dès le départ pour le mobile plutôt qu'adapté du papier.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>카페에 가요</strong> (kapeae gayo) — « je vais au café ».</p>` },
+    { subject: 'Les webtoons, la BD qui se lit sur ton téléphone', hangeul: '웹툰', title: 'Le phénomène webtoon', html:
+      `<p>Le <strong>webtoon</strong> (웹툰) est un format de bande dessinée numérique né en Corée dans les années 2000 : lecture verticale, en scrollant sur le téléphone, souvent en couleur et parfois animée — pensé dès le départ pour le mobile plutôt qu'adapté du papier.</p>
        <p>Des plateformes comme Naver Webtoon ou Kakao Webtoon publient des milliers de séries, beaucoup gratuites (avec un système d'épisodes en avance-première payants), couvrant tous les genres : romance, fantasy, thriller, tranche de vie.</p>
        <p>De nombreux dramas et films à succès (comme <em>Sweet Home</em> ou <em>The Uncanny Counter</em>) sont aujourd'hui adaptés de webtoons — un vrai pilier de l'industrie culturelle coréenne.</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>웹툰 봐요?</strong> (weptun bwayo?) — « tu lis des webtoons ? ».</p>` },
-    { subject: '빨리빨리 : vivre à la vitesse coréenne', html:
-      `<h2 style="color:#1a2744">빨리빨리 · La culture du « vite, vite »</h2>
-       <p>Impossible de comprendre la Corée moderne sans connaître le <strong>ppalli-ppalli</strong> (빨리빨리, « vite vite ») : cette exigence de rapidité qu'on retrouve dans la livraison ultra-rapide, l'un des internets les plus rapides au monde, ou l'impatience générale dans la vie quotidienne.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>웹툰 봐요?</strong> (weptun bwayo?) — « tu lis des webtoons ? ».</p>` },
+    { subject: '빨리빨리 : vivre à la vitesse coréenne', hangeul: '빨리빨리', title: 'La culture du « vite, vite »', html:
+      `<p>Impossible de comprendre la Corée moderne sans connaître le <strong>ppalli-ppalli</strong> (빨리빨리, « vite vite ») : cette exigence de rapidité qu'on retrouve dans la livraison ultra-rapide, l'un des internets les plus rapides au monde, ou l'impatience générale dans la vie quotidienne.</p>
        <p>Cette culture a largement porté le développement économique fulgurant du pays depuis les années 1960 (le fameux « miracle sur le fleuve Han »). Mais elle a aussi un revers : un rythme de travail parmi les plus soutenus des pays de l'OCDE, et une pression sociale forte.</p>
        <p>D'où l'intérêt croissant, chez les jeunes générations, pour des concepts plus lents : le « <strong>워라밸</strong> » (work-life balance) ou la « vie lente » (소확행, « petit bonheur certain »).</p>
-       <p style="font-size:13px;color:#555">Petit mot du jour : <strong>빨리빨리!</strong> (ppalli-ppalli) — l'expression que tu entendras partout en Corée.</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>빨리빨리!</strong> (ppalli-ppalli) — l'expression que tu entendras partout en Corée.</p>` }
   ]
+};
+
+// ── Palette « héros » par thème (bandeau coloré en haut de la newsletter) ────
+const THEME_META = {
+  culture:  { label: 'Culture',   bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208' },
+  histoire: { label: 'Histoire',  bg: 'linear-gradient(135deg,#0F1B2D,#1a2f4a)', color: '#D5BA8A' },
+  actu:     { label: 'Tendances', bg: 'linear-gradient(135deg,#3E6B63,#5C9187)', color: '#F5F8FF' }
 };
 
 // ── Envoi hebdomadaire d'une édition (culture / histoire / actu) ─────────────
@@ -526,18 +575,27 @@ async function sendNewsletterEdition(theme, env, testRecipient = null) {
   const contacts = testRecipient ? [{ email: testRecipient }] : await listActiveContacts(env);
   console.log(`[KS] newsletter ${theme} · édition ${idx % editions.length} · ${contacts.length} destinataires${testRecipient ? ' (test)' : ''}`);
 
+  // La dernière ligne de chaque édition (mot du jour / anecdote) est mise en
+  // avant dans une carte « À retenir » façon fiche de vocabulaire, plutôt que
+  // noyée dans le corps du texte.
+  const meta = THEME_META[theme] || { label: theme, bg: 'linear-gradient(135deg,#0F1B2D,#1a2f4a)', color: '#FFFFFF' };
+  const heroFontSize = edition.hangeul.length <= 2 ? 56 : edition.hangeul.length === 3 ? 46 : 36;
+  const noteMatch = edition.html.match(/<p style="font-size:13px;color:#475E78">([\s\S]*?)<\/p>\s*$/);
+  const noteHtml = noteMatch ? noteMatch[1] : '';
+  const bodyHtml = noteMatch ? edition.html.slice(0, noteMatch.index).trim() : edition.html;
+
   let sent = 0, failed = 0;
   for (const contact of contacts) {
     const unsubUrl = 'https://ks-premium.delicate-voice-1d19.workers.dev/newsletter/unsubscribe?email=' + encodeURIComponent(contact.email);
-    const themeLabel = { culture: 'Culture', histoire: 'Histoire', actu: 'Tendances' }[theme] || theme;
-    const html = `
-      <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px">
-        <p style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#B8924E;font-weight:bold;margin-bottom:4px">Korean Stories · ${themeLabel}</p>
-        ${edition.html}
-        <p style="font-size:13px;color:#555;margin-top:28px;border-top:1px solid #eee;padding-top:16px">Continue ton apprentissage sur <a href="https://koreanstories.fr/app.html" style="color:#B8924E">koreanstories.fr</a>. Tu peux te désinscrire à tout moment en cliquant <a href="${unsubUrl}" style="color:#B8924E">ici</a>.</p>
-        <p style="color:#888;font-size:13px">Korean Stories · koreanstories.fr</p>
-      </div>
-    `;
+    const html = emailLayout({
+      preheader: edition.title,
+      title: edition.subject,
+      kicker: `Korean Stories · ${meta.label}`,
+      hero: { word: edition.hangeul, sub: edition.title, bg: meta.bg, color: meta.color, fontSize: heroFontSize },
+      bodyHtml,
+      noteHtml,
+      unsubUrl
+    });
     try {
       await sendEmail(contact.email, edition.subject, html, env);
       sent++;
