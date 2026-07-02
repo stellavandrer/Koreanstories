@@ -283,7 +283,7 @@ function _ksApplyRate(audio) {
 function _ksLoadManifest() {
   if (_ksAudioManifest) return Promise.resolve(_ksAudioManifest);
   if (_ksAudioManifestLoading) return _ksAudioManifestLoading;
-  _ksAudioManifestLoading = fetch('audio/manifest.json', {cache:'default'})
+  _ksAudioManifestLoading = fetch('/audio/manifest.json', {cache:'default'})
     .then(function(r){ return r.ok ? r.json() : {}; })
     .then(function(m){ _ksAudioManifest = m || {}; return _ksAudioManifest; })
     .catch(function(){ _ksAudioManifest = {}; return _ksAudioManifest; });
@@ -780,7 +780,7 @@ function _ksEnsureCurriculum() {
   if (window._ksCurriculumLoading) return window._ksCurriculumLoading;
   window._ksCurriculumLoading = new Promise(function (resolve) {
     var s = document.createElement('script');
-    s.src = 'ks-curriculum.js';
+    s.src = '/ks-curriculum.js';
     s.onload = function () { resolve(); };
     s.onerror = function () { resolve(); }; // on tolère l'absence
     document.head.appendChild(s);
@@ -1361,7 +1361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-cookie-consent-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-cookie-consent-script';
-    s.src = 'ks-cookie-consent.js';
+    s.src = '/ks-cookie-consent.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1371,7 +1371,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-lesson-image-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-lesson-image-script';
-    s.src = 'ks-lesson-image.js';
+    s.src = '/ks-lesson-image.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1381,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-favorites-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-favorites-script';
-    s.src = 'ks-favorites.js';
+    s.src = '/ks-favorites.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1391,7 +1391,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-nav-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-nav-script';
-    s.src = 'ks-nav.js';
+    s.src = '/ks-nav.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1401,7 +1401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-pronounce-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-pronounce-script';
-    s.src = 'ks-pronounce.js';
+    s.src = '/ks-pronounce.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1411,7 +1411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-search-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-search-script';
-    s.src = 'ks-search.js';
+    s.src = '/ks-search.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1421,7 +1421,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-premium-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-premium-script';
-    s.src = 'ks-premium.js';
+    s.src = '/ks-premium.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1431,7 +1431,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-install-prompt-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-install-prompt-script';
-    s.src = 'ks-install-prompt.js';
+    s.src = '/ks-install-prompt.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1441,7 +1441,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-sw-update-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-sw-update-script';
-    s.src = 'ks-sw-update.js';
+    s.src = '/ks-sw-update.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1452,7 +1452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-onboarding-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-onboarding-script';
-    s.src = 'ks-onboarding.js';
+    s.src = '/ks-onboarding.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1462,7 +1462,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-notes-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-notes-script';
-    s.src = 'ks-notes.js';
+    s.src = '/ks-notes.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1472,7 +1472,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-whatsnew-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-whatsnew-script';
-    s.src = 'ks-whatsnew.js';
+    s.src = '/ks-whatsnew.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1482,7 +1482,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-tap-translate-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-tap-translate-script';
-    s.src = 'ks-tap-translate.js';
+    s.src = '/ks-tap-translate.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1492,7 +1492,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('ks-immersive-reader-script')) return;
     var s = document.createElement('script');
     s.id = 'ks-immersive-reader-script';
-    s.src = 'ks-immersive-reader.js';
+    s.src = '/ks-immersive-reader.js';
     s.defer = true;
     document.head.appendChild(s);
   })();
@@ -1620,7 +1620,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!/^histoire\d+\.html$/.test(f)) return;
     if (document.querySelector('script[src="ks-stories.js"]')) return;
     var s = document.createElement('script');
-    s.src = 'ks-stories.js'; s.defer = true;
+    s.src = '/ks-stories.js'; s.defer = true;
     (document.head || document.documentElement).appendChild(s);
   } catch (e) {}
 })();
@@ -1634,7 +1634,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!/^histoire\d+-bd\.html$/.test(f)) return;
     if (document.querySelector('script[src="ks-bd.js"]')) return;
     var s = document.createElement('script');
-    s.src = 'ks-bd.js'; s.defer = true;
+    s.src = '/ks-bd.js'; s.defer = true;
     (document.head || document.documentElement).appendChild(s);
   } catch (e) {}
 })();
