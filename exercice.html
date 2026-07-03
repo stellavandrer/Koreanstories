@@ -2153,6 +2153,7 @@
 
         function addError() {
             gameState.sessionErrors++;
+            if(window.KSLives)KSLives.lose();
             const lb = JSON.parse(localStorage.getItem('ks_leaderboard')||'[]');
             const user = localStorage.getItem('ks_username') || 'Toi';
             const existing = lb.find(e => e.name === user);

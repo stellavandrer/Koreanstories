@@ -87,7 +87,7 @@ function pick(el,q){
   const correct=el.getAttribute('data-c')==='1';
   const fb=document.getElementById('fb');
   if(correct){el.classList.add('ok');score++;fb.style.color='#16A34A';fb.textContent='✓ '+q.exp;}
-  else{el.classList.add('ko');document.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('data-c')==='1')o.classList.add('ok');});fb.style.color='#dc2626';fb.textContent='✗ '+q.exp;}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();document.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('data-c')==='1')o.classList.add('ok');});fb.style.color='#dc2626';fb.textContent='✗ '+q.exp;}
   document.getElementById('nextBtn').style.display='block';
 }
 function next(){cur++;if(cur>=order.length){showResult();return;}render();}

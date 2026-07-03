@@ -210,7 +210,7 @@ function answer(btn,isOk,q){
     btn.classList.add('ok');
   } else {
     streak=0;
-    btn.classList.add('ko');
+    btn.classList.add('ko');if(window.KSLives)KSLives.lose();
     [...document.querySelectorAll('.choice')].find(b=>b.textContent===q.ok)?.classList.add('ok');
     /* La phrase complète s'affiche avec la bonne particule */
     document.getElementById('qSentence').innerHTML=q.pre+'<span class="q-blank" style="border-color:#22c55e;color:#16a34a">'+q.ok+'</span>'+q.post;

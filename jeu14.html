@@ -109,7 +109,7 @@ function render(){
 function pick(el,correct,q){
   if(locked)return;locked=true;
   if(correct){el.classList.add('ok');score++;streak++;if(window.speak)window.speak(q.ok);}
-  else{el.classList.add('ko');streak=0;document.querySelectorAll('.opt').forEach(o=>{if(o.textContent===q.ok)o.classList.add('ok');});}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();streak=0;document.querySelectorAll('.opt').forEach(o=>{if(o.textContent===q.ok)o.classList.add('ok');});}
   setTimeout(()=>{idx++;render();},650);
 }
 function endGame(){

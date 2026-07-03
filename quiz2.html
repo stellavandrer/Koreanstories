@@ -226,7 +226,7 @@ function selectAnswer(ans, btn, q) {
     expl.className = 'expl ok';
     expl.innerHTML = '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> ' + q.expl;
   } else {
-    btn.classList.add('wrong');
+    btn.classList.add('wrong');if(window.KSLives)KSLives.lose();
     allBtns.forEach(b => { if (b._ans === q.correct) b.classList.add('correct'); });
     const expl = document.getElementById('expl');
     expl.className = 'expl ko';

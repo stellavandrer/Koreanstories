@@ -879,7 +879,7 @@ function render(step) {
           fb.textContent=step.fb_ok;fb.className='fb ok';ksBeep('ok');
           speak(audioKey,null);setMina(step.mina_ok,A.b);
         } else {
-          this.classList.add('ko');if(correct)correct.classList.add('ok');
+          this.classList.add('ko');if(window.KSLives)KSLives.lose();if(correct)correct.classList.add('ok');
           fb.textContent=step.fb_ko;fb.className='fb ko';ksBeep('ko');
           speak(audioKey,null);setMina(step.mina_ko,A.a);
         }
@@ -901,7 +901,7 @@ function render(step) {
           fb.textContent=step.fb_ok;fb.className='fb ok';ksBeep('ok');
           speak(step.answer,null);setMina(step.mina_ok,A.b);
         } else {
-          this.classList.add('ko');
+          this.classList.add('ko');if(window.KSLives)KSLives.lose();
           const correct=document.querySelector(`.kbkey[data-c="${step.answer}"]`);
           if(correct){correct.classList.add('ok');correct.querySelector('.kr').textContent=step.target;}
           fb.textContent=step.fb_ko;fb.className='fb ko';ksBeep('ko');

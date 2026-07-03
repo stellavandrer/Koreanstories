@@ -92,7 +92,7 @@ function check(){
     selKr=null;selFr=null;
     if(matched===PAIRS.length)setTimeout(end,500);
   }else{
-    errors++;a.classList.add('bad');b.classList.add('bad');
+    errors++;if(window.KSLives)KSLives.lose();a.classList.add('bad');b.classList.add('bad');
     const x=a,y=b;selKr=null;selFr=null;
     setTimeout(()=>{x.classList.remove('bad','sel');y.classList.remove('bad','sel');},600);
   }

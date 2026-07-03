@@ -127,7 +127,7 @@ function pick(el,q){
     if(p.getAttribute('data-c')==='1')p.classList.add('ok');
   });
   if(correct){score++;fb.style.color='#16A34A';fb.innerHTML='✓ <b>'+q.kr+'</b> — '+q.fr;}
-  else{el.classList.add('ko');fb.style.color='#dc2626';fb.innerHTML='✗ C\'était <b>'+q.kr+'</b> — '+q.fr;}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();fb.style.color='#dc2626';fb.innerHTML='✗ C\'était <b>'+q.kr+'</b> — '+q.fr;}
   document.getElementById('nextBtn').style.display='block';
 }
 function next(){cur++;if(cur>=order.length){showResult();return;}render();}

@@ -304,7 +304,7 @@ function pick(i,idx){
   chs.forEach(b=>b.disabled=true);
   const ok=i===q.ans;
   if(ok){score++;chs[i].classList.add('ok');beep(true);}
-  else{chs[i].classList.add('ko');chs[q.ans].classList.add('ok');beep(false);}
+  else{chs[i].classList.add('ko');if(window.KSLives)KSLives.lose();chs[q.ans].classList.add('ok');beep(false);}
   const fb=document.getElementById('fb');fb.style.display='block';
   fb.className='fb-strip '+(ok?'ok':'ko');fb.textContent=q.fb;
   document.getElementById('nxt').style.display='block';

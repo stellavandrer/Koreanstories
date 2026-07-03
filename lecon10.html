@@ -755,7 +755,7 @@ function render(step){
       const fb=document.getElementById('fb'),nxt=document.getElementById('nxt');
       const ak=step.audio||step.mainAudio||step.main;
       if(this.dataset.c===step.answer){this.classList.add('ok');score++;fb.textContent=step.fb_ok;fb.className='fb ok';ksBeep('ok');speak(ak,null);setMina(step.mina_ok,A.b);}
-      else{this.classList.add('ko');if(correct)correct.classList.add('ok');fb.textContent=step.fb_ko;fb.className='fb ko';ksBeep('ko');speak(ak,null);setMina(step.mina_ko,A.a);}
+      else{this.classList.add('ko');if(window.KSLives)KSLives.lose();if(correct)correct.classList.add('ok');fb.textContent=step.fb_ko;fb.className='fb ko';ksBeep('ko');speak(ak,null);setMina(step.mina_ko,A.a);}
       nxt.classList.add('show');nxt.onclick=next;
     }));
   } else if(step.type==='kbpick'){
@@ -766,7 +766,7 @@ function render(step){
       document.querySelectorAll('.kbkey').forEach(b=>{b.disabled=true;const f=step.keys.find(k=>k.c===b.dataset.c);if(f)b.querySelector('.kr').textContent=f.r;});
       const fb=document.getElementById('fb'),nxt=document.getElementById('nxt');
       if(this.dataset.c===step.answer){this.classList.add('ok');score++;fb.textContent=step.fb_ok;fb.className='fb ok';ksBeep('ok');speak(step.answer,null);setMina(step.mina_ok,A.b);}
-      else{this.classList.add('ko');const c=document.querySelector(`.kbkey[data-c="${step.answer}"]`);if(c){c.classList.add('ok');c.querySelector('.kr').textContent=step.target;}fb.textContent=step.fb_ko;fb.className='fb ko';ksBeep('ko');speak(step.answer,null);setMina(step.mina_ko,A.a);}
+      else{this.classList.add('ko');if(window.KSLives)KSLives.lose();const c=document.querySelector(`.kbkey[data-c="${step.answer}"]`);if(c){c.classList.add('ok');c.querySelector('.kr').textContent=step.target;}fb.textContent=step.fb_ko;fb.className='fb ko';ksBeep('ko');speak(step.answer,null);setMina(step.mina_ko,A.a);}
       nxt.classList.add('show');nxt.onclick=next;
     }));
   } else if(step.type==='typeword'){

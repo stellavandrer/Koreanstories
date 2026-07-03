@@ -250,7 +250,7 @@ function answer(qIdx, oIdx, btn){
     btn.classList.add('correct');
     scoresByCat[QUESTIONS[qIdx].cat]++;
   } else {
-    btn.classList.add('wrong');
+    btn.classList.add('wrong');if(window.KSLives)KSLives.lose();
     opts[correct].classList.add('correct');
   }
   document.getElementById('exp' + qIdx).classList.add('show');

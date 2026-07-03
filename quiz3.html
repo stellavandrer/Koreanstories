@@ -139,7 +139,7 @@
     const btns=optsDiv.querySelectorAll('.q-opt');
     const correct=q.correct!==undefined?q.correct:q.ans;
     if(i===correct){btn.classList.add('ok');score++;}
-    else{btn.classList.add('ko');btns[correct].classList.add('ok');}
+    else{btn.classList.add('ko');if(window.KSLives)KSLives.lose();btns[correct].classList.add('ok');}
     const expl=document.getElementById('qExpl');
     expl.innerHTML='<svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> '+q.expl;
     expl.className='expl show';

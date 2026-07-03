@@ -115,7 +115,7 @@ function pick(el,q){
   const correct=el.getAttribute('data-c')==='1';
   const fb=document.getElementById('fb');
   if(correct){el.classList.add('ok');score++;fb.style.color='#16A34A';fb.innerHTML='✓ <b>'+q.kr+'</b> · '+q.rom+' — '+q.fr;}
-  else{el.classList.add('ko');document.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('data-c')==='1')o.classList.add('ok');});fb.style.color='#dc2626';fb.innerHTML='✗ La réponse : <b>'+q.kr+'</b> · '+q.rom+' — '+q.fr;}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();document.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('data-c')==='1')o.classList.add('ok');});fb.style.color='#dc2626';fb.innerHTML='✗ La réponse : <b>'+q.kr+'</b> · '+q.rom+' — '+q.fr;}
   document.getElementById('nextBtn').style.display='block';
 }
 function next(){cur++;if(cur>=order.length){showResult();return;}render();}
