@@ -12,6 +12,12 @@
     try { return localStorage.getItem('ks_premium') === '1'; } catch (e) { return false; }
   }
 
+  /* localStorage peut lever (navigation privée Safari, quota, etc.) — jamais
+     laisser ça remonter et casser le reste du script de la page. */
+  function safeGet(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+
   /* Certaines pages (lecon*.html) définissent déjà .hrt/.lives-row en inline ;
      les autres (exercice/jeu/quiz) n'ont rien — on injecte une fois une règle
      commune pour que le widget flottant soit stylé partout. */
@@ -28,9 +34,9 @@
   /* Applique la régénération écoulée depuis le dernier check. */
   function regen() {
     if (isPremium()) return;
-    var count = parseInt(localStorage.getItem(CKEY), 10);
+    var count = parseInt(safeGet(CKEY), 10);
     if (isNaN(count)) { count = MAX; }
-    var ts = parseInt(localStorage.getItem(TKEY), 10);
+    var ts = parseInt(safeGet(TKEY), 10);
     if (!ts || count >= MAX) return;
     var gained = Math.floor((Date.now() - ts) / REGEN_MS);
     if (gained > 0) {
@@ -47,7 +53,7 @@
   function get() {
     if (isPremium()) return MAX;
     regen();
-    var count = parseInt(localStorage.getItem(CKEY), 10);
+    var count = parseInt(safeGet(CKEY), 10);
     return isNaN(count) ? MAX : count;
   }
 
@@ -55,7 +61,7 @@
     if (isPremium()) return 0;
     var count = get();
     if (count >= MAX) return 0;
-    var ts = parseInt(localStorage.getItem(TKEY), 10);
+    var ts = parseInt(safeGet(TKEY), 10);
     if (!ts) return REGEN_MS;
     return Math.max(0, REGEN_MS - (Date.now() - ts));
   }
