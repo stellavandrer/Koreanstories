@@ -53,6 +53,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .entry-ex .exk{font-family:'Noto Sans KR',sans-serif;color:var(--t)}
 .spk{flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--goldbg,#FBF2E3);border:1px solid var(--goldbd,#E0CBA0);display:flex;align-items:center;justify-content:center;color:var(--gold-deep,#B8924E);transition:transform .12s}
 .spk:hover{transform:scale(1.08)}.spk.playing{background:var(--gold,#C9A96E);color:#fff}
+.spk.unavailable{animation:spkShake .35s}
+@keyframes spkShake{20%,60%{transform:translateX(-3px)}40%,80%{transform:translateX(3px)}}
 .spk svg{width:20px;height:20px;fill:currentColor}
 .conj-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12.5px;font-weight:700;color:var(--gold-deep,#B8924E);background:var(--goldbg,#FBF2E3);border:1px solid var(--goldbd);border-radius:100px;padding:7px 14px}
 .conj-toggle svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4;transition:transform .25s}
@@ -241,27 +243,16 @@ function conjugate(word){
   return forms;
 }
 
-/* ── Audio : voix Typecast/neuronale (ks.js) si dispo, sinon synthèse native du
-   navigateur — le dico couvre ~45 000 mots (2 026 curés + ks-krdict.json),
-   la quasi-totalité n'aura jamais de fichier audio pré-généré. ── */
-var _krVoice=null;
-function pickVoice(){ try{ var vs=speechSynthesis.getVoices(); _krVoice=vs.filter(function(v){return /ko(-|_)?/i.test(v.lang);})[0]||null; }catch(e){} }
-if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
-function nativeSpeak(text,btn){
-  try{
-    speechSynthesis.cancel();
-    document.querySelectorAll('.spk.playing').forEach(function(b){b.classList.remove('playing');});
-    var u=new SpeechSynthesisUtterance(text);
-    u.lang='ko-KR'; u.rate=.85; if(_krVoice)u.voice=_krVoice;
-    if(btn){btn.classList.add('playing'); u.onend=u.onerror=function(){btn.classList.remove('playing');};}
-    speechSynthesis.speak(u);
-  }catch(e){}
-}
+/* ── Audio : uniquement la vraie voix Typecast/neuronale (ks.js) — jamais de
+   synthèse robotique. Le dico couvre ~45 000 mots (2 081 curés +
+   ks-krdict.json) ; seuls ceux du vocabulaire des leçons/histoires ont un
+   fichier audio pré-généré. Pour les autres, le bouton signale juste que
+   l'audio n'est pas encore disponible pour ce mot (pas de son de secours). ── */
 function dictSpeak(text,btn){
   if(typeof window.speak==='function'){
-    window.speak(text,btn,{onerror:function(){nativeSpeak(text,btn);}});
-  } else {
-    nativeSpeak(text,btn);
+    window.speak(text,btn,{onerror:function(){
+      if(btn){ btn.classList.add('unavailable'); setTimeout(function(){btn.classList.remove('unavailable');},350); }
+    }});
   }
 }
 
