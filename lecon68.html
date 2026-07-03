@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Santé & corps — Korean Stories</title>
+<meta name="description" content="Parle de ta santé en coréen : parties du corps, ~이/가 아프다, 열이 나다, 감기에 걸리다 et l'obligation avec -아야 하다. Leçon A2 sur Korean Stories."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon68.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:#7C3AED;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#6D28D9;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#c4b5fd}
+    .xp-badge{background:rgba(124,58,237,.12);color:#6D28D9;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#c4b5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(124,58,237,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#6D28D9;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#c4b5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#6D28D9,#7C3AED);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(124,58,237,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(124,58,237,.2)}
+    .speak-btn.playing{background:#7C3AED}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#7C3AED;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0}
+    th{background:rgba(124,58,237,.1);color:#6D28D9;padding:.5rem .7rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#c4b5fd}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    td .ko{color:#6D28D9;font-weight:700}
+    [data-theme="dark"] td .ko{color:#c4b5fd}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#7C3AED}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Santé & corps</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Santé & corps</h1>
+  <span class="pill">A2 · Conversation</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Décrire une douleur, comprendre le médecin, demander un médicament — tout pour te débrouiller si tu tombes malade en Corée.</p>
+
+  <h3>1 — Les parties du corps</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Coréen</th><th>Sens</th></tr>
+      <tr><td><span class="ko">머리</span></td><td>Tête</td></tr>
+      <tr><td><span class="ko">배</span></td><td>Ventre</td></tr>
+      <tr><td><span class="ko">목</span></td><td>Gorge / cou</td></tr>
+      <tr><td><span class="ko">팔</span></td><td>Bras</td></tr>
+      <tr><td><span class="ko">다리</span></td><td>Jambe</td></tr>
+      <tr><td><span class="ko">허리</span></td><td>Dos / taille</td></tr>
+      <tr><td><span class="ko">눈</span></td><td>Œil</td></tr>
+      <tr><td><span class="ko">이</span></td><td>Dent</td></tr>
+    </table></div>
+  </div>
+
+  <h3>2 — Avoir mal : ~이/가 아프다</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem"><strong>[partie du corps]이/가 아파요</strong> = j'ai mal à ~. 아프다 est un verbe en ㅡ irrégulier : 아프다 → 아파요.</p>
+    <div class="ex-block">
+      <div class="ko">배가 아파요 <button class="speak-btn" onclick="window.speak('배가 아파요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">J'ai mal au ventre.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">머리가 아파요 <button class="speak-btn" onclick="window.speak('머리가 아파요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">J'ai mal à la tête.</div>
+    </div>
+  </div>
+
+  <h3>3 — Chez le médecin</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem">Le médecin te demandera :</p>
+    <div class="ex-block">
+      <div class="ko">어디가 아프세요? <button class="speak-btn" onclick="window.speak('어디가 아프세요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Où avez-vous mal ? (forme polie -세요)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">열이 나요 <button class="speak-btn" onclick="window.speak('열이 나요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">J'ai de la fièvre. (열이 나다 = expression figée avec 나다, « sortir »)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">감기에 걸렸어요 <button class="speak-btn" onclick="window.speak('감기에 걸렸어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je suis enrhumé(e). (감기에 걸리다 = attraper un rhume)</div>
+    </div>
+  </div>
+
+  <h3>4 — L'obligation : -아야/어야 하다</h3>
+  <div class="card">
+    <p style="margin:.3rem 0;font-size:.92rem"><strong>-아야/어야 하다</strong> = il faut… Se colle au radical du verbe comme -아요/어요.</p>
+    <div class="ex-block">
+      <div class="ko">약을 먹어야 해요 <button class="speak-btn" onclick="window.speak('약을 먹어야 해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Il faut prendre des médicaments. (약을 먹다 = littéralement « manger » un médicament)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">쉬어야 해요 <button class="speak-btn" onclick="window.speak('쉬어야 해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Il faut se reposer. (쉬다 = se reposer)</div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">여기가 아파요 <button class="speak-btn" onclick="window.speak('여기가 아파요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« J'ai mal ici. » Utile même sans connaître le mot exact — montre du doigt en le disant, ça marche à tous les coups.</span>
+  </div>
+
+  <div class="tip"><strong>약국 ≠ 병원</strong> : 약국 = la pharmacie (on y achète des médicaments sans ordonnance pour un petit rhume), 병원 = l'hôpital/la clinique (pour voir un médecin). Ne confonds pas les deux en demandant ton chemin !</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« J'ai mal au ventre » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">배가 아파요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">배를 아파요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">배가 아팠어요만</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">Pour demander « où avez-vous mal ? » (poli) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">어디가 아프세요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">어디를 아파요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">어디가 있으세요?</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« J'ai de la fièvre » :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">열을 해요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">열이 나요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">열이 아파요</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« Il faut prendre des médicaments » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">약을 먹어야 해요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">약을 먹고 해요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">약을 먹어서 해요</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Je suis enrhumé(e) » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">감기에 걸렸어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">감기가 아파요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">감기를 먹었어요</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b56',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b56');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
