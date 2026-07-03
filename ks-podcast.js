@@ -1,18 +1,20 @@
 /* ═══════════════════════════════════════════════════════════════════
-   ks-podcast.js — Lecteur de podcast par synthèse vocale (voix native).
+   ks-podcast.js — Lecteur de podcast avec voix Typecast par personnage.
    ──────────────────────────────────────────────────────────────────
    Chaque page podcast fournit :
-     • des segments  <div class="pc-seg"><div class="pc-seg-kr">…</div>
-                       <div class="pc-seg-fr">…</div></div>
+     • des segments  <div class="pc-seg"><div class="pc-seg-spk">…</div>
+                       <div class="pc-seg-kr">…</div><div class="pc-seg-fr">…</div></div>
      • un lecteur    #pcPlay #pcIco #pcFill #pcCur #pcDur #pcRate #pcSoon
      • un bouton FR  #frBtn
      • (optionnel)   #pcReward (.pcr-xp) affiché à la fin
      • window.KS_POD = { key:'ks_pod_x', xp:15, id:'pod_x' }
 
-   Le player lit la transcription coréenne à voix haute via l'API
-   speechSynthesis du navigateur (ko-KR) — fonctionne hors-ligne, sans
-   MP3. À la fin de l'épisode, l'XP est accordée une seule fois et la
-   progression est enregistrée (ks_pod_progress) pour le hub.
+   Le player lit chaque segment via window.speakAs() (ks.js) — la vraie
+   voix Typecast du personnage indiqué par .pc-seg-spk (Mina/Joon), avec
+   repli automatique sur la voix neuronale si un fichier manque (jamais
+   la synthèse robotique du navigateur). À la fin de l'épisode, l'XP est
+   accordée une seule fois et la progression est enregistrée
+   (ks_pod_progress) pour le hub.
    ═══════════════════════════════════════════════════════════════════ */
 (function(){
   'use strict';
@@ -41,27 +43,18 @@
   var soon   = document.getElementById('pcSoon');
   var ICO_PLAY  = '<polygon points="6 4 20 12 6 20 6 4"/>';
   var ICO_PAUSE = '<rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/>';
-  var synth = window.speechSynthesis;
+  var SPK_VOICE = {mina:'mina', joon:'joon'};
 
   if(durEl) durEl.textContent = segs.length + ' parties';
 
-  /* Pas de synthèse vocale (ou pas de segments) → transcription lisible seule. */
-  if(!synth || typeof SpeechSynthesisUtterance==='undefined' || !segs.length){
+  /* Pas de lecteur audio dispo (ks.js pas chargé) ou pas de segments → transcription lisible seule. */
+  if(typeof window.speakAs!=='function' || !segs.length){
     if(soon) soon.classList.add('show');
     if(playBtn) playBtn.setAttribute('disabled','');
     return;
   }
 
-  /* Choix d'une voix coréenne si le système en a une. */
-  var koVoice=null;
-  function pickVoice(){
-    var vs = synth.getVoices()||[];
-    koVoice = vs.filter(function(v){ return /^ko/i.test(v.lang||''); })[0] || null;
-  }
-  pickVoice();
-  if(typeof synth.onvoiceschanged!=='undefined') synth.onvoiceschanged=pickVoice;
-
-  var idx=0, playing=false, finished=false;
+  var idx=0, playing=false, finished=false, currentAudio=null;
   var RATES=[1,1.15,1.3,0.85], ri=0;
 
   function setProg(i){
@@ -78,22 +71,25 @@
     idx=i; highlight(i); setProg(i);
     var txt = ((segs[i].querySelector('.pc-seg-kr')||{}).textContent||'').trim();
     if(!txt){ speakSeg(i+1); return; }
-    var u = new SpeechSynthesisUtterance(txt);
-    u.lang='ko-KR'; u.rate = 0.95*RATES[ri]; u.pitch=1;
-    if(koVoice) u.voice=koVoice;
-    u.onend = function(){ if(playing) speakSeg(i+1); };
-    u.onerror = function(){ if(playing) speakSeg(i+1); };
-    synth.speak(u);
+    var spkEl = segs[i].querySelector('.pc-seg-spk');
+    var spk = spkEl ? (spkEl.textContent||'').trim().toLowerCase() : '';
+    var voice = SPK_VOICE[spk] || 'narrateur';
+    currentAudio = null;
+    window.speakAs(txt, voice, null, {
+      onaudio: function(audio){ currentAudio=audio; try{ audio.playbackRate=RATES[ri]; }catch(e){} },
+      onended: function(){ currentAudio=null; if(playing) speakSeg(i+1); },
+      onerror: function(){ currentAudio=null; if(playing) speakSeg(i+1); }
+    });
   }
 
   function play(){
     playing=true; if(ico) ico.innerHTML=ICO_PAUSE;
-    if(synth.paused){ synth.resume(); }
-    else { synth.cancel(); speakSeg(idx>=segs.length?0:idx); }
+    if(currentAudio && currentAudio.paused && !currentAudio.ended){ currentAudio.play().catch(function(){}); }
+    else { speakSeg(idx>=segs.length?0:idx); }
   }
   function pause(){
     playing=false; if(ico) ico.innerHTML=ICO_PLAY;
-    try{ synth.pause(); }catch(e){}
+    if(currentAudio){ try{ currentAudio.pause(); }catch(e){} }
   }
   playBtn.addEventListener('click', function(){ playing?pause():play(); });
 
@@ -103,12 +99,13 @@
     s.addEventListener('click', function(){
       idx=i;
       if(!playing){ play(); }
-      else { synth.cancel(); speakSeg(i); }
+      else { speakSeg(i); }
     });
   });
 
   if(rateBtn) rateBtn.addEventListener('click', function(){
     ri=(ri+1)%RATES.length; rateBtn.textContent=RATES[ri]+'×';
+    if(currentAudio){ try{ currentAudio.playbackRate = RATES[ri]; }catch(e){} }
   });
 
   function finishAll(){
@@ -144,6 +141,7 @@
   }
 
   /* Coupe la voix en quittant la page. */
-  window.addEventListener('pagehide', function(){ try{ synth.cancel(); }catch(e){} });
-  window.addEventListener('beforeunload', function(){ try{ synth.cancel(); }catch(e){} });
+  function stopAudio(){ if(currentAudio){ try{ currentAudio.pause(); }catch(e){} currentAudio=null; } }
+  window.addEventListener('pagehide', stopAudio);
+  window.addEventListener('beforeunload', stopAudio);
 })();
