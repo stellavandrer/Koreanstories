@@ -241,6 +241,30 @@ function conjugate(word){
   return forms;
 }
 
+/* ── Audio : voix Typecast/neuronale (ks.js) si dispo, sinon synthèse native du
+   navigateur — le dico couvre ~45 000 mots (2 026 curés + ks-krdict.json),
+   la quasi-totalité n'aura jamais de fichier audio pré-généré. ── */
+var _krVoice=null;
+function pickVoice(){ try{ var vs=speechSynthesis.getVoices(); _krVoice=vs.filter(function(v){return /ko(-|_)?/i.test(v.lang);})[0]||null; }catch(e){} }
+if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
+function nativeSpeak(text,btn){
+  try{
+    speechSynthesis.cancel();
+    document.querySelectorAll('.spk.playing').forEach(function(b){b.classList.remove('playing');});
+    var u=new SpeechSynthesisUtterance(text);
+    u.lang='ko-KR'; u.rate=.85; if(_krVoice)u.voice=_krVoice;
+    if(btn){btn.classList.add('playing'); u.onend=u.onerror=function(){btn.classList.remove('playing');};}
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function dictSpeak(text,btn){
+  if(typeof window.speak==='function'){
+    window.speak(text,btn,{onerror:function(){nativeSpeak(text,btn);}});
+  } else {
+    nativeSpeak(text,btn);
+  }
+}
+
 /* ── Recherche ── */
 function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim(); }
 function search(qRaw){
@@ -350,7 +374,7 @@ qClear.addEventListener('click', function(){ qEl.value=''; qEl.focus(); run(); }
 
 main.addEventListener('click', function(ev){
   var spk=ev.target.closest('.spk,.conj-spk');
-  if(spk){ ev.stopPropagation(); speak(spk.getAttribute('data-say'), spk.classList.contains('spk')?spk:null); return; }
+  if(spk){ ev.stopPropagation(); dictSpeak(spk.getAttribute('data-say'), spk.classList.contains('spk')?spk:null); return; }
   var tog=ev.target.closest('.conj-toggle');
   if(tog){ tog.closest('.entry').classList.toggle('open'); return; }
   var chip=ev.target.closest('.chip');
