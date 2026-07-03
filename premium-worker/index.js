@@ -77,8 +77,10 @@ export default {
         await sendLicenseEmail(NEWSLETTER_TEST_RECIPIENT, 'TEST-DEMO-0000-KSFR', env);
       } else if (type === 'cancellation') {
         await sendCancellationEmail(NEWSLETTER_TEST_RECIPIENT, env, Math.floor(Date.now() / 1000) + 15 * 24 * 3600);
+      } else if (type === 'trial-ended') {
+        await sendCancellationEmail(NEWSLETTER_TEST_RECIPIENT, env, null, true);
       } else {
-        return json({ success: false, message: 'Type inconnu (license/cancellation)' }, 400);
+        return json({ success: false, message: 'Type inconnu (license/cancellation/trial-ended)' }, 400);
       }
       return json({ success: true, message: `E-mail ${type} envoyé en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
     }
@@ -251,6 +253,11 @@ async function handleCheckout(session, env) {
   if (!email) { console.log('[KS] no email found, aborting'); return; }
 
   const isLifetime = session.mode === 'payment';
+  // 'paid' = déjà prélevé à l'instant du checkout (achat à vie, ou abonnement
+  // sans période d'essai). 'no_payment_required' = essai gratuit démarré sans
+  // moyen de paiement — encore rien facturé. Sert à adapter l'email si ça
+  // se termine sans qu'aucun prélèvement n'ait jamais eu lieu (cf handleCancellation).
+  const charged = session.payment_status === 'paid';
 
   // Clé existante ? On la réactive
   const existingKey = await env.KS_LICENSES.get(`email:${email}`);
@@ -258,6 +265,7 @@ async function handleCheckout(session, env) {
     const data = await env.KS_LICENSES.get(existingKey, { type: 'json' });
     if (data) {
       data.status = 'active';
+      data.everCharged = data.everCharged || charged;
       if (isLifetime) data.type = 'lifetime';
       await env.KS_LICENSES.put(existingKey, JSON.stringify(data));
       if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, existingKey);
@@ -272,6 +280,7 @@ async function handleCheckout(session, env) {
     email,
     type: isLifetime ? 'lifetime' : 'monthly',
     status: 'active',
+    everCharged: charged,
     createdAt: new Date().toISOString(),
     stripeCustomerId: session.customer || null
   }));
@@ -293,6 +302,7 @@ async function handleRenewal(invoice, env) {
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
   if (data && data.type === 'monthly') {
     data.status = 'active';
+    data.everCharged = true;
     await env.KS_LICENSES.put(key, JSON.stringify(data));
   }
 }
@@ -309,7 +319,7 @@ async function handleCancellation(obj, env, notify) {
   if (data && data.type === 'monthly') {
     data.status = 'cancelled';
     console.log('[KS] licence résiliée :', key);
-    if (notify && data.email && !data.cancelEmailSent) await sendCancellationEmail(data.email, env);
+    if (notify && data.email && !data.cancelEmailSent) await sendCancellationEmail(data.email, env, null, !data.everCharged);
     await env.KS_LICENSES.put(key, JSON.stringify(data));
   }
 }
@@ -328,7 +338,7 @@ async function handleSubscriptionUpdated(event, env) {
     // Résiliation programmée. L'accès reste ACTIF jusqu'à la fin de période.
     // Garde anti-doublon : on n'envoie l'e-mail qu'une fois.
     if (!data.cancelEmailSent && data.email) {
-      await sendCancellationEmail(data.email, env, sub.current_period_end || sub.cancel_at);
+      await sendCancellationEmail(data.email, env, sub.current_period_end || sub.cancel_at, !data.everCharged);
       data.cancelEmailSent = true;
       await env.KS_LICENSES.put(key, JSON.stringify(data));
       console.log('[KS] résiliation programmée → e-mail envoyé à', data.email);
@@ -486,7 +496,22 @@ function frDate(ts) {
 }
 
 // ── Email de confirmation de résiliation via Resend ──────────────────────────────
-async function sendCancellationEmail(email, env, endTs) {
+// trialOnly = true : l'essai gratuit s'est terminé sans qu'aucun prélèvement
+// n'ait jamais eu lieu (pas de moyen de paiement enregistré) — on évite de
+// parler de « résiliation » ou de remercier pour un soutien qui n'a pas eu lieu.
+async function sendCancellationEmail(email, env, endTs, trialOnly = false) {
+  if (trialOnly) {
+    const bodyHtml = `
+      <p>Ton essai gratuit Premium à Korean Stories est terminé — aucun moyen de paiement n'étant enregistré, aucun prélèvement n'a eu lieu.</p>
+      <p>Tout le parcours d'apprentissage reste évidemment <strong>gratuit</strong> — tu peux continuer à apprendre sans rien changer.</p>
+      <p style="font-size:13px;color:#475E78">Tu veux retrouver les avantages Premium (PDF, certificat, etc.) ? Tu peux t'abonner à tout moment depuis la page Premium. Merci d'avoir testé Korean Stories 💛</p>
+    `;
+    const hero = { word: '또 만나요', sub: 'Essai terminé', bg: 'linear-gradient(135deg,#0F1B2D,#1a2f4a)', color: '#D5BA8A', fontSize: 30 };
+    const html = emailLayout({ preheader: "Ton essai gratuit s'est terminé", title: 'Essai terminé', kicker: 'Korean Stories · Premium', hero, bodyHtml });
+    await sendEmail(email, "Ton essai gratuit Korean Stories Premium est terminé", html, env);
+    return;
+  }
+
   const endStr = frDate(endTs);
   const endLine = endStr
     ? `Ton accès Premium reste actif jusqu'au <strong>${endStr}</strong>, puis s'arrête sans nouveau prélèvement.`
