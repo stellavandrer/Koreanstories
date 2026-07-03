@@ -103,7 +103,7 @@ function render(){
   document.getElementById('sit').textContent=q.sit;
   const opts=shuffle([{t:q.ok,c:true},...q.alts.map(a=>({t:a,c:false}))]);
   const box=document.getElementById('opts');box.innerHTML='';
-  opts.forEach(o=>{const b=document.createElement('div');b.className='opt';b.textContent=o.t;b.onclick=()=>pick(b,o.c,q);box.appendChild(b);});
+  opts.forEach(o=>{const b=document.createElement('div');b.className='opt';b.textContent=o.t;b.onclick=()=>pick(b,o.c,q);b.tabIndex=0;b.setAttribute('role','button');b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(b,o.c,q);}};box.appendChild(b);});
   document.getElementById('streak').textContent='Série : '+streak;
 }
 function pick(el,correct,q){

@@ -115,7 +115,7 @@ function render(){
   html+='</div><div class="fb" id="fb"></div><button class="next" id="nextBtn" style="display:none" onclick="next()">Suivant →</button></div>';
   document.getElementById('quizArea').innerHTML=html;
   document.getElementById('listenBtn').onclick=()=>say(q.kr);
-  document.querySelectorAll('.ph').forEach(p=>p.onclick=()=>pick(p,q));
+  document.querySelectorAll('.ph').forEach(p=>{p.onclick=()=>pick(p,q);p.tabIndex=0;p.setAttribute('role','button');p.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(p,q);}};});
   setTimeout(()=>say(q.kr),350); /* lecture auto au début du round */
 }
 function pick(el,q){
