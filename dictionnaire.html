@@ -241,21 +241,6 @@ function conjugate(word){
   return forms;
 }
 
-/* ── Audio : synthèse vocale coréenne (fonctionne pour tout mot) ── */
-var _krVoice=null;
-function pickVoice(){ try{ var vs=speechSynthesis.getVoices(); _krVoice=vs.filter(function(v){return /ko(-|_)?/i.test(v.lang);})[0]||null; }catch(e){} }
-if('speechSynthesis' in window){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
-function speak(text,btn){
-  try{
-    speechSynthesis.cancel();
-    document.querySelectorAll('.spk.playing').forEach(function(b){b.classList.remove('playing');});
-    var u=new SpeechSynthesisUtterance(text);
-    u.lang='ko-KR'; u.rate=.85; if(_krVoice)u.voice=_krVoice;
-    if(btn){btn.classList.add('playing'); u.onend=u.onerror=function(){btn.classList.remove('playing');};}
-    speechSynthesis.speak(u);
-  }catch(e){}
-}
-
 /* ── Recherche ── */
 function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim(); }
 function search(qRaw){
