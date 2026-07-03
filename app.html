@@ -1022,7 +1022,6 @@
   <script src="ks.js" defer></script>
   <script src="ks-srs.js"></script>
   <script src="ks-curriculum.js"></script>
-  <script src="ks-weekly.js" defer></script>
   <script src="ks-tour.js" defer></script>
   <script src="ks-notifications.js" defer></script>
   <script src="ks-menu.js" defer></script>
@@ -2013,14 +2012,15 @@
     const lastPlay = ls('ks_lastplay');
     if(lastPlay && lastPlay !== todayChk && streak > 0) {
       const daysDiff = Math.round((new Date(todayChk) - new Date(lastPlay)) / 86400000);
-      if(daysDiff === 2 && typeof ksUseFreeze === 'function' && ksFreezesLeft() > 0) {
-        // 1 jour raté + freeze dispo → on consomme et on préserve le streak
-        ksUseFreeze();
+      const missedDays = daysDiff - 1;
+      if(missedDays >= 1 && typeof ksUseFreeze === 'function' && ksFreezesLeft() >= missedDays) {
+        // missedDays jour(s) raté(s), assez de freezes dispo → on les consomme tous et on préserve le streak
+        for(let _i=0;_i<missedDays;_i++) ksUseFreeze();
         try { localStorage.setItem('ks_lastplay', new Date(new Date(todayChk).getTime() - 86400000).toISOString().slice(0,10)); } catch(e) {}
         setTimeout(() => {
           const notif = document.createElement('div');
           notif.style.cssText = 'position:fixed;top:68px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0EA5E9,#06B6D4);border-radius:16px;padding:13px 20px;font-size:13px;font-weight:600;color:#fff;z-index:200;text-align:center;max-width:300px;box-shadow:0 8px 28px rgba(0,0,0,.3)';
-          notif.innerHTML = 'Freeze utilisé — ton streak est sauvé !<br><span style="font-size:11px;opacity:.85;font-weight:400">Il te reste '+ksFreezesLeft()+' freeze(s) ce mois</span>';
+          notif.innerHTML = (missedDays>1 ? missedDays+' freezes utilisés' : 'Freeze utilisé') + ' — ton streak est sauvé !<br><span style="font-size:11px;opacity:.85;font-weight:400">Il te reste '+ksFreezesLeft()+' freeze(s) ce mois</span>';
           document.body.appendChild(notif);
           setTimeout(() => { notif.style.transition='opacity .5s'; notif.style.opacity='0'; setTimeout(()=>notif.remove(),500); }, 4000);
         }, 600);

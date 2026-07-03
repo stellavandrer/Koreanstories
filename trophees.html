@@ -134,10 +134,14 @@ function getVocab(){
   return 0;
 }
 function getActiveDays(){
+  /* Reconstruit l'activité réelle depuis les clés ks_xp_day_<date>
+     (ks_heatmap n'est écrit nulle part dans le code — clé morte) */
   var n=0;
   try{
-    var h=JSON.parse(localStorage.getItem('ks_heatmap')||'{}');
-    for(var k in h){if(h[k])n++;}
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k && k.indexOf('ks_xp_day_')===0 && (parseInt(localStorage.getItem(k))||0)>0) n++;
+    }
   }catch(e){}
   return n;
 }
@@ -176,7 +180,7 @@ var TROPHIES = [
   {cat:'explo',id:'vocab200',name:'Polyglotte en herbe',desc:'Apprends 200 mots distincts en SRS',ico:ico('#8B5CF6','<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="12" y2="18"/>'),target:200,progress:getVocab},
   {cat:'explo',id:'activities50',name:'Explorateur·rice',desc:'Termine 50 activités sur le parcours',ico:ico('#10B981','<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>'),target:50,progress:countActivities},
   {cat:'explo',id:'activities100',name:'Voyageur·euse aguerri',desc:'Termine 100 activités sur le parcours',ico:ico('#10B981','<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/><circle cx="12" cy="12" r="3"/>'),target:100,progress:countActivities},
-  {cat:'explo',id:'community',name:'Communauté',desc:'Active ton classement public dans Réglages',ico:ico('#DB2777','<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/>'),target:1,progress:function(){return ls('ks_leaderboard_opt')==='1'?1:0;}}
+  {cat:'explo',id:'community',name:'Communauté',desc:'Active ton classement public dans Réglages',ico:ico('#DB2777','<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/>'),target:1,progress:function(){return ls('ks_leaderboard_opt')==='yes'?1:0;}}
 ];
 
 /* ── Badges de blocs thématiques — un badge par groupe du parcours ──
