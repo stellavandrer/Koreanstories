@@ -48,7 +48,7 @@
   <div class="sc-icon">
     <svg viewBox="0 0 24 24"><path d="M2 20h20M5 20l-2-9 5 4 4-8 4 8 5-4-2 9z"/></svg>
   </div>
-  <h1>Merci pour ton soutien ! 💛</h1>
+  <h1>Merci pour ton soutien !</h1>
   <p class="sc-sub">Ta commande est confirmée. Tu vas recevoir un email avec ta clé de licence dans quelques instants.</p>
 
   <div class="sc-steps">
@@ -92,7 +92,7 @@ document.getElementById('licBtn').addEventListener('click', function(){
     if (window.KSPremium) {
       KSPremium.unlock(key).then(function(res){
         if (res.ok) {
-          msg.textContent = 'Premium activé ! Bienvenue dans la team 💛'; msg.className = 'sc-lic-msg ok';
+          msg.textContent = 'Premium activé ! Bienvenue dans la team'; msg.className = 'sc-lic-msg ok';
           setTimeout(function(){ location.href = 'app.html'; }, 1800);
         } else {
           msg.textContent = res.msg || 'Clé invalide.'; msg.className = 'sc-lic-msg err';

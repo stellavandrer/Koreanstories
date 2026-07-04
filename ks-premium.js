@@ -171,7 +171,7 @@
       inner =
         '<div class="ksp-head"><button class="ksp-close" aria-label="Fermer">×</button>' +
           '<div class="ksp-crown">' + CROWN + '</div>' +
-          '<h2 class="ksp-h">Tu es Premium 💛</h2>' +
+          '<h2 class="ksp-h">Tu es Premium</h2>' +
           '<p class="ksp-sub">Merci de soutenir Korean Stories ! Tous les bonus sont débloqués sur ce compte.</p></div>' +
         '<div class="ksp-body" style="text-align:center">' +
           '<span class="ksp-status"><span class="d"></span> Abonnement actif</span>' +
@@ -218,7 +218,7 @@
       btn.disabled = true; btn.textContent = '...'; showMsg('Vérification…', '');
       unlock(inp.value).then(function(res){
         btn.disabled = false; btn.textContent = 'Débloquer';
-        if (res.ok) { showMsg('Premium débloqué — merci 💛', 'ok'); setTimeout(openUpgradeRefresh, 900); }
+        if (res.ok) { showMsg('Premium débloqué — merci', 'ok'); setTimeout(openUpgradeRefresh, 900); }
         else showMsg(res.msg || 'Clé invalide.', 'err');
       });
     }

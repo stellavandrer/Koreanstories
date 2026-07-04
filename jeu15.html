@@ -41,7 +41,7 @@
 <body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Portrait Match — Décrire quelqu'un</h1>
 <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Portrait Match</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
 <div class="shell"><main class="main"><div class="wrap">
-  <h2>Portrait Match 🧩</h2>
+  <h2>Portrait Match</h2>
   <span class="pill">A1 · Apparence & personnalité</span>
   <div id="gameArea">
     <p style="color:var(--tx-muted);font-size:.9rem;margin:.8rem 0 0">Associe chaque adjectif coréen à son sens. Touche une carte de chaque colonne.</p>
@@ -52,7 +52,7 @@
     <div class="hud" id="hud">0 / 6 associés</div>
   </div>
   <div id="resultArea" style="display:none" class="result">
-    <div class="big" id="finalTxt">Bravo ! 🎉</div>
+    <div class="big" id="finalTxt">Bravo !</div>
     <p style="color:var(--tx-muted)" id="finalMsg"></p>
     <button class="again-btn" onclick="start()">Rejouer</button>
     <a class="again-btn" href="#" style="background:none;border:1.5px solid var(--bd);color:var(--tx)" onclick="finish();return false;">Terminer · +8 XP</a>
@@ -100,7 +100,7 @@ function check(){
 function end(){
   document.getElementById('gameArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
-  document.getElementById('finalMsg').textContent=errors===0?'Sans faute, mémoire d\'or ! 🏆':errors<=2?'Très bien — '+errors+' erreur(s).':'Termine, puis recommence pour viser le sans-faute.';
+  document.getElementById('finalMsg').textContent=errors===0?'Sans faute, mémoire d\'or !':errors<=2?'Très bien — '+errors+' erreur(s).':'Termine, puis recommence pour viser le sans-faute.';
 }
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_a65',xp:8});else{if(typeof ksAddXP==='function')ksAddXP(8);if(typeof ksMarkDone==='function')ksMarkDone('ks_a65');location.href='cours.html';}}
 try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}

@@ -1229,7 +1229,7 @@
       var on = window.KSPremium && KSPremium.isPremium();
       var t = document.getElementById('rgPremTitle'), s = document.getElementById('rgPremSub'), b = document.getElementById('rgPremBtn'), lic = document.getElementById('rgLicSection'), mng = document.getElementById('rgManageSub'), inv = document.getElementById('rgInvoices'), invNote = document.getElementById('rgInvoicesNote');
       if (on) {
-        if (t) t.textContent = 'Premium actif 💛';
+        if (t) t.textContent = 'Premium actif';
         if (s) s.textContent = 'Merci de soutenir Korean Stories ! Tous les bonus sont débloqués.';
         if (b) b.textContent = 'Gérer';
         if (lic) lic.style.display = 'none';
@@ -1263,7 +1263,7 @@
         KSPremium.unlock(key).then(function(res){
           btn.disabled = false;
           if (res.ok) {
-            msg.textContent = 'Premium activé ! Bienvenue 💛'; msg.style.color = '#16a34a';
+            msg.textContent = 'Premium activé ! Bienvenue'; msg.style.color = '#16a34a';
             if (inp) inp.value = '';
           } else {
             msg.textContent = res.msg || 'Clé invalide.'; msg.style.color = '#dc2626';

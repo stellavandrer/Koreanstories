@@ -129,7 +129,32 @@ async function handleVerify(request, env) {
 // ── Newsletter : inscription / désinscription via Resend Contacts ────────────
 // Base de contacts réelle (dashboard resend.com/audience, export CSV inclus) —
 // remplace l'ancien flux FormSubmit (e-mail simple, sans base consultable).
+// ── Limite de débit par IP (anti-inscription en masse) ───────────────────────
+// Compteur stocké dans KV avec expiration : au-delà de `max` requêtes dans la
+// fenêtre, on refuse (429). Note : KV est à cohérence éventuelle (propagation
+// ~qq s entre edges), donc un attaquant très déterminé réparti sur plusieurs
+// régions peut contourner à la marge — mais ça stoppe les scripts simples et
+// les abus accidentels, ce qui est proportionné à l'enjeu (endpoint newsletter).
+async function rateLimited(request, env, bucket, max, windowSec) {
+  try {
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    const key = 'rl:' + bucket + ':' + ip;
+    const cur = parseInt(await env.KS_LICENSES.get(key) || '0', 10) || 0;
+    if (cur >= max) return true;
+    await env.KS_LICENSES.put(key, String(cur + 1), { expirationTtl: windowSec });
+    return false;
+  } catch (e) {
+    // En cas d'erreur KV, on ne bloque pas un utilisateur légitime.
+    return false;
+  }
+}
+
 async function handleNewsletter(request, env) {
+  // Max 6 opérations (inscription/désinscription) par IP par heure.
+  if (await rateLimited(request, env, 'newsletter', 6, 3600)) {
+    return json({ success: false, message: 'Trop de tentatives, réessaie dans un moment.' }, 429);
+  }
+
   let body;
   try { body = await request.json(); } catch { return json({ success: false, message: 'Requête invalide' }, 400); }
 
@@ -806,11 +831,19 @@ async function emailForCustomer(customerId, env) {
 }
 
 // ── Génération de clé lisible ──────────────────────────────────────────────────
+// Format XXXX-XXXX-XXXX-XXXX (16 caractères). Alphabet de 32 symboles sans
+// caractères ambigus (ni I/O/0/1). Aléa CRYPTOGRAPHIQUE (crypto.getRandomValues,
+// pas Math.random) : imprévisible, non reproductible à partir d'un état de PRNG.
+// `octet & 31` == `octet % 32` sans biais de modulo, car 32 divise 256.
 function generateKey() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  return Array.from({ length: 4 }, () =>
-    Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
-  ).join('-');
+  const bytes = crypto.getRandomValues(new Uint8Array(16));
+  let out = '';
+  for (let i = 0; i < 16; i++) {
+    out += chars[bytes[i] & 31];
+    if (i % 4 === 3 && i < 15) out += '-';
+  }
+  return out;
 }
 
 // ── Vérification signature Stripe ─────────────────────────────────────────────

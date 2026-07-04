@@ -1,12 +1,23 @@
 // Règles Firestore — Korean Stories
 // À copier-coller dans Firebase Console → Firestore Database → Rules
+// (ou déployer via la CLI : `firebase deploy --only firestore:rules`)
 //
 // Deux collections :
-//   /users/{userId}        → données privées (XP, leçons faites, etc.)
-//                            chacun lit/écrit uniquement les siennes
-//   /leaderboard/{userId}  → mini-profil public opt-in (pseudo + xp + avatar)
-//                            tout utilisateur authentifié peut LIRE
-//                            seul le propriétaire peut ÉCRIRE le sien
+//   /users/{userId}        → données privées (snapshot localStorage, XP, etc.)
+//                            chacun lit/écrit UNIQUEMENT les siennes.
+//   /leaderboard/{userId}  → mini-profil public opt-in (pseudo + xp + avatar).
+//                            tout membre connecté peut LIRE ;
+//                            chacun n'écrit que SA ligne, au format strict.
+//
+// Durcissement (2026-07-04) : liste blanche de champs, types stricts, valeurs
+// non négatives et plafonnées, uid == ID du document (anti-usurpation),
+// horodatage = heure serveur (anti-antidatage). Toute collection non listée
+// est refusée par défaut.
+//
+// Limite assumée : xp/streak sont déclarés par le client (pas de vérité
+// serveur), donc un utilisateur technique peut gonfler SON PROPRE score dans
+// les bornes autorisées. Il ne peut PAS toucher au score des autres ni rien
+// casser. Un anti-triche total nécessiterait des Cloud Functions.
 
 rules_version = '2';
 service cloud.firestore {
@@ -20,29 +31,48 @@ service cloud.firestore {
 
     // ── Classement public (opt-in) ───────────────────────
     match /leaderboard/{userId} {
-      // Tout utilisateur authentifié peut LIRE la liste
+
+      // Tout membre connecté peut LIRE la liste.
       allow read: if request.auth != null;
 
-      // Seul le propriétaire peut écrire SON propre document.
-      // On valide aussi que les champs publics restent dans des
-      // limites raisonnables (anti-abus).
-      allow write: if request.auth != null
-                   && request.auth.uid == userId
-                   && (request.resource == null
-                       || (request.resource.data.keys().hasOnly(
-                             ['uid','name','xp','streak','avatar','updatedAt'])
-                           && request.resource.data.name is string
-                           && request.resource.data.name.size() <= 40
-                           && (request.resource.data.xp is int
-                               || request.resource.data.xp is number)
-                           && request.resource.data.xp <= 10000000
-                           && (request.resource.data.streak is int
-                               || request.resource.data.streak is number)
-                           && request.resource.data.streak <= 10000));
+      // Création / mise à jour : uniquement sa propre ligne, au format strict.
+      allow create, update: if request.auth != null
+        && request.auth.uid == userId
 
-      // Suppression : seulement par le propriétaire
+        // Aucun champ hors de cette liste blanche.
+        && request.resource.data.keys().hasOnly(
+             ['uid', 'name', 'xp', 'streak', 'avatar', 'updatedAt'])
+
+        // Identité : le champ uid doit correspondre à l'ID du document.
+        && request.resource.data.uid == userId
+
+        // Pseudo : chaîne non vide, 40 caractères max.
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 40
+
+        // XP : entier, entre 0 et 10 000 000.
+        && request.resource.data.xp is int
+        && request.resource.data.xp >= 0
+        && request.resource.data.xp <= 10000000
+
+        // Streak : entier, entre 0 et 10 000.
+        && request.resource.data.streak is int
+        && request.resource.data.streak >= 0
+        && request.resource.data.streak <= 10000
+
+        // Avatar : soit null, soit un objet structuré (jamais du texte libre).
+        && (request.resource.data.avatar == null
+            || request.resource.data.avatar is map)
+
+        // Horodatage : doit être l'heure serveur (FieldValue.serverTimestamp()).
+        && request.resource.data.updatedAt == request.time;
+
+      // Suppression : seulement par le propriétaire (opt-out).
       allow delete: if request.auth != null
                     && request.auth.uid == userId;
     }
+
+    // Tout le reste : refusé par défaut.
   }
 }

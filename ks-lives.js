@@ -132,7 +132,7 @@
     var box = document.createElement('div');
     box.style.cssText = 'max-width:360px;background:#152030;border:1.5px solid rgba(255,255,255,.08);border-radius:20px;padding:36px 28px;text-align:center;color:#fff;box-shadow:0 24px 64px rgba(0,0,0,.6)';
     box.innerHTML =
-      '<div style="font-size:36px;margin-bottom:12px">💔</div>' +
+      '<div style="margin-bottom:12px" aria-hidden="true"><svg viewBox="0 0 24 24" width="40" height="40" fill="#ef4444" stroke="none" style="opacity:.85"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>' +
       '<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:700;margin-bottom:8px">Plus de vies</div>' +
       '<div style="font-size:14px;line-height:1.5;color:rgba(247,248,250,.6);margin-bottom:24px">Ta prochaine vie arrive dans <strong style="color:#C9A96E">' + timeStr + '</strong>. Reviens un peu plus tard, ou passe Premium pour des vies illimitées.</div>' +
       '<a href="premium.html" style="display:block;width:100%;padding:13px;border-radius:12px;background:#C9A96E;color:#0a1220;font-weight:700;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Passer Premium →</a>' +

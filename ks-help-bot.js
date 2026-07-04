@@ -89,7 +89,7 @@
     function scrollBottom(){ body.scrollTop=body.scrollHeight; }
 
     function renderMenu(){
-      var html='<div class="khb-msg bot">Salut ! Choisis une catégorie ou une question ci-dessous 👇</div><div class="khb-choices">';
+      var html='<div class="khb-msg bot">Salut ! Choisis une catégorie ou une question ci-dessous</div><div class="khb-choices">';
       CATS.forEach(function(c){
         html+='<button type="button" class="khb-chip khb-chip-row" data-cat="'+c.id+'"><svg class="khb-cat-icon" viewBox="0 0 24 24">'+c.icon+'</svg>'+c.label+'</button>';
       });

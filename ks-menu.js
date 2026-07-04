@@ -67,7 +67,7 @@
     { title:'Compte & aide', items:[
       ['profil.html','Profil',IC.user],
       ['reglages.html','Réglages',IC.gear],
-      ['#premium','Premium 💛',IC.crown],
+      ['#premium','Premium',IC.crown],
       ['ressources.html','Ressources',IC.res],
       ['blog.html','Blog',IC.blog],
       ['aide.html','Aide',IC.help]
