@@ -210,6 +210,10 @@
   </div>
 
   <main>
+    <!-- DÉFI COMMUNAUTAIRE DE LA SEMAINE (le même pour tous) -->
+    <span class="sec-lbl">Défi de la semaine</span>
+    <div id="ksCommunityChallenge" style="margin-bottom:18px"></div>
+
     <!-- CLASSEMENT COMMUNAUTÉ -->
     <span class="sec-lbl">Classement communauté · Top 50</span>
     <div class="lb-card" id="lbCard">
@@ -217,8 +221,8 @@
     </div>
     <p class="lb-foot" id="lbFoot"></p>
 
-    <!-- DÉFI DE LA SEMAINE -->
-    <span class="sec-lbl">Défi de la semaine</span>
+    <!-- TON ACTIVITÉ DE LA SEMAINE (progression personnelle vs semaine précédente) -->
+    <span class="sec-lbl">Ton activité de la semaine</span>
     <div class="week-card">
       <div class="week-verdict" id="weekVerdict">—</div>
       <div class="week-row">
@@ -510,6 +514,13 @@
   else window.addEventListener('load', load);
 })();
 </script>
+  <script src="ks-challenge.js" defer></script>
+  <script>
+  (function(){
+    function r(){ if(window.KSChallenge){ KSChallenge.render('#ksCommunityChallenge'); } else { setTimeout(r,80); } }
+    if(document.readyState!=='loading') r(); else document.addEventListener('DOMContentLoaded', r);
+  })();
+  </script>
   <script src="ks-menu.js" defer></script>
 </body>
 </html>
