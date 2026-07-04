@@ -202,7 +202,9 @@
       var u = JSON.parse(localStorage.getItem('ks_user') || '{}');
       var p = JSON.parse(localStorage.getItem('ks_profile') || '{}');
       var av = JSON.parse(localStorage.getItem('ks_avatar') || '{}');
-      snap.name = (p.name || u.name || 'Apprenant·e').toString().slice(0, 40);
+      /* Vie privée : on ne publie JAMAIS le nom de famille — premier mot du
+         nom/pseudo uniquement (les comptes Google renvoient « Prénom Nom »). */
+      snap.name = (p.name || u.name || 'Apprenant·e').toString().trim().split(/\s+/)[0].slice(0, 40);
       snap.xp = parseInt(localStorage.getItem('ks_xp') || '0', 10) || 0;
       snap.streak = parseInt(localStorage.getItem('ks_streak') || '0', 10) || 0;
       /* Avatar : on garde uniquement les champs nécessaires pour

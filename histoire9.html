@@ -581,12 +581,7 @@ function playAudio(text, el) {
 
     if (typeof window.speak === 'function') { window.speak(text); return; }
 
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR'; u.rate = 0.85; u.pitch = 1;
-    el.classList.add('playing');
-    u.onend = ()=>el.classList.remove('playing');
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
+    /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
   } catch(e){}
 }
 

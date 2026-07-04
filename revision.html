@@ -1225,21 +1225,11 @@ function playAudio(text) {
      et n'utilise pas la voix InJoon. */
   if (typeof window.speak === 'function') {
     window.speak(text);
-  } else {
-    _wsSpeak(text);
   }
+  /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
 }
 function playQ() { const q=questions[qIndex]; if(q) playAudio(q.audio); }
 
-function _wsSpeak(text) {
-  if(!window.speechSynthesis) return;
-  const voices = window.speechSynthesis.getVoices();
-  const kr = voices.find(v => v.lang.startsWith('ko'));
-  if(!kr) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang='ko-KR'; u.rate=0.8; u.voice=kr;
-  window.speechSynthesis.speak(u);
-}
 
 // ════════════════════════════════════════════════
 //   AUDIO FEEDBACK

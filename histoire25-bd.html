@@ -235,31 +235,10 @@
 <script>
   var VOCAB={};
 
-  var vMina=null, vJoon=null;
-  function pickVoices(){
-    var vs=(window.speechSynthesis&&speechSynthesis.getVoices())||[];
-    var ko=vs.filter(function(v){return /ko(-|_)?KR/i.test(v.lang)||/korean|\ud55c\uad6d/i.test(v.name);});
-    function find(re){for(var i=0;i<ko.length;i++){if(re.test(ko[i].name))return ko[i];}return null;}
-    vMina=find(/yuna|sora|female|\uc5ec\uc131|\uc5ec\uc790|heami|nari|seoyeon|sun-?hi|sunhi/i)||ko[0]||null;
-    vJoon=find(/injoon|in-?joon|male|\ub0a8\uc131|\ub0a8\uc790|minjun|dohyun|gyeong|jinho/i)||ko.find(function(v){return v!==vMina;})||ko[0]||null;
-  }
-  pickVoices();
-  if(window.speechSynthesis) speechSynthesis.onvoiceschanged=pickVoices;
 
-  function voiceOf(el){ var c=el&&el.closest('.case'); return c?c.getAttribute('data-speaker'):null; }
 
   function clearSpk(){document.querySelectorAll('.audio.on').forEach(function(b){b.classList.remove('on');});document.querySelectorAll('.case.speaking').forEach(function(b){b.classList.remove('speaking');});}
 
-  function ttsSpeak(text,btn){
-    try{window.speechSynthesis.cancel();}catch(e){}
-    var u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=.92;
-    var who=voiceOf(btn);
-    if(who==='joon'){ u.voice=vJoon||vMina||null; u.pitch=0.8; }
-    else if(who==='mina'){ u.voice=vMina||vJoon||null; u.pitch=1.18; }
-    else { u.voice=vMina||vJoon||null; u.pitch=1; }
-    try{window.speechSynthesis.speak(u);}catch(e){}
-    return u;
-  }
 
   function playLine(text,btn,onDone){
     clearSpk();
@@ -269,7 +248,7 @@
     if(typeof window.speak==='function'){
       try{ window.speak(text,btn,{onended:done,onerror:done}); return; }catch(e){}
     }
-    var u=ttsSpeak(text,btn); if(u){u.onend=u.onerror=done;} else {done();}
+    /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */ done();
   }
 
   document.querySelectorAll('.audio').forEach(function(b){b.addEventListener('click',function(){playLine(b.getAttribute('data-say'),b);});});

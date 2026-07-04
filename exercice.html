@@ -2557,9 +2557,7 @@
 
             if (typeof window.speak === 'function') { window.speak(listenCurrent.kr); return; }
 
-            const utterance = new SpeechSynthesisUtterance(listenCurrent.kr);
-            utterance.lang = 'ko-KR';
-            speechSynthesis.speak(utterance);
+            /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
         }
         function checkListen(isCorrect, clickedBtn, options) {
             const opts = document.querySelectorAll('#gm-listen .opt-btn');
@@ -3153,9 +3151,7 @@
 
                 if (typeof window.speak === 'function') { window.speak(w.kr); return; }
 
-                const u = new SpeechSynthesisUtterance(w.kr);
-                u.lang = 'ko-KR';
-                speechSynthesis.speak(u);
+                /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
             }, 200);
         }
 
@@ -3292,9 +3288,7 @@
 
                 if (typeof window.speak === 'function') { window.speak(d.prompt); return; }
 
-                const u = new SpeechSynthesisUtterance(d.prompt);
-                u.lang = 'ko-KR';
-                speechSynthesis.speak(u);
+                /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
             }, 300);
         }
         function checkDialogue(isCorrect, clickedBtn, container, d) {

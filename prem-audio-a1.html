@@ -917,31 +917,7 @@
       if (typeof window.speak === 'function') { window.speak(card.kr); return; }
 
 
-      const utt = new SpeechSynthesisUtterance(card.kr);
-      utt.lang = 'ko-KR';
-      const config = voiceConfigs[currentVoice];
-      utt.rate = currentSpeed * config.rate;
-      utt.pitch = config.pitch;
-
-      // Add pulse animation
-      const textEl = document.getElementById('koreanText');
-      textEl.classList.remove('playing');
-      void textEl.offsetWidth; // Trigger reflow
-      textEl.classList.add('playing');
-
-      utt.onend = () => {
-        textEl.classList.remove('playing');
-        if (autoPlay) {
-          setTimeout(() => {
-            if (currentCardIndex < unit.cards.length - 1) {
-              nextCard();
-            }
-          }, 500);
-        }
-      };
-
-      speechSynthesis.cancel();
-      speechSynthesis.speak(utt);
+      /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
     }
 
     // Navigation

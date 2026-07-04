@@ -3013,9 +3013,7 @@
 
             if (typeof window.speak === 'function') { window.speak(word.kr); return; }
 
-            const u = new SpeechSynthesisUtterance(word.kr);
-            u.lang = 'ko-KR';
-            window.speechSynthesis.speak(u);
+            /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
           } catch(e) {}
         }
       };

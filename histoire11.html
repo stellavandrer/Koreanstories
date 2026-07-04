@@ -533,9 +533,7 @@ function playAudio(text,el){
 
     if (typeof window.speak === 'function') { window.speak(text); return; }
 
-    const u=new SpeechSynthesisUtterance(text); u.lang='ko-KR'; u.rate=0.85;
-    el.classList.add('playing'); u.onend=()=>el.classList.remove('playing');
-    speechSynthesis.speak(u); }catch(e){}
+    /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */ }catch(e){}
 }
 
 const QUIZ_Q=[

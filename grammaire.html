@@ -1164,10 +1164,7 @@ function speakKorean(el, text){
 
     if (typeof window.speak === 'function') { window.speak(text); return; }
 
-    const utt = new SpeechSynthesisUtterance(text);
-    utt.lang = 'ko-KR';
-    utt.rate = 0.85;
-    window.speechSynthesis.speak(utt);
+    /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
   } catch(e){}
 }
 

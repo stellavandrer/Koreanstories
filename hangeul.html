@@ -928,10 +928,7 @@ function speakStr(text, btn) {
   try {
     speechSynthesis.cancel();
     if(btn) { document.querySelectorAll('.speak-btn.playing').forEach(b=>b.classList.remove('playing')); btn.classList.add('playing'); }
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ko-KR'; u.rate = 0.82; u.pitch = 0.85;
-    if(btn) { u.onend = ()=>btn.classList.remove('playing'); u.onerror = ()=>btn.classList.remove('playing'); }
-    speechSynthesis.speak(u);
+    /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
   } catch(e){}
 }
 

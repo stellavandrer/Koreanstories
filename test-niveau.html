@@ -477,9 +477,7 @@ function speakCurrent(){
 
   if (typeof window.speak === 'function') { window.speak(currentKr); return; }
 
-  const u=new SpeechSynthesisUtterance(currentKr);
-  u.lang='ko-KR';u.rate=0.85;
-  speechSynthesis.cancel();speechSynthesis.speak(u);
+  /* pas de repli en voix de synthèse : règle produit « zéro voix robotique » */
 }
 
 function showQuestion(){

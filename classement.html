@@ -476,7 +476,7 @@
       html += '<div class="lb-row' + topCls + meCls + '">'
             + '<div class="lb-rank">' + rank + '</div>'
             + '<div class="lb-avatar">' + avatarImg + '</div>'
-            + '<div class="lb-name">' + escapeHtml(u.name || 'Apprenant·e')
+            + '<div class="lb-name">' + escapeHtml(((u.name || 'Apprenant·e') + '').trim().split(/\s+/)[0])
             + (isMe ? '<span class="me-tag">Toi</span>' : '') + '</div>'
             + streakChip
             + '<div class="lb-xp">' + (u.xp || 0).toLocaleString('fr-FR') + '</div>'
