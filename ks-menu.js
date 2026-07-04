@@ -12,6 +12,7 @@
   /* ── Icônes (chemins SVG 24×24, stroke) ── */
   var IC = {
     learn:'<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>',
+    album:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
     book:'<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>',
     dico:'<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/><line x1="12" y1="7" x2="12" y2="21"/>',
     hangeul:'<path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/>',
@@ -62,6 +63,7 @@
     { title:'Ma progression', items:[
       ['statistiques.html','Statistiques',IC.chart],
       ['trophees.html','Trophées',IC.trophy],
+      ['album.html','Album des histoires',IC.album],
       ['classement.html','Classement',IC.rank]
     ]},
     { title:'Compte & aide', items:[

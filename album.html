@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Album des histoires — Korean Stories</title>
+<link rel="canonical" href="https://koreanstories.fr/album.html"/>
+<meta name="description" content="Collectionne une carte pour chaque histoire lue. Débloque les 42 cartes, du niveau débutant au B2, et complète ton album Korean Stories."/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:80px}
+    h2{color:var(--navy);margin:0 0 .3rem;font-size:1.3rem}
+    .sub{color:var(--tx-muted);font-size:.9rem;margin:0 0 1rem}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.8rem 0 1.2rem}
+    .stat{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.7rem;text-align:center}
+    .stat-val{font-size:1.6rem;font-weight:800;color:#C9A96E;line-height:1}
+    .stat-lbl{font-size:.7rem;color:var(--tx-muted);margin-top:.3rem;text-transform:uppercase;letter-spacing:.04em}
+
+    .al-cat{display:flex;align-items:center;gap:.5rem;margin:1.4rem 0 .7rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--tx)}
+    .al-dot{width:9px;height:9px;border-radius:50%;flex:none}
+    .al-cat-n{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--tx-muted);letter-spacing:0;text-transform:none}
+
+    .al-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.7rem}
+    .al-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:.15rem;
+      min-height:150px;padding:.85rem;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);
+      font-family:inherit;text-align:left;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden}
+    .al-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(0,0,0,.1)}
+    .al-card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    /* Carte débloquée : liseré + halo dans la couleur de l'histoire */
+    .al-card:not(.locked){border-color:color-mix(in srgb,var(--ac) 55%,var(--bd));
+      background:linear-gradient(160deg,color-mix(in srgb,var(--ac) 12%,var(--surf)),var(--surf) 60%)}
+    .al-card:not(.locked)::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac)}
+    .al-kr{font-family:'Noto Sans KR',sans-serif;font-size:1.35rem;font-weight:800;color:var(--tx);margin-top:.35rem;line-height:1.2}
+    .al-fr{font-size:.82rem;font-weight:600;color:var(--tx);line-height:1.25}
+    .al-loc{font-size:.68rem;color:var(--tx-muted);margin-top:.1rem}
+    .al-lvl{margin-top:auto;padding-top:.4rem;font-size:.66rem;font-weight:700;color:var(--tx-muted);text-transform:uppercase;letter-spacing:.05em}
+    .al-rar{align-self:flex-start;font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+      padding:.15rem .45rem;border:1.3px solid;border-radius:100px;line-height:1.4}
+    .al-new{position:absolute;top:0;right:0;background:#C9A96E;color:#fff;font-size:.6rem;font-weight:800;
+      text-transform:uppercase;letter-spacing:.04em;padding:.2rem .5rem;border-bottom-left-radius:10px}
+    /* Carte verrouillée */
+    .al-card.locked{align-items:center;justify-content:center;text-align:center;gap:.4rem;color:var(--tx-muted);opacity:.72}
+    .al-card.locked .al-rar{position:absolute;top:.7rem;left:.7rem}
+    .al-lock{opacity:.5}
+    .al-q{font-family:'Noto Sans KR',sans-serif;font-size:2rem;font-weight:800;color:var(--tx-muted);opacity:.5;line-height:1}
+    .al-card.locked .al-lvl{margin-top:0;padding-top:0}
+
+    /* Modale */
+    .overlay{position:fixed;inset:0;background:rgba(8,14,24,.75);z-index:999;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
+    .overlay.open{opacity:1;pointer-events:auto}
+    .al-modal{background:var(--surf);border-radius:20px;padding:1.6rem 1.4rem;max-width:360px;width:100%;text-align:center;border:1px solid var(--bd);max-height:88vh;overflow:auto}
+    .al-m-kr{font-family:'Noto Sans KR',sans-serif;font-size:2rem;font-weight:800;margin:.7rem 0 .1rem;line-height:1.2}
+    .al-m-fr{font-size:1rem;font-weight:700;color:var(--tx)}
+    .al-m-loc{font-size:.78rem;color:var(--tx-muted);margin-top:.2rem}
+    .al-m-desc{font-size:.88rem;color:var(--tx);line-height:1.5;margin:.9rem 0}
+    .al-chips{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;margin-bottom:1rem}
+    .al-chip{font-family:'Noto Sans KR',sans-serif;font-size:.8rem;background:rgba(201,169,110,.12);color:var(--tx);padding:.25rem .55rem;border-radius:8px}
+    .al-m-btn{display:inline-block;background:#C9A96E;color:#fff;font-weight:700;text-decoration:none;padding:.7rem 1.4rem;border-radius:100px;font-size:.9rem}
+    .al-close{margin-top:.9rem;display:block;width:100%;background:none;border:none;color:var(--tx-muted);font-family:inherit;font-size:.85rem;cursor:pointer;padding:.5rem}
+    .al-empty{text-align:center;color:var(--tx-muted);font-size:.9rem;padding:2rem 1rem;line-height:1.6}
+  </style>
+</head>
+<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Album des histoires</h1>
+  <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Album des histoires</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+
+  <h2>Ton album des histoires</h2>
+  <p class="sub">Chaque histoire lue — en article ou en planche BD — ajoute sa carte à ta collection. À toi de compléter l'album, du tout premier « 안녕하세요 » jusqu'aux récits B2.</p>
+
+  <div class="summary">
+    <div class="stat"><div class="stat-val" id="alUnlocked">0</div><div class="stat-lbl">Cartes</div></div>
+    <div class="stat"><div class="stat-val" id="alTotal">42</div><div class="stat-lbl">Total</div></div>
+    <div class="stat"><div class="stat-val" id="alPercent">0%</div><div class="stat-lbl">Complété</div></div>
+  </div>
+
+  <div id="albumBody"></div>
+
+</div></main></div>
+
+<div class="overlay" id="alOvr" onclick="if(event.target===this)KSAlbum.close()">
+  <div class="al-modal">
+    <div id="alModalBody"></div>
+    <button class="al-close" onclick="KSAlbum.close()">Fermer</button>
+  </div>
+</div>
+
+<script>
+function toggleTheme(){try{var d=document.documentElement.getAttribute('data-theme')==='dark';document.documentElement.setAttribute('data-theme',d?'light':'dark');localStorage.setItem('ks_theme',d?'light':'dark');}catch(e){}}
+try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&window.KSAlbum)KSAlbum.close();});
+function initAlbum(){
+  if(!window.KSAlbum){ setTimeout(initAlbum,80); return; }
+  KSAlbum.render('#albumBody');
+  /* marque les cartes actuelles comme « vues » (retire le badge Nouveau au prochain passage) */
+  KSAlbum.markSeen();
+}
+document.addEventListener('DOMContentLoaded',initAlbum);
+</script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+<script src="ks.js" defer></script>
+<script src="ks-album.js" defer></script>
+<script src="ks-menu.js" defer></script>
+</body></html>
