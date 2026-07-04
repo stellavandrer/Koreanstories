@@ -1025,6 +1025,13 @@
   <script src="ks-tour.js" defer></script>
   <script src="ks-notifications.js" defer></script>
   <script src="ks-menu.js" defer></script>
+  <script src="ks-challenge.js" defer></script>
+  <script>
+  (function(){
+    function r(){ if(window.KSChallenge){ KSChallenge.render('#ksCommunityChallenge'); } else { setTimeout(r,80); } }
+    if(document.readyState!=='loading') r(); else document.addEventListener('DOMContentLoaded', r);
+  })();
+  </script>
   <!-- ks-fact.js retiré : l'anecdote datée intégrée pilote #factCard -->
 
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -1497,6 +1504,9 @@
         <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
       </a>
     </div>
+
+    <!-- DÉFI COMMUNAUTAIRE DE LA SEMAINE (ks-challenge.js, le même pour tous) -->
+    <div id="ksCommunityChallenge" style="margin-bottom:22px"></div>
 
     <!-- RÉVISION DU JOUR (affichée uniquement si des mots sont dus) -->
     <a class="rev-card" id="revCard" href="revision.html">
