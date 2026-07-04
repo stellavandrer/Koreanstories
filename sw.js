@@ -50,7 +50,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.34';
+const CACHE = 'ks-v7.35';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -238,7 +238,9 @@ self.addEventListener('fetch', e => {
     caches.match(e.request).then(cached => {
       if (cached) return cached;
       return fetch(e.request).then(res => {
-        if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+        /* status === 200 strict : cache.put() lève une exception sur les
+           réponses partielles 206 (requêtes Range des éléments <audio>). */
+        if (res.status === 200) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
         return res;
       });
     })
