@@ -167,7 +167,10 @@
         '<div class="al-m-loc">' + esc(card.loc) + '</div>' +
         '<p class="al-m-desc">' + esc(card.desc) + '</p>' +
         (words ? '<div class="al-chips">' + words + '</div>' : '') +
-        '<a class="al-m-btn" href="' + card.href + '">Relire l\'histoire</a>';
+        '<a class="al-m-btn" href="' + card.href + '">Relire l\'histoire</a>' +
+        '<button class="al-m-share" data-share="' + card.n + '">' +
+          '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
+          'Partager cette carte</button>';
     } else {
       body.innerHTML =
         '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + ' · ' + esc(card.lv) + '</span>' +
@@ -176,7 +179,73 @@
         '<p class="al-m-desc">Lis cette histoire (article ou planche BD) pour débloquer sa carte et l\'ajouter à ta collection.</p>' +
         '<a class="al-m-btn" href="' + card.href + '">Découvrir l\'histoire</a>';
     }
+    var sb = body.querySelector('.al-m-share');
+    if (sb) sb.addEventListener('click', function(){ shareCard(card); });
     ov.classList.add('open');
+  }
+
+  /* ── Partage : dessine la carte en PNG (canvas, aucun appel externe) ────── */
+  function shareCard(card){
+    var W = 1080, H = 1350;
+    var cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    var x = cv.getContext('2d');
+    var accent = card.color || '#C9A96E';
+    /* fond */
+    x.fillStyle = '#0F1B2D'; x.fillRect(0, 0, W, H);
+    var grad = x.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, accent + '33'); grad.addColorStop(.6, 'rgba(15,27,45,0)');
+    x.fillStyle = grad; x.fillRect(0, 0, W, H);
+    /* cadre de la carte */
+    x.strokeStyle = accent; x.lineWidth = 6;
+    rr(x, 90, 140, W - 180, H - 380, 42); x.stroke();
+    x.fillStyle = 'rgba(255,255,255,.035)'; rr(x, 90, 140, W - 180, H - 380, 42); x.fill();
+    /* bande d'accent */
+    x.fillStyle = accent; x.fillRect(90, 140, 14, H - 380);
+    /* rareté */
+    var r = RARITY[card.lvl] || 'commune', rm = RMETA[r];
+    x.font = '700 34px "Segoe UI", sans-serif'; x.fillStyle = rm.c;
+    x.fillText(rm.label.toUpperCase() + '  ·  ' + card.lv.toUpperCase(), 160, 250);
+    /* titre coréen */
+    x.font = '800 120px "Noto Sans KR", sans-serif'; x.fillStyle = '#F7F8FA';
+    wrap(x, card.kr, 160, 420, W - 320, 132);
+    /* titre français */
+    x.font = 'italic 700 52px "Playfair Display", Georgia, serif'; x.fillStyle = accent;
+    wrap(x, card.fr, 160, 650, W - 320, 62);
+    /* lieu */
+    x.font = '400 36px "Segoe UI", sans-serif'; x.fillStyle = 'rgba(247,248,250,.55)';
+    x.fillText(card.loc || '', 160, 760);
+    /* mots-clés */
+    x.font = '500 40px "Noto Sans KR", sans-serif'; x.fillStyle = 'rgba(247,248,250,.85)';
+    var chips = (card.words || []).slice(0, 5).join('   ·   ');
+    wrap(x, chips, 160, 880, W - 320, 56);
+    /* pied de marque */
+    x.font = '800 44px "Playfair Display", Georgia, serif'; x.fillStyle = '#C9A96E';
+    x.fillText('Korean Stories', 160, H - 160);
+    x.font = '400 34px "Segoe UI", sans-serif'; x.fillStyle = 'rgba(247,248,250,.6)';
+    x.fillText('Mon album des histoires — koreanstories.fr', 160, H - 100);
+
+    cv.toBlob(function(blob){
+      if (!blob) return;
+      var file = new File([blob], 'carte-' + card.n + '-koreanstories.png', { type: 'image/png' });
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })){
+        navigator.share({ files: [file], title: 'Ma carte Korean Stories', text: card.fr + ' — mon album des histoires sur koreanstories.fr' }).catch(function(){});
+      } else {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = file.name;
+        document.body.appendChild(a); a.click();
+        setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 800);
+      }
+    }, 'image/png');
+  }
+  function rr(x, a, b, w, h, rad){ x.beginPath(); x.moveTo(a + rad, b); x.arcTo(a + w, b, a + w, b + h, rad); x.arcTo(a + w, b + h, a, b + h, rad); x.arcTo(a, b + h, a, b, rad); x.arcTo(a, b, a + w, b, rad); x.closePath(); }
+  function wrap(x, txt, a, b, maxW, lh){
+    var wordsArr = String(txt || '').split(' '), line = '', yy = b;
+    for (var i = 0; i < wordsArr.length; i++){
+      var test = line ? line + ' ' + wordsArr[i] : wordsArr[i];
+      if (x.measureText(test).width > maxW && line){ x.fillText(line, a, yy); line = wordsArr[i]; yy += lh; }
+      else line = test;
+    }
+    if (line) x.fillText(line, a, yy);
   }
   function closeModal(){ var ov = document.getElementById('alOvr'); if (ov) ov.classList.remove('open'); }
 
