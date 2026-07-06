@@ -1016,7 +1016,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 <script>
 // ── STATE ──
 const TOTAL = 12;
-const mastered = JSON.parse(localStorage.getItem('ks_grammar_mastered') || '{}');
+const mastered = (function(){ try { const v = JSON.parse(localStorage.getItem('ks_grammar_mastered') || '{}'); return (v && typeof v === 'object') ? v : {}; } catch(e) { try{localStorage.removeItem('ks_grammar_mastered');}catch(_){}} return {}; })();
 let currentFilter = 'all';
 
 function saveMastered(){ localStorage.setItem('ks_grammar_mastered', JSON.stringify(mastered)); }

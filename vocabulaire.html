@@ -1320,7 +1320,7 @@ let studyIdx = 0;
 let studyFlipped = false;
 let studyStreak = 0;
 let studyStats = { easy:0, medium:0, hard:0 };
-const srsScores = JSON.parse(localStorage.getItem('ks_vocab_srs') || '{}');
+const srsScores = (function(){ try { const v = JSON.parse(localStorage.getItem('ks_vocab_srs') || '{}'); return (v && typeof v === 'object') ? v : {}; } catch(e) { try{localStorage.removeItem('ks_vocab_srs');}catch(_){}} return {}; })();
 
 function saveSRS(){ try{ localStorage.setItem('ks_vocab_srs', JSON.stringify(srsScores)); }catch(e){} }
 

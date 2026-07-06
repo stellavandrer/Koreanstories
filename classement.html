@@ -494,19 +494,30 @@
   }
 
   function load() {
-    if (!window.KSSync || typeof KSSync.fetchLeaderboard !== 'function') {
+    if (!window.KSSync || typeof KSSync.fetchLeaderboard !== 'function' || !KSSync.auth) {
       /* ks-sync pas encore chargé — réessaie dans 500ms */
       setTimeout(load, 500);
       return;
     }
-    var u = KSSync.user();
-    var myUid = u ? u.uid : null;
-    KSSync.fetchLeaderboard(50)
-      .then(function (list) { render(list, myUid); })
-      .catch(function (err) {
-        console.warn('[leaderboard] fetch error:', err);
-        lbCard.innerHTML = '<div class="lb-empty">Impossible de charger le classement pour le moment.<br/>Vérifie ta connexion ou réessaie dans un instant.</div>';
-      });
+    /* Les règles Firestore exigent d'être connecté pour lire le
+       classement : on attend la restauration de session Firebase
+       (sinon la requête part trop tôt et échoue même pour un membre). */
+    var unsub = KSSync.auth.onAuthStateChanged(function (user) {
+      if (unsub) { try { unsub(); } catch (e) {} unsub = null; }
+      if (!user) {
+        lbCard.innerHTML = '<div class="lb-empty">Le classement est réservé aux membres.<br/><a href="login.html">Connecte-toi</a> — c’est gratuit — pour voir le top 50 et y participer.</div>';
+        return;
+      }
+      KSSync.fetchLeaderboard(50)
+        .then(function (list) { render(list, user.uid); })
+        .catch(function (err) {
+          console.warn('[leaderboard] fetch error:', err);
+          var denied = !!(err && err.code === 'permission-denied');
+          lbCard.innerHTML = '<div class="lb-empty">' + (denied
+            ? 'Ton compte n’a pas pu accéder au classement. Déconnecte-toi puis reconnecte-toi, et réessaie.'
+            : 'Impossible de charger le classement pour le moment.<br/>Vérifie ta connexion ou réessaie dans un instant.') + '</div>';
+        });
+    });
   }
 
   /* Lance au plus tôt — laisse Firebase finir de s'initialiser. */

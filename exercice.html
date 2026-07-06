@@ -2133,7 +2133,7 @@
             if(scoreEl) scoreEl.textContent = gameState.sessionXP + ' XP';
             // Leaderboard: save user best
             const lb = JSON.parse(localStorage.getItem('ks_leaderboard')||'[]');
-            const user = localStorage.getItem('ks_username') || 'Toi';
+            const user = (function(){ try { const u = JSON.parse(localStorage.getItem('ks_user')||'null'); if (u && u.name) return String(u.name).trim().split(/\s+/)[0]; } catch(e){} return localStorage.getItem('ks_username') || 'Toi'; })();
             const score = gameState.xp - (gameState.sessionErrors * 5);
             const existing = lb.find(e => e.name === user);
             if(existing) { existing.xp = gameState.xp; existing.score = Math.max(0, score); existing.errors = gameState.sessionErrors||0; } else { lb.push({name:user, xp:gameState.xp, score:Math.max(0, score), errors:0}); }
@@ -2160,7 +2160,7 @@
         function addError() {
             gameState.sessionErrors++;
             const lb = JSON.parse(localStorage.getItem('ks_leaderboard')||'[]');
-            const user = localStorage.getItem('ks_username') || 'Toi';
+            const user = (function(){ try { const u = JSON.parse(localStorage.getItem('ks_user')||'null'); if (u && u.name) return String(u.name).trim().split(/\s+/)[0]; } catch(e){} return localStorage.getItem('ks_username') || 'Toi'; })();
             const existing = lb.find(e => e.name === user);
             if(existing) { existing.errors = (existing.errors||0) + 1; }
             localStorage.setItem('ks_leaderboard', JSON.stringify(lb));
