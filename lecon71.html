@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chercher un logement — Korean Stories</title>
+<meta name="description" content="Trouve un logement en Corée : 월세, 전세, 보증금, le vocabulaire de l'agence immobilière et les phrases pour visiter et négocier. Leçon B1 sur Korean Stories."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon71.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:#7C3AED;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#6D28D9;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#c4b5fd}
+    .xp-badge{background:rgba(124,58,237,.12);color:#6D28D9;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#c4b5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(124,58,237,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#6D28D9;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#c4b5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#6D28D9,#7C3AED);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(124,58,237,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(124,58,237,.2)}
+    .speak-btn.playing{background:#7C3AED}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#7C3AED;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0}
+    th{background:rgba(124,58,237,.1);color:#6D28D9;padding:.5rem .7rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#c4b5fd}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    td .ko{color:#6D28D9;font-weight:700}
+    [data-theme="dark"] td .ko{color:#c4b5fd}
+    .vs{display:flex;gap:.6rem;margin:.5rem 0}
+    .vs>div{flex:1;border-radius:10px;padding:.7rem .8rem;font-size:.85rem;line-height:1.5}
+    .vs .a{background:rgba(124,58,237,.08);border:1.5px solid rgba(124,58,237,.3)}
+    .vs .b{background:rgba(184,146,78,.08);border:1.5px solid rgba(184,146,78,.35)}
+    .vs strong{display:block;font-size:1rem;margin-bottom:.2rem}
+    @media(max-width:480px){.vs{flex-direction:column}}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#7C3AED}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Chercher un logement</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Chercher un logement</h1>
+  <span class="pill">B1 · Professionnel &amp; Pratique</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Vivre en Corée commence ici : le vocabulaire de l'immobilier, le mystérieux système 전세 que le monde entier nous envie (ou pas), et les phrases pour visiter et négocier comme un local.</p>
+
+  <h3>1 — Le vocabulaire</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Coréen</th><th>Sens</th></tr>
+      <tr><td><span class="ko">부동산</span> <button class="speak-btn" onclick="window.speak('부동산',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Agence immobilière</td></tr>
+      <tr><td><span class="ko">원룸</span> <button class="speak-btn" onclick="window.speak('원룸',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Studio (« one room »)</td></tr>
+      <tr><td><span class="ko">오피스텔</span> <button class="speak-btn" onclick="window.speak('오피스텔',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Officetel (studio moderne en tour)</td></tr>
+      <tr><td><span class="ko">월세</span> <button class="speak-btn" onclick="window.speak('월세',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Loyer mensuel (월 = mois)</td></tr>
+      <tr><td><span class="ko">보증금</span> <button class="speak-btn" onclick="window.speak('보증금',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Caution / dépôt de garantie</td></tr>
+      <tr><td><span class="ko">계약</span> <button class="speak-btn" onclick="window.speak('계약',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Contrat</td></tr>
+      <tr><td><span class="ko">이사하다</span> <button class="speak-btn" onclick="window.speak('이사하다',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Déménager</td></tr>
+    </table></div>
+  </div>
+
+  <h3>2 — 전세 vs 월세 : le système coréen</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">Il n'existe qu'en Corée : au lieu de payer un loyer, le locataire en <strong>전세</strong> dépose une somme énorme (souvent 50 à 70 % du prix du logement !) que le propriétaire place… et rend intégralement à la fin du bail.</p>
+    <div class="vs">
+      <div class="a"><strong>전세 <button class="speak-btn" onclick="window.speak('전세',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></strong>Gros dépôt (ex. 200 000 €), <em>zéro loyer</em>. Tout est rendu au départ.</div>
+      <div class="b"><strong>월세 <button class="speak-btn" onclick="window.speak('월세',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></strong>Caution modérée + loyer chaque mois. Le choix des étudiants et expats.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">이 집은 전세예요, 월세예요? <button class="speak-btn" onclick="window.speak('이 집은 전세예요, 월세예요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Ce logement est en jeonse ou en loyer mensuel ?</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">보증금 500에 월세 50이에요 <button class="speak-btn" onclick="window.speak('보증금 500에 월세 50이에요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Caution 5 millions, loyer 500 000 wons. (les annonces comptent en 만 = 10 000 ₩ !)</div>
+    </div>
+  </div>
+
+  <h3>3 — À l'agence : visiter</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">방 보러 왔어요 <button class="speak-btn" onclick="window.speak('방 보러 왔어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je viens voir une chambre. (-(으)러 오다 = venir pour…)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">월세가 얼마예요? <button class="speak-btn" onclick="window.speak('월세가 얼마예요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Le loyer est de combien ?</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">역에서 가까워요? <button class="speak-btn" onclick="window.speak('역에서 가까워요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">C'est près de la station ? (가깝다 → 가까워요, irrégulier ㅂ — vu au niveau A2)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">옵션이 있어요? <button class="speak-btn" onclick="window.speak('옵션이 있어요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">C'est équipé ? (옵션, du konglish « option » = frigo, machine à laver, clim inclus)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">몇 층이에요? <button class="speak-btn" onclick="window.speak('몇 층이에요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">C'est à quel étage ? (층 = étage ; 반지하 = demi sous-sol, oui, celui de Parasite)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">이 집으로 계약할게요 <button class="speak-btn" onclick="window.speak('이 집으로 계약할게요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je prends celui-ci ! (계약하다 = signer le contrat ; -(으)ㄹ게요 = je vais, promis)</div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">좀 더 싼 방 없어요? <button class="speak-btn" onclick="window.speak('좀 더 싼 방 없어요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Vous n'auriez pas moins cher ? » — LA phrase de négociation. 싼 = forme adjective de 싸다 (pas cher), et le 없어요? négatif rend la demande toute douce.</span>
+  </div>
+
+  <div class="tip"><strong>Astuce annonces</strong> : « 500/50 » sur une vitrine de 부동산 signifie 보증금 500만 원 (≈ 3 500 €) de caution et 월세 50만 원 (≈ 350 €) de loyer. Tout se compte en 만 (10 000 wons) — les zéros sont sous-entendus !</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">Le loyer mensuel, c'est :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">전세</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">월세</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">보증금</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Je viens voir une chambre » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">방 보러 왔어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">방 사러 왔어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">방 팔러 왔어요</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">En 전세, le locataire :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">paie un loyer chaque mois</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">dépose une grosse somme, rendue à la fin</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">devient propriétaire du logement</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« C'est équipé (frigo, machine à laver) ? » :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">계약이 있어요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이사가 있어요?</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">옵션이 있어요?</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Vous n'auriez pas moins cher ? » :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">좀 더 비싼 방 없어요?</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">좀 더 싼 방 없어요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">좀 더 큰 방 있어요?</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c39',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_c39');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
