@@ -150,6 +150,10 @@ const MCQ=[
   {q:'Laquelle exprime un CHANGEMENT involontaire ou une situation qui s\'est développée ?',big:'결혼하다 + changement',choices:['결혼하게 됐어요','결혼하기로 했어요','결혼하기로 됐어요','결혼하게 할 거예요'],ans:0,fb:'결혼하게 됐어요 = on en est venu à se marier. -게 되다 s\'utilise pour des situations qui évoluent naturellement, parfois inattendues.'},
   {q:'Emma annonce : "Nous avons décidé d\'apprendre le coréen ensemble." Comment ?',big:'같이 한국어 배우다 + décision',choices:['같이 한국어 배우기로 했어요','같이 한국어 배우게 됐어요','같이 한국어 배우기가 됐어요','같이 한국어 배우는 하기로 해요'],ans:0,fb:'같이 한국어 배우기로 했어요 ! -기로 하다 = décision consciente et délibérée.'},
 ];
+/* Mélange les options à chaque chargement — sans ça, la bonne réponse
+   était toujours le premier bouton (correct/ans = 0 partout). */
+MCQ.forEach(function(q){var p=q.choices.map(function(o,i){return{o:o,c:i===q.ans};});for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}q.choices=p.map(function(x){return x.o;});for(var k=0;k<p.length;k++){if(p[k].c){q.ans=k;break;}}});
+
 
 const STEPS=[
   {type:'story'},

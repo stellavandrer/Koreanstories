@@ -179,6 +179,10 @@ const MCQ=[
   {q:'"J\'étudie autant que toi." — quelle particule ?',big:'나 ___ 열심히 공부해요',choices:['너만큼','너보다','너처럼','너가장'],ans:0,fb:'너만큼 열심히 공부해요 ! 만큼 = "autant que", exprime l\'égalité.'},
   {q:'Tu dis à ton ami : "Tu parles comme un Coréen !" en coréen :',big:'한국 사람 ___ 말해요',choices:['한국 사람처럼','한국 사람보다','한국 사람만큼','한국 사람가장'],ans:0,fb:'한국 사람처럼 말해요 ! 처럼 = "comme", exprime la ressemblance.'},
 ];
+/* Mélange les options à chaque chargement — sans ça, la bonne réponse
+   était toujours le premier bouton (correct/ans = 0 partout). */
+MCQ.forEach(function(q){var p=q.choices.map(function(o,i){return{o:o,c:i===q.ans};});for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}q.choices=p.map(function(x){return x.o;});for(var k=0;k<p.length;k++){if(p[k].c){q.ans=k;break;}}});
+
 
 const STEPS=[
   {type:'story'},

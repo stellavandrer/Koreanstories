@@ -167,6 +167,10 @@ const MCQ=[
   {q:'Dans un texte formel, comment nominaliser "il a pleuré" pour en faire le sujet de la phrase ?',big:'울다 → fait de pleurer',choices:['울음이 들렸어요','울기가 들렸어요','우는 것이 들렸어요','울음을 들렸어요'],ans:0,fb:'울음이 들렸어요 ! -음 (de 울다 → 울음) est formel et exprime un fait accompli ou un état résultant. On entendait des pleurs.'},
   {q:'Avant de manger, on se lave les mains. Quelle structure ?',big:'먹다 + avant de',choices:['먹기 전에 손을 씻어요','먹음 전에 손을 씻어요','먹는 전에 손을 씻어요','먹어서 전에 손을 씻어요'],ans:0,fb:'먹기 전에 손을 씻어요 ! -기 전에 = avant de faire. Expression figée très courante avec -기.'},
 ];
+/* Mélange les options à chaque chargement — sans ça, la bonne réponse
+   était toujours le premier bouton (correct/ans = 0 partout). */
+MCQ.forEach(function(q){var p=q.choices.map(function(o,i){return{o:o,c:i===q.ans};});for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}q.choices=p.map(function(x){return x.o;});for(var k=0;k<p.length;k++){if(p[k].c){q.ans=k;break;}}});
+
 
 const STEPS=[
   {type:'story'},

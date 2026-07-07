@@ -156,6 +156,10 @@ const MCQ=[
   {q:'Quel est le sens de -는 반면에 ?',big:'-는 반면에',choices:['alors que / tandis que','plus...plus','parce que','malgré que'],ans:0,fb:'-는 반면에 = alors que / tandis que. Il exprime une opposition entre deux propositions.'},
   {q:'서울이 비싼 반면에... Quel sens pour cette phrase ?',big:'서울이 비싼 반면에 ?',choices:['Séoul est cher, alors que...','Plus Séoul est cher...','Séoul est cher parce que...','Séoul est cher, mais...'],ans:0,fb:'"Séoul est cher, alors que..." — -는 반면에 marque un contraste. La phrase qui suit présentera le côté opposé.'},
 ];
+/* Mélange les options à chaque chargement — sans ça, la bonne réponse
+   était toujours le premier bouton (correct/ans = 0 partout). */
+MCQ.forEach(function(q){var p=q.choices.map(function(o,i){return{o:o,c:i===q.ans};});for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}q.choices=p.map(function(x){return x.o;});for(var k=0;k<p.length;k++){if(p[k].c){q.ans=k;break;}}});
+
 
 const STEPS=[
   {type:'story'},

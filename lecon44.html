@@ -189,6 +189,10 @@ const MCQ=[
   {q:'Pour compter des personnes formellement, on utilise :',big:'학생 다섯 ___',choices:['명','개','마리','권'],ans:0,fb:'학생 다섯 명 ! 명 est le compteur de personnes formel. Dans un contexte informel, on peut aussi utiliser 사람 (sans compteur spécifique).'},
   {q:'Comment dit-on "deux voitures" ?',big:'자동차 ___',choices:['자동차 두 대','자동차 이 개','자동차 두 마리','자동차 두 장'],ans:0,fb:'자동차 두 대 ! 대 = machines/véhicules/appareils électroniques.'},
 ];
+/* Mélange les options à chaque chargement — sans ça, la bonne réponse
+   était toujours le premier bouton (correct/ans = 0 partout). */
+MCQ.forEach(function(q){var p=q.choices.map(function(o,i){return{o:o,c:i===q.ans};});for(var i=p.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=p[i];p[i]=p[j];p[j]=t;}q.choices=p.map(function(x){return x.o;});for(var k=0;k<p.length;k++){if(p[k].c){q.ans=k;break;}}});
+
 
 const STEPS=[
   {type:'story',tag:'Leçon A1 · Les Compteurs Coréens',
