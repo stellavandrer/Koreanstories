@@ -46,7 +46,7 @@
 }
 [data-theme=dark] {
   --bg:#0B1522; --surf:#152030; --s2:#192840; --s3:#1C3050;
-  --t:#EDF2FA; --t2:#8293A8; --t3:#445A70;
+  --t:#EDF2FA; --t2:#8293A8; --t3:#7E93AB;
   --bd:rgba(255,255,255,.07); --bd2:rgba(255,255,255,.13);
   --sh:0 2px 12px rgba(0,0,0,.4); --sh2:0 6px 28px rgba(0,0,0,.5); --sh3:0 16px 48px rgba(0,0,0,.6);
   --bar:rgba(11,21,34,.96); --side:rgba(13,24,38,.99);
@@ -54,11 +54,11 @@
   /* WCAG AA — sur fonds sombres on peut éclaircir l'or pour le texte (ratio >7:1 sur #0F1B2D). */
   --gold-text:#D5BA8A;
   --white:#0B1522; --pure:#152030; --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.13);
-  --gray:#445A70; --shadow:0 6px 28px rgba(0,0,0,.5); --goldp:rgba(201,168,108,.12);
+  --gray:#7E93AB; --shadow:0 6px 28px rgba(0,0,0,.5); --goldp:rgba(201,168,108,.12);
   --pink:#FF8EA8;
   /* Text aliases */
   --tx:#EDF2FA; --tx-muted:#8293A8;
-  --text:#EDF2FA; --text2:#8293A8; --text3:#445A70;
+  --text:#EDF2FA; --text2:#8293A8; --text3:#7E93AB;
   /* Opacity text variants */
   --t35:rgba(237,242,250,.35); --t40:rgba(237,242,250,.40); --t45:rgba(237,242,250,.45);
   --t50:rgba(237,242,250,.50); --t60:rgba(237,242,250,.60); --t70:rgba(237,242,250,.70); --t80:rgba(237,242,250,.80);
@@ -70,7 +70,7 @@
   --overlay-bg:rgba(0,0,0,.65);
   --toast-bg:#152030;
   --subtle:#1C3050;
-  --cw-num-color:#445A70;
+  --cw-num-color:#7A8FA6;
   --ws-cell-text:#EDF2FA;
 }
 
@@ -406,6 +406,13 @@ button:focus-visible,
   transition:background var(--tr),border-color var(--tr);
   flex-shrink:0;
 }
+.bar-title{
+  flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;font-weight:700;font-size:15px;color:var(--t);
+}
+.bar > .back-btn, .bar > .theme-btn, .bar > .ks-note-btn,
+.bar > .ks-fav-btn, .bar > .ks-im-toggle, .bar > .lives-row,
+.bar > #ksLivesFloat { flex-shrink:0; }
 .bar-back{
   display:flex;align-items:center;gap:5px;padding:7px 13px;
   border-radius:100px;border:1.5px solid var(--bd2);
@@ -878,3 +885,47 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 [data-theme=dark] .ccard.active .ccard-char{
   color:#fff!important;
 }
+
+/* ── MOBILE ≤599px — BARRE DU HAUT COMPACTE ──────────────────────────
+   Audit mobile 375px (2026-07-07) : la barre demandait ~510px de large
+   (hamburger « Menu », retour avec libellé, cœurs, outils, thème, XP)
+   → le badge XP et le bouton thème étaient coupés hors écran sur ~160
+   pages. On compacte : icônes seules, gaps réduits. */
+@media (max-width: 599px) {
+  .bar { padding: 0 10px; gap: 6px; }
+  .bar-r { gap: 4px; }
+  .ksm-btn { padding: 0 9px; }
+  .ksm-btn .ksm-txt { display: none; }       /* hamburger seul */
+  .bar-back { padding: 7px 9px; font-size: 0; gap: 0; }
+  .bar-back svg { width: 15px; height: 15px; }
+  .bar-xp { padding: 5px 9px; }
+  /* Certaines pages « lecture » empilent jusqu'à 6 icônes (immersif,
+     notes, favoris, vies, thème, XP) dans .bar-r : à 375px ça déborde
+     même compacté une fois. On resserre encore un cran, en restant
+     au-dessus du minimum WCAG 2.5.8 (24px). */
+  .bar-r .ks-note-btn, .bar-r .ks-fav-btn { min-width: 32px; min-height: 32px; padding: 6px; }
+  .bar-r .bar-theme { width: 30px; height: 30px; }
+  /* !important nécessaire : ks-lives.js pose gap/width en inline style
+     (style="…") sur l'élément et le svg, ce qu'une règle externe ne
+     peut jamais l'emporter sans ça. */
+  .bar-r .lives-row, .bar-r #ksLivesFloat { gap: 2px !important; }
+  .bar-r .lives-row .hrt svg, .bar-r #ksLivesFloat .hrt svg { width: 11px !important; height: 11px !important; }
+}
+/* Très petits écrans (iPhone SE→14) : le badge XP garde le nombre + l'étoile,
+   le libellé « XP » disparaît — sinon il restait coupé au bord droit. */
+@media (max-width: 419px) {
+  .bar-r { gap: 4px; }
+  .bar-xp { font-size: 0; gap: 2px; }
+  .bar-xp #xpEl { font-size: 12px; }
+}
+
+/* ── MODE SOMBRE — TITRES & ACCENTS OUBLIÉS ──────────────────────────
+   Audit contrastes en sombre (2026-07-07) : ~66 pages colorent h1/h2
+   en bleu nuit (var(--navy)) sans override sombre → titres quasi
+   invisibles (ratio 1,06). Filet global : les pages qui stylent leurs
+   titres via une classe (héros, cartes…) gardent la main (spécificité
+   égale, déclarée après). Idem pour les accents violets trop sombres. */
+[data-theme="dark"] h1, [data-theme="dark"] h2 { color: #EDF2FA; }
+[data-theme="dark"] .ko-big { color: #A78BFA; }
+[data-theme="dark"] .vocab-type.vt-n { color: #7EB3FF; }
+[data-theme="dark"] .vocab-type.vt-v { color: #C4A6FF; }
