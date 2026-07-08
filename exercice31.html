@@ -21,6 +21,7 @@
     .prog-fill{height:100%;background:#7C3AED;width:0;border-radius:100px;transition:width .4s}
     .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem 1.2rem;margin:.9rem 0}
     .q-fr{font-size:.82rem;color:var(--tx-muted);margin-bottom:.2rem}
+    .q-img{width:100%;max-width:240px;aspect-ratio:1/1;object-fit:cover;border-radius:12px;display:block;margin:0 auto .8rem;box-shadow:0 2px 10px rgba(15,30,80,.12)}
     .q-txt{font-weight:600;font-size:1rem;margin-bottom:.8rem;line-height:1.5}
     .opt{padding:.6rem .85rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;margin:.4rem 0;font-size:.92rem;background:var(--bg);transition:.15s}
     .opt:hover{border-color:#7C3AED}
@@ -58,7 +59,7 @@
 <script>
 const QS=[
   {fr:"« Je porte un t-shirt. »",txt:"티셔츠를 ___",opts:["입어요","신어요","써요"],ans:0,exp:"입다 = porter sur le corps (hauts, pantalons, robes)."},
-  {fr:"« Je porte des chaussures. »",txt:"신발을 ___",opts:["신어요","입어요","써요"],ans:0,exp:"신다 = porter aux pieds. Facile à retenir : 신발 (chaussures) → 신다 !"},
+  {fr:"« Je porte des chaussures. »",txt:"신발을 ___",opts:["신어요","입어요","써요"],ans:0,exp:"신다 = porter aux pieds. Facile à retenir : 신발 (chaussures) → 신다 !",img:"img/vocab/magasin-shoes.webp",imgAlt:"Chaussures en vitrine de magasin"},
   {fr:"« Je porte un chapeau. »",txt:"모자를 ___",opts:["써요","입어요","신어요"],ans:0,exp:"쓰다 = porter sur la tête (chapeau, lunettes… et parapluie ouvert)."},
   {fr:"« Essayez ce pantalon ! »",txt:"이 바지를 입어 ___",opts:["보세요","있어요","했어요"],ans:0,exp:"-아/어 보다 = essayer, + l'impératif poli -세요."},
   {fr:"« Vous avez une taille au-dessus ? »",txt:"___ 사이즈 있어요?",opts:["더 큰","더 작은","아주 작은"],ans:0,exp:"더 = plus, 큰 = grand (forme adjective de 크다)."},
@@ -74,6 +75,7 @@ function render(){
   const opts=q.opts.map((o,i)=>({text:o,correct:i===q.ans}));
   for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
   let html='<div class="card"><div class="q-fr">'+q.fr+'</div>';
+  if(q.img){html+='<img class="q-img" src="'+q.img+'" alt="'+(q.imgAlt||'')+'" loading="lazy">';}
   html+='<div class="q-txt">'+q.txt+'</div>';
   opts.forEach(o=>{html+='<div class="opt" data-c="'+(o.correct?1:0)+'">'+o.text+'</div>';});
   html+='<div class="fb" id="fb"></div><button class="next" id="nextBtn" style="display:none" onclick="next()">Suivant →</button></div>';
