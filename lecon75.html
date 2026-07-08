@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Particules auxiliaires coréennes : 만, 도, 부터, 까지 — Korean Stories</title>
+<meta name="description" content="Les particules 만 (seulement), 도 (aussi, même), 부터...까지 (de...à) : le deuxième groupe de particules coréennes, essentiel après 이/가 et 은/는. Leçon A2 sur Korean Stories."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon75.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:var(--accent-purple);margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#6D28D9;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#c4b5fd}
+    .xp-badge{background:rgba(124,58,237,.12);color:#6D28D9;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#c4b5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(124,58,237,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#6D28D9;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#c4b5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#6D28D9,#7C3AED);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(124,58,237,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(124,58,237,.2)}
+    .speak-btn.playing{background:#7C3AED}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#7C3AED;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.5rem 0}
+    th{background:rgba(124,58,237,.1);color:#6D28D9;padding:.5rem .6rem;text-align:left;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#c4b5fd}
+    td{padding:.5rem .6rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    td .ko{color:#6D28D9;font-weight:700}
+    [data-theme="dark"] td .ko{color:#c4b5fd}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:var(--accent-purple)}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Particules auxiliaires</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Particules auxiliaires : 만, 도, 부터, 까지</h1>
+  <span class="pill">A2 · Grammaire</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Tu connais déjà 이/가, 은/는, 을/를, 에, 에서. Voici le 2e groupe indispensable : celui qui ajoute une nuance (seulement, aussi, jusqu'à) plutôt qu'un simple rôle grammatical.</p>
+
+  <h3>1 — 만 : seulement, rien que</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">저는 물만 마셔요 <button class="speak-btn" onclick="window.speak('저는 물만 마셔요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je bois seulement de l'eau. (물만 = rien que de l'eau)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">너만 몰라 <button class="speak-btn" onclick="window.speak('너만 몰라',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Toi seul(e) ne sais pas. (sous-entendu : tout le monde le sait sauf toi)</div>
+    </div>
+  </div>
+
+  <h3>2 — 도 : aussi, même</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">도 remplace 이/가, 은/는, 을/를 quand il s'attache — jamais les deux ensemble.</p>
+    <div class="ex-block">
+      <div class="ko">저도 가요 <button class="speak-btn" onclick="window.speak('저도 가요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Moi aussi j'y vais.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">하나도 없어요 <button class="speak-btn" onclick="window.speak('하나도 없어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Il n'y en a même pas un (= pas du tout). 도 + négation = insistance totale.</div>
+    </div>
+  </div>
+
+  <h3>3 — 부터...까지 : de... à...</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">Le duo indispensable pour donner une plage de temps ou de lieu.</p>
+    <div class="ex-block">
+      <div class="ko">아홉 시부터 다섯 시까지 일해요 <button class="speak-btn" onclick="window.speak('아홉 시부터 다섯 시까지 일해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je travaille de 9h à 17h.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">서울부터 부산까지 얼마나 걸려요? <button class="speak-btn" onclick="window.speak('서울부터 부산까지 얼마나 걸려요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Combien de temps de Séoul à Busan ?</div>
+    </div>
+  </div>
+
+  <h3>4 — 까지 seul : jusqu'à, même</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">너까지 그래? <button class="speak-btn" onclick="window.speak('너까지 그래?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Même toi tu fais ça ?! (surprise — 까지 seul = « même », comme 도 mais plus fort)</div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">이거 하나만 주세요 <button class="speak-btn" onclick="window.speak('이거 하나만 주세요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Donnez-moi seulement celui-ci. » — 만 pour préciser une quantité exacte, très utile en boutique.</span>
+  </div>
+
+  <div class="tip"><strong>Pour aller plus loin</strong> : à l'oral plus soutenu, tu croiseras aussi <strong>조차</strong> et <strong>마저</strong> — deux variantes de « même » encore plus fortes que 까지, réservées à des situations vraiment extrêmes (« même LUI a abandonné »). Pas besoin de les retenir tout de suite : repère-les d'abord à l'oreille.</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« Je bois seulement de l'eau » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">물만 마셔요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">물도 마셔요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">물까지 마셔요</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Il n'y en a même pas un » (insistance) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">하나만 없어요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">하나도 없어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">하나부터 없어요</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« Je travaille de 9h à 17h » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">아홉 시부터 다섯 시까지 일해요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">아홉 시도 다섯 시만 일해요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">아홉 시까지 다섯 시부터 일해요</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« Même toi tu fais ça ?! » (surprise) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">너만 그래?</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">너까지 그래?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">너부터 그래?</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Donnez-moi seulement celui-ci » :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이거 하나도 주세요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">이거 하나만 주세요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이거 하나까지 주세요</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b28b',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b28b');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
