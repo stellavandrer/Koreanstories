@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Verbes irréguliers coréens — Korean Stories</title>
+<meta name="description" content="Les 5 familles de verbes irréguliers coréens (ㅂ, ㄷ, ㅅ, 르, ㅎ) expliquées simplement, avec les faux amis qui restent réguliers malgré les apparences. Leçon A1 sur Korean Stories."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon73.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:var(--accent-blue);margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(37,99,235,.12);color:#1D4ED8;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#93c5fd}
+    .xp-badge{background:rgba(37,99,235,.12);color:#1D4ED8;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#93c5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#2563EB;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(37,99,235,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#1D4ED8;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#93c5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#1D4ED8,#2563EB);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(37,99,235,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(37,99,235,.2)}
+    .speak-btn.playing{background:#2563EB}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#2563EB;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.5rem 0}
+    th{background:rgba(37,99,235,.1);color:#1D4ED8;padding:.5rem .6rem;text-align:left;font-size:.76rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#93c5fd}
+    td{padding:.5rem .6rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    td .ko{color:#1D4ED8;font-weight:700}
+    [data-theme="dark"] td .ko{color:#93c5fd}
+    .vs{display:flex;gap:.6rem;margin:.5rem 0}
+    .vs>div{flex:1;border-radius:10px;padding:.7rem .8rem;font-size:.85rem;line-height:1.5}
+    .vs .a{background:rgba(239,68,68,.07);border:1.5px solid rgba(239,68,68,.28)}
+    .vs .b{background:rgba(22,163,74,.08);border:1.5px solid rgba(22,163,74,.3)}
+    .vs strong{display:block;font-size:1rem;margin-bottom:.2rem}
+    @media(max-width:480px){.vs{flex-direction:column}}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:var(--accent-blue)}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Verbes irréguliers</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Verbes irréguliers coréens</h1>
+  <span class="pill">A1 · Grammaire</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Tu conjugues déjà 가다, 먹다, 보다 sans problème. Mais certains verbes changent de forme d'une façon surprenante — 5 familles à connaître, et quelques faux amis qui n'en font qu'à leur tête (en restant réguliers).</p>
+
+  <h3>1 — Irrégulier en ㅂ</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">Le batchim <strong>ㅂ</strong> se transforme en <strong>우</strong> devant une voyelle (donc -아/어요 devient -워요).</p>
+    <div class="table-wrap"><table>
+      <tr><th>Dictionnaire</th><th>Présent</th><th>Sens</th></tr>
+      <tr><td><span class="ko">춥다</span></td><td><span class="ko">추워요</span> <button class="speak-btn" onclick="window.speak('추워요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>avoir froid</td></tr>
+      <tr><td><span class="ko">덥다</span></td><td><span class="ko">더워요</span> <button class="speak-btn" onclick="window.speak('더워요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>avoir chaud</td></tr>
+      <tr><td><span class="ko">어렵다</span></td><td><span class="ko">어려워요</span> <button class="speak-btn" onclick="window.speak('어려워요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>être difficile</td></tr>
+      <tr><td><span class="ko">가깝다</span></td><td><span class="ko">가까워요</span> <button class="speak-btn" onclick="window.speak('가까워요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>être proche</td></tr>
+      <tr><td><span class="ko">돕다</span></td><td><span class="ko">도와요</span> <button class="speak-btn" onclick="window.speak('도와요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>aider (exception : 오 pas 우)</td></tr>
+    </table></div>
+  </div>
+
+  <h3>2 — Irrégulier en ㄷ</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">Le batchim <strong>ㄷ</strong> devient <strong>ㄹ</strong> devant une voyelle.</p>
+    <div class="table-wrap"><table>
+      <tr><th>Dictionnaire</th><th>Présent</th><th>Sens</th></tr>
+      <tr><td><span class="ko">듣다</span></td><td><span class="ko">들어요</span> <button class="speak-btn" onclick="window.speak('들어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>écouter</td></tr>
+      <tr><td><span class="ko">걷다</span></td><td><span class="ko">걸어요</span> <button class="speak-btn" onclick="window.speak('걸어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>marcher</td></tr>
+    </table></div>
+  </div>
+
+  <h3>3 — Irrégulier en ㅅ</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">Le batchim <strong>ㅅ</strong> disparaît tout simplement devant une voyelle.</p>
+    <div class="table-wrap"><table>
+      <tr><th>Dictionnaire</th><th>Présent</th><th>Sens</th></tr>
+      <tr><td><span class="ko">낫다</span></td><td><span class="ko">나아요</span> <button class="speak-btn" onclick="window.speak('나아요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>guérir, aller mieux</td></tr>
+      <tr><td><span class="ko">짓다</span></td><td><span class="ko">지어요</span> <button class="speak-btn" onclick="window.speak('지어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>construire, cuire (le riz)</td></tr>
+    </table></div>
+  </div>
+
+  <h3>4 — Irrégulier en 르</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem"><strong>르</strong> double son ㄹ devant -아/어 : la syllabe précédente prend un batchim ㄹ.</p>
+    <div class="table-wrap"><table>
+      <tr><th>Dictionnaire</th><th>Présent</th><th>Sens</th></tr>
+      <tr><td><span class="ko">다르다</span></td><td><span class="ko">달라요</span> <button class="speak-btn" onclick="window.speak('달라요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>être différent</td></tr>
+      <tr><td><span class="ko">모르다</span></td><td><span class="ko">몰라요</span> <button class="speak-btn" onclick="window.speak('몰라요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>ne pas savoir</td></tr>
+      <tr><td><span class="ko">빠르다</span></td><td><span class="ko">빨라요</span> <button class="speak-btn" onclick="window.speak('빨라요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>être rapide</td></tr>
+      <tr><td><span class="ko">부르다</span></td><td><span class="ko">불러요</span> <button class="speak-btn" onclick="window.speak('불러요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>appeler, chanter</td></tr>
+    </table></div>
+  </div>
+
+  <h3>5 — Irrégulier en ㅎ</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">Le batchim <strong>ㅎ</strong> disparaît ET la voyelle se contracte — surtout les adjectifs de couleur.</p>
+    <div class="table-wrap"><table>
+      <tr><th>Dictionnaire</th><th>Présent</th><th>Sens</th></tr>
+      <tr><td><span class="ko">그렇다</span></td><td><span class="ko">그래요</span> <button class="speak-btn" onclick="window.speak('그래요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>être ainsi</td></tr>
+      <tr><td><span class="ko">하얗다</span></td><td><span class="ko">하얘요</span> <button class="speak-btn" onclick="window.speak('하얘요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>être blanc</td></tr>
+      <tr><td><span class="ko">빨갛다</span></td><td><span class="ko">빨개요</span> <button class="speak-btn" onclick="window.speak('빨개요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>être rouge</td></tr>
+    </table></div>
+  </div>
+
+  <h3>Les faux amis — verbes RÉGULIERS malgré les apparences</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">Piège classique : ces verbes ressemblent aux irréguliers ci-dessus, mais suivent la règle normale — ne les change pas !</p>
+    <div class="vs">
+      <div class="a"><strong>Irrégulier</strong>
+        <div style="margin-top:.4rem"><span class="ko">춥다 → 추워요</span> (froid)</div>
+        <div><span class="ko">듣다 → 들어요</span> (écouter)</div>
+        <div><span class="ko">낫다 → 나아요</span> (guérir)</div>
+        <div><span class="ko">그렇다 → 그래요</span> (ainsi)</div>
+      </div>
+      <div class="b"><strong>Régulier (faux ami)</strong>
+        <div style="margin-top:.4rem"><span class="ko">입다 → 입어요</span> <button class="speak-btn" onclick="window.speak('입어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button> (porter)</div>
+        <div><span class="ko">받다 → 받아요</span> <button class="speak-btn" onclick="window.speak('받아요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button> (recevoir)</div>
+        <div><span class="ko">벗다 → 벗어요</span> <button class="speak-btn" onclick="window.speak('벗어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button> (enlever)</div>
+        <div><span class="ko">좋다 → 좋아요</span> <button class="speak-btn" onclick="window.speak('좋아요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button> (être bon)</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">그건 저도 몰라요 <button class="speak-btn" onclick="window.speak('그건 저도 몰라요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Ça, moi non plus je ne sais pas. » — 모르다 (르 irrégulier) au secours quand une question te dépasse.</span>
+  </div>
+
+  <div class="tip"><strong>Astuce mémo</strong> : les irréguliers touchent surtout des verbes/adjectifs très fréquents (météo, sens, couleurs) — c'est justement parce qu'ils sont utilisés depuis des siècles que leur prononciation s'est « usée » différemment. Plus un mot est ancien et courant, plus il a de chances d'être irrégulier !</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« J'ai froid » — 춥다 devient :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">추워요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">춥어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">추버요</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Écouter » (듣다) au présent :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">듣어요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">들어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">듣아요</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« Ne pas savoir » (모르다) au présent :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">모라요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">모르어요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">몰라요</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">Lequel de ces verbes est RÉGULIER (faux ami) ?</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">입다 (porter)</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">춥다 (froid)</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">낫다 (guérir)</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Être blanc » (하얗다) au présent :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">하얗아요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">하얘요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">하야요</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_a68',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_a68');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
