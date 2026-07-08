@@ -12,26 +12,26 @@
   <style>
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
     h2{color:var(--navy);margin:0 0 .4rem}
-    h3{color:#7C3AED;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    h3{color:var(--accent-purple);margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
     .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;margin:.8rem 0}
-    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#7C3AED;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
-    .xp-badge{background:rgba(124,58,237,.12);color:#7C3AED;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:var(--accent-purple);border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(124,58,237,.12);color:var(--accent-purple);padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
     .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
-    .ko{color:#7C3AED;font-weight:700}
+    .ko{color:var(--accent-purple);font-weight:700}
     .scene{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem;margin:.7rem 0}
-    .scene-num{font-size:.72rem;font-weight:700;color:#7C3AED;text-transform:uppercase;margin-bottom:.3rem}
+    .scene-num{font-size:.72rem;font-weight:700;color:var(--accent-purple);text-transform:uppercase;margin-bottom:.3rem}
     .scene-fr{font-weight:600;font-size:.95rem;margin-bottom:.8rem}
-    .word-zone{min-height:2.5rem;background:rgba(124,58,237,.04);border:2px dashed rgba(124,58,237,.25);border-radius:10px;padding:.5rem;margin-bottom:.6rem;font-size:1rem;font-weight:700;color:#7C3AED;letter-spacing:.02em;display:flex;align-items:center;flex-wrap:wrap;gap:.25rem}
+    .word-zone{min-height:2.5rem;background:rgba(124,58,237,.04);border:2px dashed rgba(124,58,237,.25);border-radius:10px;padding:.5rem;margin-bottom:.6rem;font-size:1rem;font-weight:700;color:var(--accent-purple);letter-spacing:.02em;display:flex;align-items:center;flex-wrap:wrap;gap:.25rem}
     .words{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
     .word-btn{padding:.4rem .7rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:600;color:var(--tx);transition:all .15s}
-    .word-btn:hover{border-color:#7C3AED;color:#7C3AED}
+    .word-btn:hover{border-color:var(--accent-purple);color:var(--accent-purple)}
     .word-btn.used{opacity:.35;pointer-events:none}
-    .word-btn.placed{background:rgba(124,58,237,.1);border-color:#7C3AED;color:#7C3AED}
+    .word-btn.placed{background:rgba(124,58,237,.1);border-color:var(--accent-purple);color:var(--accent-purple)}
     .check-btn{width:100%;padding:.55rem;background:#7C3AED;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;margin-top:.4rem;font-size:.9rem}
     .result-ok{color:#16A34A;font-weight:700;font-size:.85rem;margin-top:.4rem}
     .result-ko{color:#ef4444;font-weight:700;font-size:.85rem;margin-top:.4rem}
     .reset-btn{background:none;border:1px solid var(--bd);border-radius:8px;padding:.3rem .6rem;font-size:.8rem;cursor:pointer;color:var(--tx-muted);margin-top:.3rem}
-    .score-display{text-align:center;font-size:1.5rem;font-weight:900;color:#7C3AED;margin:.5rem 0}
+    .score-display{text-align:center;font-size:1.5rem;font-weight:900;color:var(--accent-purple);margin:.5rem 0}
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -155,7 +155,7 @@ function pick(btn,n){
   const z=document.getElementById('zone'+n);
   const sp=document.createElement('span');
   sp.textContent=btn.textContent;
-  sp.style.cssText='background:rgba(124,58,237,.15);border-radius:6px;padding:.15rem .4rem;font-weight:700;color:#7C3AED';
+  sp.style.cssText='background:rgba(124,58,237,.15);border-radius:6px;padding:.15rem .4rem;font-weight:700;color:var(--accent-purple)';
   z.appendChild(sp);
 }
 function reset(n){
