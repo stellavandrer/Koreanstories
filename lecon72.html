@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Banque & démarches administratives — Korean Stories</title>
+<meta name="description" content="Ouvrir un compte en banque, gérer sa carte de résident étranger (외국인등록증) et survivre au 주민센터 : le vocabulaire administratif indispensable pour vivre en Corée. Leçon B1."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon72.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:var(--accent-purple);margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(124,58,237,.12);color:#6D28D9;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#c4b5fd}
+    .xp-badge{background:rgba(124,58,237,.12);color:#6D28D9;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#c4b5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#7C3AED;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(124,58,237,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#6D28D9;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#c4b5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#6D28D9,#7C3AED);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(124,58,237,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(124,58,237,.2)}
+    .speak-btn.playing{background:#7C3AED}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#7C3AED;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;margin:.5rem 0}
+    th{background:rgba(124,58,237,.1);color:#6D28D9;padding:.5rem .7rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] th{color:#c4b5fd}
+    td{padding:.5rem .7rem;border-bottom:1px solid var(--bd)}
+    tr:last-child td{border-bottom:none}
+    td .ko{color:#6D28D9;font-weight:700}
+    [data-theme="dark"] td .ko{color:#c4b5fd}
+    .vs{display:flex;gap:.6rem;margin:.5rem 0}
+    .vs>div{flex:1;border-radius:10px;padding:.7rem .8rem;font-size:.85rem;line-height:1.5}
+    .vs .a{background:rgba(124,58,237,.08);border:1.5px solid rgba(124,58,237,.3)}
+    .vs .b{background:rgba(184,146,78,.08);border:1.5px solid rgba(184,146,78,.35)}
+    .vs strong{display:block;font-size:1rem;margin-bottom:.2rem}
+    @media(max-width:480px){.vs{flex-direction:column}}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:var(--accent-purple)}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Banque & démarches</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Banque & démarches administratives</h1>
+  <span class="pill">B1 · Professionnel &amp; Pratique</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Vivre en Corée, c'est aussi affronter le 은행 et le 주민센터 — le centre administratif de quartier. Ouvrir un compte, gérer sa carte de résident étranger, prendre un ticket et signer sans paniquer : tout est ici.</p>
+
+  <h3>1 — Le vocabulaire</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Coréen</th><th>Sens</th></tr>
+      <tr><td><span class="ko">은행</span> <button class="speak-btn" onclick="window.speak('은행',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Banque</td></tr>
+      <tr><td><span class="ko">계좌</span> <button class="speak-btn" onclick="window.speak('계좌',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Compte bancaire</td></tr>
+      <tr><td><span class="ko">통장</span> <button class="speak-btn" onclick="window.speak('통장',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Livret bancaire (petit carnet coréen classique)</td></tr>
+      <tr><td><span class="ko">외국인등록증</span> <button class="speak-btn" onclick="window.speak('외국인등록증',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Carte de résident étranger (ARC)</td></tr>
+      <tr><td><span class="ko">주민센터</span> <button class="speak-btn" onclick="window.speak('주민센터',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Centre administratif de quartier</td></tr>
+      <tr><td><span class="ko">번호표</span> <button class="speak-btn" onclick="window.speak('번호표',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Ticket numéroté (à prendre en attendant son tour)</td></tr>
+      <tr><td><span class="ko">서명하다</span> <button class="speak-btn" onclick="window.speak('서명하다',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Signer</td></tr>
+      <tr><td><span class="ko">송금하다</span> <button class="speak-btn" onclick="window.speak('송금하다',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Faire un virement</td></tr>
+      <tr><td><span class="ko">비밀번호</span> <button class="speak-btn" onclick="window.speak('비밀번호',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Code / mot de passe</td></tr>
+      <tr><td><span class="ko">잔액</span> <button class="speak-btn" onclick="window.speak('잔액',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Solde du compte</td></tr>
+      <tr><td><span class="ko">재발급받다</span> <button class="speak-btn" onclick="window.speak('재발급받다',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td>Obtenir un duplicata / renouvellement</td></tr>
+    </table></div>
+  </div>
+
+  <h3>2 — 창구 vs 인터넷뱅킹 : au guichet ou en ligne ?</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .6rem;font-size:.92rem">La Corée est ultra-connectée, mais ouvrir un compte reste souvent obligatoire <strong>au guichet</strong> la première fois — carte de résident + numéro de téléphone coréen exigés. Une fois le compte ouvert, tout le reste se fait en ligne.</p>
+    <div class="vs">
+      <div class="a"><strong>창구 <button class="speak-btn" onclick="window.speak('창구',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></strong>Guichet physique. Numéro pris via 번호표, papiers à signer, employé qui parle (parfois anglais dans les grandes villes).</div>
+      <div class="b"><strong>인터넷뱅킹 <button class="speak-btn" onclick="window.speak('인터넷뱅킹',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></strong>Application mobile. 송금하다 en 2 clics, consulter le 잔액, zéro file d'attente — mais il faut déjà avoir un compte.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">계좌를 개설하고 싶어요 <button class="speak-btn" onclick="window.speak('계좌를 개설하고 싶어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je voudrais ouvrir un compte. (-고 싶어요 = je voudrais…)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">외국인등록증 있으세요? <button class="speak-btn" onclick="window.speak('외국인등록증 있으세요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Avez-vous votre carte de résident étranger ? — la 1ère question posée au guichet.</div>
+    </div>
+  </div>
+
+  <h3>3 — Au guichet : ce qu'on te dit, ce que tu dis</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">번호표 뽑고 기다리세요 <button class="speak-btn" onclick="window.speak('번호표 뽑고 기다리세요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Prenez un ticket et patientez. (souvent la 1ère phrase entendue en entrant)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">여기에 서명하면 돼요? <button class="speak-btn" onclick="window.speak('여기에 서명하면 돼요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je signe ici, c'est bon ? (-(으)면 되다 = il suffit de…)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">통장이랑 카드는 언제 나와요? <button class="speak-btn" onclick="window.speak('통장이랑 카드는 언제 나와요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Le livret et la carte arrivent quand ? (souvent : le jour même, parfois sous une semaine)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">비밀번호 눌러 주세요 <button class="speak-btn" onclick="window.speak('비밀번호 눌러 주세요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Veuillez entrer votre code. (-아/어 주세요 = demande polie, déjà vu au A1)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">외국인등록증을 재발급받고 싶어요 <button class="speak-btn" onclick="window.speak('외국인등록증을 재발급받고 싶어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je voudrais un duplicata de ma carte de résident. (carte perdue ou périmée = direction le 출입국관리사무소)</div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">이거 어떻게 작성해요? <button class="speak-btn" onclick="window.speak('이거 어떻게 작성해요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Comment je remplis ça ? » — LA phrase qui sauve devant n'importe quel formulaire administratif coréen.</span>
+  </div>
+
+  <div class="tip"><strong>Astuce</strong> : la carte 외국인등록증 se renouvelle au 출입국관리사무소 (bureau de l'immigration), pas au 주민센터 ni à la banque — trois lieux différents pour trois démarches différentes, à ne pas confondre !</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« Ouvrir un compte », c'est :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">계좌를 재발급받다</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">계좌를 개설하다</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">계좌를 송금하다</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Prenez un ticket et patientez » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">번호표 뽑고 기다리세요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">번호표 팔고 기다리세요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">번호표 뽑고 서명하세요</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">외국인등록증, c'est :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">le livret bancaire</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">la carte de résident étranger</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">le code secret</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« Le livret et la carte arrivent quand ? » :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">통장이랑 카드는 어디예요?</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">통장이랑 카드는 언제 나와요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">통장이랑 카드는 얼마예요?</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Comment je remplis ça ? » :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이거 얼마예요?</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">이거 어떻게 작성해요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이거 어디에 있어요?</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c42',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_c42');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
