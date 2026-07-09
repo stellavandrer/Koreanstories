@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>But : -(으)러 가다/오다 vs -기 위해서 — Korean Stories</title>
+<meta name="description" content="-(으)러 가다/오다 (réservé aux verbes de déplacement) face à -기 위해서 (valable avec n'importe quel verbe) : la nuance du but en coréen. Leçon B1 sur Korean Stories."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon79.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:#4F46E5;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] h3{color:#a5b4fc}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(79,70,229,.12);color:#4F46E5;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#a5b4fc}
+    .xp-badge{background:rgba(79,70,229,.12);color:#4F46E5;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#a5b4fc}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#4F46E5;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(79,70,229,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#4F46E5;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#a5b4fc}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .warn{background:rgba(239,68,68,.07);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#4F46E5,#6366F1);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(79,70,229,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(79,70,229,.2)}
+    .speak-btn.playing{background:#4F46E5}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#4F46E5;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    .contrast{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.7rem 0}
+    .side-move{background:rgba(79,70,229,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(79,70,229,.2)}
+    .side-any{background:rgba(37,99,235,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(37,99,235,.2)}
+    .side-move h4,.side-any h4{margin:0 0 .4rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+    .side-move h4{color:#4F46E5}
+    .side-any h4{color:#2563EB}
+    .side-move .ko{color:#4F46E5;font-weight:700}
+    [data-theme="dark"] .side-move .ko{color:#a5b4fc}
+    .side-any .ko{color:#2563EB;font-weight:700}
+    [data-theme="dark"] .side-any .ko{color:#93c5fd}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#4F46E5}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Le but</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Le but : -(으)러 가다/오다 vs -기 위해서</h1>
+  <span class="pill">B1 · Grammaire</span> <span class="xp-badge">+16 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Tu as peut-être croisé <span style="color:#4F46E5;font-weight:700">-기 위해서</span> en passant. Il existe une deuxième façon d'exprimer le but, plus simple mais plus limitée : <span style="color:#4F46E5;font-weight:700">-(으)러</span>, réservée à un cas précis.</p>
+
+  <h3>1 — La formation</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">밥을 먹으러 식당에 가요 <button class="speak-btn" onclick="window.speak('밥을 먹으러 식당에 가요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je vais au restaurant pour manger.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">시험에 합격하기 위해서 열심히 공부해요 <button class="speak-btn" onclick="window.speak('시험에 합격하기 위해서 열심히 공부해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">J'étudie dur pour réussir l'examen.</div>
+    </div>
+  </div>
+
+  <h3>2 — Le piège : -(으)러 seulement avec 가다/오다/다니다</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">-(으)러 se colle UNIQUEMENT devant un verbe de déplacement (가다, 오다, 다니다). -기 위해서 fonctionne devant n'importe quel verbe, y compris ceux qui n'impliquent aucun déplacement.</p>
+    <div class="contrast">
+      <div class="side-move">
+        <h4>-(으)러 — Seulement avec déplacement</h4>
+        <div class="ko">사진을 찍으러 왔어요</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Je suis venu(e) pour prendre des photos. (오다 = verbe de déplacement)</div>
+      </div>
+      <div class="side-any">
+        <h4>-기 위해서 — N'importe quel verbe</h4>
+        <div class="ko">건강을 위해서 운동해요</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Je fais du sport pour ma santé. (운동하다 n'est pas un verbe de déplacement)</div>
+      </div>
+    </div>
+    <div class="warn"><strong>Piège fréquent</strong> : « <span style="text-decoration:line-through">건강하러 운동해요</span> » est incorrect — 운동하다 ne mène nulle part, donc -(으)러 est impossible ici. Il faut -기 위해서 (ou -기 위해).</div>
+  </div>
+
+  <h3>3 — D'autres exemples</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">한국어를 배우러 학원에 다녀요 <button class="speak-btn" onclick="window.speak('한국어를 배우러 학원에 다녀요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je vais à l'institut pour apprendre le coréen. (다니다 = fréquenter un lieu, déplacement)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">돈을 모으기 위해서 아르바이트를 해요 <button class="speak-btn" onclick="window.speak('돈을 모으기 위해서 아르바이트를 해요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je fais un petit boulot pour économiser de l'argent. (모으다 n'implique aucun déplacement)</div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">여기 사진을 찍으러 왔어요 <button class="speak-btn" onclick="window.speak('여기 사진을 찍으러 왔어요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Je suis venu(e) ici pour prendre des photos. » — parfait pour expliquer ta présence quelque part de touristique.</span>
+  </div>
+
+  <div class="tip"><strong>Astuce</strong> : demande-toi toujours « est-ce que le verbe principal est 가다/오다/다니다 (un déplacement) ? ». Si oui, -(으)러 marche. Si non (운동하다, 공부하다, 모으다...), c'est forcément -기 위해서.</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« Je vais au restaurant pour manger » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">밥을 먹으러 식당에 가요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">밥을 먹기 위해서 식당이에요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">밥을 먹으면 식당에 가요</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Je fais du sport pour ma santé » (운동하다 n'est pas un déplacement) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">건강하러 운동해요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">건강을 위해서 운동해요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">건강하고 운동해요</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« Je suis venu(e) pour prendre des photos » (오다 = déplacement) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">사진을 찍으러 왔어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">사진을 찍기 때문에 왔어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">사진을 찍는가 봐요</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« J'étudie dur pour réussir l'examen » (합격하다 n'est pas un déplacement) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">시험에 합격하러 열심히 공부해요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">시험에 합격하기 위해서 열심히 공부해요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">시험에 합격할 줄 알아요</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Je vais à l'institut pour apprendre le coréen » (다니다 = fréquenter, déplacement) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">한국어를 배우러 학원에 다녀요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">한국어를 배우기 위해서 학원이에요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">한국어를 배우는가 봐요</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +16 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_c09bb',xp:16});else{if(typeof ksAddXP==='function')ksAddXP(16);if(typeof ksMarkDone==='function')ksMarkDone('ks_c09bb');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
