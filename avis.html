@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Avis — Korean Stories</title>
+<link rel="canonical" href="https://koreanstories.fr/avis.html"/>
+  <meta name="description" content="Découvre ce que les apprenants pensent de Korean Stories, et laisse ton propre avis sur le parcours, les histoires et les leçons.">
+  <meta property="og:title" content="Avis — Korean Stories">
+  <meta property="og:description" content="Découvre ce que les apprenants pensent de Korean Stories, et laisse ton propre avis.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://koreanstories.fr/avis.html">
+  <meta property="og:image" content="https://koreanstories.fr/Logo/Logo - KoreanStories.png">
+  <link rel="stylesheet" href="design.css">
+<link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h2{color:var(--navy);margin:0 0 .5rem;font-family:'Playfair Display',serif;font-size:1.8rem;line-height:1.15}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    h2 em{color:#8B6B3D;font-style:italic}
+    [data-theme="dark"] h2 em{color:#D5BA8A}
+    h3{color:var(--navy);margin:1.6rem 0 .6rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+    [data-theme="dark"] h3{color:#EDF2FA}
+    .lead{color:var(--tx-muted);font-size:.95rem;margin:.4rem 0 1.3rem;line-height:1.6;max-width:38em}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem 1.3rem;margin:.8rem 0}
+
+    /* Résumé des notes */
+    .summary{display:flex;align-items:center;gap:1.1rem;margin:.8rem 0 1.2rem}
+    .summary-avg{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:800;color:var(--navy);line-height:1}
+    [data-theme="dark"] .summary-avg{color:#EDF2FA}
+    .summary-stars{display:flex;gap:2px;margin:.25rem 0}
+    .summary-stars svg{width:16px;height:16px}
+    .summary-count{font-size:.8rem;color:var(--tx-muted)}
+
+    /* Formulaire */
+    .frm label{display:block;font-size:.82rem;font-weight:700;color:var(--tx);margin:.8rem 0 .3rem}
+    .frm label:first-child{margin-top:0}
+    .frm input[type="text"],.frm textarea{width:100%;box-sizing:border-box;padding:.7rem .85rem;border-radius:10px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);font-size:.92rem;font-family:inherit}
+    .frm textarea{resize:vertical;min-height:80px}
+    .star-picker{display:flex;gap:6px}
+    .star-btn{background:none;border:none;padding:2px;cursor:pointer;line-height:0}
+    .star-btn svg{width:30px;height:30px;stroke:var(--gold);stroke-width:1.6;fill:none;transition:fill .12s}
+    .star-btn.on svg{fill:var(--gold)}
+    .chk-row{display:flex;align-items:flex-start;gap:.5rem;margin:.9rem 0;font-size:.84rem;color:var(--tx-muted);line-height:1.5}
+    .chk-row input{margin-top:.2rem;flex-shrink:0}
+    .chk-row a{color:var(--gold-text);font-weight:600}
+    .frm-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+    .btn-submit{display:block;width:100%;padding:.85rem;background:linear-gradient(135deg,#8B6B3D,#B8924E);color:#fff;border:none;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:1rem}
+    .btn-submit:disabled{opacity:.6;cursor:default}
+    .frm-msg{font-size:.85rem;margin-top:.7rem;line-height:1.5;min-height:1.2em}
+    .frm-msg.ok{color:#16A34A}
+    .frm-msg.err{color:#dc2626}
+
+    /* Liste des avis */
+    .rev-item{border-bottom:1px solid var(--bd);padding:.9rem 0}
+    .rev-item:last-child{border-bottom:none}
+    .rev-top{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.3rem}
+    .rev-name{font-weight:700;font-size:.92rem;color:var(--tx)}
+    .rev-stars{display:flex;gap:1px}
+    .rev-stars svg{width:13px;height:13px;fill:var(--gold);stroke:none}
+    .rev-date{font-size:.72rem;color:var(--tx-muted)}
+    .rev-comment{font-size:.88rem;color:var(--tx-muted);line-height:1.6}
+    .rev-empty{text-align:center;padding:1.4rem 0;color:var(--tx-muted);font-size:.88rem}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+</head>
+<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Avis</h1>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Avis</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem;max-width:560px;margin:0 auto">
+
+  <h2>Ton avis <em>compte</em></h2>
+  <p class="lead">Korean Stories se construit avec ses utilisateurs. Dis-nous ce que tu penses du parcours, des histoires, des leçons — en bien comme en mal.</p>
+
+  <h3>Ce que disent les apprenants</h3>
+  <div class="card">
+    <div id="revSummary" class="summary" style="display:none">
+      <div>
+        <div class="summary-avg" id="revAvg">—</div>
+        <div class="summary-stars" id="revAvgStars"></div>
+        <div class="summary-count" id="revCount"></div>
+      </div>
+    </div>
+    <div id="revList"><div class="rev-empty">Chargement des avis…</div></div>
+  </div>
+
+  <h3>Laisser un avis</h3>
+  <div class="card">
+    <form class="frm" id="revForm">
+      <label for="revName">Prénom</label>
+      <input type="text" id="revName" maxlength="40" required autocomplete="given-name" placeholder="Ton prénom">
+
+      <label>Note</label>
+      <div class="star-picker" id="starPicker" role="radiogroup" aria-label="Note de 1 à 5 étoiles">
+        <button type="button" class="star-btn" data-v="1" aria-label="1 étoile"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg></button>
+        <button type="button" class="star-btn" data-v="2" aria-label="2 étoiles"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg></button>
+        <button type="button" class="star-btn" data-v="3" aria-label="3 étoiles"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg></button>
+        <button type="button" class="star-btn" data-v="4" aria-label="4 étoiles"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg></button>
+        <button type="button" class="star-btn" data-v="5" aria-label="5 étoiles"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg></button>
+      </div>
+
+      <label for="revComment">Ton commentaire (facultatif)</label>
+      <textarea id="revComment" maxlength="500" placeholder="Qu'est-ce que tu as aimé ? Qu'est-ce qu'on pourrait améliorer ?"></textarea>
+
+      <div style="margin-top:.9rem">
+        <label style="display:flex;align-items:center;gap:.5rem;font-weight:400;font-size:.88rem;color:var(--tx)">
+          <input type="checkbox" id="revPublic" checked style="margin:0"> Afficher mon avis publiquement sur cette page
+        </label>
+      </div>
+
+      <div class="chk-row">
+        <input type="checkbox" id="revConsent" required>
+        <label for="revConsent" style="margin:0;font-weight:400">J'accepte que ces informations soient utilisées pour publier mon avis, conformément à la <a href="confidentialite.html">politique de confidentialité</a>.</label>
+      </div>
+
+      <!-- Piège à robots : champ invisible, jamais rempli par un humain -->
+      <div class="frm-hp" aria-hidden="true"><label for="revWebsite">Site web</label><input type="text" id="revWebsite" tabindex="-1" autocomplete="off"></div>
+
+      <button type="submit" class="btn-submit" id="revBtn">Envoyer mon avis</button>
+      <div class="frm-msg" id="revMsg"></div>
+    </form>
+  </div>
+
+  <p style="text-align:center;margin:1.4rem 0 1rem;color:var(--tx-muted);font-size:.8rem">Tu préfères écrire directement ? <a href="mailto:contact@koreanstories.fr" style="color:#8B6B3D;text-decoration:none;font-weight:600">contact@koreanstories.fr</a></p>
+
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+(function(){
+  var STAR = '<svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>';
+  var STAR_EMPTY = '<svg viewBox="0 0 24 24" style="fill:none;stroke:var(--gold);stroke-width:1.6"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>';
+
+  function starsHTML(rating){
+    var h='';
+    for(var i=1;i<=5;i++){ h += i<=rating ? STAR : STAR_EMPTY; }
+    return h;
+  }
+
+  /* ── Sélecteur d'étoiles ── */
+  var picker = document.getElementById('starPicker');
+  var buttons = picker.querySelectorAll('.star-btn');
+  var selected = 0;
+  function paint(v){
+    buttons.forEach(function(b){ b.classList.toggle('on', parseInt(b.dataset.v,10) <= v); });
+  }
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ selected = parseInt(b.dataset.v,10); paint(selected); });
+    b.addEventListener('mouseenter', function(){ paint(parseInt(b.dataset.v,10)); });
+  });
+  picker.addEventListener('mouseleave', function(){ paint(selected); });
+
+  /* ── Firebase (lecture publique + écriture, sans compte requis) ──
+     Les scripts firebase-*-compat.js sont chargés en `defer` dans le
+     <head> : ils ne s'exécutent qu'après le parsing complet du HTML,
+     donc APRÈS ce script inline s'il tournait immédiatement. On attend
+     DOMContentLoaded pour être sûr que `firebase` est bien défini. */
+  var db = null;
+  function initFirebase(){
+    try{
+      if (typeof firebase !== 'undefined' && firebase.initializeApp) {
+        var CONFIG = {
+          apiKey: "AIzaSyDvFbaoXmB23ayTNRk1-npQ9-s8inwCJao",
+          authDomain: "korean-stories-68377.firebaseapp.com",
+          projectId: "korean-stories-68377",
+          storageBucket: "korean-stories-68377.firebasestorage.app",
+          messagingSenderId: "906164649426",
+          appId: "1:906164649426:web:f500330acffff803badc0b"
+        };
+        try{ firebase.initializeApp(CONFIG); }catch(e){}
+        db = firebase.firestore();
+      }
+    }catch(e){}
+    loadReviews();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFirebase);
+  } else {
+    initFirebase();
+  }
+
+  /* ── Chargement des avis publics approuvés ── */
+  function loadReviews(){
+    var listEl = document.getElementById('revList');
+    var summaryEl = document.getElementById('revSummary');
+    if(!db){ listEl.innerHTML = '<div class="rev-empty">Avis indisponibles pour le moment.</div>'; return; }
+    db.collection('reviews')
+      .where('public','==',true)
+      .where('status','==','approved')
+      .orderBy('createdAt','desc')
+      .limit(30)
+      .get()
+      .then(function(snap){
+        if (snap.empty) {
+          listEl.innerHTML = '<div class="rev-empty">Sois le/la premier·ère à laisser un avis !</div>';
+          return;
+        }
+        var total = 0, html = '';
+        var months = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+        snap.forEach(function(doc){
+          var d = doc.data();
+          total += (d.rating||0);
+          var dateStr = '';
+          try{
+            var ts = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : null;
+            if(ts) dateStr = months[ts.getMonth()] + ' ' + ts.getFullYear();
+          }catch(e){}
+          var name = (d.name||'Anonyme').replace(/[<>]/g,'');
+          var comment = (d.comment||'').replace(/[<>]/g,'');
+          html += '<div class="rev-item"><div class="rev-top"><span class="rev-name">'+name+'</span><span class="rev-stars">'+starsHTML(d.rating||0)+'</span></div>'
+                + (comment ? '<div class="rev-comment">'+comment+'</div>' : '')
+                + (dateStr ? '<div class="rev-date">'+dateStr+'</div>' : '')
+                + '</div>';
+        });
+        listEl.innerHTML = html;
+        var avg = total / snap.size;
+        document.getElementById('revAvg').textContent = avg.toFixed(1);
+        document.getElementById('revAvgStars').innerHTML = starsHTML(Math.round(avg));
+        document.getElementById('revCount').textContent = snap.size + (snap.size>1?' avis':' avis');
+        summaryEl.style.display = 'flex';
+      })
+      .catch(function(){
+        listEl.innerHTML = '<div class="rev-empty">Avis indisponibles pour le moment.</div>';
+      });
+  }
+
+  /* ── Soumission ── */
+  var form = document.getElementById('revForm');
+  var btn = document.getElementById('revBtn');
+  var msg = document.getElementById('revMsg');
+  var startTime = Date.now();
+  function setMsg(kind, text){ msg.className = 'frm-msg ' + kind; msg.textContent = text; }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('revName').value.trim();
+    var comment = document.getElementById('revComment').value.trim();
+    var isPublic = document.getElementById('revPublic').checked;
+    var consent = document.getElementById('revConsent').checked;
+    var honeypot = document.getElementById('revWebsite').value;
+
+    if (honeypot) { return; } /* robot détecté, on ne fait rien silencieusement */
+    if (Date.now() - startTime < 1500) { setMsg('err','Merci de réessayer dans un instant.'); return; }
+    if (!name) { setMsg('err','Ton prénom est requis.'); return; }
+    if (!selected) { setMsg('err','Choisis une note de 1 à 5 étoiles.'); return; }
+    if (!consent) { setMsg('err','Merci de cocher la case de consentement.'); return; }
+    if (!db) { setMsg('err','Service indisponible pour le moment, réessaie plus tard.'); return; }
+
+    btn.disabled = true; setMsg('','Envoi…');
+    db.collection('reviews').add({
+      name: name.slice(0,40),
+      rating: selected,
+      comment: comment.slice(0,500),
+      public: !!isPublic,
+      status: 'pending',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+      form.reset();
+      selected = 0; paint(0);
+      setMsg('ok','Merci beaucoup ! Ton avis a bien été envoyé' + (isPublic ? ' et sera publié après vérification.' : '.'));
+      btn.disabled = false;
+    }).catch(function(){
+      setMsg('err','Une erreur est survenue. Réessaie dans un instant.');
+      btn.disabled = false;
+    });
+  });
+})();
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>

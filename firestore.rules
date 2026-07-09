@@ -2,12 +2,18 @@
 // À copier-coller dans Firebase Console → Firestore Database → Rules
 // (ou déployer via la CLI : `firebase deploy --only firestore:rules`)
 //
-// Deux collections :
+// Trois collections :
 //   /users/{userId}        → données privées (snapshot localStorage, XP, etc.)
 //                            chacun lit/écrit UNIQUEMENT les siennes.
 //   /leaderboard/{userId}  → mini-profil public opt-in (pseudo + xp + avatar).
 //                            tout membre connecté peut LIRE ;
 //                            chacun n'écrit que SA ligne, au format strict.
+//   /reviews/{reviewId}    → avis laissés par les visiteurs (avis.html).
+//                            n'importe qui peut CRÉER un avis (pas de compte
+//                            requis) ; la modération (pending → approved) se
+//                            fait manuellement via la Console Firebase, pas
+//                            depuis le site — aucune règle "update" côté
+//                            client, donc impossible de s'auto-approuver.
 //
 // Durcissement (2026-07-04) : liste blanche de champs, types stricts, valeurs
 // non négatives et plafonnées, uid == ID du document (anti-usurpation),
@@ -71,6 +77,48 @@ service cloud.firestore {
       // Suppression : seulement par le propriétaire (opt-out).
       allow delete: if request.auth != null
                     && request.auth.uid == userId;
+    }
+
+    // ── Avis publics (avis.html) ─────────────────────────
+    match /reviews/{reviewId} {
+
+      // Lecture publique : uniquement les avis approuvés ET rendus publics
+      // par leur auteur — jamais les avis privés ni en attente de modération.
+      allow read: if resource.data.public == true
+                  && resource.data.status == 'approved';
+
+      // Création : ouverte à tous (pas de compte requis), au format strict.
+      allow create: if
+        // Aucun champ hors de cette liste blanche.
+        request.resource.data.keys().hasOnly(
+          ['name', 'rating', 'comment', 'public', 'status', 'createdAt'])
+
+        // Prénom : chaîne non vide, 40 caractères max.
+        && request.resource.data.name is string
+        && request.resource.data.name.size() >= 1
+        && request.resource.data.name.size() <= 40
+
+        // Note : entier entre 1 et 5.
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+
+        // Commentaire : chaîne, 500 caractères max (peut être vide).
+        && request.resource.data.comment is string
+        && request.resource.data.comment.size() <= 500
+
+        // Visibilité : booléen déclaré par l'auteur.
+        && request.resource.data.public is bool
+
+        // Statut : toujours "pending" à la création — impossible de
+        // s'auto-approuver, seule la Console Firebase peut changer ce champ.
+        && request.resource.data.status == 'pending'
+
+        // Horodatage : doit être l'heure serveur (FieldValue.serverTimestamp()).
+        && request.resource.data.createdAt == request.time;
+
+      // Aucune mise à jour ni suppression depuis le client — la modération
+      // se fait exclusivement via la Console Firebase (Admin SDK, hors règles).
     }
 
     // Tout le reste : refusé par défaut.
