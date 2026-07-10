@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Upload PDF Premium → KV (outil interne)</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+  body{font-family:system-ui,-apple-system,sans-serif;max-width:560px;margin:40px auto;padding:0 20px;color:#1a1a1a}
+  h1{font-size:20px}
+  p{color:#555;font-size:14px;line-height:1.6}
+  label{display:block;margin:16px 0 6px;font-weight:600;font-size:14px}
+  input[type="text"],input[type="file"]{width:100%;box-sizing:border-box;padding:10px;font-size:14px;border:1px solid #ccc;border-radius:8px}
+  button{margin-top:18px;padding:12px 20px;font-size:14px;font-weight:700;background:#0F1B2D;color:#fff;border:none;border-radius:8px;cursor:pointer}
+  button:hover{background:#1a2f4a}
+  #log{white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:12.5px;background:#f5f5f5;padding:14px;border-radius:8px;margin-top:20px;max-height:400px;overflow:auto;border:1px solid #e0e0e0}
+  .warn{background:#fff8e1;border:1px solid #f5d97a;border-radius:8px;padding:10px 14px;font-size:13px;margin-top:16px}
+</style>
+</head>
+<body>
+  <h1>Upload des fiches PDF Premium vers KV</h1>
+  <p>Outil interne à usage unique — envoie les fichiers PDF du dossier <code>pdf/</code> vers le stockage KV du Worker, pour qu'ils ne soient plus jamais servis en fichiers statiques publics. Aucune installation nécessaire, tout se passe dans ce navigateur.</p>
+
+  <label for="token">Jeton admin (ADMIN_UPLOAD_TOKEN configuré dans Cloudflare)</label>
+  <input type="text" id="token" placeholder="Colle ici le jeton choisi dans Cloudflare">
+
+  <label for="files">Fichiers PDF (sélectionne les 31 fichiers du dossier pdf/)</label>
+  <input type="file" id="files" multiple accept="application/pdf">
+
+  <button onclick="upload()">Envoyer vers KV</button>
+
+  <div class="warn">Une fois tous les fichiers envoyés (visible dans le journal ci-dessous), retourne dans Cloudflare → Worker ks-premium → Settings → Variables and Secrets, et <strong>supprime ADMIN_UPLOAD_TOKEN</strong> pour désactiver cet outil définitivement.</div>
+
+  <div id="log"></div>
+
+<script>
+async function upload() {
+  var token = document.getElementById('token').value.trim();
+  var files = document.getElementById('files').files;
+  var log = document.getElementById('log');
+  log.textContent = '';
+  if (!token) { alert('Colle le jeton admin.'); return; }
+  if (!files.length) { alert('Sélectionne les fichiers PDF à envoyer.'); return; }
+
+  var ok = 0, fail = 0;
+  for (var i = 0; i < files.length; i++) {
+    var f = files[i];
+    var name = f.name.replace(/\.pdf$/i, '');
+    log.textContent += 'Envoi de ' + f.name + '...\n';
+    try {
+      var resp = await fetch(
+        'https://ks-premium.delicate-voice-1d19.workers.dev/admin-upload-pdf?file=' + encodeURIComponent(name) + '&token=' + encodeURIComponent(token),
+        { method: 'POST', body: f }
+      );
+      var data = await resp.json().catch(function () { return null; });
+      if (resp.ok && data && data.success) {
+        log.textContent += '  ✓ OK (' + data.bytes + ' octets)\n';
+        ok++;
+      } else {
+        log.textContent += '  ✗ Erreur ' + resp.status + (data && data.message ? ' — ' + data.message : '') + '\n';
+        fail++;
+      }
+    } catch (e) {
+      log.textContent += '  ✗ Erreur réseau : ' + e.message + '\n';
+      fail++;
+    }
+    log.scrollTop = log.scrollHeight;
+  }
+  log.textContent += '\nTerminé : ' + ok + ' envoyés, ' + fail + ' échec(s).';
+}
+</script>
+</body>
+</html>

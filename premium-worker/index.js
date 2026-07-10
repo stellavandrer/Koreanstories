@@ -2,6 +2,12 @@
 // Routes:
 //   POST /webhook  — reçoit les événements Stripe
 //   GET  /verify?key=XXX — vérifie une clé de licence depuis l'app
+//   GET  /pdf?file=XXX (en-tête X-License-Key) — téléchargement sécurisé
+//        d'une fiche PDF Premium, stockée dans KV (clé "pdf:<nom>"), jamais
+//        exposée en fichier statique public.
+//   POST /admin-upload-pdf?file=XXX&token=... — upload initial (une fois) d'un
+//        PDF vers KV, protégé par ADMIN_UPLOAD_TOKEN. Voir
+//        premium-worker/admin-upload-pdfs.html (outil local, pas d'CLI requis).
 //   POST /newsletter — inscription/désinscription newsletter (Resend Contacts)
 //   GET  /newsletter/unsubscribe?email=… — lien de désinscription en un clic (depuis l'e-mail)
 //   GET  /newsletter/test-send?theme=culture|histoire|actu&token=... — déclenchement
@@ -19,6 +25,9 @@
 //   STRIPE_WEBHOOK_SECRET   whsec_...
 //   RESEND_API_KEY          re_...
 //   NEWSLETTER_TEST_TOKEN   une chaîne aléatoire au choix (protège /newsletter/test-send)
+//   ADMIN_UPLOAD_TOKEN      une chaîne aléatoire au choix (protège /admin-upload-pdf) —
+//                           à supprimer de Cloudflare une fois les 31 PDF envoyés,
+//                           l'endpoint devient alors inutilisable (KV write refusé).
 // KV binding : KS_LICENSES
 
 const PRICE_MONTHLY  = 'price_1TlkvnPab8Hr1KXaK2D5ZSvn';
@@ -40,6 +49,19 @@ export default {
 
     if (request.method === 'GET' && url.pathname === '/verify') {
       return handleVerify(request, env);
+    }
+
+    // Téléchargement d'une fiche PDF Premium : la vérification de licence se
+    // fait ICI, côté serveur, avant de renvoyer le PDF (stocké dans KV, jamais
+    // exposé en fichier statique public). Remplace l'ancien système où les
+    // PDF étaient dans /pdf/ sur GitHub Pages, accessibles par URL directe
+    // sans aucun contrôle (cf. audit sécurité du 2026-07-09).
+    if (request.method === 'GET' && url.pathname === '/pdf') {
+      return handlePdfDownload(request, env);
+    }
+
+    if (request.method === 'POST' && url.pathname === '/admin-upload-pdf') {
+      return handleAdminUploadPdf(request, env);
     }
 
     if (request.method === 'POST' && url.pathname === '/webhook') {
@@ -124,6 +146,78 @@ async function handleVerify(request, env) {
   }
 
   return json({ success: true, type: data.type, email: data.email });
+}
+
+// ── Téléchargement sécurisé d'une fiche PDF Premium ───────────────────────────
+// Les 35 fiches PDF sont stockées dans KV (clé "pdf:<nom>", valeur = octets
+// bruts du PDF), jamais comme fichier statique public sur GitHub Pages.
+// Upload initial : script upload-pdfs.sh (voir premium-worker/README ou
+// PASSAGE-LIVE.md) à lancer une fois avec wrangler après déploiement.
+async function handlePdfDownload(request, env) {
+  const url = new URL(request.url);
+  const file = (url.searchParams.get('file') || '').trim();
+  const key = (request.headers.get('X-License-Key') || url.searchParams.get('key') || '').trim().toUpperCase();
+
+  // Liste blanche stricte du nom de fichier (lettres/chiffres/tirets) pour
+  // empêcher toute tentative de path traversal ou d'injection de clé KV.
+  if (!/^[a-z0-9-]{1,60}$/.test(file)) {
+    return corsResponse('Fichier invalide', 400);
+  }
+  if (!key) return corsResponse('Clé manquante', 401);
+
+  if (await rateLimited(request, env, 'pdf', 40, 3600)) {
+    return corsResponse('Trop de requêtes, réessaie dans un moment.', 429);
+  }
+
+  const data = await env.KS_LICENSES.get(key, { type: 'json' });
+  if (!data) return corsResponse('Clé invalide', 403);
+  if (data.type === 'monthly' && data.status !== 'active') {
+    return corsResponse('Abonnement expiré ou annulé', 403);
+  }
+
+  const pdfBytes = await env.KS_LICENSES.get('pdf:' + file, { type: 'arrayBuffer' });
+  if (!pdfBytes) return corsResponse('Fiche introuvable', 404);
+
+  return new Response(pdfBytes, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment; filename="' + file + '.pdf"',
+      'Cache-Control': 'private, no-store',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key'
+    }
+  });
+}
+
+// ── Upload initial des PDF vers KV (à usage unique) ───────────────────────────
+// Protégé par ADMIN_UPLOAD_TOKEN (variable Cloudflare, jamais dans le code).
+// Utilisé une seule fois via premium-worker/admin-upload-pdfs.html (outil
+// local, aucun CLI requis) pour envoyer les 31 PDF existants dans KV.
+// Une fois l'upload terminé, supprime ADMIN_UPLOAD_TOKEN de Cloudflare pour
+// désactiver définitivement cette route.
+async function handleAdminUploadPdf(request, env) {
+  const url = new URL(request.url);
+  const file = (url.searchParams.get('file') || '').trim();
+  const token = url.searchParams.get('token') || request.headers.get('X-Admin-Token') || '';
+
+  // Anti brute-force du token, même si l'endpoint est déjà protégé par secret.
+  // Plafond au-dessus de 31 (le nombre de fiches à envoyer en une fois).
+  if (await rateLimited(request, env, 'admin-upload', 60, 3600)) {
+    return corsResponse('Trop de requêtes.', 429);
+  }
+  if (!env.ADMIN_UPLOAD_TOKEN || token !== env.ADMIN_UPLOAD_TOKEN) {
+    return corsResponse('Forbidden', 403);
+  }
+  if (!/^[a-z0-9-]{1,60}$/.test(file)) {
+    return corsResponse('Nom de fichier invalide', 400);
+  }
+
+  const bytes = await request.arrayBuffer();
+  if (!bytes || bytes.byteLength === 0) return corsResponse('Fichier vide', 400);
+
+  await env.KS_LICENSES.put('pdf:' + file, bytes);
+  return json({ success: true, file: file, bytes: bytes.byteLength });
 }
 
 // ── Newsletter : inscription / désinscription via Resend Contacts ────────────
@@ -884,7 +978,7 @@ function corsResponse(body, status) {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key'
     }
   });
 }
