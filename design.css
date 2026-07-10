@@ -497,7 +497,11 @@ button:focus-visible,
 
 /* ── PAGE CONTENT ─────────────────────────────────────────────────── */
 .page{max-width:620px;margin:0 auto;padding:16px 16px 0;width:100%}
-.page-enter{animation:pgIn .35s ease both}
+/* Pas de fill-mode : un transform retenu après l'animation ferait de
+   .page-enter le containing block des descendants position:fixed
+   (modals, FABs), qui se retrouveraient positionnés dans le document
+   au lieu du viewport — bug réel constaté sur le modal de hangeul.html. */
+.page-enter{animation:pgIn .35s ease}
 @keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* ── CARDS ────────────────────────────────────────────────────────── */
