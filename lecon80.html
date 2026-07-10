@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Résolution : -아/어야지 — Korean Stories</title>
+<meta name="description" content="-아/어야지 : la forme de résolution personnelle qui manquait face à -아/어야 하다 (obligation générale). Se motiver soi-même en coréen naturel. Leçon A2."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon80.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:#DB2777;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] h3{color:#f9a8d4}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#f9a8d4}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#f9a8d4}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(219,39,119,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#DB2777;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#f9a8d4}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#DB2777,#EC4899);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.25rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(219,39,119,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(219,39,119,.2)}
+    .speak-btn.playing{background:#DB2777}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#DB2777;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    .contrast{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.7rem 0}
+    .side-self{background:rgba(219,39,119,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(219,39,119,.2)}
+    .side-gen{background:rgba(37,99,235,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(37,99,235,.2)}
+    .side-self h4,.side-gen h4{margin:0 0 .4rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+    .side-self h4{color:#DB2777}
+    .side-gen h4{color:#2563EB}
+    .side-self .ko{color:#DB2777;font-weight:700}
+    [data-theme="dark"] .side-self .ko{color:#f9a8d4}
+    .side-gen .ko{color:#2563EB;font-weight:700}
+    [data-theme="dark"] .side-gen .ko{color:#93c5fd}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Résolution</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Résolution : -아/어야지</h1>
+  <span class="pill">A2 · Grammaire</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Tu connais déjà <span style="color:#2563EB;font-weight:700">-아/어야 하다</span> pour dire ce qu'on DOIT faire. Mais quand un Coréen se motive tout seul à voix haute (« bon, je devrais vraiment... »), il utilise une forme différente : <span style="color:#DB2777;font-weight:700">-아/어야지</span>.</p>
+
+  <h3>1 — La formation</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">이제 자야지 <button class="speak-btn" onclick="window.speak('이제 자야지',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Bon, je devrais aller dormir maintenant. (résolution, tu te le dis à toi-même)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">운동을 좀 해야지 <button class="speak-btn" onclick="window.speak('운동을 좀 해야지',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je devrais faire un peu de sport. (constat + résolution personnelle)</div>
+    </div>
+  </div>
+
+  <h3>2 — Le piège : résolution personnelle ≠ obligation générale</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">-아/어야 하다 énonce une obligation qui peut concerner N'IMPORTE QUI (toi, moi, une règle générale). -아/어야지 est réservé à TA propre résolution, décidée sur le moment — jamais pour parler de l'obligation de quelqu'un d'autre.</p>
+    <div class="contrast">
+      <div class="side-self">
+        <h4>-아/어야지 — Résolution (soi-même)</h4>
+        <div class="ko">이제 진짜 공부해야지</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Bon, je devrais vraiment étudier maintenant. (tu te motives toi-même)</div>
+      </div>
+      <div class="side-gen">
+        <h4>-아/어야 하다 — Obligation générale</h4>
+        <div class="ko">학생은 공부해야 해요</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Les élèves doivent étudier. (règle générale, ou dit à quelqu'un d'autre)</div>
+      </div>
+    </div>
+    <p style="margin:.6rem 0 0;font-size:.9rem">« <span class="kr">너도 공부해야지?</span> » sonnerait bizarre pour demander l'obligation de quelqu'un d'autre — on utiliserait plutôt <span class="ko">공부해야 해요?</span></p>
+  </div>
+
+  <h3>3 — D'autres exemples</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">아, 맞다! 엄마한테 전화해야지 <button class="speak-btn" onclick="window.speak('아, 맞다! 엄마한테 전화해야지',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Ah, c'est vrai ! Je devrais appeler maman. (tu réalises et te motives)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">이번에는 진짜 살을 빼야지 <button class="speak-btn" onclick="window.speak('이번에는 진짜 살을 빼야지',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Cette fois, je devrais vraiment perdre du poids. (résolution du moment, souvent répétée !)</div>
+    </div>
+  </div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">이제 진짜 한국어 공부해야지 <button class="speak-btn" onclick="window.speak('이제 진짜 한국어 공부해야지',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Bon, je devrais vraiment étudier le coréen maintenant. » — la résolution la plus utile de toutes, dis-la à voix haute !</span>
+  </div>
+
+  <div class="tip"><strong>À l'oreille</strong> : -아/어야지 est TRÈS fréquent à l'oral, souvent tout seul en fin de phrase, parfois avec un soupir ou un petit rire — c'est le son d'un Coréen qui se motive (ou culpabilise gentiment) devant toi. Aucun rapport avec une vraie obligation extérieure.</div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« Bon, je devrais aller dormir maintenant » (tu te le dis à toi-même) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">이제 자야지</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이제 자고 싶어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이제 잘 줄 알아요</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Les élèves doivent étudier » (règle générale) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">학생은 공부해야지</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">학생은 공부해야 해요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">학생은 공부하나 봐요</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« Ah, c'est vrai ! Je devrais appeler maman » (tu réalises à l'instant) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">엄마한테 전화해야지</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">엄마한테 전화해야 해요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">엄마한테 전화하러 가요</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« Cette fois, je devrais vraiment perdre du poids » (résolution personnelle) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">이번에는 진짜 살을 빼야지</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이번에는 진짜 살을 뺄 수 있어요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이번에는 진짜 살을 빼나 봐요</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Tu dois étudier aujourd'hui ? » (question sur l'obligation de quelqu'un d'autre) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">오늘 공부해야지?</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">오늘 공부해야 해요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">오늘 공부하고 싶어요?</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b24h',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b24h');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
