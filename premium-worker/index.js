@@ -5,9 +5,18 @@
 //   GET  /pdf?file=XXX (en-tête X-License-Key) — téléchargement sécurisé
 //        d'une fiche PDF Premium, stockée dans KV (clé "pdf:<nom>"), jamais
 //        exposée en fichier statique public.
+//   GET  /pdf-preview?file=XXX (en-tête X-License-Key) — renvoie le fragment
+//        HTML (le contenu réel) d'une page pdf/<nom>.html, stocké dans KV
+//        (clé "pdfpage:<nom>"). Les 35 pages pdf/*.html sont désormais des
+//        coquilles vides côté statique : ks-pdf-content.js injecte ce
+//        fragment dans le DOM seulement après vérification de la licence
+//        (avant, tout le texte était visible en clair via "Voir le code
+//        source" malgré l'overlay visuel — cf. audit du 2026-07-10).
 //   POST /admin-upload-pdf?file=XXX&token=... — upload initial (une fois) d'un
 //        PDF vers KV, protégé par ADMIN_UPLOAD_TOKEN. Voir
 //        premium-worker/admin-upload-pdfs.html (outil local, pas d'CLI requis).
+//   POST /admin-upload-pdfpage?file=XXX&token=... — même chose pour les
+//        fragments HTML des pages pdf/*.html (texte brut au lieu de binaire).
 //   POST /newsletter — inscription/désinscription newsletter (Resend Contacts)
 //   GET  /newsletter/unsubscribe?email=… — lien de désinscription en un clic (depuis l'e-mail)
 //   GET  /newsletter/test-send?theme=culture|histoire|actu&token=... — déclenchement
@@ -60,8 +69,18 @@ export default {
       return handlePdfDownload(request, env);
     }
 
+    // Contenu (fragment HTML) d'une page de prévisualisation pdf/<nom>.html —
+    // même vérification de licence que /pdf, cf. commentaire en tête de fichier.
+    if (request.method === 'GET' && url.pathname === '/pdf-preview') {
+      return handlePdfPreview(request, env);
+    }
+
     if (request.method === 'POST' && url.pathname === '/admin-upload-pdf') {
       return handleAdminUploadPdf(request, env);
+    }
+
+    if (request.method === 'POST' && url.pathname === '/admin-upload-pdfpage') {
+      return handleAdminUploadPdfPage(request, env);
     }
 
     if (request.method === 'POST' && url.pathname === '/webhook') {
@@ -190,6 +209,46 @@ async function handlePdfDownload(request, env) {
   });
 }
 
+// ── Contenu sécurisé d'une page de prévisualisation pdf/<nom>.html ────────────
+// Les 35 pages pdf/*.html ne contiennent plus le texte des fiches en clair :
+// leur div .wrap est vide (id="pdf-content", data-file="<nom>") et
+// ks-pdf-content.js va chercher ce fragment ICI, après vérification de
+// licence, avant de l'injecter dans le DOM. Remplace l'ancien ks-pdf-gate.js
+// (overlay purement visuel, contournable via "Voir le code source").
+async function handlePdfPreview(request, env) {
+  const url = new URL(request.url);
+  const file = (url.searchParams.get('file') || '').trim();
+  const key = (request.headers.get('X-License-Key') || url.searchParams.get('key') || '').trim().toUpperCase();
+
+  if (!/^[a-z0-9-]{1,60}$/.test(file)) {
+    return corsResponse('Fichier invalide', 400);
+  }
+  if (!key) return corsResponse('Clé manquante', 401);
+
+  if (await rateLimited(request, env, 'pdfpreview', 60, 3600)) {
+    return corsResponse('Trop de requêtes, réessaie dans un moment.', 429);
+  }
+
+  const data = await env.KS_LICENSES.get(key, { type: 'json' });
+  if (!data) return corsResponse('Clé invalide', 403);
+  if (data.type === 'monthly' && data.status !== 'active') {
+    return corsResponse('Abonnement expiré ou annulé', 403);
+  }
+
+  const html = await env.KS_LICENSES.get('pdfpage:' + file, { type: 'text' });
+  if (!html) return corsResponse('Page introuvable', 404);
+
+  return new Response(html, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'private, no-store',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key'
+    }
+  });
+}
+
 // ── Upload initial des PDF vers KV (à usage unique) ───────────────────────────
 // Protégé par ADMIN_UPLOAD_TOKEN (variable Cloudflare, jamais dans le code).
 // Utilisé une seule fois via premium-worker/admin-upload-pdfs.html (outil
@@ -218,6 +277,31 @@ async function handleAdminUploadPdf(request, env) {
 
   await env.KS_LICENSES.put('pdf:' + file, bytes);
   return json({ success: true, file: file, bytes: bytes.byteLength });
+}
+
+// ── Upload initial des fragments HTML des pages pdf/*.html (à usage unique) ───
+// Même principe et même jeton que handleAdminUploadPdf, mais stocke du texte
+// (le contenu de la div .wrap extraite de chaque page) au lieu d'un binaire.
+async function handleAdminUploadPdfPage(request, env) {
+  const url = new URL(request.url);
+  const file = (url.searchParams.get('file') || '').trim();
+  const token = url.searchParams.get('token') || request.headers.get('X-Admin-Token') || '';
+
+  if (await rateLimited(request, env, 'admin-upload', 60, 3600)) {
+    return corsResponse('Trop de requêtes.', 429);
+  }
+  if (!env.ADMIN_UPLOAD_TOKEN || token !== env.ADMIN_UPLOAD_TOKEN) {
+    return corsResponse('Forbidden', 403);
+  }
+  if (!/^[a-z0-9-]{1,60}$/.test(file)) {
+    return corsResponse('Nom de fichier invalide', 400);
+  }
+
+  const html = await request.text();
+  if (!html) return corsResponse('Contenu vide', 400);
+
+  await env.KS_LICENSES.put('pdfpage:' + file, html);
+  return json({ success: true, file: file, bytes: html.length });
 }
 
 // ── Newsletter : inscription / désinscription via Resend Contacts ────────────

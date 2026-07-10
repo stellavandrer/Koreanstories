@@ -18,37 +18,43 @@
 </head>
 <body>
   <h1>Upload des fiches PDF Premium vers KV</h1>
-  <p>Outil interne à usage unique — envoie les fichiers PDF du dossier <code>pdf/</code> vers le stockage KV du Worker, pour qu'ils ne soient plus jamais servis en fichiers statiques publics. Aucune installation nécessaire, tout se passe dans ce navigateur.</p>
+  <p>Outil interne à usage unique — envoie les fichiers PDF ou les fragments HTML du dossier <code>pdf/</code> vers le stockage KV du Worker, pour qu'ils ne soient plus jamais servis en clair. Aucune installation nécessaire, tout se passe dans ce navigateur.</p>
 
   <label for="token">Jeton admin (ADMIN_UPLOAD_TOKEN configuré dans Cloudflare)</label>
   <input type="text" id="token" placeholder="Colle ici le jeton choisi dans Cloudflare">
 
-  <label for="files">Fichiers PDF (sélectionne les 31 fichiers du dossier pdf/)</label>
+  <label for="files">Fichiers PDF (les 35 fichiers .pdf du dossier pdf/)</label>
   <input type="file" id="files" multiple accept="application/pdf">
+  <button onclick="upload('files', 'pdf')">Envoyer les PDF vers KV</button>
 
-  <button onclick="upload()">Envoyer vers KV</button>
+  <label for="pagefiles">Fragments de contenu des pages (les 35 fichiers .html extraits, un par fiche)</label>
+  <input type="file" id="pagefiles" multiple accept="text/html">
+  <button onclick="upload('pagefiles', 'html')">Envoyer les fragments HTML vers KV</button>
 
   <div class="warn">Une fois tous les fichiers envoyés (visible dans le journal ci-dessous), retourne dans Cloudflare → Worker ks-premium → Settings → Variables and Secrets, et <strong>supprime ADMIN_UPLOAD_TOKEN</strong> pour désactiver cet outil définitivement.</div>
 
   <div id="log"></div>
 
 <script>
-async function upload() {
+async function upload(inputId, kind) {
   var token = document.getElementById('token').value.trim();
-  var files = document.getElementById('files').files;
+  var files = document.getElementById(inputId).files;
   var log = document.getElementById('log');
   log.textContent = '';
   if (!token) { alert('Colle le jeton admin.'); return; }
-  if (!files.length) { alert('Sélectionne les fichiers PDF à envoyer.'); return; }
+  if (!files.length) { alert('Sélectionne les fichiers à envoyer.'); return; }
+
+  var route = kind === 'pdf' ? 'admin-upload-pdf' : 'admin-upload-pdfpage';
+  var suffix = kind === 'pdf' ? /\.pdf$/i : /\.html?$/i;
 
   var ok = 0, fail = 0;
   for (var i = 0; i < files.length; i++) {
     var f = files[i];
-    var name = f.name.replace(/\.pdf$/i, '');
+    var name = f.name.replace(suffix, '');
     log.textContent += 'Envoi de ' + f.name + '...\n';
     try {
       var resp = await fetch(
-        'https://ks-premium.delicate-voice-1d19.workers.dev/admin-upload-pdf?file=' + encodeURIComponent(name) + '&token=' + encodeURIComponent(token),
+        'https://ks-premium.delicate-voice-1d19.workers.dev/' + route + '?file=' + encodeURIComponent(name) + '&token=' + encodeURIComponent(token),
         { method: 'POST', body: f }
       );
       var data = await resp.json().catch(function () { return null; });
