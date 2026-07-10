@@ -174,6 +174,53 @@ var CAT_COLOR = {
 
 var activeFilter = 'all';
 
+/* ── Téléchargement sécurisé des fiches PDF Premium ──────────────────────────
+   Les PDF ne sont plus des fichiers statiques publics : ils sont récupérés
+   via le Worker Cloudflare (même vérification de licence que le reste du
+   système Premium), après quoi le fichier est ouvert/téléchargé comme blob
+   local — jamais d'URL publique directe vers le PDF. */
+var PDF_WORKER = 'https://ks-premium.delicate-voice-1d19.workers.dev/pdf';
+
+function pdfAction(id, mode, btn) {
+  var p = PDFS.find(function (x) { return x.id === id; });
+  if (!p) return;
+  if (!window.KSPremium || !KSPremium.isPremium()) {
+    if (confirm('Cette fiche PDF est réservée aux membres Premium. Découvrir Premium maintenant ?')) {
+      window.location.href = 'premium.html';
+    }
+    return;
+  }
+  var key = '';
+  try { key = localStorage.getItem('ks_premium_key') || ''; } catch (e) {}
+  var baseFile = p.file.replace(/^.*\//, '');
+  var original = btn.innerHTML;
+  btn.disabled = true;
+  fetch(PDF_WORKER + '?file=' + encodeURIComponent(baseFile), {
+    headers: key ? { 'X-License-Key': key } : {}
+  }).then(function (resp) {
+    if (!resp.ok) throw new Error('denied');
+    return resp.blob();
+  }).then(function (blob) {
+    var url = URL.createObjectURL(blob);
+    if (mode === 'open') {
+      window.open(url, '_blank');
+    } else {
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = p.title.replace(/[^\w\- ]/g, '') + '.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    setTimeout(function () { URL.revokeObjectURL(url); }, 30000);
+  }).catch(function () {
+    alert('Impossible de récupérer cette fiche pour le moment. Vérifie ta connexion, ou réessaie plus tard.');
+  }).finally(function () {
+    btn.disabled = false;
+    btn.innerHTML = original;
+  });
+}
+
 function setFilter(f) {
   activeFilter = f;
   document.querySelectorAll('.fchip').forEach(function(c) {
@@ -224,14 +271,14 @@ function render() {
               tags +
             '</div>' +
             '<div class="pdf-actions">' +
-              '<a href="' + p.file + '.pdf" class="pdf-btn-dl" target="_blank" rel="noopener">' +
+              '<button type="button" class="pdf-btn-dl" onclick="pdfAction(\'' + p.id + '\',\'open\',this)">' +
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>' +
                 'Ouvrir PDF' +
-              '</a>' +
-              '<a href="' + p.file + '.pdf" class="pdf-btn-view" download>' +
+              '</button>' +
+              '<button type="button" class="pdf-btn-view" onclick="pdfAction(\'' + p.id + '\',\'dl\',this)">' +
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>' +
                 'Télécharger' +
-              '</a>' +
+              '</button>' +
             '</div>' +
           '</div>' +
         '</div>' +
