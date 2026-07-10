@@ -66,7 +66,7 @@
     .ccard.done .ccard-char{color:#A87830}
     .ccard.active .ccard-char{color:var(--gold)}
     .ccard.locked .ccard-char{color:var(--gray)}
-    .ccard-rom{font-size:9px;color:var(--gray);font-weight:600;letter-spacing:.04em}
+    .ccard-rom{font-size:9px;color:var(--gray);font-weight:600;letter-spacing:.02em;text-align:center;line-height:1.15;padding:0 3px}
     .ccard.done .ccard-rom{color:#C9A96E}
     .ccard.active .ccard-rom{color:rgba(255,255,255,.6)}
     .ccard-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%}
@@ -92,6 +92,20 @@
     .syl-block-card strong{display:block;font-size:18px;color:var(--navy);margin-bottom:2px;font-weight:300}
     .syl-block-card em{color:var(--gold);font-style:normal;font-weight:600}
     .syl-note{font-size:11px;color:var(--gray);line-height:1.6;margin-top:10px;padding:8px 12px;background:rgba(201,169,110,.06);border-radius:10px;border:1px solid rgba(201,169,110,.15)}
+
+    /* ── ÉCOUTER LA SÉRIE (dictée de l'alphabet) ── */
+    .listen-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .lbtn{display:flex;align-items:center;gap:6px;padding:9px 18px;border-radius:100px;background:var(--navy);color:var(--gold);border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+    .lbtn:hover{transform:translateY(-1px)}
+    .lbtn svg{width:13px;height:13px;fill:currentColor;flex-shrink:0}
+    .lbtn.playing{background:var(--gold);color:var(--navy)}
+    .lchip{padding:7px 13px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);color:var(--gray);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .18s}
+    .lchip:hover{border-color:var(--gold2)}
+    .lchip.on{background:rgba(201,169,110,.14);border-color:rgba(201,169,110,.45);color:#A87830}
+    .ccard.seq-now{border-color:var(--gold)!important;box-shadow:0 0 0 3px rgba(201,169,110,.25);transform:scale(1.06);z-index:2}
+    [data-theme="dark"] .lchip{background:var(--surf)!important;border-color:var(--bd2)!important;color:var(--t3)!important}
+    [data-theme="dark"] .lchip.on{background:rgba(201,169,110,.12)!important;border-color:rgba(201,169,110,.4)!important;color:#C9A96E!important}
+    [data-theme="dark"] .lbtn{background:var(--navy2)!important}
 
     /* ── PRONONCIATION FRANCOPHONE ── */
     .pron-seoul{background:var(--navy);border-radius:20px;padding:22px 18px;margin-bottom:10px;text-align:center}
@@ -669,6 +683,7 @@
     <h2>Consonnes de base — 기본 자음 <span id="conDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>14 consonnes fondamentales. Clique pour écouter et voir le mnémotechnique.</p>
   </div>
+  <div class="listen-bar"><button class="lbtn" onclick="listenAll('consonGrid',CONSONNES,this)"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>Écouter les 14</button><button class="lchip" data-opt="pause" onclick="toggleSeqOpt('pause')" title="Ajoute un silence après chaque lettre pour la répéter à voix haute">pauses pour répéter</button><button class="lchip" data-opt="slow" onclick="toggleSeqOpt('slow')" title="Lecture ralentie">vitesse lente</button></div>
   <div class="char-grid" id="consonGrid"></div>
 
   <div class="sep"></div>
@@ -678,6 +693,7 @@
     <h2>Voyelles de base — 기본 모음 <span id="voyDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>10 voyelles pures — chaque son est clair et distinct.</p>
   </div>
+  <div class="listen-bar"><button class="lbtn" onclick="listenAll('vowelGrid',VOYELLES,this)"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>Écouter les 10</button><button class="lchip" data-opt="pause" onclick="toggleSeqOpt('pause')" title="Ajoute un silence après chaque lettre pour la répéter à voix haute">pauses pour répéter</button><button class="lchip" data-opt="slow" onclick="toggleSeqOpt('slow')" title="Lecture ralentie">vitesse lente</button></div>
   <div class="char-grid" id="vowelGrid"></div>
 
   <div class="sep"></div>
@@ -753,6 +769,7 @@
     <h2>Voyelles composées — 이중 모음 <span id="compDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>11 voyelles formées en fusionnant deux voyelles de base.</p>
   </div>
+  <div class="listen-bar"><button class="lbtn" onclick="listenAll('compVowelGrid',VOYELLES_COMP,this)"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>Écouter les 11</button><button class="lchip" data-opt="pause" onclick="toggleSeqOpt('pause')" title="Ajoute un silence après chaque lettre pour la répéter à voix haute">pauses pour répéter</button><button class="lchip" data-opt="slow" onclick="toggleSeqOpt('slow')" title="Lecture ralentie">vitesse lente</button></div>
   <div class="char-grid" id="compVowelGrid"></div>
 
   <div class="sep"></div>
@@ -762,6 +779,7 @@
     <h2>Consonnes doubles — 쌍자음 <span id="dblDoneLabel" style="font-size:11px;font-weight:600;color:var(--gray);font-family:'Inter',sans-serif"></span></h2>
     <p>5 consonnes "tensées" — un son plus fort, bref, sans souffle. Mêmes caractères, doublés.</p>
   </div>
+  <div class="listen-bar"><button class="lbtn" onclick="listenAll('dblConsonGrid',CONSONNES_DBL,this)"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg>Écouter les 5</button><button class="lchip" data-opt="pause" onclick="toggleSeqOpt('pause')" title="Ajoute un silence après chaque lettre pour la répéter à voix haute">pauses pour répéter</button><button class="lchip" data-opt="slow" onclick="toggleSeqOpt('slow')" title="Lecture ralentie">vitesse lente</button></div>
   <div class="char-grid" id="dblConsonGrid"></div>
 
   <div class="sep"></div>
@@ -832,14 +850,14 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         Quiz éclair Hangeul
       </div>
-      <div class="quiz-header-sub">Choisis la bonne romanisation</div>
+      <div class="quiz-header-sub">Choisis le bon son, à la française</div>
     </div>
     <div class="quiz-body">
       <div class="quiz-progress"><div class="quiz-pfill" id="qPfill" style="width:0%"></div></div>
       <div id="quizQArea">
         <div class="quiz-question">
           <div class="quiz-char" id="qChar">?</div>
-          <div class="quiz-prompt" id="qPrompt">Quelle est la romanisation ?</div>
+          <div class="quiz-prompt" id="qPrompt">Quel son fait ce caractère ?</div>
           <div class="quiz-counter" id="qCounter">1 / 5</div>
         </div>
         <div class="quiz-choices" id="qChoices"></div>
@@ -897,55 +915,55 @@
 // ── DATA ──
 // ═══════════════════════════════════════════════
 const CONSONNES = [
-  {c:'ㄱ',r:'g/k', fr:'« g » de <b>gare</b> (un peu sec)', audio:'가', stat:'done',   lec:1,  mnem:'Ressemble à une <em>équerre</em> de menuisier — l\'angle d\'un outil.', ex:[{k:'가방',f:'sac'},{k:'고기',f:'viande'}], tip:'Se prononce <em>g</em> en début de syllabe, <em>k</em> en fin.'},
-  {c:'ㄴ',r:'n',   fr:'« n » de <b>nuit</b>', audio:'나', stat:'done',   lec:1,  mnem:'La lettre <em>L</em> à l\'envers — un <em>n</em> qui s\'incline.', ex:[{k:'나비',f:'papillon'},{k:'눈',f:'neige/œil'}], tip:'Toujours <em>n</em> — l\'un des sons les plus réguliers du coréen.'},
-  {c:'ㄷ',r:'d/t', fr:'« d » de <b>dos</b> (un peu sec)', audio:'다', stat:'done',   lec:2,  mnem:'Un cadre de <em>porte</em> ouvert en haut — entre et ressors.', ex:[{k:'다리',f:'pont/jambe'},{k:'도시',f:'ville'}], tip:'<em>d</em> entre voyelles, <em>t</em> en fin de syllabe.'},
-  {c:'ㄹ',r:'r/l', fr:'entre « r » roulé léger et « l »', audio:'라', stat:'locked', lec:4,  mnem:'Un <em>toboggan</em> qui descend en zigzag — roule la langue.', ex:[{k:'라면',f:'ramen'},{k:'달',f:'lune'}], tip:'Entre <em>r</em> et <em>l</em> — un petit coup de langue derrière les dents, comme le "r" espagnol de "pero". Jamais le "r" français de gorge !'},
-  {c:'ㅁ',r:'m',   fr:'« m » de <b>main</b>', audio:'마', stat:'done',   lec:2,  mnem:'Un carré = une <em>bouche</em> (mouth) qui dit "m".', ex:[{k:'마음',f:'cœur'},{k:'물',f:'eau'}], tip:'<em>m</em> — identique au français. Facile !'},
-  {c:'ㅂ',r:'b/p', fr:'« b » de <b>bol</b> (un peu sec)', audio:'바', stat:'locked', lec:3,  mnem:'Deux bras levés = un <em>bus</em> qui s\'arrête.', ex:[{k:'바다',f:'mer'},{k:'밥',f:'riz'}], tip:'<em>b</em> entre voyelles, <em>p</em> en fin de syllabe.'},
-  {c:'ㅅ',r:'s',   fr:'« s » de <b>sac</b>', audio:'사', stat:'locked', lec:3,  mnem:'Une <em>dent</em> de requin — sifflante et acérée.', ex:[{k:'사랑',f:'amour'},{k:'소금',f:'sel'}], tip:'<em>s</em> devant une voyelle. Se prononce <em>t</em> en fin de syllabe.'},
-  {c:'ㅇ',r:'ng/-',fr:'muet au début · « ng » de camp<b>ing</b> à la fin', audio:'아', stat:'done',          mnem:'Un <em>zéro</em> parfait — muet au début, nasal à la fin.', ex:[{k:'아이',f:'enfant'},{k:'방',f:'chambre'}], tip:'Muet en début de syllabe (voyelle seule), <em>ng</em> en fin.'},
-  {c:'ㅈ',r:'j',   fr:'« dj » de a<b>dj</b>ectif — pas le « j » de jour !', audio:'자', stat:'locked', lec:5,  mnem:'Un <em>piège</em> à ressort vu de côté — déclenche un "dj".', ex:[{k:'자다',f:'dormir'},{k:'주스',f:'jus'}], tip:'<em>dj</em> — comme "Django" ou "adjectif". Attention : PAS le "j" doux français de "jour" !'},
-  {c:'ㅊ',r:'ch',  fr:'« tch » de <b>tch</b>ao — pas le « ch » de chat !', audio:'차', stat:'locked', lec:7,  mnem:'ㅈ avec un <em>chapeau</em> — plus soufflé qu\'avant.', ex:[{k:'차',f:'thé/voiture'},{k:'청소',f:'nettoyage'}], tip:'<em>tch</em> soufflé — comme "tchao" ou "match". Attention : PAS le "ch" doux français de "chat" !'},
-  {c:'ㅋ',r:'k',   fr:'« k » de <b>k</b>épi + un souffle', audio:'카', stat:'locked', lec:7,  mnem:'ㄱ avec une <em>cheminée</em> — l\'air qui s\'échappe.', ex:[{k:'코',f:'nez'},{k:'카페',f:'café'}], tip:'<em>k</em> aspiré — plus d\'air que ㄱ. Comme "kilo" en français.'},
-  {c:'ㅌ',r:'t',   fr:'« t » de <b>t</b>able + un souffle', audio:'타', stat:'locked', lec:8,  mnem:'ㄷ avec un <em>étage</em> de plus — souffle supplémentaire.', ex:[{k:'토끼',f:'lapin'},{k:'타다',f:'monter'}], tip:'<em>t</em> aspiré — plus de souffle que ㄷ.'},
-  {c:'ㅍ',r:'p',   fr:'« p » de <b>p</b>ère + un souffle', audio:'파', stat:'locked', lec:8,  mnem:'Un <em>piano</em> vu de face — deux piliers, une barre.', ex:[{k:'파티',f:'fête'},{k:'파란',f:'bleu'}], tip:'<em>p</em> aspiré — comme "père" mais avec plus de souffle.'},
-  {c:'ㅎ',r:'h',   fr:'« h » soufflé de <b>h</b>ello (anglais)', audio:'하', stat:'locked', lec:6,  mnem:'Un <em>bonhomme</em> avec un chapeau qui souffle : "haaaa".', ex:[{k:'하다',f:'faire'},{k:'행복',f:'bonheur'}], tip:'<em>h</em> aspiré — comme en anglais. Doux et aéré.'},
+  {c:'ㄱ',r:'g/k',frs:'g', fr:'« g » de <b>gare</b> (un peu sec)', audio:'가', stat:'done',   lec:1,  mnem:'Ressemble à une <em>équerre</em> de menuisier — l\'angle d\'un outil.', ex:[{k:'가방',f:'sac'},{k:'고기',f:'viande'}], tip:'Se prononce <em>g</em> en début de syllabe, <em>k</em> en fin.'},
+  {c:'ㄴ',r:'n',frs:'n',   fr:'« n » de <b>nuit</b>', audio:'나', stat:'done',   lec:1,  mnem:'La lettre <em>L</em> à l\'envers — un <em>n</em> qui s\'incline.', ex:[{k:'나비',f:'papillon'},{k:'눈',f:'neige/œil'}], tip:'Toujours <em>n</em> — l\'un des sons les plus réguliers du coréen.'},
+  {c:'ㄷ',r:'d/t',frs:'d', fr:'« d » de <b>dos</b> (un peu sec)', audio:'다', stat:'done',   lec:2,  mnem:'Un cadre de <em>porte</em> ouvert en haut — entre et ressors.', ex:[{k:'다리',f:'pont/jambe'},{k:'도시',f:'ville'}], tip:'<em>d</em> entre voyelles, <em>t</em> en fin de syllabe.'},
+  {c:'ㄹ',r:'r/l',frs:'r/l léger', fr:'entre « r » roulé léger et « l »', audio:'라', stat:'locked', lec:4,  mnem:'Un <em>toboggan</em> qui descend en zigzag — roule la langue.', ex:[{k:'라면',f:'ramen'},{k:'달',f:'lune'}], tip:'Entre <em>r</em> et <em>l</em> — un petit coup de langue derrière les dents, comme le "r" espagnol de "pero". Jamais le "r" français de gorge !'},
+  {c:'ㅁ',r:'m',frs:'m',   fr:'« m » de <b>main</b>', audio:'마', stat:'done',   lec:2,  mnem:'Un carré = une <em>bouche</em> (mouth) qui dit "m".', ex:[{k:'마음',f:'cœur'},{k:'물',f:'eau'}], tip:'<em>m</em> — identique au français. Facile !'},
+  {c:'ㅂ',r:'b/p',frs:'b', fr:'« b » de <b>bol</b> (un peu sec)', audio:'바', stat:'locked', lec:3,  mnem:'Deux bras levés = un <em>bus</em> qui s\'arrête.', ex:[{k:'바다',f:'mer'},{k:'밥',f:'riz'}], tip:'<em>b</em> entre voyelles, <em>p</em> en fin de syllabe.'},
+  {c:'ㅅ',r:'s',frs:'s',   fr:'« s » de <b>sac</b>', audio:'사', stat:'locked', lec:3,  mnem:'Une <em>dent</em> de requin — sifflante et acérée.', ex:[{k:'사랑',f:'amour'},{k:'소금',f:'sel'}], tip:'<em>s</em> devant une voyelle. Se prononce <em>t</em> en fin de syllabe.'},
+  {c:'ㅇ',r:'ng/-',frs:'muet/ng',fr:'muet au début · « ng » de camp<b>ing</b> à la fin', audio:'아', stat:'done',          mnem:'Un <em>zéro</em> parfait — muet au début, nasal à la fin.', ex:[{k:'아이',f:'enfant'},{k:'방',f:'chambre'}], tip:'Muet en début de syllabe (voyelle seule), <em>ng</em> en fin.'},
+  {c:'ㅈ',r:'j',frs:'dj',   fr:'« dj » de a<b>dj</b>ectif — pas le « j » de jour !', audio:'자', stat:'locked', lec:5,  mnem:'Un <em>piège</em> à ressort vu de côté — déclenche un "dj".', ex:[{k:'자다',f:'dormir'},{k:'주스',f:'jus'}], tip:'<em>dj</em> — comme "Django" ou "adjectif". Attention : PAS le "j" doux français de "jour" !'},
+  {c:'ㅊ',r:'ch',frs:'tch',  fr:'« tch » de <b>tch</b>ao — pas le « ch » de chat !', audio:'차', stat:'locked', lec:7,  mnem:'ㅈ avec un <em>chapeau</em> — plus soufflé qu\'avant.', ex:[{k:'차',f:'thé/voiture'},{k:'청소',f:'nettoyage'}], tip:'<em>tch</em> soufflé — comme "tchao" ou "match". Attention : PAS le "ch" doux français de "chat" !'},
+  {c:'ㅋ',r:'k',frs:'k soufflé',   fr:'« k » de <b>k</b>épi + un souffle', audio:'카', stat:'locked', lec:7,  mnem:'ㄱ avec une <em>cheminée</em> — l\'air qui s\'échappe.', ex:[{k:'코',f:'nez'},{k:'카페',f:'café'}], tip:'<em>k</em> aspiré — plus d\'air que ㄱ. Comme "kilo" en français.'},
+  {c:'ㅌ',r:'t',frs:'t soufflé',   fr:'« t » de <b>t</b>able + un souffle', audio:'타', stat:'locked', lec:8,  mnem:'ㄷ avec un <em>étage</em> de plus — souffle supplémentaire.', ex:[{k:'토끼',f:'lapin'},{k:'타다',f:'monter'}], tip:'<em>t</em> aspiré — plus de souffle que ㄷ.'},
+  {c:'ㅍ',r:'p',frs:'p soufflé',   fr:'« p » de <b>p</b>ère + un souffle', audio:'파', stat:'locked', lec:8,  mnem:'Un <em>piano</em> vu de face — deux piliers, une barre.', ex:[{k:'파티',f:'fête'},{k:'파란',f:'bleu'}], tip:'<em>p</em> aspiré — comme "père" mais avec plus de souffle.'},
+  {c:'ㅎ',r:'h',frs:'h soufflé',   fr:'« h » soufflé de <b>h</b>ello (anglais)', audio:'하', stat:'locked', lec:6,  mnem:'Un <em>bonhomme</em> avec un chapeau qui souffle : "haaaa".', ex:[{k:'하다',f:'faire'},{k:'행복',f:'bonheur'}], tip:'<em>h</em> aspiré — comme en anglais. Doux et aéré.'},
 ];
 
 const VOYELLES = [
-  {c:'ㅏ',r:'a',  fr:'« a » de <b>papa</b>', audio:'아', stat:'done',   lec:1, mnem:'Un bâton avec un bras à droite — ouvre la bouche et dis <em>a</em>.', ex:[{k:'아이',f:'enfant'},{k:'사랑',f:'amour'}],  tip:'<em>a</em> ouvert — comme dans "patte".'},
-  {c:'ㅑ',r:'ya', fr:'« ya » de <b>ya</b>ourt', audio:'야', stat:'locked', lec:8, mnem:'Comme ㅏ mais avec deux bras — double énergie = <em>ya</em>.', ex:[{k:'야채',f:'légumes'},{k:'야구',f:'baseball'}],  tip:'<em>ya</em> — ㅏ précédé d\'un y rapide.'},
-  {c:'ㅓ',r:'eo', fr:'« o » ouvert de p<b>o</b>rte — pas « éo » !', audio:'어', stat:'locked', lec:4, mnem:'Un bâton avec un bras à gauche — son qui part en arrière.', ex:[{k:'어머니',f:'mère'},{k:'버스',f:'bus'}],     tip:'Le « o » relâché de "porte" ou "bord", bouche détendue. La romanisation "eo" est trompeuse : ce n\'est JAMAIS "éo" — c\'est le o de Séoul (서울 = "so-oul") !'},
-  {c:'ㅕ',r:'yeo',fr:'« yo » ouvert (y + le « o » de porte)', audio:'여', stat:'locked', lec:9, mnem:'Comme ㅓ avec deux bras — <em>yeo</em>.', ex:[{k:'여기',f:'ici'},{k:'여자',f:'femme'}],    tip:'<em>yeo</em> — ㅓ précédé d\'un y. Comme "yo" mais bouche plus relâchée.'},
-  {c:'ㅗ',r:'o',  fr:'« o » fermé de b<b>eau</b>, lèvres arrondies', audio:'오', stat:'locked', lec:2, mnem:'Une barre avec un point au-dessus — lèvres rondes, son <em>o</em>.', ex:[{k:'오빠',f:'grand frère'},{k:'도시',f:'ville'}], tip:'<em>o</em> arrondi — lèvres bien arrondies, comme "beau". À ne pas confondre avec ㅓ (bouche relâchée).'},
-  {c:'ㅛ',r:'yo', fr:'« yo » de <b>yo</b>yo', audio:'요', stat:'locked', lec:6, mnem:'Deux points au-dessus = double élan pour <em>yo</em>.', ex:[{k:'요리',f:'cuisine'},{k:'교실',f:'salle de classe'}], tip:'<em>yo</em> — ㅗ précédé d\'un y.'},
-  {c:'ㅜ',r:'u',  fr:'« ou » de l<b>ou</b>p — jamais « u » !', audio:'우', stat:'locked', lec:3, mnem:'Barre avec point en bas — lèvres avancées comme un tunnel.', ex:[{k:'우유',f:'lait'},{k:'구름',f:'nuage'}],     tip:'Toujours « ou » comme dans "loup" ! La romanisation "u" piège les francophones : 우유 (lait) se dit "ou-you", pas "u-yu". Le son "u" français n\'existe pas en coréen.'},
-  {c:'ㅠ',r:'yu', fr:'« you » de <b>you</b>pi', audio:'유', stat:'locked', lec:7, mnem:'Deux points en bas — double élan pour <em>yu</em>.', ex:[{k:'유리',f:'verre'},{k:'뮤직',f:'musique'}],  tip:'<em>you</em> — comme "youpi". ㅜ (ou) précédé d\'un y.'},
-  {c:'ㅡ',r:'eu', fr:'« eu » avec les lèvres étirées en sourire', audio:'으', stat:'locked', lec:5, mnem:'Une ligne plate — lèvres étirées, bouche fermée. Son <em>neutre</em>.', ex:[{k:'으',f:'hmm'},{k:'크다',f:'grand'}],        tip:'Le son qui n\'existe pas en français : dis "ou" mais en étirant les lèvres comme pour sourire. C\'est le bruit qu\'on fait en frissonnant : "brrr… eu !"'},
-  {c:'ㅣ',r:'i',  fr:'« i » de l<b>i</b>t', audio:'이', stat:'locked', lec:4, mnem:'Un simple trait vertical — droit, simple, comme le son <em>i</em>.', ex:[{k:'이',f:'dent/ce'},{k:'비',f:'pluie'}],      tip:'<em>i</em> — comme dans "vie". Le plus simple !'},
+  {c:'ㅏ',r:'a',frs:'a',  fr:'« a » de <b>papa</b>', audio:'아', stat:'done',   lec:1, mnem:'Un bâton avec un bras à droite — ouvre la bouche et dis <em>a</em>.', ex:[{k:'아이',f:'enfant'},{k:'사랑',f:'amour'}],  tip:'<em>a</em> ouvert — comme dans "patte".'},
+  {c:'ㅑ',r:'ya',frs:'ya', fr:'« ya » de <b>ya</b>ourt', audio:'야', stat:'locked', lec:8, mnem:'Comme ㅏ mais avec deux bras — double énergie = <em>ya</em>.', ex:[{k:'야채',f:'légumes'},{k:'야구',f:'baseball'}],  tip:'<em>ya</em> — ㅏ précédé d\'un y rapide.'},
+  {c:'ㅓ',r:'eo',frs:'o ouvert', fr:'« o » ouvert de p<b>o</b>rte — pas « éo » !', audio:'어', stat:'locked', lec:4, mnem:'Un bâton avec un bras à gauche — son qui part en arrière.', ex:[{k:'어머니',f:'mère'},{k:'버스',f:'bus'}],     tip:'Le « o » relâché de "porte" ou "bord", bouche détendue. La romanisation "eo" est trompeuse : ce n\'est JAMAIS "éo" — c\'est le o de Séoul (서울 = "so-oul") !'},
+  {c:'ㅕ',r:'yeo',frs:'yo ouvert',fr:'« yo » ouvert (y + le « o » de porte)', audio:'여', stat:'locked', lec:9, mnem:'Comme ㅓ avec deux bras — <em>yeo</em>.', ex:[{k:'여기',f:'ici'},{k:'여자',f:'femme'}],    tip:'<em>yeo</em> — ㅓ précédé d\'un y. Comme "yo" mais bouche plus relâchée.'},
+  {c:'ㅗ',r:'o',frs:'o fermé',  fr:'« o » fermé de b<b>eau</b>, lèvres arrondies', audio:'오', stat:'locked', lec:2, mnem:'Une barre avec un point au-dessus — lèvres rondes, son <em>o</em>.', ex:[{k:'오빠',f:'grand frère'},{k:'도시',f:'ville'}], tip:'<em>o</em> arrondi — lèvres bien arrondies, comme "beau". À ne pas confondre avec ㅓ (bouche relâchée).'},
+  {c:'ㅛ',r:'yo',frs:'yo', fr:'« yo » de <b>yo</b>yo', audio:'요', stat:'locked', lec:6, mnem:'Deux points au-dessus = double élan pour <em>yo</em>.', ex:[{k:'요리',f:'cuisine'},{k:'교실',f:'salle de classe'}], tip:'<em>yo</em> — ㅗ précédé d\'un y.'},
+  {c:'ㅜ',r:'u',frs:'ou',  fr:'« ou » de l<b>ou</b>p — jamais « u » !', audio:'우', stat:'locked', lec:3, mnem:'Barre avec point en bas — lèvres avancées comme un tunnel.', ex:[{k:'우유',f:'lait'},{k:'구름',f:'nuage'}],     tip:'Toujours « ou » comme dans "loup" ! La romanisation "u" piège les francophones : 우유 (lait) se dit "ou-you", pas "u-yu". Le son "u" français n\'existe pas en coréen.'},
+  {c:'ㅠ',r:'yu',frs:'you', fr:'« you » de <b>you</b>pi', audio:'유', stat:'locked', lec:7, mnem:'Deux points en bas — double élan pour <em>yu</em>.', ex:[{k:'유리',f:'verre'},{k:'뮤직',f:'musique'}],  tip:'<em>you</em> — comme "youpi". ㅜ (ou) précédé d\'un y.'},
+  {c:'ㅡ',r:'eu',frs:'eu étiré', fr:'« eu » avec les lèvres étirées en sourire', audio:'으', stat:'locked', lec:5, mnem:'Une ligne plate — lèvres étirées, bouche fermée. Son <em>neutre</em>.', ex:[{k:'으',f:'hmm'},{k:'크다',f:'grand'}],        tip:'Le son qui n\'existe pas en français : dis "ou" mais en étirant les lèvres comme pour sourire. C\'est le bruit qu\'on fait en frissonnant : "brrr… eu !"'},
+  {c:'ㅣ',r:'i',frs:'i',  fr:'« i » de l<b>i</b>t', audio:'이', stat:'locked', lec:4, mnem:'Un simple trait vertical — droit, simple, comme le son <em>i</em>.', ex:[{k:'이',f:'dent/ce'},{k:'비',f:'pluie'}],      tip:'<em>i</em> — comme dans "vie". Le plus simple !'},
 ];
 
 const VOYELLES_COMP = [
-  {c:'ㅐ',r:'ae', fr:'« è » de m<b>è</b>re', audio:'애', stat:'locked', lec:6, ex:[{k:'개',f:'chien'},{k:'내일',f:'demain'}],   tip:'« è » ouvert — comme "mère". La romanisation "ae" est trompeuse : ce n\'est pas "a-é" !'},
-  {c:'ㅒ',r:'yae',fr:'« yè »', audio:'얘', stat:'active',       ex:[{k:'얘',f:'ce gamin'}],                       tip:'<em>yè</em> — rare. Comme ㅐ précédé d\'un y.'},
-  {c:'ㅔ',r:'e',  fr:'« é/è » — identique à ㅐ aujourd\'hui', audio:'에', stat:'locked', lec:5, ex:[{k:'에서',f:'à/dans'},{k:'세상',f:'monde'}],  tip:'<em>é</em> — bonne nouvelle : en coréen moderne, ㅔ et ㅐ se prononcent exactement pareil. Même les Coréens ne font plus la différence à l\'oreille !'},
-  {c:'ㅖ',r:'ye', fr:'« yé » de <b>yé</b>yé', audio:'예', stat:'done',          ex:[{k:'예쁘다',f:'joli'},{k:'시계',f:'montre'}], tip:'<em>yé</em> — ㅔ précédé d\'un y. Comme dans 예 (oui, poli).'},
-  {c:'ㅘ',r:'wa', fr:'« wa » de <b>wa</b>tt', audio:'와', stat:'locked', lec:9, ex:[{k:'봐요',f:'regarde !'},{k:'와',f:'viens/waouh'}], tip:'<em>wa</em> — ㅗ + ㅏ fusionnés rapidement. Comme "waouh !"'},
-  {c:'ㅙ',r:'wae',fr:'« wè »', audio:'왜', stat:'locked',        ex:[{k:'왜',f:'pourquoi'}],                      tip:'<em>wè</em> — comme "ouais" dit rapidement. 왜 (pourquoi) est un mot ultra-fréquent.'},
-  {c:'ㅚ',r:'oe', fr:'« wé » (comme ㅞ aujourd\'hui)', audio:'외', stat:'locked',        ex:[{k:'외국',f:'étranger'},{k:'최고',f:'le mieux'}], tip:'Malgré la romanisation "oe", se prononce <em>wé</em> en coréen moderne — comme ㅞ.'},
-  {c:'ㅝ',r:'wo', fr:'« wo » de <b>wo</b>k (o ouvert)', audio:'워', stat:'locked', lec:9, ex:[{k:'뭐',f:'quoi ?'},{k:'원',f:'won/désir'}],   tip:'<em>wo</em> — ㅜ + ㅓ. Comme dans 뭐 (quoi ?), à connaître absolument.'},
-  {c:'ㅞ',r:'we', fr:'« wé »', audio:'웨', stat:'locked',        ex:[{k:'웨이터',f:'serveur'}],                    tip:'<em>wé</em> — ㅜ + ㅔ. Rare.'},
-  {c:'ㅟ',r:'wi', fr:'« oui » — exactement le mot français !', audio:'위', stat:'locked',        ex:[{k:'위',f:'estomac/dessus'},{k:'귀',f:'oreille'}], tip:'<em>wi</em> — exactement comme "oui" en français. Le son le plus facile pour toi !'},
-  {c:'ㅢ',r:'ui', fr:'« eu-i » glissé (souvent juste « i »)', audio:'의', stat:'locked',        ex:[{k:'의사',f:'médecin'},{k:'의미',f:'sens'}],  tip:'<em>eu-i</em> glissé rapidement — ㅡ + ㅣ. Se prononce souvent simplement <em>i</em> en milieu de mot.'},
+  {c:'ㅐ',r:'ae',frs:'è', fr:'« è » de m<b>è</b>re', audio:'애', stat:'locked', lec:6, ex:[{k:'개',f:'chien'},{k:'내일',f:'demain'}],   tip:'« è » ouvert — comme "mère". La romanisation "ae" est trompeuse : ce n\'est pas "a-é" !'},
+  {c:'ㅒ',r:'yae',frs:'yè',fr:'« yè »', audio:'얘', stat:'active',       ex:[{k:'얘',f:'ce gamin'}],                       tip:'<em>yè</em> — rare. Comme ㅐ précédé d\'un y.'},
+  {c:'ㅔ',r:'e',frs:'é',  fr:'« é/è » — identique à ㅐ aujourd\'hui', audio:'에', stat:'locked', lec:5, ex:[{k:'에서',f:'à/dans'},{k:'세상',f:'monde'}],  tip:'<em>é</em> — bonne nouvelle : en coréen moderne, ㅔ et ㅐ se prononcent exactement pareil. Même les Coréens ne font plus la différence à l\'oreille !'},
+  {c:'ㅖ',r:'ye',frs:'yé', fr:'« yé » de <b>yé</b>yé', audio:'예', stat:'done',          ex:[{k:'예쁘다',f:'joli'},{k:'시계',f:'montre'}], tip:'<em>yé</em> — ㅔ précédé d\'un y. Comme dans 예 (oui, poli).'},
+  {c:'ㅘ',r:'wa',frs:'wa', fr:'« wa » de <b>wa</b>tt', audio:'와', stat:'locked', lec:9, ex:[{k:'봐요',f:'regarde !'},{k:'와',f:'viens/waouh'}], tip:'<em>wa</em> — ㅗ + ㅏ fusionnés rapidement. Comme "waouh !"'},
+  {c:'ㅙ',r:'wae',frs:'wè',fr:'« wè »', audio:'왜', stat:'locked',        ex:[{k:'왜',f:'pourquoi'}],                      tip:'<em>wè</em> — comme "ouais" dit rapidement. 왜 (pourquoi) est un mot ultra-fréquent.'},
+  {c:'ㅚ',r:'oe',frs:'wé', fr:'« wé » (comme ㅞ aujourd\'hui)', audio:'외', stat:'locked',        ex:[{k:'외국',f:'étranger'},{k:'최고',f:'le mieux'}], tip:'Malgré la romanisation "oe", se prononce <em>wé</em> en coréen moderne — comme ㅞ.'},
+  {c:'ㅝ',r:'wo',frs:'wo', fr:'« wo » de <b>wo</b>k (o ouvert)', audio:'워', stat:'locked', lec:9, ex:[{k:'뭐',f:'quoi ?'},{k:'원',f:'won/désir'}],   tip:'<em>wo</em> — ㅜ + ㅓ. Comme dans 뭐 (quoi ?), à connaître absolument.'},
+  {c:'ㅞ',r:'we',frs:'wé', fr:'« wé »', audio:'웨', stat:'locked',        ex:[{k:'웨이터',f:'serveur'}],                    tip:'<em>wé</em> — ㅜ + ㅔ. Rare.'},
+  {c:'ㅟ',r:'wi',frs:'oui', fr:'« oui » — exactement le mot français !', audio:'위', stat:'locked',        ex:[{k:'위',f:'estomac/dessus'},{k:'귀',f:'oreille'}], tip:'<em>wi</em> — exactement comme "oui" en français. Le son le plus facile pour toi !'},
+  {c:'ㅢ',r:'ui',frs:'eu-i', fr:'« eu-i » glissé (souvent juste « i »)', audio:'의', stat:'locked',        ex:[{k:'의사',f:'médecin'},{k:'의미',f:'sens'}],  tip:'<em>eu-i</em> glissé rapidement — ㅡ + ㅣ. Se prononce souvent simplement <em>i</em> en milieu de mot.'},
 ];
 
 const CONSONNES_DBL = [
-  {c:'ㄲ',r:'kk', fr:'« k » sec, gorge serrée, zéro souffle', audio:'까', stat:'locked', lec:10, mnem:'ㄱ doublé — deux équerre, son <em>contracté</em> sans souffle.', ex:[{k:'꼭',f:'absolument'},{k:'꿈',f:'rêve'}],  tip:'<em>kk</em> tensé — gorge contractée. Pas d\'aspiration.'},
-  {c:'ㄸ',r:'tt', fr:'« t » sec, langue crispée, zéro souffle', audio:'따', stat:'locked', lec:10, mnem:'ㄷ doublé — langue encore plus crispée.', ex:[{k:'또',f:'encore/aussi'},{k:'따뜻하다',f:'chaud'}], tip:'<em>tt</em> tensé — langue contractée contre le palais.'},
-  {c:'ㅃ',r:'pp', fr:'« p » sec, lèvres serrées, zéro souffle', audio:'빠', stat:'locked', lec:10, mnem:'ㅂ doublé — lèvres très serrées, explosion courte.', ex:[{k:'빨리',f:'vite !'},{k:'뽀뽀',f:'bisou'}], tip:'<em>pp</em> tensé — lèvres contractées, pas d\'air.'},
-  {c:'ㅆ',r:'ss', fr:'« s » appuyé et bref', audio:'싸', stat:'locked', lec:10, mnem:'ㅅ doublé — sifflement plus intense et bref.', ex:[{k:'씩씩하다',f:'courageux'},{k:'씨',f:'Monsieur/Madame'}], tip:'<em>ss</em> tensé — sifflement plus fort et bref.'},
-  {c:'ㅉ',r:'jj', fr:'« tch » sec, zéro souffle', audio:'짜', stat:'locked', lec:10, mnem:'ㅈ doublé — attaque brusque et sèche.', ex:[{k:'짜',f:'salé !'},{k:'짜증나다',f:'être agacé'}], tip:'<em>jj</em> tensé — attaque brusque, aucun souffle.'},
+  {c:'ㄲ',r:'kk',frs:'k sec', fr:'« k » sec, gorge serrée, zéro souffle', audio:'까', stat:'locked', lec:10, mnem:'ㄱ doublé — deux équerre, son <em>contracté</em> sans souffle.', ex:[{k:'꼭',f:'absolument'},{k:'꿈',f:'rêve'}],  tip:'<em>kk</em> tensé — gorge contractée. Pas d\'aspiration.'},
+  {c:'ㄸ',r:'tt',frs:'t sec', fr:'« t » sec, langue crispée, zéro souffle', audio:'따', stat:'locked', lec:10, mnem:'ㄷ doublé — langue encore plus crispée.', ex:[{k:'또',f:'encore/aussi'},{k:'따뜻하다',f:'chaud'}], tip:'<em>tt</em> tensé — langue contractée contre le palais.'},
+  {c:'ㅃ',r:'pp',frs:'p sec', fr:'« p » sec, lèvres serrées, zéro souffle', audio:'빠', stat:'locked', lec:10, mnem:'ㅂ doublé — lèvres très serrées, explosion courte.', ex:[{k:'빨리',f:'vite !'},{k:'뽀뽀',f:'bisou'}], tip:'<em>pp</em> tensé — lèvres contractées, pas d\'air.'},
+  {c:'ㅆ',r:'ss',frs:'ss appuyé', fr:'« s » appuyé et bref', audio:'싸', stat:'locked', lec:10, mnem:'ㅅ doublé — sifflement plus intense et bref.', ex:[{k:'씩씩하다',f:'courageux'},{k:'씨',f:'Monsieur/Madame'}], tip:'<em>ss</em> tensé — sifflement plus fort et bref.'},
+  {c:'ㅉ',r:'jj',frs:'tch sec', fr:'« tch » sec, zéro souffle', audio:'짜', stat:'locked', lec:10, mnem:'ㅈ doublé — attaque brusque et sèche.', ex:[{k:'짜',f:'salé !'},{k:'짜증나다',f:'être agacé'}], tip:'<em>jj</em> tensé — attaque brusque, aucun souffle.'},
 ];
 
 // ── 3 FAMILLES DATA ──
@@ -1081,7 +1099,10 @@ function renderGrid(containerId, chars) {
   chars.forEach(item => {
     const card = document.createElement('button');
     card.className = 'ccard ' + item.stat;
-    card.innerHTML = `<div class="ccard-char">${item.c}</div><div class="ccard-rom">${item.r}</div><div class="ccard-dot"></div>`;
+    /* Étiquette = le son "à la française" (frs), plus la romanisation anglaise :
+       c'est elle qui induisait les mauvaises prononciations (u lu "u", eo lu
+       "éo"). La romanisation standard reste visible dans la fiche du caractère. */
+    card.innerHTML = `<div class="ccard-char">${item.c}</div><div class="ccard-rom">${item.frs || item.r}</div><div class="ccard-dot"></div>`;
     card.addEventListener('click', () => openModal(item));
     grid.appendChild(card);
   });
@@ -1090,6 +1111,54 @@ renderGrid('consonGrid', CONSONNES);
 renderGrid('vowelGrid', VOYELLES);
 renderGrid('compVowelGrid', VOYELLES_COMP);
 renderGrid('dblConsonGrid', CONSONNES_DBL);
+
+// ═══════════════════════════════════════════════
+// ── ÉCOUTER LA SÉRIE (façon "listen & repeat") ──
+// ═══════════════════════════════════════════════
+/* Joue chaque lettre d'une grille à la suite en surlignant la carte.
+   Option "pauses pour répéter" : long silence après chaque lettre pour
+   la redire à voix haute. Option "vitesse lente" : playbackRate réduit
+   sur l'élément audio de CETTE lecture uniquement (aucun réglage
+   global touché). */
+var SEQ = { running:false, timer:null, btn:null, btnHtml:'' };
+var SEQ_OPTS = { pause:false, slow:false };
+
+function toggleSeqOpt(name){
+  SEQ_OPTS[name] = !SEQ_OPTS[name];
+  document.querySelectorAll('.lchip[data-opt="'+name+'"]').forEach(function(c){
+    c.classList.toggle('on', SEQ_OPTS[name]);
+  });
+}
+
+function seqStop(){
+  SEQ.running = false;
+  if(SEQ.timer){ clearTimeout(SEQ.timer); SEQ.timer = null; }
+  document.querySelectorAll('.ccard.seq-now').forEach(function(c){ c.classList.remove('seq-now'); });
+  if(SEQ.btn){ SEQ.btn.classList.remove('playing'); SEQ.btn.innerHTML = SEQ.btnHtml; SEQ.btn = null; }
+}
+
+function listenAll(gridId, chars, btn){
+  if(SEQ.running){ var same = (SEQ.btn === btn); seqStop(); if(same) return; }
+  SEQ.running = true;
+  SEQ.btn = btn; SEQ.btnHtml = btn.innerHTML;
+  btn.classList.add('playing');
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12"/></svg>Stop';
+  var cards = document.querySelectorAll('#'+gridId+' .ccard');
+  var i = 0;
+  (function next(){
+    if(!SEQ.running) return;
+    if(i >= chars.length){ seqStop(); return; }
+    var item = chars[i], card = cards[i]; i++;
+    document.querySelectorAll('.ccard.seq-now').forEach(function(c){ c.classList.remove('seq-now'); });
+    if(card){ card.classList.add('seq-now'); try{ card.scrollIntoView({block:'nearest',behavior:'smooth'}); }catch(e){} }
+    var gap = SEQ_OPTS.pause ? 1600 : 350;
+    speak(item.audio || item.c, null, {
+      onaudio: SEQ_OPTS.slow ? function(a){ try{ a.playbackRate = 0.72; a.preservesPitch = true; a.webkitPreservesPitch = true; }catch(e){} } : null,
+      onended: function(){ if(SEQ.running) SEQ.timer = setTimeout(next, gap); },
+      onerror: function(){ if(SEQ.running) SEQ.timer = setTimeout(next, 200); }
+    });
+  })();
+}
 
 // ── Progress ──
 const allChars = [...CONSONNES, ...VOYELLES, ...VOYELLES_COMP, ...CONSONNES_DBL];
@@ -1120,6 +1189,7 @@ const typeLabel = c => {
   return '';
 };
 function openModal(item) {
+  if(typeof seqStop === 'function' && SEQ.running) seqStop();
   currentItem = item;
   document.getElementById('mChar').textContent = item.c;
   document.getElementById('mRom').textContent  = item.r;
@@ -1263,9 +1333,12 @@ BATCHIM_LIST.forEach(item => {
 // ═══════════════════════════════════════════════
 // ── QUIZ ÉCLAIR ──
 // ═══════════════════════════════════════════════
+/* Le quiz teste le SON à la française (frs), pas la romanisation anglaise —
+   cohérent avec les étiquettes des grilles. Les frs de consonnes+voyelles
+   de base sont uniques entre eux (pas d'ambiguïté de bonne réponse). */
 const QUIZ_POOL = [
-  ...CONSONNES.map(c => ({char:c.c, right:c.r, type:'c', audio:c.audio})),
-  ...VOYELLES.map(v   => ({char:v.c, right:v.r, type:'v', audio:v.audio})),
+  ...CONSONNES.map(c => ({char:c.c, right:c.frs || c.r, type:'c', audio:c.audio})),
+  ...VOYELLES.map(v   => ({char:v.c, right:v.frs || v.r, type:'v', audio:v.audio})),
 ];
 let quizQuestions = [], quizIdx = 0, quizScore = 0;
 
