@@ -12,11 +12,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
-  <title>Korean Stories — L'alphabet coréen (Hangeul 한글)</title>
+  <title>Apprendre le Hangeul de zéro — l'alphabet coréen expliqué en français · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/hangeul.html"/>
-  <meta name="description" content="Maîtrise le Hangeul : consonnes, voyelles, constructeur de syllabes interactif, les 3 familles de consonnes, le 받침 et quiz éclair. En français, mobile first."/>
-  <meta property="og:title" content="Korean Stories — L'alphabet coréen (Hangeul 한글)"/>
-  <meta property="og:description" content="Maîtrise le Hangeul avec un constructeur de syllabes interactif, les 3 familles de consonnes et un quiz éclair."/>
+  <meta name="description" content="Tu ne connais rien au coréen ? Apprends le Hangeul de zéro : l'histoire, l'origine des formes, la prononciation à la française, tes premiers mots lus, un programme de 10 leçons et des quiz. 100% gratuit."/>
+  <meta property="og:title" content="Apprendre le Hangeul de zéro — l'alphabet coréen expliqué en français"/>
+  <meta property="og:description" content="L'histoire, les formes des lettres, la prononciation à la française, tes premiers mots lus et un programme guidé en 10 leçons — pour partir de zéro."/>
   <meta property="og:type" content="website"/>
   <meta name="twitter:card" content="summary"/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
@@ -92,6 +92,103 @@
     .syl-block-card strong{display:block;font-size:18px;color:var(--navy);margin-bottom:2px;font-weight:300}
     .syl-block-card em{color:var(--gold);font-style:normal;font-weight:600}
     .syl-note{font-size:11px;color:var(--gray);line-height:1.6;margin-top:10px;padding:8px 12px;background:rgba(201,169,110,.06);border-radius:10px;border:1px solid rgba(201,169,110,.15)}
+
+    /* ── DÉCOUVRIR (histoire & mythes, pour grands débutants) ── */
+    .why-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
+    @media(min-width:540px){.why-grid{grid-template-columns:1fr 1fr}}
+    .why-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:16px 18px}
+    .why-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:rgba(201,169,110,.14);color:#A87830;font-size:13px;font-weight:800;margin-bottom:9px}
+    .why-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+    .why-body{font-size:12.5px;color:var(--gray);line-height:1.65}
+    .why-body b{color:var(--navy)}
+    .why-quote{background:var(--navy);border-radius:18px;padding:20px 22px;text-align:center;margin-bottom:6px}
+    .why-quote-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:#fff;line-height:1.6;max-width:480px;margin:0 auto 8px}
+    .why-quote-src{font-size:11px;color:rgba(247,248,250,.45)}
+    [data-theme="dark"] .why-card{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .why-title{color:var(--t)!important}
+    [data-theme="dark"] .why-body b{color:var(--t)!important}
+    [data-theme="dark"] .why-num{color:#C9A96E!important}
+
+    /* ── LES FORMES (origine bouche/langue des lettres) ── */
+    .formes-intro{font-size:12.5px;color:var(--gray);line-height:1.65;margin-bottom:12px}
+    .formes-intro b{color:var(--navy)}
+    [data-theme="dark"] .formes-intro b{color:var(--t)!important}
+    .formes-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
+    @media(min-width:640px){.formes-grid{grid-template-columns:1fr 1fr}}
+    .forme-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .18s}
+    .forme-card:hover{border-color:var(--gold2);transform:translateY(-1px)}
+    .forme-kr{font-size:40px;color:var(--navy);line-height:1;font-weight:300;flex-shrink:0;width:52px;text-align:center}
+    .forme-body{flex:1;min-width:0}
+    .forme-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+    .forme-desc{font-size:12px;color:var(--gray);line-height:1.6}
+    .forme-family{margin-top:7px;font-size:12px;color:#A87830;font-weight:600}
+    .forme-family span{font-size:16px;letter-spacing:3px}
+    [data-theme="dark"] .forme-card{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .forme-kr{color:var(--t)!important}
+    [data-theme="dark"] .forme-name{color:var(--t)!important}
+    [data-theme="dark"] .forme-family{color:#C9A96E!important}
+    .vowel-philo{background:linear-gradient(135deg,#1a2f4a,#0F1B2D);border-radius:18px;padding:18px 20px;margin-bottom:6px}
+    .vowel-philo-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px}
+    .vowel-philo-row{display:flex;justify-content:center;gap:26px;margin-bottom:12px;flex-wrap:wrap}
+    .vp-item{text-align:center}
+    .vp-sym{font-size:34px;color:var(--gold);line-height:1.2;font-weight:300}
+    .vp-lbl{font-size:10.5px;color:rgba(247,248,250,.6);margin-top:4px}
+    .vowel-philo-note{font-size:12px;color:rgba(247,248,250,.65);line-height:1.65;text-align:center;max-width:460px;margin:0 auto}
+    .vowel-philo-note b{color:var(--gold)}
+
+    /* ── PREMIERS MOTS (emprunts lisibles immédiatement) ── */
+    .mots-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
+    @media(min-width:540px){.mots-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(min-width:800px){.mots-grid{grid-template-columns:repeat(4,1fr)}}
+    .mot-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .18s;position:relative}
+    .mot-card:hover{border-color:var(--gold2);transform:translateY(-2px)}
+    .mot-kr{font-size:24px;color:var(--navy);line-height:1.25;font-weight:400;margin-bottom:6px}
+    .mot-hidden{font-size:11px;color:var(--gray);min-height:30px;display:flex;flex-direction:column;justify-content:center;gap:1px}
+    .mot-reveal-hint{color:#A87830;font-weight:600}
+    .mot-read{font-weight:700;color:#A87830;font-size:12px}
+    .mot-fr{color:var(--gray)}
+    .mot-card.revealed{background:linear-gradient(135deg,#FFFCE8,#FFF5C0);border-color:rgba(201,169,110,.4)}
+    [data-theme="dark"] .mot-card{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .mot-kr{color:var(--t)!important}
+    [data-theme="dark"] .mot-card.revealed{background:rgba(201,169,110,.1)!important;border-color:rgba(201,169,110,.35)!important}
+    [data-theme="dark"] .mot-read{color:#C9A96E!important}
+
+    /* ── PROGRAMME 10 LEÇONS (roadmap) ── */
+    .prog-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+    .prog-item{display:flex;align-items:center;gap:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:11px 14px;text-decoration:none;transition:all .18s}
+    .prog-item:hover{border-color:var(--gold2);transform:translateX(2px)}
+    .prog-item.locked{opacity:.55}
+    .prog-item.current{border-color:rgba(201,169,110,.55);background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(201,169,110,.04))}
+    .prog-idx{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;background:rgba(15,27,45,.06);color:var(--gray)}
+    .prog-item.done .prog-idx{background:rgba(34,197,94,.14);color:#16a34a}
+    .prog-item.current .prog-idx{background:var(--gold);color:var(--navy)}
+    .prog-body{flex:1;min-width:0}
+    .prog-title{font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .prog-sub{font-size:11px;color:var(--gray);margin-top:1px}
+    .prog-state{font-size:10.5px;font-weight:700;flex-shrink:0}
+    .prog-item.done .prog-state{color:#16a34a}
+    .prog-item.current .prog-state{color:#A87830}
+    .prog-item.locked .prog-state{color:var(--gray)}
+    [data-theme="dark"] .prog-item{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .prog-title{color:var(--t)!important}
+    [data-theme="dark"] .prog-idx{background:rgba(255,255,255,.07)!important}
+    [data-theme="dark"] .prog-item.current .prog-idx{background:var(--gold)!important;color:#1a1208!important}
+    [data-theme="dark"] .prog-item.current .prog-state{color:#C9A96E!important}
+
+    /* ── FAQ GRANDS DÉBUTANTS ── */
+    .faq-list{display:flex;flex-direction:column;gap:8px}
+    .faq-item{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;overflow:hidden}
+    .faq-item summary{list-style:none;cursor:pointer;padding:13px 16px;font-size:13px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:10px}
+    .faq-item summary::-webkit-details-marker{display:none}
+    .faq-item summary::after{content:'+';margin-left:auto;font-size:17px;color:var(--gold);font-weight:400;transition:transform .2s;flex-shrink:0}
+    .faq-item[open] summary::after{transform:rotate(45deg)}
+    .faq-a{padding:0 16px 14px;font-size:12.5px;color:var(--gray);line-height:1.7}
+    .faq-a b{color:var(--navy)}
+    .faq-a a{color:#A87830;font-weight:600}
+    [data-theme="dark"] .faq-item{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .faq-item summary{color:var(--t)!important}
+    [data-theme="dark"] .faq-a b{color:var(--t)!important}
+    [data-theme="dark"] .faq-a a{color:#C9A96E!important}
 
     /* ── ÉCOUTER LA SÉRIE (dictée de l'alphabet) ── */
     .listen-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
@@ -448,6 +545,20 @@
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script defer src="ks-sync.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Le coréen, c'est comme le chinois ou le japonais ?","acceptedAnswer":{"@type":"Answer","text":"Non. Le chinois demande de mémoriser des milliers de caractères et le japonais mélange deux syllabaires et des kanjis. Le coréen s'écrit avec un alphabet de 24 lettres (14 consonnes, 10 voyelles), regroupées en blocs-syllabes."}},
+    {"@type":"Question","name":"Combien de temps pour savoir lire le Hangeul ?","acceptedAnswer":{"@type":"Answer","text":"Déchiffrer : quelques heures — le Hangeul a été conçu pour ça. Lire avec fluidité demande ensuite 2 à 3 semaines de pratique régulière."}},
+    {"@type":"Question","name":"Faut-il apprendre la romanisation du coréen ?","acceptedAnswer":{"@type":"Answer","text":"Non. La romanisation est pensée pour les anglophones : lue à la française, elle induit une prononciation fausse (u = ou, eo = o ouvert, j = dj). Mieux vaut apprendre à lire directement le Hangeul."}},
+    {"@type":"Question","name":"Faut-il savoir écrire le coréen à la main ?","acceptedAnswer":{"@type":"Answer","text":"Écrire à la main aide à mémoriser les formes (traits de haut en bas, de gauche à droite), mais au quotidien on tape sur un clavier coréen appelé 2-beolsik."}},
+    {"@type":"Question","name":"Faut-il apprendre les caractères chinois (hanja) ?","acceptedAnswer":{"@type":"Answer","text":"Non. Le coréen moderne s'écrit quasi exclusivement en Hangeul ; les hanja ne sont pas nécessaires pour apprendre le coréen aujourd'hui."}},
+    {"@type":"Question","name":"Par où commencer pour apprendre le Hangeul ?","acceptedAnswer":{"@type":"Answer","text":"Comprendre le système des blocs-syllabes et l'origine des formes, puis suivre un programme progressif : 10 leçons d'environ 10 minutes suffisent pour savoir tout lire."}}
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -504,7 +615,9 @@
 <!-- SECTION TABS -->
 <div class="sec-tabs" id="secTabs">
   <div class="sec-tabs-inner">
-    <button class="stab act" onclick="scrollToSec('secSyl')">Syllabes</button>
+    <button class="stab act" onclick="scrollToSec('secWhy')">Découvrir</button>
+    <button class="stab" onclick="scrollToSec('secSyl')">Syllabes</button>
+    <button class="stab" onclick="scrollToSec('secFormes')">Les formes</button>
     <button class="stab" onclick="scrollToSec('secPron')">Prononciation</button>
     <button class="stab" onclick="scrollToSec('secConson')">Consonnes <span class="stab-badge" id="tabConBadge">0/14</span></button>
     <button class="stab" onclick="scrollToSec('secVoyel')">Voyelles <span class="stab-badge" id="tabVoyBadge">0/10</span></button>
@@ -513,15 +626,18 @@
     <button class="stab" onclick="scrollToSec('secComp')">Composées <span class="stab-badge" id="tabCompBadge">0/11</span></button>
     <button class="stab" onclick="scrollToSec('secDbl')">Doubles <span class="stab-badge" id="tabDblBadge">0/5</span></button>
     <button class="stab" onclick="scrollToSec('secBatchim')">받침</button>
+    <button class="stab" onclick="scrollToSec('secMots')">1ers mots</button>
+    <button class="stab" onclick="scrollToSec('secProg')">Programme</button>
     <button class="stab" onclick="scrollToSec('secQuiz')">Quiz</button>
+    <button class="stab" onclick="scrollToSec('secFaq')">FAQ</button>
   </div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <h1 class="hero-title">L'alphabet <em>coréen</em></h1>
-    <p class="hero-sub">14 consonnes · 10 voyelles · 11 composées · 5 doubles.<br/>Créé en 1443 par le roi Sejong — conçu pour être appris en quelques jours.</p>
+    <h1 class="hero-title">Apprends l'alphabet <em>coréen</em> de zéro</h1>
+    <p class="hero-sub">Tu ne connais rien au coréen ? Parfait, c'est exactement pour toi. Le Hangeul n'est <strong style="color:rgba(247,248,250,.8)">pas du chinois</strong> : c'est un alphabet de 24 lettres, inventé pour être appris en quelques heures. Sur cette page : son histoire, la logique de ses formes, la prononciation expliquée à la française, tes premiers mots lus — et un programme guidé en 10 leçons.</p>
     <div class="hero-pbar"><div class="hero-pfill" id="hPfill" style="width:0%"></div></div>
     <div class="hero-stats">
       <div class="hstat"><span class="hstat-n" id="learnedCount">0</span><span class="hstat-l">appris</span></div>
@@ -536,8 +652,42 @@
   <!-- COMPLETION BANNER (shown when 100%) -->
   <div id="completionBanner" style="display:none"></div>
 
-  <!-- ① COMMENT ÇA FONCTIONNE -->
+  <!-- ⓪ DÉCOUVRIR — pour ceux qui partent de zéro -->
   <div class="sep" style="margin-top:0;margin-bottom:18px"></div>
+  <div class="sec-hd sec-anchor" id="secWhy">
+    <h2>C'est quoi, le Hangeul ? <span style="font-family:'Noto Sans KR',sans-serif">한글</span></h2>
+    <p>Avant d'apprendre une seule lettre, 2 minutes pour comprendre pourquoi cet alphabet est unique au monde — et pourquoi tu vas y arriver.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">1</div>
+      <div class="why-title">Un roi l'a inventé pour son peuple</div>
+      <div class="why-body">En <b>1443</b>, le roi <b>Sejong le Grand</b> constate que son peuple ne sait pas écrire : les caractères chinois utilisés à l'époque demandaient des années d'étude, réservées à l'élite. Il fait alors créer un alphabet si simple que <b>tout le monde</b> puisse l'apprendre. C'est si important en Corée qu'un jour férié le célèbre chaque 9 octobre (한글날, le jour du Hangeul).</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">2</div>
+      <div class="why-title">24 lettres — pas 50 000 caractères</div>
+      <div class="why-body">Le coréen n'est <b>pas comme le chinois</b> (des milliers de caractères à mémoriser) ni comme le japonais (2 syllabaires + des kanjis). C'est un <b>alphabet</b>, comme le nôtre : <b>14 consonnes + 10 voyelles</b> de base, qui se combinent pour tout écrire. Tu en connais déjà 26 en français — 24, c'est à ta portée.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">3</div>
+      <div class="why-title">Les lettres dessinent ta bouche</div>
+      <div class="why-body">C'est le seul alphabet au monde dont les formes <b>représentent la position de ta langue et de tes lèvres</b> quand tu prononces le son. ㅁ = tes lèvres fermées (m), ㄴ = ta langue derrière les dents (n)… Une fois qu'on te montre la logique, impossible d'oublier — on t'explique tout juste en dessous.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">4</div>
+      <div class="why-title">Ça s'écrit comme ça se lit</div>
+      <div class="why-body">Pas de « eau = o » ni de lettres muettes à la française : en Hangeul, <b>ce qui est écrit se prononce</b>, avec très peu d'exceptions. Une fois les lettres connues, tu peux lire <b>n'importe quel mot coréen</b> — même sans connaître son sens. C'est la première étape de tout apprentissage du coréen, et la plus rapide.</div>
+    </div>
+  </div>
+  <div class="why-quote">
+    <p class="why-quote-txt">« L'homme sage peut se familiariser avec ces lettres avant la fin de la matinée ; même l'homme simple peut les apprendre en dix jours. »</p>
+    <div class="why-quote-src">Hunminjeongeum Haerye, le document qui présenta le Hangeul en 1446</div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ① COMMENT ÇA FONCTIONNE -->
   <div class="sec-hd sec-anchor" id="secSyl">
     <h2>Comment fonctionne le Hangeul ?</h2>
     <p>Le coréen ne s'écrit pas lettre à lettre — chaque son forme un <strong>bloc syllabique</strong>.</p>
@@ -581,6 +731,65 @@
     <div class="syl-note">
       La consonne de début se place <strong>à gauche</strong> si la voyelle est verticale (ㅏ,ㅓ,ㅣ…) et <strong>au-dessus</strong> si la voyelle est horizontale (ㅗ,ㅜ,ㅡ). C'est le seul "truc" à retenir !
     </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ①ter D'OÙ VIENNENT LES FORMES -->
+  <div class="sec-hd sec-anchor" id="secFormes">
+    <h2>Le génie des formes — ta bouche dessinée</h2>
+    <p>Les 5 consonnes de base ne sont pas des dessins au hasard : chacune représente <strong>la position de ta langue ou de tes lèvres</strong> quand tu fais le son. Les autres consonnes en dérivent. Clique une carte pour entendre le son.</p>
+  </div>
+  <div class="formes-grid">
+    <div class="forme-card" onclick="speakStr('가', this)">
+      <div class="forme-kr">ㄱ</div>
+      <div class="forme-body">
+        <div class="forme-name">La langue qui bloque la gorge</div>
+        <div class="forme-desc">Vue de profil, c'est ta langue dont l'arrière remonte et bloque le fond de la bouche — exactement ce que tu fais pour dire <b>« g »</b>. Essaie : dis « ga » et sens ta langue.</div>
+        <div class="forme-family">Sa famille : <span>ㄱ ㅋ ㄲ</span> (g → k soufflé → k sec)</div>
+      </div>
+    </div>
+    <div class="forme-card" onclick="speakStr('나', this)">
+      <div class="forme-kr">ㄴ</div>
+      <div class="forme-body">
+        <div class="forme-name">La langue derrière les dents</div>
+        <div class="forme-desc">Toujours de profil : la pointe de ta langue touche l'arrière de tes dents du haut, comme quand tu dis <b>« n »</b>. La forme ㄴ, c'est cette langue posée.</div>
+        <div class="forme-family">Sa famille : <span>ㄴ ㄷ ㅌ ㄸ</span> (n → d → t soufflé → t sec)</div>
+      </div>
+    </div>
+    <div class="forme-card" onclick="speakStr('마', this)">
+      <div class="forme-kr">ㅁ</div>
+      <div class="forme-body">
+        <div class="forme-name">Les lèvres fermées</div>
+        <div class="forme-desc">Un carré = ta <b>bouche fermée</b> vue de face. C'est ce que font tes lèvres pour dire <b>« m »</b>. Le plus facile à retenir de tous !</div>
+        <div class="forme-family">Sa famille : <span>ㅁ ㅂ ㅍ ㅃ</span> (m → b → p soufflé → p sec)</div>
+      </div>
+    </div>
+    <div class="forme-card" onclick="speakStr('사', this)">
+      <div class="forme-kr">ㅅ</div>
+      <div class="forme-body">
+        <div class="forme-name">L'air qui siffle entre les dents</div>
+        <div class="forme-desc">Une <b>dent</b> pointue, avec l'air qui s'échappe de chaque côté — le son <b>« s »</b> est un sifflement entre les dents.</div>
+        <div class="forme-family">Sa famille : <span>ㅅ ㅈ ㅊ ㅆ ㅉ</span> (s → dj → tch → ss → tch sec)</div>
+      </div>
+    </div>
+    <div class="forme-card" onclick="speakStr('아', this)">
+      <div class="forme-kr">ㅇ</div>
+      <div class="forme-body">
+        <div class="forme-name">La gorge ouverte</div>
+        <div class="forme-desc">Un rond = ta <b>gorge</b> vue de face, grande ouverte. En début de syllabe il est <b>muet</b> (il porte juste la voyelle), en fin de syllabe il fait <b>« ng »</b> comme dans « camping ».</div>
+        <div class="forme-family">Sa famille : <span>ㅇ ㅎ</span> (muet/ng → h soufflé)</div>
+      </div>
+    </div>
+  </div>
+  <div class="vowel-philo">
+    <div class="vowel-philo-title">Et les voyelles ? Trois symboles philosophiques</div>
+    <div class="vowel-philo-row">
+      <div class="vp-item"><div class="vp-sym">ᆞ</div><div class="vp-lbl">le Ciel (un point de soleil)</div></div>
+      <div class="vp-item"><div class="vp-sym">ㅡ</div><div class="vp-lbl">la Terre (plate, horizontale)</div></div>
+      <div class="vp-item"><div class="vp-sym">ㅣ</div><div class="vp-lbl">l'Humain (debout)</div></div>
+    </div>
+    <p class="vowel-philo-note">Toutes les voyelles combinent ces 3 éléments : <b>ㅏ</b> = un humain avec le soleil à l'est, <b>ㅗ</b> = le soleil au-dessus de la terre… Dernier secret : une voyelle ne s'écrit jamais seule — on pose un <b>ㅇ muet</b> devant. Le son « a » s'écrit donc <b>아</b> (ㅇ + ㅏ).</p>
   </div>
 
   <div class="sep"></div>
@@ -827,7 +1036,23 @@
 
   <div class="sep"></div>
 
-  <!-- ⑨ CTA LEÇONS -->
+  <!-- ⑧bis TU SAIS DÉJÀ LIRE -->
+  <div class="sec-hd sec-anchor" id="secMots">
+    <h2>La preuve : tu sais déjà lire !</h2>
+    <p>Ces mots coréens sont empruntés à l'anglais ou au français — si tu connais tes lettres, tu peux les <strong>lire et les comprendre</strong> sans jamais avoir appris le mot. Devine, puis tape la carte pour vérifier (et écouter).</p>
+  </div>
+  <div class="mots-grid" id="motsGrid"></div>
+  <div style="text-align:center;margin-bottom:6px">
+    <button class="lchip" id="motsRevealAll" onclick="motsRevealAll()">tout révéler</button>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ⑨ TON PROGRAMME EN 10 LEÇONS -->
+  <div class="sec-hd sec-anchor" id="secProg">
+    <h2>Ton programme : le Hangeul en 10 leçons</h2>
+    <p>Cette page est ta référence — mais le vrai apprentissage se fait pas à pas. 10 leçons guidées d'environ 10 minutes, avec exercices et XP. À la fin, tu sais tout lire.</p>
+  </div>
   <a class="lec-cta" id="lecCta" href="lecon.html">
     <div class="lec-cta-ico"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="16" y2="6"/><line x1="10" y1="10" x2="16" y2="10"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
     <div class="lec-cta-body">
@@ -836,6 +1061,8 @@
     </div>
     <div class="lec-cta-arr">→</div>
   </a>
+  <div style="height:10px"></div>
+  <div class="prog-list" id="progList"></div>
 
   <div class="sep"></div>
 
@@ -872,6 +1099,40 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ⑪ FAQ GRANDS DÉBUTANTS -->
+  <div class="sec-hd sec-anchor" id="secFaq">
+    <h2>Les questions que tout le monde se pose</h2>
+    <p>Ce que demandent tous les grands débutants avant de se lancer.</p>
+  </div>
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>Le coréen, c'est comme le chinois ou le japonais ?</summary>
+      <div class="faq-a">Non — et c'est la meilleure nouvelle de ta journée. Le chinois demande de mémoriser <b>des milliers de caractères</b> ; le japonais mélange 2 syllabaires et des kanjis. Le coréen s'écrit avec un <b>alphabet de 24 lettres</b>, comme le français. Les caractères que tu vois (한국어) ne sont pas des dessins-mots : ce sont des <b>lettres regroupées en blocs-syllabes</b>, tout simplement.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Combien de temps pour savoir lire ?</summary>
+      <div class="faq-a"><b>Déchiffrer : quelques heures.</b> C'est exactement ce pour quoi le Hangeul a été conçu. Lire avec fluidité demande ensuite 2 à 3 semaines de pratique régulière — nos 10 leçons + les histoires du site sont faites pour ça. Compare avec le japonais ou le chinois où la lecture prend des années : c'est LE super-pouvoir du coréen.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Est-ce que je dois apprendre la romanisation (annyeonghaseyo…) ?</summary>
+      <div class="faq-a"><b>Non, et méfie-toi d'elle !</b> La romanisation officielle est pensée pour les anglophones : « u » s'y lit « ou », « eo » est un « o » ouvert (Seoul = « so-oul »), « j » est un « dj »… Lue à la française, elle t'apprend une prononciation fausse. Sur Korean Stories, on affiche les sons <b>expliqués à la française</b> pour t'aider — mais l'objectif est de lire directement le Hangeul, le plus vite possible.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Il faut savoir écrire à la main ?</summary>
+      <div class="faq-a">Écrire à la main <b>aide beaucoup à mémoriser</b> les formes (règle simple : traits de haut en bas, de gauche à droite). Mais au quotidien, les Coréens tapent sur un clavier — le layout standard s'appelle le <b>2-beolsik</b>, et on a une <a href="ressources.html">fiche dédiée</a> pour l'installer sur ton téléphone ou ton ordi.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Et les caractères chinois (hanja), je dois les apprendre ?</summary>
+      <div class="faq-a"><b>Non.</b> Le coréen moderne s'écrit quasi exclusivement en Hangeul. Les hanja apparaissent parfois dans les journaux ou les documents juridiques, mais même beaucoup de Coréens ne les maîtrisent plus. Pour apprendre le coréen aujourd'hui, le Hangeul suffit.</div>
+    </details>
+    <details class="faq-item">
+      <summary>Concrètement, je commence par quoi ?</summary>
+      <div class="faq-a">1. Lis les sections de cette page dans l'ordre (15 minutes). 2. Lance la <a href="lecon.html">Leçon 1</a> du programme ci-dessus : tu apprends 3 lettres et tu lis ta première syllabe. 3. Une leçon par jour pendant 10 jours, et c'est réglé — ensuite, place aux <a href="histoires.html">histoires</a> et au vrai coréen. Bon voyage 화이팅 !</div>
+    </details>
   </div>
 
   <div style="height:16px"></div>
@@ -1054,7 +1315,7 @@ function scrollToSec(id) {
 
 // ── Active tab on scroll ──
 (function() {
-  const sections = ['secSyl','secPron','secConson','secVoyel','secBuilder','secFam','secComp','secDbl','secBatchim','secQuiz'];
+  const sections = ['secWhy','secSyl','secFormes','secPron','secConson','secVoyel','secBuilder','secFam','secComp','secDbl','secBatchim','secMots','secProg','secQuiz','secFaq'];
   const tabs = document.querySelectorAll('.stab');
   let ticking = false;
   window.addEventListener('scroll', ()=>{
@@ -1403,12 +1664,78 @@ function showQuizResult() {
 initQuiz();
 
 // ═══════════════════════════════════════════════
-// ── LEÇON CTA — Dynamic ──
+// ── TES PREMIERS MOTS (emprunts lisibles) ──
+// ═══════════════════════════════════════════════
+/* Mots empruntés à l'anglais/français : lisibles ET compréhensibles dès
+   que les lettres sont connues — la récompense immédiate du débutant.
+   Chaque entrée est vérifiée présente dans audio/manifest.json. */
+const MOTS = [
+  {kr:'커피',   read:'ko-pi',            fr:'un café'},
+  {kr:'버스',   read:'bo-sseu',          fr:'un bus'},
+  {kr:'택시',   read:'tèk-si',           fr:'un taxi'},
+  {kr:'바나나', read:'ba-na-na',         fr:'une banane'},
+  {kr:'토마토', read:'to-ma-to',         fr:'une tomate'},
+  {kr:'치즈',   read:'tchi-djeu',        fr:'du fromage (cheese)'},
+  {kr:'메뉴',   read:'mé-nyou',          fr:'un menu'},
+  {kr:'호텔',   read:'ho-tel',           fr:'un hôtel'},
+  {kr:'라디오', read:'ra-di-o',          fr:'une radio'},
+  {kr:'컴퓨터', read:'kom-pyou-to',      fr:'un ordinateur (computer)'},
+  {kr:'초콜릿', read:'tcho-kol-lit',     fr:'du chocolat'},
+  {kr:'아이스크림', read:'a-i-seu-keu-rim', fr:'une glace (ice cream)'},
+];
+
+(function(){
+  const grid = document.getElementById('motsGrid');
+  if(!grid) return;
+  MOTS.forEach(function(m, idx){
+    const card = document.createElement('button');
+    card.className = 'mot-card';
+    card.innerHTML = '<div class="mot-kr">'+m.kr+'</div>' +
+      '<div class="mot-hidden"><span class="mot-reveal-hint">devine, puis tape ici</span></div>';
+    card.addEventListener('click', function(){ motReveal(card, m); });
+    grid.appendChild(card);
+  });
+})();
+
+function motReveal(card, m){
+  if(!card.classList.contains('revealed')){
+    card.classList.add('revealed');
+    card.querySelector('.mot-hidden').innerHTML =
+      '<span class="mot-read">« '+m.read+' »</span><span class="mot-fr">'+m.fr+'</span>';
+  }
+  speakStr(m.kr, card);
+}
+
+function motsRevealAll(){
+  const cards = document.querySelectorAll('#motsGrid .mot-card');
+  cards.forEach(function(card, i){
+    if(card.classList.contains('revealed')) return;
+    card.classList.add('revealed');
+    card.querySelector('.mot-hidden').innerHTML =
+      '<span class="mot-read">« '+MOTS[i].read+' »</span><span class="mot-fr">'+MOTS[i].fr+'</span>';
+  });
+}
+
+// ═══════════════════════════════════════════════
+// ── PROGRAMME 10 LEÇONS + CTA dynamique ──
 // ═══════════════════════════════════════════════
 (function(){
   try{
     const lecHrefs=['lecon.html','lecon2.html','lecon3.html','lecon4.html','lecon5.html','lecon6.html','lecon7.html','lecon8.html','lecon9.html','lecon10.html'];
     const lecTitles=['Commencer la Leçon 1','Passer à la Leçon 2','Passer à la Leçon 3','Passer à la Leçon 4','Passer à la Leçon 5','Passer à la Leçon 6','Passer à la Leçon 7','Passer à la Leçon 8','Passer à la Leçon 9','Passer à la Leçon 10'];
+    // Sous-titres = contenu réel de chaque leçon (mêmes lettres que les <title> des pages)
+    const lecSubs=[
+      'ㄱ, ㄴ, ㅏ — tes premiers sons et la syllabe 가',
+      'ㄷ, ㅁ, ㅗ — et les mots 고모 · 나도',
+      'ㅂ, ㅅ, ㅜ — et le mot 바나나',
+      'ㄹ, ㅣ, ㅓ — et les mots 이리 · 나라',
+      'ㅈ, ㅡ, ㅔ — et les mots 저기 · 지구',
+      'ㅎ, ㅐ, ㅛ — et les mots 해 · 하루',
+      'ㅊ, ㅋ, ㅠ — et les mots 치즈 · 유리',
+      'ㅌ, ㅍ, ㅑ — et les mots 파티 · 야채',
+      'ㅘ, ㅝ, ㅕ — et les mots 봐요 · 여기',
+      'Les 5 doubles ㄲㄸㅃㅆㅉ — 빨리 · 또'
+    ];
     const done=[];
     for(let i=1;i<=10;i++) done.push(localStorage.getItem('ks_l'+i)==='done');
     const next=done.indexOf(false);
@@ -1421,6 +1748,28 @@ initQuiz();
     if(titleEl) titleEl.textContent = next===-1?'Réviser la Leçon 10':lecTitles[idx];
     if(bnLecEl) bnLecEl.href=href;
     if(next===-1) { if(titleEl) titleEl.textContent='Toutes les leçons terminées — Lire les Histoires !'; if(ctaEl) ctaEl.href='histoires.html'; }
+
+    // Roadmap visuelle : une ligne par leçon, avec son état réel
+    const list=document.getElementById('progList');
+    if(list){
+      for(let i=0;i<10;i++){
+        const isDone=done[i];
+        const isCurrent=(i===next);
+        const cls='prog-item '+(isDone?'done':(isCurrent?'current':'locked'));
+        const state=isDone?'terminée':(isCurrent?'à toi de jouer →':'à venir');
+        const idxHtml=isDone
+          ? '<svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>'
+          : String(i+1);
+        const a=document.createElement('a');
+        a.className=cls;
+        a.href=lecHrefs[i];
+        a.innerHTML='<span class="prog-idx">'+idxHtml+'</span>'+
+          '<span class="prog-body"><span class="prog-title">Leçon '+(i+1)+'</span>'+
+          '<span class="prog-sub">'+lecSubs[i]+'</span></span>'+
+          '<span class="prog-state">'+state+'</span>';
+        list.appendChild(a);
+      }
+    }
   }catch(e){}
 })();
 </script>
