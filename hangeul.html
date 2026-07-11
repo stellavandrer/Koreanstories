@@ -175,6 +175,46 @@
     [data-theme="dark"] .prog-item.current .prog-idx{background:var(--gold)!important;color:#1a1208!important}
     [data-theme="dark"] .prog-item.current .prog-state{color:#C9A96E!important}
 
+    /* ── ÉCRIRE À LA MAIN (ordre des traits animé) ── */
+    .ecr-rules{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:12px}
+    @media(min-width:540px){.ecr-rules{grid-template-columns:repeat(3,1fr)}}
+    .ecr-rule{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:11px 14px;font-size:12px;color:var(--gray);line-height:1.55}
+    .ecr-rule b{display:block;color:var(--navy);font-size:12.5px;margin-bottom:2px}
+    [data-theme="dark"] .ecr-rule{background:var(--surf)!important;border-color:var(--bd)!important}
+    [data-theme="dark"] .ecr-rule b{color:var(--t)!important}
+    .ecr-wrap{background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:6px}
+    [data-theme="dark"] .ecr-wrap{background:var(--surf)!important;border-color:var(--bd)!important}
+    .ecr-picker{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+    .ecr-stage-row{display:flex;flex-direction:column;align-items:center;gap:10px}
+    @media(min-width:640px){.ecr-stage-row{flex-direction:row;justify-content:center;gap:26px}}
+    .ecr-stage{width:210px;height:210px;background:var(--white);border:1.5px solid var(--bd);border-radius:16px;flex-shrink:0}
+    [data-theme="dark"] .ecr-stage{background:var(--s2)!important;border-color:var(--bd2)!important}
+    .ecr-guide{stroke:var(--bd);stroke-width:1;stroke-dasharray:3 4}
+    .ecr-stroke{fill:none;stroke:var(--navy);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+    [data-theme="dark"] .ecr-stroke{stroke:#EDF2FA}
+    .ecr-num circle{fill:var(--gold)}
+    .ecr-num text{fill:var(--navy);font-size:9px;font-weight:800;font-family:'Inter',sans-serif}
+    .ecr-info{text-align:center}
+    @media(min-width:640px){.ecr-info{text-align:left;max-width:240px}}
+    .ecr-info-char{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:3px}
+    [data-theme="dark"] .ecr-info-char{color:var(--t)!important}
+    .ecr-info-sound{font-size:12.5px;color:#A87830;font-weight:600;margin-bottom:6px}
+    [data-theme="dark"] .ecr-info-sound{color:#C9A96E!important}
+    .ecr-info-strokes{font-size:11.5px;color:var(--gray);margin-bottom:12px}
+    .ecr-replay{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:100px;background:var(--navy);color:var(--gold);border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s}
+    .ecr-replay:hover{transform:translateY(-1px)}
+    .ecr-replay svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;flex-shrink:0}
+    [data-theme="dark"] .ecr-replay{background:var(--navy2)!important}
+    .ecr-pdf{font-size:11.5px;color:var(--gray);text-align:center;margin-top:12px}
+    .ecr-pdf a{color:#A87830;font-weight:600}
+    [data-theme="dark"] .ecr-pdf a{color:#C9A96E!important}
+
+    /* ── DÉFI LECTURE CHRONO ── */
+    .race-word{font-size:54px;color:var(--gold);line-height:1.2;font-weight:400;text-align:center;margin-bottom:14px;font-family:'Noto Sans KR',sans-serif}
+    .race-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:12px;color:rgba(255,255,255,.55);font-weight:600}
+    .race-start-desc{text-align:center;font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;max-width:400px;margin:0 auto 18px}
+    .race-best{color:var(--gold);font-weight:700}
+
     /* ── FAQ GRANDS DÉBUTANTS ── */
     .faq-list{display:flex;flex-direction:column;gap:8px}
     .faq-item{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;overflow:hidden}
@@ -626,7 +666,9 @@
     <button class="stab" onclick="scrollToSec('secComp')">Composées <span class="stab-badge" id="tabCompBadge">0/11</span></button>
     <button class="stab" onclick="scrollToSec('secDbl')">Doubles <span class="stab-badge" id="tabDblBadge">0/5</span></button>
     <button class="stab" onclick="scrollToSec('secBatchim')">받침</button>
+    <button class="stab" onclick="scrollToSec('secEcrire')">Écrire</button>
     <button class="stab" onclick="scrollToSec('secMots')">1ers mots</button>
+    <button class="stab" onclick="scrollToSec('secRace')">Défi lecture</button>
     <button class="stab" onclick="scrollToSec('secProg')">Programme</button>
     <button class="stab" onclick="scrollToSec('secQuiz')">Quiz</button>
     <button class="stab" onclick="scrollToSec('secFaq')">FAQ</button>
@@ -1036,6 +1078,35 @@
 
   <div class="sep"></div>
 
+  <div class="sep"></div>
+
+  <!-- ⑧ter ÉCRIRE À LA MAIN -->
+  <div class="sec-hd sec-anchor" id="secEcrire">
+    <h2>Écrire à la main — l'ordre des traits</h2>
+    <p>Écrire les lettres soi-même est le meilleur moyen de les mémoriser. Trois règles suffisent, et chaque lettre s'anime sous tes yeux : choisis-en une et regarde l'ordre des traits.</p>
+  </div>
+  <div class="ecr-rules">
+    <div class="ecr-rule"><b>1 · De haut en bas</b>Le trait du haut se trace toujours avant celui du bas.</div>
+    <div class="ecr-rule"><b>2 · De gauche à droite</b>Ce qui est à gauche se trace avant ce qui est à droite.</div>
+    <div class="ecr-rule"><b>3 · L'horizontal avant le vertical</b>Quand deux traits se croisent, l'horizontal se trace en premier.</div>
+  </div>
+  <div class="ecr-wrap">
+    <div class="ecr-picker" id="ecrPicker"></div>
+    <div class="ecr-stage-row">
+      <svg class="ecr-stage" id="ecrStage" viewBox="0 0 100 100" aria-hidden="true"></svg>
+      <div class="ecr-info">
+        <div class="ecr-info-char" id="ecrChar">ㄱ</div>
+        <div class="ecr-info-sound" id="ecrSound"></div>
+        <div class="ecr-info-strokes" id="ecrStrokes"></div>
+        <button class="ecr-replay" onclick="ecrReplay()">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Revoir le tracé
+        </button>
+      </div>
+    </div>
+    <p class="ecr-pdf">Pour t'entraîner sur papier : la <a href="ressources.html">fiche d'exercices d'écriture</a> (grilles à imprimer) est dans les ressources.</p>
+  </div>
+
   <!-- ⑧bis TU SAIS DÉJÀ LIRE -->
   <div class="sec-hd sec-anchor" id="secMots">
     <h2>La preuve : tu sais déjà lire !</h2>
@@ -1047,6 +1118,46 @@
   </div>
 
   <div class="sep"></div>
+
+  <div class="sep"></div>
+
+  <!-- ⑧quater DÉFI LECTURE CHRONO -->
+  <div class="sec-hd sec-anchor" id="secRace">
+    <h2>Défi lecture — 45 secondes chrono</h2>
+    <p>Le test ultime : lis le mot coréen et trouve son sens. Tous ces mots sont des emprunts — si tu sais lire, tu sais répondre. Combien en 45 secondes ?</p>
+  </div>
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <div class="quiz-header-title">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Course de lecture
+      </div>
+      <div class="quiz-header-sub" id="raceBestLine">Ton record : —</div>
+    </div>
+    <div class="quiz-body">
+      <div id="raceIntro">
+        <p class="race-start-desc">Un mot coréen s'affiche, 4 sens possibles : tape le bon, le suivant arrive aussitôt. Chaque mot est prononcé par une vraie voix après ta réponse.</p>
+        <button class="quiz-retry" onclick="raceStart()" style="margin:0 auto;display:flex">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Lancer le défi
+        </button>
+      </div>
+      <div id="raceArea" style="display:none">
+        <div class="quiz-progress"><div class="quiz-pfill" id="racePfill" style="width:100%"></div></div>
+        <div class="race-meta"><span id="raceTimeLbl">45 s</span><span id="raceScoreLbl">0 point</span></div>
+        <div class="race-word" id="raceWord">?</div>
+        <div class="quiz-choices" id="raceChoices"></div>
+      </div>
+      <div id="raceEnd" style="display:none;text-align:center;padding:12px 0 4px">
+        <div class="quiz-score" id="raceScore">0</div>
+        <div class="quiz-score-of" id="raceEndSub">mots lus en 45 secondes</div>
+        <button class="quiz-retry" onclick="raceStart()">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Rejouer
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ⑨ TON PROGRAMME EN 10 LEÇONS -->
   <div class="sec-hd sec-anchor" id="secProg">
@@ -1315,7 +1426,7 @@ function scrollToSec(id) {
 
 // ── Active tab on scroll ──
 (function() {
-  const sections = ['secWhy','secSyl','secFormes','secPron','secConson','secVoyel','secBuilder','secFam','secComp','secDbl','secBatchim','secMots','secProg','secQuiz','secFaq'];
+  const sections = ['secWhy','secSyl','secFormes','secPron','secConson','secVoyel','secBuilder','secFam','secComp','secDbl','secBatchim','secEcrire','secMots','secRace','secProg','secQuiz','secFaq'];
   const tabs = document.querySelectorAll('.stab');
   let ticking = false;
   window.addEventListener('scroll', ()=>{
@@ -1714,6 +1825,239 @@ function motsRevealAll(){
     card.querySelector('.mot-hidden').innerHTML =
       '<span class="mot-read">« '+MOTS[i].read+' »</span><span class="mot-fr">'+MOTS[i].fr+'</span>';
   });
+}
+
+// ═══════════════════════════════════════════════
+// ── ÉCRIRE À LA MAIN : ordre des traits animé ──
+// ═══════════════════════════════════════════════
+/* Chaque lettre = liste de traits sur une grille 100x100.
+   {p:[[x,y],...]} = polyligne ; {c:[cx,cy,r]} = cercle (ㅇ, ㅎ).
+   L'ordre des traits suit les règles standard (haut→bas, gauche→droite,
+   horizontal avant vertical). Animation par stroke-dashoffset. */
+const STROKES = {
+  'ㄱ':[{p:[[22,25],[72,25],[72,80]]}],
+  'ㄴ':[{p:[[28,20],[28,75],[78,75]]}],
+  'ㄷ':[{p:[[25,25],[75,25]]},{p:[[25,25],[25,78],[75,78]]}],
+  'ㄹ':[{p:[[25,18],[72,18],[72,44]]},{p:[[25,44],[72,44]]},{p:[[25,44],[25,80],[76,80]]}],
+  'ㅁ':[{p:[[26,24],[26,76]]},{p:[[26,24],[74,24],[74,76]]},{p:[[26,76],[74,76]]}],
+  'ㅂ':[{p:[[27,18],[27,80]]},{p:[[73,18],[73,80]]},{p:[[27,46],[73,46]]},{p:[[27,80],[73,80]]}],
+  'ㅅ':[{p:[[50,22],[26,80]]},{p:[[52,42],[76,80]]}],
+  'ㅇ':[{c:[50,52,27]}],
+  'ㅈ':[{p:[[22,24],[78,24]]},{p:[[50,24],[28,78]]},{p:[[52,46],[74,78]]}],
+  'ㅊ':[{p:[[38,10],[62,10]]},{p:[[22,28],[78,28]]},{p:[[50,28],[28,80]]},{p:[[52,50],[74,80]]}],
+  'ㅋ':[{p:[[22,22],[72,22],[72,82]]},{p:[[22,52],[72,52]]}],
+  'ㅌ':[{p:[[26,22],[74,22]]},{p:[[26,50],[74,50]]},{p:[[26,22],[26,80],[74,80]]}],
+  'ㅍ':[{p:[[20,26],[80,26]]},{p:[[35,26],[35,72]]},{p:[[65,26],[65,72]]},{p:[[20,74],[80,74]]}],
+  'ㅎ':[{p:[[38,8],[62,8]]},{p:[[24,24],[76,24]]},{c:[50,58,21]}],
+  'ㅏ':[{p:[[42,12],[42,88]]},{p:[[42,50],[70,50]]}],
+  'ㅑ':[{p:[[42,12],[42,88]]},{p:[[42,36],[70,36]]},{p:[[42,64],[70,64]]}],
+  'ㅓ':[{p:[[30,50],[56,50]]},{p:[[56,12],[56,88]]}],
+  'ㅕ':[{p:[[30,36],[56,36]]},{p:[[30,64],[56,64]]},{p:[[56,12],[56,88]]}],
+  'ㅗ':[{p:[[50,26],[50,54]]},{p:[[16,56],[84,56]]}],
+  'ㅛ':[{p:[[38,26],[38,54]]},{p:[[62,26],[62,54]]},{p:[[16,56],[84,56]]}],
+  'ㅜ':[{p:[[16,40],[84,40]]},{p:[[50,42],[50,80]]}],
+  'ㅠ':[{p:[[16,38],[84,38]]},{p:[[38,40],[38,80]]},{p:[[62,40],[62,80]]}],
+  'ㅡ':[{p:[[14,50],[86,50]]}],
+  'ㅣ':[{p:[[50,10],[50,90]]}]
+};
+var ECR = { cur:'ㄱ', timers:[] };
+
+function ecrCharInfo(ch){
+  var all=[].concat(CONSONNES,VOYELLES,VOYELLES_COMP,CONSONNES_DBL);
+  for(var i=0;i<all.length;i++) if(all[i].c===ch) return all[i];
+  return null;
+}
+
+function ecrClearTimers(){ ECR.timers.forEach(clearTimeout); ECR.timers=[]; }
+
+function ecrDraw(ch){
+  ecrClearTimers();
+  var svg=document.getElementById('ecrStage');
+  if(!svg) return;
+  var NS='http://www.w3.org/2000/svg';
+  svg.innerHTML='';
+  // Guides en croix (repères d'écriture)
+  [['50','8','50','92'],['8','50','92','50']].forEach(function(g){
+    var l=document.createElementNS(NS,'line');
+    l.setAttribute('x1',g[0]);l.setAttribute('y1',g[1]);l.setAttribute('x2',g[2]);l.setAttribute('y2',g[3]);
+    l.setAttribute('class','ecr-guide');
+    svg.appendChild(l);
+  });
+  var strokes=STROKES[ch]||[];
+  var t=250;
+  strokes.forEach(function(s,idx){
+    var path=document.createElementNS(NS,'path');
+    var d, start;
+    if(s.c){
+      var cx=s.c[0],cy=s.c[1],r=s.c[2];
+      d='M '+cx+' '+(cy-r)+' A '+r+' '+r+' 0 1 0 '+cx+' '+(cy+r)+' A '+r+' '+r+' 0 1 0 '+cx+' '+(cy-r);
+      start=[cx,cy-r];
+    } else {
+      d='M '+s.p.map(function(pt){return pt[0]+' '+pt[1]}).join(' L ');
+      start=s.p[0];
+    }
+    path.setAttribute('d',d);
+    path.setAttribute('class','ecr-stroke');
+    svg.appendChild(path);
+    var len=path.getTotalLength();
+    path.style.strokeDasharray=len;
+    path.style.strokeDashoffset=len;
+    // Numéro du trait, révélé quand son trait démarre
+    var g=document.createElementNS(NS,'g');
+    g.setAttribute('class','ecr-num');
+    g.style.opacity='0';
+    var nx=Math.max(9,Math.min(91,start[0]-9)), ny=Math.max(9,Math.min(91,start[1]-9));
+    var c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',nx);c.setAttribute('cy',ny);c.setAttribute('r','6');
+    var tx=document.createElementNS(NS,'text');
+    tx.setAttribute('x',nx);tx.setAttribute('y',ny+3.2);tx.setAttribute('text-anchor','middle');
+    tx.textContent=String(idx+1);
+    g.appendChild(c);g.appendChild(tx);
+    svg.appendChild(g);
+    var dur=Math.max(300,len*9);
+    ECR.timers.push(setTimeout(function(){
+      g.style.opacity='1';
+      path.style.transition='stroke-dashoffset '+dur+'ms ease-in-out';
+      path.style.strokeDashoffset='0';
+    },t));
+    t+=dur+280;
+  });
+}
+
+function ecrSelect(ch, chip){
+  ECR.cur=ch;
+  document.querySelectorAll('#ecrPicker .bkey').forEach(function(b){b.classList.remove('sel')});
+  if(chip) chip.classList.add('sel');
+  var info=ecrCharInfo(ch);
+  document.getElementById('ecrChar').textContent=ch+(info?' — '+(info.r||''):'');
+  document.getElementById('ecrSound').textContent=info&&info.frs?('se prononce « '+info.frs+' »'):'';
+  var n=(STROKES[ch]||[]).length;
+  document.getElementById('ecrStrokes').textContent=n+(n>1?' traits':' trait');
+  ecrDraw(ch);
+  if(info) speakStr(info.audio||ch);
+}
+
+function ecrReplay(){
+  var info=ecrCharInfo(ECR.cur);
+  ecrDraw(ECR.cur);
+  if(info) speakStr(info.audio||ECR.cur);
+}
+
+(function(){
+  var picker=document.getElementById('ecrPicker');
+  if(!picker) return;
+  Object.keys(STROKES).forEach(function(ch,i){
+    var b=document.createElement('button');
+    b.className='bkey'+(i===0?' sel':'');
+    b.innerHTML='<div class="bkey-kr">'+ch+'</div>';
+    b.addEventListener('click',function(){ecrSelect(ch,b)});
+    picker.appendChild(b);
+  });
+  // Premier tracé automatique, sans audio (pas encore de geste utilisateur)
+  var info=ecrCharInfo('ㄱ');
+  document.getElementById('ecrChar').textContent='ㄱ — '+(info?info.r:'');
+  document.getElementById('ecrSound').textContent=info&&info.frs?('se prononce « '+info.frs+' »'):'';
+  document.getElementById('ecrStrokes').textContent='1 trait';
+  ecrDraw('ㄱ');
+})();
+
+// ═══════════════════════════════════════════════
+// ── DÉFI LECTURE : 45 secondes chrono ──
+// ═══════════════════════════════════════════════
+/* Tous les mots sont des emprunts (lisibles ET devinables) et tous
+   vérifiés présents dans audio/manifest.json. */
+const RACE_POOL = [
+  {kr:'커피',fr:'un café'},{kr:'버스',fr:'un bus'},{kr:'택시',fr:'un taxi'},
+  {kr:'바나나',fr:'une banane'},{kr:'토마토',fr:'une tomate'},{kr:'치즈',fr:'du fromage'},
+  {kr:'메뉴',fr:'un menu'},{kr:'호텔',fr:'un hôtel'},{kr:'라디오',fr:'une radio'},
+  {kr:'컴퓨터',fr:'un ordinateur'},{kr:'초콜릿',fr:'du chocolat'},{kr:'아이스크림',fr:'une glace'},
+  {kr:'샤워',fr:'une douche'},{kr:'텔레비전',fr:'une télévision'},{kr:'스포츠',fr:'le sport'},
+  {kr:'핸드폰',fr:'un téléphone'},{kr:'아파트',fr:'un appartement'},{kr:'카드',fr:'une carte'},
+  {kr:'치킨',fr:'du poulet frit'},{kr:'샴푸',fr:'du shampoing'},{kr:'소파',fr:'un canapé'},
+  {kr:'슈퍼',fr:'une supérette'},{kr:'펜',fr:'un stylo'},{kr:'핫도그',fr:'un hot-dog'},
+  {kr:'케첩',fr:'du ketchup'},{kr:'캠핑',fr:'le camping'},{kr:'아이디어',fr:'une idée'},
+  {kr:'디자인',fr:'le design'},{kr:'스키',fr:'le ski'},{kr:'골프',fr:'le golf'},
+  {kr:'테스트',fr:'un test'},{kr:'컵',fr:'un gobelet'}
+];
+var RACE={run:false,t:45,int:null,score:0,order:[],i:0};
+
+function raceBest(){ try{ return parseInt(localStorage.getItem('ks_hangeul_race_best')||'0',10)||0; }catch(e){ return 0; } }
+function raceBestLine(){
+  var b=raceBest();
+  var el=document.getElementById('raceBestLine');
+  if(el) el.textContent='Ton record : '+(b>0?b+' mot'+(b>1?'s':''):'—');
+}
+raceBestLine();
+
+function raceStart(){
+  RACE.run=true; RACE.score=0; RACE.t=45; RACE.i=0;
+  RACE.order=shuffle(RACE_POOL.map(function(_,i){return i}));
+  document.getElementById('raceIntro').style.display='none';
+  document.getElementById('raceEnd').style.display='none';
+  document.getElementById('raceArea').style.display='';
+  document.getElementById('racePfill').style.width='100%';
+  document.getElementById('raceTimeLbl').textContent='45 s';
+  document.getElementById('raceScoreLbl').textContent='0 point';
+  clearInterval(RACE.int);
+  RACE.int=setInterval(raceTick,1000);
+  raceNext();
+}
+
+function raceTick(){
+  RACE.t--;
+  document.getElementById('racePfill').style.width=Math.max(0,RACE.t/45*100)+'%';
+  document.getElementById('raceTimeLbl').textContent=Math.max(0,RACE.t)+' s';
+  if(RACE.t<=0) raceFinish();
+}
+
+function raceNext(){
+  if(!RACE.run) return;
+  var w=RACE_POOL[RACE.order[RACE.i % RACE.order.length]];
+  RACE.i++;
+  document.getElementById('raceWord').textContent=w.kr;
+  var wrong=shuffle(RACE_POOL.filter(function(x){return x.fr!==w.fr})).slice(0,3).map(function(x){return x.fr});
+  var choices=shuffle([w.fr].concat(wrong));
+  var box=document.getElementById('raceChoices');
+  box.innerHTML='';
+  choices.forEach(function(c){
+    var b=document.createElement('button');
+    b.className='quiz-btn';
+    b.textContent=c;
+    b.addEventListener('click',function(){raceAnswer(b,c,w)});
+    box.appendChild(b);
+  });
+}
+
+function raceAnswer(btn,chosen,w){
+  if(!RACE.run) return;
+  var btns=document.getElementById('raceChoices').querySelectorAll('.quiz-btn');
+  btns.forEach(function(b){b.disabled=true});
+  if(chosen===w.fr){ btn.classList.add('ok'); RACE.score++; }
+  else{
+    btn.classList.add('ko');
+    btns.forEach(function(b){ if(b.textContent===w.fr) b.classList.add('ok'); });
+  }
+  document.getElementById('raceScoreLbl').textContent=RACE.score+' point'+(RACE.score>1?'s':'');
+  speakStr(w.kr);
+  setTimeout(function(){ if(RACE.run) raceNext(); }, 700);
+}
+
+function raceFinish(){
+  RACE.run=false;
+  clearInterval(RACE.int);
+  document.getElementById('raceArea').style.display='none';
+  var end=document.getElementById('raceEnd');
+  end.style.display='';
+  document.getElementById('raceScore').textContent=RACE.score;
+  var best=raceBest();
+  var sub=document.getElementById('raceEndSub');
+  if(RACE.score>best){
+    try{ localStorage.setItem('ks_hangeul_race_best',String(RACE.score)); }catch(e){}
+    sub.textContent='mots lus en 45 s — nouveau record !';
+  } else {
+    sub.textContent='mots lus en 45 s — record : '+Math.max(best,RACE.score);
+  }
+  raceBestLine();
 }
 
 // ═══════════════════════════════════════════════
