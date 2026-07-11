@@ -12,9 +12,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
-  <title>Korean Stories — Vocabulaire 어휘</title>
+  <title>Vocabulaire coréen par thèmes : près de 200 mots essentiels avec audio · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/vocabulaire.html"/>
-  <meta name="description" content="Retrouve tous les mots coréens appris au fil de tes leçons Korean Stories, classés et filtrables : révise, écoute l'audio natif, maîtrise-les."/>
+  <meta name="description" content="Près de 200 mots coréens essentiels classés par thème (café, métro, famille, couleurs, nombres…) : cartes interactives, audio natif, quiz et suivi de maîtrise. En français."/>
   <meta property="og:title" content="Korean Stories — Vocabulaire 어휘"/>
   <meta property="og:description" content="Révise tous les mots coréens appris dans tes leçons Korean Stories."/>
   <meta property="og:type" content="website"/>
@@ -507,7 +507,7 @@
       <a href="grammaire.html" style="display:inline-flex;align-items:center;gap:5px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.3);border-radius:100px;padding:4px 12px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#c4b5fd;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(167,139,250,.25)'" onmouseout="this.style.background='rgba(167,139,250,.14)'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg> Grammaire →</a>
     </div>
     <h1 class="hdr-title">Tes mots coréens</h1>
-    <p class="hdr-sub">Chaque mot que tu as rencontré dans les leçons.<br/>Clique pour retourner la carte et écouter.</p>
+    <p class="hdr-sub">Les mots essentiels du coréen, classés par situation réelle — au café, dans le métro, chez le médecin… Retourne les cartes, écoute les voix natives, et teste-toi.</p>
     <div class="hdr-stats">
       <div class="hstat">
         <span class="hstat-n" id="statTotal">0</span>
@@ -515,7 +515,7 @@
       </div>
       <div class="hstat">
         <span class="hstat-n" id="statLecons">0</span>
-        <span class="hstat-l">Leçons</span>
+        <span class="hstat-l">Thèmes</span>
       </div>
       <div class="hstat">
         <span class="hstat-n" id="statMastery">0%</span>
@@ -527,27 +527,23 @@
 
 <div class="filters">
   <div class="filters-inner" id="filters">
+    <input type="search" id="vocSearch" placeholder="Chercher un mot…" autocomplete="off" style="flex-shrink:0;width:150px;padding:7px 14px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);font-family:'Inter',sans-serif;font-size:12px;color:var(--t);outline:none"/>
     <button class="fchip act" data-f="all">Tous</button>
-    <button class="fchip" data-f="1">Leçon 1</button>
-    <button class="fchip" data-f="2">Leçon 2</button>
-    <button class="fchip" data-f="3">Leçon 3</button>
-    <button class="fchip" data-f="4">Leçon 4</button>
-    <button class="fchip" data-f="5">Leçon 5</button>
-    <button class="fchip" data-f="6">Leçon 6</button>
-    <button class="fchip" data-f="7">Leçon 7</button>
-    <button class="fchip" data-f="8">Leçon 8</button>
-    <button class="fchip" data-f="9">Leçon 9</button>
-    <button class="fchip" data-f="10">Leçon 10</button>
-    <button class="fchip" data-f="h2" id="chipH2" style="display:none">H2</button>
-    <button class="fchip" data-f="h3" id="chipH3" style="display:none">H3</button>
-    <button class="fchip" data-f="h4" id="chipH4" style="display:none">H4</button>
-    <button class="fchip" data-f="h5" id="chipH5" style="display:none">H5</button>
-    <button class="fchip" data-f="h6" id="chipH6" style="display:none">H6</button>
-    <button class="fchip" data-f="h7" id="chipH7" style="display:none">H7</button>
-    <button class="fchip" data-f="h8" id="chipH8" style="display:none">H8</button>
-    <button class="fchip" data-f="h9" id="chipH9" style="display:none">H9</button>
-    <button class="fchip" data-f="h10" id="chipH10" style="display:none">H10</button>
-    <button class="fchip" data-f="h11" id="chipH11" style="display:none">H11</button>
+    <button class="fchip" data-f="basics">Premiers mots</button>
+    <button class="fchip" data-f="fam">Famille</button>
+    <button class="fchip" data-f="num">Nombres</button>
+    <button class="fchip" data-f="col">Couleurs</button>
+    <button class="fchip" data-f="tps">Le temps</button>
+    <button class="fchip" data-f="h2">Au marché</button>
+    <button class="fchip" data-f="h3">Au restaurant</button>
+    <button class="fchip" data-f="h4">Au café</button>
+    <button class="fchip" data-f="h5">Au konbini</button>
+    <button class="fchip" data-f="h6">Métro</button>
+    <button class="fchip" data-f="h7">À la maison</button>
+    <button class="fchip" data-f="h8">Noraebang</button>
+    <button class="fchip" data-f="h9">Chez le médecin</button>
+    <button class="fchip" data-f="h10">Shopping</button>
+    <button class="fchip" data-f="h11">Invitation</button>
     <button class="fchip" id="chipShuffle" style="display:flex;align-items:center;gap:5px;border-color:rgba(167,139,250,.35);color:var(--accent-purple)" onclick="shuffleCards()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg> Mélanger</button>
     <button class="playbtn" id="chipPlay" onclick="togglePlayAll()">
       <div class="wvg"><div class="wvgb"></div><div class="wvgb"></div><div class="wvgb"></div></div>
@@ -710,11 +706,11 @@ const WORDS = [
   { id:'kadeu',       kr:'카드',    rom:'ka-deu',        fr:'Carte (bancaire)',  break:'카(ka)+드(deu)',        audio:'카드',     lec:'h4', color:'#F59E0B' },
   // ── Histoire 5 — 편의점에서 ──
   { id:'pyonijeom',  kr:'편의점',   rom:'pyon-i-jeom',   fr:'Épicerie coréenne', break:'편의(pyoni)+점(jeom)',  audio:'편의점',   lec:'h5', color:'#0d9488' },
-  { id:'baegopayo',  kr:'배고파요', rom:'bae-go-pa-yo',  fr:"J'ai faim",         break:'배(bae)+고파요(gopayo)', audio:'배고파요', lec:'h5', color:'#0d9488' },
+  { id:'baegopayo_2',  kr:'배고파요', rom:'bae-go-pa-yo',  fr:"J'ai faim",         break:'배(bae)+고파요(gopayo)', audio:'배고파요', lec:'h5', color:'#0d9488' },
   { id:'gayo',       kr:'가요',     rom:'ga-yo',         fr:'On y va / J\'y vais', break:'가(ga)+요(yo)',        audio:'가요',     lec:'h5', color:'#0d9488' },
   { id:'keomramyeon',kr:'컵라면',   rom:'keop-ra-myeon', fr:'Cup nouilles',      break:'컵(keop)+라면(ramyeon)', audio:'컵라면',  lec:'h5', color:'#0d9488' },
   { id:'itsoyo',     kr:'있어요',   rom:'it-seo-yo',     fr:"Il y a / J'ai",     break:'있(it)+어요(eoyo)',     audio:'있어요',  lec:'h5', color:'#0d9488' },
-  { id:'eolma',      kr:'얼마예요', rom:'eol-ma-ye-yo',  fr:"C'est combien ?",   break:'얼마(eolma)+예요(yeyo)', audio:'얼마예요', lec:'h5', color:'#0d9488' },
+  { id:'eolma_2',      kr:'얼마예요', rom:'eol-ma-ye-yo',  fr:"C'est combien ?",   break:'얼마(eolma)+예요(yeyo)', audio:'얼마예요', lec:'h5', color:'#0d9488' },
   { id:'won',        kr:'원',       rom:'won',           fr:'Won (monnaie)',      break:'원(won)',               audio:'원',      lec:'h5', color:'#0d9488' },
   { id:'jigabjj',    kr:'지갑',     rom:'ji-gap',        fr:'Portefeuille',       break:'지(ji)+갑(gap)',        audio:'지갑',    lec:'h5', color:'#0d9488' },
   { id:'eopseoyo',   kr:'없어요',   rom:'eop-seo-yo',    fr:"Il n'y a pas",      break:'없(eop)+어요(eoyo)',    audio:'없어요',  lec:'h5', color:'#0d9488' },
@@ -744,7 +740,7 @@ const WORDS = [
   { id:'mwo',          kr:'뭐',         rom:'mwo',             fr:'Quoi / Qu\'est-ce que',  break:'뭐(mwo)',                    audio:'뭐',         lec:'h7', color:'#F43F5E' },
   { id:'meogeullaeyo', kr:'먹을래요',   rom:'meo-geul-lae-yo', fr:'Tu veux manger ?',        break:'먹을래(meo-geul-lae)+요(yo)',audio:'먹을래요',   lec:'h7', color:'#F43F5E' },
   { id:'ramyeon',      kr:'라면',       rom:'ra-myeon',        fr:'Ramyeon (nouilles)',      break:'라면(ra-myeon)',             audio:'라면',       lec:'h7', color:'#F43F5E' },
-  { id:'gachi',        kr:'같이',       rom:'ga-chi',          fr:'Ensemble',                break:'같이(ga-chi)',               audio:'같이',       lec:'h7', color:'#F43F5E' },
+  { id:'gachi_2',        kr:'같이',       rom:'ga-chi',          fr:'Ensemble',                break:'같이(ga-chi)',               audio:'같이',       lec:'h7', color:'#F43F5E' },
   { id:'meogeoyo',     kr:'먹어요',     rom:'meo-geo-yo',      fr:'On mange',                break:'먹어(meo-geo)+요(yo)',       audio:'먹어요',     lec:'h7', color:'#F43F5E' },
   { id:'jaemiisseoyo', kr:'재미있어요', rom:'jae-mi-it-seo-yo',fr:'C\'est amusant / Fun',   break:'재미(jae-mi)+있어요(it-seo-yo)',audio:'재미있어요',lec:'h7', color:'#F43F5E' },
   { id:'gongbu',       kr:'공부',       rom:'gong-bu',         fr:'Étude / Révision',        break:'공부(gong-bu)',              audio:'공부',       lec:'h7', color:'#F43F5E' },
@@ -805,7 +801,7 @@ const WORDS = [
   { id:'jipduri',    kr:'집들이',       rom:'jip-deu-ri',         fr:'Pendaison de crémaillère',   break:'집(jip)+들이(deu-ri)',                   audio:'집들이',       lec:'h11', color:'#F43F5E' },
   { id:'eoseo',      kr:'어서 와요',    rom:'eo-seo-wa-yo',       fr:'Bienvenue / Entrez !',       break:'어서(eo-seo)+와요(wa-yo)',               audio:'어서 와요',    lec:'h11', color:'#F43F5E' },
   { id:'saejip',     kr:'새집',         rom:'sae-jip',            fr:'Nouvelle maison',            break:'새(sae)+집(jip)',                        audio:'새집',         lec:'h11', color:'#F43F5E' },
-  { id:'yeppeoyo',   kr:'예뻐요',       rom:'yep-peo-yo',         fr:"C'est beau / Joli",          break:'예뻐(yep-peo)+요(yo)',                   audio:'예뻐요',       lec:'h11', color:'#F43F5E' },
+  { id:'yeppeoyo_2',   kr:'예뻐요',       rom:'yep-peo-yo',         fr:"C'est beau / Joli",          break:'예뻐(yep-peo)+요(yo)',                   audio:'예뻐요',       lec:'h11', color:'#F43F5E' },
   { id:'seonmul',    kr:'선물',         rom:'seon-mul',           fr:'Cadeau',                     break:'선물(seon-mul)',                         audio:'선물',         lec:'h11', color:'#F43F5E' },
   { id:'gamsahaeyo', kr:'감사해요',     rom:'gam-sa-hae-yo',      fr:'Merci / Je vous remercie',   break:'감사(gam-sa)+해요(hae-yo)',              audio:'감사해요',     lec:'h11', color:'#F43F5E' },
   { id:'neolbeoyo',  kr:'넓어요',       rom:'neol-beo-yo',        fr:"C'est grand / Spacieux",     break:'넓어(neol-beo)+요(yo)',                  audio:'넓어요',       lec:'h11', color:'#F43F5E' },
@@ -818,53 +814,84 @@ const WORDS = [
   { id:'orae',       kr:'오래오래',     rom:'o-rae-o-rae',        fr:'Longtemps / Durablement',    break:'오래오래(o-rae-o-rae)',                  audio:'오래오래',     lec:'h11', color:'#F43F5E' },
   { id:'deo',        kr:'더 먹어요',    rom:'deo-meo-geo-yo',     fr:'Mangez encore / Reprenez !', break:'더(deo)+먹어요(meo-geo-yo)',             audio:'더 먹어요',    lec:'h11', color:'#F43F5E' },
   { id:'ttoolgeyyo', kr:'또 올게요',    rom:'tto-ol-ge-yo',       fr:'Je reviendrai !',            break:'또(tto)+올게요(ol-ge-yo)',               audio:'또 올게요',    lec:'h11', color:'#F43F5E' },
+  // ── Famille (audio vérifié manifeste) ──
+  { id:'eomma',    kr:'엄마',     rom:'eom-ma',        fr:'Maman',                     break:'엄(eom)+마(ma)',      audio:'엄마',     lec:'fam', color:'#FB7185' },
+  { id:'appa',     kr:'아빠',     rom:'a-ppa',         fr:'Papa',                      break:'아(a)+빠(ppa)',       audio:'아빠',     lec:'fam', color:'#FB7185' },
+  { id:'bumo',     kr:'부모',     rom:'bu-mo',         fr:'Parents',                   break:'부(bu)+모(mo)',       audio:'부모',     lec:'fam', color:'#FB7185' },
+  { id:'eonni',    kr:'언니',     rom:'eon-ni',        fr:'Grande sœur (dit une fille)',break:'언(eon)+니(ni)',     audio:'언니',     lec:'fam', color:'#FB7185' },
+  { id:'oppa2',    kr:'오빠',     rom:'o-ppa',         fr:'Grand frère (dit une fille)',break:'오(o)+빠(ppa)',      audio:'오빠',     lec:'fam', color:'#FB7185' },
+  { id:'nuna',     kr:'누나',     rom:'nu-na',         fr:'Grande sœur (dit un garçon)',break:'누(nu)+나(na)',      audio:'누나',     lec:'fam', color:'#FB7185' },
+  { id:'hyeong',   kr:'형',       rom:'hyeong',        fr:'Grand frère (dit un garçon)',break:'형(hyeong)',         audio:'형',       lec:'fam', color:'#FB7185' },
+  { id:'dongsaeng',kr:'동생',     rom:'dong-saeng',    fr:'Petit frère / petite sœur',  break:'동(dong)+생(saeng)', audio:'동생',     lec:'fam', color:'#FB7185' },
+  { id:'halmeoni', kr:'할머니',   rom:'hal-meo-ni',    fr:'Grand-mère',                break:'할머니(hal-meo-ni)',  audio:'할머니',   lec:'fam', color:'#FB7185' },
+  { id:'harabeoji',kr:'할아버지', rom:'ha-ra-beo-ji',  fr:'Grand-père',                break:'할아버지(ha-ra-beo-ji)',audio:'할아버지',lec:'fam', color:'#FB7185' },
+  { id:'gajok',    kr:'가족',     rom:'ga-jok',        fr:'Famille',                   break:'가(ga)+족(jok)',      audio:'가족',     lec:'fam', color:'#FB7185' },
+  { id:'agi',      kr:'아기',     rom:'a-gi',          fr:'Bébé',                      break:'아(a)+기(gi)',        audio:'아기',     lec:'fam', color:'#FB7185' },
+  // ── Nombres natifs (pour compter les choses) ──
+  { id:'hana',   kr:'하나', rom:'ha-na',    fr:'Un (1)',      break:'하(ha)+나(na)',     audio:'하나',   lec:'num', color:'#60A5FA' },
+  { id:'dul',    kr:'둘',   rom:'dul',      fr:'Deux (2)',    break:'둘(dul)',           audio:'둘',     lec:'num', color:'#60A5FA' },
+  { id:'set',    kr:'셋',   rom:'set',      fr:'Trois (3)',   break:'셋(set)',           audio:'셋',     lec:'num', color:'#60A5FA' },
+  { id:'net',    kr:'넷',   rom:'net',      fr:'Quatre (4)',  break:'넷(net)',           audio:'넷',     lec:'num', color:'#60A5FA' },
+  { id:'daseot', kr:'다섯', rom:'da-seot',  fr:'Cinq (5)',    break:'다(da)+섯(seot)',   audio:'다섯',   lec:'num', color:'#60A5FA' },
+  { id:'yeoseot',kr:'여섯', rom:'yeo-seot', fr:'Six (6)',     break:'여(yeo)+섯(seot)',  audio:'여섯',   lec:'num', color:'#60A5FA' },
+  { id:'ilgop',  kr:'일곱', rom:'il-gop',   fr:'Sept (7)',    break:'일(il)+곱(gop)',    audio:'일곱',   lec:'num', color:'#60A5FA' },
+  { id:'yeodeol',kr:'여덟', rom:'yeo-deol', fr:'Huit (8)',    break:'여(yeo)+덟(deol)',  audio:'여덟',   lec:'num', color:'#60A5FA' },
+  { id:'ahop',   kr:'아홉', rom:'a-hop',    fr:'Neuf (9)',    break:'아(a)+홉(hop)',     audio:'아홉',   lec:'num', color:'#60A5FA' },
+  { id:'yeol10', kr:'열',   rom:'yeol',     fr:'Dix (10)',    break:'열(yeol)',          audio:'열',     lec:'num', color:'#60A5FA' },
+  { id:'baek',   kr:'백',   rom:'baek',     fr:'Cent (100)',  break:'백(baek)',          audio:'백',     lec:'num', color:'#60A5FA' },
+  { id:'cheon',  kr:'천',   rom:'cheon',    fr:'Mille (1000)',break:'천(cheon)',         audio:'천',     lec:'num', color:'#60A5FA' },
+  // ── Couleurs ──
+  { id:'ppalgansaek', kr:'빨간색', rom:'ppal-gan-saek', fr:'Rouge',       break:'빨간(ppal-gan)+색(saek)', audio:'빨간색', lec:'col', color:'#FBBF24' },
+  { id:'paransaek',   kr:'파란색', rom:'pa-ran-saek',   fr:'Bleu',        break:'파란(pa-ran)+색(saek)',   audio:'파란색', lec:'col', color:'#FBBF24' },
+  { id:'noransaek',   kr:'노란색', rom:'no-ran-saek',   fr:'Jaune',       break:'노란(no-ran)+색(saek)',   audio:'노란색', lec:'col', color:'#FBBF24' },
+  { id:'chorok',      kr:'초록',   rom:'cho-rok',       fr:'Vert',        break:'초(cho)+록(rok)',         audio:'초록',   lec:'col', color:'#FBBF24' },
+  { id:'hayansaek',   kr:'하얀색', rom:'ha-yan-saek',   fr:'Blanc',       break:'하얀(ha-yan)+색(saek)',   audio:'하얀색', lec:'col', color:'#FBBF24' },
+  { id:'kkamansaek',  kr:'까만색', rom:'kka-man-saek',  fr:'Noir',        break:'까만(kka-man)+색(saek)',  audio:'까만색', lec:'col', color:'#FBBF24' },
+  { id:'bora',        kr:'보라',   rom:'bo-ra',         fr:'Violet',      break:'보(bo)+라(ra)',           audio:'보라',   lec:'col', color:'#FBBF24' },
+  { id:'pingkeu',     kr:'핑크',   rom:'ping-keu',      fr:'Rose (pink)', break:'핑(ping)+크(keu)',        audio:'핑크',   lec:'col', color:'#FBBF24' },
+  { id:'yeondusaek',  kr:'연두색', rom:'yeon-du-saek',  fr:'Vert clair',  break:'연두(yeon-du)+색(saek)',  audio:'연두색', lec:'col', color:'#FBBF24' },
+  { id:'geumsaek',    kr:'금색',   rom:'geum-saek',     fr:'Doré',        break:'금(geum)+색(saek)',       audio:'금색',   lec:'col', color:'#FBBF24' },
+  { id:'eunsaek',     kr:'은색',   rom:'eun-saek',      fr:'Argenté',     break:'은(eun)+색(saek)',        audio:'은색',   lec:'col', color:'#FBBF24' },
+  // ── Le temps (jours & moments) ──
+  { id:'oneul',   kr:'오늘', rom:'o-neul',   fr:"Aujourd'hui",       break:'오(o)+늘(neul)',    audio:'오늘', lec:'tps', color:'#34D399' },
+  { id:'naeil2',  kr:'내일', rom:'nae-il',   fr:'Demain',            break:'내(nae)+일(il)',    audio:'내일', lec:'tps', color:'#34D399' },
+  { id:'eoje2',   kr:'어제', rom:'eo-je',    fr:'Hier',              break:'어(eo)+제(je)',     audio:'어제', lec:'tps', color:'#34D399' },
+  { id:'jigeum',  kr:'지금', rom:'ji-geum',  fr:'Maintenant',        break:'지(ji)+금(geum)',   audio:'지금', lec:'tps', color:'#34D399' },
+  { id:'achim',   kr:'아침', rom:'a-chim',   fr:'Matin / petit-déj', break:'아(a)+침(chim)',    audio:'아침', lec:'tps', color:'#34D399' },
+  { id:'jeomsim', kr:'점심', rom:'jeom-sim', fr:'Midi / déjeuner',   break:'점(jeom)+심(sim)',  audio:'점심', lec:'tps', color:'#34D399' },
+  { id:'jeonyeok',kr:'저녁', rom:'jeo-nyeok',fr:'Soir / dîner',      break:'저(jeo)+녁(nyeok)', audio:'저녁', lec:'tps', color:'#34D399' },
+  { id:'jumal',   kr:'주말', rom:'ju-mal',   fr:'Week-end',          break:'주(ju)+말(mal)',    audio:'주말', lec:'tps', color:'#34D399' },
+  { id:'maeil2',  kr:'매일', rom:'mae-il',   fr:'Chaque jour',       break:'매(mae)+일(il)',    audio:'매일', lec:'tps', color:'#34D399' },
+  { id:'sigan',   kr:'시간', rom:'si-gan',   fr:'Heure / temps',     break:'시(si)+간(gan)',    audio:'시간', lec:'tps', color:'#34D399' },
+  { id:'saengil', kr:'생일', rom:'saeng-il', fr:'Anniversaire',      break:'생(saeng)+일(il)',  audio:'생일', lec:'tps', color:'#34D399' },
+  { id:'yojeum',  kr:'요즘', rom:'yo-jeum',  fr:'Ces temps-ci',      break:'요(yo)+즘(jeum)',   audio:'요즘', lec:'tps', color:'#34D399' },
 ];
 
-// Leçons débloquées
-function getLecsDone() {
-  const d = {};
-  [1,2,3,4,5,6,7,8,9,10].forEach(n => { try { d[n] = localStorage.getItem('ks_l'+n)==='done'; } catch(e){ d[n]=false; } });
-  return d;
-}
+// ── Thèmes : libellés, couleurs, badges (partagés par cartes/filtres/maîtrise) ──
+const THEME_LABELS = {
+  'basics':'Premiers mots', 'h2':'Au marché', 'h3':'Au restaurant', 'h4':'Au café',
+  'h5':'Au konbini', 'h6':'Dans le métro', 'h7':'À la maison', 'h8':'Au noraebang',
+  'h9':'Chez le médecin', 'h10':'Shopping', 'h11':'Invitation & fête',
+  'fam':'Famille', 'num':'Nombres', 'col':'Couleurs', 'tps':'Le temps'
+};
+const THEME_ORDER = ['basics','fam','num','col','tps','h2','h3','h4','h5','h6','h7','h8','h9','h10','h11'];
+const VOC_COLORS = { 1:'#FF8EA8', 2:'#4F8EF7', 3:'#22c55e', 4:'#C9A96E', 5:'#A78BFA', 6:'#F59E0B', 7:'#EC4899', 8:'#8B5CF6', 9:'#06B6D4', 10:'#EF4444', 'h2':'#22c55e', 'h3':'#A78BFA', 'h4':'#F59E0B', 'h5':'#0d9488', 'h6':'#4F46E5', 'h7':'#F43F5E', 'h8':'#38BDF8', 'h9':'#A78BFA', 'h10':'#F59E0B', 'h11':'#F43F5E', 'fam':'#FB7185', 'num':'#60A5FA', 'col':'#FBBF24', 'tps':'#34D399' };
+const VOC_BADGES = { 1:'L1', 2:'L2', 3:'L3', 4:'L4', 5:'L5', 6:'L6', 7:'L7', 8:'L8', 9:'L9', 10:'L10', 'h2':'Marché', 'h3':'Resto', 'h4':'Café', 'h5':'Konbini', 'h6':'Métro', 'h7':'Maison', 'h8':'Noraebang', 'h9':'Santé', 'h10':'Shopping', 'h11':'Fête', 'fam':'Famille', 'num':'Nombre', 'col':'Couleur', 'tps':'Temps' };
+
 
 function getVisibleWords(filter) {
-  const done = getLecsDone();
-  const h2Done = (function(){ try{ return localStorage.getItem('ks_h2')==='done'; }catch(e){ return false; } })();
-  const h3Done = (function(){ try{ return localStorage.getItem('ks_h3')==='done'; }catch(e){ return false; } })();
-  const h4Done = (function(){ try{ return localStorage.getItem('ks_h4')==='done'; }catch(e){ return false; } })();
-  const h5Done = (function(){ try{ return localStorage.getItem('ks_h5')==='done'; }catch(e){ return false; } })();
-  const h6Done = (function(){ try{ return localStorage.getItem('ks_h6')==='done'; }catch(e){ return false; } })();
-  const h7Done = (function(){ try{ return localStorage.getItem('ks_h7')==='done'; }catch(e){ return false; } })();
-  const h8Done = (function(){ try{ return localStorage.getItem('ks_h8')==='done'; }catch(e){ return false; } })();
-  const h9Done = (function(){ try{ return localStorage.getItem('ks_h9')==='done'; }catch(e){ return false; } })();
-  const h10Done = (function(){ try{ return localStorage.getItem('ks_h10')==='done'; }catch(e){ return false; } })();
-  const h11Done = (function(){ try{ return localStorage.getItem('ks_h11')==='done'; }catch(e){ return false; } })();
-  let words = WORDS.filter(w => {
-    if(w.lec === 'h4') return h4Done;
-    if(w.lec === 'h7') return h7Done;
-    if(w.lec === 'h8') return h8Done;
-    if(w.lec === 'h9') return h9Done;
-    if(w.lec === 'h10') return h10Done;
-    if(w.lec === 'h11') return h11Done;
-    if(w.lec === 'h6') return h6Done;
-    if(w.lec === 'h5') return h5Done;
-    if(w.lec === 'h3') return h3Done;
-    if(w.lec === 'h2') return h2Done;
-    return done[w.lec];
-  });
+  /* Tout le vocabulaire est visible pour tout le monde (décision produit
+     2026-07-11 : la page paraissait vide aux nouveaux visiteurs, chaque mot
+     étant masqué tant que sa leçon/histoire n'était pas terminée). La
+     progression reste visible via les pastilles de maîtrise. */
+  let words = WORDS.slice();
   if(filter && filter !== 'all') {
-    if(filter === 'h7') words = words.filter(w => w.lec === 'h7');
-    if(filter === 'h8') words = words.filter(w => w.lec === 'h8');
-    if(filter === 'h9') words = words.filter(w => w.lec === 'h9');
-    if(filter === 'h10') words = words.filter(w => w.lec === 'h10');
-    if(filter === 'h11') words = words.filter(w => w.lec === 'h11');
-    if(filter === 'h6') words = words.filter(w => w.lec === 'h6');
-    else if(filter === 'h5') words = words.filter(w => w.lec === 'h5');
-    else if(filter === 'h4') words = words.filter(w => w.lec === 'h4');
-    else if(filter === 'h3') words = words.filter(w => w.lec === 'h3');
-    else if(filter === 'h2') words = words.filter(w => w.lec === 'h2');
-    else words = words.filter(w => w.lec === parseInt(filter));
+    if(filter === 'basics') words = words.filter(w => typeof w.lec === 'number');
+    else words = words.filter(w => String(w.lec) === String(filter));
   }
+  const q = (window._vocSearch || '').trim().toLowerCase();
+  if(q) words = words.filter(w =>
+    w.kr.includes(q) || w.rom.toLowerCase().includes(q) || w.fr.toLowerCase().includes(q));
   return words;
 }
 
@@ -921,80 +948,26 @@ function renderCards(filter) {
   const lbl = document.getElementById('cardsLbl');
   if(!grid) return;
 
-  // Compteurs
-  const done = getLecsDone();
-  const h2Dn = (function(){ try{ return localStorage.getItem('ks_h2')==='done'; }catch(e){ return false; } })();
-  const h3Dn = (function(){ try{ return localStorage.getItem('ks_h3')==='done'; }catch(e){ return false; } })();
-  const h4Dn = (function(){ try{ return localStorage.getItem('ks_h4')==='done'; }catch(e){ return false; } })();
-  const h5Dn = (function(){ try{ return localStorage.getItem('ks_h5')==='done'; }catch(e){ return false; } })();
-  const h6Dn = (function(){ try{ return localStorage.getItem('ks_h6')==='done'; }catch(e){ return false; } })();
-  const h7Dn = (function(){ try{ return localStorage.getItem('ks_h7')==='done'; }catch(e){ return false; } })();
-  const h8Dn = (function(){ try{ return localStorage.getItem('ks_h8')==='done'; }catch(e){ return false; } })();
-  const h9Dn = (function(){ try{ return localStorage.getItem('ks_h9')==='done'; }catch(e){ return false; } })();
-  const h10Dn = (function(){ try{ return localStorage.getItem('ks_h10')==='done'; }catch(e){ return false; } })();
-  const h11Dn = (function(){ try{ return localStorage.getItem('ks_h11')==='done'; }catch(e){ return false; } })();
-  const allVisible = WORDS.filter(w => w.lec==='h11'?h11Dn : w.lec==='h10'?h10Dn : w.lec==='h9'?h9Dn : w.lec==='h8'?h8Dn : w.lec==='h7'?h7Dn : w.lec==='h6'?h6Dn : w.lec==='h5'?h5Dn : w.lec==='h4'?h4Dn : w.lec==='h3'?h3Dn : w.lec==='h2'?h2Dn : done[w.lec]);
+  // Compteurs (tout le vocabulaire est visible)
+  const allVisible = WORDS;
   document.getElementById('statTotal').textContent = allVisible.length;
-  document.getElementById('statLecons').textContent = [1,2,3,4,5,6,7,8,9,10].filter(n=>done[n]).length;
+  document.getElementById('statLecons').textContent = THEME_ORDER.length;
   const mastPct = allVisible.length ? Math.round(allVisible.filter(w=>getMastery(w.id)>=2).length/allVisible.length*100) : 0;
   document.getElementById('statMastery').textContent = mastPct+'%';
-  // Show/hide Histoires chips
-  const chipH2 = document.getElementById('chipH2');
-  const chipH3 = document.getElementById('chipH3');
-  const chipH4 = document.getElementById('chipH4');
-  const chipH5 = document.getElementById('chipH5');
-  if(chipH2) chipH2.style.display = h2Dn ? 'inline-flex' : 'none';
-  if(chipH3) chipH3.style.display = h3Dn ? 'inline-flex' : 'none';
-  if(chipH4) chipH4.style.display = h4Dn ? 'inline-flex' : 'none';
-  const chipH6 = document.getElementById('chipH6');
-  const chipH7 = document.getElementById('chipH7');
-  if(chipH5) chipH5.style.display = h5Dn ? 'inline-flex' : 'none';
-  if(chipH6) chipH6.style.display = h6Dn ? 'inline-flex' : 'none';
-  if(chipH7) chipH7.style.display = h7Dn ? 'inline-flex' : 'none';
-  const chipH8 = document.getElementById('chipH8');
-  if(chipH8) chipH8.style.display = h8Dn ? 'inline-flex' : 'none';
-  const chipH9 = document.getElementById('chipH9');
-  if(chipH9) chipH9.style.display = h9Dn ? 'inline-flex' : 'none';
-  const chipH10 = document.getElementById('chipH10');
-  if(chipH10) chipH10.style.display = h10Dn ? 'inline-flex' : 'none';
-  const chipH11 = document.getElementById('chipH11');
-  if(chipH11) chipH11.style.display = h11Dn ? 'inline-flex' : 'none';
   if(lbl) {
-    if(currentFilter === 'all') lbl.textContent = `${allVisible.length} mot${allVisible.length!==1?'s':''} débloqué${allVisible.length!==1?'s':''}`;
-    else if(currentFilter === 'h2') lbl.textContent = 'Vocabulaire Histoires 1 & 2';
-    else if(currentFilter === 'h3') lbl.textContent = 'Vocabulaire Histoire 3';
-    else if(currentFilter === 'h7') lbl.textContent = 'Vocabulaire Histoire 7';
-    else if(currentFilter === 'h8') lbl.textContent = 'Vocabulaire Histoire 8';
-    else if(currentFilter === 'h9') lbl.textContent = 'Vocabulaire Histoire 9';
-    else if(currentFilter === 'h10') lbl.textContent = 'Vocabulaire Histoire 10';
-    else if(currentFilter === 'h11') lbl.textContent = 'Vocabulaire Histoire 11';
-    else if(currentFilter === 'h6') lbl.textContent = 'Vocabulaire Histoire 6';
-    else if(currentFilter === 'h5') lbl.textContent = 'Vocabulaire Histoire 5';
-    else if(currentFilter === 'h4') lbl.textContent = 'Vocabulaire Histoire 4';
-    else lbl.textContent = `Leçon ${currentFilter}`;
+    const q = (window._vocSearch||'').trim();
+    if(q) lbl.textContent = `${words.length} résultat${words.length!==1?'s':''} pour « ${q} »`;
+    else if(currentFilter === 'all') lbl.textContent = `${allVisible.length} mots essentiels`;
+    else lbl.textContent = (THEME_LABELS[currentFilter] || currentFilter) + ` · ${words.length} mots`;
   }
 
   if(words.length === 0) {
-    const lecHrefs = {1:'lecon.html',2:'lecon2.html',3:'lecon3.html',4:'lecon4.html',5:'lecon5.html',6:'lecon6.html',7:'lecon7.html',8:'lecon8.html',9:'lecon9.html',10:'lecon10.html'};
-    const isH7Filter = currentFilter === 'h7';
-    const isH8Filter = currentFilter === 'h8';
-    const isH9Filter = currentFilter === 'h9';
-    const isH10Filter = currentFilter === 'h10';
-    const isH11Filter = currentFilter === 'h11';
-    const isH6Filter = currentFilter === 'h6';
-    const isH5Filter = currentFilter === 'h5';
-    const isH4Filter = currentFilter === 'h4';
-    const isH3Filter = currentFilter === 'h3';
-    const isH2Filter = currentFilter === 'h2';
-    const isHFilter = isH2Filter || isH3Filter || isH4Filter || isH5Filter || isH6Filter || isH7Filter || isH8Filter || isH9Filter || isH10Filter || isH11Filter;
-    const href = isH11Filter ? 'histoire11.html' : isH10Filter ? 'histoire10.html' : isH9Filter ? 'histoire9.html' : isH8Filter ? 'histoire8.html' : isH7Filter ? 'histoire7.html' : isH6Filter ? 'histoire6.html' : isH5Filter ? 'histoire5.html' : isH4Filter ? 'histoire4.html' : isH3Filter ? 'histoire3.html' : isH2Filter ? 'histoire2.html' : (currentFilter !== 'all' ? lecHrefs[parseInt(currentFilter)] : 'app.html');
-    const lbl2 = isH11Filter ? "Lire l'Histoire 11 →" : isH10Filter ? "Lire l'Histoire 10 →" : isH9Filter ? "Lire l'Histoire 9 →" : isH8Filter ? "Lire l'Histoire 8 →" : isH7Filter ? "Lire l'Histoire 7 →" : isH6Filter ? "Lire l'Histoire 6 →" : isH5Filter ? "Lire l'Histoire 5 →" : isH4Filter ? "Lire l'Histoire 4 →" : isH3Filter ? "Lire l'Histoire 3 →" : isH2Filter ? "Lire l'Histoire 2 →" : (currentFilter !== 'all' ? `Aller à la Leçon ${currentFilter} →` : 'Commencer les leçons →');
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:32px 16px"><div style="font-size:32px;margin-bottom:10px"></div><div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px">${currentFilter==='all' ? 'Tes mots arrivent bientôt' : (isHFilter ? 'Histoire non lue' : 'Leçon verrouillée')}</div><div style="font-size:12px;color:var(--gray);margin-bottom:14px">${currentFilter==='all' ? 'Chaque mot rencontré dans tes leçons apparaîtra ici — commence ta première leçon&nbsp;!' : (isHFilter ? 'Lis cette histoire pour débloquer ces mots !' : 'Complète la leçon pour débloquer ces mots !')}</div><a href="${href}" style="display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:var(--gold);border-radius:100px;padding:9px 20px;font-size:12px;font-weight:700;text-decoration:none">${lbl2}</a></div>`;
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:32px 16px"><div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:4px">Aucun mot trouvé</div><div style="font-size:12px;color:var(--gray)">Essaie un autre mot, en français, coréen ou romanisation.</div></div>`;
     return;
   }
 
-  const lecColors = { 1:'#FF8EA8', 2:'#4F8EF7', 3:'#22c55e', 4:'#C9A96E', 5:'#A78BFA', 6:'#F59E0B', 7:'#EC4899', 8:'#8B5CF6', 9:'#06B6D4', 10:'#EF4444', 'h2':'#22c55e', 'h3':'#A78BFA', 'h4':'#F59E0B', 'h5':'#0d9488', 'h6':'#4F46E5', 'h7':'#F43F5E', 'h8':'#38BDF8', 'h9':'#A78BFA', 'h10':'#F59E0B', 'h11':'#F43F5E' };
-  const lecNames  = { 1:'L1', 2:'L2', 3:'L3', 4:'L4', 5:'L5', 6:'L6', 7:'L7', 8:'L8', 9:'L9', 10:'L10', 'h2':'H2', 'h3':'H3', 'h4':'H4', 'h5':'H5', 'h6':'H6', 'h7':'H7', 'h8':'H8', 'h9':'H9', 'h10':'H10', 'h11':'H11' };
+  const lecColors = VOC_COLORS;
+  const lecNames  = VOC_BADGES;
   grid.innerHTML = words.map(w => {
     const m = getMastery(w.id);
     const dot = m >= 2 ? 'good' : m === 1 ? 'mid' : 'new';
@@ -1033,9 +1006,7 @@ function flipCard(id) {
     addMastery(id);
     setTimeout(()=>speak(WORDS.find(w=>w.id===id)?.audio||'',null),300);
     // Refresh mastery silently
-    const done = getLecsDone();
-    const allVisible = WORDS.filter(w=>done[w.lec]);
-    renderMastery(allVisible);
+    renderMastery(WORDS);
   }
 }
 
@@ -1057,7 +1028,7 @@ function renderMastery(words) {
       <div class="mastery-kr">${w.kr}</div>
       <div class="mastery-info">
         <div class="mastery-fr">${w.fr}</div>
-        <div class="mastery-rom">${w.rom} · L${w.lec}</div>
+        <div class="mastery-rom">${w.rom} · ${VOC_BADGES[w.lec]||w.lec}</div>
       </div>
       <div class="mastery-dot ${dot}" title="${dotTitle}"></div>
     </div>`;
@@ -1137,29 +1108,11 @@ function endQuiz() {
     document.getElementById('quizNext').textContent='Suivant →';
     document.getElementById('quizNext').onclick=null;
     document.getElementById('quizNext').addEventListener('click',handleQuizNext);
-    const _d=getLecsDone();
-    const _h2=(function(){ try{ return localStorage.getItem('ks_h2')==='done'; }catch(e){ return false; } })();
-    const _h3=(function(){ try{ return localStorage.getItem('ks_h3')==='done'; }catch(e){ return false; } })();
-    const _h4=(function(){ try{ return localStorage.getItem('ks_h4')==='done'; }catch(e){ return false; } })();
-    const _h5=(function(){ try{ return localStorage.getItem('ks_h5')==='done'; }catch(e){ return false; } })();
-    const _h6=(function(){ try{ return localStorage.getItem('ks_h6')==='done'; }catch(e){ return false; } })();
-    const _h7=(function(){ try{ return localStorage.getItem('ks_h7')==='done'; }catch(e){ return false; } })();
-    const _h8=(function(){ try{ return localStorage.getItem('ks_h8')==='done'; }catch(e){ return false; } })();
-    const _h9=(function(){ try{ return localStorage.getItem('ks_h9')==='done'; }catch(e){ return false; } })();
-    const _h10=(function(){ try{ return localStorage.getItem('ks_h10')==='done'; }catch(e){ return false; } })();
-    const _h11=(function(){ try{ return localStorage.getItem('ks_h11')==='done'; }catch(e){ return false; } })();
-    renderQuiz(WORDS.filter(w=>w.lec==='h11'?_h11:w.lec==='h10'?_h10:w.lec==='h9'?_h9:w.lec==='h8'?_h8:w.lec==='h7'?_h7:w.lec==='h6'?_h6:w.lec==='h5'?_h5:w.lec==='h4'?_h4:w.lec==='h3'?_h3:w.lec==='h2'?_h2:_d[w.lec]));
+    renderQuiz(WORDS);
   };
-  const done=getLecsDone();
-  const h2DnE=(function(){ try{ return localStorage.getItem('ks_h2')==='done'; }catch(e){ return false; } })();
-  const h3DnE=(function(){ try{ return localStorage.getItem('ks_h3')==='done'; }catch(e){ return false; } })();
-  const h4DnE=(function(){ try{ return localStorage.getItem('ks_h4')==='done'; }catch(e){ return false; } })();
-  const h5DnE=(function(){ try{ return localStorage.getItem('ks_h5')==='done'; }catch(e){ return false; } })();
-  const h6DnE=(function(){ try{ return localStorage.getItem('ks_h6')==='done'; }catch(e){ return false; } })();
-  const h7DnE=(function(){ try{ return localStorage.getItem('ks_h7')==='done'; }catch(e){ return false; } })();
-  renderMastery(WORDS.filter(w=>w.lec==='h7'?h7DnE:w.lec==='h6'?h6DnE:w.lec==='h5'?h5DnE:w.lec==='h4'?h4DnE:w.lec==='h3'?h3DnE:w.lec==='h2'?h2DnE:done[w.lec]));
+  renderMastery(WORDS);
   // Refresh stats
-  const allV=WORDS.filter(w=>w.lec==='h7'?h7DnE:w.lec==='h6'?h6DnE:w.lec==='h5'?h5DnE:w.lec==='h4'?h4DnE:w.lec==='h3'?h3DnE:w.lec==='h2'?h2DnE:done[w.lec]);
+  const allV=WORDS;
   const mp=allV.length?Math.round(allV.filter(w=>getMastery(w.id)>=2).length/allV.length*100):0;
   document.getElementById('statMastery').textContent=mp+'%';
 }
@@ -1178,6 +1131,18 @@ document.getElementById('filters').addEventListener('click',e=>{
   chip.classList.add('act');
   renderCards(chip.dataset.f);
 });
+
+// ── Recherche ──
+window._vocSearch = '';
+(function(){
+  const inp = document.getElementById('vocSearch');
+  if(!inp) return;
+  let t = null;
+  inp.addEventListener('input', function(){
+    clearTimeout(t);
+    t = setTimeout(function(){ window._vocSearch = inp.value; renderCards(currentFilter); }, 180);
+  });
+})();
 
 // ── Init ──
 renderCards('all');
@@ -1366,7 +1331,7 @@ function renderStudyCard(){
   document.getElementById('studyRom').textContent = w.rom;
   document.getElementById('studyFr').textContent = w.fr;
   document.getElementById('studyBreak').textContent = w.break || '';
-  document.getElementById('studyLec').textContent = 'Leçon ' + w.lec;
+  document.getElementById('studyLec').textContent = typeof w.lec==='number' ? ('Leçon ' + w.lec) : (THEME_LABELS[w.lec] || VOC_BADGES[w.lec] || '');
   document.getElementById('studyCounter').textContent = (studyIdx+1) + ' / ' + studyQueue.length;
   document.getElementById('studyProg').style.width = (studyIdx / studyQueue.length * 100) + '%';
   document.getElementById('studyStreak').innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.9 0-3.5-.5-4.8-1.5L8.5 14.5z"/></svg> ' + studyStreak;
