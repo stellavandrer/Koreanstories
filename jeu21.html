@@ -75,11 +75,11 @@ const QUESTIONS=[
   {sit:"« S'il y a du temps, on visitera Busan. »",ok:"시간이 있으면 부산을 구경할 거예요",alts:["시간이 있어서 부산을 구경할 거예요","시간이 있지만 부산을 구경할 거예요"]},
   {sit:"« Comment sera la météo demain ? »",ok:"내일 날씨가 어떨까요?",alts:["내일 날씨가 어때요만?","내일 날씨가 어떻게 해요?"]},
   {sit:"« On ira faire de la randonnée s'il fait beau. »",ok:"날씨가 좋으면 등산 갈 거예요",alts:["날씨가 좋으면 요리 갈 거예요","날씨가 좋으면 운동 갈 거예요"]},
-  {sit:"« Il fait beau »",ok:"날씨가 맑아요",alts:["날씨가 흐려요","비가 와요"]},
+  {sit:"« Il fait beau, ciel clair »",ok:"맑아요",alts:["흐려요","추워요"]},
   {sit:"« Il pleut »",ok:"비가 와요",alts:["눈이 와요","바람이 불어요"]},
-  {sit:"« Bulletin météo »",ok:"일기예보",alts:["날씨","계절"]},
+  {sit:"« Météo, temps qu'il fait »",ok:"날씨",alts:["일기예보","계절"]},
   {sit:"« Parapluie »",ok:"우산",alts:["코트","가방"]},
-  {sit:"« Si... (condition) »",ok:"~(으)면",alts:["~아서","~지만"]}
+  {sit:"« Si le temps est beau... » (~(으)면)",ok:"날씨가 좋으면",alts:["날씨가 좋아서","날씨가 좋지만"]}
 ];
 let order=[],idx=0,score=0,streak=0,timeLeft=90,timer=null,locked=false;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
