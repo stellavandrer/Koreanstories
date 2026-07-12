@@ -284,7 +284,14 @@
     btn.classList.remove('success','partial','fail');
     btn.classList.add('listening');
 
+    /* Filet de sécurité : sur certains navigateurs/versions, le moteur
+       déclenche onend sans jamais avoir déclenché onresult ni onerror
+       (fin silencieuse). Sans ce drapeau, l'utilisateur ne voit alors
+       strictement rien — ni feedback, ni alerte. */
+    var settled = false;
+
     rec.onresult = function(e){
+      settled = true;
       var top = e.results[0][0];
       var heard = (top && top.transcript) || '';
       var confidence = (top && typeof top.confidence === 'number') ? top.confidence : 0;
@@ -317,6 +324,7 @@
     };
 
     rec.onerror = function(e){
+      settled = true;
       btn.classList.remove('listening');
       if (e.error === 'no-speech') {
         showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
@@ -338,6 +346,15 @@
     rec.onend = function(){
       btn.classList.remove('listening');
       if (ACTIVE_REC === rec) ACTIVE_REC = null;
+      if (!settled) {
+        /* Fin silencieuse confirmée : on affiche le même retour que pour
+           "aucun son détecté" plutôt que de laisser le bouton redevenir
+           neutre sans explication. */
+        btn.classList.add('fail');
+        setTimeout(function(){ btn.classList.remove('fail'); }, 2500);
+        recordAttempt(0);
+        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
+      }
     };
 
     try { rec.start(); }
