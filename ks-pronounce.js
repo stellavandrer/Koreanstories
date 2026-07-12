@@ -320,8 +320,18 @@
       btn.classList.remove('listening');
       if (e.error === 'no-speech') {
         showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
-      } else if (e.error === 'not-allowed') {
+      } else if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
         alert('Le micro est bloqué. Autorise l\'accès au microphone dans les réglages du navigateur.');
+      } else if (e.error === 'audio-capture') {
+        alert('Aucun micro détecté. Vérifie qu\'un microphone est branché et qu\'aucune autre appli ne l\'utilise déjà.');
+      } else if (e.error === 'network') {
+        alert('Le service de reconnaissance vocale est injoignable. Vérifie ta connexion internet et réessaie.');
+      } else if (e.error === 'aborted') {
+        /* Interruption volontaire (nouvelle écoute lancée juste après) — pas d'alerte. */
+      } else {
+        /* Tout autre code (language-not-supported, bad-grammar…) : on ne laisse
+           jamais le bouton revenir à l'état neutre sans un mot d'explication. */
+        alert('Erreur de reconnaissance vocale (' + e.error + '). Réessaie dans quelques secondes.');
       }
     };
 
