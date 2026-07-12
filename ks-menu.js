@@ -49,6 +49,7 @@
     ]},
     { title:'Pratiquer', items:[
       ['challenge.html','Défi du jour',IC.bolt],
+      ['speaking.html','Speaking Practice',IC.speak],
       ['daily-mix.html','Mix du jour',IC.mix],
       ['exercice.html','Exercices',IC.check],
       ['revision.html','Révisions',IC.refresh],

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Speaking Practice — Écoute et répète — Korean Stories</title>
+  <meta name="description" content="Entraîne-toi à l'oral : écoute 42 phrases coréennes naturelles (A1 à B2) prononcées par un locuteur natif, répète à voix haute, avance à ton rythme. Pauses pour répéter et vitesse lente disponibles."/>
+  <link rel="canonical" href="https://koreanstories.fr/speaking.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    .wrap{padding:1rem;max-width:640px;margin:0 auto}
+    h1{color:var(--navy);margin:0 0 .3rem;font-size:1.4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    .lead{color:var(--tx-muted);font-size:.92rem;line-height:1.6;margin:0 0 1rem}
+    .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
+    .chip{padding:.4rem .9rem;border-radius:20px;border:1.5px solid var(--bd);background:var(--surf);font-size:.85rem;font-weight:600;cursor:pointer;color:var(--tx)}
+    .chip.act{background:#0EA5E9;border-color:#0EA5E9;color:#fff}
+    .opt-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.1rem}
+    .lchip{padding:.4rem .8rem;border-radius:20px;border:1.5px solid var(--bd);background:var(--surf);font-size:.8rem;font-weight:600;cursor:pointer;color:var(--tx-muted);display:inline-flex;align-items:center;gap:.35rem}
+    .lchip svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+    .lchip.on{background:rgba(14,165,233,.12);border-color:#0EA5E9;color:#0EA5E9}
+    [data-theme="dark"] .lchip.on{color:#7dd3fc}
+    .deck-empty{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:2rem 1.2rem;text-align:center;color:var(--tx-muted)}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:18px;padding:1.6rem 1.4rem;text-align:center;position:relative}
+    .prog{font-size:.78rem;color:var(--tx-muted);font-weight:700;letter-spacing:.03em;text-transform:uppercase;margin-bottom:.9rem}
+    .card-src{position:absolute;top:1rem;right:1rem;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;background:rgba(14,165,233,.1);color:#0EA5E9}
+    [data-theme="dark"] .card-src{color:#7dd3fc}
+    .kr{font-size:1.55rem;font-weight:800;color:var(--navy);line-height:1.4;margin:.3rem 0 .6rem}
+    [data-theme="dark"] .kr{color:#EDF2FA}
+    .kr.listening{color:#0EA5E9}
+    .fr{font-size:.95rem;color:var(--tx-muted);line-height:1.5;margin-bottom:1rem}
+    .play-big{width:64px;height:64px;border-radius:50%;background:#0EA5E9;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem}
+    .play-big svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:2}
+    .play-big.playing{background:#0284c7}
+    .nav-row{display:flex;gap:.6rem;justify-content:center}
+    .nav-btn{padding:.6rem 1rem;border-radius:12px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);font-weight:600;cursor:pointer;font-size:.88rem}
+    .nav-btn:disabled{opacity:.35;cursor:default}
+    .source-link{display:block;margin-top:1rem;font-size:.82rem;color:#0EA5E9;text-decoration:none}
+    [data-theme="dark"] .source-link{color:#7dd3fc}
+    .auto-row{margin-top:1rem}
+    .auto-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.85rem;background:var(--surf);border:1.5px solid #0EA5E9;color:#0EA5E9;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer}
+    [data-theme="dark"] .auto-btn{color:#7dd3fc;border-color:#7dd3fc}
+    .auto-btn.on{background:#0EA5E9;color:#fff}
+    [data-theme="dark"] .auto-btn.on{background:#0284c7;color:#fff}
+    .auto-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+    .how{background:rgba(14,165,233,.06);border-left:3px solid #0EA5E9;border-radius:0 10px 10px 0;padding:.7rem .95rem;font-size:.85rem;line-height:1.55;margin:1rem 0}
+    .done-msg{background:linear-gradient(135deg,#0EA5E9,#0284c7);color:#fff;border-radius:14px;padding:1.1rem 1.2rem;margin-top:1rem;text-align:center;font-weight:700;font-size:.95rem;display:none}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Speaking Practice</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div class="wrap">
+  <h1>🎧 Speaking Practice</h1>
+  <p class="lead">Écoute chaque phrase prononcée par un locuteur natif, répète-la à voix haute, puis avance. Ce n'est pas un quiz — juste de l'entraînement à l'oral, autant de fois que tu veux.</p>
+
+  <div class="chips" id="lvlChips">
+    <div class="chip act" data-lvl="all">Tous niveaux</div>
+    <div class="chip" data-lvl="a1">A1</div>
+    <div class="chip" data-lvl="a2">A2</div>
+    <div class="chip" data-lvl="b1">B1</div>
+    <div class="chip" data-lvl="b2">B2</div>
+  </div>
+
+  <div class="opt-row">
+    <div class="lchip" data-opt="pause" onclick="toggleSeqOpt('pause')"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>Pauses pour répéter</div>
+    <div class="lchip" data-opt="slow" onclick="toggleSeqOpt('slow')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 15"/></svg>Vitesse lente</div>
+  </div>
+
+  <div id="deckArea"></div>
+  <div class="done-msg" id="doneMsg">✓ Série terminée ! Relance-la autant de fois que tu veux, ou change de niveau.</div>
+
+  <div class="how"><strong>Comment pratiquer</strong> : écoute, répète à voix haute avant d'appuyer sur Suivant — ne lis pas seulement la traduction, essaie de reproduire le rythme et l'intonation. Avec « Pauses pour répéter », la lecture automatique laisse un silence après chaque phrase, exactement le temps de la redire.</p></div>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+const DECK=[
+{id:'g01',title:'은 / 는 — Le marqueur de thème',level:'a1',lesson:'lecon15.html',examples:[
+  {kr:'저는 학생이에요',fr:'Moi, je suis étudiant(e).'},
+  {kr:'계산은 카드로 해요',fr:'Le paiement, c\'est par carte.'},
+  {kr:'제 친구는 친절해요',fr:'Mon ami(e), il/elle est gentil(le).'}
+]},
+{id:'g13',title:'있어요 / 없어요 — Exister & Avoir',level:'a1',lesson:'lecon62.html',examples:[
+  {kr:'고양이가 있어요',fr:'J\'ai un chat. / Il y a un chat.'},
+  {kr:'시간이 없어요',fr:'Je n\'ai pas le temps.'},
+  {kr:'친구가 집에 있어요',fr:'Mon ami est à la maison.'}
+]},
+{id:'g14',title:'-(으)세요 — L\'impératif poli',level:'a1',lesson:'lecon63.html',examples:[
+  {kr:'여기 앉으세요',fr:'Asseyez-vous ici.'},
+  {kr:'메뉴 주세요',fr:'Le menu, s\'il vous plaît.'},
+  {kr:'걱정하지 마세요',fr:'Ne vous inquiétez pas.'}
+]},
+{id:'g15',title:'뭐 · 누구 · 어디 · 언제 — Poser des questions',level:'a1',lesson:'lecon14.html',examples:[
+  {kr:'이거 뭐예요?',fr:'C\'est quoi, ça ?'},
+  {kr:'어떻게 가요?',fr:'Comment on y va ?'},
+  {kr:'왜 늦었어요?',fr:'Pourquoi tu es en retard ?'}
+]},
+{id:'g16',title:'개 · 명 · 잔 — Les compteurs',level:'a1',lesson:'lecon44.html',examples:[
+  {kr:'김밥 두 개 주세요',fr:'Deux kimbap, s\'il vous plaît.'},
+  {kr:'차 한 잔 드릴까요',fr:'Je vous sers une tasse de thé ?'}
+]},
+{id:'g17',title:'-(으)ㄹ 거예요 — Le futur',level:'a2',lesson:'lecon21.html',examples:[
+  {kr:'여기서 먹을 거예요',fr:'Je vais manger ici.'},
+  {kr:'오늘 저녁에 책을 읽을 거예요',fr:'Ce soir, je vais lire un livre.'}
+]},
+{id:'g18',title:'-고 있어요 — « En train de »',level:'a2',lesson:'lecon22.html',examples:[
+  {kr:'공부하고 있어요',fr:'Je suis en train d\'étudier.'},
+  {kr:'친구가 자고 있어요.',fr:'Mon ami est en train de dormir.'}
+]},
+{id:'g19',title:'-(으)ㄹ 수 있어요 / 없어요 — « Pouvoir »',level:'a2',lesson:'lecon23.html',examples:[
+  {kr:'말할 수 있어요',fr:'Je peux le dire / parler.'},
+  {kr:'먹을 수 없어요',fr:'Je ne peux pas (le) manger.'}
+]},
+{id:'g20',title:'-아/어 봤어요 — « J\'ai déjà essayé »',level:'a2',lesson:'lecon46.html',examples:[
+  {kr:'김치 먹어 봤어요?',fr:'Tu as déjà goûté le kimchi ?'},
+  {kr:'네, 먹어 봤어요. 맛있었어요!',fr:'Oui, j\'ai goûté. C\'était bon !'}
+]},
+{id:'g21',title:'보다 · 더 · 제일 — Comparatif & superlatif',level:'a2',lesson:'lecon48.html',examples:[
+  {kr:'서울이 파리보다 더 커요.',fr:'Séoul est plus grand que Paris.'},
+  {kr:'오늘이 어제보다 더 추워요.',fr:'Aujourd\'hui, il fait plus froid qu\'hier.'},
+  {kr:'이게 제일 맛있어요 !',fr:'C\'est ça le plus délicieux !'}
+]},
+{id:'g22',title:'-이/히/리/기 — Le passif',level:'a2',lesson:'lecon45.html',examples:[
+  {kr:'한국어가 잘 들려요',fr:'Le coréen « s\'entend » bien (je le comprends à l\'oreille).'},
+  {kr:'창문이 바람에 열렸어요',fr:'La fenêtre s\'est ouverte avec le vent.'}
+]},
+{id:'g23',title:'만 · 도 · 부터 · 까지 — Les nuanceuses',level:'a2',lesson:'lecon75.html',examples:[
+  {kr:'저는 물만 마셔요',fr:'Je ne bois que de l\'eau.'},
+  {kr:'아홉 시부터 다섯 시까지 일해요',fr:'Je travaille de 9 h à 17 h.'}
+]},
+{id:'g24',title:'-아/어서 vs -(으)니까 — « Parce que »',level:'b1',lesson:'lecon18.html',examples:[
+  {kr:'늦어서 죄송해요.',fr:'Désolé(e) d\'être en retard.'},
+  {kr:'피곤하니까 쉬어요!',fr:'Tu es fatigué(e), alors repose-toi !'}
+]},
+{id:'g25',title:'-는데 — Poser le décor',level:'b1',lesson:'lecon40.html',examples:[
+  {kr:'어제 이 신발을 샀는데 너무 작아요.',fr:'J\'ai acheté ces chaussures hier, mais elles sont trop petites.'},
+  {kr:'보고 싶은데 오늘은 좀 피곤해서요.',fr:'J\'aimerais bien te voir, mais aujourd\'hui je suis un peu fatigué(e)...'}
+]},
+{id:'g26',title:'-다고 하다 — « Il a dit que... »',level:'b1',lesson:'lecon29.html',examples:[
+  {kr:'바쁘다고 했어요',fr:'Il/elle a dit qu\'il/elle était occupé(e).'},
+  {kr:'배고프다고 해요',fr:'Il/elle dit qu\'il/elle a faim.'}
+]},
+{id:'g27',title:'-(으)러 vs -기 위해서 — « Pour... »',level:'b1',lesson:'lecon79.html',examples:[
+  {kr:'방 보러 왔어요',fr:'Je suis venu(e) voir la chambre.'},
+  {kr:'성공하기 위해 뭐가 필요해요?',fr:'Pour réussir, que faut-il ?'}
+]},
+{id:'g29',title:'-기 / -음 — La nominalisation',level:'b2',lesson:'lecon49.html',examples:[
+  {kr:'한국어 배우기가 재미있어요',fr:'Apprendre le coréen, c\'est amusant.'},
+  {kr:'저는 음악 듣기를 좋아해요',fr:'J\'aime écouter de la musique.'}
+]},
+{id:'g30',title:'-아/어도 & -더라도 — « Même si... »',level:'b2',lesson:'lecon56.html',examples:[
+  {kr:'비가 와도 갈 거예요.',fr:'Même s\'il pleut, j\'irai.'},
+  {kr:'어려워도 포기하지 마세요.',fr:'Même si c\'est difficile, n\'abandonne pas.'},
+  {kr:'힘들더라도 해야 해요.',fr:'Même si c\'est dur, il faut le faire.'}
+]},
+];
+
+let CARDS=[];
+DECK.forEach(d=>d.examples.forEach(e=>CARDS.push({kr:e.kr,fr:e.fr,level:d.level,title:d.title,lesson:d.lesson})));
+
+let curLevel='all';
+let list=CARDS.slice();
+let idx=0;
+
+const SEQ={running:false,timer:null};
+const SEQ_OPTS={pause:false,slow:false};
+
+function toggleSeqOpt(name){
+  SEQ_OPTS[name]=!SEQ_OPTS[name];
+  document.querySelectorAll('.lchip[data-opt="'+name+'"]').forEach(c=>c.classList.toggle('on',SEQ_OPTS[name]));
+}
+
+function setLevel(lvl){
+  curLevel=lvl;
+  document.querySelectorAll('#lvlChips .chip').forEach(c=>c.classList.toggle('act',c.dataset.lvl===lvl));
+  list = lvl==='all' ? CARDS.slice() : CARDS.filter(c=>c.level===lvl);
+  idx=0;
+  seqStop();
+  document.getElementById('doneMsg').style.display='none';
+  render();
+}
+document.getElementById('lvlChips').addEventListener('click',e=>{
+  const chip=e.target.closest('.chip'); if(!chip) return;
+  setLevel(chip.dataset.lvl);
+});
+
+function render(){
+  const area=document.getElementById('deckArea');
+  if(!list.length){ area.innerHTML='<div class="deck-empty">Aucune phrase à ce niveau pour l’instant.</div>'; return; }
+  const c=list[idx];
+  const lvlLabel=c.level.toUpperCase();
+  area.innerHTML=
+    '<div class="card">'+
+      '<span class="card-src">'+lvlLabel+'</span>'+
+      '<div class="prog">Phrase '+(idx+1)+' / '+list.length+'</div>'+
+      '<div class="kr" id="krTxt">'+c.kr+'</div>'+
+      '<div class="fr">'+c.fr+'</div>'+
+      '<button class="play-big" id="playBig" aria-label="Écouter" onclick="playCurrent()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>'+
+      '<div class="nav-row">'+
+        '<button class="nav-btn" id="prevBtn" onclick="stepCard(-1)" '+(idx===0?'disabled':'')+'>← Précédent</button>'+
+        '<button class="nav-btn" id="nextBtn" onclick="stepCard(1)">Suivant →</button>'+
+      '</div>'+
+      '<a class="source-link" href="'+c.lesson+'">Revoir la leçon : '+c.title+' →</a>'+
+      '<div class="auto-row"><button class="auto-btn" id="autoBtn" onclick="toggleAuto()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>Lecture automatique</span></button></div>'+
+    '</div>';
+}
+
+function playCurrent(){
+  const c=list[idx];
+  const kr=document.getElementById('krTxt');
+  const btn=document.getElementById('playBig');
+  btn.classList.add('playing'); kr.classList.add('listening');
+  speak(c.kr,null,{
+    onaudio: SEQ_OPTS.slow ? function(a){ try{ a.playbackRate=0.75; a.preservesPitch=true; a.webkitPreservesPitch=true; }catch(e){} } : null,
+    onended:function(){ btn.classList.remove('playing'); kr.classList.remove('listening'); },
+    onerror:function(){ btn.classList.remove('playing'); kr.classList.remove('listening'); }
+  });
+}
+
+function stepCard(dir){
+  seqStop();
+  idx=Math.max(0,Math.min(list.length-1,idx+dir));
+  document.getElementById('doneMsg').style.display='none';
+  render();
+}
+
+function seqStop(){
+  SEQ.running=false;
+  if(SEQ.timer){ clearTimeout(SEQ.timer); SEQ.timer=null; }
+  const btn=document.getElementById('autoBtn');
+  if(btn){ btn.classList.remove('on'); btn.querySelector('span').textContent='Lecture automatique'; }
+}
+
+function toggleAuto(){
+  if(SEQ.running){ seqStop(); return; }
+  SEQ.running=true;
+  const btn=document.getElementById('autoBtn');
+  btn.classList.add('on'); btn.querySelector('span').textContent='Arrêter';
+  playAutoStep();
+}
+
+function playAutoStep(){
+  if(!SEQ.running) return;
+  render();
+  const btn=document.getElementById('autoBtn');
+  if(btn){ btn.classList.add('on'); btn.querySelector('span').textContent='Arrêter'; }
+  const c=list[idx];
+  const kr=document.getElementById('krTxt');
+  kr.classList.add('listening');
+  const gap = SEQ_OPTS.pause ? 1800 : 500;
+  speak(c.kr,null,{
+    onaudio: SEQ_OPTS.slow ? function(a){ try{ a.playbackRate=0.75; a.preservesPitch=true; a.webkitPreservesPitch=true; }catch(e){} } : null,
+    onended:function(){
+      kr.classList.remove('listening');
+      if(!SEQ.running) return;
+      SEQ.timer=setTimeout(function(){
+        if(idx>=list.length-1){ seqStop(); markSessionDone(); render(); return; }
+        idx++; playAutoStep();
+      }, gap);
+    },
+    onerror:function(){
+      kr.classList.remove('listening');
+      if(!SEQ.running) return;
+      if(idx>=list.length-1){ seqStop(); markSessionDone(); render(); return; }
+      idx++; SEQ.timer=setTimeout(playAutoStep,200);
+    }
+  });
+}
+
+function markSessionDone(){
+  document.getElementById('doneMsg').style.display='block';
+  try{
+    if(!localStorage.getItem('ks_speaking_done')){
+      localStorage.setItem('ks_speaking_done','1');
+      if(typeof ksAddXP==='function') ksAddXP(10);
+    }
+  }catch(e){}
+}
+
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+render();
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
