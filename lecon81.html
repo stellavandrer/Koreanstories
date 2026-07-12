@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Décision ou Envie : -(으)ㄹ게요 vs -(으)ㄹ래요 — Korean Stories</title>
+<meta name="description" content="-(으)ㄹ게요 (décision/promesse envers l'interlocuteur) vs -(으)ㄹ래요 (envie personnelle, souvent en question) : la nuance que tout le monde confond. Leçon A2."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon81.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:#2563EB;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] h3{color:#93c5fd}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(37,99,235,.12);color:#2563EB;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#93c5fd}
+    .xp-badge{background:rgba(37,99,235,.12);color:#2563EB;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#93c5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#2563EB;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(37,99,235,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#2563EB;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#93c5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.2rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(37,99,235,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(37,99,235,.2)}
+    .speak-btn.playing{background:#2563EB}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#2563EB;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    .contrast{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.7rem 0}
+    .side-a{background:rgba(37,99,235,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(37,99,235,.2)}
+    .side-b{background:rgba(219,39,119,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(219,39,119,.2)}
+    .side-a h4,.side-b h4{margin:0 0 .4rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+    .side-a h4{color:#2563EB}
+    .side-b h4{color:#DB2777}
+    .side-a .ko{color:#2563EB;font-weight:700}
+    [data-theme="dark"] .side-a .ko{color:#93c5fd}
+    .side-b .ko{color:#DB2777;font-weight:700}
+    [data-theme="dark"] .side-b .ko{color:#f9a8d4}
+    @media (max-width:480px){.contrast{grid-template-columns:1fr}}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#2563EB}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Décision ou Envie</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>Décision ou Envie : -(으)ㄹ게요 / -(으)ㄹ래요</h1>
+  <span class="pill">A2 · Grammaire</span> <span class="xp-badge">+15 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Tu as sans doute déjà croisé ces deux formes séparément dans des leçons précédentes. Mais elles NE sont PAS interchangeables : l'une annonce une décision à quelqu'un, l'autre exprime une envie (et sert souvent à inviter).</p>
+
+  <h3>1 — -(으)ㄹ게요 : la décision qu'on annonce</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">Tu informes ton interlocuteur d'une décision que tu prends À L'INSTANT, souvent pour lui rendre service ou répondre à la situation. C'est presque une petite promesse.</p>
+    <div class="ex-block">
+      <div class="ko">나중에 전화할게요 <button class="speak-btn" onclick="window.speak('나중에 전화할게요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je t'appellerai plus tard. (promesse à la personne en face)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">음식 주문할게요 <button class="speak-btn" onclick="window.speak('음식 주문할게요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je vais commander à manger. (décision annoncée, ex. au serveur)</div>
+    </div>
+  </div>
+
+  <h3>2 — Le piège : décision pour l'autre ≠ envie qu'on partage</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">-(으)ㄹ게요 ne se pose JAMAIS en question — annoncer sa propre décision à soi-même n'aurait aucun sens. -(으)ㄹ래요 au contraire s'utilise très naturellement en question, pour inviter ou proposer.</p>
+    <div class="contrast">
+      <div class="side-a">
+        <h4>-(으)ㄹ게요 — Décision</h4>
+        <div class="ko">저는 비빔밥 주문할게요</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Je vais prendre un bibimbap. (j'annonce mon choix au serveur)</div>
+      </div>
+      <div class="side-b">
+        <h4>-(으)ㄹ래요 — Envie / Invitation</h4>
+        <div class="ko">맥주 한 잔 할래요?</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Tu veux boire une bière ? (question, invitation)</div>
+      </div>
+    </div>
+    <p style="margin:.6rem 0 0;font-size:.9rem">Autre repère : -(으)ㄹ게요 concerne rarement ce que fait l'AUTRE personne (c'est TA décision) ; -(으)ㄹ래요 demande justement l'envie de l'autre.</p>
+  </div>
+
+  <h3>3 — -(으)ㄹ래요 : proposer, inviter</h3>
+  <div class="card">
+    <div class="ex-block">
+      <div class="ko">에마 씨, 맥주 한 잔 할래요? <button class="speak-btn" onclick="window.speak('에마 씨, 맥주 한 잔 할래요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Emma, tu veux boire un verre ? (proposition directe et amicale)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">같이 게임 할래요? <button class="speak-btn" onclick="window.speak('같이 게임 할래요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Tu veux jouer avec moi ? (invitation entre amis)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">오늘 영화 보러 갈 건데요, 같이 갈래요? <button class="speak-btn" onclick="window.speak('오늘 영화 보러 갈 건데요, 같이 갈래요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Je vais voir un film aujourd'hui, tu veux venir avec moi ?</div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>À retenir</strong> : -(으)ㄹ래요 est assez direct et familier — parfait entre amis, mais on évite de le poser à quelqu'un de statut supérieur (patron, personne âgée) sans le rendre plus poli. -(으)ㄹ게요 est neutre et fonctionne dans presque toutes les situations, du restaurant au bureau.</div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">저는 비빔밥 주문할게요 <button class="speak-btn" onclick="window.speak('저는 비빔밥 주문할게요',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Je vais prendre un bibimbap » — la phrase qui annonce ta décision au serveur, dans n'importe quel restaurant.</span>
+  </div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« Je t'appellerai plus tard » (promesse à la personne en face) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">나중에 전화할게요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">나중에 전화할래요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">나중에 전화하나 봐요</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Emma, tu veux boire un verre ? » (invitation) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">에마 씨, 맥주 한 잔 할게요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">에마 씨, 맥주 한 잔 할래요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">에마 씨, 맥주 한 잔 마셔야지</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« Je vais prendre un bibimbap » (au restaurant, décision annoncée) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">저는 비빔밥 주문할게요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">저는 비빔밥 주문할래요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">저는 비빔밥 주문하고 있어요</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« Tu veux jouer avec moi ? » (invitation entre amis) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">같이 게임 할게요</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">같이 게임 할래요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">같이 게임해야 해요</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Je vais commander à manger » (annoncé, ex. au serveur) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">음식 주문할게요</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">음식 주문할래요?</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">음식 주문하러 가요</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b24k',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b24k');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.ok,.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
