@@ -264,9 +264,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="intro-orb intro-orb2"></div>
     </div>
     <div class="intro-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-    <div class="intro-badge">Défi quotidien</div>
+    <div class="intro-badge" id="introBadge">Défi quotidien</div>
     <h1 class="intro-h1">10 mots,<br>60 <em>secondes</em></h1>
-    <p class="intro-sub">Traduis chaque mot coréen aussi vite que possible. Les combos multiplient ton score !</p>
+    <p class="intro-sub">Le même défi pour tout le monde, renouvelé chaque jour à minuit : traduction, thème inversé et écoute de voix natives. Les combos multiplient ton score !</p>
 
     <div class="rules">
       <div class="rule">
@@ -285,7 +285,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
     <div class="intro-best"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 21 12 21 16 21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M5 8H3a2 2 0 000 4c0 1.5.8 2.8 2 3.5M19 8h2a2 2 0 010 4c0 1.5-.8 2.8-2 3.5"/><path d="M5 3h14v11a5 5 0 01-10 0V3"/></svg> Ton meilleur score : <span id="bestScoreIntro">–</span></div>
 
-    <button class="btn-start" onclick="startGame()">Commencer le défi</button>
+    <button class="btn-start" id="btnDaily" onclick="startGame('daily')">Commencer le défi du jour</button>
+    <button class="btn-start" id="btnPractice" onclick="startGame('practice')" style="display:none;background:transparent;border:1.5px solid rgba(201,169,110,.4);color:var(--gold);margin-top:10px">S'entraîner (tirage aléatoire)</button>
   </div>
 
   <!-- ═══ GAME ═══ -->
@@ -370,38 +371,195 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </div>
 
 <script>
-// ── VOCABULARY DATA ──
+// ── VOCABULAIRE : généré depuis vocabulaire.html (audio vérifié manifeste) ──
+// Régénérer si le vocabulaire du site évolue (script d'extraction dans l'historique git).
 const ALL_WORDS = [
-  {kr:'안녕하세요', rom:'annyeonghaseyo', fr:'Bonjour / Salut (formel)'},
-  {kr:'감사합니다', rom:'gamsahamnida', fr:'Merci (formel)'},
-  {kr:'사랑', rom:'sarang', fr:'Amour'},
-  {kr:'밥', rom:'bap', fr:'Riz / Repas'},
+  {kr:'고모', rom:'go-mo', fr:'Tante paternelle'},
+  {kr:'나도', rom:'na-do', fr:'Moi aussi'},
+  {kr:'바나나', rom:'ba-na-na', fr:'Banane'},
+  {kr:'수박', rom:'su-bak', fr:'Pastèque'},
+  {kr:'이리', rom:'i-ri', fr:'Par ici'},
+  {kr:'나라', rom:'na-ra', fr:'Pays'},
+  {kr:'저기', rom:'jeo-gi', fr:'Là-bas'},
+  {kr:'지구', rom:'ji-gu', fr:'La Terre'},
+  {kr:'가', rom:'ga', fr:'Aller (racine)'},
+  {kr:'나', rom:'na', fr:'Moi / Je (fam.)'},
+  {kr:'해', rom:'hae', fr:'Soleil / Mer'},
+  {kr:'하루', rom:'ha-ru', fr:'Un jour'},
+  {kr:'치즈', rom:'chi-jeu', fr:'Fromage'},
+  {kr:'유리', rom:'yu-ri', fr:'Verre / Vitre'},
+  {kr:'파티', rom:'pa-ti', fr:'Fête / Party'},
+  {kr:'야채', rom:'ya-chae', fr:'Légumes'},
+  {kr:'봐요', rom:'bwa-yo', fr:'Regarde ! (poli)'},
+  {kr:'여기', rom:'yeo-gi', fr:'Ici'},
+  {kr:'빨리', rom:'bbal-li', fr:'Vite !'},
+  {kr:'또', rom:'tto', fr:'Encore / Aussi'},
+  {kr:'시장', rom:'si-jang', fr:'Marché'},
+  {kr:'좋아해요', rom:'jo-a-hae-yo', fr:'J\'aime / J\'adore'},
+  {kr:'얼마', rom:'eol-ma', fr:'Combien ?'},
+  {kr:'비싸요', rom:'bi-ssa-yo', fr:'C\'est cher'},
+  {kr:'맛있어요', rom:'ma-si-sseo-yo', fr:'C\'est délicieux'},
+  {kr:'같이', rom:'ga-chi', fr:'Ensemble'},
+  {kr:'사요', rom:'sa-yo', fr:'On achète'},
+  {kr:'배고파요', rom:'bae-go-pa-yo', fr:'J\'ai faim'},
+  {kr:'식당', rom:'sik-dang', fr:'Restaurant'},
+  {kr:'메뉴', rom:'me-nyu', fr:'Menu'},
+  {kr:'주문', rom:'ju-mun', fr:'Commande'},
+  {kr:'매워요', rom:'mae-wo-yo', fr:'C\'est épicé'},
+  {kr:'조금', rom:'jo-geum', fr:'Un peu'},
   {kr:'물', rom:'mul', fr:'Eau'},
-  {kr:'학교', rom:'hakgyo', fr:'École'},
-  {kr:'친구', rom:'chingu', fr:'Ami(e)'},
-  {kr:'가족', rom:'gajok', fr:'Famille'},
-  {kr:'집', rom:'jip', fr:'Maison'},
-  {kr:'책', rom:'chaek', fr:'Livre'},
-  {kr:'음악', rom:'eumak', fr:'Musique'},
-  {kr:'영화', rom:'yeonghwa', fr:'Film'},
-  {kr:'시간', rom:'sigan', fr:'Temps / Heure'},
-  {kr:'날씨', rom:'nalsi', fr:'Météo'},
-  {kr:'봄', rom:'bom', fr:'Printemps'},
-  {kr:'여름', rom:'yeoreum', fr:'Été'},
-  {kr:'가을', rom:'gaeul', fr:'Automne'},
-  {kr:'겨울', rom:'gyeoul', fr:'Hiver'},
-  {kr:'사과', rom:'sagwa', fr:'Pomme'},
-  {kr:'고양이', rom:'goyangi', fr:'Chat'},
-  {kr:'개', rom:'gae', fr:'Chien'},
-  {kr:'나무', rom:'namu', fr:'Arbre'},
-  {kr:'꽃', rom:'kkot', fr:'Fleur'},
-  {kr:'바다', rom:'bada', fr:'Mer'},
-  {kr:'산', rom:'san', fr:'Montagne'},
-  {kr:'하늘', rom:'haneul', fr:'Ciel'},
-  {kr:'별', rom:'byeol', fr:'Étoile'},
-  {kr:'달', rom:'dal', fr:'Lune'},
-  {kr:'태양', rom:'taeyang', fr:'Soleil'},
-  {kr:'길', rom:'gil', fr:'Chemin / Route'},
+  {kr:'카페', rom:'ka-pe', fr:'Café (lieu)'},
+  {kr:'커피', rom:'keo-pi', fr:'Café (boisson)'},
+  {kr:'아이스', rom:'a-i-seu', fr:'Glacé / Ice'},
+  {kr:'주세요', rom:'ju-se-yo', fr:'S'},
+  {kr:'뜨거워요', rom:'tteu-geo-wo-yo', fr:'C\'est chaud'},
+  {kr:'달아요', rom:'da-ra-yo', fr:'C\'est sucré'},
+  {kr:'기다려요', rom:'gi-da-ryeo-yo', fr:'Attendez !'},
+  {kr:'카드', rom:'ka-deu', fr:'Carte (bancaire)'},
+  {kr:'편의점', rom:'pyon-i-jeom', fr:'Épicerie coréenne'},
+  {kr:'가요', rom:'ga-yo', fr:'On y va / J'},
+  {kr:'컵라면', rom:'keop-ra-myeon', fr:'Cup nouilles'},
+  {kr:'있어요', rom:'it-seo-yo', fr:'Il y a / J\'ai'},
+  {kr:'얼마예요', rom:'eol-ma-ye-yo', fr:'C\'est combien ?'},
+  {kr:'원', rom:'won', fr:'Won (monnaie)'},
+  {kr:'지갑', rom:'ji-gap', fr:'Portefeuille'},
+  {kr:'없어요', rom:'eop-seo-yo', fr:'Il n\'y a pas'},
+  {kr:'해줄게요', rom:'hae-jul-ge-yo', fr:'Je le fais pour toi'},
+  {kr:'내일', rom:'nae-il', fr:'Demain'},
+  {kr:'늦었어요', rom:'neu-jeo-sseo-yo', fr:'On est en retard'},
+  {kr:'알아요', rom:'a-ra-yo', fr:'Je sais'},
+  {kr:'지하철', rom:'ji-ha-cheol', fr:'Métro / Subway'},
+  {kr:'표', rom:'pyo', fr:'Ticket / Billet'},
+  {kr:'교통카드', rom:'kyo-tong-ka-deu', fr:'Carte T-money'},
+  {kr:'역', rom:'yeok', fr:'Station de métro'},
+  {kr:'앉아요', rom:'an-ja-yo', fr:'Asseyez-vous'},
+  {kr:'괜찮아요', rom:'gwaen-cha-na-yo', fr:'C\'est ok / Ça va'},
+  {kr:'다음', rom:'da-eum', fr:'Prochain(e)'},
+  {kr:'내려요', rom:'nae-ryeo-yo', fr:'On descend'},
+  {kr:'대박이에요', rom:'dae-ba-gi-e-yo', fr:'Super ! Génial !'},
+  {kr:'거의', rom:'geo-ui', fr:'Presque'},
+  {kr:'집', rom:'jip', fr:'Maison / Chez soi'},
+  {kr:'어서 오세요', rom:'eo-seo o-se-yo', fr:'Bienvenue !'},
+  {kr:'신발', rom:'sin-bal', fr:'Chaussures'},
+  {kr:'벗어요', rom:'beo-seo-yo', fr:'On enlève'},
+  {kr:'예뻐요', rom:'yep-peo-yo', fr:'C'},
+  {kr:'뭐', rom:'mwo', fr:'Quoi / Qu'},
+  {kr:'먹을래요', rom:'meo-geul-lae-yo', fr:'Tu veux manger ?'},
+  {kr:'라면', rom:'ra-myeon', fr:'Ramyeon (nouilles)'},
+  {kr:'먹어요', rom:'meo-geo-yo', fr:'On mange'},
+  {kr:'재미있어요', rom:'jae-mi-it-seo-yo', fr:'C'},
+  {kr:'공부', rom:'gong-bu', fr:'Étude / Révision'},
+  {kr:'피곤해요', rom:'pi-gon-hae-yo', fr:'Je suis fatigué(e)'},
+  {kr:'자요', rom:'ja-yo', fr:'On dort / Je dors'},
+  {kr:'미안해요', rom:'mi-an-hae-yo', fr:'Désolé(e) / Pardon'},
+  {kr:'일어나요', rom:'i-reo-na-yo', fr:'On se lève !'},
+  {kr:'노래방', rom:'no-rae-bang', fr:'Karaoké / Norebang'},
+  {kr:'노래', rom:'no-rae', fr:'Chanson'},
+  {kr:'신나요', rom:'sin-na-yo', fr:'C'},
+  {kr:'불러요', rom:'bul-leo-yo', fr:'On chante'},
+  {kr:'어떤', rom:'eo-tteon', fr:'Quel(le) / Lequel'},
+  {kr:'좋아요', rom:'jo-a-yo', fr:'J'},
+  {kr:'마이크', rom:'ma-i-keu', fr:'Micro'},
+  {kr:'못해요', rom:'mot-hae-yo', fr:'Je suis nul(le)'},
+  {kr:'잘해요', rom:'jal-hae-yo', fr:'Tu chantes bien'},
+  {kr:'점수', rom:'jeom-su', fr:'Score / Points'},
+  {kr:'다시', rom:'da-si', fr:'Encore / De nouveau'},
+  {kr:'진짜요', rom:'jin-jja-yo', fr:'Vraiment ?'},
+  {kr:'최고예요', rom:'choe-go-ye-yo', fr:'C'},
+  {kr:'박수', rom:'bak-su', fr:'Applaudissements'},
+  {kr:'놀아요', rom:'no-la-yo', fr:'On s'},
+  {kr:'소리', rom:'so-ri', fr:'Son / Voix / Bruit'},
+  {kr:'병원', rom:'byeong-won', fr:'Hôpital / Clinique'},
+  {kr:'아파요', rom:'a-pa-yo', fr:'J'},
+  {kr:'어디가', rom:'eo-di-ga', fr:'Où / Quelle partie'},
+  {kr:'머리', rom:'meo-ri', fr:'Tête'},
+  {kr:'기침', rom:'gi-chim', fr:'Toux'},
+  {kr:'언제', rom:'eon-je', fr:'Quand'},
+  {kr:'어제', rom:'eo-je', fr:'Hier'},
+  {kr:'열', rom:'yeol', fr:'Fièvre / Chaleur'},
+  {kr:'도', rom:'do', fr:'Degré(s) / Aussi'},
+  {kr:'검사', rom:'geom-sa', fr:'Examen médical'},
+  {kr:'좀', rom:'jom', fr:'Un peu / S'},
+  {kr:'감기', rom:'gam-gi', fr:'Rhume / Grippe'},
+  {kr:'약', rom:'yak', fr:'Médicament'},
+  {kr:'드릴게요', rom:'deu-ril-ge-yo', fr:'Je vais vous donner'},
+  {kr:'나아요', rom:'na-a-yo', fr:'Ça va mieux / Guérir'},
+  {kr:'쉬세요', rom:'swi-se-yo', fr:'Reposez-vous !'},
+  {kr:'알겠어요', rom:'al-get-seo-yo', fr:'J'},
+  {kr:'쇼핑몰', rom:'syo-ping-mol', fr:'Centre commercial'},
+  {kr:'세일', rom:'se-il', fr:'Soldes / Promotion'},
+  {kr:'옷', rom:'ot', fr:'Vêtement / Habit'},
+  {kr:'입어봐요', rom:'i-beo-bwa-yo', fr:'Essayez / J'},
+  {kr:'사이즈', rom:'sa-i-jeu', fr:'Taille / Pointure'},
+  {kr:'어울려요', rom:'eo-ul-lyeo-yo', fr:'Ça vous va bien'},
+  {kr:'너무', rom:'neo-mu', fr:'Trop / Vraiment'},
+  {kr:'살게요', rom:'sal-ge-yo', fr:'Je vais l'},
+  {kr:'색깔', rom:'saek-gal', fr:'Couleur'},
+  {kr:'다른', rom:'da-reun', fr:'Autre / Différent'},
+  {kr:'계산', rom:'gye-san', fr:'Paiement / Addition'},
+  {kr:'현금', rom:'hyeon-geum', fr:'Espèces / Cash'},
+  {kr:'영수증', rom:'yeong-su-jeung', fr:'Reçu / Ticket de caisse'},
+  {kr:'환불', rom:'hwan-bul', fr:'Remboursement'},
+  {kr:'교환', rom:'gyo-hwan', fr:'Échange / Remplacement'},
+  {kr:'구경해요', rom:'gu-gyeong-hae-yo', fr:'Je regarde / Lèche-vitrine'},
+  {kr:'집들이', rom:'jip-deu-ri', fr:'Pendaison de crémaillère'},
+  {kr:'어서 와요', rom:'eo-seo-wa-yo', fr:'Bienvenue / Entrez !'},
+  {kr:'새집', rom:'sae-jip', fr:'Nouvelle maison'},
+  {kr:'선물', rom:'seon-mul', fr:'Cadeau'},
+  {kr:'감사해요', rom:'gam-sa-hae-yo', fr:'Merci / Je vous remercie'},
+  {kr:'넓어요', rom:'neol-beo-yo', fr:'C\'est grand / Spacieux'},
+  {kr:'마음에 들어요', rom:'ma-eum-e-deu-leo-yo', fr:'J\'adore / Ça me plaît'},
+  {kr:'맛있게 드세요', rom:'ma-sit-ge-deu-se-yo', fr:'Bon appétit !'},
+  {kr:'배불러요', rom:'bae-bul-leo-yo', fr:'Je suis rassasié(e)'},
+  {kr:'축하해요', rom:'chu-ka-hae-yo', fr:'Félicitations !'},
+  {kr:'행복하세요', rom:'haeng-bok-ha-se-yo', fr:'Soyez heureux(se) !'},
+  {kr:'오래오래', rom:'o-rae-o-rae', fr:'Longtemps / Durablement'},
+  {kr:'더 먹어요', rom:'deo-meo-geo-yo', fr:'Mangez encore / Reprenez !'},
+  {kr:'또 올게요', rom:'tto-ol-ge-yo', fr:'Je reviendrai !'},
+  {kr:'엄마', rom:'eom-ma', fr:'Maman'},
+  {kr:'아빠', rom:'a-ppa', fr:'Papa'},
+  {kr:'부모', rom:'bu-mo', fr:'Parents'},
+  {kr:'언니', rom:'eon-ni', fr:'Grande sœur (dit une fille)'},
+  {kr:'오빠', rom:'o-ppa', fr:'Grand frère (dit une fille)'},
+  {kr:'누나', rom:'nu-na', fr:'Grande sœur (dit un garçon)'},
+  {kr:'형', rom:'hyeong', fr:'Grand frère (dit un garçon)'},
+  {kr:'동생', rom:'dong-saeng', fr:'Petit frère / petite sœur'},
+  {kr:'할머니', rom:'hal-meo-ni', fr:'Grand-mère'},
+  {kr:'할아버지', rom:'ha-ra-beo-ji', fr:'Grand-père'},
+  {kr:'가족', rom:'ga-jok', fr:'Famille'},
+  {kr:'아기', rom:'a-gi', fr:'Bébé'},
+  {kr:'하나', rom:'ha-na', fr:'Un (1)'},
+  {kr:'둘', rom:'dul', fr:'Deux (2)'},
+  {kr:'셋', rom:'set', fr:'Trois (3)'},
+  {kr:'넷', rom:'net', fr:'Quatre (4)'},
+  {kr:'다섯', rom:'da-seot', fr:'Cinq (5)'},
+  {kr:'여섯', rom:'yeo-seot', fr:'Six (6)'},
+  {kr:'일곱', rom:'il-gop', fr:'Sept (7)'},
+  {kr:'여덟', rom:'yeo-deol', fr:'Huit (8)'},
+  {kr:'아홉', rom:'a-hop', fr:'Neuf (9)'},
+  {kr:'백', rom:'baek', fr:'Cent (100)'},
+  {kr:'천', rom:'cheon', fr:'Mille (1000)'},
+  {kr:'빨간색', rom:'ppal-gan-saek', fr:'Rouge'},
+  {kr:'파란색', rom:'pa-ran-saek', fr:'Bleu'},
+  {kr:'노란색', rom:'no-ran-saek', fr:'Jaune'},
+  {kr:'초록', rom:'cho-rok', fr:'Vert'},
+  {kr:'하얀색', rom:'ha-yan-saek', fr:'Blanc'},
+  {kr:'까만색', rom:'kka-man-saek', fr:'Noir'},
+  {kr:'보라', rom:'bo-ra', fr:'Violet'},
+  {kr:'핑크', rom:'ping-keu', fr:'Rose (pink)'},
+  {kr:'연두색', rom:'yeon-du-saek', fr:'Vert clair'},
+  {kr:'금색', rom:'geum-saek', fr:'Doré'},
+  {kr:'은색', rom:'eun-saek', fr:'Argenté'},
+  {kr:'오늘', rom:'o-neul', fr:'Aujourd\'hui'},
+  {kr:'지금', rom:'ji-geum', fr:'Maintenant'},
+  {kr:'아침', rom:'a-chim', fr:'Matin / petit-déj'},
+  {kr:'점심', rom:'jeom-sim', fr:'Midi / déjeuner'},
+  {kr:'저녁', rom:'jeo-nyeok', fr:'Soir / dîner'},
+  {kr:'주말', rom:'ju-mal', fr:'Week-end'},
+  {kr:'매일', rom:'mae-il', fr:'Chaque jour'},
+  {kr:'시간', rom:'si-gan', fr:'Heure / temps'},
+  {kr:'생일', rom:'saeng-il', fr:'Anniversaire'},
+  {kr:'요즘', rom:'yo-jeum', fr:'Ces temps-ci'},
 ];
 
 // ── GAME STATE ──
@@ -417,26 +575,33 @@ let totalQ = 10;
 let correctCount = 0;
 let answered = false;
 
-function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+function shuffle(arr, rnd){ const r = rnd || Math.random; const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
-function getDecoys(correct, all){
-  const pool = all.filter(w => w.fr !== correct.fr);
-  return shuffle(pool).slice(0,3).map(w=>w.fr);
-}
+/* PRNG déterministe (mulberry32) seedé par la date : le défi du jour est
+   LE MÊME pour tout le monde, et change chaque jour à minuit. */
+function mulberry32(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function todayKey(){ const d=new Date(); return d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate(); }
 
-function buildQuestions(){
-  const pool = shuffle(ALL_WORDS).slice(0, totalQ);
-  return pool.map(w => {
-    const decoys = getDecoys(w, ALL_WORDS);
-    const choices = shuffle([w.fr, ...decoys]);
-    return {word:w, choices, correct:w.fr};
+let gameMode = 'daily'; // 'daily' (seedé par la date) ou 'practice' (aléatoire)
+const Q_TYPES = ['kr2fr','fr2kr','listen'];
+
+function buildQuestions(mode){
+  const rnd = mode==='daily' ? mulberry32(todayKey()) : Math.random;
+  const pool = shuffle(ALL_WORDS, rnd).slice(0, totalQ);
+  return pool.map((w,i) => {
+    const type = Q_TYPES[Math.floor(rnd()*3)];
+    const others = shuffle(ALL_WORDS.filter(x=>x.fr!==w.fr && x.kr!==w.kr), rnd).slice(0,3);
+    const useKr = (type==='fr2kr');
+    const choices = shuffle([useKr?w.kr:w.fr, ...others.map(x=>useKr?x.kr:x.fr)], rnd);
+    return {word:w, type, choices, correct:useKr?w.kr:w.fr};
   });
 }
 
-function startGame(){
+function startGame(mode){
+  gameMode = mode || 'daily';
   score = 0; combo = 0; bestCombo = 0; lives = 3;
   timeLeft = 60; qIdx = 0; correctCount = 0;
-  questions = buildQuestions();
+  questions = buildQuestions(gameMode);
   showScreen('gameScreen');
   renderLives();
   renderHUD();
@@ -474,13 +639,32 @@ function renderHUD(){
   document.getElementById('progFill').style.width = pct + '%';
 }
 
+const TYPE_BADGES = {
+  kr2fr:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Coréen → Français',
+  fr2kr:  '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Français → Coréen',
+  listen: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>Écoute → Sens'
+};
+
 function renderQuestion(){
   if(qIdx >= totalQ){ clearInterval(timer); endGame(); return; }
   const q = questions[qIdx];
   answered = false;
-  document.getElementById('qTypeBadge').innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline-block;vertical-align:middle;margin-right:4px"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>Coréen → Français';
-  document.getElementById('qWord').textContent = q.word.kr;
-  document.getElementById('qRom').textContent = q.word.rom;
+  document.getElementById('qTypeBadge').innerHTML = TYPE_BADGES[q.type];
+  const wordEl = document.getElementById('qWord');
+  const romEl = document.getElementById('qRom');
+  if(q.type === 'kr2fr'){
+    wordEl.textContent = q.word.kr;
+    romEl.textContent = q.word.rom;
+  } else if(q.type === 'fr2kr'){
+    wordEl.textContent = q.word.fr;
+    wordEl.style.fontSize = '';
+    romEl.textContent = 'Trouve le mot coréen';
+  } else {
+    /* Écoute : le mot reste caché, seul le son compte */
+    wordEl.innerHTML = '<button onclick="speak(\''+q.word.kr+'\',this)" style="background:rgba(201,169,110,.15);border:2px solid rgba(201,169,110,.4);border-radius:50%;width:84px;height:84px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--gold)" aria-label="Réécouter"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button>';
+    romEl.textContent = 'Écoute et choisis le bon sens';
+    if(typeof speak === 'function') setTimeout(()=>speak(q.word.kr, null), 250);
+  }
   const choicesEl = document.getElementById('choices');
   choicesEl.innerHTML = q.choices.map((c,i) =>
     `<button class="choice" onclick="answer('${escHtml(c)}',this)" data-val="${escHtml(c)}">${c}</button>`
@@ -496,6 +680,7 @@ function answer(val, btn){
   const allBtns = document.querySelectorAll('.choice');
   allBtns.forEach(b => b.classList.add('disabled'));
 
+  if(typeof speak === 'function' && q.type !== 'listen') speak(q.word.kr, null);
   if(val === q.correct){
     btn.classList.add('correct');
     combo++;
@@ -587,12 +772,36 @@ function endGame(){
     document.getElementById('recordBanner').classList.remove('hidden');
   }
 
+  // Défi du jour réussi (≥6/10) : +20 XP, une seule fois par jour
+  if(gameMode === 'daily' && correctCount >= 6){
+    const dayK = 'ks_chal_day_' + todayKey();
+    let already = false;
+    try { already = localStorage.getItem(dayK) === '1'; } catch(e){}
+    if(!already){
+      try {
+        localStorage.setItem(dayK, '1');
+        const prevXP = parseInt(localStorage.getItem('ks_xp')||'0');
+        localStorage.setItem('ks_xp', String(prevXP + 20));
+        const td=new Date().toISOString().slice(0,10);
+        const dy=JSON.parse(localStorage.getItem('ks_daily')||'{}');
+        if(dy.date!==td){ localStorage.setItem('ks_daily',JSON.stringify({date:td,start:prevXP})); }
+      } catch(e){}
+      document.getElementById('resSub').textContent += ' · +20 XP, défi du jour réussi !';
+    } else {
+      document.getElementById('resSub').textContent += ' · Défi du jour déjà validé';
+    }
+  } else if(gameMode === 'practice'){
+    document.getElementById('resSub').textContent += ' · Mode entraînement';
+  }
+
   // Update intro best
   const newBest = Math.max(score, best);
   document.getElementById('bestScoreIntro').textContent = newBest.toLocaleString()+' pts';
+  renderIntroState();
 }
 
 function resetGame(){
+  renderIntroState();
   showScreen('introScreen');
 }
 
@@ -612,6 +821,27 @@ function shareScore(){
 document.getElementById('tbDate').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
 const best = parseInt(localStorage.getItem('ks_best_challenge')||'0');
 document.getElementById('bestScoreIntro').textContent = best > 0 ? best.toLocaleString()+' pts' : '–';
+
+/* Streak réel de l'utilisateur (le badge affichait un « 6 » codé en dur) */
+try { document.getElementById('streakNum').textContent = parseInt(localStorage.getItem('ks_streak')||'0') || 0; } catch(e){ document.getElementById('streakNum').textContent = '0'; }
+
+function renderIntroState(){
+  let dailyDone = false;
+  try { dailyDone = localStorage.getItem('ks_chal_day_' + todayKey()) === '1'; } catch(e){}
+  const b = document.getElementById('btnDaily');
+  const pr = document.getElementById('btnPractice');
+  const badge = document.getElementById('introBadge');
+  if(dailyDone){
+    b.textContent = 'Rejouer le défi du jour';
+    if(pr) pr.style.display = 'inline-flex';
+    if(badge) badge.textContent = 'Défi du jour réussi — reviens demain !';
+  } else {
+    b.textContent = 'Commencer le défi du jour';
+    if(pr) pr.style.display = 'none';
+    if(badge) badge.textContent = 'Défi quotidien';
+  }
+}
+renderIntroState();
 
 try{var t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
 </script>
