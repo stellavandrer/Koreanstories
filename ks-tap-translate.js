@@ -22,7 +22,7 @@
     'trophees.html':1, 'aide.html':1, 'ressources.html':1,
     'login.html':1, 'signup.html':1, 'test-niveau.html':1,
     'bienvenue.html':1, 'favoris.html':1, 'notes.html':1, 'hangeul.html':1,
-    'prononciation.html':1, 'revision.html':1, 'challenge.html':1
+    'prononciation.html':1, 'speaking.html':1, 'revision.html':1, 'challenge.html':1
   };
   function currentPath(){
     return location.pathname.split('/').pop() || 'index.html';

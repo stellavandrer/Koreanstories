@@ -44,8 +44,7 @@
       ['histoires.html','Histoires',IC.book],
       ['dictionnaire.html','Dictionnaire',IC.dico],
       ['hangeul.html','Hangeul',IC.hangeul],
-      ['grammaire.html','Grammaire',IC.grammar],
-      ['prononciation.html','Prononciation',IC.speak]
+      ['grammaire.html','Grammaire',IC.grammar]
     ]},
     { title:'Pratiquer', items:[
       ['challenge.html','Défi du jour',IC.bolt],
