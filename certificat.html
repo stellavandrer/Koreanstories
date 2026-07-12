@@ -213,13 +213,21 @@ function lsInt(k){ try { return parseInt(localStorage.getItem(k))||0; } catch(e)
 function lsStr(k){ try { return localStorage.getItem(k)||''; } catch(e){ return ''; } }
 
 function countCompletedActivities(){
+  try {
+    // Source canonique : résout les alias (ks_h01→ks_l1 etc.), donc compte
+    // aussi les 10 leçons Hangeul — l'ancien regex les omettait (ks_l\d
+    // absent), empêchant quiconque d'atteindre 100% du curriculum.
+    if (window.KSCurriculum && typeof KSCurriculum.progress === 'function') {
+      return KSCurriculum.progress().done;
+    }
+  } catch(e){}
   var n = 0;
   try {
     for (var i = 0; i < localStorage.length; i++) {
       var k = localStorage.key(i);
       if (!k) continue;
-      // clés d'activités : ks_h##, ks_a##, ks_b##, ks_c##, ks_d## (suivies de chiffres)
-      if (/^ks_(h\d|a\d|b\d|c\d|d\d)/.test(k)) {
+      // clés d'activités : ks_h##, ks_l#, ks_a##, ks_b##, ks_c##, ks_d## (suivies de chiffres)
+      if (/^ks_(h\d|l\d|a\d|b\d|c\d|d\d)/.test(k)) {
         var v = localStorage.getItem(k);
         if (v === 'done' || v === '1' || v === 'true') n++;
       }
@@ -228,9 +236,12 @@ function countCompletedActivities(){
   return n;
 }
 
-/* Total visé (curriculum livré). Si Window.KSCurriculum.length existe on l'utilise. */
+/* Total visé (curriculum livré). KSCurriculum.progress().total exclut déjà
+   les activités "bientôt" (non faisables aujourd'hui) — cohérent avec
+   countCompletedActivities() qui utilise la même source. */
 function getTotalActivities(){
   try {
+    if (window.KSCurriculum && typeof KSCurriculum.progress === 'function') return KSCurriculum.progress().total;
     if (window.KSCurriculum && window.KSCurriculum.activities) return window.KSCurriculum.activities.length;
     if (window.KSCurriculum && Array.isArray(window.KSCurriculum)) return window.KSCurriculum.length;
   } catch(e){}

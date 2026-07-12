@@ -307,12 +307,14 @@
   for(var o=0;o<7;o++)  weekNow  += (dayXp[dayKey(o)]||0);
   for(var o2=7;o2<14;o2++) weekPrev += (dayXp[dayKey(o2)]||0);
 
-  /* Activités terminées */
+  /* Activités terminées (inclut ks_l\d : les 10 leçons Hangeul — absentes
+     de l'ancien regex alors que ks-weekly.js/daily-mix.html les comptent déjà,
+     ce qui sous-comptait chaque nouvel utilisateur de jusqu'à 10 activités) */
   var activities=0;
   try{
     for(var j=0;j<localStorage.length;j++){
       var kk=localStorage.key(j);
-      if(/^ks_(h\d|a[\d_]|b[\d_]|c\d|d\d)/.test(kk)){
+      if(/^ks_(h\d|l\d|a[\d_]|b[\d_]|c\d|d\d)/.test(kk)){
         var vv=localStorage.getItem(kk);
         if(vv==='done'||vv==='1') activities++;
       }

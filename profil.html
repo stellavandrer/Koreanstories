@@ -1054,14 +1054,21 @@ function init(){
   if(p.bio)document.getElementById('heroBioEl').textContent=p.bio;
   const xp=parseInt(localStorage.getItem('ks_xp'))||0;
   const streak=parseInt(localStorage.getItem('ks_streak'))||0;
-  // Compte réel des activités terminées — ks_lessons n'était jamais écrit
+  // Compte réel des activités terminées — source canonique KSCurriculum
+  // (résout les alias ks_h01→ks_l1 etc.) ; repli sur le scan manuel si
+  // le script n'est pas encore chargé. L'ancien regex omettait ks_l\d
+  // (les 10 leçons Hangeul), sous-comptant chaque nouvel utilisateur.
   let lessons=0;
   try{
-    for(let i=0;i<localStorage.length;i++){
-      const k=localStorage.key(i);
-      if(/^ks_(h\d|a[\d_]|b[\d_]|c\d|d\d)/.test(k)){
-        const v=localStorage.getItem(k);
-        if(v==='done'||v==='1')lessons++;
+    if(window.KSCurriculum && typeof KSCurriculum.progress==='function'){
+      lessons = KSCurriculum.progress().done;
+    } else {
+      for(let i=0;i<localStorage.length;i++){
+        const k=localStorage.key(i);
+        if(/^ks_(h\d|l\d|a[\d_]|b[\d_]|c\d|d\d)/.test(k)){
+          const v=localStorage.getItem(k);
+          if(v==='done'||v==='1')lessons++;
+        }
       }
     }
   }catch(e){}
@@ -1145,8 +1152,9 @@ function ksExportData(){
 
     Object.keys(raw).forEach(function(k){
       var v = raw[k];
-      /* Activités terminées */
-      if (/^ks_(h\d|a\d|b\d|c\d|d\d|jeu\d|q\d)/.test(k) && (v === 'done' || v === '1' || v === 'true')) {
+      /* Activités terminées (inclut ks_l\d : les 10 leçons Hangeul, omises
+         par erreur ici alors que ks-weekly.js/daily-mix.html les comptent déjà) */
+      if (/^ks_(h\d|l\d|a\d|b\d|c\d|d\d|jeu\d|q\d)/.test(k) && (v === 'done' || v === '1' || v === 'true')) {
         doneKeys.push(k);
       }
       /* Timestamps de complétion */
