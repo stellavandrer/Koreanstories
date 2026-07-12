@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Speaking Practice — Écoute et répète — Korean Stories</title>
-  <meta name="description" content="Entraîne-toi à l'oral : écoute 70 phrases coréennes naturelles (A1 à B2) prononcées par un locuteur natif, répète à voix haute, avance à ton rythme. Pauses pour répéter et vitesse lente disponibles."/>
+  <meta name="description" content="Entraîne-toi à l'oral : écoute 146 phrases coréennes naturelles (A1 à B2) prononcées par un locuteur natif, puis teste ta prononciation au micro (l'IA évalue ton accent). Répète, avance à ton rythme."/>
   <link rel="canonical" href="https://koreanstories.fr/speaking.html"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <link rel="stylesheet" href="design.css">
@@ -33,9 +33,18 @@
     [data-theme="dark"] .kr{color:#EDF2FA}
     .kr.listening{color:#0EA5E9}
     .fr{font-size:.95rem;color:var(--tx-muted);line-height:1.5;margin-bottom:1rem}
-    .play-big{width:64px;height:64px;border-radius:50%;background:#0EA5E9;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin-bottom:1rem}
+    .action-row{display:flex;gap:1rem;justify-content:center;align-items:center;margin-bottom:.4rem}
+    .play-big{width:64px;height:64px;border-radius:50%;background:#0EA5E9;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
     .play-big svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:2}
     .play-big.playing{background:#0284c7}
+    .mic-big{width:64px;height:64px;border-radius:50%;background:#C9A96E;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#0a1220;box-shadow:0 6px 16px rgba(201,169,110,.3)}
+    .mic-big svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+    .mic-big.listening{background:#EF4444;color:#fff;animation:micPulse2 1.2s ease-in-out infinite}
+    @keyframes micPulse2{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 12px rgba(239,68,68,0)}}
+    .mic-big.success{background:#16A34A;color:#fff}
+    .mic-big.partial{background:#F59E0B;color:#fff}
+    .mic-big.fail{background:#EF4444;color:#fff}
+    .mic-hint{font-size:.78rem;color:var(--tx-muted);margin:0 0 .8rem}
     .nav-row{display:flex;gap:.6rem;justify-content:center}
     .nav-btn{padding:.6rem 1rem;border-radius:12px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);font-weight:600;cursor:pointer;font-size:.88rem}
     .nav-btn:disabled{opacity:.35;cursor:default}
@@ -62,7 +71,7 @@
 <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Speaking Practice</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
 <div class="shell"><main class="main"><div class="wrap">
   <h1>🎧 Speaking Practice</h1>
-  <p class="lead">Écoute chaque phrase prononcée par un locuteur natif, répète-la à voix haute, puis avance. Ce n'est pas un quiz — juste de l'entraînement à l'oral, autant de fois que tu veux.</p>
+  <p class="lead">Écoute chaque phrase prononcée par un locuteur natif, répète-la à voix haute — et si ton navigateur le permet, teste ta prononciation au micro pour un vrai retour sur ton accent. Ce n'est pas un quiz — juste de l'entraînement, autant de fois que tu veux.</p>
 
   <div class="chips" id="lvlChips">
     <div class="chip act" data-lvl="all">Tous niveaux</div>
@@ -80,9 +89,10 @@
   <div id="deckArea"></div>
   <div class="done-msg" id="doneMsg">✓ Série terminée ! Relance-la autant de fois que tu veux, ou change de niveau.</div>
 
-  <div class="how"><strong>Comment pratiquer</strong> : écoute, répète à voix haute avant d'appuyer sur Suivant — ne lis pas seulement la traduction, essaie de reproduire le rythme et l'intonation. Avec « Pauses pour répéter », la lecture automatique laisse un silence après chaque phrase, exactement le temps de la redire.</p></div>
+  <div class="how"><strong>Comment pratiquer</strong> : écoute, répète à voix haute, puis touche le micro doré pour que l'app évalue ta prononciation (90% = excellent, 70% = pas mal). Avec « Pauses pour répéter », la lecture automatique laisse un silence après chaque phrase, exactement le temps de la redire.</div>
 </div></main></div>
 <script src="ks.js"></script>
+<script src="ks-pronounce.js"></script>
 <script>
 const DECK=[
 {id:'g01',title:'은 / 는 — Le marqueur de thème',level:'a1',lesson:'lecon15.html',examples:[
@@ -101,7 +111,7 @@ const DECK=[
   {kr:'책을 읽어요',fr:'Je lis un livre.'},
   {kr:'한국어를 공부해요',fr:'J\'étudie le coréen.'}
 ]},
-{id:'g04',title:'이에요 / 예요 — « C\'est/Je suis »',level:'a1',lesson:'None',examples:[
+{id:'g04',title:'이에요 / 예요 — « C\'est/Je suis »',level:'a1',lesson:null,examples:[
   {kr:'저는 학생이에요',fr:'Je suis étudiant(e).'},
   {kr:'어디예요',fr:'C\'est où ?'},
   {kr:'감기예요',fr:'C\'est un rhume.'}
@@ -134,7 +144,78 @@ const DECK=[
   {kr:'김밥 두 개 주세요',fr:'Deux kimbap, s\'il vous plaît.'},
   {kr:'차 한 잔 드릴까요',fr:'Je vous sers une tasse de thé ?'}
 ]},
-{id:'g07',title:'-았/었어요 — Le passé',level:'a2',lesson:'None',examples:[
+{id:'pron-greet',title:'Salutations',level:'a1',lesson:null,examples:[
+  {kr:'안녕하세요',fr:'Bonjour (poli)'},
+  {kr:'안녕',fr:'Salut (informel)'},
+  {kr:'안녕히 가세요',fr:'Au revoir (à celui qui part)'},
+  {kr:'안녕히 계세요',fr:'Au revoir (à celui qui reste)'},
+  {kr:'감사합니다',fr:'Merci (très poli)'},
+  {kr:'죄송합니다',fr:'Désolé(e) (très poli)'},
+  {kr:'미안해요',fr:'Désolé(e) (poli)'},
+  {kr:'괜찮아요',fr:'Ça va / Pas de problème'}
+]},
+{id:'pron-resp',title:'Réponses simples',level:'a1',lesson:null,examples:[
+  {kr:'네',fr:'Oui'},
+  {kr:'아니요',fr:'Non'},
+  {kr:'좋아요',fr:'Bien / J\'aime'},
+  {kr:'싫어요',fr:'Je n\'aime pas'},
+  {kr:'몰라요',fr:'Je ne sais pas'},
+  {kr:'알았어요',fr:'Compris'},
+  {kr:'맞아요',fr:'C\'est ça'}
+]},
+{id:'pron-numsino',title:'Chiffres sino-coréens',level:'a1',lesson:null,examples:[
+  {kr:'일',fr:'1'},
+  {kr:'이',fr:'2'},
+  {kr:'삼',fr:'3'},
+  {kr:'사',fr:'4'},
+  {kr:'오',fr:'5'},
+  {kr:'육',fr:'6'},
+  {kr:'칠',fr:'7'},
+  {kr:'팔',fr:'8'},
+  {kr:'구',fr:'9'},
+  {kr:'십',fr:'10'}
+]},
+{id:'pron-numnative',title:'Chiffres natifs',level:'a1',lesson:null,examples:[
+  {kr:'하나',fr:'1'},
+  {kr:'둘',fr:'2'},
+  {kr:'셋',fr:'3'},
+  {kr:'넷',fr:'4'},
+  {kr:'다섯',fr:'5'},
+  {kr:'여섯',fr:'6'},
+  {kr:'일곱',fr:'7'},
+  {kr:'여덟',fr:'8'},
+  {kr:'아홉',fr:'9'},
+  {kr:'열',fr:'10'}
+]},
+{id:'pron-family',title:'Famille',level:'a1',lesson:null,examples:[
+  {kr:'엄마',fr:'Maman'},
+  {kr:'아빠',fr:'Papa'},
+  {kr:'형',fr:'Grand frère (dit par un homme)'},
+  {kr:'누나',fr:'Grande sœur (dite par un homme)'},
+  {kr:'오빠',fr:'Grand frère (dit par une femme)'},
+  {kr:'언니',fr:'Grande sœur (dite par une femme)'},
+  {kr:'동생',fr:'Petit frère / petite sœur'}
+]},
+{id:'pron-food',title:'Cuisine',level:'a1',lesson:null,examples:[
+  {kr:'김치',fr:'Kimchi'},
+  {kr:'비빔밥',fr:'Bibimbap'},
+  {kr:'떡볶이',fr:'Tteokbokki'},
+  {kr:'김밥',fr:'Kimbap'},
+  {kr:'불고기',fr:'Bulgogi'},
+  {kr:'냉면',fr:'Naengmyeon'},
+  {kr:'맛있어요',fr:'C\'est délicieux'}
+]},
+{id:'pron-basics',title:'Phrases utiles',level:'a1',lesson:null,examples:[
+  {kr:'저는 한국 사람이에요',fr:'Je suis coréen(ne)'},
+  {kr:'만나서 반가워요',fr:'Enchanté(e)'},
+  {kr:'얼마예요',fr:'Combien ça coûte ?'},
+  {kr:'어디예요',fr:'C\'est où ?'},
+  {kr:'뭐예요',fr:'C\'est quoi ?'},
+  {kr:'잘 자요',fr:'Bonne nuit'},
+  {kr:'사랑해요',fr:'Je t\'aime'},
+  {kr:'화이팅',fr:'Courage ! (fighting)'}
+]},
+{id:'g07',title:'-았/었어요 — Le passé',level:'a2',lesson:null,examples:[
   {kr:'공부했어요',fr:'J\'ai étudié.'},
   {kr:'먹었어요',fr:'J\'ai mangé.'},
   {kr:'늦었어요',fr:'Je suis en retard / J\'étais en retard.'}
@@ -202,6 +283,25 @@ const DECK=[
   {kr:'방 보러 왔어요',fr:'Je suis venu(e) voir la chambre.'},
   {kr:'성공하기 위해 뭐가 필요해요?',fr:'Pour réussir, que faut-il ?'}
 ]},
+{id:'b1-logement',title:'Chercher un logement — vocabulaire réel',level:'b1',lesson:'lecon71.html',examples:[
+  {kr:'이 집은 전세예요, 월세예요?',fr:'Ce logement est en jeonse ou en loyer mensuel ?'},
+  {kr:'보증금 500에 월세 50이에요',fr:'Caution 5 millions, loyer 500 000 wons (les annonces comptent en 만 = 10 000 ₩).'},
+  {kr:'월세가 얼마예요?',fr:'Le loyer est de combien ?'},
+  {kr:'역에서 가까워요?',fr:'C\'est près de la station ?'},
+  {kr:'옵션이 있어요?',fr:'C\'est équipé ? (frigo, machine à laver, clim inclus)'},
+  {kr:'이 집으로 계약할게요',fr:'Je prends celui-ci ! (je signe le contrat)'},
+  {kr:'좀 더 싼 방 없어요?',fr:'Vous n\'auriez pas moins cher ? (la phrase de négociation)'}
+]},
+{id:'b1-banque',title:'Banque & démarches — vocabulaire réel',level:'b1',lesson:'lecon72.html',examples:[
+  {kr:'계좌를 개설하고 싶어요',fr:'Je voudrais ouvrir un compte.'},
+  {kr:'외국인등록증 있으세요?',fr:'Avez-vous votre carte de résident étranger ?'},
+  {kr:'번호표 뽑고 기다리세요',fr:'Prenez un ticket et patientez.'},
+  {kr:'여기에 서명하면 돼요?',fr:'Je signe ici, c\'est bon ?'},
+  {kr:'통장이랑 카드는 언제 나와요?',fr:'Le livret et la carte arrivent quand ?'},
+  {kr:'비밀번호 눌러 주세요',fr:'Veuillez entrer votre code.'},
+  {kr:'외국인등록증을 재발급받고 싶어요',fr:'Je voudrais un duplicata de ma carte de résident.'},
+  {kr:'이거 어떻게 작성해요?',fr:'Comment je remplis ça ?'}
+]},
 {id:'g29',title:'-기 / -음 — La nominalisation',level:'b2',lesson:'lecon49.html',examples:[
   {kr:'한국어 배우기가 재미있어요',fr:'Apprendre le coréen, c\'est amusant.'},
   {kr:'저는 음악 듣기를 좋아해요',fr:'J\'aime écouter de la musique.'}
@@ -210,6 +310,12 @@ const DECK=[
   {kr:'비가 와도 갈 거예요.',fr:'Même s\'il pleut, j\'irai.'},
   {kr:'어려워도 포기하지 마세요.',fr:'Même si c\'est difficile, n\'abandonne pas.'},
   {kr:'힘들더라도 해야 해요.',fr:'Même si c\'est dur, il faut le faire.'}
+]},
+{id:'b2-avance',title:'Registre soutenu & expressions imagées',level:'b2',lesson:null,examples:[
+  {kr:'문화부는 온라인 한국어 교육과 세종학당의 역할을 더욱 강화할 계획이라고 밝혔다.',fr:'Le ministère de la Culture a annoncé son intention de renforcer le rôle de l\'éducation du coréen en ligne et des instituts Sejong. (style journalistique, discours rapporté)'},
+  {kr:'귀촌이라는 단어가 자주 들리기 시작했어요',fr:'Le mot « retour à la campagne » a commencé à se faire entendre souvent. (sujet abstrait)'},
+  {kr:'「발 없는 말이 천 리 간다」— 말은 조심해야 한다는 뜻이지.',fr:'« Une parole sans pieds parcourt mille li » — ça veut dire qu\'il faut faire attention à ce qu\'on dit. (proverbe : les rumeurs vont vite)'},
+  {kr:'호랑이 굴에 가야 호랑이 새끼를 잡는다',fr:'Il faut entrer dans la tanière du tigre pour attraper son petit. (proverbe : qui ne risque rien n\'a rien)'}
 ]},
 ];
 
@@ -247,18 +353,23 @@ function render(){
   if(!list.length){ area.innerHTML='<div class="deck-empty">Aucune phrase à ce niveau pour l’instant.</div>'; return; }
   const c=list[idx];
   const lvlLabel=c.level.toUpperCase();
+  const micOn = window.KSPronounce && window.KSPronounce.supported;
   area.innerHTML=
     '<div class="card">'+
       '<span class="card-src">'+lvlLabel+'</span>'+
       '<div class="prog">Phrase '+(idx+1)+' / '+list.length+'</div>'+
       '<div class="kr" id="krTxt">'+c.kr+'</div>'+
       '<div class="fr">'+c.fr+'</div>'+
-      '<button class="play-big" id="playBig" aria-label="Écouter" onclick="playCurrent()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>'+
+      '<div class="action-row">'+
+        '<button class="play-big" id="playBig" aria-label="Écouter" onclick="playCurrent()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>'+
+        (micOn ? '<button class="mic-big" id="micBig" aria-label="Tester ma prononciation" onclick="micTest()"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></button>' : '')+
+      '</div>'+
+      (micOn ? '<p class="mic-hint">🎙️ Touche le micro pour tester ta prononciation</p>' : '')+
       '<div class="nav-row">'+
         '<button class="nav-btn" id="prevBtn" onclick="stepCard(-1)" '+(idx===0?'disabled':'')+'>← Précédent</button>'+
         '<button class="nav-btn" id="nextBtn" onclick="stepCard(1)">Suivant →</button>'+
       '</div>'+
-      '<a class="source-link" href="'+c.lesson+'">Revoir la leçon : '+c.title+' →</a>'+
+      (c.lesson ? '<a class="source-link" href="'+c.lesson+'">Revoir la leçon : '+c.title+' →</a>' : '<div class="source-link" style="opacity:.6">'+c.title+'</div>')+
       '<div class="auto-row"><button class="auto-btn" id="autoBtn" onclick="toggleAuto()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>Lecture automatique</span></button></div>'+
     '</div>';
 }
@@ -275,8 +386,43 @@ function playCurrent(){
   });
 }
 
+function micTest(){
+  const c=list[idx];
+  const btn=document.getElementById('micBig');
+  if(!window.KSPronounce||!window.KSPronounce.supported||!btn) return;
+  window.KSPronounce.listen(c.kr,btn);
+  setTimeout(checkMicXP,4000);
+}
+
+function checkMicXP(){
+  try{
+    const stats=(window.KSPronounce&&window.KSPronounce.stats&&window.KSPronounce.stats())||{};
+    const total=stats.total||0;
+    if(total<5)return;
+    const alreadyDone=localStorage.getItem('ks_a02')==='done';
+    let xp=0;
+    if(!alreadyDone){
+      xp=15;
+      localStorage.setItem('ks_a02','done');
+    }else{
+      const today=new Date().toISOString().slice(0,10);
+      const key='ks_pron_xp_'+today;
+      const todayCount=parseInt(localStorage.getItem(key)||'0',10);
+      if(todayCount<3){
+        xp=5;
+        localStorage.setItem(key,String(todayCount+1));
+      }
+    }
+    if(xp>0){
+      const current=parseInt(localStorage.getItem('ks_xp')||'0',10)||0;
+      localStorage.setItem('ks_xp',String(current+xp));
+    }
+  }catch(e){}
+}
+
 function stepCard(dir){
   seqStop();
+  checkMicXP();
   idx=Math.max(0,Math.min(list.length-1,idx+dir));
   document.getElementById('doneMsg').style.display='none';
   render();

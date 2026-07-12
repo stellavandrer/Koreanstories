@@ -38,7 +38,7 @@
     { type:'page', title:'Trophées',                sub:'Tous les accomplissements', href:'trophees.html',      icon:'medal' },
     { type:'page', title:'Statistiques',            sub:'Détails chiffrés',          href:'statistiques.html',  icon:'chart' },
     { type:'page', title:'Révisions',               sub:'SRS, mots ratés',           href:'revision.html',      icon:'refresh' },
-    { type:'page', title:'Prononciation',           sub:'Au micro, IA d\'évaluation',href:'prononciation.html', icon:'mic' },
+    { type:'page', title:'Speaking Practice',       sub:'Écoute + prononciation au micro',href:'speaking.html', icon:'mic' },
     { type:'page', title:'Vocabulaire',             sub:'Tous les mots appris',      href:'vocabulaire.html',   icon:'words' },
     { type:'page', title:'Hangeul — Alphabet',      sub:'Référence complète',        href:'hangeul.html',       icon:'letters' },
     { type:'page', title:'Ressources PDF',          sub:'Téléchargements',           href:'ressources.html',    icon:'download' },
