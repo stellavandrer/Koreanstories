@@ -155,7 +155,10 @@
         'border:1.5px solid rgba(201,169,110,.25);',
         'opacity:0;transition:opacity .25s,transform .25s;pointer-events:none',
       '}',
-      '.ks-pron-feedback.show{opacity:1;transform:translateX(-50%) translateY(0)}',
+      '.ks-pron-feedback.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}',
+      '.pf-retry{display:block;width:100%;margin-top:12px;padding:9px 12px;border:none;border-radius:10px;',
+        'background:#C9A96E;color:#0F1B2D;font-weight:800;font-size:13px;cursor:pointer}',
+      '.pf-retry:active{transform:scale(.98)}',
       '.ks-pron-feedback .pf-header{',
         'display:flex;align-items:center;justify-content:space-between;',
         'margin-bottom:10px;font-size:11px;font-weight:800;',
@@ -245,14 +248,26 @@
         '<div class="pf-label">Tu as dit</div>' +
         '<div class="pf-heard">"' + escapeHtml(opts.heard || '(rien entendu)') + '"</div>' +
       '</div>' +
-      '<div class="pf-msg">' + msg + '</div>';
+      '<div class="pf-msg">' + msg + '</div>' +
+      (typeof opts.retry === 'function' ? '<button class="pf-retry" type="button">Réessayer</button>' : '');
     document.body.appendChild(box);
+    if (typeof opts.retry === 'function') {
+      var rb = box.querySelector('.pf-retry');
+      if (rb) rb.addEventListener('click', function(){
+        if (FEEDBACK_TIMEOUT) clearTimeout(FEEDBACK_TIMEOUT);
+        box.classList.remove('show');
+        setTimeout(function(){ if (box.parentNode) box.remove(); }, 200);
+        opts.retry();
+      });
+    }
     requestAnimationFrame(function(){ box.classList.add('show'); });
 
+    /* Plus long quand un bouton Réessayer est proposé — il faut le
+       temps de le voir et de cliquer. */
     FEEDBACK_TIMEOUT = setTimeout(function(){
       box.classList.remove('show');
       setTimeout(function(){ if (box.parentNode) box.remove(); }, 300);
-    }, 4500);
+    }, typeof opts.retry === 'function' ? 7000 : 4500);
   }
 
   function escapeHtml(s){
@@ -262,27 +277,37 @@
   }
 
   /* ── Reconnaissance ────────────────────────────────────────────
-     Stratégie stricte :
-     - Une seule alternative (la plus confiante) — pas de cherry-pick
-     - On combine similarité texte + confidence du moteur
-     - Seuils relevés : 90% success, 70% partial */
+     - Résultats intermédiaires affichés en direct (opts.onInterim) :
+       sans ça, 3-4 s de silence visuel donnent l'impression que rien
+       ne se passe — cause n°1 du ressenti « ça ne marche pas ».
+     - 3 alternatives : on garde celle qui ressemble le plus à LA
+       phrase attendue. Pas de triche possible (la comparaison reste
+       contre la cible), mais on ne pénalise plus l'utilisateur quand
+       le moteur hésite entre deux transcriptions dont une est bonne.
+     - Seuils inchangés : 90% success, 70% partial.
+     opts (tous optionnels) :
+       onState(s)  — 'listening'|'hearing'|'done'|'idle' pour l'UI hôte
+       onInterim(t)— transcription partielle en direct
+       retry()     — si fourni, bouton « Réessayer » dans le feedback */
   var ACTIVE_REC = null;
-  function startListening(expectedText, btn){
+  function startListening(expectedText, btn, opts){
+    opts = opts || {};
+    var say = typeof opts.onState === 'function' ? opts.onState : function(){};
+    var onInterim = typeof opts.onInterim === 'function' ? opts.onInterim : null;
     if (ACTIVE_REC) { try { ACTIVE_REC.abort(); } catch(e){} ACTIVE_REC = null; }
     if (window._ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} }
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch(e){}
 
     var rec = new SR();
     rec.lang = 'ko-KR';
-    rec.interimResults = false;
-    /* UN SEUL résultat : on évite que le moteur "trouve" une variante
-       qui matche par hasard la phrase attendue. */
-    rec.maxAlternatives = 1;
+    rec.interimResults = true;
+    rec.maxAlternatives = 3;
     rec.continuous = false;
     ACTIVE_REC = rec;
 
     btn.classList.remove('success','partial','fail');
     btn.classList.add('listening');
+    say('listening');
 
     /* Filet de sécurité : sur certains navigateurs/versions, le moteur
        déclenche onend sans jamais avoir déclenché onresult ni onerror
@@ -290,76 +315,102 @@
        strictement rien — ni feedback, ni alerte. */
     var settled = false;
 
-    rec.onresult = function(e){
-      settled = true;
-      var top = e.results[0][0];
-      var heard = (top && top.transcript) || '';
-      var confidence = (top && typeof top.confidence === 'number') ? top.confidence : 0;
+    rec.onspeechstart = function(){ say('hearing'); };
 
-      /* Si rien d'audible, on échoue tout de suite. */
-      if (!heard.trim()) {
-        btn.classList.remove('listening');
-        btn.classList.add('fail');
-        setTimeout(function(){ btn.classList.remove('fail'); }, 2500);
-        recordAttempt(0);
-        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
+    function failEmpty(){
+      btn.classList.remove('listening');
+      btn.classList.add('fail');
+      setTimeout(function(){ btn.classList.remove('fail'); }, 2500);
+      recordAttempt(0);
+      say('done');
+      showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail', retry: opts.retry });
+    }
+
+    rec.onresult = function(e){
+      var last = e.results[e.results.length - 1];
+      if (!last.isFinal) {
+        /* Transcription partielle → retour visuel immédiat */
+        if (onInterim) {
+          var t = '';
+          for (var i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+          if (t.trim()) onInterim(t.trim());
+        }
         return;
       }
+      settled = true;
 
-      var sim = similarity(heard, expectedText);
-      /* La confidence du moteur module le score :
-         - Si confiance ≥ 70% on garde le score brut
-         - Sinon on le pondère (la reconnaissance n'était pas sûre) */
-      var confFactor = confidence > 0 ? Math.max(0.6, Math.min(1, confidence + 0.2)) : 0.85;
-      var finalScore = sim * confFactor;
+      /* Meilleure alternative par rapport à la phrase ATTENDUE */
+      var best = { score: -1, heard: '' };
+      for (var k = 0; k < last.length; k++) {
+        var alt = last[k];
+        var heardK = (alt && alt.transcript) ? alt.transcript.trim() : '';
+        if (!heardK) continue;
+        var confidence = (alt && typeof alt.confidence === 'number') ? alt.confidence : 0;
+        /* La confidence du moteur module le score :
+           - Si confiance ≥ 70% on garde le score brut
+           - Sinon on le pondère (la reconnaissance n'était pas sûre) */
+        var confFactor = confidence > 0 ? Math.max(0.6, Math.min(1, confidence + 0.2)) : 0.85;
+        var s = similarity(heardK, expectedText) * confFactor;
+        if (s > best.score) best = { score: s, heard: heardK };
+      }
 
-      /* Seuils plus stricts qu'avant */
+      /* Si rien d'audible, on échoue tout de suite. */
+      if (!best.heard) { failEmpty(); return; }
+
+      var finalScore = best.score;
       var tier = finalScore >= 0.90 ? 'success' : finalScore >= 0.70 ? 'partial' : 'fail';
 
       btn.classList.remove('listening');
       btn.classList.add(tier);
       setTimeout(function(){ btn.classList.remove(tier); }, 2500);
       recordAttempt(finalScore);
-      showFeedback({ score: finalScore, expected: expectedText, heard: heard, tier: tier });
+      say('done');
+      showFeedback({ score: finalScore, expected: expectedText, heard: best.heard, tier: tier, retry: opts.retry });
     };
 
     rec.onerror = function(e){
       settled = true;
       btn.classList.remove('listening');
       if (e.error === 'no-speech') {
-        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
+        say('done');
+        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail', retry: opts.retry });
       } else if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+        say('idle');
         alert('Le micro est bloqué. Autorise l\'accès au microphone dans les réglages du navigateur.');
       } else if (e.error === 'audio-capture') {
+        say('idle');
         alert('Aucun micro détecté. Vérifie qu\'un microphone est branché et qu\'aucune autre appli ne l\'utilise déjà.');
       } else if (e.error === 'network') {
+        say('idle');
         alert('Le service de reconnaissance vocale est injoignable. Vérifie ta connexion internet et réessaie.');
       } else if (e.error === 'aborted') {
         /* Interruption volontaire (nouvelle écoute lancée juste après) — pas d'alerte. */
       } else {
         /* Tout autre code (language-not-supported, bad-grammar…) : on ne laisse
            jamais le bouton revenir à l'état neutre sans un mot d'explication. */
+        say('idle');
         alert('Erreur de reconnaissance vocale (' + e.error + '). Réessaie dans quelques secondes.');
       }
     };
 
     rec.onend = function(){
+      var isCurrent = (ACTIVE_REC === rec);
       btn.classList.remove('listening');
-      if (ACTIVE_REC === rec) ACTIVE_REC = null;
-      if (!settled) {
+      if (isCurrent) ACTIVE_REC = null;
+      if (!settled && isCurrent) {
         /* Fin silencieuse confirmée : on affiche le même retour que pour
            "aucun son détecté" plutôt que de laisser le bouton redevenir
            neutre sans explication. */
-        btn.classList.add('fail');
-        setTimeout(function(){ btn.classList.remove('fail'); }, 2500);
-        recordAttempt(0);
-        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail' });
+        failEmpty();
+      } else if (isCurrent) {
+        say('idle');
       }
     };
 
     try { rec.start(); }
     catch (e) {
       btn.classList.remove('listening');
+      say('idle');
       alert('Erreur micro : ' + e.message);
     }
   }

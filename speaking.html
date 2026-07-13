@@ -386,11 +386,23 @@ function playCurrent(){
   });
 }
 
+const MIC_HINT_DEFAULT='🎙️ Touche le micro pour tester ta prononciation';
+const MIC_HINTS={
+  listening:'Micro ouvert — parle maintenant !',
+  hearing:'Je t\'entends…',
+  done:MIC_HINT_DEFAULT,
+  idle:MIC_HINT_DEFAULT
+};
 function micTest(){
   const c=list[idx];
   const btn=document.getElementById('micBig');
   if(!window.KSPronounce||!window.KSPronounce.supported||!btn) return;
-  window.KSPronounce.listen(c.kr,btn);
+  const hint=document.querySelector('.mic-hint');
+  window.KSPronounce.listen(c.kr,btn,{
+    onState:function(s){ if(hint&&MIC_HINTS[s]) hint.textContent=MIC_HINTS[s]; },
+    onInterim:function(t){ if(hint) hint.textContent='« '+t+' »'; },
+    retry:function(){ micTest(); }
+  });
   setTimeout(checkMicXP,4000);
 }
 
