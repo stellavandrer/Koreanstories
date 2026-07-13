@@ -1076,6 +1076,21 @@
 /* « Défis de la semaine » consolidé avec « Défi du jour » → masqué (doublon). */
 #wklyCard{display:none !important}
 
+/* ── Bandeau « Ton niveau » dans le hero.
+   Le rang (Hangeul → A1 → … → Maître B2+) et la progression vers le
+   palier suivant étaient calculés (cf. rankLabel) mais logés dans la
+   grille « Sections » masquée → JAMAIS visibles. On les remonte ici :
+   c'est l'info la plus motivante du parcours (bien plus qu'un « 3 % »). */
+.rank-band{max-width:520px;margin:2px auto 0;padding:14px 0 4px;border-top:1px solid rgba(255,255,255,.07)}
+.rank-band-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px}
+.rank-band-lbl{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:rgba(247,248,250,.5)}
+.rank-band-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--gold);line-height:1;text-align:right}
+.rank-band-bar{height:6px;background:rgba(255,255,255,.09);border-radius:100px;overflow:hidden}
+.rank-band-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);width:0;transition:width .9s cubic-bezier(.4,0,.2,1)}
+.rank-band-note{font-size:11px;color:rgba(247,248,250,.55);margin-top:7px}
+.rank-band-note b{color:rgba(247,248,250,.8);font-weight:700}
+@media(min-width:1000px){.rank-band{max-width:none}}
+
 /* ── Grille « Explorer » : accès direct aux outils du site.
    Avant la refonte, AUCUN lien du tableau de bord ne menait aux
    histoires, au vocabulaire, à la grammaire, au dictionnaire… —
@@ -1097,7 +1112,7 @@
     grid-template-areas:"greet greet" "main goal" "main widgets" "main .";
     grid-template-rows:auto auto auto 1fr;
     align-content:start}
-  .greeting{grid-area:greet;border-radius:22px;margin:6px 20px 16px;padding:20px 26px 0}
+  .greeting{grid-area:greet;border-radius:22px;margin:6px 20px 16px;padding:20px 26px 16px}
   .greeting-inner{max-width:none}
   #appContent>main{grid-area:main;max-width:none;width:100%;padding:6px 0 12px 20px}
   .goal-strip{grid-area:goal;background:transparent;padding:6px 20px 0 0}
@@ -1121,6 +1136,7 @@
 #appContent.ks-new #revCard,
 #appContent.ks-new .ks-explore,
 #appContent.ks-new #ksxSeclbl,
+#appContent.ks-new .rank-band,
 #appContent.ks-new .sec-lbl:has(+ .sec-grid),
 #appContent.ks-new .sec-lbl:has(+ #revCard){display:none !important}
 /* Jour-1 en desktop : le rail droit est vide (objectif+widgets masqués),
@@ -1198,6 +1214,15 @@
       <div class="g-icon-wrap">
         <svg viewBox="0 0 24 24" style="width:36px;height:36px;fill:none;stroke:var(--gold);stroke-width:1.4;stroke-linecap:round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="13" y2="11"/></svg>
       </div>
+    </div>
+    <!-- BANDEAU NIVEAU (rang + progression vers le palier suivant) -->
+    <div class="rank-band" id="rankBand" style="display:none">
+      <div class="rank-band-top">
+        <span class="rank-band-lbl">Ton niveau</span>
+        <span class="rank-band-name" id="rankName">Hangeul</span>
+      </div>
+      <div class="rank-band-bar"><div class="rank-band-fill" id="rankFill"></div></div>
+      <div class="rank-band-note" id="rankNote">—</div>
     </div>
   </div>
 
@@ -3938,13 +3963,51 @@ document.addEventListener('click', function(e){
     } catch(e) {}
   }
 
+  /* ── Bandeau « Ton niveau » du hero : rang courant + progression
+     vers le palier suivant. Même barème que rankLabel (source unique). */
+  var RANKS = [
+    { min:0,    name:'Hangeul' },
+    { min:50,   name:'Débutant A1' },
+    { min:200,  name:'Débutant A2' },
+    { min:500,  name:'Pré-interm. A2+' },
+    { min:1000, name:'Intermédiaire B1' },
+    { min:1800, name:'Pré-avancé B1+' },
+    { min:3000, name:'Avancé B2' },
+    { min:5000, name:'Maître B2+' }
+  ];
+  function paintRankBand(){
+    var band = document.getElementById('rankBand');
+    if (!band) return;
+    var ac = document.getElementById('appContent');
+    if (ac && ac.classList.contains('ks-new')) return; /* onboarding épuré */
+    var xp = lsInt('ks_xp');
+    var i = 0;
+    for (var k = 0; k < RANKS.length; k++){ if (xp >= RANKS[k].min) i = k; }
+    var nameEl = document.getElementById('rankName');
+    var fillEl = document.getElementById('rankFill');
+    var noteEl = document.getElementById('rankNote');
+    if (nameEl) nameEl.textContent = RANKS[i].name;
+    if (i < RANKS.length - 1){
+      var next = RANKS[i+1];
+      var span = next.min - RANKS[i].min;
+      var within = Math.max(0, Math.min(100, Math.round((xp - RANKS[i].min) / span * 100)));
+      if (fillEl) setTimeout(function(){ fillEl.style.width = within + '%'; }, 360);
+      if (noteEl) noteEl.innerHTML = 'Plus que <b>' + (next.min - xp) + ' XP</b> pour atteindre <b>' + next.name + '</b>';
+    } else {
+      if (fillEl) setTimeout(function(){ fillEl.style.width = '100%'; }, 360);
+      if (noteEl) noteEl.innerHTML = 'Niveau maximal atteint. 대단해요&thinsp;!';
+    }
+    band.style.display = 'block';
+  }
+
+  function initCards(){ updateProgressCards(); paintRankBand(); }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateProgressCards);
+    document.addEventListener('DOMContentLoaded', initCards);
   } else {
-    updateProgressCards();
+    initCards();
   }
   /* Re-render après auth sync, comme les autres cards */
-  setTimeout(updateProgressCards, 900);
+  setTimeout(initCards, 900);
 })();
 </script>
 
