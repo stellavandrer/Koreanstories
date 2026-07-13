@@ -191,7 +191,7 @@
 function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b27',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b27');location.href='cours.html';}}
 function ans(btn,result){
   const p=btn.closest('.mini-quiz');
-  if(p.querySelector('.ok,.ko'))return;
+  if(p.querySelector('.q-opt.ok,.q-opt.ko'))return;
   btn.classList.add(result);
 }
 function toggleTheme(){

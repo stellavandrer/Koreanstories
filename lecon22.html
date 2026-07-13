@@ -160,6 +160,11 @@
 </div>
   <script src="ks.js"></script>
   <script>
+  function ans(btn,result){
+    const p=btn.closest('.mini-quiz');
+    if(p.querySelector('.q-opt.ok,.q-opt.ko'))return;
+    btn.classList.add(result);
+  }
   function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b23',xp:15});else{if(typeof ksAddXP==='function')ksAddXP(15);if(typeof ksMarkDone==='function')ksMarkDone('ks_b23');location.href='cours.html';}}
 </script>
 <script src="ks-results.js"></script>

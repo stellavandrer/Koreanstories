@@ -221,7 +221,7 @@
 let score=0;
 function ans(idx,btn,result){
   const card=document.getElementById('r'+idx);
-  if(card.querySelector('.ok,.ko'))return;
+  if(card.querySelector('.opt.ok,.opt.ko'))return;
   btn.classList.add(result);
   if(result==='ok')score++;
   else card.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('onclick').includes("'ok'"))o.classList.add('ok');});
