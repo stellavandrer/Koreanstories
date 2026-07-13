@@ -1044,16 +1044,17 @@
 <div class="shell">
 <!-- Sidebar retirée : navigation unifiée via le menu (bouton « ☰ Menu ») -->
 <style id="ks-dash-redesign">
-/* ── Refonte hiérarchie du tableau de bord (2026) ──────────────
-   Ordre logique pensé pour l'utilisateur : salutation → objectif
-   du jour → Reprendre (action n°1) → Défi → Sections → widgets
-   stats en bas. Les blocs redondants/secondaires sont masqués
-   pour aérer la page (anecdote, mix du jour, « À découvrir »,
-   doublons « Cette semaine » : récap + graphe d'activité). */
+/* ── Refonte du tableau de bord (2026-07) ──────────────────────
+   Mobile : salutation → objectif → Reprendre → défis → Explorer
+   → widgets. Desktop ≥1000px : vraie mise en page 2 colonnes
+   (flux principal à gauche, objectifs + widgets en rail droit).
+   Les blocs des anciennes générations restent masqués : leur JS
+   est encore câblé dessus, les retirer casserait les scripts. */
 #appContent{display:flex;flex-direction:column}
-/* L'en-tête desktop ne doit JAMAIS apparaître sur mobile (le JS le montrait
-   si la page était chargée en large puis rétrécie, sans le re-masquer). */
-@media(max-width:899px){#deskHdr{display:none !important}}
+/* L'ancien en-tête desktop (titre blanc invisible sur fond clair +
+   doublons XP/streak/thème déjà présents dans la barre) est retiré à
+   toutes les largeurs — sa carte Objectif complète vit dans le rail. */
+#deskHdr,#deskGoal{display:none !important}
 /* Carte « streak en danger » : sur mobile, on empile les deux boutons
    (« Sauver mon streak » et « Gel ») pleine largeur. Avant ils étaient
    collés côte à côte → en visant « Gel » on touchait par erreur le gros
@@ -1075,6 +1076,36 @@
 /* « Défis de la semaine » consolidé avec « Défi du jour » → masqué (doublon). */
 #wklyCard{display:none !important}
 
+/* ── Grille « Explorer » : accès direct aux outils du site.
+   Avant la refonte, AUCUN lien du tableau de bord ne menait aux
+   histoires, au vocabulaire, à la grammaire, au dictionnaire… —
+   tout était enfoui dans le menu ☰. ── */
+.ks-explore{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:26px}
+@media(min-width:620px){.ks-explore{grid-template-columns:repeat(3,1fr)}}
+.ksx{display:flex;flex-direction:column;gap:9px;background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:14px;text-decoration:none;color:inherit;transition:transform .16s,border-color .16s,box-shadow .16s;-webkit-tap-highlight-color:transparent}
+.ksx:hover{transform:translateY(-2px);border-color:rgba(201,169,110,.55);box-shadow:0 8px 24px rgba(15,27,45,.08)}
+.ksx:active{transform:scale(.97)}
+.ksx-ic{width:34px;height:34px;border-radius:10px;background:rgba(201,169,110,.13);color:#8B6B3D;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex-shrink:0}
+[data-theme="dark"] .ksx-ic{color:#D5BA8A}
+.ksx-ic svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ksx-t{font-size:13px;font-weight:700;color:var(--t);line-height:1.25}
+.ksx-s{font-size:11px;color:var(--t3);line-height:1.45;margin-top:2px}
+
+/* ── Desktop ≥1000px : 2 colonnes (flux | rail objectifs+widgets) ── */
+@media(min-width:1000px){
+  #appContent{display:grid;grid-template-columns:minmax(0,1fr) 356px;column-gap:28px;max-width:1120px;margin:0 auto;width:100%;
+    grid-template-areas:"greet greet" "main goal" "main widgets" "main .";
+    grid-template-rows:auto auto auto 1fr;
+    align-content:start}
+  .greeting{grid-area:greet;border-radius:22px;margin:6px 20px 16px;padding:20px 26px 0}
+  .greeting-inner{max-width:none}
+  #appContent>main{grid-area:main;max-width:none;width:100%;padding:6px 0 12px 20px}
+  .goal-strip{grid-area:goal;background:transparent;padding:6px 20px 0 0}
+  .goal-card{background:var(--navy);max-width:none}
+  .dw-grid{grid-area:widgets;grid-template-columns:1fr !important;max-width:none !important;margin:14px 20px 0 0 !important;padding:0}
+  .dw-cal{grid-column:auto}
+}
+
 /* ════ ÉTAT JOUR-1 (nouvel utilisateur, ks_xp=0) ════════════════════
    Onboarding focalisé : on ne montre QUE salutation → Reprendre
    (sa 1ʳᵉ leçon) → carte « Commence en 3 étapes ». On masque les
@@ -1088,8 +1119,16 @@
 #appContent.ks-new .sec-grid,
 #appContent.ks-new .dw-grid,
 #appContent.ks-new #revCard,
+#appContent.ks-new .ks-explore,
+#appContent.ks-new #ksxSeclbl,
 #appContent.ks-new .sec-lbl:has(+ .sec-grid),
 #appContent.ks-new .sec-lbl:has(+ #revCard){display:none !important}
+/* Jour-1 en desktop : le rail droit est vide (objectif+widgets masqués),
+   le flux principal occupe donc toute la largeur. */
+@media(min-width:1000px){
+  #appContent.ks-new{grid-template-areas:"greet greet" "main main";grid-template-rows:auto 1fr}
+  #appContent.ks-new>main{max-width:640px;margin:0 auto;padding:6px 0 12px}
+}
 </style>
 
 <!-- ══ MAIN ════════════════════════════════════ -->
@@ -1552,6 +1591,35 @@
         <div class="defi-example" id="defiExample" style="display:none"></div>
       </div>
       <div class="defi-result-already" id="defiDoneMsg" style="display:none"></div>
+    </div>
+
+    <!-- EXPLORER : accès direct aux outils (refonte 2026-07) -->
+    <span class="sec-lbl" id="ksxSeclbl">Explorer</span>
+    <div class="ks-explore">
+      <a class="ksx" href="histoires.html">
+        <span class="ksx-ic"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></span>
+        <span><span class="ksx-t">Histoires</span><span class="ksx-s" style="display:block">BD, lecture &amp; podcast</span></span>
+      </a>
+      <a class="ksx" href="vocabulaire.html">
+        <span class="ksx-ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+        <span><span class="ksx-t">Vocabulaire</span><span class="ksx-s" style="display:block">197 mots par situation</span></span>
+      </a>
+      <a class="ksx" href="grammaire.html">
+        <span class="ksx-ic"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></span>
+        <span><span class="ksx-t">Grammaire</span><span class="ksx-s" style="display:block">30 règles A1 → B2</span></span>
+      </a>
+      <a class="ksx" href="dictionnaire.html">
+        <span class="ksx-ic"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <span><span class="ksx-t">Dictionnaire</span><span class="ksx-s" style="display:block">FR ⇄ KR · conjugueur</span></span>
+      </a>
+      <a class="ksx" href="speaking.html">
+        <span class="ksx-ic"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 00-3 3v7a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></span>
+        <span><span class="ksx-t">Speaking Practice</span><span class="ksx-s" style="display:block">146 phrases · micro IA</span></span>
+      </a>
+      <a class="ksx" href="hangeul.html">
+        <span class="ksx-ic" aria-hidden="true">한</span>
+        <span><span class="ksx-t">Hangeul</span><span class="ksx-s" style="display:block">L'alphabet pas à pas</span></span>
+      </a>
     </div>
 
     <!-- QUICK ACCESS STRIP (caché — redondant avec la grille Sections) -->
