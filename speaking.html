@@ -401,7 +401,8 @@ function micTest(){
   window.KSPronounce.listen(c.kr,btn,{
     onState:function(s){ if(hint&&MIC_HINTS[s]) hint.textContent=MIC_HINTS[s]; },
     onInterim:function(t){ if(hint) hint.textContent='« '+t+' »'; },
-    retry:function(){ micTest(); }
+    retry:function(){ micTest(); },
+    replay:function(){ playCurrent(); }
   });
   setTimeout(checkMicXP,4000);
 }

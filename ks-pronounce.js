@@ -156,9 +156,19 @@
         'opacity:0;transition:opacity .25s,transform .25s;pointer-events:none',
       '}',
       '.ks-pron-feedback.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto}',
-      '.pf-retry{display:block;width:100%;margin-top:12px;padding:9px 12px;border:none;border-radius:10px;',
+      /* Diff mot à mot : chaque mot de la phrase attendue coloré selon
+         sa similarité avec ce qui a été entendu */
+      '.pf-header .pf-score{margin-left:auto;margin-right:2px}',
+      '.pf-text .pw-ok{color:#22C55E}',
+      '.pf-text .pw-mid{color:#F59E0B}',
+      '.pf-text .pw-bad{color:#EF4444;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}',
+      '.pf-actions{display:flex;gap:8px;margin-top:12px}',
+      '.pf-retry{flex:1;padding:9px 12px;border:none;border-radius:10px;',
         'background:#C9A96E;color:#0F1B2D;font-weight:800;font-size:13px;cursor:pointer}',
       '.pf-retry:active{transform:scale(.98)}',
+      '.pf-replay{flex:1;padding:9px 12px;border-radius:10px;cursor:pointer;',
+        'background:none;border:1.5px solid rgba(201,169,110,.5);color:#C9A96E;font-weight:800;font-size:13px}',
+      '.pf-replay:active{transform:scale(.98)}',
       '.ks-pron-feedback .pf-header{',
         'display:flex;align-items:center;justify-content:space-between;',
         'margin-bottom:10px;font-size:11px;font-weight:800;',
@@ -208,6 +218,54 @@
     } catch (e) {}
   }
 
+  /* ── Diff mot à mot ────────────────────────────────────────────
+     Aligne les mots entendus sur les mots attendus (programmation
+     dynamique maximisant la somme des similarités jamo) et rend,
+     pour CHAQUE mot attendu, sa similarité avec le mot entendu qui
+     lui correspond — c'est ce qui permet de colorer la phrase cible
+     mot par mot dans le feedback (vert/orange/rouge) au lieu d'un
+     simple pourcentage global. */
+  function wordDiff(expected, heard){
+    var E = String(expected||'').trim().split(/\s+/).filter(Boolean);
+    var H = String(heard||'').trim().split(/\s+/).filter(Boolean);
+    var n = E.length, m = H.length;
+    var sims = new Array(n);
+    for (var z = 0; z < n; z++) sims[z] = 0;
+    if (n && m) {
+      var dp = [], bt = [];
+      for (var i = 0; i <= n; i++) {
+        dp.push(new Array(m+1)); bt.push(new Array(m+1));
+        for (var j = 0; j <= m; j++) { dp[i][j] = 0; bt[i][j] = 0; }
+      }
+      for (var i2 = 1; i2 <= n; i2++) {
+        for (var j2 = 1; j2 <= m; j2++) {
+          var s = similarity(H[j2-1], E[i2-1]);
+          var diag = dp[i2-1][j2-1] + s;
+          var up   = dp[i2-1][j2];
+          var left = dp[i2][j2-1];
+          if (diag >= up && diag >= left) { dp[i2][j2] = diag; bt[i2][j2] = 1; }
+          else if (up >= left)            { dp[i2][j2] = up;   bt[i2][j2] = 2; }
+          else                            { dp[i2][j2] = left; bt[i2][j2] = 3; }
+        }
+      }
+      var bi = n, bj = m;
+      while (bi > 0 && bj > 0) {
+        if (bt[bi][bj] === 1) { sims[bi-1] = similarity(H[bj-1], E[bi-1]); bi--; bj--; }
+        else if (bt[bi][bj] === 2) bi--;
+        else bj--;
+      }
+    }
+    return E.map(function(w, k){ return { w: w, sim: sims[k] }; });
+  }
+
+  function renderExpectedDiff(expected, heard){
+    if (!String(heard||'').trim()) return escapeHtml(expected);
+    return wordDiff(expected, heard).map(function(d){
+      var cls = d.sim >= 0.8 ? 'pw-ok' : d.sim >= 0.5 ? 'pw-mid' : 'pw-bad';
+      return '<span class="' + cls + '">' + escapeHtml(d.w) + '</span>';
+    }).join(' ');
+  }
+
   /* ── Affichage feedback ──────────────────────────────────────── */
   var FEEDBACK_TIMEOUT = null;
   function showFeedback(opts){
@@ -233,41 +291,67 @@
     };
     var msg = messages[cls][Math.floor(Math.random()*messages[cls].length)];
 
+    var hasRetry  = typeof opts.retry === 'function';
+    var hasReplay = typeof opts.replay === 'function';
+    var hasDiff   = !!String(opts.heard||'').trim();
+
     var box = document.createElement('div');
     box.className = 'ks-pron-feedback ' + cls;
     box.innerHTML =
       '<div class="pf-header">' +
         '<span class="pf-status">' + icons[cls] + ' ' + labels[cls] + '</span>' +
         '<span class="pf-score">' + Math.round(opts.score * 100) + '%</span>' +
+        '<button class="pf-close" type="button" aria-label="Fermer">×</button>' +
       '</div>' +
       '<div class="pf-row">' +
-        '<div class="pf-label">Texte attendu</div>' +
-        '<div class="pf-text">' + escapeHtml(opts.expected) + '</div>' +
+        '<div class="pf-label">Texte attendu' + (hasDiff ? ' — mot par mot' : '') + '</div>' +
+        '<div class="pf-text">' + renderExpectedDiff(opts.expected, opts.heard) + '</div>' +
       '</div>' +
       '<div class="pf-row">' +
         '<div class="pf-label">Tu as dit</div>' +
         '<div class="pf-heard">"' + escapeHtml(opts.heard || '(rien entendu)') + '"</div>' +
       '</div>' +
       '<div class="pf-msg">' + msg + '</div>' +
-      (typeof opts.retry === 'function' ? '<button class="pf-retry" type="button">Réessayer</button>' : '');
+      (hasRetry || hasReplay ?
+        '<div class="pf-actions">' +
+          (hasReplay ? '<button class="pf-replay" type="button">Réécouter</button>' : '') +
+          (hasRetry  ? '<button class="pf-retry" type="button">Réessayer</button>'  : '') +
+        '</div>' : '');
     document.body.appendChild(box);
-    if (typeof opts.retry === 'function') {
-      var rb = box.querySelector('.pf-retry');
-      if (rb) rb.addEventListener('click', function(){
-        if (FEEDBACK_TIMEOUT) clearTimeout(FEEDBACK_TIMEOUT);
-        box.classList.remove('show');
-        setTimeout(function(){ if (box.parentNode) box.remove(); }, 200);
+
+    function closeBox(){
+      if (FEEDBACK_TIMEOUT) clearTimeout(FEEDBACK_TIMEOUT);
+      box.classList.remove('show');
+      setTimeout(function(){ if (box.parentNode) box.remove(); }, 200);
+    }
+    var cb = box.querySelector('.pf-close');
+    if (cb) cb.addEventListener('click', closeBox);
+    if (hasRetry) {
+      box.querySelector('.pf-retry').addEventListener('click', function(){
+        closeBox();
         opts.retry();
+      });
+    }
+    if (hasReplay) {
+      box.querySelector('.pf-replay').addEventListener('click', function(){
+        /* On rejoue le modèle SANS fermer le popup : l'utilisateur
+           compare l'audio natif au diff mot à mot encore affiché. */
+        if (FEEDBACK_TIMEOUT) clearTimeout(FEEDBACK_TIMEOUT);
+        FEEDBACK_TIMEOUT = setTimeout(function(){
+          box.classList.remove('show');
+          setTimeout(function(){ if (box.parentNode) box.remove(); }, 300);
+        }, 9000);
+        opts.replay();
       });
     }
     requestAnimationFrame(function(){ box.classList.add('show'); });
 
-    /* Plus long quand un bouton Réessayer est proposé — il faut le
-       temps de le voir et de cliquer. */
+    /* Plus long quand des actions sont proposées — il faut le
+       temps de lire le diff et de cliquer. */
     FEEDBACK_TIMEOUT = setTimeout(function(){
       box.classList.remove('show');
       setTimeout(function(){ if (box.parentNode) box.remove(); }, 300);
-    }, typeof opts.retry === 'function' ? 7000 : 4500);
+    }, (hasRetry || hasReplay) ? 8000 : 4500);
   }
 
   function escapeHtml(s){
@@ -288,12 +372,18 @@
      opts (tous optionnels) :
        onState(s)  — 'listening'|'hearing'|'done'|'idle' pour l'UI hôte
        onInterim(t)— transcription partielle en direct
-       retry()     — si fourni, bouton « Réessayer » dans le feedback */
+       retry()     — si fourni, bouton « Réessayer » dans le feedback
+       replay()    — si fourni, bouton « Réécouter » (modèle natif) */
   var ACTIVE_REC = null;
   function startListening(expectedText, btn, opts){
     opts = opts || {};
     var say = typeof opts.onState === 'function' ? opts.onState : function(){};
     var onInterim = typeof opts.onInterim === 'function' ? opts.onInterim : null;
+    /* Relance de grâce : une session qui meurt quasi instantanément
+       sans rien capter (raté classique du moteur au démarrage) est
+       relancée UNE fois en silence au lieu d'afficher un échec. */
+    var graceUsed = !!opts._graceUsed;
+    var startTime = Date.now();
     if (ACTIVE_REC) { try { ACTIVE_REC.abort(); } catch(e){} ACTIVE_REC = null; }
     if (window._ksCurrentAudio) { try { _ksCurrentAudio.pause(); } catch(e){} }
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch(e){}
@@ -318,12 +408,21 @@
     rec.onspeechstart = function(){ say('hearing'); };
 
     function failEmpty(){
+      if (!graceUsed && Date.now() - startTime < 3000) {
+        /* Mort prématurée sans capture → on relance sans rien montrer.
+           Un seul rejeu (marqueur _graceUsed) pour éviter toute boucle. */
+        var o2 = {};
+        for (var k in opts) o2[k] = opts[k];
+        o2._graceUsed = true;
+        startListening(expectedText, btn, o2);
+        return;
+      }
       btn.classList.remove('listening');
       btn.classList.add('fail');
       setTimeout(function(){ btn.classList.remove('fail'); }, 2500);
       recordAttempt(0);
       say('done');
-      showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail', retry: opts.retry });
+      showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail', retry: opts.retry, replay: opts.replay });
     }
 
     rec.onresult = function(e){
@@ -365,7 +464,7 @@
       setTimeout(function(){ btn.classList.remove(tier); }, 2500);
       recordAttempt(finalScore);
       say('done');
-      showFeedback({ score: finalScore, expected: expectedText, heard: best.heard, tier: tier, retry: opts.retry });
+      showFeedback({ score: finalScore, expected: expectedText, heard: best.heard, tier: tier, retry: opts.retry, replay: opts.replay });
     };
 
     rec.onerror = function(e){
@@ -373,7 +472,7 @@
       btn.classList.remove('listening');
       if (e.error === 'no-speech') {
         say('done');
-        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail', retry: opts.retry });
+        showFeedback({ score: 0, expected: expectedText, heard: '', tier: 'fail', retry: opts.retry, replay: opts.replay });
       } else if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
         say('idle');
         alert('Le micro est bloqué. Autorise l\'accès au microphone dans les réglages du navigateur.');
