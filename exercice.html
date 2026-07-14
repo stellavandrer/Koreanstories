@@ -1074,9 +1074,12 @@
 /* ── BNAV DOT NOTIFICATION ── */
 
 
-    /* ── Desktop : colonne de travail plus confortable ── */
+    /* ── Desktop : colonne de travail plus confortable ──
+       ⚠️ ne caper QUE l'élément <main> — la classe .main est le conteneur
+       du shell (design.css), la caper boxe toute la page, topbar comprise
+       (même bug que grammaire.html, corrigé le 2026-07-14). */
     @media(min-width:1024px){
-      main,.main{max-width:640px}
+      main{max-width:640px}
     }
   </style>
     
