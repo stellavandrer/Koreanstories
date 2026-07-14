@@ -243,10 +243,23 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     @media(min-width:760px){
       .chips-row{flex-wrap:wrap;overflow:visible}
     }
-    @media(min-width:1024px){
-      .chips-row{max-width:860px}
+    /* Desktop dès 900 px (les fenêtres ~1000 px tombaient dans un
+       entre-deux : colonne mobile de 720 px perdue au milieu de
+       l'écran, cartes sur une seule colonne). */
+    @media(min-width:900px){
+      .main{max-width:960px}
+      .chips-row{max-width:960px}
+      .hdr{padding-top:44px}
+      .hdr-inner{max-width:920px}
+      .hdr-sub{max-width:660px}
+      .search-wrap{max-width:660px}
       .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;align-items:start}
       .cards-grid .sec-divider,.cards-grid .no-results{grid-column:1/-1}
+    }
+    @media(min-width:1400px){
+      .main{max-width:1120px}
+      .chips-row{max-width:1120px}
+      .hdr-inner{max-width:1080px}
     }
   </style>
 </head>
