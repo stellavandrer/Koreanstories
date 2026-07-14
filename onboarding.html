@@ -223,27 +223,12 @@
   <!-- STEP 3 — Niveau -->
   <div class="step" data-step="2">
     <div class="step-kicker">Étape 3 sur 4</div>
-    <h2 class="step-title">Quel est ton <em>niveau</em> actuel&thinsp;?</h2>
-    <p class="step-sub">Pour te placer au bon endroit dans le parcours. Aucune mauvaise réponse&thinsp;!</p>
+    <h2 class="step-title">Découvrons ton <em>niveau</em></h2>
+    <p class="step-sub">20 questions, 3 minutes — pour te placer exactement là où il faut dans le parcours. Aucune mauvaise réponse&thinsp;!</p>
     <div class="opts" id="optsLevel" data-key="ks_level">
-      <button class="opt" data-val="zero" data-start="lecon.html">
-        <span class="opt-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg></span>
-        <span class="opt-txt"><span class="opt-label">Grand débutant</span><span class="opt-desc">Je pars de zéro, je ne connais rien</span></span>
-        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-      </button>
-      <button class="opt" data-val="bases" data-start="lecon.html">
-        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>
-        <span class="opt-txt"><span class="opt-label">Quelques bases</span><span class="opt-desc">Je connais quelques mots (annyeong, etc.)</span></span>
-        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-      </button>
-      <button class="opt" data-val="hangeul" data-start="lecon5.html">
-        <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-        <span class="opt-txt"><span class="opt-label">Je lis déjà le Hangeul</span><span class="opt-desc">Je veux passer à la grammaire et au vocabulaire</span></span>
-        <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-      </button>
       <button class="opt" data-val="test" data-start="test-niveau.html">
         <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
-        <span class="opt-txt"><span class="opt-label">Je ne sais pas — fais-moi passer un test</span><span class="opt-desc">Un test rapide déterminera mon niveau</span></span>
+        <span class="opt-txt"><span class="opt-label">Faire le test de niveau</span><span class="opt-desc">Rapide et précis — détermine ton point de départ idéal</span></span>
         <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
       </button>
     </div>
@@ -415,7 +400,10 @@ function finishOnboarding(skipped){
   /* Fade out then go */
   document.body.style.transition='opacity .25s ease';
   document.body.style.opacity='0';
-  var dest = (!skipped && answers.ks_level==='test') ? 'test-niveau.html' : 'app.html';
+  /* Test de niveau désormais obligatoire (demande Stelva, 2026-07-14) :
+     quel que soit le chemin (étapes remplies ou « Passer »), on termine
+     toujours sur le test — plus de sortie directe vers app.html. */
+  var dest = 'test-niveau.html';
   setTimeout(function(){ window.location.href = dest; }, 250);
 }
 

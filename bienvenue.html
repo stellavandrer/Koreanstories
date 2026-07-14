@@ -109,8 +109,8 @@
   </div>
 
   <div class="greeting">
-    <h1>Bienvenue ! 반가워요</h1>
-    <p>Choisis comment tu veux accéder à ton espace d'apprentissage.</p>
+    <h1 id="wGreetTitle">Bienvenue ! 반가워요</h1>
+    <p id="wGreetSub">Choisis comment tu veux accéder à ton espace d'apprentissage.</p>
   </div>
 
   <div class="cards">
@@ -139,9 +139,9 @@
     </a>
   </div>
 
-  <div class="divider"><span>ou</span></div>
+  <div class="divider" id="wDivider"><span>ou</span></div>
 
-  <div class="guest-row">
+  <div class="guest-row" id="wGuestRow">
     <button class="guest-btn" onclick="continueAsGuest()">
       Continuer en tant qu'invité →
     </button>
@@ -155,6 +155,23 @@
     try{
       const u = JSON.parse(localStorage.getItem('ks_user')||'null');
       if(u && u.email && !u.guest){ window.location.href='app.html'; }
+    }catch(e){}
+  })();
+
+  /* Mode « continuer » : renvoyé ici par ks-account-gate.js après avoir
+     terminé une 1ère activité en invité — plus d'option invité, message
+     contextualisé avec le XP déjà gagné (demande Stelva, 2026-07-14). */
+  (function(){
+    try{
+      if(new URLSearchParams(location.search).get('continue') !== '1') return;
+      var xp = parseInt(localStorage.getItem('ks_xp')||'0',10) || 0;
+      var t = document.getElementById('wGreetTitle');
+      var s = document.getElementById('wGreetSub');
+      if(t) t.textContent = 'Bien joué ! 축하해요';
+      if(s) s.textContent = (xp > 0 ? 'Tu as déjà gagné ' + xp + ' XP. ' : '') +
+        'Crée un compte gratuit pour sauvegarder ta progression et continuer ton parcours.';
+      var gr = document.getElementById('wGuestRow'); if(gr) gr.style.display = 'none';
+      var dv = document.getElementById('wDivider'); if(dv) dv.style.display = 'none';
     }catch(e){}
   })();
 
