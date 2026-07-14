@@ -54,8 +54,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     [data-theme="dark"] .chip:hover{border-color:var(--gold);color:var(--gold)}
     [data-theme="dark"] .chip.active{background:var(--navy2);border-color:var(--gold)}
 
-    /* ── MAIN CONTENT ── */
-    .main{max-width:720px;margin:0 auto;padding:24px 20px}
+    /* ── MAIN CONTENT ──
+       .gmain = colonne de contenu de la page (sous le héro).
+       ⚠️ Ne JAMAIS styler la classe .main ici : c'est le conteneur du
+       shell (design.css, pleine largeur à ≥960px). La styler met toute
+       la page — héro compris — dans une boîte centrée avec des bandes
+       de fond de chaque côté (bug corrigé le 2026-07-14). */
+    .gmain{max-width:720px;margin:0 auto;padding:24px 20px}
 
     /* Grammar card */
     .gcard{background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;margin-bottom:16px;overflow:hidden;transition:all .3s;cursor:pointer}
@@ -207,10 +212,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       .quiz-opts{grid-template-columns:1fr}
     }
   
-    /* ── Desktop : colonne de lecture élargie ── */
-    @media(min-width:1024px){
-      .gcard{margin-bottom:18px}
-    }
   </style>
   <script src="ks.js" defer></script>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
@@ -242,21 +243,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     @media(min-width:760px){
       .chips-row{flex-wrap:wrap;overflow:visible}
     }
-    /* Desktop dès 900 px : largeur FLUIDE (pourcentage de l'écran,
-       plafonnée large) plutôt qu'une valeur fixe — un chiffre en px
-       laisse toujours une bande morte sur un écran plus large que
-       prévu. La grille de cartes s'ajoute automatiquement des
-       colonnes selon la place dispo (auto-fill), au lieu d'un
-       nombre de colonnes figé. C'est le même principe que app.html,
-       qui n'a jamais ce souci de marges mortes. */
-    @media(min-width:900px){
-      .main{max-width:min(92vw,1600px)}
-      .chips-row{max-width:min(92vw,1600px)}
+    /* ── Desktop : même recette que vocabulaire/hangeul/app ──
+       Le héro .hdr reste PLEINE LARGEUR (jamais dans une boîte) ;
+       seuls .hdr-inner et la colonne .gmain sont centrés/capés.
+       1080 de contenu = le standard des pages outils du site. */
+    @media(min-width:1024px){
       .hdr{padding-top:44px}
-      .hdr-inner{max-width:min(92vw,1550px)}
+      .hdr-inner{max-width:1080px}
       .hdr-sub{max-width:660px}
       .search-wrap{max-width:660px}
-      .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:0 20px;align-items:start}
+      .chips-row{max-width:1120px}
+      .gmain{max-width:1120px}
+      .gcard{margin-bottom:18px}
+      .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;align-items:start}
       .cards-grid .sec-divider,.cards-grid .no-results{grid-column:1/-1}
     }
   </style>
@@ -371,6 +370,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   </div>
 </div>
 
+<div class="gmain">
 <a href="speaking.html" class="sp-banner">
   <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
   <span><strong>Speaking Practice</strong> — entraîne-toi à l'oral sur les phrases de ces 30 règles, par séries de 10 avec test micro <em>→</em></span>
@@ -2129,6 +2129,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
 
 </div><!-- /cards-grid -->
+</div><!-- /gmain -->
 
 <script>
 // ── STATE ──
