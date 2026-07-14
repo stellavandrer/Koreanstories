@@ -6,58 +6,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Speaking Practice — Écoute et répète — Korean Stories</title>
-  <meta name="description" content="Entraîne-toi à l'oral : écoute 146 phrases coréennes naturelles (A1 à B2) prononcées par un locuteur natif, puis teste ta prononciation au micro (l'IA évalue ton accent). Répète, avance à ton rythme."/>
+  <meta name="description" content="Studio d’entraînement oral : écoute 146 phrases coréennes naturelles (A1 à B2) par séries de 10, répète, puis teste ta prononciation au micro — l’IA colore chaque mot selon ton accent."/>
   <link rel="canonical" href="https://koreanstories.fr/speaking.html"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <link rel="stylesheet" href="design.css">
   <style>
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
-    .wrap{padding:1rem;max-width:640px;margin:0 auto}
-    h1{color:var(--navy);margin:0 0 .3rem;font-size:1.4rem}
-    [data-theme="dark"] h1{color:#EDF2FA}
-    .lead{color:var(--tx-muted);font-size:.92rem;line-height:1.6;margin:0 0 1rem}
-    .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
-    .chip{padding:.4rem .9rem;border-radius:20px;border:1.5px solid var(--bd);background:var(--surf);font-size:.85rem;font-weight:600;cursor:pointer;color:var(--tx)}
-    .chip.act{background:#0EA5E9;border-color:#0EA5E9;color:#fff}
-    .opt-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.1rem}
-    .lchip{padding:.4rem .8rem;border-radius:20px;border:1.5px solid var(--bd);background:var(--surf);font-size:.8rem;font-weight:600;cursor:pointer;color:var(--tx-muted);display:inline-flex;align-items:center;gap:.35rem}
+    .wrap{padding:1rem;max-width:720px;margin:0 auto}
+
+    /* ── Hero navy ── */
+    .hero{background:var(--navy);border-radius:22px;padding:1.5rem 1.5rem 1.3rem;color:#fff;margin-bottom:1rem;position:relative;overflow:hidden}
+    .hero::after{content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(201,169,110,.08)}
+    .hero h1{font-family:'Playfair Display',Georgia,serif;color:#fff;font-size:1.55rem;margin:0 0 .35rem;display:flex;align-items:center;gap:.6rem}
+    .hero h1 svg{width:24px;height:24px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;flex-shrink:0}
+    .hero .sub{color:rgba(247,248,250,.72);font-size:.9rem;line-height:1.55;margin:0;max-width:560px}
+    .hstats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem;position:relative}
+    .hstat{background:rgba(255,255,255,.06);border:1px solid rgba(201,169,110,.28);border-radius:100px;padding:.32rem .85rem;font-size:.76rem;font-weight:700;color:rgba(247,248,250,.65)}
+    .hstat b{color:var(--gold);font-weight:800}
+
+    /* ── Réglages (niveaux + options) ── */
+    .set-lbl{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-muted);margin:.9rem 0 .45rem}
+    .chips{display:flex;gap:.5rem;flex-wrap:wrap}
+    .chip{padding:.42rem .95rem;border-radius:20px;border:1.5px solid var(--bd);background:var(--surf);font-size:.85rem;font-weight:700;cursor:pointer;color:var(--tx);transition:.15s}
+    .chip:hover{border-color:var(--gold)}
+    .chip.act{background:var(--gold);border-color:var(--gold);color:#0F1B2D}
+    .opt-row{display:flex;gap:.5rem;flex-wrap:wrap;margin:.55rem 0 1rem}
+    .lchip{padding:.4rem .8rem;border-radius:20px;border:1.5px solid var(--bd);background:var(--surf);font-size:.8rem;font-weight:600;cursor:pointer;color:var(--tx-muted);display:inline-flex;align-items:center;gap:.35rem;transition:.15s}
     .lchip svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-    .lchip.on{background:rgba(14,165,233,.12);border-color:#0EA5E9;color:#0EA5E9}
-    [data-theme="dark"] .lchip.on{color:#7dd3fc}
+    .lchip.on{background:rgba(201,169,110,.14);border-color:var(--gold);color:#8B6B3D}
+    [data-theme="dark"] .lchip.on{color:var(--gold)}
+
+    /* ── Carte de série (navy) ── */
     .deck-empty{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:2rem 1.2rem;text-align:center;color:var(--tx-muted)}
-    .card{background:var(--surf);border:1px solid var(--bd);border-radius:18px;padding:1.6rem 1.4rem;text-align:center;position:relative}
-    .prog{font-size:.78rem;color:var(--tx-muted);font-weight:700;letter-spacing:.03em;text-transform:uppercase;margin-bottom:.9rem}
-    .card-src{position:absolute;top:1rem;right:1rem;font-size:.72rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;background:rgba(14,165,233,.1);color:#0EA5E9}
-    [data-theme="dark"] .card-src{color:#7dd3fc}
-    .kr{font-size:1.55rem;font-weight:800;color:var(--navy);line-height:1.4;margin:.3rem 0 .6rem}
-    [data-theme="dark"] .kr{color:#EDF2FA}
-    .kr.listening{color:#0EA5E9}
-    .fr{font-size:.95rem;color:var(--tx-muted);line-height:1.5;margin-bottom:1rem}
-    .action-row{display:flex;gap:1rem;justify-content:center;align-items:center;margin-bottom:.4rem}
-    .play-big{width:64px;height:64px;border-radius:50%;background:#0EA5E9;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+    .scard{background:var(--navy);border-radius:22px;padding:1.6rem 1.4rem 1.4rem;text-align:center;position:relative;color:#fff;box-shadow:0 14px 34px rgba(15,27,45,.18)}
+    .card-src{position:absolute;top:1rem;right:1rem;font-size:.7rem;font-weight:800;padding:.22rem .65rem;border-radius:20px;background:rgba(201,169,110,.15);color:var(--gold);letter-spacing:.04em}
+    .prog{font-size:.74rem;color:rgba(247,248,250,.55);font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.55rem}
+    .sbar{height:5px;background:rgba(255,255,255,.12);border-radius:100px;overflow:hidden;max-width:220px;margin:0 auto 1.1rem}
+    .sfill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .35s}
+    .kr{font-size:1.6rem;font-weight:800;color:#fff;line-height:1.45;margin:.2rem 0 .55rem}
+    .kr.listening{color:#7dd3fc}
+    .fr{font-size:.94rem;color:rgba(247,248,250,.62);line-height:1.5;margin-bottom:1.05rem}
+    .action-row{display:flex;gap:1rem;justify-content:center;align-items:center;margin-bottom:.45rem}
+    .play-big{width:64px;height:64px;border-radius:50%;background:#0EA5E9;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(14,165,233,.35)}
     .play-big svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:2}
     .play-big.playing{background:#0284c7}
-    .mic-big{width:64px;height:64px;border-radius:50%;background:#C9A96E;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#0a1220;box-shadow:0 6px 16px rgba(201,169,110,.3)}
+    .mic-big{width:64px;height:64px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:#0a1220;box-shadow:0 6px 16px rgba(201,169,110,.35)}
     .mic-big svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
     .mic-big.listening{background:#EF4444;color:#fff;animation:micPulse2 1.2s ease-in-out infinite}
     @keyframes micPulse2{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 12px rgba(239,68,68,0)}}
     .mic-big.success{background:#16A34A;color:#fff}
     .mic-big.partial{background:#F59E0B;color:#fff}
     .mic-big.fail{background:#EF4444;color:#fff}
-    .mic-hint{font-size:.78rem;color:var(--tx-muted);margin:0 0 .8rem}
+    .mic-hint{font-size:.78rem;color:rgba(247,248,250,.55);margin:0 0 .9rem;min-height:1.1em}
     .nav-row{display:flex;gap:.6rem;justify-content:center}
-    .nav-btn{padding:.6rem 1rem;border-radius:12px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);font-weight:600;cursor:pointer;font-size:.88rem}
-    .nav-btn:disabled{opacity:.35;cursor:default}
-    .source-link{display:block;margin-top:1rem;font-size:.82rem;color:#0EA5E9;text-decoration:none}
-    [data-theme="dark"] .source-link{color:#7dd3fc}
-    .auto-row{margin-top:1rem}
-    .auto-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.85rem;background:var(--surf);border:1.5px solid #0EA5E9;color:#0EA5E9;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer}
-    [data-theme="dark"] .auto-btn{color:#7dd3fc;border-color:#7dd3fc}
-    .auto-btn.on{background:#0EA5E9;color:#fff}
-    [data-theme="dark"] .auto-btn.on{background:#0284c7;color:#fff}
+    .nav-btn{padding:.6rem 1.05rem;border-radius:12px;border:1.5px solid rgba(255,255,255,.22);background:none;color:#fff;font-weight:700;cursor:pointer;font-size:.88rem;transition:.15s}
+    .nav-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .nav-btn:disabled{opacity:.3;cursor:default}
+    .nav-btn:disabled:hover{border-color:rgba(255,255,255,.22);color:#fff}
+    .source-link{display:block;margin-top:1rem;font-size:.82rem;color:var(--gold);text-decoration:none}
+    .source-link.mute{opacity:.55;color:rgba(247,248,250,.6)}
+    .auto-row{margin-top:1.05rem}
+    .auto-btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;padding:.85rem;background:none;border:1.5px solid rgba(201,169,110,.5);color:var(--gold);border-radius:12px;font-size:.95rem;font-weight:800;cursor:pointer;transition:.15s}
+    .auto-btn.on{background:var(--gold);color:#0F1B2D;border-color:var(--gold)}
     .auto-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
-    .how{background:rgba(14,165,233,.06);border-left:3px solid #0EA5E9;border-radius:0 10px 10px 0;padding:.7rem .95rem;font-size:.85rem;line-height:1.55;margin:1rem 0}
-    .done-msg{background:linear-gradient(135deg,#0EA5E9,#0284c7);color:#fff;border-radius:14px;padding:1.1rem 1.2rem;margin-top:1rem;text-align:center;font-weight:700;font-size:.95rem;display:none}
+
+    /* ── Bilan de fin de série ── */
+    .recap{background:var(--navy);border-radius:22px;padding:1.7rem 1.4rem;text-align:center;color:#fff;box-shadow:0 14px 34px rgba(15,27,45,.18)}
+    .recap .r-badge{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);background:rgba(201,169,110,.14);border-radius:20px;padding:.25rem .8rem;margin-bottom:.7rem}
+    .recap h2{font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;margin:0 0 .35rem;color:#fff}
+    .recap .r-sub{font-size:.88rem;color:rgba(247,248,250,.62);margin:0 0 1.1rem}
+    .r-tiers{display:flex;gap:.55rem;justify-content:center;margin-bottom:1.15rem;flex-wrap:wrap}
+    .r-tier{border-radius:14px;padding:.6rem .95rem;min-width:76px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+    .r-tier b{display:block;font-size:1.25rem;font-weight:800}
+    .r-tier span{font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:rgba(247,248,250,.55)}
+    .r-tier.ok b{color:#4ade80}.r-tier.mid b{color:#fbbf24}.r-tier.bad b{color:#f87171}
+    .r-none{font-size:.85rem;color:rgba(247,248,250,.6);margin:0 0 1.1rem;line-height:1.5}
+    .r-actions{display:flex;flex-direction:column;gap:.6rem}
+    .r-next{padding:.9rem;border:none;border-radius:12px;background:var(--gold);color:#0F1B2D;font-size:.98rem;font-weight:800;cursor:pointer}
+    .r-again{padding:.85rem;border-radius:12px;background:none;border:1.5px solid rgba(255,255,255,.25);color:#fff;font-size:.9rem;font-weight:700;cursor:pointer}
+    .r-again:hover{border-color:var(--gold);color:var(--gold)}
+
+    .how{background:rgba(201,169,110,.07);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:.7rem .95rem;font-size:.84rem;line-height:1.55;margin:1rem 0;color:var(--tx-muted)}
+    .how strong{color:var(--tx)}
+
+    @media(min-width:760px){
+      .hero{padding:1.8rem 2rem 1.5rem}
+      .scard,.recap{padding:2rem 2.2rem 1.7rem}
+      .kr{font-size:1.85rem}
+    }
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -70,26 +106,36 @@
 <body>
 <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">Speaking Practice</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
 <div class="shell"><main class="main"><div class="wrap">
-  <h1>🎧 Speaking Practice</h1>
-  <p class="lead">Écoute chaque phrase prononcée par un locuteur natif, répète-la à voix haute — et si ton navigateur le permet, teste ta prononciation au micro pour un vrai retour sur ton accent. Ce n'est pas un quiz — juste de l'entraînement, autant de fois que tu veux.</p>
 
+  <div class="hero">
+    <h1><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Speaking Practice</h1>
+    <p class="sub">Ton studio d’entraînement oral : des séries de 10 phrases natives à écouter, répéter et tester au micro. L’IA colore chaque mot selon ta prononciation.</p>
+    <div class="hstats" id="heroStats">
+      <span class="hstat"><b>146</b> phrases · A1 → B2</span>
+      <span class="hstat" id="hsTries" style="display:none"><b id="hsTriesN">0</b> essais micro</span>
+      <span class="hstat" id="hsWins" style="display:none"><b id="hsWinsN">0%</b> de réussite</span>
+    </div>
+  </div>
+
+  <div class="set-lbl">Niveau</div>
   <div class="chips" id="lvlChips">
-    <div class="chip act" data-lvl="all">Tous niveaux</div>
+    <div class="chip act" data-lvl="all">Tous</div>
     <div class="chip" data-lvl="a1">A1</div>
     <div class="chip" data-lvl="a2">A2</div>
     <div class="chip" data-lvl="b1">B1</div>
     <div class="chip" data-lvl="b2">B2</div>
   </div>
 
+  <div class="set-lbl">Options</div>
   <div class="opt-row">
     <div class="lchip" data-opt="pause" onclick="toggleSeqOpt('pause')"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>Pauses pour répéter</div>
     <div class="lchip" data-opt="slow" onclick="toggleSeqOpt('slow')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 15"/></svg>Vitesse lente</div>
+    <div class="lchip" data-opt="shuffle" onclick="toggleShuffle()"><svg viewBox="0 0 24 24"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>Mélanger</div>
   </div>
 
   <div id="deckArea"></div>
-  <div class="done-msg" id="doneMsg">✓ Série terminée ! Relance-la autant de fois que tu veux, ou change de niveau.</div>
 
-  <div class="how"><strong>Comment pratiquer</strong> : écoute, répète à voix haute, puis touche le micro doré pour que l'app évalue ta prononciation (90% = excellent, 70% = pas mal). Avec « Pauses pour répéter », la lecture automatique laisse un silence après chaque phrase, exactement le temps de la redire.</div>
+  <div class="how"><strong>Comment pratiquer</strong> : écoute, répète à voix haute, puis touche le micro doré — chaque mot de la phrase est coloré selon ta prononciation (vert = bon, rouge = à retravailler). Termine la série de 10 pour voir ton bilan.</div>
 </div></main></div>
 <script src="ks.js"></script>
 <script src="ks-pronounce.js"></script>
@@ -318,29 +364,66 @@ const DECK=[
   {kr:'호랑이 굴에 가야 호랑이 새끼를 잡는다',fr:'Il faut entrer dans la tanière du tigre pour attraper son petit. (proverbe : qui ne risque rien n\'a rien)'}
 ]},
 ];
-
 let CARDS=[];
 DECK.forEach(d=>d.examples.forEach(e=>CARDS.push({kr:e.kr,fr:e.fr,level:d.level,title:d.title,lesson:d.lesson})));
 
+/* ── État : niveau, curseur par niveau, série courante ── */
+const SESSION_SIZE=10;
 let curLevel='all';
-let list=CARDS.slice();
-let idx=0;
+let SHUFFLE=false;
+let session=[];      /* les cartes de la série en cours */
+let sIdx=0;          /* position dans la série */
+let statsStart=null; /* snapshot des stats micro au début de la série */
 
 const SEQ={running:false,timer:null};
 const SEQ_OPTS={pause:false,slow:false};
+
+function filtered(){ return curLevel==='all' ? CARDS.slice() : CARDS.filter(c=>c.level===curLevel); }
+function curKey(){ return 'ks_speak_cur_'+curLevel; }
+function getCursor(){ try{ return parseInt(localStorage.getItem(curKey())||'0',10)||0; }catch(e){ return 0; } }
+function setCursor(v){ try{ localStorage.setItem(curKey(),String(v)); }catch(e){} }
+function micStats(){
+  try{ return (window.KSPronounce&&KSPronounce.stats&&KSPronounce.stats())||{}; }catch(e){ return {}; }
+}
 
 function toggleSeqOpt(name){
   SEQ_OPTS[name]=!SEQ_OPTS[name];
   document.querySelectorAll('.lchip[data-opt="'+name+'"]').forEach(c=>c.classList.toggle('on',SEQ_OPTS[name]));
 }
+function toggleShuffle(){
+  SHUFFLE=!SHUFFLE;
+  document.querySelectorAll('.lchip[data-opt="shuffle"]').forEach(c=>c.classList.toggle('on',SHUFFLE));
+  buildSession(false);
+  render();
+}
+
+/* ── Construction d’une série ──
+   - ordre normal : tranche de 10 à partir du curseur sauvegardé du
+     niveau (reprise automatique là où on s’était arrêté), avec
+     bouclage en fin de liste ;
+   - mélangé : 10 cartes tirées au hasard. */
+function buildSession(advance){
+  const pool=filtered();
+  if(!pool.length){ session=[]; sIdx=0; return; }
+  if(SHUFFLE){
+    const a=pool.slice();
+    for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+    session=a.slice(0,Math.min(SESSION_SIZE,a.length));
+  }else{
+    let cur=getCursor()%pool.length;
+    if(advance){ cur=(cur+session.length)%pool.length; setCursor(cur); }
+    session=[];
+    for(let i=0;i<Math.min(SESSION_SIZE,pool.length);i++) session.push(pool[(cur+i)%pool.length]);
+  }
+  sIdx=0;
+  statsStart=micStats();
+}
 
 function setLevel(lvl){
   curLevel=lvl;
   document.querySelectorAll('#lvlChips .chip').forEach(c=>c.classList.toggle('act',c.dataset.lvl===lvl));
-  list = lvl==='all' ? CARDS.slice() : CARDS.filter(c=>c.level===lvl);
-  idx=0;
   seqStop();
-  document.getElementById('doneMsg').style.display='none';
+  buildSession(false);
   render();
 }
 document.getElementById('lvlChips').addEventListener('click',e=>{
@@ -348,34 +431,83 @@ document.getElementById('lvlChips').addEventListener('click',e=>{
   setLevel(chip.dataset.lvl);
 });
 
+/* ── Stats micro dans le hero ── */
+function renderHeroStats(){
+  const s=micStats();
+  const total=s.total||0;
+  if(!(window.KSPronounce&&KSPronounce.supported)||!total) return;
+  const wins=s.success||0;
+  document.getElementById('hsTries').style.display='';
+  document.getElementById('hsTriesN').textContent=total;
+  document.getElementById('hsWins').style.display='';
+  document.getElementById('hsWinsN').textContent=Math.round(wins/total*100)+'%';
+}
+
 function render(){
   const area=document.getElementById('deckArea');
-  if(!list.length){ area.innerHTML='<div class="deck-empty">Aucune phrase à ce niveau pour l’instant.</div>'; return; }
-  const c=list[idx];
+  if(!session.length){ area.innerHTML='<div class="deck-empty">Aucune phrase à ce niveau pour l’instant.</div>'; return; }
+  const c=session[sIdx];
   const lvlLabel=c.level.toUpperCase();
   const micOn = window.KSPronounce && window.KSPronounce.supported;
+  const pct=Math.round(((sIdx)/session.length)*100);
   area.innerHTML=
-    '<div class="card">'+
+    '<div class="scard">'+
       '<span class="card-src">'+lvlLabel+'</span>'+
-      '<div class="prog">Phrase '+(idx+1)+' / '+list.length+'</div>'+
+      '<div class="prog">Phrase '+(sIdx+1)+' / '+session.length+'</div>'+
+      '<div class="sbar"><div class="sfill" style="width:'+pct+'%"></div></div>'+
       '<div class="kr" id="krTxt">'+c.kr+'</div>'+
       '<div class="fr">'+c.fr+'</div>'+
       '<div class="action-row">'+
         '<button class="play-big" id="playBig" aria-label="Écouter" onclick="playCurrent()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>'+
         (micOn ? '<button class="mic-big" id="micBig" aria-label="Tester ma prononciation" onclick="micTest()"><svg viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg></button>' : '')+
       '</div>'+
-      (micOn ? '<p class="mic-hint">🎙️ Touche le micro pour tester ta prononciation</p>' : '')+
+      (micOn ? '<p class="mic-hint">Touche le micro pour tester ta prononciation</p>' : '')+
       '<div class="nav-row">'+
-        '<button class="nav-btn" id="prevBtn" onclick="stepCard(-1)" '+(idx===0?'disabled':'')+'>← Précédent</button>'+
-        '<button class="nav-btn" id="nextBtn" onclick="stepCard(1)">Suivant →</button>'+
+        '<button class="nav-btn" id="prevBtn" onclick="stepCard(-1)" '+(sIdx===0?'disabled':'')+'>← Précédent</button>'+
+        '<button class="nav-btn" id="nextBtn" onclick="stepCard(1)">'+(sIdx===session.length-1?'Bilan →':'Suivant →')+'</button>'+
       '</div>'+
-      (c.lesson ? '<a class="source-link" href="'+c.lesson+'">Revoir la leçon : '+c.title+' →</a>' : '<div class="source-link" style="opacity:.6">'+c.title+'</div>')+
-      '<div class="auto-row"><button class="auto-btn" id="autoBtn" onclick="toggleAuto()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>Lecture automatique</span></button></div>'+
+      (c.lesson ? '<a class="source-link" href="'+c.lesson+'">Revoir la leçon : '+c.title+' →</a>' : '<div class="source-link mute">'+c.title+'</div>')+
+      '<div class="auto-row"><button class="auto-btn" id="autoBtn" onclick="toggleAuto()"><svg viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>Écouter la série</span></button></div>'+
     '</div>';
 }
 
+/* ── Bilan de fin de série ── */
+function showRecap(){
+  seqStop();
+  checkMicXP();
+  markSessionDone();
+  renderHeroStats();
+  const s=micStats(), s0=statsStart||{};
+  const tries=(s.total||0)-(s0.total||0);
+  const ok=(s.success||0)-(s0.success||0);
+  const mid=(s.partial||0)-(s0.partial||0);
+  const bad=(s.fail||0)-(s0.fail||0);
+  const area=document.getElementById('deckArea');
+  area.innerHTML=
+    '<div class="recap">'+
+      '<span class="r-badge">Série terminée</span>'+
+      '<h2>'+session.length+' phrases pratiquées</h2>'+
+      '<p class="r-sub">'+(curLevel==='all'?'Tous niveaux':'Niveau '+curLevel.toUpperCase())+(SHUFFLE?' · mélangé':'')+'</p>'+
+      (tries>0 ?
+        '<div class="r-tiers">'+
+          '<div class="r-tier ok"><b>'+ok+'</b><span>Excellents</span></div>'+
+          '<div class="r-tier mid"><b>'+mid+'</b><span>Pas mal</span></div>'+
+          '<div class="r-tier bad"><b>'+bad+'</b><span>À revoir</span></div>'+
+        '</div>'
+        :
+        '<p class="r-none">Tu n’as pas testé ta prononciation sur cette série.<br>La prochaine fois, ose le micro doré — c’est là que ça progresse !</p>'
+      )+
+      '<div class="r-actions">'+
+        '<button class="r-next" onclick="nextSession()">'+(SHUFFLE?'Encore 10 au hasard →':'Série suivante →')+'</button>'+
+        '<button class="r-again" onclick="replaySession()">Refaire cette série</button>'+
+      '</div>'+
+    '</div>';
+}
+function nextSession(){ buildSession(true); render(); }
+function replaySession(){ sIdx=0; statsStart=micStats(); render(); }
+
 function playCurrent(){
-  const c=list[idx];
+  const c=session[sIdx];
   const kr=document.getElementById('krTxt');
   const btn=document.getElementById('playBig');
   btn.classList.add('playing'); kr.classList.add('listening');
@@ -386,20 +518,20 @@ function playCurrent(){
   });
 }
 
-const MIC_HINT_DEFAULT='🎙️ Touche le micro pour tester ta prononciation';
+const MIC_HINT_DEFAULT='Touche le micro pour tester ta prononciation';
 const MIC_HINTS={
   listening:'Micro ouvert — parle maintenant !',
-  hearing:'Je t\'entends…',
+  hearing:'Je t’entends…',
   done:MIC_HINT_DEFAULT,
   idle:MIC_HINT_DEFAULT
 };
 function micTest(){
-  const c=list[idx];
+  const c=session[sIdx];
   const btn=document.getElementById('micBig');
   if(!window.KSPronounce||!window.KSPronounce.supported||!btn) return;
   const hint=document.querySelector('.mic-hint');
   window.KSPronounce.listen(c.kr,btn,{
-    onState:function(s){ if(hint&&MIC_HINTS[s]) hint.textContent=MIC_HINTS[s]; },
+    onState:function(s){ if(hint&&MIC_HINTS[s]) hint.textContent=MIC_HINTS[s]; if(s==='done') renderHeroStats(); },
     onInterim:function(t){ if(hint) hint.textContent='« '+t+' »'; },
     retry:function(){ micTest(); },
     replay:function(){ playCurrent(); }
@@ -409,7 +541,7 @@ function micTest(){
 
 function checkMicXP(){
   try{
-    const stats=(window.KSPronounce&&window.KSPronounce.stats&&window.KSPronounce.stats())||{};
+    const stats=micStats();
     const total=stats.total||0;
     if(total<5)return;
     const alreadyDone=localStorage.getItem('ks_a02')==='done';
@@ -436,8 +568,8 @@ function checkMicXP(){
 function stepCard(dir){
   seqStop();
   checkMicXP();
-  idx=Math.max(0,Math.min(list.length-1,idx+dir));
-  document.getElementById('doneMsg').style.display='none';
+  if(dir>0 && sIdx>=session.length-1){ showRecap(); return; }
+  sIdx=Math.max(0,Math.min(session.length-1,sIdx+dir));
   render();
 }
 
@@ -445,7 +577,7 @@ function seqStop(){
   SEQ.running=false;
   if(SEQ.timer){ clearTimeout(SEQ.timer); SEQ.timer=null; }
   const btn=document.getElementById('autoBtn');
-  if(btn){ btn.classList.remove('on'); btn.querySelector('span').textContent='Lecture automatique'; }
+  if(btn){ btn.classList.remove('on'); btn.querySelector('span').textContent='Écouter la série'; }
 }
 
 function toggleAuto(){
@@ -461,7 +593,7 @@ function playAutoStep(){
   render();
   const btn=document.getElementById('autoBtn');
   if(btn){ btn.classList.add('on'); btn.querySelector('span').textContent='Arrêter'; }
-  const c=list[idx];
+  const c=session[sIdx];
   const kr=document.getElementById('krTxt');
   kr.classList.add('listening');
   const gap = SEQ_OPTS.pause ? 1800 : 500;
@@ -471,21 +603,20 @@ function playAutoStep(){
       kr.classList.remove('listening');
       if(!SEQ.running) return;
       SEQ.timer=setTimeout(function(){
-        if(idx>=list.length-1){ seqStop(); markSessionDone(); render(); return; }
-        idx++; playAutoStep();
+        if(sIdx>=session.length-1){ showRecap(); return; }
+        sIdx++; playAutoStep();
       }, gap);
     },
     onerror:function(){
       kr.classList.remove('listening');
       if(!SEQ.running) return;
-      if(idx>=list.length-1){ seqStop(); markSessionDone(); render(); return; }
-      idx++; SEQ.timer=setTimeout(playAutoStep,200);
+      if(sIdx>=session.length-1){ showRecap(); return; }
+      sIdx++; SEQ.timer=setTimeout(playAutoStep,200);
     }
   });
 }
 
 function markSessionDone(){
-  document.getElementById('doneMsg').style.display='block';
   try{
     if(!localStorage.getItem('ks_speaking_done')){
       localStorage.setItem('ks_speaking_done','1');
@@ -495,7 +626,9 @@ function markSessionDone(){
 }
 
 try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+buildSession(false);
 render();
+renderHeroStats();
 </script>
   <script src="ks-menu.js" defer></script>
 </body></html>
