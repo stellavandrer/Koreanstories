@@ -209,7 +209,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   
     /* ── Desktop : colonne de lecture élargie ── */
     @media(min-width:1024px){
-      .main{max-width:860px}
       .gcard{margin-bottom:18px}
     }
   </style>
@@ -243,30 +242,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     @media(min-width:760px){
       .chips-row{flex-wrap:wrap;overflow:visible}
     }
-    /* Desktop dès 900 px (les fenêtres ~1000 px tombaient dans un
-       entre-deux : colonne mobile de 720 px perdue au milieu de
-       l'écran, cartes sur une seule colonne). */
+    /* Desktop dès 900 px : largeur FLUIDE (pourcentage de l'écran,
+       plafonnée large) plutôt qu'une valeur fixe — un chiffre en px
+       laisse toujours une bande morte sur un écran plus large que
+       prévu. La grille de cartes s'ajoute automatiquement des
+       colonnes selon la place dispo (auto-fill), au lieu d'un
+       nombre de colonnes figé. C'est le même principe que app.html,
+       qui n'a jamais ce souci de marges mortes. */
     @media(min-width:900px){
-      .main{max-width:960px}
-      .chips-row{max-width:960px}
+      .main{max-width:min(92vw,1600px)}
+      .chips-row{max-width:min(92vw,1600px)}
       .hdr{padding-top:44px}
-      .hdr-inner{max-width:920px}
+      .hdr-inner{max-width:min(92vw,1550px)}
       .hdr-sub{max-width:660px}
       .search-wrap{max-width:660px}
-      .cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;align-items:start}
+      .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:0 20px;align-items:start}
       .cards-grid .sec-divider,.cards-grid .no-results{grid-column:1/-1}
-    }
-    @media(min-width:1400px){
-      .main{max-width:1120px}
-      .chips-row{max-width:1120px}
-      .hdr-inner{max-width:1080px}
-    }
-    /* Très grands écrans : on continue d'occuper l'espace. */
-    @media(min-width:1700px){
-      .main{max-width:1340px}
-      .chips-row{max-width:1340px}
-      .hdr-inner{max-width:1300px}
-      .cards-grid{gap:0 22px}
     }
   </style>
 </head>
