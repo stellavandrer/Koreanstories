@@ -1817,19 +1817,21 @@ function shk(el){
     [{transform:'translateX(-6px)'},{transform:'translateX(5px)'},{transform:'translateX(-3px)'},{transform:'none'}],
     {duration:250,easing:'ease-out'}
   );
-  /* Si on a secoué un nœud "soon" (coming-soon), on affiche aussi un
-     petit toast pour expliquer — le shake seul est confus pour
-     l'utilisateur. */
+  /* Si on a secoué un nœud "soon" (coming-soon) ou "locked" (verrouillé),
+     on affiche aussi un petit toast pour expliquer — le shake seul est
+     confus pour l'utilisateur. */
   if (el && el.classList && el.classList.contains('soon')) {
     showSoonToast();
+  } else if (el && el.classList && el.classList.contains('locked')) {
+    showLockedToast();
   }
 }
 
-function showSoonToast(){
-  var t = document.getElementById('ksSoonToast');
+function showKsToast(id, html){
+  var t = document.getElementById(id);
   if (!t) {
     t = document.createElement('div');
-    t.id = 'ksSoonToast';
+    t.id = id;
     t.style.cssText = [
       'position:fixed','left:50%','bottom:calc(64px + env(safe-area-inset-bottom))',
       'transform:translateX(-50%) translateY(20px)',
@@ -1840,24 +1842,35 @@ function showSoonToast(){
       'z-index:99000','opacity:0','transition:opacity .25s ease, transform .25s ease',
       'pointer-events:none','max-width:88%','text-align:center'
     ].join(';');
-    t.innerHTML = '<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#C9A96E;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Activité en cours de préparation — disponible bientôt.';
     document.body.appendChild(t);
   }
-  /* trigger */
+  t.innerHTML = html;
   requestAnimationFrame(function(){
     t.style.opacity = '1';
     t.style.transform = 'translateX(-50%) translateY(0)';
   });
-  clearTimeout(showSoonToast._t);
-  showSoonToast._t = setTimeout(function(){
+  clearTimeout(t._ksTimer);
+  t._ksTimer = setTimeout(function(){
     t.style.opacity = '0';
     t.style.transform = 'translateX(-50%) translateY(20px)';
   }, 2400);
 }
 
+function showSoonToast(){
+  showKsToast('ksSoonToast', '<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#C9A96E;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Activité en cours de préparation — disponible bientôt.');
+}
+
+function showLockedToast(){
+  var msg = ksActiveTitle
+    ? "Termine d'abord « " + ksActiveTitle + " » pour débloquer la suite."
+    : "Termine l'activité en cours pour débloquer la suite.";
+  showKsToast('ksLockedToast', '<svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;fill:none;stroke:#C9A96E;stroke-width:2;stroke-linecap:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>' + msg);
+}
+
 /* ── FILTRE + RECHERCHE ──────────────────────── */
 let _activeFilter='all';
 let _searchQuery='';
+let ksActiveTitle=null;
 
 /* Calcule la visibilité de chaque nœud selon le filtre de type ET la recherche */
 function applyVisibility(){
@@ -2069,7 +2082,7 @@ function rNode(act,status,_side,i){
   const isLink=status==='done'||status==='active'||status==='todo';
   const tag=isLink?'a':'button';
   const href=isLink&&act.href?`href="${act.href}"`:'';
-  const oc=status==='locked'?``:status==='prem'?``:status==='soon'?`onclick="shk(this.closest('.nrow').querySelector('.node'))"`:'';
+  const oc=status==='prem'?``:(status==='soon'||status==='locked')?`onclick="shk(this.closest('.nrow').querySelector('.node'))"`:'';
 
   const nodeCls=`node ${status}`;
   const cardCls=status==='done'?' done-card':status==='active'?' active-card':status==='soon'?' soon-card':'';
@@ -2080,7 +2093,7 @@ function rNode(act,status,_side,i){
 
   div.innerHTML=`
     <${tag} ${href} class="${nodeCls}" ${oc} aria-label="${act.title}" tabindex="-1">
-      <span class="node-num">${status==='done'?'<svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>':i+1}</span>
+      <span class="node-num">${status==='done'?'<svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>':status==='locked'?lkSvg:i+1}</span>
     </${tag}>
     <${cardTag} ${cardHref} ${cardOc} class="nc${cardCls}" style="border-left:3px solid ${tp.c}22">
       <span class="nc-type" style="color:${tp.c}">${tp.l}</span>
@@ -2333,8 +2346,8 @@ function rPdfs(lv){
       let st;
       if(done){st='done';prev=true;}
       else if(isSoon){st='soon';}                       /* page pas encore créée */
-      else if(!found){st='active';found=true;activeHref=act.href;levelHasActive=true;}
-      else{st='todo';}
+      else if(!found){st='active';found=true;activeHref=act.href;levelHasActive=true;ksActiveTitle=act.title;}
+      else{st='locked';}
 
       // Group header
       if(act.group && act.group!==lastGroup){
