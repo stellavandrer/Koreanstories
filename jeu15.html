@@ -87,7 +87,9 @@ function check(){
   const a=selKr,b=selFr;
   if(a.dataset.id===b.dataset.id){
     a.classList.add('done');b.classList.add('done');a.classList.remove('sel');b.classList.remove('sel');
-    if(window.speak)window.speak(PAIRS[+a.dataset.id].kr);
+    /* Pas de lecture audio : aucun des 6 adjectifs en forme du dictionnaire
+       (친절하다…) n'existe dans audio/manifest.json — l'appel speak() n'a
+       jamais rien joué depuis la création du jeu (audit du 2026-07-14). */
     matched++;document.getElementById('hud').textContent=matched+' / '+PAIRS.length+' associés';
     selKr=null;selFr=null;
     if(matched===PAIRS.length)setTimeout(end,500);
