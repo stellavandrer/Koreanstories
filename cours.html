@@ -2311,7 +2311,18 @@ function rPdfs(lv){
   let gDone=0,gTotal=0,activeHref=null,found=false;
   const doneMap={};
 
+  /* Le test de niveau (test-niveau.html) place l'apprenant sans marquer
+     les activités antérieures comme faites — le verrou séquentiel doit
+     donc en tenir compte : tant qu'on n'a pas atteint le niveau indiqué
+     par le test, rien n'est verrouillé (todo librement consultable),
+     le verrou strict (actif → verrouillé) ne démarre qu'à partir de là.
+     Retour Stelva, 2026-07-15. */
+  const TEST_SKIP_TO_LEVEL={hangeul:'a1',a1:'a1',a2:'a2'};
+  const skipToLevel=TEST_SKIP_TO_LEVEL[ls('ks_level')]||null;
+  let reachedSkipLevel=!skipToLevel;
+
   LEVELS.forEach(lv=>{
+    if(skipToLevel&&lv.id===skipToLevel)reachedSkipLevel=true;
     const sec=document.createElement('div');
     sec.className='lv-sec';sec.id=`lv-${lv.id}`;
 
@@ -2358,6 +2369,7 @@ function rPdfs(lv){
       let st;
       if(done){st='done';prev=true;}
       else if(isSoon){st='soon';}                       /* page pas encore créée */
+      else if(!reachedSkipLevel){st='todo';}            /* avant le niveau indiqué par le test : jamais verrouillé */
       else if(!found){st='active';found=true;activeHref=act.href;levelHasActive=true;ksActiveTitle=act.title;}
       else{st='locked';}
 
