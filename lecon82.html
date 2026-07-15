@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>-네요 : Réagir & découvrir — Korean Stories</title>
+<meta name="description" content="-네요, la marque de la réaction spontanée en coréen (« Oh, c'est... ! ») face à -아요/어요 qui énonce un simple fait. Bonus : la version polie -(으)시네요. Leçon A2."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon82.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:#2563EB;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] h3{color:#93c5fd}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(37,99,235,.12);color:#2563EB;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#93c5fd}
+    .xp-badge{background:rgba(37,99,235,.12);color:#2563EB;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#93c5fd}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#2563EB;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(37,99,235,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#2563EB;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#93c5fd}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.2rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(37,99,235,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(37,99,235,.2)}
+    .speak-btn.playing{background:#2563EB}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#2563EB;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    .contrast{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.7rem 0}
+    .side-a{background:rgba(37,99,235,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(37,99,235,.2)}
+    .side-b{background:rgba(219,39,119,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(219,39,119,.2)}
+    .side-a h4,.side-b h4{margin:0 0 .4rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+    .side-a h4{color:#2563EB}
+    .side-b h4{color:#DB2777}
+    .side-a .ko{color:#2563EB;font-weight:700}
+    [data-theme="dark"] .side-a .ko{color:#93c5fd}
+    .side-b .ko{color:#DB2777;font-weight:700}
+    [data-theme="dark"] .side-b .ko{color:#f9a8d4}
+    @media (max-width:480px){.contrast{grid-template-columns:1fr}}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#2563EB}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">←</button><span class="bar-title">-네요 : Réagir & découvrir</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>-네요 : Réagir & découvrir</h1>
+  <span class="pill">A2 · Grammaire</span> <span class="xp-badge">+14 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Tu connais déjà -거든요 (informer) et -잖아요 (rappeler). Voici la 3e pièce du puzzle : -네요, la marque de la réaction spontanée — ce qu'on dit au moment précis où on remarque ou découvre quelque chose. Omniprésent dans les dramas.</p>
+
+  <h3>1 — -네요 : la réaction spontanée</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">Radical du verbe/adjectif + -네요. Tu ne fais pas juste une déclaration : tu réagis, en direct, à ce que tu viens de voir, goûter ou entendre.</p>
+    <div class="ex-block">
+      <div class="ko">가깝네요! <button class="speak-btn" onclick="window.speak('가깝네요!',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Oh, c'est près ! (tu viens de réaliser la distance)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">정말 맛있네요! 얼마예요? <button class="speak-btn" onclick="window.speak('정말 맛있네요! 얼마예요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Oh, c'est vraiment délicieux ! C'est combien ? (au moment de goûter)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">집이 정말 예뻐요! 텔레비전도 있네요. <button class="speak-btn" onclick="window.speak('집이 정말 예뻐요! 텔레비전도 있네요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">La maison est vraiment jolie ! Oh, il y a même une télé. (en visitant, tu remarques un détail)</div>
+    </div>
+  </div>
+
+  <h3>2 — Le piège : -네요 ≠ -아요/-어요</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">-아요/-어요 énonce un fait, neutre, que tu savais déjà ou affirmes simplement. -네요 marque que tu viens TOUT JUSTE de t'en rendre compte — souvent avec une pointe de surprise ou d'admiration.</p>
+    <div class="contrast">
+      <div class="side-a">
+        <h4>-아요/-어요 — Fait neutre</h4>
+        <div class="ko">맛있어요</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">C'est bon. (simple constat)</div>
+      </div>
+      <div class="side-b">
+        <h4>-네요 — Réaction</h4>
+        <div class="ko">맛있네요!</div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Oh, c'est bon ! (tu viens de goûter, surprise)</div>
+      </div>
+    </div>
+    <p style="margin:.6rem 0 0;font-size:.9rem">Repère simple : si tu pourrais accompagner la phrase d'un petit « oh » ou « tiens ! » en français, c'est -네요.</p>
+  </div>
+
+  <h3>3 — Bonus poli : -(으)시네요, réagir à propos de quelqu'un d'autre</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">Pour réagir avec respect à ce que fait ou est QUELQU'UN D'AUTRE (un professeur, un inconnu poli), on ajoute l'infixe honorifique -(으)시- juste avant -네요.</p>
+    <div class="ex-block">
+      <div class="ko">한국어를 정말 잘하시네요. <button class="speak-btn" onclick="window.speak('한국어를 정말 잘하시네요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Vous parlez vraiment bien coréen ! (compliment poli)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">한국 예절을 잘 아시네요! <button class="speak-btn" onclick="window.speak('한국 예절을 잘 아시네요!',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Vous connaissez bien l'étiquette coréenne ! (admiration polie)</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">오늘은 우산을 안 쓰시네요. <button class="speak-btn" onclick="window.speak('오늘은 우산을 안 쓰시네요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">Vous n'avez pas pris de parapluie aujourd'hui. (simple remarque, polie et neutre)</div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>Pour aller plus loin</strong> : -군요 existe aussi et veut dire la même chose (réaction spontanée), mais il sonne plus formel/littéraire — on le croise surtout à l'écrit ou dans des annonces. « 그렇군요! » (« Ah, je vois ! ») est l'expression la plus fréquente avec cette forme.</div>
+
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">정말 맛있네요! 얼마예요? <button class="speak-btn" onclick="window.speak('정말 맛있네요! 얼마예요?',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« Oh, c'est vraiment délicieux ! C'est combien ? » — 2 phrases en 1, parfaites au marché ou en essayant un nouveau plat.</span>
+  </div>
+
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« Oh, c'est près ! » (tu viens de réaliser la distance) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">가깝네요!</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">가까워요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">가까울 거예요.</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« La maison est vraiment jolie ! Oh, il y a même une télé. » (en visitant) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">집이 정말 예뻐요! 텔레비전도 있어요.</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">집이 정말 예뻐요! 텔레비전도 있네요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">집이 정말 예뻐요! 텔레비전도 있을 거예요.</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« Vous parlez vraiment bien coréen ! » (compliment poli) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">한국어를 정말 잘해요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">한국어를 정말 잘할 거예요.</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">한국어를 정말 잘하시네요.</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« Vous n'avez pas pris de parapluie aujourd'hui. » (remarque polie) :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">오늘은 우산을 안 쓰시네요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">오늘은 우산을 안 써요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">오늘은 우산을 안 쓸 거예요.</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +14 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_b36b',xp:14});else{if(typeof ksAddXP==='function')ksAddXP(14);if(typeof ksMarkDone==='function')ksMarkDone('ks_b36b');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.opt.ok,.opt.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>

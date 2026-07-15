@@ -28,7 +28,7 @@
     {"key": "ks_h12", "href": "jeu2.html", "t": "jeu", "title": "Speed Round Hangeul", "sub": "Lis le plus vite possible · Chronomètre · Bats ton record !", "lvl": "hangeul", "lvlName": "Hangeul — L'alphabet"},
     {"key": "ks_h13", "href": "quiz1.html", "t": "quiz", "title": "Checkpoint Hangeul", "sub": "20 questions · Validation · Badge Hangeul officiel", "lvl": "hangeul", "lvlName": "Hangeul — L'alphabet"},
     {"key": "ks_a01", "href": "lecon5.html", "t": "lecon", "title": "Salutations & Se présenter", "sub": "안녕하세요 · 저는 …이에요 · 만나서 반가워요 — les formules incontournables du quotidien", "lvl": "a1", "lvlName": "A1 — Débutant"},
-    {"key": "ks_a02", "href": "speaking.html", "t": "prononciation", "title": "Speaking Practice — Écoute & prononciation", "sub": "Écoute 146 phrases natives (A1 à B2) et teste ton accent au micro · L'IA évalue ta prononciation (90% = excellent)", "lvl": "a1", "lvlName": "A1 — Débutant"},
+    {"key": "ks_a02", "href": "prononciation.html", "t": "prononciation", "title": "Prononciation au micro", "sub": "Pratique tes premiers mots au micro · L'IA évalue ton accent (90% = excellent) · 51 phrases essentielles", "lvl": "a1", "lvlName": "A1 — Débutant"},
     {"key": "ks_a03", "href": "histoire1-bd.html", "t": "histoire", "title": "Au café — Première rencontre", "sub": "Ji-woo rencontre Emma · Dialogue naturel complet · 15 expressions du quotidien à retenir", "lvl": "a1", "lvlName": "A1 — Débutant"},
     {"key": "ks_a04", "href": "anecdote2.html", "t": "anecdote", "title": "La révérence en Corée", "sub": "Angle 15°, 45° ou 90° — saluer selon l'âge et le statut · Les erreurs que font les étrangers", "lvl": "a1", "lvlName": "A1 — Débutant"},
     {"key": "ks_a31", "href": "lecon15.html", "t": "lecon", "title": "Particules 이/가 et 은/는", "sub": "Sujet vs thème — distinction fondamentale · 이/가 = info nouvelle · 은/는 = contexte connu · 30 exemples", "lvl": "a1", "lvlName": "A1 — Débutant"},
@@ -103,9 +103,6 @@
     {"key": "ks_b24h", "href": "lecon80.html", "t": "lecon", "title": "Résolution : -아/어야지", "sub": "이제 자야지 (résolution personnelle) vs 학생은 공부해야 해요 (obligation générale) — se motiver soi-même en coréen naturel", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b24i", "href": "exercice41.html", "t": "exercice", "title": "Exercice : Résolution -아/어야지", "sub": "8 questions corrigées · Résolution personnelle (아/어야지) ou obligation générale (아/어야 하다) ?", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b24j", "href": "jeu32.html", "t": "jeu", "title": "Résolution ou Obligation ?", "sub": "90 secondes · Choisir la bonne structure avant le chrono · Série & chrono", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
-    {"key": "ks_b24k", "href": "lecon81.html", "t": "lecon", "title": "Décision ou Envie : -(으)ㄹ게요 / -(으)ㄹ래요", "sub": "나중에 전화할게요 (décision annoncée) vs 같이 갈래요? (envie, invitation) — la nuance que tout le monde confond", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
-    {"key": "ks_b24l", "href": "exercice42.html", "t": "exercice", "title": "Exercice : -(으)ㄹ게요 vs -(으)ㄹ래요", "sub": "8 questions corrigées · Décision/promesse (게요) ou envie/invitation (래요) ?", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
-    {"key": "ks_b24m", "href": "jeu33.html", "t": "jeu", "title": "Décision ou Invitation ?", "sub": "90 secondes · Choisir la bonne structure avant le chrono · Série & chrono", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b25", "href": "lecon24.html", "t": "lecon", "title": "Désir & Envie : -고 싶다", "sub": "-고 싶어요 · -고 싶어해요 · -고 싶지 않아요 — exprimer vos envies et celles des autres · 20 exemples", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b26", "href": "lecon25.html", "t": "lecon", "title": "Exprimer une opinion : -(으)ㄹ 것 같다", "sub": "-(으)ㄹ 것 같아요 · -다고 생각해요 · 제 생각에는 — donner son avis avec nuance", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b27", "href": "lecon26.html", "t": "lecon", "title": "Requêtes polies : -아/어 주세요", "sub": "-아/어 주세요 · -아/어 주실 수 있어요? — demander de l'aide · 6 scénarios réels du quotidien", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
@@ -124,6 +121,9 @@
     {"key": "ks_b34", "href": "lecon55.html", "t": "lecon", "title": "-ㄴ/는다 — Style journal & narration", "sub": "Style neutre/littéraire · Journaux intimes · Articles · Différence avec -아요/해요 · Passer du parlé à l'écrit", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b35", "href": "lecon56.html", "t": "lecon", "title": "Propositions concessive : -아/어도 · -더라도", "sub": "\"Même si\" en A2 · 비가 와도 갈 거예요 · -더라도 (hypothèse forte) · Différence clé avec -(으)면", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b36", "href": "lecon57.html", "t": "lecon", "title": "Exprimer la raison : -거든요 & -잖아요", "sub": "-거든요 : informer de quelque chose que l'autre ne sait pas · -잖아요 : rappeler ce que l'autre sait · 20 exemples", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
+    {"key": "ks_b36b", "href": "lecon82.html", "t": "lecon", "title": "-네요 : Réagir & découvrir", "sub": "-네요 : la réaction spontanée · -(으)시네요 poli · 3e pièce du puzzle après -거든요/-잖아요", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
+    {"key": "ks_b36c", "href": "exercice43.html", "t": "exercice", "title": "Exercice : -네요, réagir & découvrir", "sub": "8 questions · -네요 vs -아요/어요 vs -(으)시네요", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
+    {"key": "ks_b36d", "href": "jeu34.html", "t": "jeu", "title": "Réaction ou Fait ?", "sub": "90 secondes · Choisis entre -네요 et -아요/어요 avant la fin du chrono", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b05", "href": "lecon17.html", "t": "lecon", "title": "Construire des phrases complexes", "sub": "SOV · Modificateurs · Propositions relatives — ordre des mots en coréen", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b06", "href": "lecon18.html", "t": "lecon", "title": "Conjonctions : et, mais, parce que", "sub": "-고 · -지만 · -어서/-니까/-는데 — relier des idées naturellement", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
     {"key": "ks_b07", "href": "exercice7.html", "t": "exercice", "title": "Production de phrases A2", "sub": "10 situations réelles · Construire des phrases complètes · Voir le modèle", "lvl": "a2", "lvlName": "A2 — Élémentaire"},
@@ -264,7 +264,7 @@
     {"key": "ks_d14", "href": "flash4.html", "t": "flashcards", "title": "Flashcards B2 — 28 cartes avancées", "sub": "Grammaire · Business · Médias · Argot · 4 catégories", "lvl": "b2", "lvlName": "B2 — Avancé"},
     {"key": "ks_d15", "href": "quiz6.html", "t": "quiz", "title": "Simulation TOPIK II — Section 읽기", "sub": "12 questions · Compréhension écrite · Format officiel · Niveau 5-6", "lvl": "b2", "lvlName": "B2 — Avancé"},
     {"key": "ks_d16", "href": "quiz7.html", "t": "quiz", "title": "Simulation TOPIK II — Section 쓰기", "sub": "10 questions · Expression écrite · Dissertation · Registre formel", "lvl": "b2", "lvlName": "B2 — Avancé"},
-    {"key": "ks_d17", "href": "quiz8.html", "t": "quiz", "title": "Bilan B2 & TOPIK 5-6 — Checkpoint final", "sub": "Récapitulatif · 5 questions · Prochaines étapes · Badge B2 Expert", "lvl": "b2", "lvlName": "B2 — Avancé"}
+    {"key": "ks_d17", "href": "quiz8.html", "t": "quiz", "title": "Bilan B2 & TOPIK 5-6 — Checkpoint final", "sub": "Récapitulatif · 5 questions · Prochaines étapes · Badge B2 Expert", "lvl": "b2", "lvlName": "B2 — Avancé"},
   ];
 
   /* Ordre COMPLET du parcours (toutes activités cours.html, y compris
@@ -288,7 +288,7 @@
     "jeu2.html",
     "quiz1.html",
     "lecon5.html",
-    "speaking.html",
+    "prononciation.html",
     "histoire1-bd.html",
     "anecdote2.html",
     "lecon15.html",
@@ -363,9 +363,6 @@
     "lecon80.html",
     "exercice41.html",
     "jeu32.html",
-    "lecon81.html",
-    "exercice42.html",
-    "jeu33.html",
     "lecon24.html",
     "lecon25.html",
     "lecon26.html",
@@ -384,6 +381,9 @@
     "lecon55.html",
     "lecon56.html",
     "lecon57.html",
+    "lecon82.html",
+    "exercice43.html",
+    "jeu34.html",
     "lecon17.html",
     "lecon18.html",
     "exercice7.html",
@@ -524,7 +524,7 @@
     "flash4.html",
     "quiz6.html",
     "quiz7.html",
-    "quiz8.html"
+    "quiz8.html",
   ];
 
   /* Alias de clés (une activité peut avoir été validée sous une ancienne clé) */
