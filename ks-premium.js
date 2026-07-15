@@ -72,7 +72,7 @@
         .then(function(r){ return r.json(); })
         .then(function(d){
           if (d && d.success) {
-            resolve({ ok:true });
+            resolve({ ok:true, type: d.type });
           } else {
             resolve({ ok:false, msg: d.message || 'Clé invalide ou abonnement inactif.' });
           }
@@ -80,8 +80,15 @@
         .catch(function(){ resolve({ ok:false, msg:'Vérification impossible (réseau). Réessaie dans un instant.' }); });
     });
   }
+  /* Une clé 'booklet-a1' (achat unique du Livret A1, hors Premium) ne doit
+     jamais débloquer le Premium complet ici — sinon un achat à 5€ donnerait
+     accès aux 35 autres fiches. Cette clé se gère uniquement sur la page
+     livret-a1.html (téléchargement direct via KSPremium.verifyKey). */
   function unlock(licenseKey){
     return verifyKey(licenseKey).then(function(res){
+      if (res.ok && res.type === 'booklet-a1') {
+        return { ok:false, msg:'Cette clé donne accès au Livret A1 uniquement — utilise-la sur la page du Livret A1 pour le télécharger.' };
+      }
       if (res.ok) setPremium(true, (licenseKey || '').trim());
       return res;
     });

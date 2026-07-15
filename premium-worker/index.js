@@ -4,7 +4,9 @@
 //   GET  /verify?key=XXX — vérifie une clé de licence depuis l'app
 //   GET  /pdf?file=XXX (en-tête X-License-Key) — téléchargement sécurisé
 //        d'une fiche PDF Premium, stockée dans KV (clé "pdf:<nom>"), jamais
-//        exposée en fichier statique public.
+//        exposée en fichier statique public. Entitlement par fichier : une
+//        licence 'booklet-a1' (achat unique du Livret A1, 5€, hors Premium)
+//        ne peut télécharger QUE file=livret-a1 (voir canAccessFile).
 //   GET  /pdf-preview?file=XXX (en-tête X-License-Key) — renvoie le fragment
 //        HTML (le contenu réel) d'une page pdf/<nom>.html, stocké dans KV
 //        (clé "pdfpage:<nom>"). Les 35 pages pdf/*.html sont désormais des
@@ -41,6 +43,11 @@
 
 const PRICE_MONTHLY  = 'price_1TlkvnPab8Hr1KXaK2D5ZSvn';
 const PRICE_LIFETIME = 'price_1TlkwTPab8Hr1KXaM5WwjXWX';
+// Achat unique du Livret A1 (5€, hors abonnement Premium) — le Payment Link
+// Stripe correspondant doit porter la métadonnée `product: livret-a1` (voir
+// handleCheckout) : c'est cette métadonnée, pas le prix, qui déclenche la
+// création d'une licence de type 'booklet-a1' au lieu de 'lifetime'.
+const PRICE_BOOKLET_A1 = 'price_TODO_LIVRET_A1'; // à renseigner une fois le Payment Link créé (voir PASSAGE-LIVE.md)
 
 // Tous les envois déclenchés via /newsletter/test-send partent vers cette
 // adresse (jamais vers la vraie liste de contacts) — c'est un destinataire
@@ -167,11 +174,21 @@ async function handleVerify(request, env) {
   return json({ success: true, type: data.type, email: data.email });
 }
 
+// ── Entitlement par fichier ────────────────────────────────────────────────────
+// monthly (actif) et lifetime donnent accès à toutes les fiches. Une licence
+// 'booklet-a1' (achat unique du Livret A1 seul, hors Premium) ne donne accès
+// QU'à ce livret — sans ce garde-fou, une clé à 5€ pourrait télécharger les
+// 35+ autres fiches Premium via /pdf?file=<autre-fiche>.
+function canAccessFile(license, file) {
+  if (license.type === 'booklet-a1') return file === 'livret-a1';
+  return true;
+}
+
 // ── Téléchargement sécurisé d'une fiche PDF Premium ───────────────────────────
-// Les 35 fiches PDF sont stockées dans KV (clé "pdf:<nom>", valeur = octets
-// bruts du PDF), jamais comme fichier statique public sur GitHub Pages.
-// Upload initial : script upload-pdfs.sh (voir premium-worker/README ou
-// PASSAGE-LIVE.md) à lancer une fois avec wrangler après déploiement.
+// Les 35 fiches PDF (+ le Livret A1) sont stockées dans KV (clé "pdf:<nom>",
+// valeur = octets bruts du PDF), jamais comme fichier statique public sur
+// GitHub Pages. Upload initial : script upload-pdfs.sh (voir premium-worker/README
+// ou PASSAGE-LIVE.md) à lancer une fois avec wrangler après déploiement.
 async function handlePdfDownload(request, env) {
   const url = new URL(request.url);
   const file = (url.searchParams.get('file') || '').trim();
@@ -193,6 +210,7 @@ async function handlePdfDownload(request, env) {
   if (data.type === 'monthly' && data.status !== 'active') {
     return corsResponse('Abonnement expiré ou annulé', 403);
   }
+  if (!canAccessFile(data, file)) return corsResponse('Cette clé ne donne pas accès à cette fiche', 403);
 
   const pdfBytes = await env.KS_LICENSES.get('pdf:' + file, { type: 'arrayBuffer' });
   if (!pdfBytes) return corsResponse('Fiche introuvable', 404);
@@ -234,6 +252,7 @@ async function handlePdfPreview(request, env) {
   if (data.type === 'monthly' && data.status !== 'active') {
     return corsResponse('Abonnement expiré ou annulé', 403);
   }
+  if (!canAccessFile(data, file)) return corsResponse('Cette clé ne donne pas accès à cette fiche', 403);
 
   const html = await env.KS_LICENSES.get('pdfpage:' + file, { type: 'text' });
   if (!html) return corsResponse('Page introuvable', 404);
@@ -449,11 +468,17 @@ async function handleWebhook(request, env) {
   return new Response('OK', { status: 200 });
 }
 
-// ── Nouveau paiement (abonnement ou à vie) ────────────────────────────────────
+// ── Nouveau paiement (abonnement, à vie, ou Livret A1 seul) ───────────────────
 async function handleCheckout(session, env) {
   const email = session.customer_email || session.customer_details?.email;
   console.log('[KS] checkout email:', email, '| mode:', session.mode);
   if (!email) { console.log('[KS] no email found, aborting'); return; }
+
+  // Achat du Livret A1 seul (Payment Link distinct, 5€, hors abonnement) :
+  // reconnu via la métadonnée `product=livret-a1` posée sur le Payment Link
+  // Stripe (Stripe la reporte automatiquement sur la Checkout Session).
+  const isBookletOnly = session.metadata?.product === 'livret-a1';
+  if (isBookletOnly) return handleBookletCheckout(session, email, env);
 
   const isLifetime = session.mode === 'payment';
   // 'paid' = déjà prélevé à l'instant du checkout (achat à vie, ou abonnement
@@ -470,6 +495,7 @@ async function handleCheckout(session, env) {
       data.status = 'active';
       data.everCharged = data.everCharged || charged;
       if (isLifetime) data.type = 'lifetime';
+      else if (data.type === 'booklet-a1') data.type = 'monthly'; // upgrade : avait juste le livret, prend un abonnement
       await env.KS_LICENSES.put(existingKey, JSON.stringify(data));
       if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, existingKey);
       await sendLicenseEmail(email, existingKey, env);
@@ -492,6 +518,43 @@ async function handleCheckout(session, env) {
   // car l'événement subscription.deleted ne contient pas l'e-mail).
   if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, key);
   await sendLicenseEmail(email, key, env);
+}
+
+// ── Achat unique du Livret A1 (hors Premium) ──────────────────────────────────
+// Une licence 'booklet-a1' ne donne accès qu'au Livret A1 (cf. canAccessFile) —
+// jamais aux 35 autres fiches Premium. Si la personne a déjà une licence
+// monthly/lifetime, elle a déjà accès au livret : on ne crée rien de plus et on
+// le lui rappelle, plutôt que d'écraser sa licence existante par un downgrade.
+async function handleBookletCheckout(session, email, env) {
+  const existingKey = await env.KS_LICENSES.get(`email:${email}`);
+  if (existingKey) {
+    const data = await env.KS_LICENSES.get(existingKey, { type: 'json' });
+    if (data) {
+      if (data.type === 'monthly' || data.type === 'lifetime') {
+        await sendBookletAlreadyPremiumEmail(email, env);
+        return;
+      }
+      // Déjà une clé 'booklet-a1' (rachat, ou changement d'e-mail) : idempotent.
+      data.status = 'active';
+      await env.KS_LICENSES.put(existingKey, JSON.stringify(data));
+      if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, existingKey);
+      await sendBookletEmail(email, existingKey, env);
+      return;
+    }
+  }
+
+  const key = generateKey();
+  await env.KS_LICENSES.put(key, JSON.stringify({
+    email,
+    type: 'booklet-a1',
+    status: 'active',
+    everCharged: true,
+    createdAt: new Date().toISOString(),
+    stripeCustomerId: session.customer || null
+  }));
+  await env.KS_LICENSES.put(`email:${email}`, key);
+  if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, key);
+  await sendBookletEmail(email, key, env);
 }
 
 // ── Renouvellement mensuel ────────────────────────────────────────────────────
@@ -688,6 +751,43 @@ async function sendLicenseEmail(email, key, env) {
   const hero = { word: '💛', sub: 'Accès Premium débloqué', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 48 };
   const html = emailLayout({ preheader: 'Ta clé Premium Korean Stories', title: 'Ta clé Premium', kicker: 'Korean Stories · Premium', hero, bodyHtml });
   await sendEmail(email, '💛 Ta clé Premium Korean Stories', html, env);
+}
+
+// ── Email de la clé Livret A1 (achat unique, hors Premium) ────────────────────
+async function sendBookletEmail(email, key, env) {
+  const bodyHtml = `
+    <p>Merci pour ton achat — ton Livret A1 t'attend !</p>
+    <p style="margin-bottom:8px"><strong>Ta clé d'accès :</strong></p>
+    <p style="font-size:22px;font-weight:bold;letter-spacing:6px;
+              background:#FBF2E3;padding:16px 24px;border-radius:10px;
+              text-align:center;color:#0F1B2D">${key}</p>
+    <h3 style="color:#0F1B2D;margin-bottom:8px">Comment télécharger ton livret :</h3>
+    <ol style="line-height:2;margin-top:0">
+      <li>Va sur <strong>koreanstories.fr/livret-a1.html</strong></li>
+      <li>Colle ta clé dans le champ prévu</li>
+      <li>Clique sur <strong>Télécharger le PDF</strong></li>
+    </ol>
+    <p>Conserve cet email précieusement — ta clé est unique et personnelle.</p>
+    <p style="font-size:13px;color:#475E78">Ce livret est réservé à ton usage personnel : merci de ne pas le partager ni le publier en ligne.</p>
+  `;
+  const hero = { word: '📘', sub: 'Ton Livret A1 est prêt', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 48 };
+  const html = emailLayout({ preheader: 'Ton Livret A1 Korean Stories', title: 'Ton Livret A1', kicker: 'Korean Stories · Livret A1', hero, bodyHtml, ctaLabel: 'Télécharger mon livret', ctaUrl: 'https://koreanstories.fr/livret-a1.html' });
+  await sendEmail(email, '📘 Ton Livret A1 est prêt — Korean Stories', html, env);
+}
+
+// ── Email si la personne a acheté le Livret A1 alors qu'elle a déjà Premium ───
+// Son abonnement/accès à vie lui donne déjà accès au livret gratuitement — on
+// l'en informe plutôt que de créer une licence 'booklet-a1' qui pourrait prêter
+// à confusion à côté de sa licence monthly/lifetime existante.
+async function sendBookletAlreadyPremiumEmail(email, env) {
+  const bodyHtml = `
+    <p>Bonne nouvelle : ton compte a déjà accès au Premium Korean Stories, ce qui inclut le <strong>Livret A1</strong> gratuitement.</p>
+    <p>Aucune clé supplémentaire n'est nécessaire — utilise simplement ta clé Premium existante sur <strong>koreanstories.fr/livret-a1.html</strong> pour le télécharger.</p>
+    <p style="font-size:13px;color:#475E78">On a annulé ce paiement en double de notre côté — si un remboursement est nécessaire, écris-nous à contact@koreanstories.fr.</p>
+  `;
+  const hero = { word: '💛', sub: 'Déjà inclus dans ton Premium', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 48 };
+  const html = emailLayout({ preheader: 'Le Livret A1 est déjà inclus dans ton Premium', title: 'Déjà inclus dans ton Premium', kicker: 'Korean Stories · Livret A1', hero, bodyHtml, ctaLabel: 'Télécharger mon livret', ctaUrl: 'https://koreanstories.fr/livret-a1.html' });
+  await sendEmail(email, 'Ton Livret A1 est déjà inclus dans ton Premium — Korean Stories', html, env);
 }
 
 // ── Date au format français (sans dépendre de l'ICU du runtime) ──────────────────
