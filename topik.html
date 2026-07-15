@@ -122,6 +122,17 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 .skill-bar{height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden}
 .skill-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD700);transition:width 1.2s cubic-bezier(.4,0,.2,1)}
 
+.review-toggle{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);color:rgba(247,248,250,.75);border-radius:100px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:16px}
+.review-toggle:hover{border-color:var(--gold);color:var(--gold)}
+.review-list{width:100%;max-width:440px;text-align:left;display:none;margin-bottom:20px}
+.review-list.show{display:block}
+.review-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.review-sec{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);margin-bottom:6px}
+.review-q{font-size:13px;color:white;margin-bottom:8px;line-height:1.5}
+.review-a{font-size:12.5px;line-height:1.6}
+.review-a .wrong-txt{color:#fca5a5;text-decoration:line-through;opacity:.8}
+.review-a .right-txt{color:#86efac;font-weight:700}
+
 .result-ctas{display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px}
 .cta-main{background:linear-gradient(135deg,var(--gold),#E8C97E);color:var(--navy);border:none;border-radius:14px;padding:16px 24px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .25s;font-family:'Inter',sans-serif}
 .cta-main:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,169,110,.35)}
@@ -198,7 +209,7 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
     </div>
     <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel — le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel.</div>
     <button class="btn-start" onclick="startExam()">Commencer l'examen →</button>
-    <p class="intro-note">36 questions · ~28 min au total · aucune inscription requise</p>
+    <p class="intro-note">38 questions tirées au sort à chaque tentative · ~28 min au total · aucune inscription requise</p>
   </div>
 </div>
 
@@ -252,58 +263,104 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
   </div>
   <div class="result-stats" id="resultStats"></div>
   <div class="skills-wrap" id="skillsWrap"></div>
+  <button class="review-toggle" id="reviewToggle" onclick="toggleReview()" style="display:none">Voir mes erreurs</button>
+  <div class="review-list" id="reviewList"></div>
   <p class="result-caveat">Estimation indicative basée sur ce mini-examen d'entraînement — pas un score TOPIK officiel. Le vrai TOPIK évalue aussi l'expression écrite (TOPIK II) et dure bien plus longtemps.</p>
   <div class="result-ctas" id="resultCtas">
-    <button class="cta-main" onclick="location.reload()">Refaire l'examen</button>
+    <button class="cta-main" onclick="startExam()">Refaire l'examen (questions différentes)</button>
     <a class="cta-sec" href="grammaire.html">Revoir la grammaire →</a>
   </div>
 </div>
 
 <script>
 /* ═══════ DONNÉES (contenu déjà vérifié : grammaire.html, test-niveau.html, articles de lecture) ═══════ */
-const GRAMMAR_Q=[
+const GRAMMAR_POOL=[
   {lvl:'a1',q:'Comment dit-on « Le café, c\'est chaud. » en coréen ?',hint:'커피 (café) • 뜨거워요 (c\'est chaud)',opts:['커피가 뜨거워요','커피는 뜨거워요','커피를 뜨거워요','커피도 뜨거워요'],ans:1},
+  {lvl:'a1',q:'Laquelle de ces phrases signifie « C\'est Mina qui a appelé. » ?',hint:null,opts:['미나가 전화했어요','미나는 전화했어요','미나를 전화했어요','미나도 전화했어요'],ans:0},
+  {lvl:'a1',q:'Comment conjugue-t-on 읽다 (lire) au présent poli ?',hint:'읽 → voyelle ㅣ → ?',opts:['읽아요','읽어요','읽해요','읽요'],ans:1},
+  {lvl:'a1',q:'Comment dit-on « Je suis médecin. » ? (의사 = médecin, finit par ㅏ)',hint:null,opts:['저는 의사이에요','저는 의사예요','저는 의사에요','저는 의사해요'],ans:1},
   {lvl:'a1',q:'Choisis la bonne particule pour « Je mange du riz. » (밥 = riz, finit par ㅂ)',hint:null,opts:['밥를 먹어요','밥을 먹어요','밥은 먹어요','밥이 먹어요'],ans:1},
-  {lvl:'a1',q:'Pour demander « C\'est quoi, ça ? » :',hint:null,opts:['이거 누구예요?','이거 어디예요?','이거 언제예요?','이거 뭐예요?'],ans:3},
+  {lvl:'a1',q:'Comment dit-on « Je ne mange pas. » ?',hint:null,opts:['안 먹어요','먹 안요','먹어요 안','안먹요'],ans:0},
+  {lvl:'a2',q:'Comment met-on 마시다 (boire) au passé poli ?',hint:'Radical : 마시 → voyelle ㅣ → 었어요',opts:['마시았어요','마셨어요','마시었어요','마시했어요'],ans:1},
   {lvl:'a2',q:'Comment dit-on « Je veux dormir. » ? (자다 = dormir)',hint:null,opts:['자고 싶어요','자다고 싶어요','자고 싶다요','자를 싶어요'],ans:0},
-  {lvl:'a2',q:'Comment dit-on « Je vais manger ici » ?',hint:null,opts:['여기서 먹었어요','여기서 먹을 거예요','여기서 먹고 있어요','여기서 먹으세요'],ans:1},
-  {lvl:'a2',q:'Comment dit-on « Séoul est plus grand que Paris » ?',hint:null,opts:['서울이 파리보다 더 커요','파리가 서울보다 더 커요','서울이 파리만큼 커요','파리가 서울만큼 커요'],ans:0},
-  {lvl:'a2',q:'Tu proposes à un ami de jouer ensemble : « Tu veux jouer avec moi ? »',hint:null,opts:['같이 게임 할게요','같이 게임 할래요?','같이 게임하나 봐요','같이 게임해야 해요'],ans:1},
+  {lvl:'a2',q:'Choisis la bonne particule : « Je travaille au bureau. »',hint:'회사 = bureau • 일해요 = je travaille',opts:['회사에 일해요','회사에서 일해요','회사를 일해요','회사가 일해요'],ans:1},
+  {lvl:'a2',q:'Comment dit-on « Si tu manges, tu vas mieux. » ?',hint:'먹다 (manger) • 좋아져요 (aller mieux)',opts:['먹으면 좋아져요','먹면 좋아져요','먹고면 좋아져요','먹어면 좋아져요'],ans:0},
+  {lvl:'b1',q:'Transforme : « Je suis fatigué(e), donc je rentre. » en utilisant -기 때문에.',hint:'피곤하다 (être fatigué) • 집에 가요 (je rentre)',opts:['피곤하기 때문에 집에 가요','피곤하고 때문에 집에 가요','피곤하면 집에 가요','피곤하기 집에 가요'],ans:0},
   {lvl:'b1',q:'Comment dit-on « Je crois qu\'il va venir. » ?',hint:'오다 (venir) • 오 → voyelle → ㄹ 것 같아요',opts:['올 것 같아요','오을 것 같아요','왔을 것 같아요','오는 것 같아요'],ans:0},
+  {lvl:'a1',q:'Comment dit-on « Je n\'ai pas d\'argent » ? (돈 = argent)',hint:null,opts:['돈이 있어요','돈이 없어요','돈이 아니에요','돈을 없어요'],ans:1},
+  {lvl:'a1',q:'Comment dire poliment « Asseyez-vous ici » ? (앉다 = s\'asseoir)',hint:null,opts:['여기 앉다','여기 앉아','여기 앉으세요','여기 앉을 거예요'],ans:2},
+  {lvl:'a1',q:'Pour demander « C\'est quoi, ça ? » :',hint:null,opts:['이거 누구예요?','이거 어디예요?','이거 언제예요?','이거 뭐예요?'],ans:3},
+  {lvl:'a1',q:'Comment commander « Deux kimbap, s\'il vous plaît » ?',hint:null,opts:['김밥 두 개 주세요','김밥 두 명 주세요','김밥 이 개 주세요','김밥 두 잔 주세요'],ans:0},
+  {lvl:'a2',q:'Comment dit-on « Je vais manger ici » ?',hint:null,opts:['여기서 먹었어요','여기서 먹을 거예요','여기서 먹고 있어요','여기서 먹으세요'],ans:1},
+  {lvl:'a2',q:'Comment dit-on « Mon ami est en train de dormir » ?',hint:null,opts:['친구가 잤어요','친구가 잘 거예요','친구가 자고 있어요','친구가 자세요'],ans:2},
+  {lvl:'a2',q:'Comment dit-on « Je ne peux pas manger (c\'est trop épicé) » ?',hint:null,opts:['먹을 수 있어요','먹을 수 없어요','먹지 마세요','먹어야 해요'],ans:1},
+  {lvl:'a2',q:'Comment demander « Tu as déjà goûté le kimchi ? » ?',hint:null,opts:['김치 먹을 거예요?','김치 먹고 있어요?','김치 먹어야 해요?','김치 먹어 봤어요?'],ans:3},
+  {lvl:'a2',q:'Comment dit-on « Séoul est plus grand que Paris » ?',hint:null,opts:['서울이 파리보다 더 커요','파리가 서울보다 더 커요','서울이 파리만큼 커요','파리가 서울만큼 커요'],ans:0},
+  {lvl:'a2',q:'« La fenêtre s\'est ouverte (toute seule) » :',hint:null,opts:['창문을 열었어요','창문이 열렸어요','창문이 열어요','창문을 열려요'],ans:1},
+  {lvl:'a2',q:'Comment dit-on « Je ne bois QUE de l\'eau » ?',hint:null,opts:['저는 물도 마셔요','저는 물부터 마셔요','저는 물만 마셔요','저는 물까지 마셔요'],ans:2},
+  {lvl:'b1',q:'Tu t\'excuses d\'être en retard. Laquelle est correcte ?',hint:null,opts:['늦으니까 죄송해요','늦어서 죄송해요','늦으면 죄송해요','늦지만 죄송해요'],ans:1},
   {lvl:'b1',q:'« J\'ai acheté ces chaussures, mais elles sont trop petites » :',hint:null,opts:['신발을 샀는데 너무 작아요','신발을 사서 너무 작아요','신발을 사니까 너무 작아요','신발을 사면 너무 작아요'],ans:0},
+  {lvl:'b1',q:'« Il a dit qu\'il était occupé » :',hint:null,opts:['바빠요 했어요','바쁘라고 했어요','바쁘다고 했어요','바쁘자고 했어요'],ans:2},
   {lvl:'b1',q:'« Je suis venu voir la chambre » (but + déplacement) :',hint:null,opts:['방 보러 왔어요','방 봐서 왔어요','방 보고 왔어요','방 보니까 왔어요'],ans:0},
+  {lvl:'b1',q:'Ton ami bâille sans arrêt. Tu en déduis :',hint:null,opts:['피곤해요','피곤한가 봐요','피곤하고 싶어요','피곤할 거예요'],ans:1},
   {lvl:'b2',q:'« Apprendre le coréen, c\'est amusant » :',hint:null,opts:['한국어 배우기가 재미있어요','한국어 배워서 재미있어요','한국어 배우면 재미있어요','한국어 배우고 재미있어요'],ans:0},
-  {lvl:'b2',q:'« Même s\'il pleut, j\'irai » :',hint:null,opts:['비가 오면 갈 거예요','비가 오니까 갈 거예요','비가 와서 갈 거예요','비가 와도 갈 거예요'],ans:3}
+  {lvl:'b2',q:'« Même s\'il pleut, j\'irai » :',hint:null,opts:['비가 오면 갈 거예요','비가 오니까 갈 거예요','비가 와서 갈 거예요','비가 와도 갈 거예요'],ans:3},
+  {lvl:'a2',q:'Tu proposes à un ami de jouer ensemble : « Tu veux jouer avec moi ? »',hint:null,opts:['같이 게임 할게요','같이 게임 할래요?','같이 게임하나 봐요','같이 게임해야 해요'],ans:1}
 ];
 
-const LISTEN_Q=[
+const LISTEN_POOL=[
+  {phase:'Hangeul',q:'Que signifie ce mot coréen ?',kr:'나라',opts:['mer','pays','étoile','fleur'],ans:1},
   {phase:'Vocabulaire',q:'Que signifie 안녕하세요 ?',kr:'안녕하세요',opts:['Merci','Bonjour','Au revoir','Excusez-moi'],ans:1},
   {phase:'Vocabulaire',q:'Que signifie 감사합니다 ?',kr:'감사합니다',opts:['Désolé','Merci','Au revoir','Bienvenue'],ans:1},
+  {phase:'Vocabulaire',q:'Que signifie 맛있어요 ?',kr:'맛있어요',opts:['C\'est épicé','C\'est cher','C\'est délicieux','C\'est froid'],ans:2},
   {phase:'Vocabulaire',q:'어디예요? signifie :',kr:'어디예요?',opts:['Qui est-ce ?','Quand ?','Combien ?','Où est-ce ?'],ans:3},
   {phase:'Grammaire',q:'저는 학교에 가요 signifie :',kr:'저는 학교에 가요',opts:['Je suis à l\'école','Je vais à l\'école','Je reviens de l\'école','J\'étudie à l\'école'],ans:1},
   {phase:'Lecture',q:'어제 카페에서 커피를 마셨어요 — quand cette action a-t-elle eu lieu ?',kr:'어제 카페에서 커피를 마셨어요',opts:['Aujourd\'hui','Hier','Demain','Tous les jours'],ans:1},
+  {phase:'Lecture',q:'한국에 가고 싶어요 — que signifie cette phrase ?',kr:'한국에 가고 싶어요',opts:['Je vais en Corée','Je veux aller en Corée','Je suis allé(e) en Corée','J\'aime la Corée'],ans:1},
   {phase:'Grammaire A2+',q:'Que signifie cette phrase ?',kr:'서울이 파리보다 더 커요.',opts:['Paris est plus grand que Séoul','Séoul est plus grand que Paris','Séoul est aussi grand que Paris','Séoul est le plus grand du monde'],ans:1},
+  {phase:'Grammaire A2+',q:'Que signifie cette phrase ?',kr:'조금 늦을 것 같아요. 미안해요!',opts:['Je suis en retard, désolé','Je pense que je vais être un peu en retard, désolé','Je ne serai pas en retard, promis','J\'étais en retard hier'],ans:1},
   {phase:'Grammaire A2+',q:'Que signifie 읽고 있어요 ?',kr:'읽고 있어요',opts:['Il/elle a lu','Il/elle lit (en ce moment)','Il/elle va lire','Il/elle veut lire'],ans:1},
+  {phase:'Grammaire A2+',q:'Que signifie cette question ?',kr:'김치 먹어 봤어요?',opts:['Tu manges du kimchi ?','Tu vas manger du kimchi ?','Tu as déjà goûté au kimchi ?','Tu aimes le kimchi ?'],ans:2},
   {phase:'Grammaire B1',q:'Que signifie cette phrase ?',kr:'지연 씨가 바쁘대요',opts:['Jiyeon est occupée (je le vois)','Jiyeon dit qu\'elle est occupée / il paraît que Jiyeon est occupée','Jiyeon n\'est pas occupée','Jiyeon sera occupée demain'],ans:1},
+  {phase:'Grammaire B1',q:'Que signifie cette phrase ?',kr:'엄마가 아이를 자게 해요',opts:['La maman dort avec l\'enfant','La maman regarde l\'enfant dormir','La maman fait dormir l\'enfant (le fait aller au lit)','L\'enfant fait dormir la maman'],ans:2},
   {phase:'Grammaire B1',q:'Laquelle de ces phrases est une invitation (question, envie partagée) ?',kr:'나중에 전화할게요',opts:['나중에 전화할게요 (décision/promesse)','같이 게임 할래요? (envie/invitation)','전화해야 해요 (obligation)','전화하고 있어요 (en cours)'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie 게다가 dans cette phrase ?',kr:'저는 도시가 더 좋아요. 편리하기 때문이에요. 게다가 일자리도 많아요.',opts:['« Mais » (opposition)','« De plus / en plus » (ajout d\'argument)','« Par contre »','« Donc »'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'글쎄요. 도시 생활은 스트레스가 쌓이기 마련이에요.',opts:['La vie en ville ne cause jamais de stress','C\'est naturel/inévitable que la vie en ville accumule du stress','La vie en ville est parfois stressante par hasard','Il faut éviter le stress en ville'],ans:1},
   {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'하지만 시골 생활이 쉬울 리가 없어요. 병원도 멀고 가게도 적어요.',opts:['La vie à la campagne est sûrement facile','Il est impossible/hors de question que la vie à la campagne soit facile','La vie à la campagne pourrait être facile','La vie à la campagne est facile parfois'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'한국어를 정말 잘하시네요.',opts:['Tu parles bien coréen (fait neutre)','Vous parlez vraiment bien coréen ! (réaction polie, à l\'instant)','Vous devriez parler coréen','Vous n\'aimez pas parler coréen'],ans:1},
   {phase:'Lecture avancée',q:'Que signifie cette phrase entendue dans une conversation ?',kr:'비가 온대요',opts:['Il pleut (je le vois)','Il paraît qu\'il pleut (rapporté)','Il va pleuvoir demain','Il a plu hier'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase de conclusion ?',kr:'따라서 저는 둘 다 경험해 보고 싶어요. 도시에서 일하고, 주말에는 시골에 가는 거예요.',opts:['« Donc » je veux essayer les deux : travailler en ville, aller à la campagne le week-end','« Mais » je préfère la campagne uniquement','« De plus » je déteste la ville','« Par contre » je ne veux ni l\'un ni l\'autre'],ans:0},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'집이 정말 예뻐요! 텔레비전도 있네요.',opts:['La maison est jolie mais je n\'aime pas la télé','La maison est vraiment jolie ! Oh, il y a même une télé (je le remarque)','La maison n\'a pas de télé','Je cherche une maison avec télé'],ans:1},
   {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'정말 맛있네요! 얼마예요?',opts:['C\'était délicieux hier, c\'était combien ?','Oh, c\'est vraiment délicieux ! C\'est combien ? (réaction au moment de goûter)','Ce n\'est pas très bon, dommage','Je voudrais commander autre chose'],ans:1}
 ];
 
-const READING_P=[
+const READING_POOL=[
   {lvl:'a1',title:'나의 하루',sentences:['아침에 일어나요','화장실에 가요','세수하고 양치해요','아침을 먹어요','밥과 달걀을 먹어요','커피를 마셔요','회사에 가요','아홉시부터 여섯시까지 일해요','저녁에 집에 돌아와요','가족과 저녁을 먹어요','텔레비전을 보고 책을 읽어요','밤에 자요'],questions:[{q:'Que fait-on en premier le matin selon l\'histoire ?',opts:['On mange','On se lève','On va au travail','On lit'],ans:1},{q:'Qu\'est-ce qu\'on mange au petit-déjeuner ?',opts:['Du pain','De la soupe','Du riz et des œufs','Des pâtes'],ans:2}]},
+  {lvl:'a1',title:'우리 가족',sentences:['우리 가족은 네 명이에요','아버지 어머니 오빠 그리고 저예요','아버지는 회사원이에요','어머니는 선생님이에요','오빠는 대학생이에요','스물두 살이에요','매일 저녁에 함께 먹어요','우리 가족은 행복해요'],questions:[{q:'Combien de personnes composent la famille ?',opts:['Deux','Trois','Quatre','Cinq'],ans:2},{q:'Quelle est la profession de la mère ?',opts:['Médecin','Cuisinière','Employée de bureau','Professeure'],ans:3}]},
+  {lvl:'a1',title:'한국의 날씨',sentences:['한국에는 사계절이 있어요','봄은 따뜻하고 좋아요','여름은 덥고 습해요','칠월에 비가 많이 와요','가을은 시원하고 단풍이 예뻐요','가을에는 하늘이 파래요','겨울은 추워요','서울에 가끔 눈이 와요'],questions:[{q:'Combien de saisons y a-t-il en Corée ?',opts:['Deux','Trois','Quatre','Une seule'],ans:2},{q:'Comment est l\'été en Corée ?',opts:['Froid et sec','Chaud et humide','Frais et pluvieux','Doux et venteux'],ans:1}]},
   {lvl:'a1',title:'시장에서 쇼핑',sentences:['오늘은 시장에 가요','시장은 우리 집 근처에 있어요','사과와 바나나를 사요','얼마예요 오천 원이에요','채소도 사요','당근과 양파요','아저씨가 친절해요','조금 더 주세요 감사해요'],questions:[{q:'Où va le narrateur aujourd\'hui ?',opts:['À l\'école','Au supermarché','Au marché','Au restaurant'],ans:2},{q:'Combien coûtent les fruits ?',opts:['3 000 wons','5 000 wons','7 000 wons','10 000 wons'],ans:1}]},
+  {lvl:'a1',title:'나의 학교',sentences:['저는 학생이에요 학교가 커요','수업은 아홉 시에 시작해요','국어와 수학을 좋아해요','과학은 어려워요','친구들이 친절해요','우리는 식당에서 같이 먹어요','학교 후에 도서관에 가요','여섯 시까지 공부해요'],questions:[{q:'À quelle heure commencent les cours ?',opts:['8h','9h','10h','11h'],ans:1},{q:'Quelle matière est difficile ?',opts:['Le coréen','Les mathématiques','Les sciences','L\'histoire'],ans:2}]},
+  {lvl:'a1',title:'반려동물',sentences:['저는 강아지가 있어요 이름은 몽구예요','몽구는 하얗고 귀여워요','매일 아침 공원에서 산책해요','몽구는 아주 빨리 달려요','하루에 두 번 먹어요','간식을 좋아해요','저녁에 제 방에서 자요','몽구는 제 가장 친구예요'],questions:[{q:'Comment s\'appelle le chien ?',opts:['Baeksol','Monggu','Harang','Dori'],ans:1},{q:'Où le narrateur promène-t-il son chien ?',opts:['Dans la rue','Au marché','Au parc','À la plage'],ans:2}]},
   {lvl:'a2',title:'서울 여행',sentences:['지난주에 서울에 갔어요 처음이었어요','아침에 KTX를 타고 출발했어요','경복궁을 구경했어요 사람이 많았어요','한복을 입은 관광객들이 사진을 찍었어요','남대문 시장에서 떡볶이를 먹었어요','매웠지만 정말 맛있었어요','저녁에 한강을 봤어요 정말 아름다웠어요','서울에 또 가고 싶어요'],questions:[{q:'Comment le narrateur est-il allé à Séoul ?',opts:['En avion','En bus','En KTX','À pied'],ans:2},{q:'Qu\'a-t-il visité en premier ?',opts:['La tour N Seoul','Le marché de Namdaemun','Le palais Gyeongbokgung','Le fleuve Han'],ans:2}]},
+  {lvl:'a2',title:'한국 음식 이야기',sentences:['한국 음식은 매우 다양해요','김치는 한국의 대표 음식이에요','비빔밥은 여러 가지 채소와 밥이에요','먹기 전에 잘 비벼요','삼겹살은 구운 돼지고기예요','상추에 싸서 먹어요 맛있어요','한국 음식은 매운 발효 음식이 많아요','한국 사람들은 자기 나라 음식을 정말 좋아해요'],questions:[{q:'Quel est le plat représentatif de la Corée ?',opts:['Le bibimbap','Le samgyeopsal','Le kimchi','Le ramyeon'],ans:2},{q:'Qu\'est-ce que le bibimbap ?',opts:['De la viande grillée','Du riz avec des légumes','Une soupe épicée','Des gâteaux de riz'],ans:1}]},
+  {lvl:'a2',title:'친구와의 대화',sentences:['민준 : 오랜만이야! 어떻게 지냈어?','소연 : 잘 지냈어. 너는?','민준 : 나도 잘 지냈어. 요즘 뭐 해?','소연 : 한국어 공부해. 어렵지만 재미있어.','민준 : 그래? 얼마나 배웠어?','소연 : 육 개월 됐어. 한국에 가고 싶어.','민준 : 좋겠다! 언제 같이 공부하자.','소연 : 그래! 좋은 생각이야. 나중에 봐!'],questions:[{q:'Que fait So-yeon ces derniers temps ?',opts:['Elle voyage','Elle travaille','Elle étudie le coréen','Elle cuisine'],ans:2},{q:'Depuis combien de temps So-yeon apprend-elle le coréen ?',opts:['3 mois','6 mois','1 an','2 ans'],ans:1}]},
+  {lvl:'a2',title:'전통 명절 추석',sentences:['추석은 한국의 중요한 전통 명절이에요','음력 8월 15일이에요','가족이 모두 모여요 할머니 댁에 가요','오랫동안 못 봤던 가족을 만나요','함께 송편을 만들어요','송편은 반달 모양의 쌀떡이에요','차례를 지내요','추석은 한국의 추수감사절이에요'],questions:[{q:'Quand a lieu Chuseok ?',opts:['Le 1er jour du 1er mois','Le 15e jour du 8e mois lunaire','Le 1er janvier','Le 5e jour du 5e mois'],ans:1},{q:'Que prépare-t-on ensemble ?',opts:['Du kimchi','Du bibimbap','Des songpyeon','Du tteokbokki'],ans:2}]},
   {lvl:'a2',title:'카페에서',sentences:['한국은 카페의 나라예요','거리마다 카페가 있어요','저는 공부하러 자주 카페에 가요','아메리카노와 크루아상을 주문해요','카페는 조용하고 분위기가 좋아요','이어폰으로 음악을 들어요','친구들을 만나기도 해요','커피를 마시면서 오래 이야기해요'],questions:[{q:'Pourquoi le narrateur va-t-il souvent au café ?',opts:['Pour manger','Pour dormir','Pour étudier','Pour regarder la télé'],ans:2},{q:'Que commande-t-il ?',opts:['Un latte et un gâteau','Un americano et un croissant','Un thé et une brioche','Un jus et des cookies'],ans:1}]},
+  {lvl:'a2',title:'서울의 대중교통',sentences:['서울의 대중교통은 매우 편리해요','많은 사람들이 매일 이용해요','지하철이 도시 전체를 연결해요','지하철 노선이 아홉 개 있어요','버스도 도시 곳곳을 다녀요','택시도 탈 수 있어요','T-머니 카드로 요금을 내요','택시보다 더 싸고 빨라요'],questions:[{q:'Comment sont les transports en commun de Séoul ?',opts:['Chers et lents','Pratiques et efficaces','Rares et compliqués','Vieux et dangereux'],ans:1},{q:'Combien y a-t-il de lignes de métro ?',opts:['6','8','9','12'],ans:2}]},
+  {lvl:'b1',title:'한강의 기적',sentences:['1950년대 한국은 세계에서 가장 가난한 나라 중 하나였어요','한국 전쟁이 모든 것을 파괴했어요','그러나 불과 60년 만에 세계 10위권의 경제 대국이 되었어요','이것을 한강의 기적이라고 불러요','철강 조선 전자산업이 발전했어요','삼성 현대 같은 기업들이 전 세계에 알려져 있어요','교육과 한국인의 근면함이 성공의 열쇠였어요','오늘날 한국은 많은 나라들에게 발전의 모델이에요'],questions:[{q:'Quelle était la situation de la Corée dans les années 1950 ?',opts:['Pays riche et industrialisé','Pays pauvre ravagé par la guerre','Pays neutre et stable','Pays colonisateur'],ans:1},{q:'Comment appelle-t-on le développement économique de la Corée ?',opts:['La révolution de Séoul','Le tigre asiatique','Le miracle du Han','L\'éveil coréen'],ans:2}]},
   {lvl:'b1',title:'K-pop의 세계',sentences:['K-pop은 전 세계적인 문화 현상이 되었어요','BTS 블랙핑크 같은 그룹들이 전 세계에서 인기 있어요','한국 아이돌 시스템은 매우 엄격해요','연습생들이 데뷔 전에 몇 년 동안 훈련해요','댄스 보컬 비주얼 모두 중요해요','전 세계 팬들이 좋아하는 아티스트를 응원해요','K-pop 덕분에 한국어에 대한 관심이 폭발적으로 늘었어요','많은 사람들이 노래를 이해하려고 한국어를 배워요'],questions:[{q:'Le K-pop est-il populaire uniquement en Corée ?',opts:['Oui, seulement en Asie','Non, dans le monde entier','Oui, uniquement en Corée','Non, surtout en Europe'],ans:1},{q:'Pendant combien de temps les stagiaires s\'entraînent-ils ?',opts:['Quelques semaines','Quelques mois','Plusieurs années','Toute leur vie'],ans:2}]},
+  {lvl:'b1',title:'한국의 교육 문화',sentences:['한국은 매우 경쟁이 치열한 교육 시스템으로 알려져 있어요','학생들은 밤늦게까지 열심히 공부해요','학교가 끝나면 많은 학생들이 학원에 가요','거기서 수학 영어 음악 등을 배워요','대학 입시 시험인 수능은 일 년 중 가장 중요한 날이에요','사회 전체가 학생들이 집중할 수 있도록 멈춰요','이 시스템은 큰 압박을 만들지만 우수한 결과도 나와요','한국은 미래를 위해 교육에 많이 투자해요'],questions:[{q:'Que font beaucoup d\'élèves après l\'école ?',opts:['Ils jouent au sport','Ils vont dans des académies privées','Ils regardent la télévision','Ils rentrent directement à la maison'],ans:1},{q:'Qu\'est-ce que le Suneung ?',opts:['Un festival scolaire','Un cours de sport','L\'examen d\'entrée à l\'université','Un concours de cuisine'],ans:2}]},
+  {lvl:'b1',title:'한국 영화의 역사',sentences:['한국 영화는 1910년대부터 긴 역사를 가지고 있어요','초기 한국 영화들은 무성 영화였어요','1990년대에 한국 영화가 부흥했어요','재능 있는 감독들이 독창적인 작품들을 가지고 등장했어요','2019년에 봉준호 감독의 기생충이 칸 영화제에서 황금종려상을 받았어요','그 다음 해에 아카데미 최우수 작품상을 받았어요','한국 영화는 이제 전 세계에서 인정받고 있어요','사회적 주제를 독창적인 서사와 결합해요'],questions:[{q:'Quand remonte l\'histoire du cinéma coréen ?',opts:['Aux années 1950','Aux années 1910','Aux années 1970','Aux années 1990'],ans:1},{q:'Qu\'est-ce que Parasite a remporté à Cannes ?',opts:['Le Grand Prix','Le Prix du jury','La Palme d\'or','Le Prix de la mise en scène'],ans:2}]},
   {lvl:'b1',title:'한국의 환경 문제',sentences:['한국은 심각한 환경 문제에 직면해 있어요','미세먼지는 심각한 문제예요','겨울에는 한국 도시들이 스모그로 뒤덮여요','사람들이 보호하기 위해 마스크를 써요','정부는 태양광 풍력 같은 재생에너지에 투자해요','전기차 수가 매년 증가하고 있어요','한국인들은 점점 더 환경 문제를 의식하고 있어요','쓰레기를 줄이고 더 많이 재활용하려고 노력해요'],questions:[{q:'Quel est le principal problème environnemental de la Corée ?',opts:['Les inondations','Les particules fines','Les séismes','La déforestation'],ans:1},{q:'Pourquoi les gens portent-ils des masques ?',opts:['Pour la mode','Par peur des virus','Pour se protéger de la pollution','Car c\'est obligatoire'],ans:2}]},
-  {lvl:'b2',title:'현대 한국 사회의 변화',sentences:['대한민국은 수십 년 동안 깊은 사회 변화를 경험했어요','급격한 경제 성장이 생활 방식을 근본적으로 바꾸었어요','한국의 출산율은 세계 최저 수준으로 심각한 인구 문제를 야기해요','고령화는 사회 보장 시스템에 부담을 줘요','MZ 세대는 전통적 가치관을 재고하고 있어요','결혼과 출산이 더 이상 필수적으로 여겨지지 않아요','한국 사회는 전통과 현대성 사이의 균형을 찾고 있어요','이러한 사회적 과제들은 혁신적이고 집단적인 해결책을 필요로 해요'],questions:[{q:'Quel est le principal défi démographique de la Corée ?',opts:['Le surpeuplement','Le taux de natalité très bas','L\'immigration massive','La surpopulation urbaine'],ans:1},{q:'Qu\'est-ce que la génération MZ remet en question ?',opts:['Le système économique','Les valeurs traditionnelles','La langue coréenne','La musique traditionnelle'],ans:1}]}
+  {lvl:'b2',title:'조선 시대의 생활',sentences:['조선 왕조 (1392~1910년)는 한국 역사에서 가장 긴 왕조 시대였어요','유교 사상이 사회 전반을 지배했어요','양반 중인 상민 천민으로 엄격한 신분 제도가 존재했어요','문인 귀족인 양반이 위계질서의 정점을 차지했어요','과거 시험은 재능 있는 남성들이 관직에 오를 수 있게 해주었어요','그러나 실제로는 양반만이 이 시험을 볼 수 있었어요','세종대왕은 1443년에 백성을 위해 한글을 창제했어요','이 발명은 한국의 문화와 교육을 혁명적으로 바꾸었어요'],questions:[{q:'Quelle philosophie dominait la société Joseon ?',opts:['Le bouddhisme','Le taoïsme','Le confucianisme','Le chamanisme'],ans:2},{q:'Qui étaient les yangban ?',opts:['Les paysans','Les marchands','L\'aristocratie lettrée','Les artisans'],ans:2}]},
+  {lvl:'b2',title:'현대 한국 사회의 변화',sentences:['대한민국은 수십 년 동안 깊은 사회 변화를 경험했어요','급격한 경제 성장이 생활 방식을 근본적으로 바꾸었어요','한국의 출산율은 세계 최저 수준으로 심각한 인구 문제를 야기해요','고령화는 사회 보장 시스템에 부담을 줘요','MZ 세대는 전통적 가치관을 재고하고 있어요','결혼과 출산이 더 이상 필수적으로 여겨지지 않아요','한국 사회는 전통과 현대성 사이의 균형을 찾고 있어요','이러한 사회적 과제들은 혁신적이고 집단적인 해결책을 필요로 해요'],questions:[{q:'Quel est le principal défi démographique de la Corée ?',opts:['Le surpeuplement','Le taux de natalité très bas','L\'immigration massive','La surpopulation urbaine'],ans:1},{q:'Qu\'est-ce que la génération MZ remet en question ?',opts:['Le système économique','Les valeurs traditionnelles','La langue coréenne','La musique traditionnelle'],ans:1}]},
+  {lvl:'b2',title:'한국 현대 문학',sentences:['한국 현대 문학은 전례 없는 국제적 인지도를 얻고 있어요','2024년에 한강이 노벨 문학상을 수상했어요','그녀의 소설 채식주의자는 억압적 사회에 맞선 개인의 저항을 탐구해요','이러한 주제들은 한국 국경을 훨씬 넘어 공명을 일으켜요','한국 문학은 역사적 기억 폭력 정체성을 자주 다뤄요','분단과 전쟁이 작품에 깊은 흔적을 남겨요','다양한 언어로의 번역이 세계가 이 풍요로움을 발견할 수 있게 해줘요','한국 문학은 이 민족의 영혼과 역사를 엿볼 수 있는 독특한 창문이에요'],questions:[{q:'Quel prix Han Kang a-t-elle reçu en 2024 ?',opts:['Le Booker Prize','Le prix Pulitzer','Le prix Nobel de littérature','Le prix Goncourt'],ans:2},{q:'Quel roman de Han Kang est mentionné ?',opts:['Actes humains','La Végétarienne','Le Livre blanc','La leçon de grec'],ans:1}]},
+  {lvl:'b2',title:'남북한 분단 이야기',sentences:['1945년 한반도의 분단은 온 민족의 운명을 깊이 바꾸어 놓았어요','일제 강점기에서 해방된 후 한반도는 두 개의 영향권으로 나뉘었어요','한국 전쟁(1950~1953)이 이 분단을 유혈 충돌로 심화시켰어요','1953년에 정전 협정이 체결되었지만 평화 조약은 맺어지지 않았어요','수백만 가족이 38선 양쪽에서 헤어져 살았어요','이산 가족 상봉이 상징적인 순간에 이루어졌어요','통일은 한국 정치 담론에서 여전히 섬세하고 복잡한 주제예요','새로운 세대는 이 문제를 윗세대와는 다른 시각으로 바라봐요'],questions:[{q:'En quelle année la Corée a-t-elle été divisée ?',opts:['1943','1945','1950','1953'],ans:1},{q:'Qu\'est-ce qui fut signé en 1953 ?',opts:['Un traité de paix','Un accord de réunification','Un armistice','Un traité d\'alliance'],ans:2}]}
 ];
 
 /* ═══════ ÉTAT ═══════ */
 const SECTIONS = [
-  {key:'grammar', label:'어휘 및 문법', name:'Vocabulaire &amp; Grammaire', duration:8*60, icon:'grammar'},
+  {key:'grammar', label:'어휘 및 문법', name:'Vocabulaire & Grammaire', duration:8*60, icon:'grammar'},
   {key:'listen',  label:'듣기',         name:'Écoute',                    duration:8*60, icon:'listen'},
   {key:'read',    label:'읽기',         name:'Lecture',                    duration:12*60, icon:'read'}
 ];
@@ -315,17 +372,28 @@ let scores = { grammar:{ok:0,total:0}, listen:{ok:0,total:0}, read:{ok:0,total:0
 let timerId = null;
 let timeLeft = 0;
 let currentAudioKr = null;
+let wrongAnswers = [];  // {section, q, correctText, userText} pour l'écran de révision
+
+function shuffled(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
 
 function buildQueue(sectionKey){
   if(sectionKey==='grammar'){
-    return GRAMMAR_Q.map(q => ({type:'grammar', q:q.q, hint:q.hint, opts:q.opts, ans:q.ans}));
+    return shuffled(GRAMMAR_POOL).slice(0,12).map(q => ({type:'grammar', q:q.q, hint:q.hint, opts:q.opts, ans:q.ans}));
   }
   if(sectionKey==='listen'){
-    return LISTEN_Q.map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
+    return shuffled(LISTEN_POOL).slice(0,12).map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
   }
   if(sectionKey==='read'){
+    const passages = shuffled(READING_POOL).slice(0,7);
     const out = [];
-    READING_P.forEach(p => {
+    passages.forEach(p => {
       p.questions.forEach((q,i) => {
         out.push({type:'read', passage:p, isFirst:i===0, q:q.q, opts:q.opts, ans:q.ans});
       });
@@ -337,6 +405,8 @@ function buildQueue(sectionKey){
 
 function startExam(){
   secIdx = 0;
+  wrongAnswers = [];
+  scores = { grammar:{ok:0,total:0}, listen:{ok:0,total:0}, read:{ok:0,total:0} };
   startSection();
 }
 
@@ -460,6 +530,12 @@ function selectAnswer(i, btn, item){
   scores[sec].total++;
   const correct = i === item.ans;
   if(correct) scores[sec].ok++;
+  else wrongAnswers.push({
+    section: SECTIONS[secIdx].name,
+    q: item.q,
+    correctText: item.opts[item.ans],
+    userText: item.opts[i]
+  });
   document.querySelectorAll('#optsGrid .opt').forEach((o, idx) => {
     o.disabled = true;
     if(idx === item.ans) o.classList.add('correct');
@@ -496,6 +572,14 @@ function finishSection(timeUp){
   fill.style.width = '0%';
   setTimeout(() => { fill.style.width = '100%'; }, 50);
   setTimeout(startSection, 1600);
+}
+
+function toggleReview(){
+  const list = document.getElementById('reviewList');
+  const btn = document.getElementById('reviewToggle');
+  const willShow = !list.classList.contains('show');
+  list.classList.toggle('show', willShow);
+  btn.textContent = willShow ? 'Masquer mes erreurs' : 'Voir mes erreurs (' + wrongAnswers.length + ')';
 }
 
 function levelFromPct(pct){
@@ -543,6 +627,23 @@ function showResults(){
     const p = s.total ? Math.round((s.ok/s.total)*100) : 0;
     return '<div class="skill-row"><div class="skill-top"><span class="skill-name">'+name+'</span><span class="skill-pct">'+p+'%</span></div><div class="skill-bar"><div class="skill-fill" style="width:'+p+'%"></div></div></div>';
   }).join('');
+
+  const reviewToggle = document.getElementById('reviewToggle');
+  const reviewList = document.getElementById('reviewList');
+  if(wrongAnswers.length){
+    reviewToggle.style.display = 'inline-block';
+    reviewToggle.textContent = 'Voir mes erreurs (' + wrongAnswers.length + ')';
+    reviewList.innerHTML = wrongAnswers.map(w =>
+      '<div class="review-item">' +
+        '<div class="review-sec">' + esc(w.section) + '</div>' +
+        '<div class="review-q">' + esc(w.q) + '</div>' +
+        '<div class="review-a"><span class="wrong-txt">' + esc(w.userText) + '</span> → <span class="right-txt">' + esc(w.correctText) + '</span></div>' +
+      '</div>'
+    ).join('');
+  } else {
+    reviewToggle.style.display = 'none';
+    reviewList.classList.remove('show');
+  }
 
   try{
     if(!localStorage.getItem('ks_topik_done')){
