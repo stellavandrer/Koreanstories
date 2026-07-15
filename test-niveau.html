@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Test de niveau coréen — Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/test-niveau.html"/>
-<meta name="description" content="Découvre ton niveau de coréen en 20 questions. De débutant absolu à A2 — résultat instantané et parcours personnalisé."/>
+<meta name="description" content="Découvre ton niveau de coréen avec un test de placement adaptatif, de débutant absolu jusqu'au B2 — résultat instantané et parcours personnalisé."/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
   <link rel="stylesheet" href="design.css"/>
 <style>
@@ -302,14 +302,15 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 <div class="screen active" id="introScreen">
   <div class="intro-kr-bg">한</div>
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
-    <div class="intro-badge"><span></span>Gratuit · 2 minutes · Sans inscription</div>
+    <div class="intro-badge"><span></span>Gratuit · Adaptatif · Sans inscription</div>
     <h1 class="intro-h1">Quel est ton<br/>niveau de <em>coréen</em> ?</h1>
-    <p class="intro-sub">20 questions progressives pour découvrir où tu en es — et obtenir un parcours sur-mesure.</p>
+    <p class="intro-sub">Test de placement adaptatif, de débutant absolu jusqu'au B2 — les questions s'arrêtent dès qu'on a trouvé ton niveau. 2 à 10 minutes selon ton niveau.</p>
     <div class="steps-row">
       <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>Hangeul</div>
       <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>Vocabulaire</div>
       <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>Grammaire</div>
       <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>Lecture</div>
+      <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h20l-2-9-5 4-3-7-3 7-5-4-2 9z"/></svg></div>Jusqu'au B2</div>
     </div>
     <button class="btn-start" onclick="startTest()">Commencer le test →</button>
     <p class="intro-note">Aucune inscription requise · résultat immédiat</p>
@@ -455,14 +456,154 @@ const QUESTIONS = [
    q:'Choisis la traduction correcte de « Je mange une pomme » :',
    opts:['저는 사과를 먹어요','사과는 저를 먹어요','먹어요 저는 사과를','저는 먹어요 사과를'],ans:0,
    exp:'저는 사과를 먹어요 — SOV : Je (저는) + pomme (사과를) + mange (먹어요)'},
+
+  /* ══════════════════════════════════════════════════════════════
+     À PARTIR D'ICI : questions supplémentaires, montrées uniquement
+     si le score cumulé franchit le seuil du palier précédent (test
+     adaptatif — voir CHECKPOINTS plus bas). Un débutant ne voit
+     jamais ces questions ; un niveau avancé continue jusqu'à B2.
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ── PHASE 5 · GRAMMAIRE A2+ (7) ── */
+  {phase:'Grammaire A2+',label:'Voix passive',
+   q:'Quel suffixe rend 열다 (ouvrir) passif : "s\'ouvrir / être ouvert" ?',
+   opts:['열히다','열리다','열이다','열기다'],ans:1,
+   exp:'열리다 = s\'ouvrir. Les 4 suffixes passifs -이/히/리/기 sont chacun liés à des verbes précis, à mémoriser au cas par cas.'},
+  {phase:'Grammaire A2+',label:'Comparatif',
+   q:'Que signifie cette phrase ?',
+   kr:'서울이 파리보다 더 커요.',opts:['Paris est plus grand que Séoul','Séoul est plus grand que Paris','Séoul est aussi grand que Paris','Séoul est le plus grand du monde'],ans:1,
+   exp:'A보다 더 [adjectif] = plus [adjectif] que A. 서울이 파리보다 더 커요 = Séoul est plus grand que Paris.'},
+  {phase:'Grammaire A2+',label:'Supposition -(으)ㄹ 것 같다',
+   q:'Que signifie cette phrase ?',
+   kr:'조금 늦을 것 같아요. 미안해요!',opts:['Je suis en retard, désolé','Je pense que je vais être un peu en retard, désolé','Je ne serai pas en retard, promis','J\'étais en retard hier'],ans:1,
+   exp:'-(으)ㄹ 것 같다 = supposition/pronostic sur le futur proche. 늦을 것 같아요 = je pense que je vais être en retard.'},
+  {phase:'Grammaire A2+',label:'Action en cours -고 있어요',
+   q:'Que signifie 읽고 있어요 ?',
+   kr:'읽고 있어요',opts:['Il/elle a lu','Il/elle lit (en ce moment)','Il/elle va lire','Il/elle veut lire'],ans:1,
+   exp:'-고 있어요 = action EN COURS, comme "en train de" en français. 읽고 있어요 = il/elle est en train de lire.'},
+  {phase:'Grammaire A2+',label:'Expérience -아/어 봤어요',
+   q:'Que signifie cette question ?',
+   kr:'김치 먹어 봤어요?',opts:['Tu manges du kimchi ?','Tu vas manger du kimchi ?','Tu as déjà goûté au kimchi ?','Tu aimes le kimchi ?'],ans:2,
+   exp:'-아/어 보다 + -았/었어요 = avoir déjà fait l\'expérience de qqch. 먹어 봤어요? = as-tu déjà goûté/mangé ?'},
+  {phase:'Grammaire A2+',label:'Poser le décor -는데',
+   q:'-는데 sert surtout à :',
+   opts:['Poser un contexte avant la suite de la phrase (« et du coup », « alors que »)','Exprimer un ordre poli','Marquer le passé lointain','Compter des objets'],ans:0,
+   exp:'-는데 pose une information de fond ou un contraste léger avant d\'enchaîner — extrêmement fréquent à l\'oral.'},
+  {phase:'Grammaire A2+',label:'Particules 만/도/부터/까지',
+   q:'Quelle particule signifie "seulement" ?',
+   opts:['만','도','부터','까지'],ans:0,
+   exp:'만 = seulement/uniquement. 도 = aussi. 부터 = depuis/à partir de. 까지 = jusqu\'à.'},
+
+  /* ── PHASE 6 · GRAMMAIRE B1 (7) ── */
+  {phase:'Grammaire B1',label:'Discours indirect contracté',
+   q:'Que signifie cette phrase ?',
+   kr:'지연 씨가 바쁘대요',opts:['Jiyeon est occupée (je le vois)','Jiyeon dit qu\'elle est occupée / il paraît que Jiyeon est occupée','Jiyeon n\'est pas occupée','Jiyeon sera occupée demain'],ans:1,
+   exp:'-대요 = contraction orale de -다고 해요 (rapporter ce que quelqu\'un a dit). 바쁘대요 = il paraît qu\'elle est occupée.'},
+  {phase:'Grammaire B1',label:'Voix causative -게 하다',
+   q:'Que signifie cette phrase ?',
+   kr:'엄마가 아이를 자게 해요',opts:['La maman dort avec l\'enfant','La maman regarde l\'enfant dormir','La maman fait dormir l\'enfant (le fait aller au lit)','L\'enfant fait dormir la maman'],ans:2,
+   exp:'-게 하다 = faire faire qqch à qqn (causatif universel). 자게 해요 = fait dormir / fait en sorte que qqn dorme.'},
+  {phase:'Grammaire B1',label:'Déduction -나 보다',
+   q:'-나 보다 (ou -(으)ㄴ가 보다) sert à exprimer :',
+   opts:['Une déduction basée sur un indice observé (« on dirait que »)','Un ordre direct','Une habitude quotidienne','Le futur certain'],ans:0,
+   exp:'-나 보다 = déduction à partir de ce qu\'on observe (jamais pour son propre ressenti direct, réservé à -것 같다).'},
+  {phase:'Grammaire B1',label:'Savoir-faire vs pouvoir',
+   q:'"Je ne sais pas nager" (jamais appris) se dit avec :',
+   opts:['수영할 수 없어요 (pouvoir)','수영할 줄 몰라요 (savoir-faire)','수영하지 마세요','수영하고 싶지 않아요'],ans:1,
+   exp:'-(으)ㄹ 줄 알다/모르다 = savoir-faire acquis (ou non). -(으)ㄹ 수 있다/없다 = capacité/possibilité du moment.'},
+  {phase:'Grammaire B1',label:'But : -(으)러 vs -기 위해서',
+   q:'-(으)러 가다/오다 (contrairement à -기 위해서) est réservé :',
+   opts:['Aux verbes de déplacement (가다, 오다, 다니다)','Aux verbes d\'état','À la forme négative uniquement','Au discours indirect'],ans:0,
+   exp:'-(으)러 가다/오다 = plus simple mais limité aux verbes de déplacement. -기 위해서 fonctionne avec n\'importe quel verbe.'},
+  {phase:'Grammaire B1',label:'Résolution -아/어야지',
+   q:'-아/어야지 (par rapport à -아/어야 하다) exprime plutôt :',
+   opts:['Une obligation extérieure générale','Une résolution qu\'on se dit à soi-même, à voix haute','Une interdiction','Un souhait pour autrui'],ans:1,
+   exp:'-아/어야지 = résolution personnelle (« bon, je devrais vraiment... »). -아/어야 하다 = obligation neutre et générale.'},
+  {phase:'Grammaire B1',label:'Décision ou envie',
+   q:'Laquelle de ces phrases est une invitation (question, envie partagée) ?',
+   kr:'나중에 전화할게요',opts:['나중에 전화할게요 (décision/promesse)','같이 게임 할래요? (envie/invitation)','전화해야 해요 (obligation)','전화하고 있어요 (en cours)'],ans:1,
+   exp:'-(으)ㄹ게요 = décision annoncée à l\'interlocuteur (jamais en question). -(으)ㄹ래요 = envie, souvent une invitation.'},
+
+  /* ── PHASE 7 · GRAMMAIRE B2 (7) ── */
+  {phase:'Grammaire B2',label:'Nominalisation -기/-음',
+   q:'La nominalisation (-기 ou -음) sert à :',
+   opts:['Transformer un verbe/adjectif en nom («lire»→«la lecture»)','Marquer le pluriel','Former l\'impératif','Indiquer la couleur'],ans:0,
+   exp:'-기/-음 transforment une action/qualité en nom : 읽다 (lire) → 읽기 (la lecture), 예쁘다 (être joli) → 예쁨 (la beauté).'},
+  {phase:'Grammaire B2',label:'Concessive -아/어도 vs -더라도',
+   q:'-더라도 (par rapport à -아/어도) exprime :',
+   opts:['La même chose, en plus insistant/hypothétique','Le contraire exact','Une simple énumération','Le passé uniquement'],ans:0,
+   exp:'-아/어도 = même si (neutre). -더라도 = même si, avec une nuance hypothétique plus appuyée — souvent à l\'écrit ou en registre soutenu.'},
+  {phase:'Grammaire B2',label:'Style narratif -ㄴ/는다',
+   q:'Le style -ㄴ/는다 (par opposition à -아요/해요) s\'utilise pour :',
+   opts:['Les journaux intimes, articles, romans — registre neutre/littéraire','Parler à un supérieur','Poser une question polie','Le discours indirect uniquement'],ans:0,
+   exp:'-ㄴ/는다 = style neutre écrit (narration, presse, journal intime) — jamais utilisé pour s\'adresser directement à quelqu\'un.'},
+  {phase:'Grammaire B2',label:'Connecteurs de dissertation',
+   q:'Que signifie 게다가 dans cette phrase ?',
+   kr:'저는 도시가 더 좋아요. 편리하기 때문이에요. 게다가 일자리도 많아요.',
+   opts:['« Mais » (opposition)','« De plus / en plus » (ajout d\'argument)','« Par contre »','« Donc »'],ans:1,
+   exp:'게다가 = « de plus, en plus » — ajoute un argument supplémentaire dans le même sens, typique de l\'argumentation à l\'écrit.'},
+  {phase:'Grammaire B2',label:'-기 마련이다',
+   q:'Que signifie cette phrase ?',
+   kr:'글쎄요. 도시 생활은 스트레스가 쌓이기 마련이에요.',
+   opts:['La vie en ville ne cause jamais de stress','C\'est naturel/inévitable que la vie en ville accumule du stress','La vie en ville est parfois stressante par hasard','Il faut éviter le stress en ville'],ans:1,
+   exp:'-기 마련이다 = « c\'est naturel que… », une vérité générale ou inévitable. Registre soutenu, fréquent en dissertation TOPIK.'},
+  {phase:'Grammaire B2',label:'-(으)ㄹ 리가 없다',
+   q:'Que signifie cette phrase ?',
+   kr:'하지만 시골 생활이 쉬울 리가 없어요. 병원도 멀고 가게도 적어요.',
+   opts:['La vie à la campagne est sûrement facile','Il est impossible/hors de question que la vie à la campagne soit facile','La vie à la campagne pourrait être facile','La vie à la campagne est facile parfois'],ans:1,
+   exp:'-(으)ㄹ 리가 없다 = rejeter une possibilité comme improbable/impossible selon toute logique — « ça ne peut pas être… ».'},
+  {phase:'Grammaire B2',label:'Réaction polie -(으)시네요',
+   q:'Que signifie cette phrase ?',
+   kr:'한국어를 정말 잘하시네요.',opts:['Tu parles bien coréen (fait neutre)','Vous parlez vraiment bien coréen ! (réaction polie, à l\'instant)','Vous devriez parler coréen','Vous n\'aimez pas parler coréen'],ans:1,
+   exp:'-(으)시네요 = -네요 (réaction spontanée) + -(으)시- (honorifique) : réagir avec respect à ce que fait quelqu\'un d\'autre.'},
+
+  /* ── PHASE 8 · LECTURE AVANCÉE (4) ── */
+  {phase:'Lecture avancée',label:'Discours rapporté à l\'oral',
+   q:'Que signifie cette phrase entendue dans une conversation ?',
+   kr:'비가 온대요',opts:['Il pleut (je le vois)','Il paraît qu\'il pleut (rapporté)','Il va pleuvoir demain','Il a plu hier'],ans:1,
+   exp:'-대요 (contraction de -다고 해요) rapporte une information reçue de quelqu\'un d\'autre ou de la météo, pas une observation directe.'},
+  {phase:'Lecture avancée',label:'Argumentation construite',
+   q:'Que signifie cette phrase de conclusion ?',
+   kr:'따라서 저는 둘 다 경험해 보고 싶어요. 도시에서 일하고, 주말에는 시골에 가는 거예요.',
+   opts:['« Donc » je veux essayer les deux : travailler en ville, aller à la campagne le week-end','« Mais » je préfère la campagne uniquement','« De plus » je déteste la ville','« Par contre » je ne veux ni l\'un ni l\'autre'],ans:0,
+   exp:'따라서 = « donc, par conséquent » — introduit une conclusion logique après des arguments, registre soutenu/dissertation.'},
+  {phase:'Lecture avancée',label:'Réaction en visite',
+   q:'Que signifie cette phrase ?',
+   kr:'집이 정말 예뻐요! 텔레비전도 있네요.',opts:['La maison est jolie mais je n\'aime pas la télé','La maison est vraiment jolie ! Oh, il y a même une télé (je le remarque)','La maison n\'a pas de télé','Je cherche une maison avec télé'],ans:1,
+   exp:'-네요 marque qu\'on vient de REMARQUER quelque chose, ici en visitant — différent d\'un simple constat neutre (있어요).'},
+  {phase:'Lecture avancée',label:'Au restaurant, surprise',
+   q:'Que signifie cette phrase ?',
+   kr:'정말 맛있네요! 얼마예요?',opts:['C\'était délicieux hier, c\'était combien ?','Oh, c\'est vraiment délicieux ! C\'est combien ? (réaction au moment de goûter)','Ce n\'est pas très bon, dommage','Je voudrais commander autre chose'],ans:1,
+   exp:'-네요 = réaction spontanée au moment de goûter, pas un simple constat (맛있어요 seul serait neutre).'},
 ];
 
 let qIdx = 0;
-let scores = {Hangeul:0, Vocabulaire:0, Grammaire:0, Lecture:0};
-let phaseCounts = {Hangeul:0, Vocabulaire:0, Grammaire:0, Lecture:0};
+let scores = {};
+let phaseCounts = {};
 let currentKr = '';
 let answered = false;
 let phaseShown = {};
+
+/* ── Test adaptatif : 4 paliers de "continuer ou s'arrêter" ──
+   À la fin de chaque phase ci-dessous, si le score cumulé n'atteint
+   pas le seuil, le test s'arrête et place l'apprenant à ce niveau —
+   il ne voit JAMAIS les questions plus difficiles que sa capacité
+   réelle. Seuil de la phase "Lecture" (82%) = seuil historique du
+   test 20 questions, inchangé. */
+const CHECKPOINTS = { 'Lecture':82, 'Grammaire A2+':80, 'Grammaire B1':78, 'Grammaire B2':76 };
+/* Regroupement des 8 phases en 5 étapes, pour l'affichage "X / Y"
+   (repart de 1 à chaque nouvelle étape plutôt que de compter vers 45
+   dès le départ — un débutant voit exactement « X / 20 » comme avant). */
+const STAGE_OF_PHASE = {
+  Hangeul:'base', Vocabulaire:'base', Grammaire:'base', Lecture:'base',
+  'Grammaire A2+':'a2plus', 'Grammaire B1':'b1', 'Grammaire B2':'b2', 'Lecture avancée':'final'
+};
+const STAGE_START = {}, STAGE_END = {};
+QUESTIONS.forEach((q,i)=>{
+  const s = STAGE_OF_PHASE[q.phase];
+  if (!(s in STAGE_START)) STAGE_START[s] = i;
+  STAGE_END[s] = i + 1;
+});
 
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active')});
@@ -484,8 +625,16 @@ function showQuestion(){
   if(qIdx>=QUESTIONS.length){showResults();return;}
   const q=QUESTIONS[qIdx];
   answered=false;
-  // Phase transition
+  // Phase transition + vérification de palier adaptatif
   if(!phaseShown[q.phase]){
+    const prevPhase = qIdx>0 ? QUESTIONS[qIdx-1].phase : null;
+    if (prevPhase && prevPhase!==q.phase && CHECKPOINTS[prevPhase]!==undefined){
+      const pctSoFar = Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/qIdx*100);
+      if (pctSoFar < CHECKPOINTS[prevPhase]){
+        showResults();
+        return;
+      }
+    }
     phaseShown[q.phase]=true;
     if(qIdx>0){
       showPhaseTransition(q.phase,()=>renderQuestion(q));
@@ -499,12 +648,20 @@ function showPhaseTransition(phase,cb){
   const icons={
     Hangeul:'<svg viewBox="0 0 24 24"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>',
     Vocabulaire:'<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
-    Grammaire:'<svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>'
+    Grammaire:'<svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>',
+    'Grammaire A2+':'<svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>',
+    'Grammaire B1':'<svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.9 0-3.5-.5-4.8-1.5L8.5 14.5z"/></svg>',
+    'Grammaire B2':'<svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M5 21h14"/><path d="M9.5 16.5V19h5v-2.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>',
+    'Lecture avancée':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>'
   };
   const subs={
     Hangeul:'Voyons si tu connais l\'alphabet coréen',
     Vocabulaire:'Passons au vocabulaire du quotidien',
-    Grammaire:'On passe à la structure de la langue'
+    Grammaire:'On passe à la structure de la langue',
+    'Grammaire A2+':'Beau score ! On continue avec de la grammaire A2 plus poussée',
+    'Grammaire B1':'Toujours aussi bien ! Passons au niveau B1',
+    'Grammaire B2':'Impressionnant — voyons si tu tiens le niveau B2',
+    'Lecture avancée':'Dernière ligne droite : compréhension de textes avancés'
   };
   document.getElementById('transIcon').innerHTML=icons[phase]||'<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
   document.getElementById('transTitle').innerHTML='Phase <em>'+phase+'</em>';
@@ -517,10 +674,11 @@ function showPhaseTransition(phase,cb){
 }
 
 function renderQuestion(q){
-  const total=QUESTIONS.length;
-  const pct=Math.round(qIdx/total*100);
+  const stage=STAGE_OF_PHASE[q.phase];
+  const stageStart=STAGE_START[stage], stageTotal=STAGE_END[stage]-stageStart;
+  const pct=Math.round((qIdx-stageStart)/stageTotal*100);
   document.getElementById('qPhase').textContent=q.phase;
-  document.getElementById('qCounter').textContent=(qIdx+1)+' / '+total;
+  document.getElementById('qCounter').textContent=(qIdx-stageStart+1)+' / '+stageTotal;
   document.getElementById('progFill').style.width=pct+'%';
   document.getElementById('qLabel').textContent=q.label;
   document.getElementById('qText').textContent=q.q;
@@ -571,64 +729,87 @@ function selectAnswer(i,btn,q){
 function nextQuestion(){showQuestion();}
 
 function showResults(){
-  const total=QUESTIONS.length;
+  const total=qIdx; /* nombre de questions réellement répondues (test adaptatif : peut s'arrêter avant la fin) */
   const totalScore=Object.values(scores).reduce((a,b)=>a+b,0);
   const pct=Math.round(totalScore/total*100);
-  const hPct=phaseCounts.Hangeul?Math.round((scores.Hangeul/phaseCounts.Hangeul)*100):0;
-  const vPct=phaseCounts.Vocabulaire?Math.round((scores.Vocabulaire/phaseCounts.Vocabulaire)*100):0;
-  const gPct=phaseCounts.Grammaire?Math.round((scores.Grammaire/phaseCounts.Grammaire)*100):0;
-  const lPct=phaseCounts.Lecture?Math.round((scores.Lecture/phaseCounts.Lecture)*100):0;
+  /* Phase la plus avancée atteinte → détermine à quelle étape le test s'est arrêté */
+  const lastPhase=QUESTIONS[qIdx-1].phase;
+  const finalStage=STAGE_OF_PHASE[lastPhase];
 
-  /* Placement CEFR — 5 paliers + ks_level pour orienter le reste de l'app */
+  /* Placement CEFR — 8 paliers (A0 → B2) + ks_level pour orienter le reste de l'app.
+     Test adaptatif : au-delà du palier "Lecture" (test de base, 20 questions,
+     seuils historiques inchangés), chaque étape suivante n'est vue QUE si le
+     score cumulé franchit le seuil de CHECKPOINTS — voir showQuestion(). */
   let level,emoji,desc,cta,ctaUrl,ksLevel;
   const SVG_SEED   = '<svg viewBox="0 0 24 24"><path d="M12 22V12M5 3s.5 7 7 9M19 3s-.5 7-7 9"/></svg>';
   const SVG_FLAME  = '<svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.9 0-3.5-.5-4.8-1.5L8.5 14.5z"/></svg>';
   const SVG_STAR   = '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
   const SVG_TROPHY = '<svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M5 21h14"/><path d="M9.5 16.5V19h5v-2.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>';
+  const SVG_CROWN  = '<svg viewBox="0 0 24 24"><path d="M2 18h20l-2-9-5 4-3-7-3 7-5-4-2 9z"/><line x1="4" y1="21" x2="20" y2="21"/></svg>';
 
-  if (pct < 25) {
-    level   = 'Débutant absolu — A0';
-    emoji   = SVG_SEED;
-    desc    = 'Tu pars de zéro — c\'est le meilleur point de départ. Le Hangeul est plus simple qu\'il en a l\'air : 10 leçons et tu lis vraiment le coréen.';
-    cta     = 'Commencer par le Hangeul';
-    ctaUrl  = 'lecon.html';
-    ksLevel = 'zero';
-  } else if (pct < 45) {
-    level   = 'Hangeul en cours — A0+';
-    emoji   = SVG_SEED;
-    desc    = 'Tu reconnais déjà quelques lettres ou mots — bravo. Consolide d\'abord les 10 leçons d\'alphabet avant de passer à la grammaire.';
-    cta     = 'Reprendre le Hangeul';
-    ctaUrl  = 'lecon.html';
-    ksLevel = 'bases';
-  } else if (pct < 65) {
-    level   = 'Niveau A1 Débutant';
-    emoji   = SVG_STAR;
-    desc    = 'Tu as les fondations : alphabet, mots-clés, formules de base. Le niveau A1 est fait pour toi — démarre par les salutations.';
-    cta     = 'Démarrer l\'A1';
-    ctaUrl  = 'lecon5.html';
-    ksLevel = 'hangeul';
-  } else if (pct < 82) {
-    level   = 'Niveau A1 Solide';
-    emoji   = SVG_FLAME;
-    desc    = 'Très bien ! Vocabulaire et particules acquises. Concentre-toi sur la grammaire A1+ : conjugaison polie, négation, questions.';
-    cta     = 'Continuer en A1';
-    ctaUrl  = 'cours.html';
-    ksLevel = 'a1';
+  if (finalStage==='base'){
+    /* Test de base (20 questions) — 5 paliers historiques, seuils inchangés. */
+    if (pct < 25) {
+      level='Débutant absolu — A0'; emoji=SVG_SEED;
+      desc='Tu pars de zéro — c\'est le meilleur point de départ. Le Hangeul est plus simple qu\'il en a l\'air : 10 leçons et tu lis vraiment le coréen.';
+      cta='Commencer par le Hangeul'; ctaUrl='lecon.html'; ksLevel='zero';
+    } else if (pct < 45) {
+      level='Hangeul en cours — A0+'; emoji=SVG_SEED;
+      desc='Tu reconnais déjà quelques lettres ou mots — bravo. Consolide d\'abord les 10 leçons d\'alphabet avant de passer à la grammaire.';
+      cta='Reprendre le Hangeul'; ctaUrl='lecon.html'; ksLevel='bases';
+    } else if (pct < 65) {
+      level='Niveau A1 Débutant'; emoji=SVG_STAR;
+      desc='Tu as les fondations : alphabet, mots-clés, formules de base. Le niveau A1 est fait pour toi — démarre par les salutations.';
+      cta='Démarrer l\'A1'; ctaUrl='lecon5.html'; ksLevel='hangeul';
+    } else if (pct < 82) {
+      level='Niveau A1 Solide'; emoji=SVG_FLAME;
+      desc='Très bien ! Vocabulaire et particules acquises. Concentre-toi sur la grammaire A1+ : conjugaison polie, négation, questions.';
+      cta='Continuer en A1'; ctaUrl='cours.html'; ksLevel='a1';
+    } else {
+      /* Filet de sécurité — en pratique >=82% enchaîne automatiquement sur
+         la phase suivante (voir CHECKPOINTS) et ne s'arrête jamais ici. */
+      level='Niveau A2 — Élémentaire'; emoji=SVG_TROPHY;
+      desc='Impressionnant ! Tu maîtrises l\'essentiel de l\'A1 : passé, désirs, conjonctions. Plonge dans le niveau A2 — temps composés, voix passive, K-Drama.';
+      cta='Explorer l\'A2'; ctaUrl='cours.html'; ksLevel='a2';
+    }
+  } else if (finalStage==='a2plus'){
+    level='Niveau A2 Confirmé'; emoji=SVG_TROPHY;
+    desc='Très solide ! Passif, comparatifs, -고 있어요, -는데… tu maîtrises l\'A2 avancé. Consolide encore un peu ce niveau avant le grand saut vers le B1.';
+    cta='Consolider l\'A2'; ctaUrl='cours.html'; ksLevel='a2';
+  } else if (finalStage==='b1'){
+    level='Niveau B1 en cours'; emoji=SVG_TROPHY;
+    desc='Excellent parcours ! Discours indirect, causatif, déduction — le B1 commence déjà à rentrer. Termine de consolider l\'A2 pour aborder le B1 sereinement.';
+    cta='Terminer l\'A2'; ctaUrl='cours.html'; ksLevel='a2';
+  } else if (finalStage==='b2'){
+    level='Niveau B1 Confirmé'; emoji=SVG_CROWN;
+    desc='Vraiment impressionnant — tu as tenu jusqu\'au B1 complet (discours indirect, causatif, savoir-faire, but, résolution). Le B1 est fait pour toi.';
+    cta='Explorer le B1'; ctaUrl='cours.html'; ksLevel='b1';
   } else {
-    level   = 'Niveau A2 — Élémentaire';
-    emoji   = SVG_TROPHY;
-    desc    = 'Impressionnant ! Tu maîtrises l\'essentiel de l\'A1 : passé, désirs, conjonctions. Plonge dans le niveau A2 — temps composés, voix passive, K-Drama.';
-    cta     = 'Explorer l\'A2';
-    ctaUrl  = 'cours.html';
-    ksLevel = 'a2';
+    /* finalStage === 'final' — a répondu aux 45 questions, jusqu'au B2 */
+    if (pct >= 80) {
+      level='Niveau B2 — Avancé'; emoji=SVG_CROWN;
+      desc='Niveau exceptionnel ! Nominalisation, concessive, style narratif, connecteurs de dissertation — tu maîtrises le coréen avancé. Le B2 t\'attend.';
+      cta='Explorer le B2'; ctaUrl='cours.html'; ksLevel='b2';
+    } else {
+      level='Niveau B1 Confirmé'; emoji=SVG_CROWN;
+      desc='Tu es allé(e) jusqu\'au bout d\'un test jusqu\'au B2 — un très beau résultat. Le B1 est solidement acquis, direction le B1 pour progresser vers le B2.';
+      cta='Explorer le B1'; ctaUrl='cours.html'; ksLevel='b1';
+    }
   }
+
+  /* Détail des scores par phase réellement posée (variable selon jusqu'où
+     le test adaptatif est allé) */
+  const askedPhases=[];
+  for(let i=0;i<qIdx;i++){ const p=QUESTIONS[i].phase; if(!askedPhases.includes(p)) askedPhases.push(p); }
+  const phaseScores={};
+  askedPhases.forEach(p=>{ phaseScores[p]=phaseCounts[p]?Math.round((scores[p]||0)/phaseCounts[p]*100):0; });
 
   /* Sauvegarde du niveau pour orienter le tableau de bord & l'onboarding */
   try {
     localStorage.setItem('ks_level', ksLevel);
     localStorage.setItem('ks_test_niveau', JSON.stringify({
       level: level, ksLevel: ksLevel, pct: pct, date: Date.now(),
-      scores: { Hangeul:hPct, Vocabulaire:vPct, Grammaire:gPct, Lecture:lPct }
+      scores: phaseScores
     }));
   } catch(e) {}
 
@@ -653,12 +834,10 @@ function showResults(){
     '<div class="rs"><div class="rs-val" style="color:var(--gold)">'+totalScore+'/'+total+'</div><div class="rs-lbl">Score</div></div>'+
     '<div class="rs"><div class="rs-val" style="color:var(--green)">'+pct+'%</div><div class="rs-lbl">Réussite</div></div>';
 
-  // Skills bars
-  const skillsHtml=`
-    <div class="skill-row"><div class="skill-top"><span class="skill-name">Hangeul</span><span class="skill-pct">${hPct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${hPct}"></div></div></div>
-    <div class="skill-row"><div class="skill-top"><span class="skill-name">Vocabulaire</span><span class="skill-pct">${vPct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${vPct}"></div></div></div>
-    <div class="skill-row"><div class="skill-top"><span class="skill-name">Grammaire</span><span class="skill-pct">${gPct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${gPct}"></div></div></div>
-    <div class="skill-row"><div class="skill-top"><span class="skill-name">Lecture</span><span class="skill-pct">${lPct}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${lPct}"></div></div></div>`;
+  // Skills bars — une ligne par phase réellement posée
+  const skillsHtml=askedPhases.map(p=>
+    `<div class="skill-row"><div class="skill-top"><span class="skill-name">${p}</span><span class="skill-pct">${phaseScores[p]}%</span></div><div class="skill-bar"><div class="skill-fill" style="width:0%" data-w="${phaseScores[p]}"></div></div></div>`
+  ).join('');
   document.getElementById('skillsWrap').innerHTML=skillsHtml;
   setTimeout(()=>{
     document.querySelectorAll('.skill-fill').forEach(el=>{el.style.width=el.dataset.w+'%'});
@@ -676,8 +855,8 @@ function showResults(){
 
 function restartTest(){
   qIdx=0;
-  scores={Hangeul:0,Vocabulaire:0,Grammaire:0,Lecture:0};
-  phaseCounts={Hangeul:0,Vocabulaire:0,Grammaire:0,Lecture:0};
+  scores={};
+  phaseCounts={};
   phaseShown={};currentKr='';answered=false;
   showScreen('introScreen');
 }
