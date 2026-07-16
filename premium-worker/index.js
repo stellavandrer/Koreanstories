@@ -43,11 +43,11 @@
 
 const PRICE_MONTHLY  = 'price_1TlkvnPab8Hr1KXaK2D5ZSvn';
 const PRICE_LIFETIME = 'price_1TlkwTPab8Hr1KXaM5WwjXWX';
-// Achat unique du Livret A1 (5€, hors abonnement Premium) — le Payment Link
-// Stripe correspondant doit porter la métadonnée `product: livret-a1` (voir
-// handleCheckout) : c'est cette métadonnée, pas le prix, qui déclenche la
-// création d'une licence de type 'booklet-a1' au lieu de 'lifetime'.
-const PRICE_BOOKLET_A1 = 'price_TODO_LIVRET_A1'; // à renseigner une fois le Payment Link créé (voir PASSAGE-LIVE.md)
+// Achat unique du Livret A1 (5€, hors abonnement Premium). Gardé ici pour
+// référence uniquement (jamais lu par le code) : la détection réelle dans
+// handleCheckout() se fait via session.metadata.product === 'livret-a1',
+// une métadonnée posée sur ce Payment Link — pas via cet identifiant.
+const PAYMENT_LINK_BOOKLET_A1 = 'plink_1Ttj9fPab8Hr1KXarL7fCXzB'; // https://buy.stripe.com/fZu14p8NF1gZfT178ce7m02
 
 // Tous les envois déclenchés via /newsletter/test-send partent vers cette
 // adresse (jamais vers la vraie liste de contacts) — c'est un destinataire
