@@ -71,7 +71,6 @@
       ['profil.html','Profil',IC.user],
       ['reglages.html','Réglages',IC.gear],
       ['#premium','Premium',IC.crown],
-      ['livret-a1.html','Livret A1',IC.book],
       ['ressources.html','Ressources',IC.res],
       ['blog.html','Blog',IC.blog],
       ['aide.html','Aide',IC.help]
