@@ -16,6 +16,7 @@
   <style>
     body{font-family:'Inter',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--t)}
     .wrap{max-width:720px;margin:0 auto;padding:0 16px 60px}
+    @media(min-width:1024px){.wrap{max-width:1120px}}
 
     /* ── HERO ── */
     .hero{
@@ -37,14 +38,63 @@
     .hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.3);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:100px;padding:4px 13px;margin-bottom:14px;position:relative}
     .hero h1{font-family:'Playfair Display',serif;color:#fff;font-size:clamp(26px,5.6vw,34px);margin:0 0 9px;position:relative}
     .hero h1 em{color:var(--gold);font-style:italic}
-    .hero p{font-size:13px;color:rgba(247,248,250,.58);margin:0;line-height:1.65;position:relative}
+    .hero p{font-size:13px;color:rgba(247,248,250,.58);margin:0 0 18px;line-height:1.65;position:relative;max-width:520px;margin-left:auto;margin-right:auto}
+    .hero-stats{display:flex;justify-content:center;gap:26px;position:relative;flex-wrap:wrap}
+    .hero-stat{display:flex;flex-direction:column;align-items:center;gap:1px}
+    .hero-stat b{font-family:'Playfair Display',serif;font-size:19px;color:var(--gold);font-weight:700}
+    .hero-stat span{font-size:9.5px;color:rgba(247,248,250,.5);text-transform:uppercase;letter-spacing:.07em}
 
-    .chips{display:flex;gap:8px;overflow-x:auto;padding:18px 2px 4px;scrollbar-width:none}
+    /* ── SEARCH ── */
+    .search-wrap{position:relative;margin-top:18px}
+    .search-wrap svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+    .search-wrap input{
+      width:100%;box-sizing:border-box;padding:12px 40px 12px 42px;
+      border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);
+      color:var(--t);font-size:14px;font-family:inherit;box-shadow:var(--sh);
+      transition:border-color .2s, box-shadow .2s;-webkit-appearance:none;appearance:none;
+    }
+    .search-wrap input::-webkit-search-cancel-button{display:none}
+    .search-wrap input::placeholder{color:var(--t3)}
+    .search-wrap input:focus{outline:none;border-color:var(--goldbd);box-shadow:var(--sh2)}
+    .search-clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:none;background:var(--s2);color:var(--t3);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:14px;line-height:1}
+    .search-clear.show{display:flex}
+    .search-clear:hover{background:var(--s3);color:var(--t)}
+
+    .chips{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 4px;scrollbar-width:none}
     .chips::-webkit-scrollbar{display:none}
     .chips .fchip{display:inline-flex;align-items:center;gap:6px}
+    .fchip-count{opacity:.6;font-weight:700;font-size:10.5px}
 
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
-    @media(max-width:640px){.grid{grid-template-columns:1fr}}
+    /* ── FEATURED ── */
+    .feat{
+      display:flex;flex-direction:column;text-decoration:none;
+      background:var(--surf);border:1.5px solid var(--bd);border-radius:22px;overflow:hidden;
+      box-shadow:var(--sh);margin-top:18px;
+      transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s, border-color .25s;
+    }
+    .b-card.feat:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--goldbd)}
+    .feat-banner{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--s3)}
+    .feat-banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+    .feat:hover .feat-banner img{transform:scale(1.05)}
+    .feat-ribbon{position:absolute;top:14px;left:14px;display:inline-flex;align-items:center;gap:5px;background:var(--navy);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:100px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+    .feat-ribbon svg{width:11px;height:11px}
+    .feat-body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:10px}
+    .feat-title{font-family:'Playfair Display',serif;font-size:clamp(19px,3vw,25px);font-weight:700;color:var(--t);line-height:1.3;margin:0}
+    .feat-desc{font-size:13.5px;color:var(--t2);line-height:1.6;margin:0}
+    .feat-cta{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--gold-text);margin-top:2px}
+    .feat-cta svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;transition:transform .2s}
+    .feat:hover .feat-cta svg{transform:translateX(3px)}
+    .feat-meta{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--t3)}
+
+    @media(min-width:760px){
+      .feat{flex-direction:row;align-items:stretch}
+      .feat-banner{width:46%;aspect-ratio:auto;flex-shrink:0}
+      .feat-body{flex:1;justify-content:center;padding:26px 34px}
+      .feat-title{font-size:clamp(22px,2.4vw,28px)}
+    }
+
+    /* ── GRID ── */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:24px}
 
     .b-card{
       background:var(--surf);border:1.5px solid var(--bd);border-radius:20px;overflow:hidden;
@@ -52,8 +102,8 @@
       transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s, border-color .25s;
       animation:b-in .5s cubic-bezier(.2,.8,.2,1) both;
     }
-    .b-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--goldbd)}
-    .b-card:active{transform:translateY(-2px)}
+    .grid .b-card:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--goldbd)}
+    .grid .b-card:active{transform:translateY(-2px)}
     .b-card.hide{display:none}
     @keyframes b-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
     .grid .b-card:nth-child(1){animation-delay:.02s}
@@ -63,9 +113,9 @@
     .grid .b-card:nth-child(5){animation-delay:.18s}
     .grid .b-card:nth-child(n+6){animation-delay:.22s}
 
-    .b-banner{height:150px;overflow:hidden;background:var(--s3);position:relative}
+    .b-banner{aspect-ratio:16/10;overflow:hidden;background:var(--s3);position:relative}
     .b-banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
-    .b-card:hover .b-banner img{transform:scale(1.07)}
+    .grid .b-card:hover .b-banner img{transform:scale(1.07)}
     .b-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.22) 100%);pointer-events:none}
 
     .b-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:7px;flex:1}
@@ -74,21 +124,17 @@
     .b-card[data-cat="cuisine"] .b-cat{background:rgba(220,38,38,.12)}
     .b-card[data-cat="culture"] .b-cat{background:color-mix(in srgb, var(--accent-purple) 14%, transparent)}
     .b-card[data-cat="etudier"] .b-cat{background:color-mix(in srgb, var(--accent-blue) 14%, transparent)}
-    .b-title{font-size:15.5px;font-weight:800;color:var(--t);line-height:1.35;transition:color .2s}
-    .b-card:hover .b-title{color:var(--gold-text)}
+    .b-title{font-size:15.5px;font-weight:800;color:var(--t);line-height:1.35;margin:0;transition:color .2s}
+    .grid .b-card:hover .b-title{color:var(--gold-text)}
     .b-desc{font-size:12.5px;color:var(--t2);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
     .b-meta{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t3);margin-top:auto;padding-top:8px;border-top:1px solid var(--bd)}
+    .no-results{display:none;text-align:center;padding:46px 20px;color:var(--t3);font-size:13.5px}
+    .no-results.show{display:block}
     .soon{text-align:center;font-size:12.5px;color:var(--t3);margin-top:30px;line-height:1.7;background:var(--s2);border:1.5px dashed var(--bd2);border-radius:16px;padding:18px 20px}
 
-    /* ── Desktop : grille d'articles 3 colonnes ── */
-    @media(min-width:1024px){
-      .wrap{max-width:1040px}
-      .grid{grid-template-columns:repeat(3,1fr);gap:20px}
-      .b-banner{height:172px}
-    }
     @media (prefers-reduced-motion: reduce){
       .b-card{animation:none}
-      .b-card,.b-banner img{transition:none}
+      .b-card,.b-banner img,.feat,.feat-banner img{transition:none}
     }
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
@@ -111,23 +157,37 @@
     <div class="hero-tag"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Le blog</div>
     <h1>La Corée <em>pratique</em></h1>
     <p>Voyage, cuisine, culture & méthode — des guides utiles, vérifiés et gratuits,<br/>avec les mots coréens prononcés par de vraies voix natives.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><b id="statCount">36</b><span>Guides</span></div>
+      <div class="hero-stat"><b>4</b><span>Thématiques</span></div>
+      <div class="hero-stat"><b>100%</b><span>Gratuit</span></div>
+    </div>
+  </div>
+  <a class="b-card feat" href="blog-busan-guide.html" data-cat="voyage">
+    <div class="feat-banner">
+      <span class="feat-ribbon"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round" aria-hidden="true"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 21.5 12 17.5 5.5 21.5 7 14.5 2 9.5 9 9 12 2"/></svg> À la une</span>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Haeundae_Beach_in_Busan.jpg/1280px-Haeundae_Beach_in_Busan.jpg" alt="" loading="eager" decoding="async">
+    </div>
+    <div class="feat-body">
+      <span class="b-cat" style="color:#0d9488"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> Voyage</span>
+      <h2 class="feat-title">Un week-end à Busan, la deuxième ville de Corée</h2>
+      <p class="feat-desc">Haeundae, le marché Jagalchi et les restaurants de sashimi — le guide pour un week-end réussi loin de Séoul.</p>
+      <span class="feat-meta"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 23 juillet 2026 · <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
+      <span class="feat-cta">Lire l'article <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+    </div>
+  </a>
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" id="blogSearch" placeholder="Rechercher un article, un plat, un mot…" aria-label="Rechercher un article">
+    <button class="search-clear" id="searchClear" type="button" aria-label="Effacer la recherche">✕</button>
   </div>
   <div class="chips" role="group" aria-label="Filtrer les articles par thème"><button class="fchip act" data-f="all" aria-pressed="true">Tout</button><button class="fchip" aria-pressed="false" data-f="voyage"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> Voyage</button><button class="fchip" aria-pressed="false" data-f="cuisine"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</button><button class="fchip" aria-pressed="false" data-f="culture"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M3 9h18"/><path d="M4 9c2-3 6-5 8-5s6 2 8 5"/><path d="M5 9v11"/><path d="M19 9v11"/><path d="M9 9v11"/><path d="M15 9v11"/><path d="M3 20h18"/></svg> Culture</button><button class="fchip" aria-pressed="false" data-f="etudier"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</button></div>
   <div class="grid" id="grid">
-    <a class="b-card" href="blog-busan-guide.html" data-cat="voyage">
-      <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Haeundae_Beach_in_Busan.jpg/1280px-Haeundae_Beach_in_Busan.jpg" alt="" loading="lazy" decoding="async"></div>
-      <div class="b-body">
-        <span class="b-cat" style="color:#0d9488"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> Voyage</span>
-        <span class="b-title">Un week-end à Busan, la deuxième ville de Corée</span>
-        <span class="b-desc">Haeundae, le marché Jagalchi et les restaurants de sashimi — le guide pour un week-end réussi loin de Séoul.</span>
-        <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 23 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
-      </div>
-    </a>
     <a class="b-card" href="blog-kbeauty-routine.html" data-cat="culture">
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Korean_cosmetic_products.jpg/1280px-Korean_cosmetic_products.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M3 9h18"/><path d="M4 9c2-3 6-5 8-5s6 2 8 5"/><path d="M5 9v11"/><path d="M19 9v11"/><path d="M9 9v11"/><path d="M15 9v11"/><path d="M3 20h18"/></svg> Culture</span>
-        <span class="b-title">La routine K-Beauty en 10 étapes, décryptée</span>
+        <h2 class="b-title">La routine K-Beauty en 10 étapes, décryptée</h2>
         <span class="b-desc">D'où vient cette obsession pour la peau, ce que contient vraiment la routine, et faut-il tout faire tous les jours ?</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 23 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -136,7 +196,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Korea_National_Hangeul_Museum_05_%2815230810367%29.jpg/1280px-Korea_National_Hangeul_Museum_05_%2815230810367%29.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">5 erreurs classiques de débutant en coréen</span>
+        <h2 class="b-title">5 erreurs classiques de débutant en coréen</h2>
         <span class="b-desc">은/는 confondu avec 이/가, banmal mélangé au jondaenmal... les erreurs les plus fréquentes, et comment les corriger.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 23 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -145,7 +205,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Korean.noodles-Mul.naengmyeon-01.jpg/1280px-Korean.noodles-Mul.naengmyeon-01.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du naengmyeon maison</span>
+        <h2 class="b-title">La vraie recette du naengmyeon maison</h2>
         <span class="b-desc">Version bouillon (물냉면) et version sauce (비빔냉면), avec le bon temps de cuisson des nouilles.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 22 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -154,7 +214,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/A_plate_of_Korean_fried_chicken_from_Choong_Man_Chicken_in_Lorton.jpg/1280px-A_plate_of_Korean_fried_chicken_from_Choong_Man_Chicken_in_Lorton.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du chikin ultra-croustillant</span>
+        <h2 class="b-title">La vraie recette du chikin ultra-croustillant</h2>
         <span class="b-desc">Pourquoi le frire deux fois, la bonne température d'huile, et le geste oublié avant la seconde friture.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 22 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -163,7 +223,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Samgye-tang_2.jpg/1280px-Samgye-tang_2.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du samgyetang maison</span>
+        <h2 class="b-title">La vraie recette du samgyetang maison</h2>
         <span class="b-desc">Comment farcir et ficeler le poulet pour qu'il garde sa forme, et quand ajouter le ginseng frais.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 21 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -172,7 +232,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Korean.cuisine-Samgyeopsal-01.jpg/1280px-Korean.cuisine-Samgyeopsal-01.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du samgyeopsal grillé</span>
+        <h2 class="b-title">La vraie recette du samgyeopsal grillé</h2>
         <span class="b-desc">La bonne température de poêle, pourquoi ne jamais mariner la viande, et comment la déguster en ssam.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 21 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -181,7 +241,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Korean_pancake-Pajeon-05.jpg/1280px-Korean_pancake-Pajeon-05.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du pajeon croustillant</span>
+        <h2 class="b-title">La vraie recette du pajeon croustillant</h2>
         <span class="b-desc">Le bon ratio de pâte, le nombre de coups de spatule à ne pas dépasser, et le geste du deuxième côté croustillant.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 20 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -190,7 +250,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Korean_cuisine-Japchae-04.jpg/1280px-Korean_cuisine-Japchae-04.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du japchae maison</span>
+        <h2 class="b-title">La vraie recette du japchae maison</h2>
         <span class="b-desc">Le vrai secret pour des nouilles de patate douce fermes au lieu de spongieuses en refroidissant.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 20 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -199,7 +259,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Korean.food-Bibimbap-02.jpg/1280px-Korean.food-Bibimbap-02.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du bibimbap maison</span>
+        <h2 class="b-title">La vraie recette du bibimbap maison</h2>
         <span class="b-desc">Les vrais dosages de la sauce gochujang et le geste que tout le monde oublie : assaisonner chaque légume séparément.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 19 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -208,7 +268,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Korean_stew-Kimchi_jjigae-01.jpg/1280px-Korean_stew-Kimchi_jjigae-01.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du kimchi-jjigae maison</span>
+        <h2 class="b-title">La vraie recette du kimchi-jjigae maison</h2>
         <span class="b-desc">Le ragoût réconfort des tables familiales — avec le vrai secret : utiliser un kimchi bien vieilli, pas un kimchi frais.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 19 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -217,7 +277,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Korean.food-Kimbap-03.jpg/1280px-Korean.food-Kimbap-03.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La recette du kimbap maison, comme dans l'histoire de Joon</span>
+        <h2 class="b-title">La recette du kimbap maison, comme dans l'histoire de Joon</h2>
         <span class="b-desc">La vraie recette du kimbap (김밥), pas à pas, avec les phrases exactes de notre histoire « Le kimbap de Joon ».</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 18 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -226,7 +286,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Korean.snacks-Tteokbokki-08.jpg/1280px-Korean.snacks-Tteokbokki-08.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">La vraie recette du tteokbokki maison</span>
+        <h2 class="b-title">La vraie recette du tteokbokki maison</h2>
         <span class="b-desc">Le classique sucré-piquant de la cuisine de rue coréenne — gâteaux de riz, sauce gochujang, et le réglage exact du piquant.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 18 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -235,7 +295,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Gangnam-daero_in_Seoul.jpg/1280px-Gangnam-daero_in_Seoul.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#0d9488"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> Voyage</span>
-        <span class="b-title">Les quartiers de Séoul : lequel visiter selon ce que tu cherches</span>
+        <h2 class="b-title">Les quartiers de Séoul : lequel visiter selon ce que tu cherches</h2>
         <span class="b-desc">Hongdae, Myeongdong, Gyeongbokgung, Itaewon : 4 quartiers expliqués simplement, avec le vocabulaire du métro et les phrases essentielles pour s'y repérer.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 18 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -244,7 +304,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Seoul-Dongdaemun.Market-01-Doota.jpg/1280px-Seoul-Dongdaemun.Market-01-Doota.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Faire du shopping en Corée : essayer, marchander, se faire rembourser</span>
+        <h2 class="b-title">Faire du shopping en Corée : essayer, marchander, se faire rembourser</h2>
         <span class="b-desc">입다, 신다, 쓰다 : pourquoi le coréen a trois verbes pour « porter », et les phrases essentielles pour essayer, payer et marchander en boutique.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 18 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -253,7 +313,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Korean_calligraphy-Hangul-01.jpg/1280px-Korean_calligraphy-Hangul-01.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">3 nuances grammaticales invisibles en français (mais essentielles en coréen)</span>
+        <h2 class="b-title">3 nuances grammaticales invisibles en français (mais essentielles en coréen)</h2>
         <span class="b-desc">Savoir ≠ pouvoir, ressentir ≠ déduire, un but avec ou sans déplacement : 3 distinctions que le français aplatit, mais que le coréen sépare toujours.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 9 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -262,7 +322,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Flagship_Branch_of_Hana_Bank.jpg/1280px-Flagship_Branch_of_Hana_Bank.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#0d9488"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg> Voyage</span>
-        <span class="b-title">Démarches administratives en Corée : banque, ARC et immigration</span>
+        <h2 class="b-title">Démarches administratives en Corée : banque, ARC et immigration</h2>
         <span class="b-desc">Carte de résident étranger, ouvrir un compte, 주민센터 : le guide pratique des démarches administratives pour vivre en Corée, avec les phrases essentielles.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 8 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -271,7 +331,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Yonsei_university_in_Seoul%2C_South_korea_04.JPG/1280px-Yonsei_university_in_Seoul%2C_South_korea_04.JPG" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Les verbes irréguliers coréens expliqués (ㅂ, ㄷ, ㅅ, 르, ㅎ)</span>
+        <h2 class="b-title">Les verbes irréguliers coréens expliqués (ㅂ, ㄷ, ㅅ, 르, ㅎ)</h2>
         <span class="b-desc">돕다→도와요, 듣다→들어요, 모르다→몰라요 : les 5 familles de verbes irréguliers expliquées simplement, avec les pièges à éviter.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 8 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 9 min</span>
       </div>
@@ -280,7 +340,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Korea_National_Hangeul_Museum_01_%2815230814937%29.jpg/1280px-Korea_National_Hangeul_Museum_01_%2815230814937%29.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Voix passive et causative en coréen : le duel qui piège tout le monde</span>
+        <h2 class="b-title">Voix passive et causative en coréen : le duel qui piège tout le monde</h2>
         <span class="b-desc">보이다 = « être vu » ou « montrer » ? La différence entre passif et causatif, avec le suffixe universel -게 하다 pour ne plus jamais te tromper.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 8 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -289,7 +349,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Korea_Chuseok_07logo_%288046066545%29.jpg/1280px-Korea_Chuseok_07logo_%288046066545%29.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M3 9h18"/><path d="M4 9c2-3 6-5 8-5s6 2 8 5"/><path d="M5 9v11"/><path d="M19 9v11"/><path d="M9 9v11"/><path d="M15 9v11"/><path d="M3 20h18"/></svg> Culture</span>
-        <span class="b-title">Seollal & Chuseok : les deux plus grandes fêtes coréennes</span>
+        <h2 class="b-title">Seollal & Chuseok : les deux plus grandes fêtes coréennes</h2>
         <span class="b-desc">세배, 세뱃돈, 떡국, 차례, 송편, la « grande migration » 민족대이동 — et comment un étranger vit ces fêtes en Corée.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 9 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -298,7 +358,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Heart-Shaped_Love_Locks_on_the_N_Seoul_Tower.jpg/1280px-Heart-Shaped_Love_Locks_on_the_N_Seoul_Tower.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-pink)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> Culture</span>
-        <span class="b-title">Je t'aime en coréen : 사랑해, 좋아해 et les nuances de l'amour</span>
+        <h2 class="b-title">Je t'aime en coréen : 사랑해, 좋아해 et les nuances de l'amour</h2>
         <span class="b-desc">사랑해 ou 좋아해 ? Les nuances que les sous-titres de K-drama ne traduisent jamais, les surnoms tendres et la phrase du coup de foudre.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 7 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -307,7 +367,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Korean_culture-Doljanchi-02.jpg/1280px-Korean_culture-Doljanchi-02.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Culture</span>
-        <span class="b-title">L'âge coréen expliqué : pourquoi tu as (eu) 1 ou 2 ans de plus</span>
+        <h2 class="b-title">L'âge coréen expliqué : pourquoi tu as (eu) 1 ou 2 ans de plus</h2>
         <span class="b-desc">세는나이, 만 나이, la réforme de 2023 : pourquoi les Coréens ont longtemps eu un ou deux ans de plus que le reste du monde.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 7 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -316,7 +376,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Daechi_Dongbo_Centreville_Apartment_Complex_1.jpg/1280px-Daechi_Dongbo_Centreville_Apartment_Complex_1.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#0d9488"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M3 9.5 12 3l9 6.5"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg> Voyage</span>
-        <span class="b-title">Se loger en Corée : jeonse, wolse et goshiwon expliqués</span>
+        <h2 class="b-title">Se loger en Corée : jeonse, wolse et goshiwon expliqués</h2>
         <span class="b-desc">Louer sans loyer grâce au jeonse, lire une annonce « 500/50 », éviter le demi sous-sol de Parasite — et visiter avec les bonnes phrases en coréen.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 7 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -325,7 +385,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Street_hongdae_Seoul.jpg/1280px-Street_hongdae_Seoul.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Culture</span>
-        <span class="b-title">Oppa, unnie, hyung, noona : qui appeler comment ?</span>
+        <h2 class="b-title">Oppa, unnie, hyung, noona : qui appeler comment ?</h2>
         <span class="b-desc">Le vrai sens des appellations que tu entends dans tous les K-dramas, qui peut les utiliser, et les 4 gaffes classiques des apprenants.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 7 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -334,7 +394,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Kyobo_bookstore%2C_Seoul.jpg/1280px-Kyobo_bookstore%2C_Seoul.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">TOPIK : quel niveau passer et comment s'y préparer</span>
+        <h2 class="b-title">TOPIK : quel niveau passer et comment s'y préparer</h2>
         <span class="b-desc">TOPIK I ou II ? Format, inscription depuis la France, plan de préparation — le guide de l'examen officiel de coréen.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 5 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -343,7 +403,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Namdaemun_Market_Alley.jpg/1280px-Namdaemun_Market_Alley.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Compter en coréen : les deux systèmes de nombres expliqués</span>
+        <h2 class="b-title">Compter en coréen : les deux systèmes de nombres expliqués</h2>
         <span class="b-desc">Pourquoi le coréen a DEUX façons de compter, laquelle utiliser pour les prix, l'âge ou l'heure — avec l'audio de chaque nombre.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 5 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -352,7 +412,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Korea_Spring_of_Insadong_08.jpg/1280px-Korea_Spring_of_Insadong_08.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg> Culture</span>
-        <span class="b-title">반말 vs 존댓말 : comprendre la politesse coréenne</span>
+        <h2 class="b-title">반말 vs 존댓말 : comprendre la politesse coréenne</h2>
         <span class="b-desc">Pourquoi les Coréens demandent ton âge, quand passer au langage familier, et les erreurs à éviter — avec exemples audio.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 5 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -361,7 +421,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Hunminjeongeumhaerye.jpg/1280px-Hunminjeongeumhaerye.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Le Hangeul en 7 jours : la méthode jour par jour</span>
+        <h2 class="b-title">Le Hangeul en 7 jours : la méthode jour par jour</h2>
         <span class="b-desc">L'alphabet coréen s'apprend en une semaine, à 20 minutes par jour. Le programme exact, avec l'audio de chaque lettre.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 5 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -370,7 +430,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Korea_National_Hangeul_Museum_03_%2815230759088%29.jpg/1280px-Korea_National_Hangeul_Museum_03_%2815230759088%29.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Les particules coréennes enfin claires : 은/는, 이/가, 을/를</span>
+        <h2 class="b-title">Les particules coréennes enfin claires : 은/는, 이/가, 을/를</h2>
         <span class="b-desc">은/는 ou 이/가 ? La différence expliquée simplement, avec des exemples audio — plus 을/를, 에 et 에서.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 5 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -379,7 +439,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Seoul-Myeongdong-02.jpg/1280px-Seoul-Myeongdong-02.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg> Culture</span>
-        <span class="b-title">12 mots coréens que tu connais déjà (sans le savoir)</span>
+        <h2 class="b-title">12 mots coréens que tu connais déjà (sans le savoir)</h2>
         <span class="b-desc">Kimchi, oppa, fighting, daebak… La preuve que tu as déjà un vocabulaire coréen, avec la vraie prononciation en audio.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 5 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -388,7 +448,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Korean_calligraphy-Hangul-01.jpg/1280px-Korean_calligraphy-Hangul-01.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Apprendre le coréen seul·e : le guide complet pour débuter</span>
+        <h2 class="b-title">Apprendre le coréen seul·e : le guide complet pour débuter</h2>
         <span class="b-desc">Hangeul, premiers mots, grammaire, oreille : la méthode pas à pas pour débuter en autodidacte, avec un plan concret pour ta première semaine.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 4 juillet 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 9 min</span>
       </div>
@@ -397,7 +457,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Night_View_%28127028137%29.jpeg/1280px-Night_View_%28127028137%29.jpeg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#0d9488"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> Voyage</span>
-        <span class="b-title">Préparer son premier voyage en Corée : le guide pratique</span>
+        <h2 class="b-title">Préparer son premier voyage en Corée : le guide pratique</h2>
         <span class="b-desc">Exemption K-ETA jusqu'à fin 2026, e-Arrival Card, T-money, Naver Map et 8 phrases de survie avec audio natif — l'essentiel vérifié avant de partir.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 12 juin 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -406,7 +466,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Korea-Jeonju-Bibimbap_festival-01.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:#dc2626"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M12 4c-1.5 1.5-1.5 3 0 4.5"/><path d="M8 5c-1 1-1 2 0 3"/><path d="M16 5c-1 1-1 2 0 3"/></svg> Cuisine</span>
-        <span class="b-title">10 plats coréens à goûter absolument (et comment les commander)</span>
+        <h2 class="b-title">10 plats coréens à goûter absolument (et comment les commander)</h2>
         <span class="b-desc">Du bibimbap au bingsu : les plats incontournables, leur niveau de piquant, et la phrase exacte pour les commander — avec prononciation audio native.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 12 juin 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
@@ -415,7 +475,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Royal_Guard_at_Gwanghwamun_Gate%2C_Gyeongbokgung%2C_Seoul.jpg/1280px-Royal_Guard_at_Gwanghwamun_Gate%2C_Gyeongbokgung%2C_Seoul.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M3 9h18"/><path d="M4 9c2-3 6-5 8-5s6 2 8 5"/><path d="M5 9v11"/><path d="M19 9v11"/><path d="M9 9v11"/><path d="M15 9v11"/><path d="M3 20h18"/></svg> Culture</span>
-        <span class="b-title">Étiquette coréenne : 12 usages pour se sentir à l'aise</span>
+        <h2 class="b-title">Étiquette coréenne : 12 usages pour se sentir à l'aise</h2>
         <span class="b-desc">Les deux mains, les chaussures, le pourboire, la place des aînés : les codes sociaux coréens expliqués sans clichés, utiles en voyage comme devant tes dramas.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 12 juin 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min</span>
       </div>
@@ -424,7 +484,7 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/N_Seoul_Tower_view_2.jpg/1280px-N_Seoul_Tower_view_2.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-purple)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Culture</span>
-        <span class="b-title">Apprendre le coréen avec les K-dramas : guide pratique</span>
+        <h2 class="b-title">Apprendre le coréen avec les K-dramas : guide pratique</h2>
         <span class="b-desc">Peut-on vraiment progresser en regardant des séries ? Oui — avec la bonne méthode. Sous-titres, expressions clés, pièges à éviter : le guide complet.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 23 juin 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min</span>
       </div>
@@ -433,30 +493,75 @@
       <div class="b-banner"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/King_sejong_the_great_gwanghwamun_square_police-859145.jpg" alt="" loading="lazy" decoding="async"></div>
       <div class="b-body">
         <span class="b-cat" style="color:var(--accent-blue)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Étudier</span>
-        <span class="b-title">Combien de temps pour apprendre le coréen ? Un plan réaliste</span>
+        <h2 class="b-title">Combien de temps pour apprendre le coréen ? Un plan réaliste</h2>
         <span class="b-desc">Hangeul en une semaine, conversation simple en 6 mois, B1 en 18 mois : des jalons honnêtes selon ton rythme, et le plan concret pour y arriver.</span>
         <span class="b-meta"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 12 juin 2026 · <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min</span>
       </div>
     </a>
   </div>
-  <p id="filterStatus" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">5 articles affichés</p>
+  <p id="filterStatus" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">articles affichés</p>
+  <p class="no-results" id="noResults">Aucun article ne correspond à ta recherche. Essaie un autre mot-clé, ou <button type="button" id="resetFilters" style="border:none;background:none;color:var(--gold-text,#8B6B3D);font-weight:700;font-size:inherit;font-family:inherit;cursor:pointer;padding:0;text-decoration:underline">réinitialise les filtres</button>.</p>
   <p class="soon">De nouveaux articles arrivent régulièrement — quartiers de Séoul, fêtes traditionnelles, K-dramas pour apprendre…<br/>Une idée de sujet ? Écris-nous : <a href="mailto:contact@koreanstories.fr" style="color:var(--gold-text,#8B6B3D);font-weight:700">contact@koreanstories.fr</a></p>
 </div></main></div>
 <script src="ks.js"></script>
 <script>
-document.querySelectorAll('.fchip').forEach(ch => ch.addEventListener('click', () => {
-  document.querySelectorAll('.fchip').forEach(c => { c.classList.remove('act'); c.setAttribute('aria-pressed','false'); });
-  ch.classList.add('act'); ch.setAttribute('aria-pressed','true');
-  const f = ch.dataset.f;
-  let shown = 0;
-  document.querySelectorAll('.b-card').forEach(card => {
-    const hide = f !== 'all' && card.dataset.cat !== f;
-    card.classList.toggle('hide', hide);
-    if (!hide) shown++;
+(function(){
+  const cards = Array.from(document.querySelectorAll('.b-card'));
+  const chips = Array.from(document.querySelectorAll('.fchip'));
+  const searchInput = document.getElementById('blogSearch');
+  const clearBtn = document.getElementById('searchClear');
+  const statusEl = document.getElementById('filterStatus');
+  const noResults = document.getElementById('noResults');
+  const statCount = document.getElementById('statCount');
+  if (statCount) statCount.textContent = cards.length;
+
+  const counts = {};
+  cards.forEach(c => { const cat = c.dataset.cat; if (cat) counts[cat] = (counts[cat]||0) + 1; });
+  chips.forEach(ch => {
+    const f = ch.dataset.f;
+    if (f && f !== 'all') {
+      const span = document.createElement('span');
+      span.className = 'fchip-count';
+      span.textContent = '(' + (counts[f]||0) + ')';
+      ch.appendChild(span);
+    }
   });
-  const st = document.getElementById('filterStatus');
-  if (st) st.textContent = shown + (shown > 1 ? ' articles affichés' : ' article affiché');
-}));
+
+  let activeCat = 'all';
+  function apply(){
+    const q = (searchInput.value || '').trim().toLowerCase();
+    clearBtn.classList.toggle('show', q.length > 0);
+    let shown = 0;
+    cards.forEach(card => {
+      const matchCat = activeCat === 'all' || card.dataset.cat === activeCat;
+      const matchQ = !q || (card.textContent || '').toLowerCase().includes(q);
+      const hide = !(matchCat && matchQ);
+      card.classList.toggle('hide', hide);
+      if (!hide) shown++;
+    });
+    if (statusEl) statusEl.textContent = shown + (shown > 1 ? ' articles affichés' : ' article affiché');
+    if (noResults) noResults.classList.toggle('show', shown === 0);
+  }
+
+  chips.forEach(ch => ch.addEventListener('click', () => {
+    chips.forEach(c => { c.classList.remove('act'); c.setAttribute('aria-pressed','false'); });
+    ch.classList.add('act'); ch.setAttribute('aria-pressed','true');
+    activeCat = ch.dataset.f;
+    apply();
+  }));
+  searchInput.addEventListener('input', apply);
+  clearBtn.addEventListener('click', () => { searchInput.value = ''; apply(); searchInput.focus(); });
+  const resetBtn = document.getElementById('resetFilters');
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    chips.forEach(c => { c.classList.remove('act'); c.setAttribute('aria-pressed','false'); });
+    const all = chips.find(c => c.dataset.f === 'all');
+    if (all) { all.classList.add('act'); all.setAttribute('aria-pressed','true'); }
+    activeCat = 'all';
+    apply();
+  });
+  apply();
+})();
 try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
 </script>
   <script src="ks-menu.js" defer></script>
