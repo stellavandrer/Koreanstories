@@ -905,7 +905,21 @@ const NEWSLETTER_CONTENT = {
       `<p>Le <strong>jjimjilbang</strong> (찜질방) est un établissement de bains publics et de sauna, immense institution du quotidien coréen. Zones de bains séparées par sexe, mais espaces communs (saunas, salle de repos, restauration) mixtes — ouverts jour et nuit.</p>
        <p>Le détail qui ne trompe pas : la fameuse serviette pliée en forme d'oreilles de mouton (<strong>양머리</strong>, yangmeori) que tout le monde porte sur la tête. On y trouve aussi des saunas à thème (sel, charbon, glace), et deux en-cas incontournables : l'œuf cuit à la vapeur et le <strong>sikhye</strong> (식혜), une boisson sucrée au riz.</p>
        <p>Beaucoup de Coréens y passent la nuit — moins cher qu'un hôtel, et un vrai moment de détente entre amis ou en famille, pas juste un lieu d'hygiène.</p>
-       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>찜질방 가자!</strong> (jjimjilbang gaja !) — « allons au jjimjilbang ! ».</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>찜질방 가자!</strong> (jjimjilbang gaja !) — « allons au jjimjilbang ! ».</p>` },
+    { subject: 'Le soju, une boisson qui suit ses propres règles de politesse', hangeul: '회식', title: 'Le soju & le hoesik',
+      hook: 'En Corée, refuser de servir le soju à deux mains à son patron n\'est pas un détail — c\'est une vraie faute de politesse.',
+      related: { label: 'L\'histoire complète du soju et des codes du hoesik, sur le blog.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-soju-hoesik-culture-coreenne.html', image: null }, html:
+      `<p>Le <strong>soju</strong> (소주) est l'alcool le plus vendu au monde en volume — devant la vodka — et pourtant presque personne n'en boit en dehors de la Corée. Distillé à l'origine à partir de riz, il titre aujourd'hui le plus souvent entre 16 et 20°, bien loin des 45° d'avant les années 1960.</p>
+       <p>Il est indissociable du <strong>hoesik</strong> (회식), le repas d'entreprise qui soude l'équipe autant qu'il entretient la hiérarchie — rarement en une seule étape : un dîner (1차), suivi très souvent d'un 2차 dans un bar ou un karaoké. S'y ajoutent des règles précises : on sert le verre du plus âgé à deux mains, et on détourne légèrement la tête pour boire devant un supérieur.</p>
+       <p>Autre incontournable des soirées coréennes : le <strong>somaek</strong> (소맥), mélange de soju et de bière — une tradition presque aussi codifiée que le service du soju pur.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한 잔 받으세요</strong> (han jan badeuseyo) — « acceptez un verre », la phrase-clé de tout hoesik.</p>` },
+    { subject: 'Pourquoi tous les hommes coréens disparaissent 18 à 21 mois', hangeul: '군대', title: 'Le service militaire',
+      hook: 'Chaque année, des dizaines de milliers de jeunes Coréens interrompent leur vie civile — carrière, études, groupe de K-pop compris.',
+      related: { label: 'Durées, grades, et pourquoi même des membres de BTS y sont passés — sur le blog.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-service-militaire-coree-armee.html', image: null }, html:
+      `<p>En Corée du Sud, le <strong>service militaire</strong> (군대, gundae) est obligatoire pour presque tous les hommes valides, en général entre 18 et 21 mois selon l'arme choisie — conséquence directe de l'armistice de 1953 avec la Corée du Nord, jamais suivi d'un traité de paix.</p>
+       <p>Le sujet dépasse largement l'armée elle-même : plusieurs acteurs et membres de groupes de K-pop ont dû suspendre leur carrière le temps de leur service, un vrai événement médiatique à chaque fois. Il a aussi donné naissance à tout un folklore partagé, les <strong>군대 이야기</strong> (« histoires d'armée ») que tout homme coréen raconte (et enjolive) toute sa vie.</p>
+       <p>Expression culte qui en découle : <strong>고무신 거꾸로 신다</strong> (gomusin geokkuro sinda), « porter ses chaussons en caoutchouc à l'envers » — désigne une compagne qui rompt unilatéralement pendant le service de son copain.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>말년</strong> (mallyeon) — la dernière ligne droite du service, réputée la période la plus détendue.</p>` }
   ],
   histoire: [
     { subject: 'Le roi qui a inventé un alphabet pour que tout le monde sache lire', hangeul: '세종대왕', title: 'Le roi Sejong le Grand',
@@ -949,7 +963,14 @@ const NEWSLETTER_CONTENT = {
       `<p>En 1910, la Corée est annexée par le Japon, qui met fin à la dynastie Joseon. Le 1er mars 1919, 33 représentants coréens lisent publiquement à Séoul une <strong>déclaration d'indépendance</strong> (독립선언서) — le point de départ d'un mouvement de protestation pacifique sans précédent.</p>
        <p>Des manifestations éclatent dans presque toutes les provinces du pays, réunissant selon les estimations près de deux millions de participants dans les semaines qui suivent — réprimées avec une grande brutalité par les autorités coloniales japonaises.</p>
        <p>Ce mouvement mène directement à la création d'un gouvernement provisoire coréen en exil à Shanghai. <strong>Yu Gwan-sun</strong> (유관순), lycéenne activiste morte en prison après y avoir participé, est aujourd'hui une héroïne nationale étudiée par tous les écoliers.</p>
-       <p style="font-size:13px;color:#475E78">Le 1er mars (삼일절, Samiljeol) est un jour férié en Corée du Sud, en mémoire de ce mouvement.</p>` }
+       <p style="font-size:13px;color:#475E78">Le 1er mars (삼일절, Samiljeol) est un jour férié en Corée du Sud, en mémoire de ce mouvement.</p>` },
+    { subject: 'La ville que les Coréens surnomment « le musée sans toit »', hangeul: '경주', title: 'Gyeongju, capitale de Silla',
+      hook: 'Pendant près de mille ans, cette ville a été la capitale d\'un royaume entier — aujourd\'hui, on peut encore marcher sur ses vestiges, en pleine rue.',
+      related: { label: 'Le guide complet de Gyeongju, l\'ancienne capitale de Silla — sur le blog.', cta: 'Lire le guide', url: 'https://koreanstories.fr/blog-gyeongju-guide-voyage.html', image: null }, html:
+      `<p><strong>Gyeongju</strong> (경주) fut la capitale du royaume de <strong>Silla</strong> (신라) pendant près de mille ans, de 57 av. J.-C. jusqu'à sa chute en 935 apr. J.-C. — l'un des Trois Royaumes qui se partageaient autrefois la péninsule coréenne.</p>
+       <p>Les Coréens la surnomment <strong>지붕 없는 박물관</strong> (jibung eomneun bangmulgwan), « le musée sans toit » : les vestiges archéologiques (temples, tombeaux royaux, observatoire) y sont si nombreux qu'on en croise à ciel ouvert, en pleine ville, sans qu'aucun bâtiment de musée ne les encadre.</p>
+       <p>Parmi les incontournables : les temples <strong>Bulguksa</strong> et <strong>Seokguram</strong> (classés UNESCO, entrée gratuite depuis 2023), les tumulus royaux de <strong>Daereungwon</strong>, et le bassin de <strong>Donggung Wolji</strong> — l'un des plus beaux reflets nocturnes du pays, pavillons illuminés doublés dans l'eau.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>지붕 없는 박물관</strong> (jibung eomneun bangmulgwan) — le surnom de Gyeongju, « le musée sans toit ».</p>` }
   ],
   actu: [
     { subject: 'La Hallyu : comment la Corée a conquis le monde', hangeul: '한류', title: 'La vague coréenne',
@@ -989,7 +1010,7 @@ const NEWSLETTER_CONTENT = {
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>데뷔</strong> (debwi, de l'anglais « debut ») — le grand jour où un trainee devient enfin officiellement idol.</p>` },
     { subject: 'Ces mots « anglais » que seuls les Coréens comprennent', hangeul: '콩글리시', title: 'Le Konglish',
       hook: 'Si tu commandes un « hand-phone » ou demandes le « service » en Corée, tu parles peut-être déjà un peu konglish sans le savoir.',
-      related: { label: 'Découvre ces mots « anglais » qui n\'existent qu\'en coréen.', cta: 'Lire l\'anecdote', url: 'https://koreanstories.fr/anecdote20.html', image: null }, html:
+      related: { label: 'Le blog explore 20 mots konglish et 2 vagues d\'histoire linguistique, de 하드캐리 à 화이팅.', cta: 'Lire l\'article complet', url: 'https://koreanstories.fr/blog-konglish-mots-anglais-coreens.html', image: null }, html:
       `<p>Le <strong>konglish</strong> (콩글리시, contraction de 한국 « Corée » et « English ») désigne des mots empruntés à l'anglais, mais utilisés en coréen avec un sens différent — ou carrément inventés.</p>
        <p>Exemples : <strong>핸드폰</strong> (haendeu-pon, « hand phone ») pour téléphone portable, <strong>서비스</strong> (seobiseu, « service ») pour un petit cadeau offert par un commerce (pas le service client !), ou <strong>아이쇼핑</strong> (ai-syoping, « eye shopping ») pour le lèche-vitrines.</p>
        <p>Ce ne sont pas des erreurs : c'est une vraie composante créative du coréen parlé moderne — et de quoi surprendre un anglophone la première fois qu'il les entend.</p>
