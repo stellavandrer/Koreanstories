@@ -221,13 +221,13 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
       <img src="img/vocab/loisir-cuisine.webp" alt="Quelqu'un qui cuisine" loading="lazy" width="58" height="58">
     </div>
     <div class="steps-row">
-      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>어휘/문법 · 8 min</div>
-      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></div>듣기 · 8 min</div>
-      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>읽기 · 12 min</div>
+      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>어휘/문법 · 12 min</div>
+      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></div>듣기 · 12 min</div>
+      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>읽기 · 16 min</div>
     </div>
     <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel — le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel.</div>
     <button class="btn-start" onclick="startExam()">Commencer l'examen →</button>
-    <p class="intro-note">38 questions tirées au sort à chaque tentative · ~28 min au total · aucune inscription requise</p>
+    <p class="intro-note">56 questions tirées au sort à chaque tentative · ~40 min au total · aucune inscription requise</p>
   </div>
 </div>
 
@@ -442,9 +442,9 @@ const READING_POOL=[
 
 /* ═══════ ÉTAT ═══════ */
 const SECTIONS = [
-  {key:'grammar', label:'어휘 및 문법', name:'Vocabulaire & Grammaire', duration:8*60, icon:'grammar'},
-  {key:'listen',  label:'듣기',         name:'Écoute',                    duration:8*60, icon:'listen'},
-  {key:'read',    label:'읽기',         name:'Lecture',                    duration:12*60, icon:'read'}
+  {key:'grammar', label:'어휘 및 문법', name:'Vocabulaire & Grammaire', duration:12*60, icon:'grammar'},
+  {key:'listen',  label:'듣기',         name:'Écoute',                    duration:12*60, icon:'listen'},
+  {key:'read',    label:'읽기',         name:'Lecture',                    duration:16*60, icon:'read'}
 ];
 let secIdx = 0;
 let qIdx = 0;
@@ -467,15 +467,15 @@ function shuffled(arr){
 
 function buildQueue(sectionKey){
   if(sectionKey==='grammar'){
-    return shuffled(GRAMMAR_POOL).slice(0,12).map(q => ({type:'grammar', q:q.q, hint:q.hint, opts:q.opts, ans:q.ans}));
+    return shuffled(GRAMMAR_POOL).slice(0,18).map(q => ({type:'grammar', q:q.q, hint:q.hint, opts:q.opts, ans:q.ans}));
   }
   if(sectionKey==='listen'){
     const textItems = LISTEN_POOL.map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
     const picItems = LISTEN_PIC_POOL.map(q => ({type:'listen-pic', q:q.q, kr:q.kr, imgs:q.imgs, ans:q.ans}));
-    return shuffled(textItems.concat(picItems)).slice(0,12);
+    return shuffled(textItems.concat(picItems)).slice(0,18);
   }
   if(sectionKey==='read'){
-    const passages = shuffled(READING_POOL).slice(0,7);
+    const passages = shuffled(READING_POOL).slice(0,10);
     const out = [];
     passages.forEach(p => {
       p.questions.forEach((q,i) => {
