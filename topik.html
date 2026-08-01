@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Examen blanc TOPIK — Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/topik.html"/>
-<meta name="description" content="Examen blanc façon TOPIK, gratuit et chronométré : vocabulaire/grammaire, écoute et lecture. Estimation de ton niveau (1 à 6) en fin de test."/>
+<meta name="description" content="Examens blancs TOPIK I et TOPIK II, gratuits et chronométrés : écoute, lecture & grammaire, écriture (TOPIK II). Estimation de ton niveau à la fin."/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
 <link rel="stylesheet" href="design.css"/>
 <style>
@@ -37,6 +37,26 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 .btn-start:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(201,169,110,.44)}
 .btn-start:active{transform:scale(.97)}
 .intro-note{margin-top:16px;font-size:11px;color:rgba(247,248,250,.25)}
+
+.track-grid{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;justify-content:center;max-width:640px}
+.track-card{flex:1;min-width:230px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:20px;padding:24px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;transition:border-color .2s}
+.track-card:hover{border-color:rgba(201,169,110,.4)}
+.track-tag{font-size:11px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.track-title{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px;color:white}
+.track-desc{font-size:12.5px;color:rgba(247,248,250,.55);line-height:1.6;margin-bottom:16px;min-height:38px}
+.track-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.track-chip{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:600;color:rgba(247,248,250,.7)}
+.btn-track{width:100%;padding:14px 20px;font-size:13.5px}
+.track-note{margin-top:12px;font-size:10.5px;color:rgba(247,248,250,.35)}
+@media(max-width:480px){.track-grid{flex-direction:column;align-items:stretch}}
+
+/* ── section écriture (pratique libre, TOPIK II) ── */
+.write-input{width:100%;padding:15px 18px;border-radius:14px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:white;font-size:16px;font-family:'Noto Sans KR',sans-serif}
+.write-input:focus{outline:none;border-color:var(--gold)}
+.write-reveal{margin-top:14px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:14px;padding:16px 18px}
+.write-reveal .wr-label{font-size:11px;font-weight:800;color:#86efac;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.write-reveal .wr-answer{font-family:'Noto Sans KR',sans-serif;font-size:19px;font-weight:700;color:white;margin-bottom:8px}
+.write-reveal .wr-hint{font-size:12.5px;color:rgba(247,248,250,.6)}
 
 /* ── QUIZ ── */
 #quizScreen{padding:0;flex:1}
@@ -212,7 +232,7 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
     <div class="intro-badge"><span></span>Gratuit · Chronométré · Style TOPIK</div>
     <h1 class="intro-h1">Examen blanc<br/><em>façon TOPIK</em></h1>
-    <p class="intro-sub">Un test chronométré en 3 parties — vocabulaire &amp; grammaire, écoute, lecture — pour t'entraîner dans les conditions du vrai examen. Estimation de ton niveau (1 à 6) à la fin.</p>
+    <p class="intro-sub">Deux vrais formats d'examen, comme le TOPIK officiel — choisis ton niveau pour t'entraîner dans des conditions proches du vrai test.</p>
     <div class="intro-img-row">
       <img src="img/vocab/resto-samgyeopsal.webp" alt="Du samgyeopsal" loading="lazy" width="58" height="58">
       <img src="img/vocab/ex5-coffee.webp" alt="Une tasse de café" loading="lazy" width="58" height="58">
@@ -220,14 +240,32 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
       <img src="img/vocab/famille-doctor.webp" alt="Un médecin" loading="lazy" width="58" height="58">
       <img src="img/vocab/loisir-cuisine.webp" alt="Quelqu'un qui cuisine" loading="lazy" width="58" height="58">
     </div>
-    <div class="steps-row">
-      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>어휘/문법 · 12 min</div>
-      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></div>듣기 · 12 min</div>
-      <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>읽기 · 16 min</div>
+    <div class="track-grid">
+      <div class="track-card">
+        <div class="track-tag">TOPIK I · 초급</div>
+        <h3 class="track-title">Niveaux 1-2</h3>
+        <p class="track-desc">Débutant. Écoute et lecture uniquement, comme le vrai TOPIK I — pas d'épreuve d'écriture à ce niveau.</p>
+        <div class="track-chips">
+          <span class="track-chip">듣기 · 13 min</span>
+          <span class="track-chip">읽기 · 20 min</span>
+        </div>
+        <button class="btn-start btn-track" onclick="startExam('I')">Passer le TOPIK I →</button>
+        <p class="track-note">48 questions tirées au sort · ~33 min</p>
+      </div>
+      <div class="track-card">
+        <div class="track-tag">TOPIK II · 중고급</div>
+        <h3 class="track-title">Niveaux 3-6</h3>
+        <p class="track-desc">Intermédiaire à avancé. Écoute, écriture (pratique libre) et lecture &amp; grammaire.</p>
+        <div class="track-chips">
+          <span class="track-chip">듣기 · 10 min</span>
+          <span class="track-chip">쓰기 · 8 min</span>
+          <span class="track-chip">읽기 · 16 min</span>
+        </div>
+        <button class="btn-start btn-track" onclick="startExam('II')">Passer le TOPIK II →</button>
+        <p class="track-note">31 questions notées + 6 pratiques · ~34 min</p>
+      </div>
     </div>
-    <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel — le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel.</div>
-    <button class="btn-start" onclick="startExam()">Commencer l'examen →</button>
-    <p class="intro-note">56 questions tirées au sort à chaque tentative · ~40 min au total · aucune inscription requise</p>
+    <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel — le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel. La partie écriture du TOPIK II est une pratique libre avec réponse modèle à comparer : la correction automatique d'une rédaction libre n'est pas fiable, donc elle n'est pas notée.</div>
   </div>
 </div>
 
@@ -252,6 +290,11 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
       <div class="q-tts" id="qTts"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>Tu peux réécouter autant de fois que tu veux</div>
     </div>
     <div class="opts-grid" id="optsGrid"></div>
+    <div id="writeArea" style="display:none">
+      <input type="text" id="writeInput" class="write-input" placeholder="Écris ta réponse ici… (pratique libre)" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button class="review-toggle" id="writeRevealBtn" onclick="revealWriting()" style="margin-top:14px">Voir la réponse modèle</button>
+      <div id="writeReveal" class="write-reveal" style="display:none"></div>
+    </div>
     <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Continuer →</button>
   </div>
 </div>
@@ -285,7 +328,7 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
   <div class="review-list" id="reviewList"></div>
   <p class="result-caveat">Estimation indicative basée sur ce mini-examen d'entraînement — pas un score TOPIK officiel. Le vrai TOPIK évalue aussi l'expression écrite (TOPIK II) et dure bien plus longtemps.</p>
   <div class="result-ctas" id="resultCtas">
-    <button class="cta-main" onclick="startExam()">Refaire l'examen (questions différentes)</button>
+    <button class="cta-main" onclick="startExam(currentTrack)">Refaire ce TOPIK (questions différentes)</button>
     <a class="cta-sec" href="grammaire.html">Revoir la grammaire →</a>
   </div>
 </div>
@@ -323,7 +366,15 @@ const GRAMMAR_POOL=[
   {lvl:'b1',q:'Ton ami bâille sans arrêt. Tu en déduis :',hint:null,opts:['피곤해요','피곤한가 봐요','피곤하고 싶어요','피곤할 거예요'],ans:1},
   {lvl:'b2',q:'« Apprendre le coréen, c\'est amusant » :',hint:null,opts:['한국어 배우기가 재미있어요','한국어 배워서 재미있어요','한국어 배우면 재미있어요','한국어 배우고 재미있어요'],ans:0},
   {lvl:'b2',q:'« Même s\'il pleut, j\'irai » :',hint:null,opts:['비가 오면 갈 거예요','비가 오니까 갈 거예요','비가 와서 갈 거예요','비가 와도 갈 거예요'],ans:3},
-  {lvl:'a2',q:'Tu proposes à un ami de jouer ensemble : « Tu veux jouer avec moi ? »',hint:null,opts:['같이 게임 할게요','같이 게임 할래요?','같이 게임하나 봐요','같이 게임해야 해요'],ans:1}
+  {lvl:'a2',q:'Tu proposes à un ami de jouer ensemble : « Tu veux jouer avec moi ? »',hint:null,opts:['같이 게임 할게요','같이 게임 할래요?','같이 게임하나 봐요','같이 게임해야 해요'],ans:1},
+  {lvl:'a1',q:'Comment dit-on « J\'ai vingt ans » ? (20 devant 살 prend une forme spéciale)',hint:'스물 → 스무 devant un compteur comme 살',opts:['저는 이십 살이에요','저는 스무 살이에요','저는 스물 살이에요','저는 이십살이 돼요'],ans:1},
+  {lvl:'a1',q:'Comment dit-on « Il est trois heures » ? (l\'heure se dit toujours avec les nombres natifs coréens)',hint:'셋 → 세 devant 시, jamais 삼 시',opts:['삼 시예요','세 시예요','서이 시예요','삼시간이에요'],ans:1},
+  {lvl:'a1',q:'Comment dit-on « Ça coûte cinq mille wons » ? (les prix se disent toujours avec les nombres sino-coréens)',hint:'오천 원, jamais un nombre natif',opts:['다섯천 원이에요','오천 원이에요','다섯 원이에요','오 원이에요'],ans:1},
+  {lvl:'a2',q:'Comment lit-on le numéro 010-1234 en coréen ? (chiffre par chiffre, en sino-coréen, 0 = 공)',hint:'공일공에 일이삼사',opts:['공일공에 일이삼사','십에 일천이백삼십사','열에 천이백삼십사','제로텐 원투쓰리포'],ans:0},
+  {lvl:'a1',q:'Comment dit-on « quatre personnes » ? (compteur 명, nombre natif)',hint:'넷 → 네 devant 명',opts:['사 명이에요','네 명이에요','넷 명이에요','사람 넷이에요'],ans:1},
+  {lvl:'a2',q:'Comment dit-on « Je suis né(e) en 1998 » ? (les années se disent toujours en sino-coréen)',hint:'천구백구십팔 년',opts:['천구백구십팔 년에 태어났어요','일아홉아홉여덟 년에 태어났어요','천구백구십팔이에요','아흔여덟 년에 태어났어요'],ans:0},
+  {lvl:'a1',q:'Pour commander « Un café, s\'il vous plaît » (compteur 잔, nombre natif)',hint:'하나 → 한 devant un compteur',opts:['일 잔 주세요','한 잔 주세요','하나 잔 주세요','일개 주세요'],ans:1},
+  {lvl:'a1',q:'Comment dit-on « Mon anniversaire est le 5 mars » ? (mois et jour se disent en sino-coréen)',hint:'삼월 오일',opts:['다섯째 셋 달이에요','삼월 오일이에요','세 월 다섯 일이에요','삼 오일이에요'],ans:1}
 ];
 
 const LISTEN_POOL=[
@@ -413,15 +464,125 @@ const LISTEN_PIC_POOL=[
     {src:'img/vocab/famille-doctor.webp',alt:'Un médecin'},
     {src:'img/vocab/transport-station.webp',alt:'Une gare'},
     {src:'img/vocab/ex5-house.webp',alt:'Une maison'}
-  ],ans:2}
+  ],ans:2},
+  {kr:'손목시계',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-watch.webp',alt:'Une montre'},
+    {src:'img/vocab/topik-wallet.webp',alt:'Un portefeuille'},
+    {src:'img/vocab/ex5-flowers.webp',alt:'Des fleurs'},
+    {src:'img/vocab/transport-taxi.webp',alt:'Un taxi'}
+  ],ans:0},
+  {kr:'우산',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-book.webp',alt:'Un livre'},
+    {src:'img/vocab/topik-umbrella.webp',alt:'Un parapluie'},
+    {src:'img/vocab/magasin-shoes.webp',alt:'Des chaussures'},
+    {src:'img/vocab/topik-bed.webp',alt:'Un lit'}
+  ],ans:1},
+  {kr:'지갑',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-watch.webp',alt:'Une montre'},
+    {src:'img/vocab/ex5-bag.webp',alt:'Un sac'},
+    {src:'img/vocab/topik-wallet.webp',alt:'Un portefeuille'},
+    {src:'img/vocab/topik-phone.webp',alt:'Un téléphone'}
+  ],ans:2},
+  {kr:'자물쇠',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-wallet.webp',alt:'Un portefeuille'},
+    {src:'img/vocab/topik-phone.webp',alt:'Un téléphone'},
+    {src:'img/vocab/topik-lock.webp',alt:'Un cadenas'},
+    {src:'img/vocab/transport-taxi.webp',alt:'Un taxi'}
+  ],ans:2},
+  {kr:'컴퓨터',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-tv.webp',alt:'Une télévision'},
+    {src:'img/vocab/topik-laptop.webp',alt:'Un ordinateur portable'},
+    {src:'img/vocab/topik-desk.webp',alt:'Un bureau'},
+    {src:'img/vocab/resto-menu.webp',alt:'Un menu de restaurant'}
+  ],ans:1},
+  {kr:'책상',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-bed.webp',alt:'Un lit'},
+    {src:'img/vocab/loisir-cuisine.webp',alt:'Quelqu\'un qui cuisine'},
+    {src:'img/vocab/topik-desk.webp',alt:'Un bureau'},
+    {src:'img/vocab/topik-window.webp',alt:'Une fenêtre'}
+  ],ans:2},
+  {kr:'침대',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-desk.webp',alt:'Un bureau'},
+    {src:'img/vocab/topik-door.webp',alt:'Une porte d\'entrée'},
+    {src:'img/vocab/ex5-house.webp',alt:'Une maison'},
+    {src:'img/vocab/topik-bed.webp',alt:'Un lit'}
+  ],ans:3},
+  {kr:'버스',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/transport-taxi.webp',alt:'Un taxi'},
+    {src:'img/vocab/transport-metro.webp',alt:'Le métro'},
+    {src:'img/vocab/topik-fridge.webp',alt:'Un réfrigérateur'},
+    {src:'img/vocab/topik-bus.webp',alt:'Un bus'}
+  ],ans:3},
+  {kr:'병',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-milk.webp',alt:'Une brique de lait'},
+    {src:'img/vocab/ex5-coffee.webp',alt:'Une tasse de café'},
+    {src:'img/vocab/topik-watch.webp',alt:'Une montre'},
+    {src:'img/vocab/topik-bottle.webp',alt:'Une bouteille'}
+  ],ans:3},
+  {kr:'우유',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-bottle.webp',alt:'Une bouteille'},
+    {src:'img/vocab/topik-milk.webp',alt:'Une brique de lait'},
+    {src:'img/vocab/ex5-coffee.webp',alt:'Une tasse de café'},
+    {src:'img/vocab/resto-menu.webp',alt:'Un menu de restaurant'}
+  ],ans:1},
+  {kr:'사전',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/famille-doctor.webp',alt:'Un médecin'},
+    {src:'img/vocab/topik-tv.webp',alt:'Une télévision'},
+    {src:'img/vocab/topik-book.webp',alt:'Un livre'},
+    {src:'img/vocab/ex5-flowers.webp',alt:'Des fleurs'}
+  ],ans:2},
+  {kr:'창문',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-door.webp',alt:'Une porte d\'entrée'},
+    {src:'img/vocab/ex5-sky.webp',alt:'Le ciel'},
+    {src:'img/vocab/topik-desk.webp',alt:'Un bureau'},
+    {src:'img/vocab/topik-window.webp',alt:'Une fenêtre'}
+  ],ans:3},
+  {kr:'현관문',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-window.webp',alt:'Une fenêtre'},
+    {src:'img/vocab/ex5-house.webp',alt:'Une maison'},
+    {src:'img/vocab/topik-bed.webp',alt:'Un lit'},
+    {src:'img/vocab/topik-door.webp',alt:'Une porte d\'entrée'}
+  ],ans:3},
+  {kr:'텔레비전',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-laptop.webp',alt:'Un ordinateur portable'},
+    {src:'img/vocab/topik-tv.webp',alt:'Une télévision'},
+    {src:'img/vocab/topik-phone.webp',alt:'Un téléphone'},
+    {src:'img/vocab/topik-fridge.webp',alt:'Un réfrigérateur'}
+  ],ans:1},
+  {kr:'냉장고',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-tv.webp',alt:'Une télévision'},
+    {src:'img/vocab/resto-menu.webp',alt:'Un menu de restaurant'},
+    {src:'img/vocab/topik-fridge.webp',alt:'Un réfrigérateur'},
+    {src:'img/vocab/topik-bus.webp',alt:'Un bus'}
+  ],ans:2},
+  {kr:'전화기',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/topik-laptop.webp',alt:'Un ordinateur portable'},
+    {src:'img/vocab/topik-watch.webp',alt:'Une montre'},
+    {src:'img/vocab/topik-wallet.webp',alt:'Un portefeuille'},
+    {src:'img/vocab/topik-phone.webp',alt:'Un téléphone'}
+  ],ans:3}
+];
+
+/* Pratique d'écriture façon TOPIK II (51-52번, complétion de phrase) — pas de
+   notation automatique fiable pour de la rédaction libre : l'apprenant compare
+   sa réponse à une réponse modèle plutôt que d'être noté juste/faux. */
+const WRITING_POOL=[
+  {context:'문자 메시지 — 민수야, 오늘 저녁에 시간 있어? 같이 저녁 ( ___ )? 새로 생긴 식당에 가 보고 싶어.', hint:'제안/초대의 비격식 표현 (-을래?)', answer:'먹을래'},
+  {context:'안내문 — 이 건물은 화재 예방을 위해 매달 첫째 주 금요일에 소방 훈련을 ( ___ ). 훈련 시간은 오전 10시부터 30분간입니다.', hint:'공식적인 안내문에 쓰이는 표현', answer:'실시합니다'},
+  {context:'편지 — 할머니, 그동안 잘 ( ___ )? 저는 요즘 회사 일이 바빠서 자주 연락을 못 드렸어요. 죄송해요.', hint:'웃어른께 안부를 묻는 높임 표현', answer:'지내셨어요'},
+  {context:'일기 — 오늘 아침에 늦잠을 ( ___ ) 회사에 지각했다. 다음부터는 일찍 자야겠다.', hint:'이유를 나타내는 연결 표현 (-아서/어서)', answer:'자서'},
+  {context:'공지 — 회원 가입을 ( ___ ) 할인 쿠폰을 받으실 수 있습니다. 지금 바로 가입해 보세요.', hint:'조건을 나타내는 높임 표현 (-으시면)', answer:'하시면'},
+  {context:'대화 — 가: 지연 씨가 다음 달에 이사한다고 들었어요. 나: 네, 회사 근처로 이사를 ( ___ ) 하더라고요.', hint:'들은 내용을 전달하는 간접화법', answer:'간다고'},
+  {context:'설명문 — 이 다리는 100년 전에 ( ___ ). 지금도 많은 사람들이 이용하고 있습니다.', hint:'피동 표현 (짓다 → 지어지다)', answer:'지어졌습니다'},
+  {context:'안내문 — 이 약은 두통을 ( ___ ) 위해 만들어진 약입니다. 하루 세 번 식후에 드세요.', hint:'목적을 나타내는 표현 (-기 위해)', answer:'줄이기'}
 ];
 
 const READING_POOL=[
   {lvl:'a1',title:'나의 하루',sentences:['아침에 일어나요','화장실에 가요','세수하고 양치해요','아침을 먹어요','밥과 달걀을 먹어요','커피를 마셔요','회사에 가요','아홉시부터 여섯시까지 일해요','저녁에 집에 돌아와요','가족과 저녁을 먹어요','텔레비전을 보고 책을 읽어요','밤에 자요'],questions:[{q:'Que fait-on en premier le matin selon l\'histoire ?',opts:['On mange','On se lève','On va au travail','On lit'],ans:1},{q:'Qu\'est-ce qu\'on mange au petit-déjeuner ?',opts:['Du pain','De la soupe','Du riz et des œufs','Des pâtes'],ans:2}]},
   {lvl:'a1',title:'우리 가족',sentences:['우리 가족은 네 명이에요','아버지 어머니 오빠 그리고 저예요','아버지는 회사원이에요','어머니는 선생님이에요','오빠는 대학생이에요','스물두 살이에요','매일 저녁에 함께 먹어요','우리 가족은 행복해요'],questions:[{q:'Combien de personnes composent la famille ?',opts:['Deux','Trois','Quatre','Cinq'],ans:2},{q:'Quelle est la profession de la mère ?',opts:['Médecin','Cuisinière','Employée de bureau','Professeure'],ans:3}]},
   {lvl:'a1',title:'한국의 날씨',sentences:['한국에는 사계절이 있어요','봄은 따뜻하고 좋아요','여름은 덥고 습해요','칠월에 비가 많이 와요','가을은 시원하고 단풍이 예뻐요','가을에는 하늘이 파래요','겨울은 추워요','서울에 가끔 눈이 와요'],questions:[{q:'Combien de saisons y a-t-il en Corée ?',opts:['Deux','Trois','Quatre','Une seule'],ans:2},{q:'Comment est l\'été en Corée ?',opts:['Froid et sec','Chaud et humide','Frais et pluvieux','Doux et venteux'],ans:1}]},
-  {lvl:'a1',title:'시장에서 쇼핑',sentences:['오늘은 시장에 가요','시장은 우리 집 근처에 있어요','사과와 바나나를 사요','얼마예요 오천 원이에요','채소도 사요','당근과 양파요','아저씨가 친절해요','조금 더 주세요 감사해요'],questions:[{q:'Où va le narrateur aujourd\'hui ?',opts:['À l\'école','Au supermarché','Au marché','Au restaurant'],ans:2},{q:'Combien coûtent les fruits ?',opts:['3 000 wons','5 000 wons','7 000 wons','10 000 wons'],ans:1}]},
-  {lvl:'a1',title:'나의 학교',sentences:['저는 학생이에요 학교가 커요','수업은 아홉 시에 시작해요','국어와 수학을 좋아해요','과학은 어려워요','친구들이 친절해요','우리는 식당에서 같이 먹어요','학교 후에 도서관에 가요','여섯 시까지 공부해요'],questions:[{q:'À quelle heure commencent les cours ?',opts:['8h','9h','10h','11h'],ans:1},{q:'Quelle matière est difficile ?',opts:['Le coréen','Les mathématiques','Les sciences','L\'histoire'],ans:2}]},
+  {lvl:'a1',title:'시장에서 쇼핑',sentences:['오늘은 시장에 가요','시장은 우리 집 근처에 있어요','사과와 바나나를 사요','얼마예요 오천 원이에요','채소도 사요','당근과 양파요','아저씨가 친절해요','조금 더 주세요 감사해요'],questions:[{q:'Où va le narrateur aujourd\'hui ?',opts:['À l\'école','Au supermarché','Au marché','Au restaurant'],ans:2},{q:'Combien coûtent les fruits ? (relis bien le nombre en coréen dans le texte)',opts:['삼천 원','오천 원','칠천 원','만 원'],ans:1}]},
+  {lvl:'a1',title:'나의 학교',sentences:['저는 학생이에요 학교가 커요','수업은 아홉 시에 시작해요','국어와 수학을 좋아해요','과학은 어려워요','친구들이 친절해요','우리는 식당에서 같이 먹어요','학교 후에 도서관에 가요','여섯 시까지 공부해요'],questions:[{q:'À quelle heure commencent les cours ? (relis bien l\'heure en coréen dans le texte)',opts:['여덟 시','아홉 시','열 시','열한 시'],ans:1},{q:'Quelle matière est difficile ?',opts:['Le coréen','Les mathématiques','Les sciences','L\'histoire'],ans:2}]},
   {lvl:'a1',title:'반려동물',sentences:['저는 강아지가 있어요 이름은 몽구예요','몽구는 하얗고 귀여워요','매일 아침 공원에서 산책해요','몽구는 아주 빨리 달려요','하루에 두 번 먹어요','간식을 좋아해요','저녁에 제 방에서 자요','몽구는 제 가장 친구예요'],questions:[{q:'Comment s\'appelle le chien ?',opts:['Baeksol','Monggu','Harang','Dori'],ans:1},{q:'Où le narrateur promène-t-il son chien ?',opts:['Dans la rue','Au marché','Au parc','À la plage'],ans:2}]},
   {lvl:'a2',title:'서울 여행',sentences:['지난주에 서울에 갔어요 처음이었어요','아침에 KTX를 타고 출발했어요','경복궁을 구경했어요 사람이 많았어요','한복을 입은 관광객들이 사진을 찍었어요','남대문 시장에서 떡볶이를 먹었어요','매웠지만 정말 맛있었어요','저녁에 한강을 봤어요 정말 아름다웠어요','서울에 또 가고 싶어요'],questions:[{q:'Comment le narrateur est-il allé à Séoul ?',opts:['En avion','En bus','En KTX','À pied'],ans:2},{q:'Qu\'a-t-il visité en premier ?',opts:['La tour N Seoul','Le marché de Namdaemun','Le palais Gyeongbokgung','Le fleuve Han'],ans:2}]},
   {lvl:'a2',title:'한국 음식 이야기',sentences:['한국 음식은 매우 다양해요','김치는 한국의 대표 음식이에요','비빔밥은 여러 가지 채소와 밥이에요','먹기 전에 잘 비벼요','삼겹살은 구운 돼지고기예요','상추에 싸서 먹어요 맛있어요','한국 음식은 매운 발효 음식이 많아요','한국 사람들은 자기 나라 음식을 정말 좋아해요'],questions:[{q:'Quel est le plat représentatif de la Corée ?',opts:['Le bibimbap','Le samgyeopsal','Le kimchi','Le ramyeon'],ans:2},{q:'Qu\'est-ce que le bibimbap ?',opts:['De la viande grillée','Du riz avec des légumes','Une soupe épicée','Des gâteaux de riz'],ans:1}]},
@@ -437,20 +598,37 @@ const READING_POOL=[
   {lvl:'b2',title:'조선 시대의 생활',sentences:['조선 왕조 (1392~1910년)는 한국 역사에서 가장 긴 왕조 시대였어요','유교 사상이 사회 전반을 지배했어요','양반 중인 상민 천민으로 엄격한 신분 제도가 존재했어요','문인 귀족인 양반이 위계질서의 정점을 차지했어요','과거 시험은 재능 있는 남성들이 관직에 오를 수 있게 해주었어요','그러나 실제로는 양반만이 이 시험을 볼 수 있었어요','세종대왕은 1443년에 백성을 위해 한글을 창제했어요','이 발명은 한국의 문화와 교육을 혁명적으로 바꾸었어요'],questions:[{q:'Quelle philosophie dominait la société Joseon ?',opts:['Le bouddhisme','Le taoïsme','Le confucianisme','Le chamanisme'],ans:2},{q:'Qui étaient les yangban ?',opts:['Les paysans','Les marchands','L\'aristocratie lettrée','Les artisans'],ans:2}]},
   {lvl:'b2',title:'현대 한국 사회의 변화',sentences:['대한민국은 수십 년 동안 깊은 사회 변화를 경험했어요','급격한 경제 성장이 생활 방식을 근본적으로 바꾸었어요','한국의 출산율은 세계 최저 수준으로 심각한 인구 문제를 야기해요','고령화는 사회 보장 시스템에 부담을 줘요','MZ 세대는 전통적 가치관을 재고하고 있어요','결혼과 출산이 더 이상 필수적으로 여겨지지 않아요','한국 사회는 전통과 현대성 사이의 균형을 찾고 있어요','이러한 사회적 과제들은 혁신적이고 집단적인 해결책을 필요로 해요'],questions:[{q:'Quel est le principal défi démographique de la Corée ?',opts:['Le surpeuplement','Le taux de natalité très bas','L\'immigration massive','La surpopulation urbaine'],ans:1},{q:'Qu\'est-ce que la génération MZ remet en question ?',opts:['Le système économique','Les valeurs traditionnelles','La langue coréenne','La musique traditionnelle'],ans:1}]},
   {lvl:'b2',title:'한국 현대 문학',sentences:['한국 현대 문학은 전례 없는 국제적 인지도를 얻고 있어요','2024년에 한강이 노벨 문학상을 수상했어요','그녀의 소설 채식주의자는 억압적 사회에 맞선 개인의 저항을 탐구해요','이러한 주제들은 한국 국경을 훨씬 넘어 공명을 일으켜요','한국 문학은 역사적 기억 폭력 정체성을 자주 다뤄요','분단과 전쟁이 작품에 깊은 흔적을 남겨요','다양한 언어로의 번역이 세계가 이 풍요로움을 발견할 수 있게 해줘요','한국 문학은 이 민족의 영혼과 역사를 엿볼 수 있는 독특한 창문이에요'],questions:[{q:'Quel prix Han Kang a-t-elle reçu en 2024 ?',opts:['Le Booker Prize','Le prix Pulitzer','Le prix Nobel de littérature','Le prix Goncourt'],ans:2},{q:'Quel roman de Han Kang est mentionné ?',opts:['Actes humains','La Végétarienne','Le Livre blanc','La leçon de grec'],ans:1}]},
-  {lvl:'b2',title:'남북한 분단 이야기',sentences:['1945년 한반도의 분단은 온 민족의 운명을 깊이 바꾸어 놓았어요','일제 강점기에서 해방된 후 한반도는 두 개의 영향권으로 나뉘었어요','한국 전쟁(1950~1953)이 이 분단을 유혈 충돌로 심화시켰어요','1953년에 정전 협정이 체결되었지만 평화 조약은 맺어지지 않았어요','수백만 가족이 38선 양쪽에서 헤어져 살았어요','이산 가족 상봉이 상징적인 순간에 이루어졌어요','통일은 한국 정치 담론에서 여전히 섬세하고 복잡한 주제예요','새로운 세대는 이 문제를 윗세대와는 다른 시각으로 바라봐요'],questions:[{q:'En quelle année la Corée a-t-elle été divisée ?',opts:['1943','1945','1950','1953'],ans:1},{q:'Qu\'est-ce qui fut signé en 1953 ?',opts:['Un traité de paix','Un accord de réunification','Un armistice','Un traité d\'alliance'],ans:2}]}
+  {lvl:'b2',title:'남북한 분단 이야기',sentences:['1945년 한반도의 분단은 온 민족의 운명을 깊이 바꾸어 놓았어요','일제 강점기에서 해방된 후 한반도는 두 개의 영향권으로 나뉘었어요','한국 전쟁(1950~1953)이 이 분단을 유혈 충돌로 심화시켰어요','1953년에 정전 협정이 체결되었지만 평화 조약은 맺어지지 않았어요','수백만 가족이 38선 양쪽에서 헤어져 살았어요','이산 가족 상봉이 상징적인 순간에 이루어졌어요','통일은 한국 정치 담론에서 여전히 섬세하고 복잡한 주제예요','새로운 세대는 이 문제를 윗세대와는 다른 시각으로 바라봐요'],questions:[{q:'En quelle année la Corée a-t-elle été divisée ?',opts:['1943','1945','1950','1953'],ans:1},{q:'Qu\'est-ce qui fut signé en 1953 ?',opts:['Un traité de paix','Un accord de réunification','Un armistice','Un traité d\'alliance'],ans:2}]},
+  {lvl:'a1',title:'내 생일 파티',sentences:['다음 주에 제 생일이에요','저는 스물다섯 살이 돼요','생일은 유월 십오일이에요','친구 여덟 명을 초대했어요','오후 세 시에 모여요','케이크와 피자를 준비해요','선물은 필요 없어요','함께 사진을 찍을 거예요'],questions:[{q:'Quel âge le narrateur va-t-il avoir ? (nombre natif devant 살)',opts:['이십 살','스물다섯 살','스물 살','이십오 살'],ans:1},{q:'Combien d\'amis sont invités ? (nombre natif devant 명)',opts:['다섯 명','여덟 명','팔 명','여덟 개'],ans:1}]},
+  {lvl:'a2',title:'기차표 예매',sentences:['서울에서 부산까지 기차표를 예매해요','기차는 오전 아홉 시에 출발해요','부산에 오후 한 시에 도착해요','표는 오만 오천 원이에요','좌석은 칠 호차 십이 번이에요','창가 자리를 골랐어요','도시락도 하나 샀어요','기차 여행이 기대돼요'],questions:[{q:'À quelle heure le train arrive-t-il à Busan ? (nombre natif pour l\'heure)',opts:['한 시','일 시','열두 시','두 시'],ans:0},{q:'Combien coûte le billet ? (nombre sino-coréen pour le prix)',opts:['오천 원','오만 원','오만 오천 원','오백 원'],ans:2}]}
 ];
 
 /* ═══════ ÉTAT ═══════ */
-const SECTIONS = [
-  {key:'grammar', label:'어휘 및 문법', name:'Vocabulaire & Grammaire', duration:12*60, icon:'grammar'},
-  {key:'listen',  label:'듣기',         name:'Écoute',                    duration:12*60, icon:'listen'},
-  {key:'read',    label:'읽기',         name:'Lecture',                    duration:16*60, icon:'read'}
-];
+// TOPIK I (초급, niveaux 1-2) : 듣기 + 읽기 seulement, comme le vrai TOPIK I —
+// pas d'épreuve d'écriture à ce niveau. Le contenu a1/a2 « grammaire » est
+// intégré dans 읽기 (item.type 'grammar', pas de passage — le vrai TOPIK I
+// teste aussi la grammaire en contexte de lecture, pas dans une section à part).
+// TOPIK II (중고급, niveaux 3-6) : 듣기 + 쓰기 + 읽기, contenu b1/b2 uniquement.
+function getSections(track){
+  if(track === 'I'){
+    return [
+      {key:'listen', label:'듣기', name:'Écoute',              duration:13*60, icon:'listen'},
+      {key:'read',   label:'읽기', name:'Lecture & Grammaire', duration:20*60, icon:'read'}
+    ];
+  }
+  return [
+    {key:'listen', label:'듣기', name:'Écoute',                    duration:10*60, icon:'listen'},
+    {key:'write',  label:'쓰기', name:'Écriture (pratique)',       duration:8*60,  icon:'write'},
+    {key:'read',   label:'읽기', name:'Lecture & Grammaire',       duration:16*60, icon:'read'}
+  ];
+}
+let currentTrack = 'I';
+let SECTIONS = getSections('I');
 let secIdx = 0;
 let qIdx = 0;
 let queue = [];      // flattened questions for current section
 let answered = false;
-let scores = { grammar:{ok:0,total:0}, listen:{ok:0,total:0}, read:{ok:0,total:0} };
+let scores = { listen:{ok:0,total:0}, read:{ok:0,total:0} };
 let timerId = null;
 let timeLeft = 0;
 let currentAudioKr = null;
@@ -465,32 +643,48 @@ function shuffled(arr){
   return a;
 }
 
+const LISTEN_PHASES_I  = ['Hangeul','Vocabulaire','Grammaire','Lecture','Grammaire A2+'];
+const LISTEN_PHASES_II = ['Grammaire B1','Grammaire B2','Lecture avancée'];
+
 function buildQueue(sectionKey){
-  if(sectionKey==='grammar'){
-    return shuffled(GRAMMAR_POOL).slice(0,18).map(q => ({type:'grammar', q:q.q, hint:q.hint, opts:q.opts, ans:q.ans}));
-  }
   if(sectionKey==='listen'){
-    const textItems = LISTEN_POOL.map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
-    const picItems = LISTEN_PIC_POOL.map(q => ({type:'listen-pic', q:q.q, kr:q.kr, imgs:q.imgs, ans:q.ans}));
-    return shuffled(textItems.concat(picItems)).slice(0,18);
+    if(currentTrack==='I'){
+      const textItems = LISTEN_POOL.filter(q => LISTEN_PHASES_I.includes(q.phase))
+        .map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
+      const picItems = LISTEN_PIC_POOL.map(q => ({type:'listen-pic', q:q.q, kr:q.kr, imgs:q.imgs, ans:q.ans}));
+      return shuffled(textItems.concat(picItems)).slice(0,18);
+    }
+    const textItems = LISTEN_POOL.filter(q => LISTEN_PHASES_II.includes(q.phase))
+      .map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
+    return shuffled(textItems).slice(0,9);
+  }
+  if(sectionKey==='write'){
+    return shuffled(WRITING_POOL).slice(0,6).map(w => ({type:'write', context:w.context, hint:w.hint, answer:w.answer}));
   }
   if(sectionKey==='read'){
-    const passages = shuffled(READING_POOL).slice(0,10);
-    const out = [];
+    const levels = currentTrack==='I' ? ['a1','a2'] : ['b1','b2'];
+    const grammarItems = shuffled(GRAMMAR_POOL.filter(g => levels.includes(g.lvl)))
+      .slice(0, currentTrack==='I' ? 12 : 8)
+      .map(q => ({type:'grammar', q:q.q, hint:q.hint, opts:q.opts, ans:q.ans}));
+    const passages = shuffled(READING_POOL.filter(p => levels.includes(p.lvl))).slice(0, currentTrack==='I' ? 9 : 7);
+    const readItems = [];
     passages.forEach(p => {
       p.questions.forEach((q,i) => {
-        out.push({type:'read', passage:p, isFirst:i===0, q:q.q, opts:q.opts, ans:q.ans});
+        readItems.push({type:'read', passage:p, isFirst:i===0, q:q.q, opts:q.opts, ans:q.ans});
       });
     });
-    return out;
+    return shuffled(grammarItems.concat(readItems));
   }
   return [];
 }
 
-function startExam(){
+function startExam(track){
+  currentTrack = track;
+  SECTIONS = getSections(track);
   secIdx = 0;
   wrongAnswers = [];
-  scores = { grammar:{ok:0,total:0}, listen:{ok:0,total:0}, read:{ok:0,total:0} };
+  scores = { listen:{ok:0,total:0}, read:{ok:0,total:0} };
+  if(track==='II') scores.write = {reviewed:0,total:0};
   startSection();
 }
 
@@ -551,6 +745,26 @@ function renderQuestion(){
   krBox.style.display = 'none';
   krBox.classList.remove('revealed');
   hintEl.style.display = 'none';
+  document.getElementById('writeArea').style.display = 'none';
+
+  if(item.type === 'write'){
+    label.textContent = 'Complète la phrase (pratique libre, non notée)';
+    document.getElementById('qText').textContent = 'Quel mot ou expression irait le mieux à la place de ( ___ ) ?';
+    const p = document.createElement('div');
+    p.className = 'q-passage';
+    p.innerHTML = '<div class="q-passage-title">Contexte</div><div class="q-passage-kr" style="font-size:16px;line-height:1.8">' + esc(item.context) + '</div>';
+    passageWrap.appendChild(p);
+    document.getElementById('optsGrid').style.display = 'none';
+    document.getElementById('writeArea').style.display = 'block';
+    document.getElementById('writeInput').value = '';
+    document.getElementById('writeReveal').style.display = 'none';
+    document.getElementById('writeRevealBtn').style.display = 'inline-block';
+    document.getElementById('writeRevealBtn').textContent = 'Voir la réponse modèle';
+    scores.write.total++;
+    document.getElementById('nextBtn').classList.add('show');
+    return;
+  }
+  document.getElementById('optsGrid').style.display = 'flex';
 
   if(item.type === 'grammar'){
     label.textContent = 'Question ' + (qIdx+1);
@@ -616,6 +830,16 @@ function renderQuestion(){
   document.getElementById('nextBtn').classList.remove('show');
 }
 
+function revealWriting(){
+  const item = queue[qIdx];
+  const reveal = document.getElementById('writeReveal');
+  reveal.style.display = 'block';
+  reveal.innerHTML = '<div class="wr-label">Réponse modèle</div><div class="wr-answer">' + esc(item.answer) + '</div>' +
+    (item.hint ? '<div class="wr-hint">' + esc(item.hint) + '</div>' : '');
+  document.getElementById('writeRevealBtn').style.display = 'none';
+  scores.write.reviewed++;
+}
+
 function playCurrentAudio(){
   if(!currentAudioKr) return;
   const krEl = document.getElementById('qKr');
@@ -648,7 +872,7 @@ function selectAnswer(i, btn, item){
 }
 
 function nextQuestion(){
-  if(!answered){
+  if(queue[qIdx].type !== 'write' && !answered){
     // temps écoulé sur la question, comptée comme fausse, mais on avance quand même
     scores[SECTIONS[secIdx].key].total++;
   }
@@ -685,22 +909,25 @@ function toggleReview(){
   btn.textContent = willShow ? 'Masquer mes erreurs' : 'Voir mes erreurs (' + wrongAnswers.length + ')';
 }
 
-function levelFromPct(pct){
-  if(pct < 40) return {tag:'급 미도달', name:'En dessous du niveau 1', desc:"Continue de pratiquer le vocabulaire et la grammaire de base — refais ce test dans quelques semaines !"};
-  if(pct < 55) return {tag:'TOPIK I', name:'1급 — Débutant', desc:"Tu maîtrises les bases : salutations, phrases simples du quotidien."};
-  if(pct < 70) return {tag:'TOPIK I', name:'2급 — Débutant avancé', desc:"Tu peux gérer des situations simples de la vie courante avec un vocabulaire correct."};
-  if(pct < 78) return {tag:'TOPIK II', name:'3급 — Intermédiaire', desc:"Tu te débrouilles dans la plupart des situations quotidiennes et peux tenir une conversation simple."};
-  if(pct < 85) return {tag:'TOPIK II', name:'4급 — Intermédiaire avancé', desc:"Tu comprends des sujets variés, y compris certains contenus abstraits ou professionnels."};
-  if(pct < 92) return {tag:'TOPIK II', name:'5급 — Avancé', desc:"Tu maîtrises un coréen nuancé sur des sujets spécialisés, sociaux et professionnels."};
+function levelFromPct(pct, track){
+  if(track === 'I'){
+    if(pct < 50) return {tag:'Pré-TOPIK I', name:'En dessous du niveau 1', desc:"Continue de pratiquer le vocabulaire et la grammaire de base — refais ce test dans quelques semaines !"};
+    if(pct < 75) return {tag:'TOPIK I', name:'1급 — Débutant', desc:"Tu maîtrises les bases : salutations, phrases simples du quotidien."};
+    return {tag:'TOPIK I', name:'2급 — Débutant avancé', desc:"Tu peux gérer des situations simples de la vie courante avec un vocabulaire correct. Tu es peut-être prêt·e à tenter le TOPIK II !"};
+  }
+  if(pct < 50) return {tag:'Pré-TOPIK II', name:'Pas encore niveau 3', desc:"Ce test est calibré pour un niveau intermédiaire — revois les bases avec le TOPIK I si besoin, puis reviens t'entraîner ici."};
+  if(pct < 63) return {tag:'TOPIK II', name:'3급 — Intermédiaire', desc:"Tu te débrouilles dans la plupart des situations quotidiennes et peux tenir une conversation simple."};
+  if(pct < 75) return {tag:'TOPIK II', name:'4급 — Intermédiaire avancé', desc:"Tu comprends des sujets variés, y compris certains contenus abstraits ou professionnels."};
+  if(pct < 90) return {tag:'TOPIK II', name:'5급 — Avancé', desc:"Tu maîtrises un coréen nuancé sur des sujets spécialisés, sociaux et professionnels."};
   return {tag:'TOPIK II', name:'6급 — Maîtrise', desc:"Niveau proche du natif : tu comprends et t'exprimes avec aisance sur presque tous les sujets."};
 }
 
 function showResults(){
   show('resultScreen');
-  const totalOk = scores.grammar.ok + scores.listen.ok + scores.read.ok;
-  const totalQ = scores.grammar.total + scores.listen.total + scores.read.total;
+  const totalOk = scores.listen.ok + scores.read.ok;
+  const totalQ = scores.listen.total + scores.read.total;
   const pct = totalQ ? Math.round((totalOk/totalQ)*100) : 0;
-  const lvl = levelFromPct(pct);
+  const lvl = levelFromPct(pct, currentTrack);
 
   document.getElementById('resultTag').textContent = lvl.tag;
   document.getElementById('resultH1').innerHTML = 'Niveau estimé : <em>' + lvl.name + '</em>';
@@ -714,22 +941,27 @@ function showResults(){
   }, 100);
 
   const statsWrap = document.getElementById('resultStats');
-  statsWrap.innerHTML =
+  let statsHtml =
     '<div class="rs"><div class="rs-val" style="color:var(--gold)">'+totalOk+'/'+totalQ+'</div><div class="rs-lbl">Score total</div></div>' +
-    '<div class="rs"><div class="rs-val">'+scores.grammar.ok+'/'+scores.grammar.total+'</div><div class="rs-lbl">Grammaire</div></div>' +
     '<div class="rs"><div class="rs-val">'+scores.listen.ok+'/'+scores.listen.total+'</div><div class="rs-lbl">Écoute</div></div>' +
     '<div class="rs"><div class="rs-val">'+scores.read.ok+'/'+scores.read.total+'</div><div class="rs-lbl">Lecture</div></div>';
+  if(currentTrack==='II') statsHtml += '<div class="rs"><div class="rs-val">'+scores.write.reviewed+'/'+scores.write.total+'</div><div class="rs-lbl">Écriture</div></div>';
+  statsWrap.innerHTML = statsHtml;
 
   const skillsWrap = document.getElementById('skillsWrap');
   const rows = [
-    ['Vocabulaire & Grammaire', scores.grammar],
     ['Écoute', scores.listen],
-    ['Lecture', scores.read]
+    ['Lecture & Grammaire', scores.read]
   ];
-  skillsWrap.innerHTML = rows.map(([name, s]) => {
+  let skillsHtml = rows.map(([name, s]) => {
     const p = s.total ? Math.round((s.ok/s.total)*100) : 0;
     return '<div class="skill-row"><div class="skill-top"><span class="skill-name">'+name+'</span><span class="skill-pct">'+p+'%</span></div><div class="skill-bar"><div class="skill-fill" style="width:'+p+'%"></div></div></div>';
   }).join('');
+  if(currentTrack==='II'){
+    const wp = scores.write.total ? Math.round((scores.write.reviewed/scores.write.total)*100) : 0;
+    skillsHtml += '<div class="skill-row"><div class="skill-top"><span class="skill-name">Écriture (consultée, non notée)</span><span class="skill-pct">'+wp+'%</span></div><div class="skill-bar"><div class="skill-fill" style="width:'+wp+'%"></div></div></div>';
+  }
+  skillsWrap.innerHTML = skillsHtml;
 
   const reviewToggle = document.getElementById('reviewToggle');
   const reviewList = document.getElementById('reviewList');
@@ -757,6 +989,7 @@ function showResults(){
       localStorage.setItem('ks_topik_done','1');
     }
     localStorage.setItem('ks_topik_last_pct', String(pct));
+    localStorage.setItem('ks_topik_last_track', currentTrack);
   }catch(e){}
 }
 </script>
