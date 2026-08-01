@@ -78,6 +78,17 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 .opt.wrong .opt-letter{background:var(--red);border-color:var(--red);color:white}
 .opt:disabled{cursor:default}
 
+/* ── options en images (format TOPIK « écoute et choisis l'image ») ── */
+.opts-grid.pic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt.opt-pic{flex-direction:column;align-items:stretch;padding:0;gap:0;overflow:hidden}
+.opt.opt-pic img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.opt.opt-pic .opt-pic-label{padding:8px 10px;display:flex;align-items:center}
+.opt.opt-pic .opt-letter{width:22px;height:22px;font-size:11px}
+
+/* ── aperçu photo sur l'écran d'accueil ── */
+.intro-img-row{display:flex;gap:9px;justify-content:center;margin-bottom:22px}
+.intro-img-row img{width:58px;height:58px;border-radius:14px;object-fit:cover;border:2px solid rgba(201,169,110,.35);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+
 .next-btn{width:100%;margin-top:16px;padding:15px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#E8C97E);color:var(--navy);font-weight:800;font-size:15px;border:none;cursor:pointer;display:none;font-family:'Inter',sans-serif;transition:all .2s}
 .next-btn.show{display:block}
 .next-btn:hover{transform:translateY(-1px)}
@@ -202,6 +213,13 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
     <div class="intro-badge"><span></span>Gratuit · Chronométré · Style TOPIK</div>
     <h1 class="intro-h1">Examen blanc<br/><em>façon TOPIK</em></h1>
     <p class="intro-sub">Un test chronométré en 3 parties — vocabulaire &amp; grammaire, écoute, lecture — pour t'entraîner dans les conditions du vrai examen. Estimation de ton niveau (1 à 6) à la fin.</p>
+    <div class="intro-img-row">
+      <img src="img/vocab/resto-samgyeopsal.webp" alt="Du samgyeopsal" loading="lazy" width="58" height="58">
+      <img src="img/vocab/ex5-coffee.webp" alt="Une tasse de café" loading="lazy" width="58" height="58">
+      <img src="img/vocab/transport-taxi.webp" alt="Un taxi" loading="lazy" width="58" height="58">
+      <img src="img/vocab/famille-doctor.webp" alt="Un médecin" loading="lazy" width="58" height="58">
+      <img src="img/vocab/loisir-cuisine.webp" alt="Quelqu'un qui cuisine" loading="lazy" width="58" height="58">
+    </div>
     <div class="steps-row">
       <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg></div>어휘/문법 · 8 min</div>
       <div class="step-chip"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></div>듣기 · 8 min</div>
@@ -334,6 +352,70 @@ const LISTEN_POOL=[
   {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'정말 맛있네요! 얼마예요?',opts:['C\'était délicieux hier, c\'était combien ?','Oh, c\'est vraiment délicieux ! C\'est combien ? (réaction au moment de goûter)','Ce n\'est pas très bon, dommage','Je voudrais commander autre chose'],ans:1}
 ];
 
+/* Format authentique TOPIK I (초급 듣기) : écouter un mot, choisir l'image correspondante */
+const LISTEN_PIC_POOL=[
+  {kr:'택시',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/transport-taxi.webp',alt:'Un taxi'},
+    {src:'img/vocab/transport-metro.webp',alt:'Le métro'},
+    {src:'img/vocab/loisir-rando.webp',alt:'Une randonnée'},
+    {src:'img/vocab/ex5-flowers.webp',alt:'Des fleurs'}
+  ],ans:0},
+  {kr:'커피',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/resto-menu.webp',alt:'Un menu de restaurant'},
+    {src:'img/vocab/ex5-coffee.webp',alt:'Une tasse de café'},
+    {src:'img/vocab/magasin-jacket.webp',alt:'Une veste'},
+    {src:'img/vocab/famille-doctor.webp',alt:'Un médecin'}
+  ],ans:1},
+  {kr:'의사',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/famille-doctor.webp',alt:'Un médecin'},
+    {src:'img/vocab/famille-grandparents.webp',alt:'Des grands-parents'},
+    {src:'img/vocab/loisir-film.webp',alt:'Quelqu\'un qui regarde un film'},
+    {src:'img/vocab/transport-station.webp',alt:'Une gare'}
+  ],ans:0},
+  {kr:'요리',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/loisir-musique.webp',alt:'De la musique'},
+    {src:'img/vocab/loisir-cuisine.webp',alt:'Quelqu\'un qui cuisine'},
+    {src:'img/vocab/magasin-store.webp',alt:'Un magasin'},
+    {src:'img/vocab/ex5-bag.webp',alt:'Un sac'}
+  ],ans:1},
+  {kr:'신발',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/ex5-dress.webp',alt:'Une robe'},
+    {src:'img/vocab/magasin-shoes.webp',alt:'Des chaussures'},
+    {src:'img/vocab/ex5-cat.webp',alt:'Un chat'},
+    {src:'img/vocab/ex5-house.webp',alt:'Une maison'}
+  ],ans:1},
+  {kr:'삼겹살',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/resto-takeout.webp',alt:'Un plat à emporter'},
+    {src:'img/vocab/resto-epice.webp',alt:'Un plat épicé'},
+    {src:'img/vocab/resto-samgyeopsal.webp',alt:'Du samgyeopsal (porc grillé)'},
+    {src:'img/vocab/loisir-sport.webp',alt:'Du sport'}
+  ],ans:2},
+  {kr:'가족',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/decrire-longhair.webp',alt:'Une personne aux cheveux longs'},
+    {src:'img/vocab/famille-famille.webp',alt:'Une famille'},
+    {src:'img/vocab/transport-metro.webp',alt:'Le métro'},
+    {src:'img/vocab/magasin-store.webp',alt:'Un magasin'}
+  ],ans:1},
+  {kr:'눈',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/ex5-sky.webp',alt:'Le ciel'},
+    {src:'img/vocab/ex5-flowers.webp',alt:'Des fleurs'},
+    {src:'img/vocab/transport-taxi.webp',alt:'Un taxi'},
+    {src:'img/vocab/ex5-snow.webp',alt:'De la neige'}
+  ],ans:3},
+  {kr:'고양이',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/ex5-cat.webp',alt:'Un chat'},
+    {src:'img/vocab/ex5-dress.webp',alt:'Une robe'},
+    {src:'img/vocab/magasin-jacket.webp',alt:'Une veste'},
+    {src:'img/vocab/loisir-musique.webp',alt:'De la musique'}
+  ],ans:0},
+  {kr:'역',q:'Quelle image correspond au mot que tu entends ?',imgs:[
+    {src:'img/vocab/transport-taxi.webp',alt:'Un taxi'},
+    {src:'img/vocab/famille-doctor.webp',alt:'Un médecin'},
+    {src:'img/vocab/transport-station.webp',alt:'Une gare'},
+    {src:'img/vocab/ex5-house.webp',alt:'Une maison'}
+  ],ans:2}
+];
+
 const READING_POOL=[
   {lvl:'a1',title:'나의 하루',sentences:['아침에 일어나요','화장실에 가요','세수하고 양치해요','아침을 먹어요','밥과 달걀을 먹어요','커피를 마셔요','회사에 가요','아홉시부터 여섯시까지 일해요','저녁에 집에 돌아와요','가족과 저녁을 먹어요','텔레비전을 보고 책을 읽어요','밤에 자요'],questions:[{q:'Que fait-on en premier le matin selon l\'histoire ?',opts:['On mange','On se lève','On va au travail','On lit'],ans:1},{q:'Qu\'est-ce qu\'on mange au petit-déjeuner ?',opts:['Du pain','De la soupe','Du riz et des œufs','Des pâtes'],ans:2}]},
   {lvl:'a1',title:'우리 가족',sentences:['우리 가족은 네 명이에요','아버지 어머니 오빠 그리고 저예요','아버지는 회사원이에요','어머니는 선생님이에요','오빠는 대학생이에요','스물두 살이에요','매일 저녁에 함께 먹어요','우리 가족은 행복해요'],questions:[{q:'Combien de personnes composent la famille ?',opts:['Deux','Trois','Quatre','Cinq'],ans:2},{q:'Quelle est la profession de la mère ?',opts:['Médecin','Cuisinière','Employée de bureau','Professeure'],ans:3}]},
@@ -388,7 +470,9 @@ function buildQueue(sectionKey){
     return shuffled(GRAMMAR_POOL).slice(0,12).map(q => ({type:'grammar', q:q.q, hint:q.hint, opts:q.opts, ans:q.ans}));
   }
   if(sectionKey==='listen'){
-    return shuffled(LISTEN_POOL).slice(0,12).map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
+    const textItems = LISTEN_POOL.map(q => ({type:'listen', q:q.q, kr:q.kr, opts:q.opts, ans:q.ans}));
+    const picItems = LISTEN_PIC_POOL.map(q => ({type:'listen-pic', q:q.q, kr:q.kr, imgs:q.imgs, ans:q.ans}));
+    return shuffled(textItems.concat(picItems)).slice(0,12);
   }
   if(sectionKey==='read'){
     const passages = shuffled(READING_POOL).slice(0,7);
@@ -482,6 +566,13 @@ function renderQuestion(){
     document.getElementById('qKr').textContent = '\u{1F50A} Appuie pour écouter';
     currentAudioKr = item.kr;
     playCurrentAudio();
+  } else if(item.type === 'listen-pic'){
+    label.textContent = 'Écoute puis choisis l\'image';
+    document.getElementById('qText').textContent = item.q;
+    krBox.style.display = 'block';
+    document.getElementById('qKr').textContent = '\u{1F50A} Appuie pour écouter';
+    currentAudioKr = item.kr;
+    playCurrentAudio();
   } else if(item.type === 'read'){
     label.textContent = item.passage.title + ' · ' + item.passage.lvl.toUpperCase();
     if(item.isFirst){
@@ -503,13 +594,25 @@ function renderQuestion(){
   const grid = document.getElementById('optsGrid');
   grid.innerHTML = '';
   const letters = ['A','B','C','D'];
-  item.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt';
-    btn.innerHTML = '<span class="opt-letter">'+letters[i]+'</span><span>'+esc(opt)+'</span>';
-    btn.onclick = () => selectAnswer(i, btn, item);
-    grid.appendChild(btn);
-  });
+  if(item.type === 'listen-pic'){
+    grid.className = 'opts-grid pic-grid';
+    item.imgs.forEach((im, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt opt-pic';
+      btn.innerHTML = '<img src="'+im.src+'" alt="'+esc(im.alt)+'" loading="lazy"><span class="opt-pic-label"><span class="opt-letter">'+letters[i]+'</span></span>';
+      btn.onclick = () => selectAnswer(i, btn, item);
+      grid.appendChild(btn);
+    });
+  } else {
+    grid.className = 'opts-grid';
+    item.opts.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt';
+      btn.innerHTML = '<span class="opt-letter">'+letters[i]+'</span><span>'+esc(opt)+'</span>';
+      btn.onclick = () => selectAnswer(i, btn, item);
+      grid.appendChild(btn);
+    });
+  }
   document.getElementById('nextBtn').classList.remove('show');
 }
 
@@ -533,8 +636,8 @@ function selectAnswer(i, btn, item){
   else wrongAnswers.push({
     section: SECTIONS[secIdx].name,
     q: item.q,
-    correctText: item.opts[item.ans],
-    userText: item.opts[i]
+    correctText: item.imgs ? item.imgs[item.ans].alt : item.opts[item.ans],
+    userText: item.imgs ? item.imgs[i].alt : item.opts[i]
   });
   document.querySelectorAll('#optsGrid .opt').forEach((o, idx) => {
     o.disabled = true;
