@@ -58,6 +58,26 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 .write-reveal .wr-answer{font-family:'Noto Sans KR',sans-serif;font-size:19px;font-weight:700;color:white;margin-bottom:8px}
 .write-reveal .wr-hint{font-size:12.5px;color:rgba(247,248,250,.6)}
 
+/* ── rédaction longue (53번/54번) ── */
+.essay-outline{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 18px;margin-bottom:14px;font-size:13.5px;line-height:1.8}
+.essay-outline b{color:var(--gold)}
+.essay-outline ul{margin:4px 0 10px 18px}
+.essay-textarea{width:100%;min-height:160px;padding:15px 18px;border-radius:14px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:white;font-size:15px;font-family:'Noto Sans KR',sans-serif;line-height:1.7;resize:vertical}
+.essay-textarea:focus{outline:none;border-color:var(--gold)}
+.essay-counter{font-size:11px;color:rgba(247,248,250,.4);text-align:right;margin-top:6px}
+.essay-rubric{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.essay-rubric span{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:5px 12px;font-size:11px;color:rgba(247,248,250,.65)}
+.write-reveal .wr-answer.essay{font-size:14.5px;font-weight:400;line-height:1.9;white-space:pre-line;text-align:left}
+
+/* ── lecture réaliste (실용문 : panneau, reçu, affiche) ── */
+.realia-sign,.realia-receipt{background:rgba(255,255,255,.05);border:1.5px dashed rgba(201,169,110,.35);border-radius:14px;padding:18px 20px;font-family:'Noto Sans KR',sans-serif;font-size:15px;line-height:1.9;color:white;text-align:center}
+.realia-shop{font-weight:800;color:var(--gold);font-size:17px;margin-bottom:8px}
+.realia-hours{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(247,248,250,.5);margin-bottom:4px}
+.realia-note{margin-top:8px;font-size:13px;color:rgba(247,248,250,.6)}
+.realia-receipt{text-align:left;font-family:'SF Mono',monospace,'Noto Sans KR',sans-serif}
+.realia-line{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(255,255,255,.15);padding:4px 0}
+.realia-total{font-weight:800;color:var(--gold);border-bottom:none;margin-top:4px}
+
 /* ── QUIZ ── */
 #quizScreen{padding:0;flex:1}
 .quiz-top{background:rgba(15,27,45,.6);padding:16px 20px 14px;border-bottom:1px solid rgba(255,255,255,.07);position:sticky;top:54px;z-index:10;backdrop-filter:blur(8px)}
@@ -247,25 +267,25 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
         <p class="track-desc">Débutant. Écoute et lecture uniquement, comme le vrai TOPIK I — pas d'épreuve d'écriture à ce niveau.</p>
         <div class="track-chips">
           <span class="track-chip">듣기 · 13 min</span>
-          <span class="track-chip">읽기 · 20 min</span>
+          <span class="track-chip">읽기 · 22 min</span>
         </div>
         <button class="btn-start btn-track" onclick="startExam('I')">Passer le TOPIK I →</button>
-        <p class="track-note">48 questions tirées au sort · ~33 min</p>
+        <p class="track-note">51 questions tirées au sort · ~35 min</p>
       </div>
       <div class="track-card">
         <div class="track-tag">TOPIK II · 중고급</div>
         <h3 class="track-title">Niveaux 3-6</h3>
-        <p class="track-desc">Intermédiaire à avancé. Écoute, écriture (pratique libre) et lecture &amp; grammaire.</p>
+        <p class="track-desc">Intermédiaire à avancé. Écoute, écriture (complétion + 2 rédactions, comme le vrai 51-54번) et lecture &amp; grammaire.</p>
         <div class="track-chips">
           <span class="track-chip">듣기 · 10 min</span>
-          <span class="track-chip">쓰기 · 8 min</span>
+          <span class="track-chip">쓰기 · 15 min</span>
           <span class="track-chip">읽기 · 16 min</span>
         </div>
         <button class="btn-start btn-track" onclick="startExam('II')">Passer le TOPIK II →</button>
-        <p class="track-note">31 questions notées + 6 pratiques · ~34 min</p>
+        <p class="track-note">31 questions notées + 4 pratiques d'écriture · ~41 min</p>
       </div>
     </div>
-    <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel — le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel. La partie écriture du TOPIK II est une pratique libre avec réponse modèle à comparer : la correction automatique d'une rédaction libre n'est pas fiable, donc elle n'est pas notée.</div>
+    <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel — le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel. La partie écriture du TOPIK II est une pratique libre avec réponse modèle à comparer : la correction automatique d'une rédaction libre n'est pas fiable, donc elle n'est pas notée. Une épreuve orale te manque (comme au SKA ou au TOPIK 말하기) ? Essaie <a href="speaking.html" style="color:var(--gold)">Speaking Practice</a>.</div>
   </div>
 </div>
 
@@ -294,6 +314,14 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
       <input type="text" id="writeInput" class="write-input" placeholder="Écris ta réponse ici… (pratique libre)" autocomplete="off" autocapitalize="off" spellcheck="false">
       <button class="review-toggle" id="writeRevealBtn" onclick="revealWriting()" style="margin-top:14px">Voir la réponse modèle</button>
       <div id="writeReveal" class="write-reveal" style="display:none"></div>
+    </div>
+    <div id="essayArea" style="display:none">
+      <div class="essay-outline" id="essayOutline"></div>
+      <div class="essay-rubric" id="essayRubric"></div>
+      <textarea id="essayInput" class="essay-textarea" placeholder="Écris ta rédaction ici… (pratique libre)" spellcheck="false" oninput="updateEssayCounter()"></textarea>
+      <div class="essay-counter" id="essayCounter">0 자</div>
+      <button class="review-toggle" id="essayRevealBtn" onclick="revealEssay()" style="margin-top:8px">Voir un exemple de réponse modèle</button>
+      <div id="essayReveal" class="write-reveal" style="display:none"></div>
     </div>
     <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Continuer →</button>
   </div>
@@ -577,6 +605,44 @@ const WRITING_POOL=[
   {context:'안내문 — 이 약은 두통을 ( ___ ) 위해 만들어진 약입니다. 하루 세 번 식후에 드세요.', hint:'목적을 나타내는 표현 (-기 위해)', answer:'줄이기'}
 ];
 
+/* Format authentique TOPIK II 53번/54번 (sujets 100% originaux, jamais copiés du
+   vrai examen — seuls la structure et le barème officiels ont été étudiés) :
+   53 = rédaction courte (200-300자) à partir d'un plan donné ; 54 = rédaction
+   longue (600-700자) sur un sujet de société avec 3 sous-questions guides.
+   Registre attendu : style soutenu -다/-이다, jamais -아/어요 ni -ㅂ/습니다
+   (point de barème réel — noté explicitement dans le conseil). */
+const WRITING_ESSAY_POOL = [
+  { no:53, minChars:200, maxChars:300,
+    title:'재택근무의 장단점',
+    prompt:'다음을 참고하여 \'재택근무의 장단점\'에 대한 글을 200~300자로 쓰십시오. 단, 글의 제목을 쓰지 마십시오.',
+    outline: { pros: ['출퇴근 시간을 절약할 수 있다', '편안한 환경에서 일할 수 있다'], cons: ['동료와의 소통이 줄어들 수 있다', '집중하기 어려울 수 있다'] },
+    modelAnswer: '재택근무는 여러 장점을 가지고 있다. 첫째, 출퇴근 시간을 절약할 수 있어 그 시간을 다른 일에 활용할 수 있다. 둘째, 편안한 환경에서 자유롭게 일할 수 있다는 장점도 있다. 그러나 단점도 존재한다. 동료와의 소통이 줄어들어 협업이 어려워질 수 있으며, 집에서는 여러 방해 요소로 인해 집중하기 어려울 수도 있다. 따라서 재택근무를 할 때는 규칙적인 소통과 스스로 집중할 수 있는 환경을 만드는 노력이 필요하다.',
+    rubric: [['내용 및 과제 수행','7점'],['글의 전개 구조','7점'],['언어 사용','16점 (8점×2)']] },
+  { no:54, minChars:600, maxChars:700,
+    title:'1인 가구 증가',
+    prompt:'다음을 주제로 하여 자신의 생각을 600~700자로 글을 쓰십시오. 단, 문제를 그대로 옮겨 쓰지 마십시오.',
+    context: '최근 한국을 비롯한 여러 나라에서 1인 가구가 빠르게 증가하고 있습니다. 1인 가구 증가에 대해 아래의 내용을 중심으로 자신의 생각을 쓰십시오.',
+    subquestions: ['1인 가구가 증가하는 이유는 무엇입니까?', '1인 가구 증가로 인해 어떤 문제가 생길 수 있습니까?', '이러한 문제를 해결하기 위해 어떤 노력이 필요합니까?'],
+    modelAnswer: '최근 한국 사회에서 1인 가구가 빠르게 증가하고 있다. 이러한 현상에는 여러 원인이 있다. 첫째, 결혼을 하지 않거나 늦게 하는 사람들이 늘어나면서 혼자 사는 삶을 선택하는 경우가 많아졌다. 둘째, 개인의 자유와 독립적인 생활을 중시하는 가치관의 변화도 큰 영향을 미쳤다. 셋째, 고령화로 인해 배우자와 사별한 후 혼자 지내는 노인 인구도 꾸준히 늘고 있다.\n\n그러나 1인 가구의 증가는 여러 사회적 문제를 낳고 있다. 우선 혼자 사는 사람들은 경제적 부담을 온전히 혼자 감당해야 하므로 생활이 불안정해지기 쉽다. 또한 사회적 관계가 줄어들면서 고립감이나 외로움을 느끼는 경우도 많아지고 있으며, 특히 노인의 경우 위급한 상황에서 도움을 받지 못하는 위험도 커지고 있다.\n\n이러한 문제를 해결하기 위해서는 사회 전체의 노력이 필요하다. 먼저 정부는 1인 가구를 위한 소형 주택 공급을 늘리고 생활비 부담을 줄일 수 있는 정책을 마련해야 한다. 또한 지역 사회에서는 이웃 간의 교류를 늘릴 수 있는 프로그램을 운영하여 고립을 예방할 필요가 있다. 개인적으로도 온라인 모임이나 취미 활동 등을 통해 적극적으로 관계를 맺으려는 노력이 중요하다.\n\n결론적으로 1인 가구의 증가는 이제 특별한 현상이 아니라 우리 사회가 함께 대응해야 할 중요한 과제다. 정부와 지역 사회, 그리고 개인이 함께 노력한다면 1인 가구도 안정적이고 건강한 삶을 누릴 수 있을 것이다.',
+    rubric: [['내용 및 과제 수행','12점'],['글의 전개 구조','12점'],['언어 사용','26점 (13점×2)']] }
+];
+
+/* Format authentique TOPIK I 읽기 : 실용문 (texte pratique — panneau, reçu,
+   affiche). Texte stylé en CSS plutôt qu'image générée par IA : le rendu de
+   texte coréen par les modèles de génération d'image n'est pas fiable, un
+   risque inacceptable pour du contenu pédagogique. */
+const REALIA_POOL = [
+  { title: '실용문 · 안내문', html:
+    '<div class="realia-sign"><div class="realia-shop">카페 소나무</div><div class="realia-hours">영업시간</div><div>월-금: 오전 9시 - 오후 10시</div><div>토-일: 오전 10시 - 오후 11시</div><div class="realia-note">매주 화요일 휴무</div></div>',
+    q:'이 카페는 언제 쉽니까?', opts:['월요일','화요일','토요일','일요일'], ans:1 },
+  { title: '실용문 · 영수증', html:
+    '<div class="realia-receipt"><div class="realia-shop">행복 분식</div><div class="realia-line"><span>김밥 2줄</span><span>6,000원</span></div><div class="realia-line"><span>떡볶이 1인분</span><span>5,000원</span></div><div class="realia-line realia-total"><span>합계</span><span>11,000원</span></div><div class="realia-note">감사합니다</div></div>',
+    q:'합계는 얼마입니까?', opts:['6,000원','5,000원','11,000원','16,000원'], ans:2 },
+  { title: '실용문 · 포스터', html:
+    '<div class="realia-sign"><div class="realia-shop">한국어 말하기 대회</div><div>일시: 11월 15일 (토) 오후 2시</div><div>장소: 학생회관 3층 강당</div><div class="realia-note">신청 마감: 11월 10일 · 누구나 참가할 수 있습니다!</div></div>',
+    q:'신청은 언제까지 해야 합니까?', opts:['11월 10일','11월 15일','오후 2시','3층'], ans:0 }
+];
+
 const READING_POOL=[
   {lvl:'a1',title:'나의 하루',sentences:['아침에 일어나요','화장실에 가요','세수하고 양치해요','아침을 먹어요','밥과 달걀을 먹어요','커피를 마셔요','회사에 가요','아홉시부터 여섯시까지 일해요','저녁에 집에 돌아와요','가족과 저녁을 먹어요','텔레비전을 보고 책을 읽어요','밤에 자요'],questions:[{q:'Que fait-on en premier le matin selon l\'histoire ?',opts:['On mange','On se lève','On va au travail','On lit'],ans:1},{q:'Qu\'est-ce qu\'on mange au petit-déjeuner ?',opts:['Du pain','De la soupe','Du riz et des œufs','Des pâtes'],ans:2}]},
   {lvl:'a1',title:'우리 가족',sentences:['우리 가족은 네 명이에요','아버지 어머니 오빠 그리고 저예요','아버지는 회사원이에요','어머니는 선생님이에요','오빠는 대학생이에요','스물두 살이에요','매일 저녁에 함께 먹어요','우리 가족은 행복해요'],questions:[{q:'Combien de personnes composent la famille ?',opts:['Deux','Trois','Quatre','Cinq'],ans:2},{q:'Quelle est la profession de la mère ?',opts:['Médecin','Cuisinière','Employée de bureau','Professeure'],ans:3}]},
@@ -613,12 +679,12 @@ function getSections(track){
   if(track === 'I'){
     return [
       {key:'listen', label:'듣기', name:'Écoute',              duration:13*60, icon:'listen'},
-      {key:'read',   label:'읽기', name:'Lecture & Grammaire', duration:20*60, icon:'read'}
+      {key:'read',   label:'읽기', name:'Lecture & Grammaire', duration:22*60, icon:'read'}
     ];
   }
   return [
     {key:'listen', label:'듣기', name:'Écoute',                    duration:10*60, icon:'listen'},
-    {key:'write',  label:'쓰기', name:'Écriture (pratique)',       duration:8*60,  icon:'write'},
+    {key:'write',  label:'쓰기', name:'Écriture (pratique)',       duration:15*60, icon:'write'},
     {key:'read',   label:'읽기', name:'Lecture & Grammaire',       duration:16*60, icon:'read'}
   ];
 }
@@ -659,7 +725,11 @@ function buildQueue(sectionKey){
     return shuffled(textItems).slice(0,9);
   }
   if(sectionKey==='write'){
-    return shuffled(WRITING_POOL).slice(0,6).map(w => ({type:'write', context:w.context, hint:w.hint, answer:w.answer}));
+    // Format réel TOPIK II 쓰기 : 51+52 (complétion) puis 53 (rédaction courte)
+    // puis 54 (rédaction longue) — ordre fixe, pas de mélange entre les 4.
+    const completions = shuffled(WRITING_POOL).slice(0,2).map(w => ({type:'write', context:w.context, hint:w.hint, answer:w.answer}));
+    const essays = WRITING_ESSAY_POOL.map(w => ({type:'write-essay', ...w}));
+    return completions.concat(essays);
   }
   if(sectionKey==='read'){
     const levels = currentTrack==='I' ? ['a1','a2'] : ['b1','b2'];
@@ -673,7 +743,12 @@ function buildQueue(sectionKey){
         readItems.push({type:'read', passage:p, isFirst:i===0, q:q.q, opts:q.opts, ans:q.ans});
       });
     });
-    return shuffled(grammarItems.concat(readItems));
+    let pool = grammarItems.concat(readItems);
+    if(currentTrack==='I'){
+      const realiaItems = REALIA_POOL.map(r => ({type:'realia', title:r.title, html:r.html, q:r.q, opts:r.opts, ans:r.ans}));
+      pool = pool.concat(realiaItems);
+    }
+    return shuffled(pool);
   }
   return [];
 }
@@ -746,6 +821,37 @@ function renderQuestion(){
   krBox.classList.remove('revealed');
   hintEl.style.display = 'none';
   document.getElementById('writeArea').style.display = 'none';
+  document.getElementById('essayArea').style.display = 'none';
+
+  if(item.type === 'write-essay'){
+    label.textContent = (item.no===53 ? 'Rédaction courte' : 'Rédaction longue') + ' · 쓰기 ' + item.no + '번 (pratique libre, non notée)';
+    document.getElementById('qText').textContent = item.prompt;
+    document.getElementById('optsGrid').style.display = 'none';
+    document.getElementById('essayArea').style.display = 'block';
+
+    const outlineEl = document.getElementById('essayOutline');
+    if(item.outline){
+      outlineEl.innerHTML = '<b>' + esc(item.title) + '</b><br>장점 <ul>' +
+        item.outline.pros.map(p => '<li>'+esc(p)+'</li>').join('') + '</ul>단점 <ul>' +
+        item.outline.cons.map(c => '<li>'+esc(c)+'</li>').join('') + '</ul>';
+    } else {
+      outlineEl.innerHTML = '<b>' + esc(item.title) + '</b><br>' + esc(item.context) + '<ul>' +
+        item.subquestions.map(s => '<li>'+esc(s)+'</li>').join('') + '</ul>';
+    }
+
+    document.getElementById('essayRubric').innerHTML = item.rubric.map(([name,pts]) =>
+      '<span>'+esc(name)+' — '+esc(pts)+'</span>').join('');
+
+    document.getElementById('essayInput').value = '';
+    document.getElementById('essayInput').placeholder = 'Écris ta rédaction ici… (' + item.minChars + '-' + item.maxChars + '자 environ, style soutenu -다, pas de -아/어요 ni -ㅂ/습니다)';
+    document.getElementById('essayCounter').textContent = '0 자 (cible : ' + item.minChars + '-' + item.maxChars + '자)';
+    document.getElementById('essayReveal').style.display = 'none';
+    document.getElementById('essayRevealBtn').style.display = 'inline-block';
+    document.getElementById('essayRevealBtn').textContent = 'Voir un exemple de réponse modèle';
+    scores.write.total++;
+    document.getElementById('nextBtn').classList.add('show');
+    return;
+  }
 
   if(item.type === 'write'){
     label.textContent = 'Complète la phrase (pratique libre, non notée)';
@@ -803,6 +909,13 @@ function renderQuestion(){
       passageWrap.appendChild(p);
     }
     document.getElementById('qText').textContent = item.q;
+  } else if(item.type === 'realia'){
+    label.textContent = item.title;
+    const p = document.createElement('div');
+    p.className = 'q-passage';
+    p.innerHTML = '<div class="q-passage-title">Lis ce document</div>' + item.html;
+    passageWrap.appendChild(p);
+    document.getElementById('qText').textContent = item.q;
   }
 
   const grid = document.getElementById('optsGrid');
@@ -840,6 +953,21 @@ function revealWriting(){
   scores.write.reviewed++;
 }
 
+function updateEssayCounter(){
+  const item = queue[qIdx];
+  const n = document.getElementById('essayInput').value.replace(/\s/g,'').length;
+  document.getElementById('essayCounter').textContent = n + ' 자 (cible : ' + item.minChars + '-' + item.maxChars + '자)';
+}
+
+function revealEssay(){
+  const item = queue[qIdx];
+  const reveal = document.getElementById('essayReveal');
+  reveal.style.display = 'block';
+  reveal.innerHTML = '<div class="wr-label">Exemple de réponse modèle (une façon de bien répondre, pas la seule)</div><div class="wr-answer essay">' + esc(item.modelAnswer).replace(/\n/g,'<br><br>') + '</div>';
+  document.getElementById('essayRevealBtn').style.display = 'none';
+  scores.write.reviewed++;
+}
+
 function playCurrentAudio(){
   if(!currentAudioKr) return;
   const krEl = document.getElementById('qKr');
@@ -872,7 +1000,7 @@ function selectAnswer(i, btn, item){
 }
 
 function nextQuestion(){
-  if(queue[qIdx].type !== 'write' && !answered){
+  if(queue[qIdx].type !== 'write' && queue[qIdx].type !== 'write-essay' && !answered){
     // temps écoulé sur la question, comptée comme fausse, mais on avance quand même
     scores[SECTIONS[secIdx].key].total++;
   }
