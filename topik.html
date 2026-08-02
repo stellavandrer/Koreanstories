@@ -119,7 +119,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 .opt:disabled{cursor:default}
 
 /* ── options en images (format TOPIK « écoute et choisis l'image ») ── */
-.opts-grid.pic-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts-grid.pic-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .opt.opt-pic{flex-direction:column;align-items:stretch;padding:0;gap:0;overflow:hidden}
 .opt.opt-pic img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
 .opt.opt-pic .opt-pic-label{padding:8px 10px;display:flex;align-items:center}
@@ -870,7 +870,7 @@ function renderQuestion(){
     document.getElementById('nextBtn').classList.add('show');
     return;
   }
-  document.getElementById('optsGrid').style.display = 'flex';
+  document.getElementById('optsGrid').style.display = '';
 
   if(item.type === 'grammar'){
     label.textContent = 'Question ' + (qIdx+1);
