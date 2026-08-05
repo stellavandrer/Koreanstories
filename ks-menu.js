@@ -56,10 +56,8 @@
       ['revision.html','Révisions',IC.refresh],
       ['ecriture.html','Écriture',IC.pen]
     ]},
-    { title:'Ce que j\'ai gardé', items:[
-      ['mes-mots.html','Mots enregistrés',IC.star],
-      ['notes.html','Mes notes',IC.note],
-      ['favoris.html','Pages favorites',IC.heart]
+    { title:'Ma bibliothèque', items:[
+      ['mes-mots.html','Mots, notes & favoris',IC.star]
     ]},
     { title:'Ma progression', items:[
       ['statistiques.html','Statistiques',IC.chart],
@@ -67,14 +65,22 @@
       ['album.html','Album des histoires',IC.album],
       ['classement.html','Classement',IC.rank]
     ]},
-    { title:'Compte & aide', items:[
+    { title:'Mon compte', items:[
       ['profil.html','Profil',IC.user],
       ['reglages.html','Réglages',IC.gear],
-      ['#premium','Premium',IC.crown],
-      ['ressources.html','Ressources',IC.res],
-      ['blog.html','Blog',IC.blog],
-      ['aide.html','Aide',IC.help]
+      ['#premium','Premium',IC.crown]
     ]}
+  ];
+
+  /* Contenu et support : accessibles, mais en liens discrets plutot qu'en
+     lignes pleines — ce ne sont pas des outils d'apprentissage et ils
+     allongeaient le tiroir d'autant. */
+  var SECONDARY = [
+    ['blog.html','Blog'],
+    ['ressources.html','Ressources'],
+    ['aide.html','Aide'],
+    ['a-propos.html','À propos'],
+    ['avis.html','Avis']
   ];
 
   var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -99,14 +105,17 @@
     '.ksm-logo em{color:var(--gold,#C9A96E);font-style:italic}',
     '.ksm-close{width:38px;height:38px;border-radius:10px;border:none;background:var(--s2,#F5F7FF);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2,#475E78)}',
     '.ksm-close svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}',
-    '.ksm-body{flex:1;overflow-y:auto;padding:14px 12px calc(20px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}',
-    '.ksm-sec{margin-bottom:16px}',
-    '.ksm-sec-t{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3,#8FA5BE);padding:0 10px;margin-bottom:6px}',
-    '.ksm-link{display:flex;align-items:center;gap:13px;padding:11px 12px;border-radius:11px;color:var(--t,#0D1823);text-decoration:none;font-size:14.5px;font-weight:500;transition:background .14s}',
+    '.ksm-body{flex:1;overflow-y:auto;padding:10px 12px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}',
+    '.ksm-sec{margin-bottom:11px}',
+    '.ksm-sec-t{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3,#8FA5BE);padding:0 10px;margin-bottom:3px}',
+    '.ksm-link{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:var(--t,#0D1823);text-decoration:none;font-size:14.5px;font-weight:500;transition:background .14s}',
     '.ksm-link:hover{background:var(--s2,#F5F7FF)}',
     '.ksm-link svg{width:19px;height:19px;stroke:var(--t3,#8FA5BE);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
     '.ksm-link.on{background:var(--goldbg,rgba(201,169,110,.1));color:var(--gold-text,#8B6B3D);font-weight:700}',
     '.ksm-link.on svg{stroke:var(--gold,#C9A96E)}',
+    '.ksm-more{display:flex;flex-wrap:wrap;gap:4px 14px;padding:2px 10px 4px}',
+    '.ksm-more a{font-size:12.5px;font-weight:600;color:var(--t3,#8FA5BE);text-decoration:none;padding:3px 0}',
+    '.ksm-more a:hover{color:var(--gold-text,#8B6B3D);text-decoration:underline}',
     '.ksm-foot{padding:14px 16px;border-top:1px solid var(--bd,#DAE3F2);display:flex;gap:10px;flex-shrink:0}',
     '.ksm-foot a{flex:1;text-align:center;padding:11px;border-radius:11px;font-size:13.5px;font-weight:700;text-decoration:none}',
     '.ksm-cta{background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12}',
@@ -143,6 +152,11 @@
     });
     html += '</div>';
   });
+  html += '<div class="ksm-sec"><div class="ksm-sec-t">Le site</div><div class="ksm-more">';
+  SECONDARY.forEach(function(it){
+    html += '<a href="'+it[0]+'">'+it[1]+'</a>';
+  });
+  html += '</div></div>';
   html += '<div class="ksm-sec"><div class="ksm-sec-t">Affichage</div>'
     + '<button class="ksm-link ksm-theme" id="ksmTheme" type="button">'+svg('<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>')+'<span id="ksmThemeLbl">Mode sombre</span></button>'
     + '</div>';

@@ -5,11 +5,13 @@
 <script src="gate.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Mes mots — Korean Stories</title>
+  <title>Ma biblioth&egrave;que — Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/mes-mots.html"/>
-<meta name="description" content="Mes mots — apprends le coréen à travers des histoires, leçons et exercices interactifs avec Korean Stories."/>
+<meta name="description" content="Ma biblioth&egrave;que Korean Stories : les mots que tu as enregistr&eacute;s, tes notes de le&ccedil;on et tes pages favorites, au m&ecirc;me endroit."/>
   <link rel="stylesheet" href="design.css">
   <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:80px}
+    h2{color:var(--navy);margin:0 0 .3rem;font-size:1.3rem}
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx);padding-bottom:80px}
     h2{color:var(--navy);margin:0 0 .3rem;font-size:1.3rem}
     .sub{color:var(--tx-muted);font-size:.9rem;margin:0 0 1.2rem;line-height:1.5}
@@ -18,7 +20,6 @@
     .summary-count strong{color:var(--gold,#C9A96E);font-size:1rem}
     .clear-btn{background:none;border:none;color:var(--tx-muted);cursor:pointer;font-size:.78rem;font-weight:600;padding:.3rem .6rem;border-radius:8px}
     .clear-btn:hover{color:#ef4444;background:rgba(239,68,68,.06)}
-
     .word-list{display:flex;flex-direction:column;gap:.5rem}
     .word-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;
                padding:.85rem 1rem;display:flex;align-items:center;gap:.8rem}
@@ -37,7 +38,6 @@
     .word-btn:hover{color:var(--gold,#C9A96E);background:rgba(201,169,110,.08)}
     .word-btn.delete:hover{color:#ef4444;background:rgba(239,68,68,.08)}
     .word-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
-
     .empty{text-align:center;padding:3rem 1rem;color:var(--tx-muted)}
     .empty-ico{width:64px;height:64px;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;
                background:rgba(201,169,110,.08);border-radius:50%;color:var(--gold,#C9A96E)}
@@ -46,116 +46,325 @@
     .empty p{font-size:.88rem;line-height:1.55;margin:.5rem 0;max-width:340px;margin-left:auto;margin-right:auto}
     .empty .cta{display:inline-block;margin-top:.8rem;padding:.6rem 1.2rem;border-radius:10px;
                 background:var(--gold,#C9A96E);color:#0a1220;font-weight:700;text-decoration:none;font-size:.9rem}
+    .sub{color:var(--tx-muted);font-size:.9rem;margin:0 0 1.2rem}
+    .note-list{display:flex;flex-direction:column;gap:.7rem}
+    .note-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;
+               padding:1rem;transition:all .2s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+    .note-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.06);
+                    border-color:rgba(201,169,110,.4)}
+    .note-meta{display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.5rem}
+    .note-title{font-size:.95rem;font-weight:700;color:var(--tx);line-height:1.35;flex:1;min-width:0;
+                white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .note-time{font-size:.7rem;color:var(--tx-muted);flex-shrink:0;font-weight:600}
+    .note-excerpt{font-size:.85rem;color:var(--tx-muted);line-height:1.6;
+                  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;
+                  overflow:hidden;white-space:pre-wrap;word-break:break-word}
+    .empty-ico svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+    .filter-row{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0 1rem}
+    .filter-chip{padding:.4rem .8rem;border-radius:20px;background:var(--surf);border:1px solid var(--bd);
+                 font-size:.78rem;font-weight:600;cursor:pointer;color:var(--tx-muted);transition:all .2s}
+    .filter-chip.on{background:var(--gold,#C9A96E);color:#0a1220;border-color:var(--gold,#C9A96E)}
+    .filter-chip:hover:not(.on){background:rgba(201,169,110,.08)}
+    .fav-list{display:flex;flex-direction:column;gap:.6rem}
+    .fav-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;
+              display:flex;align-items:center;gap:.8rem;text-decoration:none;color:inherit;
+              transition:all .2s;position:relative}
+    .fav-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.06);
+                    border-color:rgba(201,169,110,.4)}
+    .fav-ico{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:rgba(201,169,110,.12);
+             display:flex;align-items:center;justify-content:center;color:var(--gold,#C9A96E)}
+    .fav-ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;
+                 stroke-linecap:round;stroke-linejoin:round}
+    .fav-body{flex:1;min-width:0}
+    .fav-meta{display:flex;align-items:center;gap:.4rem;margin-bottom:.2rem}
+    .fav-type{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+              color:var(--gold,#C9A96E)}
+    .fav-level{font-size:.65rem;font-weight:700;background:rgba(201,169,110,.13);color:var(--gold,#C9A96E);
+               padding:.1rem .45rem;border-radius:6px;letter-spacing:.04em}
+    .fav-title{font-size:.95rem;font-weight:600;color:var(--tx);line-height:1.3;
+               white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .fav-when{font-size:.72rem;color:var(--tx-muted);margin-top:.15rem}
+    .fav-remove{flex-shrink:0;background:none;border:none;cursor:pointer;padding:.4rem;
+                color:var(--tx-muted);border-radius:8px;transition:all .15s}
+    .fav-remove:hover{color:#ef4444;background:rgba(239,68,68,.08)}
+    .fav-remove svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+    /* ── Onglets (fusion Mots / Notes / Favoris) ── */
+    .tabs{display:flex;gap:6px;background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:5px;margin:0 0 1.1rem}
+    .tab{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:.6rem .4rem;border:none;background:none;
+         border-radius:10px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:700;color:var(--tx-muted);transition:.15s}
+    .tab:hover:not(.on){background:rgba(201,169,110,.08);color:var(--tx)}
+    .tab.on{background:var(--gold,#C9A96E);color:#0a1220}
+    .tab-n{font-size:.72rem;font-weight:800;background:rgba(0,0,0,.10);border-radius:20px;padding:1px 7px;min-width:18px}
+    .tab.on .tab-n{background:rgba(0,0,0,.16)}
+    .tab:not(.on) .tab-n{background:rgba(201,169,110,.16);color:var(--gold,#C9A96E)}
+    .pane{display:none}
+    .pane.on{display:block}
+    @media(max-width:380px){.tab{font-size:.78rem;padding:.55rem .3rem}}
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <script defer src="ks-boot-sync.js"></script>
 </head>
-<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Mes mots</h1>
-  <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="ksSmartBack&&ksSmartBack()||history.back()">←</button><span class="bar-title">Mes mots</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Ma biblioth&egrave;que</h1>
+  <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="ksSmartBack&&ksSmartBack()||history.back()">&larr;</button><span class="bar-title">Ma biblioth&egrave;que</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de th&egrave;me"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
 <div class="shell"><main class="main"><div style="padding:1rem">
 
-  <h2>Mes mots sauvegardés</h2>
-  <p class="sub">Tous les mots coréens que tu as ajoutés depuis le pop-up traduction. Touche pour écouter.</p>
+  <h2>Ma biblioth&egrave;que</h2>
+  <p class="sub">Tout ce que tu as gard&eacute; en apprenant : tes mots, tes notes et tes pages mises de c&ocirc;t&eacute;.</p>
 
-  <div class="summary-bar">
-    <div class="summary-count"><strong id="totalCount">0</strong> mot(s)</div>
-    <button class="clear-btn" id="clearBtn" onclick="clearAll()" style="display:none">Tout supprimer</button>
+  <div class="tabs" role="tablist">
+    <button class="tab on" role="tab" id="tab-mots"    aria-selected="true"  aria-controls="pane-mots"    onclick="showTab('mots')">Mots <span class="tab-n" id="n-mots">0</span></button>
+    <button class="tab"    role="tab" id="tab-notes"   aria-selected="false" aria-controls="pane-notes"   onclick="showTab('notes')">Notes <span class="tab-n" id="n-notes">0</span></button>
+    <button class="tab"    role="tab" id="tab-favoris" aria-selected="false" aria-controls="pane-favoris" onclick="showTab('favoris')">Favoris <span class="tab-n" id="n-favoris">0</span></button>
   </div>
 
-  <div class="word-list" id="wordList"></div>
-
-  <div class="empty" id="emptyState" style="display:none">
-    <div class="empty-ico">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="11" y2="17"/></svg>
+  <!-- ───────── MOTS ───────── -->
+  <section class="pane on" id="pane-mots" role="tabpanel" aria-labelledby="tab-mots">
+    <div class="summary-bar">
+      <div class="summary-count"><strong id="cMots">0</strong> mot(s)</div>
+      <button class="clear-btn" id="clearMots" onclick="clearMots()" style="display:none">Tout supprimer</button>
     </div>
-    <h3>Aucun mot pour le moment</h3>
-    <p>Sur n'importe quelle leçon ou histoire, <strong>tape un mot coréen</strong> pour ouvrir le pop-up traduction, puis touche <strong>"Ajouter"</strong> pour le sauvegarder ici.</p>
-    <a href="cours.html" class="cta">Aller au parcours →</a>
-  </div>
+    <div class="word-list" id="wordList"></div>
+    <div class="empty" id="emptyMots" style="display:none">
+      <div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="11" y2="17"/></svg></div>
+      <h3>Aucun mot pour le moment</h3>
+      <p>Sur n'importe quelle le&ccedil;on ou histoire, <strong>tape un mot cor&eacute;en</strong> pour ouvrir le pop-up traduction, puis touche <strong>&laquo;&nbsp;Ajouter&nbsp;&raquo;</strong> pour le sauvegarder ici.</p>
+      <a href="cours.html" class="cta">Aller au parcours &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ───────── NOTES ───────── -->
+  <section class="pane" id="pane-notes" role="tabpanel" aria-labelledby="tab-notes">
+    <div class="summary-bar">
+      <div class="summary-count"><strong id="cNotes">0</strong> note(s)</div>
+      <button class="clear-btn" id="clearNotes" onclick="clearNotes()" style="display:none">Tout supprimer</button>
+    </div>
+    <div class="note-list" id="noteList"></div>
+    <div class="empty" id="emptyNotes" style="display:none">
+      <div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+      <h3>Aucune note pour le moment</h3>
+      <p>Pendant tes le&ccedil;ons, touche le bouton <strong>Note</strong> en haut &agrave; droite pour &eacute;crire tes m&eacute;morisations, mn&eacute;moniques ou exemples persos.</p>
+      <a href="cours.html" class="cta">Aller au parcours &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ───────── FAVORIS ───────── -->
+  <section class="pane" id="pane-favoris" role="tabpanel" aria-labelledby="tab-favoris">
+    <div class="summary-bar">
+      <div class="summary-count"><strong id="cFav">0</strong> &eacute;l&eacute;ment(s)</div>
+      <button class="clear-btn" id="clearFav" onclick="clearFav()" style="display:none">Tout retirer</button>
+    </div>
+    <div class="filter-row" id="filterRow">
+      <button class="filter-chip on" data-filter="all" onclick="setFilter('all')">Tous</button>
+      <button class="filter-chip" data-filter="lecon" onclick="setFilter('lecon')">Le&ccedil;ons</button>
+      <button class="filter-chip" data-filter="exercice" onclick="setFilter('exercice')">Exercices</button>
+      <button class="filter-chip" data-filter="histoire" onclick="setFilter('histoire')">Histoires</button>
+      <button class="filter-chip" data-filter="quiz" onclick="setFilter('quiz')">Quiz</button>
+      <button class="filter-chip" data-filter="anecdote" onclick="setFilter('anecdote')">Anecdotes</button>
+      <button class="filter-chip" data-filter="conseil" onclick="setFilter('conseil')">Conseils</button>
+    </div>
+    <div class="fav-list" id="favList"></div>
+    <div class="empty" id="emptyFav" style="display:none">
+      <div class="empty-ico"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>Pas encore de favoris</h3>
+      <p>Quand tu trouves une le&ccedil;on que tu veux r&eacute;viser facilement plus tard, clique sur le bouton marque-page <strong>en haut &agrave; droite</strong> de la le&ccedil;on.</p>
+      <a href="cours.html" class="cta">D&eacute;couvrir le parcours &rarr;</a>
+    </div>
+  </section>
 
 </div></main></div>
 <script src="ks.js"></script>
+<script src="ks-favorites.js"></script>
 <script>
-function getSaved(){
-  try { return JSON.parse(localStorage.getItem('ks_saved_words')||'[]'); }
-  catch(e){ return []; }
-}
-function setSaved(arr){
-  try { localStorage.setItem('ks_saved_words', JSON.stringify(arr)); } catch(e){}
-}
-function escapeHtml(s){
-  return String(s||'').replace(/[<>&"]/g, function(c){
-    return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c];
+/* ═══════════════════════════════════════════════════════════════════
+   Ma bibliotheque — fusion de mes-mots.html, notes.html et
+   favoris.html, qui etaient trois pages de ~150-250 lignes a la
+   structure identique et occupaient trois entrees du menu pour trois
+   listes que l'utilisatrice percoit comme « mes affaires ».
+   Les anciennes URL redirigent ici avec le bon onglet ouvert.
+   Chaque onglet garde sa propre cle localStorage :
+     Mots    -> ks_saved_words   (aliment par ks-tap-translate.js)
+     Notes   -> ks_notes         (bouton Note des lecons)
+     Favoris -> ks_favorites     (marque-page, stocke des PAGES)
+   ═══════════════════════════════════════════════════════════════════ */
+'use strict';
+
+/* ── Helpers partages (ils etaient dupliques a l'identique 3 fois) ── */
+function esc(s){
+  return String(s == null ? '' : s).replace(/[<>&"']/g, function(c){
+    return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'})[c];
   });
 }
 function relativeTime(ts){
-  var d = Date.now() - ts;
-  var s = Math.floor(d/1000);
-  if (s < 60) return "à l'instant";
-  var m = Math.floor(s/60);
-  if (m < 60) return 'il y a ' + m + ' min';
-  var h = Math.floor(m/60);
-  if (h < 24) return 'il y a ' + h + 'h';
-  var dd = Math.floor(h/24);
-  if (dd < 7) return 'il y a ' + dd + ' j';
-  if (dd < 30) return 'il y a ' + Math.floor(dd/7) + ' sem';
-  if (dd < 365) return 'il y a ' + Math.floor(dd/30) + ' mois';
-  return 'il y a ' + Math.floor(dd/365) + ' an';
+  var s = Math.floor((Date.now() - ts)/1000);
+  if (s < 60) return "a l'instant";
+  var m = Math.floor(s/60);   if (m < 60) return 'il y a ' + m + ' min';
+  var h = Math.floor(m/60);   if (h < 24) return 'il y a ' + h + 'h';
+  var d = Math.floor(h/24);   if (d < 7)  return 'il y a ' + d + ' j';
+  if (d < 30)  return 'il y a ' + Math.floor(d/7) + ' sem';
+  if (d < 365) return 'il y a ' + Math.floor(d/30) + ' mois';
+  return 'il y a ' + Math.floor(d/365) + ' an';
 }
-function removeWord(ko){
-  var arr = getSaved().filter(function(w){ return w.ko !== ko; });
-  setSaved(arr);
-  render();
+function readLS(key, fallback){
+  try { return JSON.parse(localStorage.getItem(key) || fallback); }
+  catch(e){ return JSON.parse(fallback); }
 }
-function clearAll(){
-  if (!confirm('Supprimer tous les mots sauvegardés ?')) return;
-  setSaved([]);
-  render();
+function writeLS(key, val){
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){}
 }
-function playAudio(ko){
-  if (typeof speak === 'function') speak(ko, null);
+function show(el, on, mode){ if (el) el.style.display = on ? (mode || 'block') : 'none'; }
+
+/* ── Onglets ── */
+var TABS = ['mots','notes','favoris'];
+function showTab(name){
+  if (TABS.indexOf(name) === -1) name = 'mots';
+  TABS.forEach(function(t){
+    var btn = document.getElementById('tab-' + t);
+    var pane = document.getElementById('pane-' + t);
+    var on = (t === name);
+    if (btn){ btn.classList.toggle('on', on); btn.setAttribute('aria-selected', on ? 'true' : 'false'); }
+    if (pane) pane.classList.toggle('on', on);
+  });
+  try { history.replaceState(null, '', name === 'mots' ? location.pathname : '#' + name); } catch(e){}
 }
-function render(){
-  var words = getSaved();
-  document.getElementById('totalCount').textContent = words.length;
+
+/* ── Onglet MOTS ── */
+function getWords(){ return readLS('ks_saved_words', '[]'); }
+function playWord(ko){ if (typeof speak === 'function') speak(ko, null); }
+function removeWord(ko){ writeLS('ks_saved_words', getWords().filter(function(w){ return w.ko !== ko; })); renderWords(); }
+function clearMots(){ if (!confirm('Supprimer tous les mots sauvegardes ?')) return; writeLS('ks_saved_words', []); renderWords(); }
+function renderWords(){
+  var words = getWords();
+  document.getElementById('cMots').textContent = words.length;
+  document.getElementById('n-mots').textContent = words.length;
+  show(document.getElementById('clearMots'), words.length > 0);
+  show(document.getElementById('emptyMots'), words.length === 0);
   var list = document.getElementById('wordList');
-  var empty = document.getElementById('emptyState');
-  var clearBtn = document.getElementById('clearBtn');
-  if (words.length === 0) {
-    list.style.display = 'none';
-    empty.style.display = 'block';
-    clearBtn.style.display = 'none';
-    return;
-  }
-  list.style.display = 'flex';
-  empty.style.display = 'none';
-  clearBtn.style.display = 'block';
+  show(list, words.length > 0, 'flex');
+  if (!words.length) return;
   list.innerHTML = words.map(function(w){
     return '<div class="word-card">' +
       '<div class="word-ko-block">' +
-        '<div class="word-ko">' + escapeHtml(w.ko) + '</div>' +
-        (w.rom ? '<div class="word-rom">' + escapeHtml(w.rom) + '</div>' : '') +
-        '<div class="word-fr">' + escapeHtml(w.fr || '') + '</div>' +
+        '<div class="word-ko">' + esc(w.ko) + '</div>' +
+        (w.rom ? '<div class="word-rom">' + esc(w.rom) + '</div>' : '') +
+        '<div class="word-fr">' + esc(w.fr) + '</div>' +
         '<div class="word-meta">' +
-          (w.pos ? '<span class="word-pos">' + escapeHtml(w.pos) + '</span>' : '') +
+          (w.pos ? '<span class="word-pos">' + esc(w.pos) + '</span>' : '') +
           '<span class="word-when">' + relativeTime(w.addedAt || Date.now()) + '</span>' +
         '</div>' +
       '</div>' +
       '<div class="word-actions">' +
-        '<button class="word-btn" onclick="playAudio(&quot;' + w.ko + '&quot;)" title="Écouter">' +
+        '<button class="word-btn" onclick="playWord(&quot;' + esc(w.ko) + '&quot;)" title="Ecouter" aria-label="Ecouter ' + esc(w.ko) + '">' +
           '<svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>' +
         '</button>' +
-        '<button class="word-btn delete" onclick="removeWord(&quot;' + w.ko + '&quot;)" title="Retirer">' +
+        '<button class="word-btn delete" onclick="removeWord(&quot;' + esc(w.ko) + '&quot;)" title="Retirer" aria-label="Retirer ' + esc(w.ko) + '">' +
           '<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>' +
         '</button>' +
       '</div>' +
     '</div>';
   }).join('');
 }
-render();
-try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+
+/* ── Onglet NOTES ── */
+function getNotes(){ return readLS('ks_notes', '{}'); }
+function clearNotes(){ if (!confirm('Supprimer toutes les notes ? Cette action ne peut pas etre annulee.')) return; writeLS('ks_notes', {}); renderNotes(); }
+function renderNotes(){
+  var all = getNotes();
+  var entries = Object.keys(all).map(function(href){ var o = all[href] || {}; o.href = href; return o; });
+  entries.sort(function(a,b){ return (b.updatedAt||0) - (a.updatedAt||0); });
+  document.getElementById('cNotes').textContent = entries.length;
+  document.getElementById('n-notes').textContent = entries.length;
+  show(document.getElementById('clearNotes'), entries.length > 0);
+  show(document.getElementById('emptyNotes'), entries.length === 0);
+  var list = document.getElementById('noteList');
+  show(list, entries.length > 0, 'flex');
+  if (!entries.length) return;
+  list.innerHTML = entries.map(function(n){
+    return '<a class="note-card" href="' + esc(n.href) + '">' +
+      '<div class="note-meta">' +
+        '<div class="note-title">' + esc(n.title || n.href) + '</div>' +
+        '<div class="note-time">' + relativeTime(n.updatedAt || Date.now()) + '</div>' +
+      '</div>' +
+      '<div class="note-excerpt">' + esc(n.text) + '</div>' +
+    '</a>';
+  }).join('');
+}
+
+/* ── Onglet FAVORIS ── */
+var TYPE_ICONS = {
+  lecon:    '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  exercice: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>',
+  quiz:     '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  histoire: '<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>',
+  anecdote: '<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>',
+  conseil:  '<polyline points="22 4 12 14.01 9 11.01"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  chanson:  '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  pro:      '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  autre:    '<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>'
+};
+var TYPE_LABELS = {
+  lecon:'Leçon', exercice:'Exercice', quiz:'Quiz', histoire:'Histoire',
+  anecdote:'Anecdote', conseil:'Conseil', chanson:'Chanson', pro:'Pro', autre:'Activité'
+};
+var currentFilter = 'all';
+function getFavs(){ return readLS('ks_favorites', '[]'); }
+function detectTypeFromHref(href){
+  var pfx = ['lecon','exercice','quiz','histoire','anecdote','conseil','chanson','pro'];
+  for (var i = 0; i < pfx.length; i++){ if (String(href).indexOf(pfx[i]) === 0) return pfx[i]; }
+  return 'autre';
+}
+function removeFav(href){
+  var favs = getFavs();
+  var i = favs.findIndex(function(f){ return f.href === href; });
+  if (i >= 0){ favs.splice(i,1); writeLS('ks_favorites', favs); renderFavs(); }
+}
+function clearFav(){ if (!confirm('Retirer tous les favoris ? Cette action ne peut pas etre annulee.')) return; writeLS('ks_favorites', []); renderFavs(); }
+function setFilter(f){
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(function(c){ c.classList.toggle('on', c.getAttribute('data-filter') === f); });
+  renderFavs();
+}
+function renderFavs(){
+  var favs = getFavs();
+  document.getElementById('cFav').textContent = favs.length;
+  document.getElementById('n-favoris').textContent = favs.length;
+  show(document.getElementById('clearFav'), favs.length > 0);
+  show(document.getElementById('emptyFav'), favs.length === 0);
+  show(document.getElementById('filterRow'), favs.length > 0, 'flex');
+  var list = document.getElementById('favList');
+  show(list, favs.length > 0, 'flex');
+  if (!favs.length) return;
+  var filtered = currentFilter === 'all' ? favs : favs.filter(function(f){
+    return (f.type || detectTypeFromHref(f.href)) === currentFilter;
+  });
+  if (!filtered.length){
+    list.innerHTML = '<div class="empty" style="display:block"><p>Aucun favori dans cette categorie.</p></div>';
+    return;
+  }
+  list.innerHTML = filtered.map(function(f){
+    var type = f.type || detectTypeFromHref(f.href);
+    return '<div class="fav-card" onclick="location.href=&quot;' + esc(f.href) + '&quot;" style="cursor:pointer">' +
+      '<div class="fav-ico"><svg viewBox="0 0 24 24">' + (TYPE_ICONS[type] || TYPE_ICONS.autre) + '</svg></div>' +
+      '<div class="fav-body">' +
+        '<div class="fav-meta">' +
+          '<span class="fav-type">' + (TYPE_LABELS[type] || 'Activite') + '</span>' +
+          (f.level ? '<span class="fav-level">' + esc(f.level) + '</span>' : '') +
+        '</div>' +
+        '<div class="fav-title">' + esc(f.title || f.href) + '</div>' +
+        '<div class="fav-when">' + relativeTime(f.addedAt || Date.now()) + '</div>' +
+      '</div>' +
+      '<button class="fav-remove" onclick="event.stopPropagation();removeFav(&quot;' + esc(f.href) + '&quot;)" title="Retirer" aria-label="Retirer ce favori">' +
+        '<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>' +
+      '</button>' +
+    '</div>';
+  }).join('');
+}
+
+/* ── Demarrage ── */
+renderWords(); renderNotes(); renderFavs();
+showTab((location.hash || '').replace('#','') || 'mots');
+try{ var t = localStorage.getItem('ks_theme'); if (t) document.documentElement.setAttribute('data-theme', t); }catch(e){}
 </script>
   <script src="ks-menu.js" defer></script>
 </body></html>
