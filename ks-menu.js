@@ -42,6 +42,7 @@
     { title:'Apprendre', items:[
       ['cours.html','Parcours',IC.learn],
       ['histoires.html','Histoires',IC.book],
+      ['vocabulaire.html','Vocabulaire par thème',IC.cards],
       ['dictionnaire.html','Dictionnaire',IC.dico],
       ['hangeul.html','Hangeul',IC.hangeul],
       ['grammaire.html','Grammaire',IC.grammar]
@@ -55,11 +56,10 @@
       ['revision.html','Révisions',IC.refresh],
       ['ecriture.html','Écriture',IC.pen]
     ]},
-    { title:'Mon vocabulaire', items:[
-      ['vocabulaire.html','Vocabulaire',IC.cards],
-      ['mes-mots.html','Mes mots',IC.star],
-      ['notes.html','Notes',IC.note],
-      ['favoris.html','Favoris',IC.heart]
+    { title:'Ce que j\'ai gardé', items:[
+      ['mes-mots.html','Mots enregistrés',IC.star],
+      ['notes.html','Mes notes',IC.note],
+      ['favoris.html','Pages favorites',IC.heart]
     ]},
     { title:'Ma progression', items:[
       ['statistiques.html','Statistiques',IC.chart],
