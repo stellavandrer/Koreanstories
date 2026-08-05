@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <meta name="google-site-verification" content="0L56vp4mDjZOCFZm_Q5RwYBEJV-aVtaDlFc40RnpP08" />
 <script src="gate.js"></script>
@@ -91,6 +92,21 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   --sh1:0 2px 14px rgba(15,30,80,.06);
   --sh2:0 14px 40px rgba(15,30,80,.12);
 }
+/* Mode sombre — mêmes valeurs que design.css, que cette page n'utilise pas
+   (elle est self-contained). Le thème est mémorisé dans localStorage.ks_theme
+   par le reste du site : sans ce bloc, quelqu'un qui apprend en sombre
+   retombait sur une page d'accueil en pleine lumière. Le navy du hero et de
+   la bande de confiance reste identique dans les deux thèmes — c'est la
+   couleur de marque, pas une couleur de surface. */
+[data-theme=dark]{
+  --bg:#0B1522; --surf:#152030; --s2:#192840; --cream:#192840;
+  --t:#EDF2FA; --t2:#8293A8; --t3:#7E93AB;
+  --bd:rgba(255,255,255,.09);
+  --gold:#D5BA8A; --gold2:#e6d0a6; --gold-deep:#C9A86C;
+  --goldbg:rgba(201,168,108,.12); --goldbd:rgba(201,168,108,.28);
+  --sh1:0 2px 12px rgba(0,0,0,.40);
+  --sh2:0 14px 40px rgba(0,0,0,.55);
+}
 body{font-family:'Inter',system-ui,sans-serif;color:var(--t);background:var(--surf);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
 a{text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent}
 button{font-family:inherit;border:none;cursor:pointer;background:none;-webkit-tap-highlight-color:transparent}
@@ -121,6 +137,11 @@ img{display:block;max-width:100%}
 .nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,box-shadow .3s}
 .nav.dark{background:transparent}
 .nav.light{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--bd)}
+/* En thème sombre la barre « claire » (état scrollé) doit rester sombre, et
+   garder le logo à texte blanc : le logo à texte foncé serait invisible. */
+[data-theme=dark] .nav.light{background:rgba(21,32,48,.94)}
+[data-theme=dark] .nav.light .nav-pic-light{display:none}
+[data-theme=dark] .nav.light .nav-pic-dark{display:block}
 .nav-logo picture{display:block;height:26px;line-height:0}
 .nav-logo img{height:26px;width:auto}
 .nav .nav-pic-light{display:none}.nav .nav-pic-dark{display:block}
@@ -175,7 +196,7 @@ img{display:block;max-width:100%}
 .hero-art{position:relative;height:440px}
 .ha-card{position:absolute;width:210px;border-radius:18px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);border:3px solid rgba(255,255,255,.9)}
 .ha-card img{width:100%;height:270px;object-fit:cover}
-.ha-cap{background:#fff;padding:9px 12px}
+.ha-cap{background:var(--surf);padding:9px 12px}
 .ha-cap .k{font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:15px;color:var(--t)}
 .ha-cap .f{font-size:11px;color:var(--t3)}
 .ha-1{top:20px;left:14%;transform:rotate(-7deg);z-index:1}
