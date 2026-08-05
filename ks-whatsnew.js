@@ -35,7 +35,7 @@
     {
       id: 'voixstudio',
       title: 'Studio des voix',
-      desc: 'Écoute chaque personnage des histoires et compare les voix natives. Toutes nos prononciations sont des voix neuronales — jamais de voix robotique.',
+      desc: 'Écoute chaque personnage des histoires et compare les voix naturelles. Toutes nos prononciations sont des voix neuronales — jamais de voix robotique.',
       icon: 'mic',
       color: '#0EA5E9',
       cta: 'Écouter les voix',
@@ -62,7 +62,7 @@
     {
       id: 'blog',
       title: 'Le blog Korean Stories',
-      desc: 'Des guides pratiques et vérifiés sur la Corée : voyage, cuisine, culture et méthode — avec les mots coréens prononcés par de vraies voix.',
+      desc: 'Des guides pratiques et vérifiés sur la Corée : voyage, cuisine, culture et méthode — avec les mots coréens prononcés par des voix coréennes naturelles.',
       icon: 'news',
       color: '#7C3AED',
       cta: 'Lire le blog',

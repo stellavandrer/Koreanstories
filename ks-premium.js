@@ -2,7 +2,7 @@
    ks-premium.js — État Premium + déblocage par clé Gumroad (sans backend).
    ──────────────────────────────────────────────────────────────────
    Modèle « par confort / extras » : le Premium débloque des bonus
-   (PDF, certificat, podcasts & voix natives à venir, accès anticipé,
+   (PDF, certificat, podcasts & voix naturelles à venir, accès anticipé,
    badge de soutien). AUCUNE restriction du contenu cœur du parcours.
    Verrou « doux » (flag localStorage, synchronisé Firebase si connecté) :
    acceptable ici car on déverrouille des extras, pas du contenu protégé.

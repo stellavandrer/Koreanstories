@@ -1,4 +1,4 @@
-// Korean Stories — Service Worker v2.7
+// Korean Stories — Service Worker v2.8
 // Network-first pour HTML/JS/CSS (toujours à jour),
 // cache-first pour les images & polices (rarement modifiées).
 // Bypass pour les APIs externes type DiceBear (l'interception
@@ -10,6 +10,8 @@
 //        histoires 12-30 (curriculum complet).
 // v2.6 : ajout pages publiques (a-propos, aide, mentions-legales)
 //        et modules onboarding tour.
+// v2.8 : polices decoupees (ks-fonts-kr/serif-kr/myeongjo) et Firebase
+//        charge a la demande via ks-boot-sync.js.
 // v3.0 : site 100% sans émoji (icônes SVG partout), barre de menu
 //        accessibilisée (indicateur d'onglet actif non-coloré, focus
 //        visible, libellés gardés pour lecteurs d'écran), filtre du
@@ -50,7 +52,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.40';
+const CACHE = 'ks-v7.41';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -90,6 +92,7 @@ const CORE = [
   'ks-menu.js',
   'ks-curriculum.js',
   'ks-sync.js',
+  'ks-boot-sync.js',
   'ks-search.js',
   'ks-premium.js',
   'premium.html',
@@ -101,6 +104,7 @@ const CORE = [
   'gate.js',
   'design.css',
   'fonts/ks-fonts.css',
+  'fonts/ks-fonts-kr.css',
   'ks-cookie-consent.js',
 
   // Leçons Hangeul (Débutant)
