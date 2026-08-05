@@ -16,6 +16,8 @@
 //        audio/manifest-dict.json (dictionnaire, charge a la demande).
 // v3.1 : menu raccourci — mes-mots/notes/favoris fusionnes en une page
 //        a onglets (Ma bibliotheque), contenu et support en liens discrets.
+// v3.2 : cases de BD en chargement differe (ks-lazy-bg.js) — 1,3 Mo
+//        d'images ne se telechargent plus des l'ouverture de la planche.
 // v3.0 : site 100% sans émoji (icônes SVG partout), barre de menu
 //        accessibilisée (indicateur d'onglet actif non-coloré, focus
 //        visible, libellés gardés pour lecteurs d'écran), filtre du
@@ -56,7 +58,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.43';
+const CACHE = 'ks-v7.44';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -97,6 +99,7 @@ const CORE = [
   'ks-curriculum.js',
   'ks-sync.js',
   'ks-boot-sync.js',
+  'ks-lazy-bg.js',
   'ks-search.js',
   'ks-premium.js',
   'premium.html',
