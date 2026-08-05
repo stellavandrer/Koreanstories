@@ -12,6 +12,8 @@
 //        et modules onboarding tour.
 // v2.8 : polices decoupees (ks-fonts-kr/serif-kr/myeongjo) et Firebase
 //        charge a la demande via ks-boot-sync.js.
+// v2.9 : manifeste audio scinde — audio/manifest.json (coeur, 119 Ko) et
+//        audio/manifest-dict.json (dictionnaire, charge a la demande).
 // v3.0 : site 100% sans émoji (icônes SVG partout), barre de menu
 //        accessibilisée (indicateur d'onglet actif non-coloré, focus
 //        visible, libellés gardés pour lecteurs d'écran), filtre du
@@ -52,7 +54,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.41';
+const CACHE = 'ks-v7.42';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
