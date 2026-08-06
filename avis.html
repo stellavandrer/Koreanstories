@@ -216,21 +216,48 @@
     var listEl = document.getElementById('revList');
     var summaryEl = document.getElementById('revSummary');
     if(!db){ listEl.innerHTML = '<div class="rev-empty">Avis indisponibles pour le moment.</div>'; return; }
+
+    /* ── Pourquoi pas de .orderBy() ici ──────────────────────────────
+       La requete d'origine etait :
+         .where('public','==',true).where('status','==','approved')
+         .orderBy('createdAt','desc')
+       Deux egalites PLUS un tri sur un troisieme champ : Firestore exige
+       alors un index composite. Il n'a jamais ete cree, donc la requete
+       echouait en 'failed-precondition' et AUCUN avis ne s'affichait,
+       meme approuve — la page etait morte sans qu'on le sache.
+
+       Des egalites SEULES, elles, sont servies par fusion des index
+       simples que Firestore cree tout seul : aucun index a creer a la
+       main, rien a cliquer dans la console. On trie donc par date en
+       JavaScript juste apres. Le cout est nul a cette echelle (on lit au
+       plus 100 documents), et la page ne peut plus se casser toute seule.
+       Si le volume d'avis depassait un jour la centaine, on remettrait le
+       orderBy ET l'index (voir firestore.indexes.json). ──────────────── */
     db.collection('reviews')
       .where('public','==',true)
       .where('status','==','approved')
-      .orderBy('createdAt','desc')
-      .limit(30)
+      .limit(100)
       .get()
       .then(function(snap){
         if (snap.empty) {
           listEl.innerHTML = '<div class="rev-empty">Sois le/la premier·ère à laisser un avis !</div>';
           return;
         }
+
+        /* Tri du plus recent au plus ancien (remplace le orderBy Firestore). */
+        var docs = [];
+        snap.forEach(function(doc){ docs.push(doc.data()); });
+        docs.sort(function(a,b){
+          var ta=0, tb=0;
+          try{ ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0; }catch(e){}
+          try{ tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0; }catch(e){}
+          return tb - ta;
+        });
+        docs = docs.slice(0, 30);
+
         var total = 0, html = '';
         var months = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-        snap.forEach(function(doc){
-          var d = doc.data();
+        docs.forEach(function(d){
           total += (d.rating||0);
           var dateStr = '';
           try{
@@ -245,22 +272,21 @@
                 + '</div>';
         });
         listEl.innerHTML = html;
-        var avg = total / snap.size;
+        var avg = total / docs.length;
         document.getElementById('revAvg').textContent = avg.toFixed(1);
         document.getElementById('revAvgStars').innerHTML = starsHTML(Math.round(avg));
-        document.getElementById('revCount').textContent = snap.size + (snap.size>1?' avis':' avis');
+        document.getElementById('revCount').textContent = docs.length + (docs.length>1?' avis':' avis');
         summaryEl.style.display = 'flex';
       })
       .catch(function(err){
         /* Une erreur ici etait muette : on affichait « indisponibles » sans
-           jamais savoir pourquoi. Or la cause la plus probable est un index
-           composite Firestore manquant (failed-precondition) — dans ce cas
-           AUCUN avis ne s'affiche, meme approuve. Le message de Firebase
-           contient un lien direct de creation de l'index. */
+           jamais savoir pourquoi. On garde le diagnostic, au cas ou un
+           orderBy reviendrait dans la requete un jour. */
         var code = (err && err.code) || '';
         if (code === 'failed-precondition') {
-          console.error('[KS] Avis : index composite Firestore manquant. ' +
-            'Voir firestore.indexes.json, ou suivre le lien ci-dessous :', err && err.message);
+          console.error('[KS] Avis : index composite Firestore manquant — ' +
+            'un orderBy a-t-il ete rajoute a la requete ? Voir firestore.indexes.json.',
+            err && err.message);
         } else {
           console.error('[KS] Avis : echec du chargement', code, err && err.message);
         }
@@ -310,6 +336,9 @@
                                  comment: comment.slice(0,500), public: !!isPublic })
         }).catch(function(){});
       } catch(e) {}
+      /* Marqueur lu par ks-review-prompt.js : ne plus jamais proposer de
+         laisser un avis a quelqu'un qui vient d'en laisser un. */
+      try { localStorage.setItem('ks_review_left', String(Date.now())); } catch(e) {}
       form.reset();
       selected = 0; paint(0);
       setMsg('ok','Merci beaucoup ! Ton avis a bien été envoyé' + (isPublic ? ' et sera publié après vérification.' : '.'));

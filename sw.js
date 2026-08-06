@@ -20,6 +20,9 @@
 //        d'images ne se telechargent plus des l'ouverture de la planche.
 // v3.3 : inscription obligatoire (ks-account-gate.js) — accueil, blog,
 //        pages legales et Premium restent publics.
+// v3.4 : avis remontes sur l'accueil (ks-reviews-feed.js, lecture REST
+//        sans SDK Firebase) et invitation a en laisser un apres un usage
+//        reel (ks-review-prompt.js, 8 pages du hub).
 // v3.0 : site 100% sans émoji (icônes SVG partout), barre de menu
 //        accessibilisée (indicateur d'onglet actif non-coloré, focus
 //        visible, libellés gardés pour lecteurs d'écran), filtre du
@@ -60,7 +63,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.45';
+const CACHE = 'ks-v7.46';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -103,6 +106,8 @@ const CORE = [
   'ks-boot-sync.js',
   'ks-account-gate.js',
   'ks-lazy-bg.js',
+  'ks-reviews-feed.js',
+  'ks-review-prompt.js',
   'ks-search.js',
   'ks-premium.js',
   'premium.html',

@@ -209,6 +209,13 @@
       if (attempt < 10) setTimeout(function(){ tryShow(attempt + 1); }, 2000);
       return;
     }
+    /* Une sollicitation à la fois. ks-review-prompt.js s'affiche 9 s après
+       l'ouverture, donc avant nous : si sa carte est là (ou l'a été dans
+       cette session), on se tait. Demander un avis PUIS un e-mail dans la
+       même minute, c'est ce qui fait fermer un site. Garde-fou réciproque
+       côté ks-review-prompt.js. */
+    try { if (sessionStorage.getItem('ks_popup_shown')) return; } catch(e){}
+    if (document.querySelector('.ksrp')) return;
     showModal();
   }
 

@@ -2,23 +2,38 @@
   "//": [
     "Index composites Firestore — Korean Stories.",
     "",
-    "Découvert le 2026-08-05 : la page avis.html interroge",
+    "═══ CET INDEX EST DESORMAIS FACULTATIF ═══",
+    "",
+    "Historique. Le 2026-08-05, avis.html interrogeait :",
     "  reviews.where('public','==',true).where('status','==','approved')",
     "        .orderBy('createdAt','desc')",
-    "Deux filtres d'égalité + un tri sur un troisième champ : Firestore exige",
-    "un index composite. Il n'existait pas, donc la requête échouait en",
-    "'failed-precondition' et la page affichait « Avis indisponibles pour le",
-    "moment » — même un avis approuvé ne se serait JAMAIS affiché.",
+    "Deux filtres d'egalite PLUS un tri sur un troisieme champ : Firestore",
+    "exige alors un index composite. Il n'existait pas, donc la requete",
+    "echouait en 'failed-precondition' et la page affichait « Avis",
+    "indisponibles pour le moment » — meme un avis approuve ne se serait",
+    "JAMAIS affiche.",
     "",
-    "À créer d'une des deux façons :",
-    "  1. Console Firebase → Firestore → Index → Composite → Créer, avec les",
-    "     champs ci-dessous dans CET ordre. Ou plus simple : ouvrir avis.html,",
-    "     la console du navigateur affiche un lien direct de création.",
-    "  2. CLI : firebase deploy --only firestore:indexes",
+    "Correctif du 2026-08-06 : le orderBy a ete retire de la requete, le tri",
+    "par date se fait en JavaScript. Des filtres d'egalite SEULS sont servis",
+    "par fusion des index simples que Firestore cree automatiquement — plus",
+    "aucun index a creer a la main. Les avis s'affichent des qu'ils sont",
+    "approuves, sans passer par la console. Meme logique cote page d'accueil",
+    "(ks-reviews-feed.js, requete REST identique).",
     "",
-    "La construction de l'index prend quelques minutes."
+    "L'index ci-dessous n'est donc plus necessaire. Il le redeviendrait si",
+    "le volume d'avis depassait la centaine : on remettrait alors le",
+    "orderBy + limit cote serveur, et il faudrait creer l'index, soit via",
+    "  firebase deploy --only firestore:indexes",
+    "soit en ouvrant la console du navigateur sur avis.html (Firebase y",
+    "affiche un lien direct de creation). Comptez quelques minutes de",
+    "construction.",
+    "",
+    "On le garde documente ici plutot que supprime : le jour ou il faudra",
+    "le recreer, l'ordre exact des champs sera deja ecrit."
   ],
-  "indexes": [
+  "indexes": [],
+  "fieldOverrides": [],
+  "indexesFacultatifs": [
     {
       "collectionGroup": "reviews",
       "queryScope": "COLLECTION",
@@ -28,6 +43,5 @@
         { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
     }
-  ],
-  "fieldOverrides": []
+  ]
 }

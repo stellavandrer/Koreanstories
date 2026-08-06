@@ -683,8 +683,11 @@ section.s{padding:84px 0}
         <p>Le parcours complet Hangeul → B2 reste accessible sans payer un centime, aujourd'hui comme demain.</p>
       </div>
     </div>
-    <p class="fw" style="text-align:center;font-size:14px;color:var(--t2);margin-bottom:14px">Lancé cette année — les tout premiers avis sont en train de s'écrire. Le tien peut y être.</p>
-    <div class="showcase-cta fw"><a href="avis.html" class="btn btn-ghost">Laisser le premier avis →</a></div>
+    <!-- Avis reels, injectes par ks-reviews-feed.js. Reste vide tant qu'aucun
+         avis n'a ete approuve : jamais de faux temoignage ici. -->
+    <div id="ksHomeReviews" style="margin-top:34px"></div>
+    <p class="fw" id="ksReviewsTeaser" style="text-align:center;font-size:14px;color:var(--t2);margin-bottom:14px">Lancé cette année — les tout premiers avis sont en train de s'écrire. Le tien peut y être.</p>
+    <div class="showcase-cta fw"><a href="avis.html" class="btn btn-ghost" id="ksReviewsCta">Laisser le premier avis →</a></div>
   </div>
 </section>
 
@@ -891,10 +894,14 @@ function closeDrawer(){drawer.classList.remove('open');overlay.classList.remove(
   });
 })();
 
-/* ── Apparition au scroll ── */
+/* ── Apparition au scroll ──
+   ksRevealScan() est expose : ks-reviews-feed.js injecte ses cartes APRES
+   ce scan initial. Sans ca elles resteraient a opacity:0 pour toujours. */
 (function(){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');io.unobserve(e.target);}});},{threshold:.12});
-  document.querySelectorAll('.fw').forEach(function(el){io.observe(el);});
+  function scan(){document.querySelectorAll('.fw:not(.v)').forEach(function(el){io.observe(el);});}
+  scan();
+  window.ksRevealScan=scan;
 })();
 
 /* ── FAQ accordéon ── */
@@ -925,5 +932,6 @@ document.querySelectorAll('.faq-q').forEach(function(q){
   });
 })();
 </script>
+<script src="ks-reviews-feed.js" defer></script>
 </body>
 </html>
