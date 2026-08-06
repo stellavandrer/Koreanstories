@@ -105,7 +105,11 @@
       '.krv-quote{font-size:14.5px;line-height:1.65;color:var(--t2);',
         'flex:1;margin:0 0 14px}',
       '.krv-by{font-size:13px;font-weight:700;color:var(--t)}',
-      '.krv-when{font-size:12px;color:var(--t3);font-weight:400}'
+      /* --t2 et non --t3 : sur fond blanc, --t3 ne donne que 2,53:1, sous
+         le minimum lisible (4,5:1). La date reste secondaire par sa taille
+         et sa graisse, pas en devenant illisible. Meme piege que la passe
+         de contraste deja faite ailleurs sur le site. */
+      '.krv-when{font-size:12px;color:var(--t2);font-weight:400}'
     ].join('');
     document.head.appendChild(s);
   }
