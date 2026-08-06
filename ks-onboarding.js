@@ -308,11 +308,31 @@
     renderStep();
   }
 
-  /* Boot : on attend 1.5s après le load pour ne pas piéger l'utilisateur
-     pendant que le dashboard s'initialise (XP, cards qui s'animent, etc.) */
+  /* Le bandeau cookies passe avant le tour.
+     Le tour s'affiche en z-index 99700, le bandeau de consentement en 9999 :
+     sur une toute première visite les deux se déclenchaient ensemble et le
+     tour recouvrait la demande de consentement. Outre la confusion, un choix
+     de cookies doit rester librement accessible — le refus doit être aussi
+     simple que l'acceptation, pas enterré sous un tutoriel modal.
+     Tant que `ks_cookie_consent` n'existe pas, on attend l'événement émis par
+     ks-cookie-consent.js au moment du choix. */
+  function consentSettled() {
+    try { return !!localStorage.getItem('ks_cookie_consent'); } catch (e) { return true; }
+  }
+
+  function boot() {
+    if (consentSettled()) { setTimeout(start, 1500); return; }
+    document.addEventListener('ks-cookie-consent-changed', function once() {
+      document.removeEventListener('ks-cookie-consent-changed', once);
+      setTimeout(start, 700);
+    });
+  }
+
+  /* On attend aussi 1.5s après le load pour ne pas piéger l'utilisatrice
+     pendant que le dashboard s'initialise (XP, cartes qui s'animent, etc.) */
   if (document.readyState === 'complete') {
-    setTimeout(start, 1500);
+    boot();
   } else {
-    window.addEventListener('load', function () { setTimeout(start, 1500); });
+    window.addEventListener('load', boot);
   }
 })();
