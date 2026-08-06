@@ -56,7 +56,28 @@
         firebase.auth().onAuthStateChanged(function(u){
           if (!u) return;
           firebase.firestore().collection('users').doc(u.uid).get().then(function(d){
-            if (d.exists && d.data() && d.data().premium && !isPremium()) setPremium(true, d.data().premiumKey);
+            var data = d.exists ? d.data() : null;
+            if (!data || !data.premium) return;
+
+            /* ⚠️ CORRECTIF 2026-08-06. La condition etait :
+                 ... && data.premium && !isPremium()
+               c'est-a-dire « ne restaure depuis le compte QUE si le
+               navigateur ne se croit pas deja Premium ». Un drapeau
+               ks_premium a '1' bloquait donc la recuperation de la CLE,
+               qui est pourtant la seule chose que le serveur accepte.
+               Cas vecu : badge « Premium actif » affiche, telechargement
+               du Livret A1 refuse en 403, et aucun moyen d'en sortir —
+               le compte contenait la bonne cle, le code refusait de la lire.
+               Ca frappe quiconque achete sur un appareil et se connecte sur
+               un autre, ou vide les donnees de son navigateur.
+
+               On restaure donc aussi quand la cle locale manque ou differe
+               de celle du compte. Pas de boucle : apres la restauration les
+               deux sont identiques, la condition devient fausse. */
+            var localKey = ls(KEY_LIC);
+            if (!isPremium() || (data.premiumKey && data.premiumKey !== localKey)) {
+              setPremium(true, data.premiumKey);
+            }
           }).catch(function(){});
         });
       }

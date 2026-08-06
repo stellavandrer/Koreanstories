@@ -300,7 +300,7 @@ var WORKER_PDF_URL = 'https://ks-premium.delicate-voice-1d19.workers.dev/pdf?fil
 /* Télécharge le PDF en pièce jointe via fetch (nécessite une clé de licence
    valide dans l'en-tête X-License-Key — jamais de fichier statique public,
    même architecture que les 35 fiches Premium). */
-function downloadLivret(key, msgEl, btnEl){
+function downloadLivret(key, msgEl, btnEl, onFail){
   if (btnEl) { btnEl.disabled = true; }
   if (msgEl) { msgEl.textContent = 'Préparation du téléchargement…'; msgEl.className = msgEl.className.replace(/\s*(err|ok)/g,''); }
   fetch(WORKER_PDF_URL, { headers: { 'X-License-Key': key } })
@@ -342,6 +342,7 @@ function downloadLivret(key, msgEl, btnEl){
     .catch(function(e){
       if (msgEl) { msgEl.textContent = e.message || 'Erreur réseau, réessaie dans un instant.'; msgEl.className += ' err'; }
       if (btnEl) { btnEl.disabled = false; }
+      if (typeof onFail === 'function') { try { onFail(); } catch(_){} }
     });
 }
 
@@ -356,12 +357,43 @@ function lvSync(){
 document.addEventListener('ks-premium-change', lvSync);
 (function w(n){ if (window.KSPremium) lvSync(); else if ((n||0) < 50) setTimeout(function(){ w((n||0)+1); }, 100); })();
 
+/* Quand la vue membre est affichee, tout le bloc #lvBuy est masque — y
+   compris le champ « Deja achete ou deja Premium ? ». Si la cle stockee
+   localement est mauvaise ou absente, la personne se retrouvait donc dans
+   un cul-de-sac : badge « Premium actif », telechargement refuse, et aucun
+   endroit ou coller la vraie cle recue par e-mail. On rouvre ce champ (et
+   lui seul, pas la carte d'achat — quelqu'un de deja abonne n'a rien a
+   racheter) des qu'un telechargement echoue. */
+function revealKeyBox(){
+  var b = document.getElementById('lvBuy');
+  if (!b) return;
+  b.style.display = 'block';
+  ['.lv-toc', '.lv-perks', '.lv-cgv', '.lv-buy'].forEach(function(sel){
+    var el = b.querySelector(sel);
+    if (el) el.style.display = 'none';
+  });
+  var lic = b.querySelector('.lv-lic');
+  if (lic) {
+    var t = lic.querySelector('.lv-lic-title');
+    if (t) t.textContent = 'Colle la clé reçue par e-mail à ton achat';
+    try {
+      document.documentElement.style.scrollBehavior = 'auto';
+      lic.scrollIntoView({ block: 'center' });
+    } catch(e){}
+  }
+}
+
 document.getElementById('lvMemberDl').addEventListener('click', function(){
   var key = null;
   try { key = localStorage.getItem('ks_premium_key'); } catch(e){}
   var msg = document.getElementById('lvMemberMsg');
-  if (!key) { msg.textContent = 'Clé introuvable — reconnecte ton compte Premium dans Réglages.'; msg.className = 'lv-dl-msg err'; return; }
-  downloadLivret(key, msg, this);
+  if (!key) {
+    msg.textContent = 'Aucune clé enregistrée sur cet appareil. Colle celle de ton e-mail d\'achat ci-dessous.';
+    msg.className = 'lv-dl-msg err';
+    revealKeyBox();
+    return;
+  }
+  downloadLivret(key, msg, this, revealKeyBox);
 });
 
 /* Déblocage par clé de licence : vérifie d'abord le TYPE de la clé (jamais
