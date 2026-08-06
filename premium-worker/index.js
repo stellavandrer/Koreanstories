@@ -87,6 +87,12 @@ export default {
       return handlePdfPreview(request, env);
     }
 
+    // Lie une clé de licence au compte connecté. Après ça, le jeton
+    // d'identité suffit pour télécharger, sur n'importe quel appareil.
+    if (request.method === 'POST' && url.pathname === '/link-license') {
+      return handleLinkLicense(request, env);
+    }
+
     if (request.method === 'POST' && url.pathname === '/admin-upload-pdf') {
       return handleAdminUploadPdf(request, env);
     }
@@ -184,6 +190,171 @@ async function handleVerify(request, env) {
   return json({ success: true, type: data.type, email: data.email });
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// LIAISON COMPTE ↔ LICENCE (2026-08-06)
+// ──────────────────────────────────────────────────────────────────────────────
+// Demande de Stella : « télécharger le PDF sans code, juste en détectant que le
+// compte est premium ». Elle-même n'avait plus sa clé, et le problème est
+// général : la clé est une chaîne à conserver, perdue au moindre changement
+// d'appareil ou vidage de navigateur, alors que le compte, lui, suit la personne.
+//
+// ⚠️ CE QU'ON NE FAIT PAS, ET POURQUOI.
+// Lire l'e-mail du compte connecté et servir le fichier serait une faille :
+// Firebase laisse créer un compte avec N'IMPORTE QUELLE adresse sans jamais
+// prouver qu'on la possède (signup.html n'envoyait aucune vérification avant
+// aujourd'hui). N'importe qui aurait pu s'inscrire avec l'adresse d'un client
+// et télécharger ce que ce client a payé.
+//
+// CE QU'ON FAIT : la clé sert UNE FOIS, pour lier la licence au compte.
+//   1. connecté + clé valide -> POST /link-license  =>  KV: uid:<uid> = clé
+//   2. ensuite, le jeton d'identité suffit : /pdf le vérifie, lit uid:<uid>,
+//      retrouve la licence. Plus jamais de clé, sur aucun appareil.
+// Repli par e-mail (email:<email>) UNIQUEMENT si email_verified est vrai —
+// là, Firebase a réellement prouvé la possession de l'adresse.
+//
+// La vérification du jeton est faite ici, à la main : signature RS256 contrôlée
+// contre les clés publiques de Google, puis aud / iss / exp. Pas de dépendance,
+// pas de SDK Admin (indisponible dans un Worker).
+// ══════════════════════════════════════════════════════════════════════════════
+
+const FIREBASE_PROJECT_ID = 'korean-stories-68377';
+const FIREBASE_JWK_URL =
+  'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com';
+
+// Cache mémoire des clés publiques Google (elles tournent toutes les quelques
+// heures). Un Worker peut être recyclé à tout moment : ce cache est un confort,
+// pas une garantie — d'où le rechargement dès qu'un `kid` est inconnu.
+let _jwkCache = null;
+let _jwkFetchedAt = 0;
+
+async function getGoogleKeys(force) {
+  const age = Date.now() - _jwkFetchedAt;
+  if (!force && _jwkCache && age < 3600e3) return _jwkCache;
+  const r = await fetch(FIREBASE_JWK_URL);
+  if (!r.ok) throw new Error('JWK indisponible');
+  const set = await r.json();
+  _jwkCache = {};
+  for (const k of (set.keys || [])) _jwkCache[k.kid] = k;
+  _jwkFetchedAt = Date.now();
+  return _jwkCache;
+}
+
+function b64urlToBytes(s) {
+  s = s.replace(/-/g, '+').replace(/_/g, '/');
+  while (s.length % 4) s += '=';
+  const bin = atob(s);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+
+/**
+ * Vérifie un jeton d'identité Firebase.
+ * Renvoie { uid, email, emailVerified } si tout est bon, sinon null.
+ * Ne renvoie JAMAIS d'exception au appelant : un jeton douteux vaut null.
+ */
+async function verifyFirebaseToken(idToken) {
+  try {
+    if (!idToken || typeof idToken !== 'string') return null;
+    const parts = idToken.split('.');
+    if (parts.length !== 3) return null;
+
+    const header = JSON.parse(new TextDecoder().decode(b64urlToBytes(parts[0])));
+    if (header.alg !== 'RS256' || !header.kid) return null;
+
+    // Clé inconnue = rotation récente côté Google : on recharge une fois.
+    let keys = await getGoogleKeys(false);
+    let jwk = keys[header.kid];
+    if (!jwk) {
+      keys = await getGoogleKeys(true);
+      jwk = keys[header.kid];
+    }
+    if (!jwk) return null;
+
+    const pub = await crypto.subtle.importKey(
+      'jwk',
+      { kty: jwk.kty, n: jwk.n, e: jwk.e, alg: 'RS256', ext: true },
+      { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+      false,
+      ['verify']
+    );
+
+    const signed = new TextEncoder().encode(parts[0] + '.' + parts[1]);
+    const ok = await crypto.subtle.verify(
+      'RSASSA-PKCS1-v1_5', pub, b64urlToBytes(parts[2]), signed
+    );
+    if (!ok) return null;
+
+    const p = JSON.parse(new TextDecoder().decode(b64urlToBytes(parts[1])));
+    const now = Math.floor(Date.now() / 1000);
+
+    // Sans ces contrôles, une signature valide suffirait — y compris celle d'un
+    // jeton emis pour un AUTRE projet Firebase, ou expire depuis des mois.
+    if (p.aud !== FIREBASE_PROJECT_ID) return null;
+    if (p.iss !== 'https://securetoken.google.com/' + FIREBASE_PROJECT_ID) return null;
+    if (!p.sub) return null;
+    if (typeof p.exp !== 'number' || p.exp <= now) return null;
+    if (typeof p.iat === 'number' && p.iat > now + 300) return null; // horloge folle
+
+    return {
+      uid: String(p.sub),
+      email: p.email ? String(p.email).toLowerCase() : null,
+      emailVerified: p.email_verified === true
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Retrouve la licence d'un compte connecté, sans qu'il ait à saisir de clé.
+ * Renvoie { key, data } ou null.
+ */
+async function licenseForAccount(user, env) {
+  if (!user) return null;
+
+  // 1. Liaison explicite, posée quand la personne a saisi sa clé une fois.
+  let key = await env.KS_LICENSES.get('uid:' + user.uid);
+
+  // 2. Repli par e-mail — seulement si Firebase a VÉRIFIÉ l'adresse.
+  //    Sans ce garde-fou, s'inscrire avec l'adresse d'un client suffirait
+  //    à récupérer ses achats.
+  if (!key && user.email && user.emailVerified) {
+    key = await env.KS_LICENSES.get('email:' + user.email);
+    // On mémorise la liaison pour ne plus dépendre de l'adresse ensuite.
+    if (key) await env.KS_LICENSES.put('uid:' + user.uid, key);
+  }
+  if (!key) return null;
+
+  const data = await env.KS_LICENSES.get(key, { type: 'json' });
+  if (!data) return null;
+  if (data.type === 'monthly' && data.status !== 'active') return null;
+  return { key, data };
+}
+
+// ── Lier une clé de licence au compte connecté (une seule fois par personne) ───
+async function handleLinkLicense(request, env) {
+  if (await rateLimited(request, env, 'link', 20, 3600)) {
+    return json({ success: false, message: 'Trop de tentatives, réessaie plus tard.' }, 429);
+  }
+  const user = await verifyFirebaseToken(request.headers.get('X-Firebase-Token') || '');
+  if (!user) return json({ success: false, message: 'Session invalide, reconnecte-toi.' }, 401);
+
+  let body = {};
+  try { body = await request.json(); } catch (e) {}
+  const key = String(body.key || '').trim().toUpperCase();
+  if (!key) return json({ success: false, message: 'Clé manquante.' }, 400);
+
+  const data = await env.KS_LICENSES.get(key, { type: 'json' });
+  if (!data) return json({ success: false, message: 'Clé invalide.' }, 403);
+  if (data.type === 'monthly' && data.status !== 'active') {
+    return json({ success: false, message: 'Abonnement expiré ou annulé.' }, 403);
+  }
+
+  await env.KS_LICENSES.put('uid:' + user.uid, key);
+  return json({ success: true, type: data.type });
+}
+
 // ── Entitlement par fichier ────────────────────────────────────────────────────
 // monthly (actif) et lifetime donnent accès à toutes les fiches. Une licence
 // 'booklet-a1' (achat unique du Livret A1 seul, hors Premium) ne donne accès
@@ -203,22 +374,41 @@ async function handlePdfDownload(request, env) {
   const url = new URL(request.url);
   const file = (url.searchParams.get('file') || '').trim();
   const key = (request.headers.get('X-License-Key') || url.searchParams.get('key') || '').trim().toUpperCase();
+  const token = (request.headers.get('X-Firebase-Token') || '').trim();
 
   // Liste blanche stricte du nom de fichier (lettres/chiffres/tirets) pour
   // empêcher toute tentative de path traversal ou d'injection de clé KV.
   if (!/^[a-z0-9-]{1,60}$/.test(file)) {
     return corsResponse('Fichier invalide', 400);
   }
-  if (!key) return corsResponse('Clé manquante', 401);
+  if (!key && !token) return corsResponse('Clé manquante', 401);
 
   if (await rateLimited(request, env, 'pdf', 40, 3600)) {
     return corsResponse('Trop de requêtes, réessaie dans un moment.', 429);
   }
 
-  const data = await env.KS_LICENSES.get(key, { type: 'json' });
-  if (!data) return corsResponse('Clé invalide', 403);
-  if (data.type === 'monthly' && data.status !== 'active') {
-    return corsResponse('Abonnement expiré ou annulé', 403);
+  // Deux façons de prouver son droit (2026-08-06) :
+  //   - le jeton d'identité du compte connecté, si une licence lui est liée —
+  //     c'est le chemin normal, la personne n'a aucune clé à saisir ;
+  //   - la clé de licence, qui reste indispensable la toute première fois
+  //     (et pour qui achète le livret seul sans jamais créer de compte).
+  let data = null;
+  if (token) {
+    const user = await verifyFirebaseToken(token);
+    const found = await licenseForAccount(user, env);
+    if (found) data = found.data;
+  }
+  if (!data && key) {
+    data = await env.KS_LICENSES.get(key, { type: 'json' });
+    if (!data) return corsResponse('Clé invalide', 403);
+    if (data.type === 'monthly' && data.status !== 'active') {
+      return corsResponse('Abonnement expiré ou annulé', 403);
+    }
+  }
+  if (!data) {
+    return corsResponse(
+      'Aucune licence rattachée à ce compte. Saisis ta clé une seule fois : ' +
+      'elle sera ensuite liée à ton compte définitivement.', 403);
   }
   if (!canAccessFile(data, file)) return corsResponse('Cette clé ne donne pas accès à cette fiche', 403);
 
@@ -232,7 +422,7 @@ async function handlePdfDownload(request, env) {
       'Content-Disposition': 'attachment; filename="' + file + '.pdf"',
       'Cache-Control': 'private, no-store',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key'
+      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
     }
   });
 }
@@ -273,7 +463,7 @@ async function handlePdfPreview(request, env) {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'private, no-store',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key'
+      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
     }
   });
 }
@@ -1259,7 +1449,7 @@ function json(data, status = 200) {
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
     }
   });
 }
@@ -1270,7 +1460,7 @@ function corsResponse(body, status) {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key'
+      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
     }
   });
 }

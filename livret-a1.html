@@ -293,9 +293,34 @@
 
 </div>
 
+<!-- Charge Firebase UNIQUEMENT si un compte existe (voir ks-boot-sync.js) :
+     sans compte, zero octet de SDK. Necessaire ici depuis le 2026-08-06 pour
+     obtenir le jeton d'identite et telecharger sans saisir de cle. -->
+<script defer src="ks-boot-sync.js"></script>
 <script src="ks.js"></script>
 <script>
-var WORKER_PDF_URL = 'https://ks-premium.delicate-voice-1d19.workers.dev/pdf?file=livret-a1';
+var WORKER_BASE = 'https://ks-premium.delicate-voice-1d19.workers.dev';
+var WORKER_PDF_URL = WORKER_BASE + '/pdf?file=livret-a1';
+
+/* Jeton d'identite du compte connecte, ou null. Le worker le verifie
+   (signature RSA contre les cles publiques de Google) puis retrouve la
+   licence liee au compte — plus aucune cle a saisir. */
+function ksIdToken(){
+  return new Promise(function(resolve){
+    var fini = false;
+    function rendre(v){ if(!fini){ fini = true; resolve(v); } }
+    /* Filet de securite : si Firebase ne repond pas (hors-ligne, SDK bloque),
+       on ne bloque pas le telechargement — on retombe sur la cle locale. */
+    setTimeout(function(){ rendre(null); }, 4000);
+    try {
+      if (!window.firebase || !firebase.auth) return rendre(null);
+      firebase.auth().onAuthStateChanged(function(u){
+        if (!u) return rendre(null);
+        u.getIdToken().then(rendre).catch(function(){ rendre(null); });
+      });
+    } catch(e){ rendre(null); }
+  });
+}
 
 /* Télécharge le PDF en pièce jointe via fetch (nécessite une clé de licence
    valide dans l'en-tête X-License-Key — jamais de fichier statique public,
@@ -303,7 +328,28 @@ var WORKER_PDF_URL = 'https://ks-premium.delicate-voice-1d19.workers.dev/pdf?fil
 function downloadLivret(key, msgEl, btnEl, onFail){
   if (btnEl) { btnEl.disabled = true; }
   if (msgEl) { msgEl.textContent = 'Préparation du téléchargement…'; msgEl.className = msgEl.className.replace(/\s*(err|ok)/g,''); }
-  fetch(WORKER_PDF_URL, { headers: { 'X-License-Key': key } })
+  /* On envoie les deux preuves possibles : le jeton du compte (chemin normal,
+     aucune cle a retenir) et la cle si on en a une. Le worker prend la
+     premiere qui marche — cf. handlePdfDownload. */
+  ksIdToken().then(function(token){
+  var entetes = {};
+  if (key)   entetes['X-License-Key']   = key;
+  if (token) entetes['X-Firebase-Token'] = token;
+
+  /* Cle + compte presents en meme temps : on scelle la liaison, sans rien
+     demander ni attendre. C'est ce qui fait que la cle ne servira plus
+     jamais — y compris pour les clients deja la, rattaches en silence a leur
+     prochain telechargement. L'echec est sans consequence : on retentera. */
+  if (key && token) {
+    try {
+      fetch(WORKER_BASE + '/link-license', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Firebase-Token': token },
+        body: JSON.stringify({ key: key })
+      }).catch(function(){});
+    } catch(e){}
+  }
+  fetch(WORKER_PDF_URL, { headers: entetes })
     /* Le worker distingue precisement les cas d'echec dans le CORPS de sa
        reponse : « Cle invalide », « Abonnement expire ou annule », « Cette
        cle ne donne pas acces a cette fiche », « Fiche introuvable ». La
@@ -344,6 +390,7 @@ function downloadLivret(key, msgEl, btnEl, onFail){
       if (btnEl) { btnEl.disabled = false; }
       if (typeof onFail === 'function') { try { onFail(); } catch(_){} }
     });
+  });
 }
 
 /* Bascule vue achat / vue membre selon l'état Premium, et branche le bouton

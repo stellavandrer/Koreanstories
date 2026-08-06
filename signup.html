@@ -460,6 +460,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
             email: email, name: fullName, uid: cred.user.uid, guest: false
           }));
         } catch(e) {}
+
+        /* Vérification de l'adresse (2026-08-06).
+           Firebase laisse s'inscrire avec N'IMPORTE QUELLE adresse sans jamais
+           prouver qu'on la possède. Tant que personne ne vérifie, l'adresse
+           d'un compte ne prouve rien — c'est pour ça que le worker refuse de
+           retrouver une licence par e-mail non vérifié (voir licenseForAccount
+           dans premium-worker/index.js) : sinon, s'inscrire avec l'adresse
+           d'un client suffirait à récupérer ses achats.
+           L'envoi est volontairement silencieux et non bloquant : personne
+           n'est empêché d'apprendre parce qu'un e-mail n'est pas parti. */
+        try { cred.user.sendEmailVerification(); } catch(e) {}
         showOk('Compte créé ! Bienvenue ' + firstName + 'Synchronisation activée. Redirection…');
         setTimeout(() => { window.location.href = ksNextUrl('onboarding.html'); }, 1100);
       })
