@@ -1,0 +1,39 @@
+Ce fichier vide desactive Jekyll sur GitHub Pages.
+
+Pourquoi (2026-08-06)
+─────────────────────
+Le deploiement etait bloque : la production servait encore le commit
+f1052d58 alors que 5 commits avaient ete pousses dans la journee. Les
+fichiers ks-reviews-feed.js et ks-review-prompt.js renvoyaient 404, et
+livret-a1.html annoncait toujours 244 pages.
+
+Le depot publie 55 968 fichiers, dont 45 476 rien que dans
+audio/narrateur. Par defaut, GitHub Pages fait tourner Jekyll sur
+CHACUN d'eux avant de publier, et le build est coupe au bout de
+10 minutes. A cette echelle on vit sur le fil : un build passe, le
+suivant expire, et Pages continue alors de servir silencieusement la
+derniere version reussie — sans aucune erreur visible cote site.
+
+Or ce site n'utilise Jekyll nulle part : pas de _config.yml, pas de
+_layouts, pas de _includes, aucune page avec front-matter, aucun
+Gemfile. C'est du HTML statique de bout en bout. Jekyll travaillait
+donc dix minutes pour ne rien transformer.
+
+Avec ce fichier, Pages saute entierement l'etape Jekyll et se contente
+de copier les fichiers : le deploiement redevient rapide, et cette
+famille de pannes disparait.
+
+Effet de bord assume
+────────────────────
+Jekyll masquait les fichiers commencant par « _ ». Quatre scripts
+deviennent donc accessibles publiquement :
+  _gen_blog.py, _gen_pdf_fiches.py, _gen_stories.py, _gen_stories_b2.py
+Ils ont ete relus avant l'ajout de ce fichier : aucune cle d'API,
+aucun identifiant, aucun secret — uniquement de la logique de
+generation de contenu. (Les deux occurrences du mot « secret » dans
+_gen_stories.py sont des repliques de dialogue.) Si tu preferes qu'ils
+restent prives, il faut les sortir du depot, pas compter sur Jekyll
+pour les cacher.
+
+Ne pas supprimer ce fichier sans avoir d'abord verifie que le build
+Pages tient sans lui.
