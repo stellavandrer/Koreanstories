@@ -210,8 +210,12 @@
     card.innerHTML =
       '<button class="ksrp-x" type="button" aria-label="Fermer">&times;</button>' +
       '<div class="ksrp-stars">' + STAR + STAR + STAR + STAR + STAR + '</div>' +
+      /* « depuis N jours » serait faux : activeDays() compte des journees
+         de travail, pas le temps ecoule depuis l'inscription. Quelqu'un
+         d'inscrit depuis trois mois et actif six jours lirait un chiffre
+         qui ne veut rien dire. On dit donc ce qu'on mesure vraiment. */
       '<h2 class="ksrp-t">' + (who ? esc(who) + ', t' : 'T') +
-        'u apprends ici depuis <em>' + days + ' jours</em></h2>' +
+        'u as <em>' + days + ' jours d’apprentissage</em> derrière toi</h2>' +
       '<p class="ksrp-p">Korean Stories est fait par une seule personne, sans budget pub. ' +
         'Ton avis est ce qui aide le plus quelqu\'un d\'autre à oser commencer. ' +
         'Deux minutes, et tu peux dire aussi ce qui ne va pas.</p>' +
