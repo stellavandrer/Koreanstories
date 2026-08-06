@@ -52,6 +52,7 @@ const PRICE_LIFETIME = 'price_1TlkwTPab8Hr1KXaM5WwjXWX';
 // et journalise un avertissement : le comportement reste correct, mais la
 // configuration Stripe est alors à réparer.
 const PAYMENT_LINK_BOOKLET_A1 = 'plink_1Ttj9fPab8Hr1KXarL7fCXzB'; // https://buy.stripe.com/fZu14p8NF1gZfT178ce7m02
+const PRICE_BOOKLET_A1        = 'price_1Ttj8pPab8Hr1KXau35oN3EK'; // le tarif 5€ derrière ce Payment Link
 
 // Tous les envois déclenchés via /newsletter/test-send partent vers cette
 // adresse (jamais vers la vraie liste de contacts) — c'est un destinataire
