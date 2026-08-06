@@ -25,7 +25,11 @@
     'onboarding.html':1, 'bienvenue.html':1, 'signup.html':1, 'login.html':1, 'reset.html':1,
     'test-niveau.html':1, 'topik.html':1,
     'confidentialite.html':1, 'mentions-legales.html':1, 'cgv.html':1,
-    '404.html':1, 'offline.html':1
+    '404.html':1, 'offline.html':1,
+    /* Pages de vente : une popup qui recouvre le bouton d'achat au bout de
+       20 s coûte plus cher en ventes perdues qu'elle ne rapporte d'adresses.
+       Ce sont les deux seules pages du site où quelqu'un sort sa carte. */
+    'premium.html':1, 'livret-a1.html':1, 'premium-success.html':1
   };
   var EXCLUDE_PREFIX = /^(lecon|exercice|jeu|quiz|histoire\d|chanson|conseil|anecdote|flash\d|podcast|presse\d|pro\d|lect-a|lect-b)/;
 

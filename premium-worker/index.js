@@ -47,6 +47,10 @@ const PRICE_LIFETIME = 'price_1TlkwTPab8Hr1KXaM5WwjXWX';
 // référence uniquement (jamais lu par le code) : la détection réelle dans
 // handleCheckout() se fait via session.metadata.product === 'livret-a1',
 // une métadonnée posée sur ce Payment Link — pas via cet identifiant.
+// ⚠️ Cette métadonnée DOIT être présente sur le Payment Link. Sans elle,
+// handleCheckout() se rabat sur le montant payé (filet ajouté le 2026-08-06)
+// et journalise un avertissement : le comportement reste correct, mais la
+// configuration Stripe est alors à réparer.
 const PAYMENT_LINK_BOOKLET_A1 = 'plink_1Ttj9fPab8Hr1KXarL7fCXzB'; // https://buy.stripe.com/fZu14p8NF1gZfT178ce7m02
 
 // Tous les envois déclenchés via /newsletter/test-send partent vers cette
@@ -529,8 +533,38 @@ async function handleCheckout(session, env) {
   // Achat du Livret A1 seul (Payment Link distinct, 5€, hors abonnement) :
   // reconnu via la métadonnée `product=livret-a1` posée sur le Payment Link
   // Stripe (Stripe la reporte automatiquement sur la Checkout Session).
-  const isBookletOnly = session.metadata?.product === 'livret-a1';
-  if (isBookletOnly) return handleBookletCheckout(session, email, env);
+  const bookletByMeta = session.metadata?.product === 'livret-a1';
+
+  // ⚠️ FILET DE SÉCURITÉ — NE PAS RETIRER.
+  // Si cette métadonnée manque sur le Payment Link (oubli de configuration,
+  // lien recréé, duplication), l'achat du livret retombe silencieusement dans
+  // la branche `mode === 'payment'` ci-dessous, c'est-à-dire l'ACCÈS À VIE :
+  // 79€ de produit livrés pour 5€, sans aucune alerte. On recoupe donc avec
+  // le montant réellement payé.
+  //
+  // Seuil : les deux seuls paiements en mode 'payment' sont l'accès à vie
+  // (79€) et le livret (5€). 30€ les sépare largement. En cas d'erreur, le
+  // sens de l'échec compte : sous-attribuer se rattrape d'un message, alors
+  // qu'un accès à vie donné par erreur est irrécupérable.
+  //
+  // ⚠️ Si le prix de l'accès à vie passe un jour SOUS 30€ (promotion, offre
+  // de lancement), il faut baisser ce seuil, sinon les acheteurs à vie ne
+  // recevront que le livret.
+  const LIFETIME_MIN_CENTS = 3000;
+  const cents = typeof session.amount_total === 'number' ? session.amount_total : null;
+  const bookletByAmount = session.mode === 'payment'
+                       && cents !== null
+                       && cents < LIFETIME_MIN_CENTS;
+
+  if (bookletByMeta || bookletByAmount) {
+    if (!bookletByMeta) {
+      console.warn('[KS] Livret reconnu par le MONTANT (' + cents + ' centimes) et non par ' +
+        'la métadonnée : le Payment Link Stripe n\'a pas product=livret-a1. ' +
+        'À corriger dans le dashboard Stripe — sans ce filet, cet achat ' +
+        'aurait donné un accès à vie.');
+    }
+    return handleBookletCheckout(session, email, env);
+  }
 
   const isLifetime = session.mode === 'payment';
   // 'paid' = déjà prélevé à l'instant du checkout (achat à vie, ou abonnement
