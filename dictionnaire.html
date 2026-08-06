@@ -251,6 +251,12 @@ function conjugate(word){
    ks-krdict.json) ; seuls ceux du vocabulaire des leçons/histoires ont un
    fichier audio pré-généré. Pour les autres, le bouton signale juste que
    l'audio n'est pas encore disponible pour ce mot (pas de son de secours). ── */
+/* MISE A JOUR 2026-08-06 : audio/manifest-dict.json et les 42 711 fichiers
+   .m4a du dictionnaire ne sont PLUS publies — ils pesaient 375 Mo et
+   faisaient expirer le deploiement GitHub Pages (voir .gitignore). Seuls
+   les ~2 765 mots deja couverts par l'audio des lecons sonnent encore.
+   Le repli ci-dessous ne change pas : c'est exactement le chemin prevu
+   pour un mot sans fichier, il sert juste beaucoup plus souvent. */
 function dictSpeak(text,btn){
   if(typeof window.speak==='function'){
     window.speak(text,btn,{onerror:function(){

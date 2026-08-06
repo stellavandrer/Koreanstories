@@ -38,3 +38,23 @@ ecouter-le-site.command
 # une seule fois vers KV via admin-upload-pdfs.html, ne doit JAMAIS être
 # commité ni poussé sur GitHub (repo public), cf. premium-worker/SECURISATION-PDF.md
 premium-worker/pdf-content-local/
+
+# ── Audio du dictionnaire : NE PLUS PUBLIER (décision du 2026-08-06) ──
+# Les 42 711 .m4a du dictionnaire 43k mots pesaient 375 Mo pour 42 711
+# fichiers dans le site publié. Total : 859 Mo et 55 971 fichiers, soit 84 %
+# de la limite GitHub Pages (1 Go) — l'étape « deploy » du build Pages
+# expirait après 15 min, et PLUS RIEN ne se déployait, silencieusement.
+# Après retrait : 484 Mo, 13 259 fichiers.
+#
+# Les fichiers restent sur le Mac de Stella (audio/narrateur/, 3,4 Go) et
+# dans l'historique git : rien n'est perdu, c'est réversible.
+# Le dictionnaire dégrade proprement — dictSpeak() fait clignoter le bouton
+# « indisponible », sans jamais tomber sur une voix robotique.
+#
+# ⚠️ L'audio des LEÇONS (les 2 765 .mp3 du même dossier) reste versionné :
+# c'est le cœur du produit. Ne jamais ignorer audio/narrateur en entier.
+#
+# Pour réhéberger le dictionnaire plus tard (Cloudflare R2, bucket séparé),
+# il faudra republier audio/manifest-dict.json et pointer ks.js dessus.
+audio/narrateur/*.m4a
+audio/manifest-dict.json
