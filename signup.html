@@ -1,7 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <script>try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <script>
+/* Retour a la page demandee apres authentification.
+   La porte d'acces (ks-account-gate.js) passe ?next=/lecon20.html quand on
+   arrive depuis une page qui demande un compte. On ne suit QUE des chemins
+   internes simples : pas de //, pas de schema, pas de chemin absolu externe —
+   sinon un lien forge pourrait rediriger ailleurs apres connexion. */
+function ksNextUrl(fallback){
+  try{
+    var n = new URLSearchParams(location.search).get('next');
+    if (!n) return fallback;
+    n = n.replace(/^\/+/, '');
+    if (!/^[a-z0-9._-]+\.html([?][^#]*)?$/i.test(n)) return fallback;
+    return n;
+  }catch(e){ return fallback; }
+}
+try{if(localStorage.getItem("ks_theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
 <script src="gate.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -373,19 +388,19 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     function check(){
       try {
         if (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) {
-          window.location.href = 'app.html'; return;
+          window.location.href = ksNextUrl('app.html'); return;
         }
         const u = JSON.parse(localStorage.getItem('ks_user') || 'null');
         if (u && u.email && !u.guest && u.uid && u.uid.indexOf('u_') !== 0) {
           /* uid Firebase (pas u_local) → déjà connecté */
-          window.location.href = 'app.html';
+          window.location.href = ksNextUrl('app.html');
         }
       } catch(e) {}
     }
     /* Firebase met un instant à restaurer la session — on vérifie tôt et tard */
     setTimeout(check, 100);
     if (typeof firebase !== 'undefined' && firebase.auth) {
-      firebase.auth().onAuthStateChanged(function(u){ if(u) window.location.href = 'app.html'; });
+      firebase.auth().onAuthStateChanged(function(u){ if(u) window.location.href = ksNextUrl('app.html'); });
     }
   })();
 
@@ -446,7 +461,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
           }));
         } catch(e) {}
         showOk('Compte créé ! Bienvenue ' + firstName + 'Synchronisation activée. Redirection…');
-        setTimeout(() => { window.location.href = 'onboarding.html'; }, 1100);
+        setTimeout(() => { window.location.href = ksNextUrl('onboarding.html'); }, 1100);
       })
       .catch(function(err){
         setLoading(false);

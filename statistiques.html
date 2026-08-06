@@ -4,7 +4,9 @@
 <script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <script>/* Jour-1 : aucune activité (0 XP + aucune clé ks_*='done') → on masque le mur de zéros et on montre une invite. Posé sur <html> avant le rendu pour éviter tout flash. */try{var _xp=parseInt(localStorage.getItem('ks_xp')||'0',10)||0,_dn=false,_i,_k;for(_i=0;_i<localStorage.length;_i++){_k=localStorage.key(_i);if(_k&&_k.indexOf('ks_')===0&&localStorage.getItem(_k)==='done'){_dn=true;break;}}if(!_xp&&!_dn)document.documentElement.classList.add('ks-stat-empty');}catch(e){}</script>
 <script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
   <meta charset="UTF-8"/>
+<meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <title>Mes statistiques · Korean Stories</title>

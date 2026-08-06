@@ -1,48 +1,128 @@
 /* ═══════════════════════════════════════════════════════════════════
-   ks-account-gate.js — Essai gratuit sans compte, puis compte requis.
+   ks-account-gate.js — Inscription obligatoire pour utiliser le site.
    ──────────────────────────────────────────────────────────────────
-   Modèle façon Duolingo (demande Stelva, 2026-07-14) : un nouveau
-   visiteur peut essayer une activité sans créer de compte (bouton
-   « Continuer en tant qu'invité » de bienvenue.html, pose ks_user =
-   {guest:true}). Dès qu'il a terminé cette 1ère activité (XP > 0) en
-   étant toujours invité, la prochaine fois qu'il revient sur le
-   tableau de bord ou la carte du parcours, on lui demande de créer un
-   compte gratuit pour continuer et sauvegarder sa progression.
+   Demande de Stella (2026-08-05) : « le site accessible seulement par
+   inscription ». Remplace le modele « essai libre puis compte requis »
+   du 2026-07-14 : le mode invite ne donne plus acces au contenu.
 
-   Portée volontairement limitée à app.html / cours.html : aucune page
-   de leçon/exercice/jeu individuelle n'est bloquée (recherche, liens
-   de blog, partages, référencement Google — tous intacts).
+   Ce qui reste PUBLIC (liste ci-dessous) : la page d'accueil, les 61
+   articles de blog, les pages legales, la page Premium, les pages de
+   connexion / inscription, les avis et l'aide. C'est la vitrine et le
+   canal d'acquisition — la fermer reviendrait a couper le seul moyen
+   qu'ont les gens de decouvrir le site.
 
-   Ne s'applique JAMAIS :
-   - aux comptes réels (ks_user.guest === false)
-   - aux visiteurs sans marqueur ks_user du tout (utilisateurs déjà
-     actifs avant l'existence de ce système — non rétroactif)
-   - aux clients Premium (isPremium()) — rien ici n'est payant, à ne
-     pas confondre avec ks-premium.js (extras payants, contenu cœur
-     jamais restreint)
-   ─────────────────────────────────────────────────────────────────── */
-(function(){
+   Tout le reste — lecons, exercices, jeux, quiz, histoires, planches
+   BD, tableau de bord et outils — demande un compte.
+
+   ⚠️ LIMITE A CONNAITRE : c'est un rideau cote navigateur, pas un
+   verrou. Le site est statique (GitHub Pages, aucun serveur) : le HTML
+   des pages reste telechargeable par quelqu'un qui desactive
+   JavaScript ou lit le code source. Cela arrete le visiteur ordinaire,
+   pas quelqu'un de determine. Un vrai verrou demanderait de servir les
+   pages depuis un serveur qui verifie la session.
+
+   Pour rouvrir une page au public, il suffit d'ajouter son nom de
+   fichier a PUBLIC ci-dessous.
+   ═══════════════════════════════════════════════════════════════════ */
+(function () {
   'use strict';
 
-  var GATE_PAGES = {'app.html':1, 'cours.html':1};
+  /* Pages accessibles sans compte. */
+  var PUBLIC = {
+    'index.html': 1, '': 1, '/': 1,
+    'blog.html': 1,
+    'login.html': 1, 'signup.html': 1, 'bienvenue.html': 1,
+    'premium.html': 1, 'premium-success.html': 1,
+    'avis.html': 1, 'a-propos.html': 1, 'aide.html': 1,
+    'mentions-legales.html': 1, 'cgv.html': 1, 'confidentialite.html': 1,
+    '404.html': 1, 'reset.html': 1
+  };
+
   var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  if (!GATE_PAGES[here]) return;
 
-  function ls(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  /* Les 61 articles commencent tous par « blog- » : publics par nature. */
+  if (PUBLIC[here] || here.indexOf('blog-') === 0) return;
 
-  if (window.KSPremium && KSPremium.isPremium && KSPremium.isPremium()) return;
+  function account() {
+    try {
+      var u = JSON.parse(localStorage.getItem('ks_user') || 'null');
+      return (u && u.guest !== true) ? u : null;
+    } catch (e) { return null; }
+  }
 
-  var user = null;
-  try { user = JSON.parse(ls('ks_user') || 'null'); } catch(e) { user = null; }
+  if (account()) return;
 
-  /* Seuls les invités EXPLICITES (ks_user.guest === true, posé par
-     bienvenue.html) sont concernés — jamais les visiteurs sans
-     marqueur du tout (pas de rétroactivité sur les utilisateurs
-     déjà actifs avant ce système). */
-  if (!user || user.guest !== true) return;
+  /* Masquer tout de suite : sinon la lecon s'affiche une fraction de
+     seconde avant la porte, ce qui la rend inutile ET donne un a-coup. */
+  var hide = document.createElement('style');
+  hide.id = 'ks-gate-hide';
+  hide.textContent = 'body{visibility:hidden!important}';
+  (document.head || document.documentElement).appendChild(hide);
 
-  var xp = parseInt(ls('ks_xp') || '0', 10) || 0;
-  if (xp <= 0) return; /* essai gratuit encore en cours */
+  /* Ou renvoyer la personne apres inscription. */
+  function nextParam() {
+    try { return '?next=' + encodeURIComponent(location.pathname + location.search); }
+    catch (e) { return ''; }
+  }
 
-  location.replace('bienvenue.html?continue=1');
+  function build() {
+    if (document.getElementById('ks-acct-gate')) return;
+
+    var ov = document.createElement('div');
+    ov.id = 'ks-acct-gate';
+    ov.setAttribute('role', 'dialog');
+    ov.setAttribute('aria-modal', 'true');
+    ov.setAttribute('aria-labelledby', 'ksAcctTitle');
+    ov.style.cssText =
+      'position:fixed;inset:0;z-index:2147483000;background:#0F1B2D;visibility:visible;' +
+      'display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto;' +
+      "font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif";
+
+    ov.innerHTML =
+      '<div style="width:100%;max-width:390px;text-align:center;color:#fff">' +
+        '<div style="font-family:Georgia,\'Playfair Display\',serif;font-size:25px;margin-bottom:26px">' +
+          'Korean <span style="color:#C9A96E;font-style:italic">Stories</span></div>' +
+        '<div style="width:56px;height:56px;border-radius:16px;background:rgba(201,169,110,.14);' +
+          'border:1px solid rgba(201,169,110,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 18px">' +
+          '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C9A96E" stroke-width="1.8" ' +
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>' +
+        '<h2 id="ksAcctTitle" style="font-family:Georgia,\'Playfair Display\',serif;font-size:22px;font-weight:700;margin:0 0 10px;line-height:1.25">' +
+          'Cr&eacute;e ton compte pour continuer</h2>' +
+        '<p style="font-size:14.5px;line-height:1.6;color:rgba(199,210,227,.9);margin:0 auto 22px;max-width:33ch">' +
+          'L\'apprentissage est gratuit, mais il demande un compte : c\'est ce qui garde ta progression, ' +
+          'ta s&eacute;rie et tes mots enregistr&eacute;s d\'un appareil &agrave; l\'autre.</p>' +
+        '<a href="signup.html' + nextParam() + '" style="display:block;width:100%;padding:14px;border-radius:13px;' +
+          'background:linear-gradient(135deg,#e0c48a,#C9A96E);color:#3a2c12;font-weight:700;font-size:15px;' +
+          'text-decoration:none;box-sizing:border-box;margin-bottom:10px">Cr&eacute;er mon compte gratuit</a>' +
+        '<a href="login.html' + nextParam() + '" style="display:block;width:100%;padding:13px;border-radius:13px;' +
+          'border:1.5px solid rgba(255,255,255,.18);color:#fff;font-size:14.5px;text-decoration:none;' +
+          'box-sizing:border-box;margin-bottom:18px">J\'ai d&eacute;j&agrave; un compte</a>' +
+        '<div style="font-size:12.5px;color:rgba(199,210,227,.55);line-height:1.6">' +
+          'Gratuit, sans carte bancaire. &middot; ' +
+          '<a href="index.html" style="color:rgba(199,210,227,.8)">Retour &agrave; l\'accueil</a><br>' +
+          'Tu peux lire le <a href="blog.html" style="color:#C9A96E">blog</a> librement, sans compte.' +
+        '</div>' +
+      '</div>';
+
+    document.documentElement.appendChild(ov);
+    var first = ov.querySelector('a');
+    if (first) { try { first.focus(); } catch (e) {} }
+
+    /* Piege a focus : la porte ne doit pas pouvoir etre contournee au clavier. */
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var f = ov.querySelectorAll('a[href]');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', build);
+  } else {
+    build();
+  }
 })();
