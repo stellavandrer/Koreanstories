@@ -16,12 +16,12 @@
 <meta property="og:title" content="Le Livret A1 — Korean Stories">
 <meta property="og:description" content="Manuel complet de 280 pages : cours, exercices à remplir, corrigés, glossaire — du Hangeul à tes premières conversations.">
 <meta property="og:url" content="https://koreanstories.fr/livret-a1.html">
-<meta property="og:image" content="https://koreanstories.fr/img/livret-a1-cover.webp">
+<meta property="og:image" content="https://koreanstories.fr/img/livret-a1-og.webp">
 <meta property="og:image:alt" content="Couverture du Livret A1 Korean Stories">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Le Livret A1 — Korean Stories">
 <meta name="twitter:description" content="Manuel complet de 280 pages : cours, exercices à remplir, corrigés, glossaire — du Hangeul à tes premières conversations.">
-<meta name="twitter:image" content="https://koreanstories.fr/img/livret-a1-cover.webp">
+<meta name="twitter:image" content="https://koreanstories.fr/img/livret-a1-og.webp">
 <link rel="stylesheet" href="design.css">
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
 <style>
@@ -34,7 +34,14 @@
   .lv-hero>*{position:relative}
   .lv-pill{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;letter-spacing:.04em;color:#e8d3a6;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.3);border-radius:100px;padding:5px 13px;margin-bottom:18px}
   .lv-pill .dot{width:6px;height:6px;border-radius:50%;background:#C9A96E}
-  .lv-cover{width:132px;border-radius:8px;box-shadow:0 20px 50px rgba(0,0,0,.45);margin:0 auto 18px;display:block}
+  /* Visuel du livret. L'ancienne image etait une couverture a plat de 132px ;
+     le mockup fourni par Stella (2026-08-06) est un carre 1:1 avec le livre
+     tenu en main, qui merite d'etre vu. Coins tres arrondis pour qu'un carre
+     clair sur le degrade navy se lise comme une photo et non comme un bloc
+     blanc colle. */
+  .lv-cover{width:300px;max-width:78%;aspect-ratio:1/1;object-fit:cover;border-radius:22px;
+            box-shadow:0 22px 55px rgba(0,0,0,.45);margin:0 auto 20px;display:block}
+  @media(max-width:420px){.lv-cover{width:240px}}
   .lv-hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,6vw,2.3rem);font-weight:800;margin:0 0 10px;line-height:1.15}
   .lv-hero h1 em{color:#C9A96E;font-style:italic}
   .lv-hero p{color:#c7d2e3;font-size:.95rem;max-width:36ch;margin:0 auto;line-height:1.6}
@@ -140,10 +147,14 @@
 
   <!-- HERO -->
   <div class="lv-hero">
-    <span class="lv-pill"><span class="dot"></span> Niveau A1 · CEFR A1 · TOPIK 1</span>
-    <img class="lv-cover" src="img/livret-a1-cover.webp" width="132" height="198" alt="Couverture du Livret A1 Korean Stories" loading="eager">
+    <span class="lv-pill"><span class="dot"></span> PDF à télécharger · Niveau A1 · CEFR A1 · TOPIK 1</span>
+    <img class="lv-cover" src="img/livret-a1-mockup.webp" width="760" height="760" alt="Le Livret A1 Korean Stories, « Le Coréen — méthode complète pour grands débutants », tenu à deux mains" loading="eager">
     <h1>Le Livret <em>A1</em></h1>
-    <p>Un vrai manuel de 280 pages : cours complet, exercices à remplir directement dans le livret, corrigés, glossaire et index — du Hangeul à tes premières conversations.</p>
+    <!-- « PDF » doit apparaitre AVANT le prix, et pas seulement sur le bouton
+         de telechargement que seuls les membres voient. La couverture est un
+         visuel de livre relie : sans cette precision, quelqu'un peut croire
+         qu'il achete un livre imprime expedie chez lui pour 5 EUR. -->
+    <p>Un manuel de 280 pages, <strong>en PDF</strong> : cours complet, exercices à remplir, corrigés, glossaire et index — du Hangeul à tes premières conversations. À imprimer chez toi, ou à remplir sur tablette.</p>
     <!-- Chiffres relus sur le PDF lui-même (2026-08-06) : 280 pages,
          16 chapitres, 4 bilans, 7 annexes. Ne rien annoncer ici qui n'ait
          été verifié dans le fichier — c'est une page de vente. -->
@@ -221,7 +232,7 @@
       <p class="lv-sec-lbl">Pourquoi ce format</p>
       <div class="perk">
         <div class="perk-tick"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <div class="perk-body"><div class="perk-title">Une vraie référence papier</div><div class="perk-sub">Tout le niveau A1 réorganisé en un livre cohérent, à garder sous la main hors-ligne.</div></div>
+        <div class="perk-body"><div class="perk-title">Fait pour être imprimé</div><div class="perk-sub">Mis en page comme un vrai manuel, à imprimer en entier ou chapitre par chapitre. Une fois le PDF téléchargé, il est à toi, hors-ligne, pour toujours.</div></div>
       </div>
       <div class="perk">
         <div class="perk-tick"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
@@ -246,7 +257,7 @@
     <div class="lv-buy">
       <div class="lv-buy-card">
         <div class="lv-buy-price">5€<small> une fois</small></div>
-        <div class="lv-buy-sub">Accès permanent au Livret A1 seul</div>
+        <div class="lv-buy-sub">Le PDF de 280 pages, à toi pour toujours.<br>Téléchargement immédiat — rien n'est expédié.</div>
         <a href="https://buy.stripe.com/fZu14p8NF1gZfT178ce7m02" data-buy="1" class="lv-buy-btn" target="_blank" rel="noopener">Acheter le Livret A1</a>
         <div class="lv-buy-alt">Envie de tous les bonus (35 fiches, certificat…) ? <a href="premium.html">Voir le Premium</a></div>
       </div>
