@@ -87,10 +87,21 @@ service cloud.firestore {
       allow read: if resource.data.public == true
                   && resource.data.status == 'approved';
 
-      // Création : ouverte à tous (pas de compte requis), au format strict.
-      allow create: if
+      // Création : compte requis, au format strict.
+      //
+      // Durcissement (2026-08-05) : la création était ouverte à n'importe qui,
+      // sans compte. Les règles Firestore ne savent pas limiter le débit : un
+      // script pouvait donc insérer des milliers d'avis « pending ». Ils
+      // n'auraient jamais été publics (status forcé à 'pending'), mais ils
+      // auraient noyé la modération et gonflé la facture Firestore.
+      // Le site demandant désormais une inscription pour apprendre, exiger un
+      // compte ici est cohérent — et un avis écrit par quelqu'un qui apprend
+      // vraiment vaut mieux qu'un avis anonyme.
+      // On ne stocke volontairement PAS l'uid : l'authentification sert de
+      // barrière à l'écriture, le document lui-même reste anonyme.
+      allow create: if request.auth != null
         // Aucun champ hors de cette liste blanche.
-        request.resource.data.keys().hasOnly(
+        && request.resource.data.keys().hasOnly(
           ['name', 'rating', 'comment', 'public', 'status', 'createdAt'])
 
         // Prénom : chaîne non vide, 40 caractères max.

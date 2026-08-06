@@ -98,6 +98,11 @@ export default {
       return handleNewsletter(request, env);
     }
 
+    // Alerte e-mail quand quelqu'un depose un avis (avis.html).
+    if (request.method === 'POST' && url.pathname === '/review-notify') {
+      return handleReviewNotify(request, env);
+    }
+
     if (request.method === 'GET' && url.pathname === '/newsletter/unsubscribe') {
       return handleNewsletterUnsubscribeLink(request, env);
     }
@@ -344,6 +349,53 @@ async function rateLimited(request, env, bucket, max, windowSec) {
     // En cas d'erreur KV, on ne bloque pas un utilisateur légitime.
     return false;
   }
+}
+
+// ── Alerte e-mail : nouvel avis depose sur avis.html ──────────────────────────
+// Sans ca, un avis arrive silencieusement dans Firestore en status "pending" et
+// personne n'est prevenu — il faut penser a ouvrir la console Firebase. Cet
+// endpoint ne fait qu'envoyer une notification : il n'ecrit rien, ne lit rien,
+// et ne sert pas a publier l'avis (la moderation reste manuelle).
+// Le contenu recu vient du public : il est tronque et echappe avant d'entrer
+// dans le HTML de l'e-mail.
+async function handleReviewNotify(request, env) {
+  if (await rateLimited(request, env, 'review', 5, 3600)) {
+    return corsResponse(JSON.stringify({ ok: false, error: 'rate_limited' }), 429);
+  }
+  let body = {};
+  try { body = await request.json(); } catch (e) {}
+
+  const esc = (v) => String(v == null ? '' : v)
+    .replace(/[<>&"']/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const name    = esc(body.name).slice(0, 40) || '(sans prenom)';
+  const rating  = Math.max(1, Math.min(5, parseInt(body.rating, 10) || 0));
+  const comment = esc(body.comment).slice(0, 500);
+  const isPublic = body.public === true;
+
+  const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  const html =
+    '<div style="font-family:system-ui,sans-serif;max-width:520px">' +
+      '<h2 style="font-family:Georgia,serif">Nouvel avis sur Korean Stories</h2>' +
+      '<p style="font-size:20px;letter-spacing:2px;color:#C9A96E;margin:0 0 4px">' + stars + '</p>' +
+      '<p style="margin:0 0 14px;color:#475E78"><strong>' + name + '</strong> — ' +
+        (isPublic ? 'souhaite que son avis soit <strong>public</strong>' : 'avis <strong>prive</strong>, a ne pas publier') + '</p>' +
+      (comment ? '<blockquote style="margin:0;padding:12px 16px;background:#F5F7FF;border-left:3px solid #C9A96E;white-space:pre-wrap">' + comment + '</blockquote>' : '<p><em>Aucun commentaire ecrit.</em></p>') +
+      '<p style="font-size:13px;color:#8FA5BE;margin-top:20px">' +
+        'Il est enregistre en <strong>pending</strong> : il ne s\'affichera sur avis.html que ' +
+        'si tu passes son champ <code>status</code> a <code>approved</code> dans la console ' +
+        'Firebase (Firestore → collection <code>reviews</code>).</p>' +
+    '</div>';
+
+  try {
+    await sendEmail(env.REVIEW_NOTIFY_TO || 'contact@koreanstories.fr',
+                    'Nouvel avis (' + rating + '/5) sur Korean Stories', html, env);
+  } catch (e) {
+    console.log('[KS] review-notify send error', e);
+  }
+  // On repond toujours OK : l'avis est deja enregistre cote Firestore, un echec
+  // d'e-mail ne doit jamais faire croire a la visiteuse que son avis est perdu.
+  return corsResponse(JSON.stringify({ ok: true }), 200);
 }
 
 async function handleNewsletter(request, env) {

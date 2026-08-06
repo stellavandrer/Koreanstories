@@ -1,0 +1,33 @@
+{
+  "//": [
+    "Index composites Firestore — Korean Stories.",
+    "",
+    "Découvert le 2026-08-05 : la page avis.html interroge",
+    "  reviews.where('public','==',true).where('status','==','approved')",
+    "        .orderBy('createdAt','desc')",
+    "Deux filtres d'égalité + un tri sur un troisième champ : Firestore exige",
+    "un index composite. Il n'existait pas, donc la requête échouait en",
+    "'failed-precondition' et la page affichait « Avis indisponibles pour le",
+    "moment » — même un avis approuvé ne se serait JAMAIS affiché.",
+    "",
+    "À créer d'une des deux façons :",
+    "  1. Console Firebase → Firestore → Index → Composite → Créer, avec les",
+    "     champs ci-dessous dans CET ordre. Ou plus simple : ouvrir avis.html,",
+    "     la console du navigateur affiche un lien direct de création.",
+    "  2. CLI : firebase deploy --only firestore:indexes",
+    "",
+    "La construction de l'index prend quelques minutes."
+  ],
+  "indexes": [
+    {
+      "collectionGroup": "reviews",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "public",    "order": "ASCENDING" },
+        { "fieldPath": "status",    "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

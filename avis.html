@@ -68,6 +68,7 @@
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 </head>
 <body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Avis</h1>
@@ -90,7 +91,17 @@
   </div>
 
   <h3>Laisser un avis</h3>
-  <div class="card">
+
+  <div class="card" id="revNeedAccount" style="display:none;text-align:center">
+    <p style="margin:0 0 6px;font-weight:700;color:var(--tx)">Il faut un compte pour laisser un avis</p>
+    <p style="margin:0 0 16px;font-size:.9rem;color:var(--tx-muted);line-height:1.55">
+      C'est gratuit, et &ccedil;a permet que chaque avis vienne de quelqu'un qui apprend vraiment ici.
+    </p>
+    <a href="login.html?next=%2Favis.html" style="display:inline-block;padding:11px 22px;border-radius:11px;background:var(--gold,#C9A96E);color:#0a1220;font-weight:700;text-decoration:none">Me connecter</a>
+    <a href="signup.html?next=%2Favis.html" style="display:inline-block;margin-left:8px;padding:11px 22px;border-radius:11px;border:1.5px solid var(--bd);color:var(--tx);text-decoration:none">Cr&eacute;er un compte</a>
+  </div>
+
+  <div class="card" id="revFormCard">
     <form class="frm" id="revForm">
       <label for="revName">Prénom</label>
       <input type="text" id="revName" maxlength="40" required autocomplete="given-name" placeholder="Ton prénom">
@@ -160,6 +171,18 @@
      donc APRÈS ce script inline s'il tournait immédiatement. On attend
      DOMContentLoaded pour être sûr que `firebase` est bien défini. */
   var db = null;
+  function paintAuthState(user){
+    var card = document.getElementById('revFormCard');
+    var need = document.getElementById('revNeedAccount');
+    if (!card || !need) return;
+    var connected = !!user;
+    card.style.display = connected ? '' : 'none';
+    need.style.display = connected ? 'none' : '';
+    if (connected) {
+      var f = document.getElementById('revName');
+      if (f && !f.value && user.displayName) f.value = String(user.displayName).slice(0,40);
+    }
+  }
   function initFirebase(){
     try{
       if (typeof firebase !== 'undefined' && firebase.initializeApp) {
@@ -173,6 +196,11 @@
         };
         try{ firebase.initializeApp(CONFIG); }catch(e){}
         db = firebase.firestore();
+        /* Depuis le 2026-08-05 les regles Firestore exigent un compte pour
+           deposer un avis (voir firestore.rules). Sans ce suivi, un visiteur
+           non connecte remplissait le formulaire pour rien et recevait un
+           « une erreur est survenue » incomprehensible. */
+        try{ firebase.auth().onAuthStateChanged(paintAuthState); }catch(e){}
       }
     }catch(e){}
     loadReviews();
@@ -223,7 +251,19 @@
         document.getElementById('revCount').textContent = snap.size + (snap.size>1?' avis':' avis');
         summaryEl.style.display = 'flex';
       })
-      .catch(function(){
+      .catch(function(err){
+        /* Une erreur ici etait muette : on affichait « indisponibles » sans
+           jamais savoir pourquoi. Or la cause la plus probable est un index
+           composite Firestore manquant (failed-precondition) — dans ce cas
+           AUCUN avis ne s'affiche, meme approuve. Le message de Firebase
+           contient un lien direct de creation de l'index. */
+        var code = (err && err.code) || '';
+        if (code === 'failed-precondition') {
+          console.error('[KS] Avis : index composite Firestore manquant. ' +
+            'Voir firestore.indexes.json, ou suivre le lien ci-dessous :', err && err.message);
+        } else {
+          console.error('[KS] Avis : echec du chargement', code, err && err.message);
+        }
         listEl.innerHTML = '<div class="rev-empty">Avis indisponibles pour le moment.</div>';
       });
   }
@@ -259,6 +299,17 @@
       status: 'pending',
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     }).then(function(){
+      /* Alerte e-mail : sinon l'avis dort dans Firestore en « pending » et
+         personne n'est prevenu. L'echec de la notification ne doit rien
+         changer pour la visiteuse — son avis est deja enregistre. */
+      try {
+        fetch('https://ks-premium.delicate-voice-1d19.workers.dev/review-notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name.slice(0,40), rating: selected,
+                                 comment: comment.slice(0,500), public: !!isPublic })
+        }).catch(function(){});
+      } catch(e) {}
       form.reset();
       selected = 0; paint(0);
       setMsg('ok','Merci beaucoup ! Ton avis a bien été envoyé' + (isPublic ? ' et sera publié après vérification.' : '.'));
