@@ -36,6 +36,8 @@
 
     /* Formulaire */
     .frm label{display:block;font-size:.82rem;font-weight:700;color:var(--tx);margin:.8rem 0 .3rem}
+    /* Precision discrete a cote du libelle : elle rassure sans alourdir. */
+    .frm-hint{font-weight:400;color:var(--t2)}
     .frm label:first-child{margin-top:0}
     .frm input[type="text"],.frm textarea{width:100%;box-sizing:border-box;padding:.7rem .85rem;border-radius:10px;border:1.5px solid var(--bd);background:var(--bg);color:var(--tx);font-size:.92rem;font-family:inherit}
     .frm textarea{resize:vertical;min-height:80px}
@@ -103,7 +105,7 @@
 
   <div class="card" id="revFormCard">
     <form class="frm" id="revForm">
-      <label for="revName">Prénom</label>
+      <label for="revName">Prénom <span class="frm-hint">— seul ton prénom sera publié</span></label>
       <input type="text" id="revName" maxlength="40" required autocomplete="given-name" placeholder="Ton prénom">
 
       <label>Note</label>
@@ -145,6 +147,24 @@
 (function(){
   var STAR = '<svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>';
   var STAR_EMPTY = '<svg viewBox="0 0 24 24" style="fill:none;stroke:var(--gold);stroke-width:1.6"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>';
+
+  /* Prénom seul sur toute surface publique — jamais de nom de famille.
+     Le champ demande « ton prénom » mais rien n'empêche d'y taper un nom
+     complet, et c'est arrivé dès le premier avis reçu (2026-08-07). Filtrer à
+     l'AFFICHAGE plutôt qu'à l'écriture protège aussi les avis déjà en base,
+     sans avoir à y toucher.
+     Les majuscules sont adoucies au passage : un avis signé en capitales
+     ressemble à un cri sur la page. */
+  function prenomSeul(brut){
+    var s = String(brut || '').replace(/[<>]/g, '').trim();
+    if (!s) return 'Anonyme';
+    var premier = s.split(/[\s,]+/)[0].slice(0, 24);
+    if (!premier) return 'Anonyme';
+    if (premier === premier.toUpperCase()) {
+      premier = premier.charAt(0) + premier.slice(1).toLowerCase();
+    }
+    return premier;
+  }
 
   function starsHTML(rating){
     var h='';
@@ -264,7 +284,7 @@
             var ts = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate() : null;
             if(ts) dateStr = months[ts.getMonth()] + ' ' + ts.getFullYear();
           }catch(e){}
-          var name = (d.name||'Anonyme').replace(/[<>]/g,'');
+          var name = prenomSeul(d.name);
           var comment = (d.comment||'').replace(/[<>]/g,'');
           html += '<div class="rev-item"><div class="rev-top"><span class="rev-name">'+name+'</span><span class="rev-stars">'+starsHTML(d.rating||0)+'</span></div>'
                 + (comment ? '<div class="rev-comment">'+comment+'</div>' : '')
@@ -318,7 +338,10 @@
 
     btn.disabled = true; setMsg('','Envoi…');
     db.collection('reviews').add({
-      name: name.slice(0,40),
+      /* On n'enregistre que le prenom, meme si la personne a tape son nom
+         complet : ce qui n'est pas stocke ne peut pas fuiter. L'affichage
+         applique la meme regle de son cote, pour les avis deja en base. */
+      name: prenomSeul(name),
       rating: selected,
       comment: comment.slice(0,500),
       public: !!isPublic,
@@ -332,7 +355,7 @@
         fetch('https://ks-premium.delicate-voice-1d19.workers.dev/review-notify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name.slice(0,40), rating: selected,
+          body: JSON.stringify({ name: prenomSeul(name), rating: selected,
                                  comment: comment.slice(0,500), public: !!isPublic })
         }).catch(function(){});
       } catch(e) {}

@@ -311,11 +311,13 @@
       <p class="lv-sec-lbl">Pourquoi ce format</p>
       <div class="perk">
         <div class="perk-tick"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <!-- Le « 160 dpi » n'est pas du jargon gratuit : la promesse « fait pour
-             être imprimé » n'a de sens que si la résolution suit. Le fichier est
-             sorti en 120 dpi jusqu'au 2026-08-07 — assez pour l'écran, décevant
-             sur papier. Annoncer le poids évite la mauvaise surprise en 4G. -->
-        <div class="perk-body"><div class="perk-title">Fait pour être imprimé</div><div class="perk-sub">Mis en page comme un vrai manuel, à imprimer en entier ou chapitre par chapitre, en 160 dpi (23 Mo). Une fois le PDF téléchargé, il est à toi, hors-ligne, pour toujours.</div></div>
+        <!-- Aucune resolution ni poids annonce ici : le fichier servi est celui
+             de 120 dpi, et Stella a choisi de le garder tel quel le 2026-08-07.
+             Une version 160 dpi existe et tient dans KV (Livret/A1/
+             livret-a1-160dpi.pdf, generateur _gen_livret_pdf.py) ; le jour ou
+             elle sera envoyee, remettre le chiffre ici — mais jamais avant,
+             sous peine d'annoncer ce qu'on ne livre pas. -->
+        <div class="perk-body"><div class="perk-title">Fait pour être imprimé</div><div class="perk-sub">Mis en page comme un vrai manuel, à imprimer en entier ou chapitre par chapitre. Une fois le PDF téléchargé, il est à toi, hors-ligne, pour toujours.</div></div>
       </div>
       <div class="perk">
         <div class="perk-tick"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
@@ -492,12 +494,12 @@ function downloadLivret(key, msgEl, btnEl, onFail){
        le probleme venait de la cle, de l'abonnement, ou du fichier absent
        de KV. On lit donc le message reel et on l'affiche. */
     .then(function(r){
-      /* Le livret pese 22 Mo depuis le passage en 160 dpi (2026-08-07).
-         Un simple r.blob() ne dit rien pendant tout le transfert : bouton
-         grise, message fige, aucun moyen de savoir si ca avance ou si c'est
-         casse. On lit donc le flux nous-memes pour afficher une progression
-         reelle. Si le serveur ne donne pas la taille (Content-Length masque
-         par CORS, compression), on retombe sur les Mo recus. */
+      /* Le livret pese ~24 Mo. Un simple r.blob() ne dit rien pendant tout
+         le transfert : bouton grise, message fige, aucun moyen de savoir si
+         ca avance ou si c'est casse. On lit donc le flux nous-memes pour
+         afficher une progression reelle. Si le serveur ne donne pas la taille
+         (Content-Length masque par CORS, compression), on retombe sur les Mo
+         recus. */
       if (r.ok) return lireAvecProgression(r, msgEl);
       return r.text().then(function(txt){
         var detail = (txt || '').trim().slice(0, 120);

@@ -77,7 +77,24 @@
       if (ts) when = new Date(ts).getTime() || 0;
     } catch (e) {}
     if (!name || !(rating >= 1 && rating <= 5)) return null;
-    return { name: name, rating: rating, comment: comment.trim(), when: when };
+    return { name: prenomSeul(name), rating: rating, comment: comment.trim(), when: when };
+  }
+
+  /* Prenom seul sur toute surface publique — jamais de nom de famille.
+     Le formulaire demande « ton prenom », mais rien n'empeche d'y taper un nom
+     complet : c'est arrive des le premier avis recu (2026-08-07). On filtre a
+     l'affichage, ce qui protege aussi les avis deja enregistres.
+     Meme fonction que dans avis.html : les deux surfaces publient les memes
+     avis, elles doivent les anonymiser pareil. */
+  function prenomSeul(brut) {
+    var s = String(brut || '').replace(/[<>]/g, '').trim();
+    if (!s) return 'Anonyme';
+    var premier = s.split(/[\s,]+/)[0].slice(0, 24);
+    if (!premier) return 'Anonyme';
+    if (premier === premier.toUpperCase()) {
+      premier = premier.charAt(0) + premier.slice(1).toLowerCase();
+    }
+    return premier;
   }
 
   function injectCSS() {
