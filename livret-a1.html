@@ -328,6 +328,19 @@ function ksIdToken(){
 function downloadLivret(key, msgEl, btnEl, onFail){
   if (btnEl) { btnEl.disabled = true; }
   if (msgEl) { msgEl.textContent = 'Préparation du téléchargement…'; msgEl.className = msgEl.className.replace(/\s*(err|ok)/g,''); }
+
+  /* Les deux zones de message sont distinctes (#lvMemberMsg pour le bouton
+     membre, #licMsg pour le champ de cle). Sans ce nettoyage, l'erreur du
+     premier essai restait affichee pendant que le second reussissait : on
+     lisait « Abonnement expire ou annule » ET le PDF arrivait. Toute
+     nouvelle tentative efface donc l'ardoise des deux cotes. */
+  ['lvMemberMsg', 'licMsg'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el && el !== msgEl) {
+      el.textContent = '';
+      el.className = el.className.replace(/\s*(err|ok)/g, '');
+    }
+  });
   /* On envoie les deux preuves possibles : le jeton du compte (chemin normal,
      aucune cle a retenir) et la cle si on en a une. Le worker prend la
      premiere qui marche — cf. handlePdfDownload. */
