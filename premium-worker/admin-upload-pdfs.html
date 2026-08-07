@@ -29,14 +29,14 @@
   <label for="token">Jeton admin (ADMIN_UPLOAD_TOKEN configuré dans Cloudflare)</label>
   <input type="text" id="token" placeholder="Colle ici le jeton choisi dans Cloudflare">
 
-  <h2>Livret A1 (gros fichier → R2)</h2>
-  <p>Le livret pèse 53 Mo en 200 dpi. KV plafonne à 25 Mo par valeur — c'est cette limite qui l'obligeait à sortir en 120 dpi, visiblement pixelisé. Il part donc sur R2, qui n'a pas cette contrainte.</p>
+  <h2>Livret A1</h2>
+  <p>La destination est choisie automatiquement selon la taille : <strong>KV si le fichier tient sous 25 Mo</strong> (rien à configurer), <strong>R2 au-delà</strong> — R2 devant alors être activé et branché sur le worker, voir <code>PASSAGE-R2.md</code>.</p>
 
   <div class="note"><strong>Le nom du fichier sur ton disque n'a aucune importance ici</strong> : quel qu'il soit, il sera enregistré sous <code>livret-a1</code>, le nom que la page de vente réclame. C'est exactement le piège qui avait causé un « livret introuvable » le 6 août — un fichier nommé <code>livret-a1-koreanstories.pdf</code> arrivait sous une clé que personne ne cherchait.</div>
 
   <label for="booklet">Le PDF du livret</label>
   <input type="file" id="booklet" accept="application/pdf">
-  <button id="btnBooklet" onclick="uploadBooklet()">Envoyer le livret vers R2</button>
+  <button id="btnBooklet" onclick="uploadBooklet()">Envoyer le livret</button>
   <div class="bar" id="bar"><i id="barFill"></i></div>
 
   <h2>Les 35 fiches Premium (petits fichiers → KV)</h2>
@@ -84,6 +84,15 @@ function uploadBooklet() {
     return;
   }
 
+  /* KV plafonne à 25 Mio par valeur. En dessous on y va — c'est la voie qui ne
+     demande aucune configuration. Au-dessus, seul R2 peut accueillir le
+     fichier, et il faut qu'il ait été branché au préalable. Router selon la
+     taille évite d'avoir à s'en souvenir : le 6 août, un envoi de 53 Mo parti
+     dans la voie KV a fait tomber le worker par épuisement mémoire, et le
+     navigateur n'a affiché qu'un « erreur réseau » qui ne disait rien. */
+  var LIMITE_KV = 25 * 1024 * 1024;
+  var versR2 = f.size > LIMITE_KV;
+
   var btn = document.getElementById('btnBooklet');
   var bar = document.getElementById('bar');
   var fill = document.getElementById('barFill');
@@ -91,10 +100,12 @@ function uploadBooklet() {
   bar.style.display = 'block';
   fill.style.width = '0';
   document.getElementById('log').textContent = '';
-  ecrire('Envoi de ' + f.name + ' (' + mo(f.size) + ') sous le nom livret-a1...\n');
+  ecrire('Envoi de ' + f.name + ' (' + mo(f.size) + ') sous le nom livret-a1, ' +
+         'destination ' + (versR2 ? 'R2' : 'KV') + '...\n');
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', WORKER + '/admin-upload-pdf?file=livret-a1&store=r2&token=' + encodeURIComponent(token));
+  xhr.open('POST', WORKER + '/admin-upload-pdf?file=livret-a1' +
+           (versR2 ? '&store=r2' : '') + '&token=' + encodeURIComponent(token));
   xhr.upload.onprogress = function (e) {
     if (!e.lengthComputable) return;
     var pct = Math.round(e.loaded / e.total * 100);
@@ -106,7 +117,8 @@ function uploadBooklet() {
     try { data = JSON.parse(xhr.responseText); } catch (e) {}
     if (xhr.status === 200 && data && data.success) {
       fill.style.width = '100%';
-      ecrire('  ✓ Enregistré sur R2 : ' + mo(data.bytes) + '\n\n' +
+      ecrire('  ✓ Enregistré sur ' + (data.store === 'r2' ? 'R2' : 'KV') +
+             ' : ' + mo(data.bytes) + '\n\n' +
              'Vérifie maintenant le téléchargement depuis koreanstories.fr/livret-a1.html.\n');
     } else {
       ecrire('  ✗ Erreur ' + xhr.status + ' — ' + (xhr.responseText || 'pas de détail') + '\n');
