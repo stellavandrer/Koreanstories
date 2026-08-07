@@ -33,6 +33,14 @@
     'blog.html': 1,
     'login.html': 1, 'signup.html': 1, 'bienvenue.html': 1,
     'premium.html': 1, 'premium-success.html': 1,
+    /* livret-a1.html est une page de VENTE (2026-08-07). Elle etait tombee
+       dans le lot des 416 pages fermees : un visiteur sans compte ne voyait
+       ni l'apercu du livret, ni le prix, ni le bouton d'achat — seulement un
+       mur d'inscription. On ne vend pas ce qu'on empeche de regarder, et
+       premium.html, qui vend elle aussi, etait deja publique.
+       Le TELECHARGEMENT reste protege : il se joue cote serveur (licence ou
+       jeton verifie par le worker), pas sur cette porte-ci. */
+    'livret-a1.html': 1,
     'avis.html': 1, 'a-propos.html': 1, 'aide.html': 1,
     'mentions-legales.html': 1, 'cgv.html': 1, 'confidentialite.html': 1,
     '404.html': 1, 'reset.html': 1
