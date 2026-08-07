@@ -41,6 +41,13 @@
        Le TELECHARGEMENT reste protege : il se joue cote serveur (licence ou
        jeton verifie par le worker), pas sur cette porte-ci. */
     'livret-a1.html': 1,
+    /* Ouvertes aux visiteurs le 2026-08-07, sur decision de Stella.
+       Ce sont les deux meilleures portes d'entree du site : on cherche
+       « comment ecrire son prenom en coreen » ou un mot precis bien avant
+       de chercher une methode. Les fermer revenait a cacher ce qui donne
+       envie d'entrer. Elles ne contiennent aucune progression personnelle :
+       le parcours, lui, reste derriere la porte. */
+    'dictionnaire.html': 1, 'hangeul.html': 1,
     'avis.html': 1, 'a-propos.html': 1, 'aide.html': 1,
     'mentions-legales.html': 1, 'cgv.html': 1, 'confidentialite.html': 1,
     '404.html': 1, 'reset.html': 1

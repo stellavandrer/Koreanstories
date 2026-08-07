@@ -479,7 +479,12 @@ section.s{padding:84px 0}
     <picture class="nav-pic-light"><source srcset="img/logo-dark.webp" type="image/webp"><img src="img/logo-dark.png" alt="Korean Stories" width="491" height="100"/></picture>
   </a>
   <div class="nav-links">
-    <a href="cours.html">Cours</a>
+    <!-- Le parcours reste derriere la porte (decision du 2026-08-05), mais
+         envoyer un visiteur sur un mur d'inscription qui ressemble a une
+         erreur est pire que de l'y emmener franchement. On passe donc par
+         signup.html avec ?next= : apres inscription, la personne arrive
+         exactement la ou elle voulait aller (helper ksNextUrl). -->
+    <a href="signup.html?next=cours.html">Cours</a>
     <!-- « Histoires » menait a une page fermee aux visiteurs sans compte :
          depuis l'accueil publique, le clic tombait sur un mur d'inscription.
          Le blog est public et c'est par lui que les gens decouvrent le site
@@ -503,7 +508,7 @@ section.s{padding:84px 0}
 <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer" role="dialog" aria-label="Menu">
   <button class="drawer-close" onclick="closeDrawer()" aria-label="Fermer le menu"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  <a href="cours.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Cours</a>
+  <a href="signup.html?next=cours.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>Cours</a>
   <a href="blog.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Blog</a>
   <a href="dictionnaire.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/><line x1="12" y1="7" x2="12" y2="21"/></svg>Dictionnaire</a>
   <a href="hangeul.html" onclick="closeDrawer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;margin-right:12px"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>Hangeul</a>
