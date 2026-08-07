@@ -64,6 +64,48 @@
   .lv-dl-msg.err{color:#dc2626}
   .lv-dl-msg.ok{color:#16a34a;font-weight:600}
 
+  /* ── APERÇU DE L'INTÉRIEUR ──
+     Le meilleur argument de vente d'un livre, c'est le livre. La page
+     n'en montrait que la couverture : on demandait 5 € pour 280 pages
+     que personne ne pouvait ouvrir. Cinq vraies pages, extraites du PDF
+     vendu, chacune prouvant une chose differente (beaute, ecriture a la
+     main, dialogues, jeux, references). */
+  .lv-peek{padding:38px 0 0}
+  .lv-peek-in{max-width:560px;margin:0 auto;padding:0 20px}
+  .lv-peek h2{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:800;
+    color:var(--tx);margin:0 0 6px;text-align:center;line-height:1.25}
+  .lv-peek h2 em{color:#8B6B3D;font-style:italic}
+  [data-theme=dark] .lv-peek h2 em{color:#D5BA8A}
+  .lv-peek-lead{font-size:.88rem;color:var(--t2);text-align:center;line-height:1.55;
+    margin:0 auto 18px;max-width:34ch}
+  /* Bande defilante : on sort volontairement de la colonne de 560px pour
+     que les pages respirent et qu'on devine la suivante — c'est ce qui
+     donne envie de faire glisser. */
+  .lv-strip{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;padding:4px 20px 18px;margin:0 -20px;
+    scrollbar-width:none}
+  .lv-strip::-webkit-scrollbar{display:none}
+  .lv-shot{flex:0 0 auto;width:210px;scroll-snap-align:center;background:none;
+    border:none;padding:0;cursor:zoom-in;text-align:left;font-family:inherit}
+  .lv-shot img{width:100%;display:block;border-radius:12px;border:1px solid var(--bd);
+    box-shadow:0 8px 24px rgba(15,27,45,.16);background:#fff;transition:.18s}
+  .lv-shot:hover img{transform:translateY(-3px);box-shadow:0 14px 32px rgba(15,27,45,.24)}
+  .lv-shot figcaption{font-size:.76rem;line-height:1.45;color:var(--t2);margin-top:9px}
+  .lv-peek-hint{font-size:.74rem;color:var(--t3);text-align:center;margin:0}
+  @media(min-width:620px){.lv-shot{width:240px}}
+
+  /* Agrandissement : ces pages sont denses, un vignette de 210px ne suffit
+     pas a juger. Fermeture au clic, a Echap, ou sur le bouton. */
+  .lv-zoom{position:fixed;inset:0;z-index:9800;background:rgba(8,14,24,.88);
+    display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+  .lv-zoom.on{display:flex}
+  .lv-zoom img{max-width:100%;max-height:92vh;border-radius:8px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6)}
+  .lv-zoom-x{position:absolute;top:16px;right:16px;width:40px;height:40px;border:none;
+    border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:22px;
+    line-height:1;cursor:pointer;font-family:inherit}
+  .lv-zoom-x:hover{background:rgba(255,255,255,.26)}
+
   /* ── SOMMAIRE ── */
   .lv-toc{max-width:560px;margin:0 auto;padding:40px 20px 0}
   .lv-sec-lbl{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin:0 0 16px;text-align:center}
@@ -179,6 +221,44 @@
   <!-- VUE ACHAT (non-Premium) -->
   <div id="lvBuy">
 
+    <!-- APERÇU — de vraies pages du livret vendu, extraites du PDF final.
+         Aucune maquette, aucune retouche : ce qui est montré est ce qu'on
+         reçoit. Les 4 dernières sont en chargement différé. -->
+    <div class="lv-peek">
+      <div class="lv-peek-in">
+        <h2>Regarde <em>à l'intérieur</em></h2>
+        <p class="lv-peek-lead">Cinq pages prises telles quelles dans le livret. Fais glisser, et touche une page pour l'agrandir.</p>
+      </div>
+      <div class="lv-strip" id="lvStrip">
+        <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-apercu-chapitre.webp">
+          <img src="img/livret-apercu-chapitre.webp" width="860" height="1216" loading="eager" decoding="async"
+               alt="Page 69 du livret : ouverture du chapitre 5 sur les nombres sino-coréens, avec photo et QR code audio">
+          <figcaption>Chaque chapitre s'ouvre comme un vrai manuel — et le QR code lance l'audio sur le site.</figcaption>
+        </figure>
+        <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-apercu-hangeul.webp">
+          <img src="img/livret-apercu-hangeul.webp" width="860" height="1216" loading="lazy" decoding="async"
+               alt="Page 13 : grilles de tracé des 14 consonnes du hangeul, à remplir au crayon">
+          <figcaption>Des grilles de tracé pour apprendre à écrire le hangeul de ta main.</figcaption>
+        </figure>
+        <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-apercu-dialogue.webp">
+          <img src="img/livret-apercu-dialogue.webp" width="860" height="1216" loading="lazy" decoding="async"
+               alt="Page 57 : dialogue « L'interrogatoire du parapluie » suivi d'un exercice à trous">
+          <figcaption>Des dialogues avec Mina, Emma et Jiwoo — puis des exercices sur ce que tu viens de lire.</figcaption>
+        </figure>
+        <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-apercu-jeux.webp">
+          <img src="img/livret-apercu-jeux.webp" width="860" height="1216" loading="lazy" decoding="async"
+               alt="Page 125 : jeux de syllabes mêlées et grille de mots mêlés en hangeul">
+          <figcaption>Mots mêlés en hangeul, syllabes à remettre dans l'ordre : on révise en jouant.</figcaption>
+        </figure>
+        <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-apercu-annexes.webp">
+          <img src="img/livret-apercu-annexes.webp" width="860" height="1216" loading="lazy" decoding="async"
+               alt="Page 255 : tableaux de référence des annexes, structures et exemples par chapitre">
+          <figcaption>Sept annexes : corrigés, lexique, tableaux de conjugaison, index, carte.</figcaption>
+        </figure>
+      </div>
+      <div class="lv-peek-in"><p class="lv-peek-hint">280 pages au total, dont 16 chapitres et 4 bilans.</p></div>
+    </div>
+
     <!-- SOMMAIRE -->
     <!-- Sommaire recopié du PDF (pages 3-4), pas résumé de mémoire.
          L'ancienne version listait 12 chapitres d'un livret antérieur :
@@ -276,6 +356,12 @@
     </div>
 
   </div><!-- /lvBuy -->
+
+  <!-- Agrandissement des pages d'aperçu -->
+  <div class="lv-zoom" id="lvZoom" role="dialog" aria-modal="true" aria-label="Page agrandie">
+    <button class="lv-zoom-x" id="lvZoomX" aria-label="Fermer">&times;</button>
+    <img id="lvZoomImg" src="" alt="">
+  </div>
 
   <!-- ANTI-PARTAGE -->
   <div class="lv-notice">
@@ -479,6 +565,45 @@ document.getElementById('licBtn').addEventListener('click', function(){
 document.getElementById('licInput').addEventListener('keydown', function(e){
   if(e.key==='Enter') document.getElementById('licBtn').click();
 });
+
+/* ── Agrandissement d'une page d'aperçu ──
+   Ces pages sont denses : une vignette de 210 px ne permet pas de juger
+   du contenu, et c'est justement le contenu qui décide de l'achat. */
+(function(){
+  var zoom = document.getElementById('lvZoom');
+  var zimg = document.getElementById('lvZoomImg');
+  if (!zoom || !zimg) return;
+  var lastFocus = null;
+
+  function open(fig){
+    var img = fig.querySelector('img');
+    zimg.src = fig.getAttribute('data-src');
+    zimg.alt = img ? img.alt : '';
+    zoom.classList.add('on');
+    lastFocus = fig;
+    var x = document.getElementById('lvZoomX');
+    if (x) { try { x.focus(); } catch(e){} }
+  }
+  function close(){
+    zoom.classList.remove('on');
+    /* On vide la source : sinon l'image reste en memoire et, sur mobile,
+       cinq pages ouvertes de suite finissent par peser. */
+    zimg.src = '';
+    if (lastFocus) { try { lastFocus.focus(); } catch(e){} }
+  }
+
+  document.querySelectorAll('.lv-shot').forEach(function(fig){
+    fig.addEventListener('click', function(){ open(fig); });
+    /* Une figure n'est pas un bouton : sans ca, rien au clavier. */
+    fig.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(fig); }
+    });
+  });
+  zoom.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && zoom.classList.contains('on')) close();
+  });
+})();
 
 /* Bloque l'achat tant que les CGV ne sont pas acceptées */
 document.querySelectorAll('a[data-buy]').forEach(function(a){
