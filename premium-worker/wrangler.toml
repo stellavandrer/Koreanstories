@@ -6,6 +6,17 @@ compatibility_date = "2024-01-01"
 binding = "KS_LICENSES"
 id = "92123e6f49244abb883fae570f389a63"
 
+# Stockage des gros fichiers vendus (2026-08-07). Le Livret A1 fait 53 Mo en
+# 200 dpi ; KV plafonne à 25 Mo par valeur, ce qui obligeait à le publier en
+# 120 dpi — visiblement pixelisé. R2 n'a pas cette limite, gère les
+# téléchargements reprenables, et reste gratuit sous 10 Go.
+# Le binding se crée aussi dans le dashboard : Workers → ks-premium →
+# Settings → Bindings → R2 bucket, nom KS_FILES, bucket korean-stories-files.
+# Sans ce binding le worker continue de servir depuis KV, sans erreur.
+[[r2_buckets]]
+binding = "KS_FILES"
+bucket_name = "korean-stories-files"
+
 # Les secrets (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY)
 # se configurent via : wrangler secret put NOM_DE_LA_VARIABLE
 # Ou directement dans le dashboard Cloudflare → Workers → Settings → Variables

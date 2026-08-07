@@ -412,6 +412,17 @@ async function handlePdfDownload(request, env) {
   }
   if (!canAccessFile(data, file)) return corsResponse('Cette clé ne donne pas accès à cette fiche', 403);
 
+  // Le fichier lui-même vit à l'un de deux endroits (2026-08-07) :
+  //   - R2 pour le Livret A1. 280 pages en 200 dpi pèsent 53 Mo, très au-delà
+  //     du plafond de 25 Mo par valeur de KV. C'est précisément cette limite
+  //     qui forçait le livret à 120 dpi, d'où le rendu pixelisé ;
+  //   - KV pour les 35 fiches, quelques centaines de Ko chacune, qui n'ont
+  //     aucune raison de bouger.
+  // R2 est consulté en premier : migrer un fichier vers R2 suffit à ce qu'il
+  // soit servi depuis R2, sans rien toucher ici.
+  const fromR2 = await servePdfFromR2(env, request, file);
+  if (fromR2) return fromR2;
+
   const pdfBytes = await env.KS_LICENSES.get('pdf:' + file, { type: 'arrayBuffer' });
   if (!pdfBytes) return corsResponse('Fiche introuvable', 404);
 
@@ -420,11 +431,64 @@ async function handlePdfDownload(request, env) {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="' + file + '.pdf"',
+      'Content-Length': String(pdfBytes.byteLength),
       'Cache-Control': 'private, no-store',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
+      'Access-Control-Allow-Headers': CORS_ALLOW_HEADERS,
+      'Access-Control-Expose-Headers': CORS_EXPOSE_HEADERS
     }
   });
+}
+
+// ── Lecture d'un PDF stocké dans R2 ───────────────────────────────────────────
+// Renvoie une Response prête à servir, ou null si R2 n'est pas branché ou si le
+// fichier n'y est pas — l'appelant retombe alors sur KV.
+//
+// À la différence de KV, R2 sait répondre à une requête Range : un
+// téléchargement de 53 Mo interrompu en 4G peut reprendre où il s'est arrêté
+// au lieu de tout recommencer. Le corps est un flux, jamais chargé en mémoire :
+// un Worker plafonne à 128 Mo et bufferiser le livret entier passerait tout
+// près de la limite.
+async function servePdfFromR2(env, request, file) {
+  if (!env.KS_FILES) return null;
+
+  const key = 'pdf/' + file + '.pdf';
+  const head = await env.KS_FILES.head(key);
+  if (!head) return null;
+
+  const headers = {
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment; filename="' + file + '.pdf"',
+    'Cache-Control': 'private, no-store',
+    'Accept-Ranges': 'bytes',
+    'ETag': head.httpEtag,
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': CORS_ALLOW_HEADERS,
+    'Access-Control-Expose-Headers': CORS_EXPOSE_HEADERS
+  };
+
+  const wantsRange = request.headers.get('Range');
+  const obj = wantsRange
+    ? await env.KS_FILES.get(key, { range: request.headers })
+    : await env.KS_FILES.get(key);
+
+  // R2 renvoie null quand la plage demandée dépasse le fichier. Le client a
+  // besoin de connaître la taille réelle pour redemander correctement.
+  if (!obj) {
+    headers['Content-Range'] = 'bytes */' + head.size;
+    return new Response('Plage demandée invalide', { status: 416, headers: headers });
+  }
+
+  if (wantsRange && obj.range) {
+    const start = obj.range.offset || 0;
+    const length = (obj.range.length != null) ? obj.range.length : (head.size - start);
+    headers['Content-Range'] = 'bytes ' + start + '-' + (start + length - 1) + '/' + head.size;
+    headers['Content-Length'] = String(length);
+    return new Response(obj.body, { status: 206, headers: headers });
+  }
+
+  headers['Content-Length'] = String(head.size);
+  return new Response(obj.body, { status: 200, headers: headers });
 }
 
 // ── Contenu sécurisé d'une page de prévisualisation pdf/<nom>.html ────────────
@@ -463,7 +527,7 @@ async function handlePdfPreview(request, env) {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'private, no-store',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
+      'Access-Control-Allow-Headers': CORS_ALLOW_HEADERS
     }
   });
 }
@@ -491,11 +555,39 @@ async function handleAdminUploadPdf(request, env) {
     return corsResponse('Nom de fichier invalide', 400);
   }
 
+  // ?store=r2 pour les gros fichiers (le Livret A1 fait 53 Mo, KV plafonne à
+  // 25 Mo par valeur). On passe request.body directement à R2 : le corps
+  // traverse le Worker en flux, sans jamais être assemblé en mémoire.
+  // arrayBuffer() sur 53 Mo, lui, frôlerait le plafond de 128 Mo.
+  if ((url.searchParams.get('store') || '') === 'r2') {
+    if (!env.KS_FILES) {
+      return corsResponse(
+        'R2 n\'est pas branché sur ce worker. Ajoute le binding KS_FILES ' +
+        '(Cloudflare → Workers → ks-premium → Settings → Bindings → R2 bucket) ' +
+        'puis redéploie.', 500);
+    }
+    if (!request.body) return corsResponse('Fichier vide', 400);
+
+    await env.KS_FILES.put('pdf/' + file + '.pdf', request.body, {
+      httpMetadata: { contentType: 'application/pdf' }
+    });
+    const saved = await env.KS_FILES.head('pdf/' + file + '.pdf');
+    return json({ success: true, file: file, store: 'r2', bytes: saved ? saved.size : null });
+  }
+
   const bytes = await request.arrayBuffer();
   if (!bytes || bytes.byteLength === 0) return corsResponse('Fichier vide', 400);
 
+  // KV refuse au-delà de 25 Mo, mais avec une erreur peu parlante. Autant le
+  // dire clairement et pointer vers la bonne solution.
+  if (bytes.byteLength > 25 * 1024 * 1024) {
+    return corsResponse(
+      'Ce fichier fait ' + Math.round(bytes.byteLength / 1024 / 1024) + ' Mo : ' +
+      'KV plafonne à 25 Mo par valeur. Relance l\'envoi avec store=r2.', 413);
+  }
+
   await env.KS_LICENSES.put('pdf:' + file, bytes);
-  return json({ success: true, file: file, bytes: bytes.byteLength });
+  return json({ success: true, file: file, store: 'kv', bytes: bytes.byteLength });
 }
 
 // ── Upload initial des fragments HTML des pages pdf/*.html (à usage unique) ───
@@ -1443,13 +1535,24 @@ async function verifyStripeWebhook(payload, sigHeader, secret) {
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
+// Une seule source de vérité : cette liste était recopiée à l'identique à
+// quatre endroits, et un en-tête ajouté ici mais oublié là-bas se traduit par
+// un échec CORS silencieux côté navigateur — impossible à diagnostiquer depuis
+// la page. « Range » sert au téléchargement reprenable du Livret A1.
+const CORS_ALLOW_HEADERS = 'Content-Type, X-License-Key, X-Firebase-Token, Range';
+
+// En cross-origin, le JS d'une page ne voit QUE les en-têtes listés ici. Sans
+// Content-Length, la page de téléchargement ne peut afficher aucune
+// progression — juste un bouton figé pendant une minute sur 53 Mo.
+const CORS_EXPOSE_HEADERS = 'Content-Length, Content-Range, Accept-Ranges, ETag';
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
+      'Access-Control-Allow-Headers': CORS_ALLOW_HEADERS
     }
   });
 }
@@ -1460,7 +1563,7 @@ function corsResponse(body, status) {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, X-License-Key, X-Firebase-Token'
+      'Access-Control-Allow-Headers': CORS_ALLOW_HEADERS
     }
   });
 }

@@ -311,7 +311,12 @@
       <p class="lv-sec-lbl">Pourquoi ce format</p>
       <div class="perk">
         <div class="perk-tick"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <div class="perk-body"><div class="perk-title">Fait pour être imprimé</div><div class="perk-sub">Mis en page comme un vrai manuel, à imprimer en entier ou chapitre par chapitre. Une fois le PDF téléchargé, il est à toi, hors-ligne, pour toujours.</div></div>
+        <!-- Le « 200 dpi » n'est pas du jargon gratuit : la promesse « fait pour
+             être imprimé » n'a de sens que si la résolution suit. Le fichier est
+             sorti en 120 dpi jusqu'au 2026-08-07 — assez pour l'écran, décevant
+             sur papier. Annoncer le poids évite aussi la mauvaise surprise du
+             téléchargement de 53 Mo en 4G. -->
+        <div class="perk-body"><div class="perk-title">Fait pour être imprimé</div><div class="perk-sub">Mis en page comme un vrai manuel, à imprimer en entier ou chapitre par chapitre, en 200 dpi (53 Mo). Une fois le PDF téléchargé, il est à toi, hors-ligne, pour toujours.</div></div>
       </div>
       <div class="perk">
         <div class="perk-tick"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
@@ -407,6 +412,37 @@ function ksIdToken(){
   });
 }
 
+/* Lit le corps de la reponse morceau par morceau en annoncant l'avancement,
+   puis rend un Blob identique a ce que r.blob() aurait produit.
+   Les navigateurs sans ReadableStream (ou une reponse sans corps lisible)
+   retombent silencieusement sur r.blob(). */
+function lireAvecProgression(r, msgEl){
+  if (!r.body || !r.body.getReader) return r.blob();
+
+  var total = parseInt(r.headers.get('Content-Length') || '0', 10);
+  var recu = 0;
+  var morceaux = [];
+  var lecteur = r.body.getReader();
+
+  function mo(n){ return (n / 1048576).toFixed(1); }
+  function afficher(){
+    if (!msgEl) return;
+    msgEl.textContent = total
+      ? 'Téléchargement… ' + Math.round(recu / total * 100) + ' % (' + mo(total) + ' Mo)'
+      : 'Téléchargement… ' + mo(recu) + ' Mo';
+  }
+
+  return (function suivant(){
+    return lecteur.read().then(function(res){
+      if (res.done) return new Blob(morceaux, { type: 'application/pdf' });
+      morceaux.push(res.value);
+      recu += res.value.length;
+      afficher();
+      return suivant();
+    });
+  })();
+}
+
 /* Télécharge le PDF en pièce jointe via fetch (nécessite une clé de licence
    valide dans l'en-tête X-License-Key — jamais de fichier statique public,
    même architecture que les 35 fiches Premium). */
@@ -457,7 +493,13 @@ function downloadLivret(key, msgEl, btnEl, onFail){
        le probleme venait de la cle, de l'abonnement, ou du fichier absent
        de KV. On lit donc le message reel et on l'affiche. */
     .then(function(r){
-      if (r.ok) return r.blob();
+      /* Le livret pese 53 Mo depuis le passage en 200 dpi (2026-08-07).
+         Un simple r.blob() ne dit rien pendant tout le transfert : bouton
+         grise, message fige, aucun moyen de savoir si ca avance ou si c'est
+         casse. On lit donc le flux nous-memes pour afficher une progression
+         reelle. Si le serveur ne donne pas la taille (Content-Length masque
+         par CORS, compression), on retombe sur les Mo recus. */
+      if (r.ok) return lireAvecProgression(r, msgEl);
       return r.text().then(function(txt){
         var detail = (txt || '').trim().slice(0, 120);
         if (r.status === 404) {
