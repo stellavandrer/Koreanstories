@@ -202,7 +202,17 @@
           '<h2 class="ksp-h">Tu es Premium</h2>' +
           '<p class="ksp-sub">Merci de soutenir Korean Stories ! Tous les bonus sont débloqués sur ce compte.</p></div>' +
         '<div class="ksp-body" style="text-align:center">' +
-          '<span class="ksp-status"><span class="d"></span> Abonnement actif</span>' +
+          /* ⚠️ Cette pastille disait « Abonnement actif » sur la seule foi de
+             localStorage.ks_premium === '1' — sans jamais interroger le
+             serveur. Elle affirmait donc un fait qu'elle n'avait pas verifie.
+             Consequence vecue le 2026-08-06 : Stella voyait « Abonnement
+             actif » alors que sa licence etait un 'monthly' resilie, et ses
+             telechargements echouaient sans qu'elle comprenne pourquoi.
+             Quand un abonnement s'arrete, le drapeau local, lui, ne bouge
+             jamais : la modale aurait menti indefiniment.
+             On part donc d'un libelle prudent, et on le remplace par la
+             verite des que le serveur a repondu (voir plus bas). */
+          '<span class="ksp-status" id="kspStatus"><span class="d"></span> Vérification…</span>' +
           '<div class="ksp-buys" style="margin-top:14px">' +
             '<a class="ksp-buy ksp-buy-main" href="app.html">Continuer l\'apprentissage</a>' +
             (PORTAL_URL ? '<a class="ksp-buy ksp-buy-alt" href="' + PORTAL_URL + '" target="_blank" rel="noopener">Gérer / résilier mon abonnement</a>' : '') +
@@ -238,6 +248,50 @@
     o.addEventListener('click', function(e){ if (e.target === o) closeUpgrade(); });
     var cl = o.querySelector('.ksp-close'); if (cl) cl.addEventListener('click', closeUpgrade);
     var cl2 = o.querySelector('#kspClose2'); if (cl2) cl2.addEventListener('click', closeUpgrade);
+
+    /* ── L'état réel de l'abonnement, demandé au serveur ──────────────
+       On ne dit plus « Abonnement actif » de confiance. Trois issues :
+         • le serveur confirme        -> on l'affiche, et on precise le type
+         • le serveur refuse la cle   -> on le DIT, avec quoi faire ensuite
+         • pas de reseau / pas de cle -> on reste factuel sur ce qu'on sait
+       Le contenu deja debloque n'est jamais retire ici : couper l'acces de
+       quelqu'un sur un aller-retour reseau rate serait pire que le mal. */
+    var statusEl = o.querySelector('#kspStatus');
+    if (statusEl) {
+      var storedKey = ls(KEY_LIC);
+      if (!storedKey) {
+        statusEl.innerHTML = '<span class="d"></span> Bonus débloqués sur cet appareil';
+        statusEl.title = 'Aucune clé enregistrée ici : impossible de vérifier ' +
+                         'l\'abonnement auprès du serveur.';
+      } else {
+        verifyKey(storedKey).then(function(res){
+          if (!statusEl.isConnected) return;
+          if (res.ok) {
+            var libelle = res.type === 'lifetime' ? 'Accès à vie actif'
+                        : res.type === 'monthly'  ? 'Abonnement actif'
+                        : res.type === 'booklet-a1' ? 'Livret A1 débloqué'
+                        : 'Accès actif';
+            statusEl.innerHTML = '<span class="d"></span> ' + libelle;
+          } else {
+            statusEl.innerHTML = '<span class="d"></span> ' +
+              (res.msg || 'Accès non confirmé');
+            statusEl.style.background = 'rgba(220,38,38,.12)';
+            statusEl.style.color = '#b91c1c';
+            var aide = document.createElement('p');
+            aide.style.cssText = 'font-size:12.5px;line-height:1.55;color:#b91c1c;' +
+                                 'margin:10px auto 0;max-width:34ch';
+            aide.textContent = 'La clé enregistrée sur cet appareil n\'est plus ' +
+              'valide. Si tu as renouvelé, colle la nouvelle clé dans ' +
+              'Réglages › Premium.';
+            statusEl.parentNode.insertBefore(aide, statusEl.nextSibling);
+          }
+        }).catch(function(){
+          if (statusEl.isConnected) {
+            statusEl.innerHTML = '<span class="d"></span> Bonus débloqués sur cet appareil';
+          }
+        });
+      }
+    }
 
     var btn = o.querySelector('#kspUnlock'), inp = o.querySelector('#kspKey'), msg = o.querySelector('#kspMsg');
     function showMsg(text, cls){ if (!msg) return; msg.textContent = text; msg.className = 'ksp-msg show ' + cls; }
