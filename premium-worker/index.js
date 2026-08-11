@@ -149,7 +149,19 @@ export default {
       return json({ success: true, message: `E-mail ${type} envoyé en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
     }
 
-    return new Response('Korean Stories Premium API', { status: 200 });
+    // Marqueur de version, lisible sans aucune authentification.
+    // Ce worker se déploie à la main (copier-coller dans l'éditeur Cloudflare) :
+    // sans repère, impossible de savoir de l'extérieur si un changement est
+    // réellement en ligne. Le 2026-08-07, j'ai conclu à tort qu'un déploiement
+    // avait pris en me fiant à un en-tête introduit par le commit PRÉCÉDENT —
+    // une heure perdue à chercher au mauvais endroit.
+    // À incrémenter à CHAQUE modification de ce fichier.
+    // « drive » indique si la variable DRIVE_LIVRET_A1 atteint bien le worker :
+    // c'est la seule façon de le vérifier sans licence valide.
+    return new Response(
+      'Korean Stories Premium API — v2026-08-07.3 — drive:' +
+      (env.DRIVE_LIVRET_A1 ? 'configuree' : 'ABSENTE'),
+      { status: 200 });
   },
 
   // ── Cron Triggers : envoi hebdomadaire de la newsletter par thème ──────────

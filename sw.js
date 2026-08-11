@@ -63,7 +63,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v7.64';
+const CACHE = 'ks-v7.65';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -209,6 +209,17 @@ self.addEventListener('fetch', e => {
       url.hostname.includes('source.unsplash.com')) {
     return;
   }
+
+  // Le worker Premium : bypass TOTAL, on ne touche à rien (2026-08-07).
+  // La branche « API externe » plus bas met en cache toute réponse ok — donc
+  // aussi les PDF payants. Trois problèmes d'un coup :
+  //   1. le livret vendu 5 € finissait stocké en clair dans le Cache Storage
+  //      du navigateur, réutilisable sans licence ;
+  //   2. chaque téléchargement y déposait des dizaines de Mo, sans expiration ;
+  //   3. si le réseau bronchait, le cache resservait une ANCIENNE version du
+  //      fichier — un livret mis à jour n'atteignait jamais la personne.
+  // Un téléchargement payant n'a rien à faire dans un cache hors-ligne.
+  if (url.hostname.includes('workers.dev')) return;
 
   // Réseau d'abord pour fonts & API externes
   const isExternal = url.origin !== self.location.origin ||
