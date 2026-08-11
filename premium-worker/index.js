@@ -192,13 +192,17 @@ export default {
       .filter(k => /^drive/i.test(k))
       .map(k => k + '(' + String(env[k] == null ? '' : env[k]).length + ')')
       .join(', ');
-    const idRetenu = (env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1 || '');
+    let memo = '';
+    try { memo = (await env.KS_LICENSES.get('config:drive-livret-a1')) || ''; } catch (e) {}
+    const idRetenu = (env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1 || memo || '');
 
     return new Response(
-      'Korean Stories Premium API — v2026-08-07.5\n' +
+      'Korean Stories Premium API — v2026-08-07.6\n' +
       'constante en haut du fichier : ' +
-        (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'VIDE') + '\n' +
+        (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
+      'memorise dans KV             : ' +
+        (memo ? memo.length + ' caracteres' : 'rien encore') + '\n' +
       'identifiant retenu           : ' +
         (idRetenu ? idRetenu.length + ' caracteres — le livret sortira depuis Drive'
                   : 'AUCUN — le livret sortira depuis KV (ancienne version)'),
@@ -512,11 +516,33 @@ async function handlePdfDownload(request, env) {
 // (DRIVE_LIVRET_A1), jamais dans ce fichier : ce dépôt est public sur GitHub,
 // l'écrire ici reviendrait à publier le lien qu'on cherche à protéger.
 async function servePdfFromDrive(env, request, file) {
-  // La variable d'environnement reste prioritaire ; la constante en haut du
-  // fichier prend le relais, parce que le panneau Cloudflare qui gère les
-  // variables s'est révélé trop facile à quitter sans valider.
-  const ids = { 'livret-a1': env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1 };
-  const id = ids[file];
+  if (file !== 'livret-a1') return null;
+
+  // Trois sources, et surtout : la valeur SE MÉMORISE TOUTE SEULE.
+  //
+  // Historique de la journée du 2026-08-07 : le panneau « Variables and
+  // Secrets » de Cloudflare n'enregistrait rien (trois tentatives), puis la
+  // constante en haut du fichier a marché — jusqu'au copier-coller suivant
+  // depuis le dépôt, qui l'a effacée et a silencieusement fait retomber les
+  // acheteurs sur l'ancien fichier de 24 Mo.
+  //
+  // Demander de la vigilance à chaque déploiement manuel n'est pas une
+  // solution : dès qu'un identifiant est vu, on le range dans KV, qui survit
+  // aux déploiements. Il suffit donc de le saisir UNE fois, jamais deux.
+  const MEMO = 'config:drive-livret-a1';
+  let id = env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1 || '';
+
+  if (id) {
+    // Écriture seulement si la valeur a changé : inutile de solliciter KV
+    // à chaque téléchargement.
+    try {
+      if (await env.KS_LICENSES.get(MEMO) !== id) {
+        await env.KS_LICENSES.put(MEMO, id);
+      }
+    } catch (e) { /* la mémorisation est un confort, jamais un prérequis */ }
+  } else {
+    try { id = (await env.KS_LICENSES.get(MEMO)) || ''; } catch (e) {}
+  }
 
   // Ce cas-ci était le seul à sortir sans rien écrire — or c'est le plus
   // probable en pratique : une variable ajoutée dans Cloudflare ne prend effet
