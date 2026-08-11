@@ -461,7 +461,21 @@ async function handlePdfDownload(request, env) {
 async function servePdfFromDrive(env, request, file) {
   const ids = { 'livret-a1': env.DRIVE_LIVRET_A1 };
   const id = ids[file];
-  if (!id) return null;
+
+  // Ce cas-ci était le seul à sortir sans rien écrire — or c'est le plus
+  // probable en pratique : une variable ajoutée dans Cloudflare ne prend effet
+  // qu'après un Deploy, et le repli sur KV est silencieux par conception.
+  // Résultat vécu le 2026-08-07 : l'acheteur recevait l'ancien fichier et
+  // aucun log n'expliquait pourquoi. Le diagnostic doit être lisible.
+  if (!id) {
+    if (file === 'livret-a1') {
+      console.warn('[KS] DRIVE_LIVRET_A1 absente de l\'environnement : le livret ' +
+        'est servi depuis KV (ancienne version). Vérifier le nom exact de la ' +
+        'variable dans Cloudflare, puis REDÉPLOYER le worker — une variable ' +
+        'ajoutée après le dernier déploiement ne s\'applique pas.');
+    }
+    return null;
+  }
 
   // On répercute la plage demandée : un téléchargement de 49 Mo coupé en 4G
   // reprend là où il s'est arrêté au lieu de tout recommencer.
