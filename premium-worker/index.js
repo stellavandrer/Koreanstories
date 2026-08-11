@@ -412,14 +412,17 @@ async function handlePdfDownload(request, env) {
   }
   if (!canAccessFile(data, file)) return corsResponse('Cette clé ne donne pas accès à cette fiche', 403);
 
-  // Le fichier lui-même vit à l'un de deux endroits (2026-08-07) :
-  //   - R2 pour le Livret A1. 280 pages en 200 dpi pèsent 53 Mo, très au-delà
-  //     du plafond de 25 Mo par valeur de KV. C'est précisément cette limite
-  //     qui forçait le livret à 120 dpi, d'où le rendu pixelisé ;
-  //   - KV pour les 35 fiches, quelques centaines de Ko chacune, qui n'ont
-  //     aucune raison de bouger.
-  // R2 est consulté en premier : migrer un fichier vers R2 suffit à ce qu'il
-  // soit servi depuis R2, sans rien toucher ici.
+  // Le fichier lui-même peut vivre à trois endroits, essayés dans cet ordre
+  // (2026-08-07). Chacun se retire du chemin tout seul s'il n'est pas
+  // configuré, donc un maillon absent ne bloque jamais un acheteur :
+  //   1. Google Drive, pour le Livret A1 en 300 dpi (49 Mo). Le PDF est trop
+  //      lourd pour KV (plafond 25 Mio) et Stella a écarté R2, qui demandait
+  //      d'enregistrer une carte chez Cloudflare pour un seul fichier ;
+  //   2. R2, si un jour le binding est ajouté ;
+  //   3. KV, où vivent les 35 fiches — quelques centaines de Ko chacune.
+  const fromDrive = await servePdfFromDrive(env, request, file);
+  if (fromDrive) return fromDrive;
+
   const fromR2 = await servePdfFromR2(env, request, file);
   if (fromR2) return fromR2;
 
@@ -438,6 +441,77 @@ async function handlePdfDownload(request, env) {
       'Access-Control-Expose-Headers': CORS_EXPOSE_HEADERS
     }
   });
+}
+
+// ── Lecture d'un PDF hébergé sur le Google Drive de Stella ────────────────────
+// Renvoie une Response prête à servir, ou null si le fichier n'est pas déclaré
+// ou si Drive ne répond pas comme attendu — l'appelant retombe alors sur R2
+// puis KV, et personne n'est bloqué.
+//
+// Pourquoi ce détour plutôt qu'un lien Drive sur la page : un partage « toute
+// personne disposant du lien » est PUBLIC. Mis dans le HTML, il rendrait
+// gratuit un livret vendu 5 €, et n'importe quel acheteur pourrait le
+// rediffuser. Ici l'URL Drive ne quitte jamais le worker : le navigateur ne
+// voit qu'une réponse de koreanstories.fr, délivrée après vérification de la
+// licence.
+//
+// ⚠️ L'identifiant du fichier vit dans une VARIABLE Cloudflare
+// (DRIVE_LIVRET_A1), jamais dans ce fichier : ce dépôt est public sur GitHub,
+// l'écrire ici reviendrait à publier le lien qu'on cherche à protéger.
+async function servePdfFromDrive(env, request, file) {
+  const ids = { 'livret-a1': env.DRIVE_LIVRET_A1 };
+  const id = ids[file];
+  if (!id) return null;
+
+  // On répercute la plage demandée : un téléchargement de 49 Mo coupé en 4G
+  // reprend là où il s'est arrêté au lieu de tout recommencer.
+  const amontHeaders = {};
+  const range = request.headers.get('Range');
+  if (range) amontHeaders['Range'] = range;
+
+  let amont;
+  try {
+    amont = await fetch(
+      'https://drive.usercontent.google.com/download?export=download&id=' +
+      encodeURIComponent(id),
+      { headers: amontHeaders, cf: { cacheTtl: 0 } });
+  } catch (e) {
+    console.warn('[KS] Drive injoignable, repli sur KV : ' + e.message);
+    return null;
+  }
+
+  if (amont.status !== 200 && amont.status !== 206) {
+    console.warn('[KS] Drive a repondu ' + amont.status + ', repli sur KV.');
+    return null;
+  }
+
+  // Au-delà d'environ 100 Mo, Drive n'envoie pas le fichier mais une page
+  // d'avertissement antivirus en HTML. Servir ça sous le nom livret-a1.pdf
+  // donnerait un PDF corrompu à un acheteur, sans le moindre message d'erreur.
+  const typeAmont = amont.headers.get('Content-Type') || '';
+  if (/text\/html/i.test(typeAmont)) {
+    console.warn('[KS] Drive a renvoye une page HTML (fichier trop lourd, ' +
+      'ou partage non public). Repli sur KV.');
+    return null;
+  }
+
+  // On ne recopie PAS les en-têtes de Drive : ils portent son propre nom de
+  // fichier et des métadonnées Google qui n'ont rien à faire chez nous.
+  const headers = {
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment; filename="' + file + '.pdf"',
+    'Cache-Control': 'private, no-store',
+    'Accept-Ranges': 'bytes',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': CORS_ALLOW_HEADERS,
+    'Access-Control-Expose-Headers': CORS_EXPOSE_HEADERS
+  };
+  const len = amont.headers.get('Content-Length');
+  if (len) headers['Content-Length'] = len;
+  const cr = amont.headers.get('Content-Range');
+  if (cr) headers['Content-Range'] = cr;
+
+  return new Response(amont.body, { status: amont.status, headers: headers });
 }
 
 // ── Lecture d'un PDF stocké dans R2 ───────────────────────────────────────────
