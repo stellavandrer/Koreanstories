@@ -158,10 +158,23 @@ export default {
     // À incrémenter à CHAQUE modification de ce fichier.
     // « drive » indique si la variable DRIVE_LIVRET_A1 atteint bien le worker :
     // c'est la seule façon de le vérifier sans licence valide.
+    // On liste UNIQUEMENT les variables dont le nom commence par « DRIVE »,
+    // et seulement leur nom + la longueur de leur valeur. Jamais la valeur :
+    // l'identifiant Drive est justement ce qui protège le livret.
+    // Ce filtre étroit évite aussi de publier la liste des autres variables
+    // (Stripe, Resend…), qui n'a rien à faire sur une route publique.
+    // Il répond à trois questions d'un coup, là où un simple booléen laissait
+    // deviner : nom mal orthographié, casse différente, ou valeur vide.
+    const drive = Object.keys(env || {})
+      .filter(k => /^drive/i.test(k))
+      .map(k => k + '(' + String(env[k] == null ? '' : env[k]).length + ')')
+      .join(', ');
+
     return new Response(
-      'Korean Stories Premium API — v2026-08-07.3 — drive:' +
-      (env.DRIVE_LIVRET_A1 ? 'configuree' : 'ABSENTE'),
-      { status: 200 });
+      'Korean Stories Premium API — v2026-08-07.4\n' +
+      'drive attendu : DRIVE_LIVRET_A1\n' +
+      'drive trouve  : ' + (drive || 'AUCUNE VARIABLE COMMENCANT PAR DRIVE'),
+      { status: 200, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
   },
 
   // ── Cron Triggers : envoi hebdomadaire de la newsletter par thème ──────────
