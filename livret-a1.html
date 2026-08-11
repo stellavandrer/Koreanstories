@@ -596,7 +596,20 @@ document.getElementById('licBtn').addEventListener('click', function(){
   function tryVerify(){
     if (window.KSPremium) {
       KSPremium.verifyKey(key).then(function(res){
-        if (!res.ok) { msg.textContent = res.msg || 'Clé invalide.'; msg.className = 'lv-lic-msg err'; return; }
+        if (!res.ok) {
+          /* Ce message s'adresse a quelqu'un qui vient de payer 5 EUR et n'a
+             peut-etre pas de compte : « Cle invalide » tout seul le laisse
+             sans issue. On dit ou retrouver la cle, et a qui ecrire.
+             Ne PAS renvoyer vers Reglages > Premium ici : cette page demande
+             un compte, que l'acheteur du livret seul n'a pas forcement. */
+          msg.innerHTML = (res.msg || 'Clé invalide') +
+            ' — vérifie qu\'elle est recopiée en entier depuis l\'e-mail ' +
+            '« Ton Livret A1 est prêt ». Toujours bloqué ? Écris-nous à ' +
+            '<a href="mailto:contact@koreanstories.fr">contact@koreanstories.fr</a>' +
+            ', on te l\'envoie directement.';
+          msg.className = 'lv-lic-msg err';
+          return;
+        }
         if (res.type === 'monthly' || res.type === 'lifetime') KSPremium.setPremium(true, key);
         downloadLivret(key, msg, btn);
       });
