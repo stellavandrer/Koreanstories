@@ -704,6 +704,16 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
 .pdfs-badge{font-size:9px;font-weight:800;background:rgba(219,39,119,.1);color:var(--accent-pink);padding:2px 8px;border-radius:100px}
 .pdfs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:380px){.pdfs-grid{grid-template-columns:1fr}}
+/* Le Livret sous les fiches du A1 : meme famille (du papier), autre nature
+   (un manuel suivi, payant). D'ou une ligne a part sous la grille. */
+.pdfs-livret{display:flex;align-items:center;gap:12px;margin-top:8px;padding:13px 14px;border-radius:14px;background:var(--surf);border:1.5px solid rgba(201,169,110,.45);text-decoration:none}
+.pdfs-livret:hover{box-shadow:0 5px 16px rgba(201,169,110,.18)}
+.pdfs-livret-ico{flex:0 0 38px;width:38px;height:38px;border-radius:11px;background:rgba(201,169,110,.13);display:flex;align-items:center;justify-content:center}
+.pdfs-livret-ico svg{width:19px;height:19px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pdfs-livret-b{flex:1;min-width:0}
+.pdfs-livret-t{font-size:13.5px;font-weight:800;color:var(--t)}
+.pdfs-livret-s{font-size:11.5px;color:var(--t3);line-height:1.5;margin-top:2px}
+.pdfs-livret-go{flex-shrink:0;font-size:11px;font-weight:800;color:var(--gold-text,#8B6B3D);background:var(--goldbg,#FBF2E3);border:1px solid var(--gold);border-radius:100px;padding:5px 10px}
 .pdf-card{
   display:flex;align-items:center;gap:10px;
   background:var(--surf);border:1.5px solid var(--bd);
@@ -2301,6 +2311,25 @@ function rPdfs(lv){
     grid.appendChild(a);
   });
   wrap.appendChild(grid);
+  /* Seulement sous le A1 : c'est le seul niveau que le Livret couvre.
+     L'annoncer sous A2 ou B1 serait vendre autre chose que ce qu'on lit.
+     Cette section n'est rendue qu'aux Premium — donc a des gens qui ont
+     deja le Livret sans le savoir. On ne leur affiche pas un prix, on leur
+     dit ou le recuperer. */
+  if(lv.id==='a1'){
+    const lvr=document.createElement('a');
+    lvr.href='livret-a1.html';lvr.className='pdfs-livret';
+    lvr.innerHTML=`
+      <div class="pdfs-livret-ico">
+        <svg viewBox="0 0 24 24"><path d="M4 3h10l5 5v13a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z"/><polyline points="14 3 14 8 19 8"/><line x1="7" y1="13" x2="15" y2="13"/><line x1="7" y1="17" x2="12" y2="17"/></svg>
+      </div>
+      <div class="pdfs-livret-b">
+        <div class="pdfs-livret-t">Tout le A1 en un seul livret</div>
+        <div class="pdfs-livret-s">280 pages à imprimer : les leçons, les exercices à remplir et les corrigés. Compris dans ton Premium.</div>
+      </div>
+      <span class="pdfs-livret-go">Récupérer</span>`;
+    wrap.appendChild(lvr);
+  }
   return wrap;
 }
 
