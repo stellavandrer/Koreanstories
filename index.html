@@ -455,9 +455,15 @@ section.s{padding:84px 0}
   .nav-links{display:none}.nav-mob{display:flex}
   .pillars,.story-grid,.feat-grid,.price-grid{grid-template-columns:1fr}
   .levels{grid-template-columns:repeat(2,1fr)}
-  .story-grid{grid-template-columns:1fr 1fr}
+  /* Trois histoires : deux colonnes en laisseraient une seule sur la
+     deuxieme ligne, avec du vide a cote. Une ligne pleine ou rien. */
+  .story-grid{grid-template-columns:repeat(3,1fr)}
   section.s{padding:62px 0}
   .quote-band{gap:14px}
+}
+@media(max-width:600px){
+  /* Sous 600 px, trois colonnes seraient illisibles : on empile. */
+  .story-grid{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   .story-grid{grid-template-columns:1fr}
@@ -609,13 +615,14 @@ section.s{padding:84px 0}
       <span class="fmt"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Lectures &amp; presse</span>
       <span class="fmt"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0014 0"/><line x1="12" y1="17" x2="12" y2="22"/></svg>Podcasts <small style="opacity:.6;font-weight:600">(bientôt)</small></span>
     </div>
+    <!-- Trois cartes, pas six : la grille passe en une seule colonne sous
+         600 px, six cartes pleine largeur remplissaient donc tout l'ecran du
+         telephone. Les trois retenues couvrent l'amplitude du site — premier
+         bonjour, culture, webtoon avance — plutot que trois voisines. -->
     <div class="story-grid">
       <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">Débutant</span><img src="img/stories/histoire1.webp" alt="안녕하세요 — Bonjour" loading="lazy" width="1120" height="630"></div><div class="story-body"><div class="k">안녕하세요 !</div><div class="f">Bonjour ! · Première rencontre</div></div></a>
-      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">A2</span><img src="img/stories/histoire13.webp" alt="홍대 주말 — Un week-end à Hongdae" loading="lazy" width="1120" height="630"></div><div class="story-body"><div class="k">홍대 주말</div><div class="f">Un week-end à Hongdae</div></div></a>
       <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">A2</span><img src="img/stories/histoire27.webp" alt="추석에 — Chuseok en famille" loading="lazy" width="1120" height="630"></div><div class="story-body"><div class="k">추석에</div><div class="f">Chuseok en famille</div></div></a>
-      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">B1</span><img src="img/stories/histoire17.webp" alt="부산 여행 — Week-end à Busan" loading="lazy" width="1120" height="630"></div><div class="story-body"><div class="k">부산 여행</div><div class="f">Week-end à Busan</div></div></a>
       <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">B2</span><img src="img/stories/histoire22.webp" alt="달의 수호자 — Le Gardien de la Lune" loading="lazy" width="1120" height="630"></div><div class="story-body"><div class="k">달의 수호자</div><div class="f">Webtoon · Le Gardien de la Lune</div></div></a>
-      <a href="histoires.html" class="story-card fw"><div class="story-cover"><span class="story-lvl">B2</span><img src="img/stories/histoire40.webp" alt="에마의 첫 회식 — Le premier hoesik d'Emma" loading="lazy" width="1120" height="630"></div><div class="story-body"><div class="k">에마의 첫 회식</div><div class="f">Le premier hoesik d'Emma</div></div></a>
     </div>
     <div class="showcase-cta fw"><a href="histoires.html" class="btn btn-ghost">Explorer les 42 histoires →</a></div>
   </div>
@@ -929,6 +936,12 @@ section.s{padding:84px 0}
                les visiteurs sur l'accueil d'Instagram, pas sur le compte. -->
           <a href="https://www.instagram.com/koreanstories.fr/" target="_blank" rel="noopener" aria-label="Korean Stories sur Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
           <a href="https://www.tiktok.com/@koreanstories.fr" target="_blank" rel="noopener" aria-label="Korean Stories sur TikTok"><svg viewBox="0 0 24 24"><path d="M16.5 3a5.5 5.5 0 005.5 5.5"/><path d="M16.5 3v12.5a5.5 5.5 0 11-5.5-5.5c.35 0 .7.03 1 .1"/></svg></a>
+          <!-- ATTENTION : invitation valable jusqu'au 10 septembre 2026 seulement.
+               Voir le commentaire dans ks.js pour la rendre permanente. -->
+          <!-- Logo plein, contrairement aux trois autres : dessine au trait, la
+               marque Discord devient illisible a 17 px (les yeux se noient dans
+               le contour). Un aplat tient a cette taille. -->
+          <a href="https://discord.gg/dD7pjGZkt" target="_blank" rel="noopener" aria-label="Rejoindre le Discord Korean Stories"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M19.54 5.34A16.7 16.7 0 0 0 15.4 4.1a11.6 11.6 0 0 0-.53 1.07 15.5 15.5 0 0 0-4.74 0A11.4 11.4 0 0 0 9.6 4.1a16.6 16.6 0 0 0-4.15 1.25C2.83 9.2 2.12 12.97 2.47 16.68a16.8 16.8 0 0 0 5.07 2.55c.41-.55.77-1.14 1.08-1.75a10.9 10.9 0 0 1-1.7-.81c.14-.1.28-.21.41-.32a11.9 11.9 0 0 0 10.34 0c.14.11.27.22.41.32-.54.32-1.11.59-1.7.81.31.61.67 1.2 1.08 1.75a16.7 16.7 0 0 0 5.08-2.55c.4-4.3-.73-8.03-3.0-11.34ZM8.68 14.42c-1.0 0-1.83-.92-1.83-2.05 0-1.13.8-2.05 1.83-2.05 1.03 0 1.85.92 1.83 2.05 0 1.13-.8 2.05-1.83 2.05Zm6.75 0c-1.0 0-1.82-.92-1.82-2.05 0-1.13.8-2.05 1.82-2.05 1.04 0 1.85.92 1.84 2.05 0 1.13-.8 2.05-1.84 2.05Z"/></svg></a>
           <a href="mailto:contact@koreanstories.fr" aria-label="Écrire à Korean Stories"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg></a>
         </div>
       </div>
