@@ -3822,8 +3822,16 @@ document.addEventListener('click', function(e){
     var goal = goalXP();
     var pct = goal > 0 ? Math.min(100, Math.round(done / goal * 100)) : 0;
     var hours = hoursLeft();
-    document.getElementById('swStreakNum').textContent = streak;
-    document.getElementById('swHours').textContent = hours + ' h';
+    var num = document.getElementById('swStreakNum');
+    if (num) num.textContent = streak;
+    /* #swHours vit DANS #swBody, que la ligne plus bas reecrit entierement
+       sans reposer l'identifiant : il disparait donc des le premier rendu.
+       Sans ce garde, le 2e rendu (setTimeout 1100 ms, valeurs synchronisees
+       par ks-sync) levait une exception juste ici — et tout ce qui suit,
+       message, barre, bouton Gel, affichage de la carte, ne s'executait
+       jamais. La phrase reecrite porte de toute facon l'heure restante. */
+    var hEl = document.getElementById('swHours');
+    if (hEl) hEl.textContent = hours + ' h';
     var fill = document.getElementById('swFill');
     if (fill) setTimeout(function(){ fill.style.width = pct + '%'; }, 150);
     var body = document.getElementById('swBody');
