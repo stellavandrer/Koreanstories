@@ -48,6 +48,12 @@
        envie d'entrer. Elles ne contiennent aucune progression personnelle :
        le parcours, lui, reste derriere la porte. */
     'dictionnaire.html': 1, 'hangeul.html': 1,
+    /* Porte d'entree construite le 2026-08-07. « ecrire son prenom en
+       coreen » est LA requete du debutant absolu, et le site n'y
+       apparaissait nulle part alors que parlonscoreen et seonsaengnim
+       l'occupent. Une page fermee sur cette requete n'aurait servi a
+       rien : elle existe precisement pour accueillir des inconnus. */
+    'prenom-coreen.html': 1,
     'avis.html': 1, 'a-propos.html': 1, 'aide.html': 1,
     'mentions-legales.html': 1, 'cgv.html': 1, 'confidentialite.html': 1,
     '404.html': 1, 'reset.html': 1

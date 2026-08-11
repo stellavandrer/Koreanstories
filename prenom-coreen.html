@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Écrire son prénom en coréen — l'outil qui le fait pour toi · Korean Stories</title>
+  <link rel="canonical" href="https://koreanstories.fr/prenom-coreen.html"/>
+  <meta name="description" content="Tape ton prénom, vois-le s'écrire en hangeul syllabe par syllabe, et comprends pourquoi. On ne traduit pas un prénom : on transcrit ses sons. Gratuit, sans inscription."/>
+  <meta property="og:title" content="Écris ton prénom en coréen — et comprends pourquoi ça s'écrit comme ça"/>
+  <meta property="og:description" content="L'outil transcrit ton prénom en hangeul, syllabe par syllabe, et t'explique chaque choix. On ne traduit pas un prénom : on écrit ses sons."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="fr_FR"/>
+  <meta property="og:site_name" content="Korean Stories"/>
+  <meta property="og:url" content="https://koreanstories.fr/prenom-coreen.html"/>
+  <meta name="twitter:card" content="summary"/>
+<link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
+<link rel="preload" href="fonts/ks-fonts-kr.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts-kr.css"/></noscript>
+  <link rel="stylesheet" href="design.css"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;font-family:'Inter','Segoe UI',system-ui,sans-serif;
+       background:var(--bg);color:var(--tx);overflow-x:hidden;
+       padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  .pw{max-width:640px;margin:0 auto;padding:0 20px}
+
+  /* ── HERO + SAISIE ── */
+  .pn-hero{position:relative;overflow:hidden;text-align:center;color:#fff;
+    background:linear-gradient(160deg,#0F1B2D 0%,#1b3a5c 100%);
+    padding:44px 20px 38px;border-radius:0 0 28px 28px}
+  .pn-hero::before{content:"";position:absolute;top:-140px;left:50%;
+    transform:translateX(-50%);width:420px;height:420px;pointer-events:none;
+    background:radial-gradient(circle,rgba(201,169,110,.32),transparent 62%)}
+  .pn-hero>*{position:relative}
+  .pn-kicker{display:inline-block;font-size:.72rem;font-weight:700;
+    letter-spacing:.05em;text-transform:uppercase;color:#e8d3a6;
+    background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.3);
+    border-radius:100px;padding:5px 13px;margin-bottom:16px}
+  .pn-hero h1{font-family:'Playfair Display',Georgia,serif;font-weight:800;
+    font-size:clamp(1.6rem,5.6vw,2.2rem);line-height:1.18;margin:0 0 10px}
+  .pn-hero h1 em{color:#C9A96E;font-style:italic}
+  .pn-hero .lead{color:#c7d2e3;font-size:.95rem;line-height:1.6;
+    max-width:34ch;margin:0 auto}
+
+  .pn-form{display:flex;gap:9px;max-width:420px;margin:22px auto 0}
+  .pn-form input{flex:1;min-width:0;padding:14px 16px;border-radius:13px;
+    border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);
+    color:#fff;font-size:1rem;font-family:inherit}
+  .pn-form input::placeholder{color:rgba(199,210,227,.55)}
+  .pn-form input:focus{outline:none;border-color:#C9A96E;
+    background:rgba(255,255,255,.11)}
+  .pn-hint{font-size:.74rem;color:rgba(199,210,227,.5);margin-top:9px}
+
+  /* ── RÉSULTAT ── */
+  .pn-out{margin:26px auto 0;max-width:520px}
+  .pn-card{background:var(--card,#fff);border:1.5px solid var(--bd,#e6e6e6);
+    border-radius:22px;padding:26px 20px;text-align:center}
+  .pn-big{font-family:'Noto Sans KR','Playfair Display',serif;
+    font-size:clamp(2.4rem,11vw,3.6rem);font-weight:700;line-height:1.15;
+    color:var(--tx);letter-spacing:.02em;word-break:keep-all}
+  .pn-roman{font-size:.85rem;color:var(--t2);margin-top:6px}
+  .pn-syls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
+    margin-top:22px}
+  .pn-syl{min-width:76px;padding:12px 10px 10px;border-radius:14px;
+    background:var(--bg2,rgba(15,27,45,.04));border:1px solid var(--bd,#e6e6e6);
+    cursor:default}
+  .pn-syl.jouable{cursor:pointer;transition:.16s}
+  .pn-syl.jouable:hover{border-color:#C9A96E;transform:translateY(-2px)}
+  .pn-syl.playing{border-color:#C9A96E;background:rgba(201,169,110,.14)}
+  .pn-syl-kr{font-family:'Noto Sans KR',serif;font-size:1.75rem;
+    font-weight:700;color:var(--tx);line-height:1.1}
+  .pn-syl-fr{font-size:.72rem;color:var(--t2);margin-top:5px}
+  /* Hauteur réservée même sans audio : toutes les syllabes n'ont pas de
+     voix enregistrée, et sans ce min-height les cartes se décalaient en
+     hauteur les unes par rapport aux autres. */
+  .pn-syl-snd{font-size:.66rem;color:var(--t3);margin-top:2px;min-height:1em}
+  .pn-empty{color:var(--t3);font-size:.9rem;padding:14px 0}
+
+  .pn-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;
+    margin-top:20px}
+  .pn-btn{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;
+    border-radius:12px;font-size:.86rem;font-weight:700;cursor:pointer;
+    border:1.5px solid var(--bd,#e0e0e0);background:transparent;
+    color:var(--tx);font-family:inherit;text-decoration:none}
+  .pn-btn:hover{border-color:#C9A96E;color:#8B6B3D}
+  [data-theme=dark] .pn-btn:hover{color:#D5BA8A}
+  .pn-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;
+    stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .pn-copie{font-size:.76rem;color:#16a34a;font-weight:600;min-height:1.1em;
+    margin-top:9px}
+
+  /* ── EXPLICATIONS ── */
+  .pn-sec{margin-top:44px}
+  .pn-sec h2{font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;
+    font-weight:800;color:var(--tx);margin:0 0 10px;line-height:1.25}
+  .pn-sec h2 em{color:#8B6B3D;font-style:italic}
+  [data-theme=dark] .pn-sec h2 em{color:#D5BA8A}
+  .pn-sec p{font-size:.92rem;line-height:1.68;color:var(--t2);margin:0 0 13px}
+  .pn-sec strong{color:var(--tx)}
+  .kr{font-family:'Noto Sans KR',serif;font-weight:700;color:var(--tx)}
+
+  .pn-grid{display:grid;gap:10px;margin:16px 0 4px}
+  @media(min-width:520px){.pn-grid{grid-template-columns:1fr 1fr}}
+  .pn-item{background:var(--bg2,rgba(15,27,45,.04));border:1px solid var(--bd,#e6e6e6);
+    border-radius:14px;padding:14px 16px}
+  .pn-item-t{font-size:.84rem;font-weight:700;color:var(--tx);margin-bottom:4px}
+  .pn-item-x{font-size:.8rem;line-height:1.55;color:var(--t2)}
+
+  /* ── SUITE ── */
+  .pn-next{margin:44px 0 20px;border-radius:22px;padding:28px 22px;
+    text-align:center;color:#fff;
+    background:linear-gradient(160deg,#0F1B2D,#1b3a5c)}
+  .pn-next h2{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;
+    font-weight:800;margin:0 0 8px;color:#fff}
+  .pn-next p{color:#c7d2e3;font-size:.9rem;line-height:1.6;
+    max-width:36ch;margin:0 auto 18px}
+  .pn-next .cta{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;
+    border-radius:13px;background:linear-gradient(135deg,#e0c48a,#C9A96E);
+    color:#3a2c12;font-weight:800;font-size:.92rem;text-decoration:none}
+  .pn-next .cta2{display:block;margin-top:12px;font-size:.82rem;
+    color:rgba(199,210,227,.75);text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="pn-hero">
+  <span class="pn-kicker">Gratuit · sans inscription</span>
+  <h1>Écris ton prénom <em>en coréen</em></h1>
+  <p class="lead">Tape-le ci-dessous. Tu verras chaque syllabe se construire — et surtout, pourquoi elle s'écrit comme ça.</p>
+  <form class="pn-form" id="pnForm" autocomplete="off">
+    <input type="text" id="pnInput" maxlength="24" placeholder="Ton prénom" aria-label="Ton prénom" autocapitalize="words">
+  </form>
+  <p class="pn-hint">Écris-le avec ses accents : Zoé, Inès et François ne se disent pas comme Zoe, Ines et Francois.</p>
+</div>
+
+<div class="pw">
+
+  <div class="pn-out">
+    <div class="pn-card">
+      <div class="pn-big" id="pnBig" aria-live="polite"></div>
+      <div class="pn-roman" id="pnRoman"></div>
+      <div class="pn-syls" id="pnSyls"></div>
+      <div class="pn-empty" id="pnEmpty">Ton prénom apparaîtra ici.</div>
+      <div class="pn-actions" id="pnActions" hidden>
+        <button type="button" class="pn-btn" id="pnCopy">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copier
+        </button>
+      </div>
+      <div class="pn-copie" id="pnCopie"></div>
+    </div>
+  </div>
+
+  <div class="pn-sec">
+    <h2>Pourquoi ton prénom <em>change</em> de son</h2>
+    <p>On ne traduit pas un prénom, on le <strong>transcrit</strong> : le hangeul note des sons, pas des lettres. C'est pour ça que Camille ne donne pas c‑a‑m‑i‑l‑l‑e mais <span class="kr">카미유</span>, « ka‑mi‑you » — exactement ce qu'on entend.</p>
+    <p>Et le coréen n'a pas tous nos sons. Quelques-uns se rapprochent du plus proche voisin :</p>
+    <div class="pn-grid">
+      <div class="pn-item">
+        <div class="pn-item-t">Le v devient <span class="kr">ㅂ</span> (b)</div>
+        <div class="pn-item-x">David se dit <span class="kr">다비드</span>, « da‑bi‑deu ». Le son v n'existe pas.</div>
+      </div>
+      <div class="pn-item">
+        <div class="pn-item-t">Le f devient <span class="kr">ㅍ</span> (p)</div>
+        <div class="pn-item-x">Sophie se dit <span class="kr">소피</span>, « so‑pi ».</div>
+      </div>
+      <div class="pn-item">
+        <div class="pn-item-t">Le r et le l se confondent</div>
+        <div class="pn-item-x">Une seule lettre, <span class="kr">ㄹ</span>, pour les deux. Marie donne <span class="kr">마리</span>.</div>
+      </div>
+      <div class="pn-item">
+        <div class="pn-item-t">Une consonne seule prend une voyelle</div>
+        <div class="pn-item-x">Le coréen n'enchaîne pas deux consonnes : Pierre fait trois blocs, <span class="kr">피에르</span>.</div>
+      </div>
+    </div>
+    <p>Ce décalage n'est pas une erreur — c'est ce qui donne à un prénom étranger sa couleur coréenne, et c'est la même chose dans l'autre sens quand on prononce <span class="kr">김치</span> « kimchi ».</p>
+  </div>
+
+  <div class="pn-sec">
+    <h2>Comment se construit <em>une syllabe</em></h2>
+    <p>Une syllabe coréenne s'empile dans un carré : une consonne, une voyelle, et parfois une consonne finale. Jamais dans le désordre, jamais en ligne comme chez nous.</p>
+    <p>C'est pour ça que ton prénom se découpe en blocs bien nets au lieu de s'écrire lettre à lettre. Une fois cette logique comprise, <strong>le hangeul entier s'apprend en quelques heures</strong> — il a justement été conçu pour ça, en 1443, pour que tout le monde puisse apprendre à lire.</p>
+  </div>
+
+  <div class="pn-next">
+    <h2>Tu viens de lire tes premières syllabes</h2>
+    <p>C'est exactement là que commence le hangeul. La suite se lit d'une traite, et elle est gratuite.</p>
+    <a class="cta" href="hangeul.html">Apprendre l'alphabet coréen →</a>
+    <a class="cta2" href="index.html">Découvrir Korean Stories</a>
+  </div>
+
+</div>
+
+<script src="ks.js" defer></script>
+<script src="ks-prenom.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  var input   = document.getElementById('pnInput');
+  var big     = document.getElementById('pnBig');
+  var roman   = document.getElementById('pnRoman');
+  var syls    = document.getElementById('pnSyls');
+  var vide    = document.getElementById('pnEmpty');
+  var actions = document.getElementById('pnActions');
+  var copie   = document.getElementById('pnCopie');
+
+  /* Quelles syllabes ont une vraie voix enregistrée. On lit le manifeste
+     nous-mêmes plutôt que de laisser speak() échouer en silence : un
+     bouton audio qui ne joue rien est pire que pas de bouton du tout.
+     La règle du site est ferme — aucune voix de synthèse, nulle part. */
+  var voix = null;
+  fetch('audio/manifest.json')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (m) { if (m) { voix = m; rendre(); } })
+    .catch(function () {});
+
+  function rendre() {
+    var val = input.value.trim();
+
+    if (!val || !window.KSPrenom) {
+      big.textContent = ''; roman.textContent = ''; syls.innerHTML = '';
+      vide.hidden = false; actions.hidden = true; copie.textContent = '';
+      return;
+    }
+
+    var res = window.KSPrenom.transcrire(val);
+    if (!res.hangeul) {
+      big.textContent = ''; syls.innerHTML = '';
+      vide.hidden = false; vide.textContent =
+        'Ce prénom n’utilise que des lettres que je ne sais pas encore lire.';
+      actions.hidden = true;
+      return;
+    }
+
+    vide.hidden = true;
+    actions.hidden = false;
+    copie.textContent = '';
+    big.textContent = res.hangeul;
+    roman.textContent = res.blocs.length +
+      (res.blocs.length > 1 ? ' syllabes' : ' syllabe');
+
+    syls.innerHTML = '';
+    res.blocs.forEach(function (b, n) {
+      var jouable = !!(voix && voix[b.hangeul]);
+      var el = document.createElement(jouable ? 'button' : 'div');
+      el.className = 'pn-syl' + (jouable ? ' jouable' : '');
+      if (jouable) { el.type = 'button'; el.setAttribute('aria-label', 'Écouter la syllabe ' + (n + 1)); }
+      el.innerHTML =
+        '<div class="pn-syl-kr">' + b.hangeul + '</div>' +
+        '<div class="pn-syl-fr">syllabe ' + (n + 1) + '</div>' +
+        '<div class="pn-syl-snd">' + (jouable ? 'écouter' : '') + '</div>';
+      if (jouable) {
+        el.addEventListener('click', function () {
+          if (typeof window.speak === 'function') window.speak(b.hangeul, el);
+        });
+      }
+      syls.appendChild(el);
+    });
+  }
+
+  input.addEventListener('input', rendre);
+  document.getElementById('pnForm').addEventListener('submit', function (e) {
+    e.preventDefault(); input.blur();
+  });
+
+  document.getElementById('pnCopy').addEventListener('click', function () {
+    var txt = big.textContent;
+    if (!txt) return;
+    function ok() { copie.textContent = 'Copié !'; setTimeout(function(){ copie.textContent=''; }, 2200); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(ok, function(){});
+    } else {
+      /* Repli pour les navigateurs sans presse-papiers moderne : on passe
+         par une zone de texte temporaire, hors écran. */
+      var t = document.createElement('textarea');
+      t.value = txt; t.style.position = 'fixed'; t.style.left = '-9999px';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); ok(); } catch (e) {}
+      document.body.removeChild(t);
+    }
+  });
+
+  /* ks-prenom.js est chargé en defer : au premier passage il peut ne pas
+     être là. On repasse une fois tout chargé pour honorer un prénom
+     déjà saisi (retour arrière du navigateur, autocomplétion). */
+  window.addEventListener('load', rendre);
+})();
+</script>
+<script src="ks-menu.js" defer></script>
+</body>
+</html>
