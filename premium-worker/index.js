@@ -59,6 +59,29 @@ const PRICE_BOOKLET_A1        = 'price_1Ttj8pPab8Hr1KXau35oN3EK'; // le tarif 5�
 // de test, pas un secret, donc pas besoin de variable d'environnement.
 const NEWSLETTER_TEST_RECIPIENT = 'justinetilleul27@gmail.com';
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   ⚠️  À REMPLIR DANS L'ÉDITEUR CLOUDFLARE — JAMAIS ICI, JAMAIS SUR GITHUB.
+
+   Identifiant du Livret A1 sur le Drive de Stella : la portion de son lien de
+   partage située entre /d/ et /view (33 caractères).
+
+   Pourquoi cette ligne existe alors qu'une variable d'environnement serait
+   plus propre : le panneau « Variables and Secrets » de Cloudflare a son
+   propre bouton de validation, distinct du déploiement du code. Trois
+   tentatives le 2026-08-07 n'ont rien enregistré — la route racine répondait
+   « AUCUNE VARIABLE COMMENCANT PAR DRIVE ». Une ligne visible en haut du
+   fichier qu'on colle de toute façon est plus sûre qu'un panneau qu'on oublie
+   de valider.
+
+   Ce dépôt est PUBLIC sur GitHub : la valeur doit rester vide ici. Elle ne se
+   saisit que dans l'éditeur Cloudflare, dont le contenu n'est pas public.
+   La variable d'environnement reste prioritaire si elle finit par exister.
+
+   ⚠️ À RE-SAISIR APRÈS CHAQUE COPIER-COLLER DEPUIS LE DÉPÔT. Pour vérifier,
+   ouvrir la racine du worker : elle indique si l'identifiant est en place.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const DRIVE_LIVRET_A1 = '';
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -169,11 +192,16 @@ export default {
       .filter(k => /^drive/i.test(k))
       .map(k => k + '(' + String(env[k] == null ? '' : env[k]).length + ')')
       .join(', ');
+    const idRetenu = (env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1 || '');
 
     return new Response(
-      'Korean Stories Premium API — v2026-08-07.4\n' +
-      'drive attendu : DRIVE_LIVRET_A1\n' +
-      'drive trouve  : ' + (drive || 'AUCUNE VARIABLE COMMENCANT PAR DRIVE'),
+      'Korean Stories Premium API — v2026-08-07.5\n' +
+      'constante en haut du fichier : ' +
+        (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'VIDE') + '\n' +
+      'variable d environnement     : ' + (drive || 'aucune') + '\n' +
+      'identifiant retenu           : ' +
+        (idRetenu ? idRetenu.length + ' caracteres — le livret sortira depuis Drive'
+                  : 'AUCUN — le livret sortira depuis KV (ancienne version)'),
       { status: 200, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
   },
 
@@ -484,7 +512,10 @@ async function handlePdfDownload(request, env) {
 // (DRIVE_LIVRET_A1), jamais dans ce fichier : ce dépôt est public sur GitHub,
 // l'écrire ici reviendrait à publier le lien qu'on cherche à protéger.
 async function servePdfFromDrive(env, request, file) {
-  const ids = { 'livret-a1': env.DRIVE_LIVRET_A1 };
+  // La variable d'environnement reste prioritaire ; la constante en haut du
+  // fichier prend le relais, parce que le panneau Cloudflare qui gère les
+  // variables s'est révélé trop facile à quitter sans valider.
+  const ids = { 'livret-a1': env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1 };
   const id = ids[file];
 
   // Ce cas-ci était le seul à sortir sans rien écrire — or c'est le plus
