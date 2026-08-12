@@ -1314,7 +1314,7 @@ function emailFooter(unsubUrl = null) {
   return `
         <tr><td style="padding:26px 32px 0"><div style="border-top:1px solid #DAE3F2;font-size:0;line-height:0">&nbsp;</div></td></tr>
         <tr><td style="padding:18px 32px 4px;text-align:center">
-          ${r('https://www.instagram.com/koreanstories.fr/', 'Instagram')}${r('https://www.tiktok.com/@koreanstories.fr', 'TikTok')}${r('https://discord.gg/JSy2RAjtHp', 'Discord')}
+          ${r('https://www.instagram.com/koreanstories.fr/', 'Instagram')}${r('https://www.tiktok.com/@koreanstories.fr', 'TikTok')}${r('https://discord.gg/jSQy3xW4CH', 'Discord')}
         </td></tr>
         <tr><td style="padding:8px 32px 30px;text-align:center">
           <p style="margin:0 0 8px;font-size:12px;color:#8FA5BE">Korean Stories · ${l('https://koreanstories.fr', 'koreanstories.fr')}</p>
