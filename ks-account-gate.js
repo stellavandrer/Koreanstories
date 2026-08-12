@@ -54,6 +54,13 @@
        l'occupent. Une page fermee sur cette requete n'aurait servi a
        rien : elle existe precisement pour accueillir des inconnus. */
     'prenom-coreen.html': 1,
+    /* Deuxieme porte, construite le 2026-08-12, sur le meme principe :
+       « age coreen » / « calculer son age coreen » est une requete que des
+       gens tapent sans rien connaitre au coreen — souvent apres un drama.
+       L'outil repond a la question ET apprend a la dire en coreen, ce qui
+       ramene vers le parcours. La fermer la viderait de son unique raison
+       d'exister : accueillir des inconnus. */
+    'age-coreen.html': 1,
     'avis.html': 1, 'a-propos.html': 1, 'aide.html': 1,
     'mentions-legales.html': 1, 'cgv.html': 1, 'confidentialite.html': 1,
     '404.html': 1, 'reset.html': 1
