@@ -1382,8 +1382,19 @@ function motsCroisesBlock(idx) {
     ? `<p style="margin:0 0 5px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0F1B2D">${titre}</p>` +
       arr.map(d => `<p style="margin:0 0 4px;font-size:13px;line-height:1.5;color:#475E78"><strong style="color:#0F1B2D">${d.n}.</strong> ${d.fr} <span style="color:#8FA5BE">· ${d.len} syllabes</span></p>`).join('')
     : '';
-  const solution = g.mots.slice().sort((a, b) => (nums[a.r + ',' + a.c] - nums[b.r + ',' + b.c]))
-    .map(m => `${m.kr} <span style="color:#C3D0E2">(${m.d === 'H' ? 'horiz.' : 'vert.'})</span>`).join(' &nbsp;· &nbsp;');
+  /* La solution ne paraît PAS dans le même numéro : elle arrive dans le
+     suivant. C'est ce qui donne une raison d'attendre le prochain e-mail —
+     et ça empêche l'œil de la lire avant d'avoir cherché.
+     Le numéro précédent de CE thème est idx-1 (chaque thème a son propre
+     compteur dans KV), donc sa grille est MOTS_CROISES[(idx-1) % longueur]. */
+  const precedente = idx > 0 ? MOTS_CROISES[(idx - 1) % MOTS_CROISES.length] : null;
+  const rappelSolution = precedente ? `
+        <tr><td style="padding:12px 32px 0">
+          <p style="margin:0;font-size:12px;line-height:1.7;color:#8FA5BE">
+            <strong style="color:#475E78">Solution du numéro précédent</strong> — ${precedente.titre} :
+            ${ordreDeLecture(precedente).map(m => `<strong style="color:#475E78">${m.kr}</strong> <span style="color:#A9B8CC">${m.fr}</span>`).join(' &nbsp;· &nbsp;')}
+          </p>
+        </td></tr>` : '';
 
   return `
         <tr><td style="padding:26px 32px 0">
@@ -1398,10 +1409,16 @@ function motsCroisesBlock(idx) {
                   <td width="50%" valign="top" style="padding-left:10px">${liste(defs.V, 'Verticalement')}</td>
                 </tr>
               </table>
-              <p style="margin:16px 0 0;font-size:11px;line-height:1.6;color:#B9A888">Solution — ne regarde qu’après avoir cherché : ${solution}</p>
+              <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#8B6B3D">La solution paraîtra dans le prochain numéro — à toi de chercher d’ici là.</p>
             </td></tr>
           </table>
-        </td></tr>`;
+        </td></tr>${rappelSolution}`;
+}
+
+/* Mots d'une grille, dans l'ordre de lecture (haut-gauche vers bas-droite) —
+   le même ordre que la numérotation affichée dans la grille. */
+function ordreDeLecture(g) {
+  return g.mots.slice().sort((a, b) => (a.r - b.r) || (a.c - b.c));
 }
 
 // ── Trois articles de blog ────────────────────────────────────────────────────
@@ -1411,19 +1428,31 @@ function motsCroisesBlock(idx) {
 function blogTrioBlock(idx) {
   const trio = [];
   for (let i = 0; i < 3; i++) trio.push(NEWSLETTER_BLOG[(idx * 3 + i) % NEWSLETTER_BLOG.length]);
-  const cartes = trio.map(a => `
-              <tr><td style="padding:0 0 10px">
-                <a href="https://koreanstories.fr/${a.url}" style="display:block;background:#F5F8FF;border:1px solid #DAE3F2;border-radius:12px;padding:14px 16px;text-decoration:none">
-                  <span style="display:block;font-size:14.5px;font-weight:700;color:#0F1B2D;line-height:1.4">${a.titre}</span>
-                  <span style="display:block;font-size:12.5px;color:#475E78;line-height:1.55;margin-top:4px">${a.desc}</span>
-                  <span style="display:block;font-size:12px;font-weight:700;color:#B8924E;margin-top:8px">Lire l’article →</span>
-                </a>
-              </td></tr>`).join('');
+  /* Sommaire numéroté plutôt que trois cartes encadrées : l'e-mail contient
+     déjà quatre blocs à bordure (mot à retenir, mots croisés, inscription,
+     Livret). Une liste légère à gros numéros dorés tranche avec eux et se
+     parcourt plus vite qu'une pile de cadres identiques. */
+  const lignes = trio.map((a, i) => `
+              <tr>
+                <td valign="top" width="46" style="width:46px;padding:14px 0 14px 0">
+                  <span style="font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:700;color:#E0CBA0;line-height:1">${String(i + 1).padStart(2, '0')}</span>
+                </td>
+                <td valign="top" style="padding:14px 0 14px 0;border-bottom:1px solid #E8EDF7">
+                  <a href="https://koreanstories.fr/${a.url}" style="text-decoration:none">
+                    <span style="display:block;font-size:15.5px;font-weight:700;color:#0F1B2D;line-height:1.4">${a.titre}</span>
+                    <span style="display:block;font-size:12.5px;color:#475E78;line-height:1.55;margin-top:5px">${a.desc}</span>
+                    <span style="display:block;font-size:12px;font-weight:700;color:#B8924E;margin-top:7px">Lire l’article →</span>
+                  </a>
+                </td>
+              </tr>`).join('');
   return `
-        <tr><td style="padding:28px 32px 0">
+        <tr><td style="padding:30px 32px 0">
           <p style="margin:0 0 3px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA5BE;font-weight:800">À lire aussi sur le blog</p>
-          <p style="margin:0 0 14px;font-size:18px;font-weight:800;color:#0F1B2D">Trois articles pour aller plus loin</p>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${cartes}</table>
+          <p style="margin:0 0 6px;font-size:18px;font-weight:800;color:#0F1B2D">Trois articles pour aller plus loin</p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+            <tr><td colspan="2" style="border-top:1px solid #E8EDF7;font-size:0;line-height:0">&nbsp;</td></tr>
+            ${lignes}
+          </table>
         </td></tr>`;
 }
 
