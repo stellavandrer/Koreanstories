@@ -1229,9 +1229,8 @@ function emailLayout({ preheader = '', kicker = '', title = '', hero = null, bod
           </table>
         </td></tr>` : '';
 
-  const unsubLine = unsubUrl
-    ? `<p style="margin:10px 0 0;font-size:11px"><a href="${unsubUrl}" style="color:#8FA5BE;text-decoration:underline">Se désabonner</a></p>`
-    : '';
+  /* Le pied de page (réseaux, mentions légales, désinscription) est désormais
+     partagé avec les newsletters : voir emailFooter(). */
 
   return `<!DOCTYPE html>
 <html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>
@@ -1257,11 +1256,278 @@ function emailLayout({ preheader = '', kicker = '', title = '', hero = null, bod
             </td></tr>
           </table>
         </td></tr>
-        <tr><td style="padding:24px 32px 0"><div style="border-top:1px solid #DAE3F2;font-size:0;line-height:0">&nbsp;</div></td></tr>
-        <tr><td style="padding:18px 32px 30px;text-align:center">
-          <p style="margin:0;font-size:12px;color:#8FA5BE">Korean Stories · koreanstories.fr</p>
-          ${unsubLine}
+        ${emailFooter(unsubUrl)}
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
+// ── Vivier d'articles de blog mis en avant dans les newsletters ──────────────
+// Trois articles par numéro, choisis par rotation à partir de l'index du numéro :
+// chaque envoi en met trois nouveaux en avant sans qu'on ait à les saisir un par un.
+const NEWSLETTER_BLOG = [
+  { url: 'blog-andong-village-hahoe.html', titre: 'Andong : le village de Hahoe, ses masques et son soju', desc: 'Le village UNESCO de Hahoe toujours habité, les masques 하회탈 du Trésor national 121, le soju distillé…' },
+  { url: 'blog-chimaek-culture-poulet-frit.html', titre: '치맥 : comment la Corée a inventé le rituel poulet-bière', desc: 'Pas un plat traditionnel : né après-guerre, démocratisé par la crise de 1997, popularisé…' },
+  { url: 'blog-nunchi-sens-social-coreen.html', titre: '눈치 : le sens social que les Coréens disent intraduisible', desc: '눈치가 빠르다, 눈치가 없다, 눈치를 보다 : le nunchi expliqué sans les clichés — étymologie, usages réels, et ses…' },
+  { url: 'blog-discours-indirect-coreen.html', titre: '-다고, -냐고, -자고, -라고 : le discours indirect coréen', desc: '온대요, 오냬요, 오래요, 먹재요 : les formes contractées ne sont pas des raccourcis fautifs. Les 4 types, et ce…' },
+  { url: 'blog-noraebang-karaoke-coreen.html', titre: '노래방 : à l\'intérieur du karaoké coréen, tambourine et 18번', desc: 'Né à Busan en 1991, le noraebang a perdu 25% de ses salles en 7 ans face au coin-노래방. Tarifs,…' },
+  { url: 'blog-pyeonuijeom-convenience-store-coree.html', titre: '편의점 : comment le convenience store a conquis la Corée', desc: 'Plus de 55 000 편의점 pour 52 millions d\'habitants, la densité la plus forte au monde. Histoire de…' },
+  { url: 'blog-mariage-coreen-moderne.html', titre: 'Le mariage coréen moderne : 웨딩홀, 폐백 et 축의금', desc: 'Cérémonie de 20 minutes en wedding hall, rituel du 폐백 en hanbok, enveloppe de 축의금 à l\'entrée :…' },
+  { url: 'blog-connecteurs-grammaticaux-coreens.html', titre: '-아서 vs -니까 vs -는데 : le piège du « parce que » coréen', desc: 'Le français traduit les trois par « parce que » — mais aucun n\'est interchangeable. La règle qui les…' },
+  { url: 'blog-bunsik-street-food-coreenne.html', titre: '분식 : dans les coulisses de la street food coréenne', desc: '분식 veut dire « nourriture à base de farine » — née d\'une campagne anti-pénurie de riz des années…' },
+  { url: 'blog-fan-death-superstitions-coreennes.html', titre: 'Le « fan death » : pourquoi certains Coréens craignent le ventilateur la nuit', desc: '선풍기 사망설 : la croyance selon laquelle dormir avec un ventilateur allumé serait mortel. Son histoire,…' },
+  { url: 'blog-jjimjilbang-coulisses-sauna-coreen.html', titre: 'Dans les coulisses du jjimjilbang : le vrai métier du 때밀이', desc: '때밀이, la moufle « serviette italienne » inventée à Busan, et ce qui distingue vraiment la zone nue de…' },
+  { url: 'blog-onomatopees-coreennes.html', titre: '의성어·의태어 : les mots coréens que le français n\'a pas', desc: '반짝반짝, 두근두근, 살금살금... une classe entière de mots qui miment sons et états, et pourquoi ils envahissent…' },
+  { url: 'blog-pcbang-culture-gaming-coree.html', titre: 'PC방 : à l\'intérieur des cybercafés qui ont forgé l\'e-sport coréen', desc: 'Nés dans la crise de 1997, boostés par StarCraft : leur nombre a chuté de 23 500 à moins de 7 000 —…' },
+  { url: 'blog-classificateurs-numeriques-coreens.html', titre: 'Pourquoi on ne dit jamais juste « trois pommes » en coréen', desc: '개, 명, 마리, 권... les classificateurs numériques coréens expliqués simplement, avec l\'ordre des mots et…' },
+  { url: 'blog-gyeongju-guide-voyage.html', titre: 'Gyeongju : l\'ancienne capitale de Silla, le « musée sans toit » de Corée', desc: 'Bulguksa, Seokguram, les tumulus royaux, l\'étang de Donggung Wolji illuminé la nuit : le guide de la…' },
+  { url: 'blog-service-militaire-coree-armee.html', titre: 'Le service militaire en Corée (군대) : pourquoi même les stars s\'engagent', desc: '18 à 21 mois obligatoires pour tous les hommes coréens de 18 à 28 ans, la loi spéciale qui n\'a…' },
+  { url: 'blog-konglish-mots-anglais-coreens.html', titre: 'Le konglish : ces mots anglais qui n\'existent qu\'en coréen', desc: '서비스, 원피스, 핸드폰, 화이팅... pourquoi tant de mots d\'apparence anglaise ont un sens totalement différent en…' },
+  { url: 'blog-soju-hoesik-culture-coreenne.html', titre: 'Soju et hoesik : la culture de l\'alcool en entreprise coréenne', desc: 'Deux mains pour servir, jamais se resservir soi-même, le rituel du 2차 : la culture du soju et du…' },
+  { url: 'blog-endroits-secrets-coree.html', titre: '6 endroits secrets et magnifiques en Corée, loin des foules', desc: 'Jeongdongjin, Anbandegi, Damyang, Suncheonman, Buseoksa, Somaemuldo : 6 lieux réels que les guides…' },
+  { url: 'blog-recette-jjajangmyeon.html', titre: 'La vraie recette du jjajangmyeon maison', desc: 'La technique du chunjang frit qui fait toute la différence entre un jjajangmyeon amer et un…' },
+  { url: 'blog-jeju-guide.html', titre: 'Jeju-do : l\'île à voir au moins une fois', desc: 'Le Hallasan, les haenyeo au patrimoine UNESCO et le dialecte unique de l\'île — le guide de la…' },
+  { url: 'blog-hebergement-voyage-coree.html', titre: 'Où loger en Corée : hôtels, hanok, motels — et les bonnes applications', desc: 'Hôtel, guesthouse, hanok, motel ou jjimjilbang : les vraies options d\'hébergement, leurs prix, et…' },
+  { url: 'blog-recette-bulgogi.html', titre: 'La vraie recette du bulgogi maison', desc: 'Le vrai ratio de la marinade, la bonne coupe de bœuf, et le piège du kiwi laissé trop longtemps qui…' },
+  { url: 'blog-busan-guide.html', titre: 'Un week-end à Busan, la deuxième ville de Corée', desc: 'Haeundae, le marché Jagalchi et les restaurants de sashimi — le guide pour un week-end réussi loin…' },
+  { url: 'blog-kbeauty-routine.html', titre: 'La routine K-Beauty en 10 étapes, décryptée', desc: 'D\'où vient cette obsession pour la peau, ce que contient vraiment la routine, et faut-il tout faire…' },
+  { url: 'blog-erreurs-debutant-coreen.html', titre: '5 erreurs classiques de débutant en coréen', desc: '은/는 confondu avec 이/가, banmal mélangé au jondaenmal... les erreurs les plus fréquentes, et comment…' },
+  { url: 'blog-recette-naengmyeon.html', titre: 'La vraie recette du naengmyeon maison', desc: 'Version bouillon (물냉면) et version sauce (비빔냉면), avec le bon temps de cuisson des nouilles.' },
+  { url: 'blog-recette-chikin.html', titre: 'La vraie recette du chikin ultra-croustillant', desc: 'Pourquoi le frire deux fois, la bonne température d\'huile, et le geste oublié avant la seconde friture.' },
+  { url: 'blog-recette-samgyetang.html', titre: 'La vraie recette du samgyetang maison', desc: 'Comment farcir et ficeler le poulet pour qu\'il garde sa forme, et quand ajouter le ginseng frais.' },
+  { url: 'blog-recette-samgyeopsal.html', titre: 'La vraie recette du samgyeopsal grillé', desc: 'La bonne température de poêle, pourquoi ne jamais mariner la viande, et comment la déguster en ssam.' }
+];
+
+// ── Pied de page commun à tous les e-mails ────────────────────────────────────
+// Réseaux + mentions obligatoires + désinscription. Le même bloc partout : un
+// e-mail transactionnel doit être aussi en règle qu'une newsletter.
+function emailFooter(unsubUrl = null) {
+  const l = (url, txt) => `<a href="${url}" style="color:#8FA5BE;text-decoration:underline">${txt}</a>`;
+  const r = (url, txt) => `<a href="${url}" style="display:inline-block;margin:0 8px;color:#0F1B2D;font-size:12px;font-weight:700;text-decoration:none">${txt}</a>`;
+  return `
+        <tr><td style="padding:26px 32px 0"><div style="border-top:1px solid #DAE3F2;font-size:0;line-height:0">&nbsp;</div></td></tr>
+        <tr><td style="padding:18px 32px 4px;text-align:center">
+          ${r('https://www.instagram.com/koreanstories.fr/', 'Instagram')}${r('https://www.tiktok.com/@koreanstories.fr', 'TikTok')}${r('https://discord.gg/dD7pjGZkt', 'Discord')}
         </td></tr>
+        <tr><td style="padding:8px 32px 30px;text-align:center">
+          <p style="margin:0 0 8px;font-size:12px;color:#8FA5BE">Korean Stories · ${l('https://koreanstories.fr', 'koreanstories.fr')}</p>
+          <p style="margin:0;font-size:11px;color:#8FA5BE;line-height:2">
+            ${l('https://koreanstories.fr/mentions-legales.html', 'Mentions légales')} &nbsp;·&nbsp; ${l('https://koreanstories.fr/confidentialite.html', 'Confidentialité')} &nbsp;·&nbsp; ${l('https://koreanstories.fr/cgv.html', 'CGV / CGU')} &nbsp;·&nbsp; ${l('mailto:contact@koreanstories.fr', 'Nous écrire')}
+          </p>
+          ${unsubUrl ? `<p style="margin:14px 0 0;font-size:11px;color:#8FA5BE;line-height:1.7">Tu reçois cet e-mail parce que tu t'es inscrit·e à la newsletter Korean Stories.<br/>${l(unsubUrl, 'Se désabonner en un clic')} — c'est immédiat et sans question.</p>` : ''}
+        </td></tr>`;
+}
+
+// ── Mots croisés coréens ──────────────────────────────────────────────────────
+// Grilles ÉCRITES À LA MAIN puis validées case par case à partir du vocabulaire
+// A1 de flash1.html : aucun coréen inventé. Volontairement pas de générateur au
+// moment de l'envoi — une grille fausse partirait à tous les abonnés d'un coup,
+// sans que personne ne la voie passer.
+const MOTS_CROISES = [
+  { titre: 'Famille, lieux & métiers', rows: 2, cols: 6, mots: [
+    { kr: '여동생', r: 0, c: 1, d: 'H', fr: 'petite sœur' },
+    { kr: '여기',  r: 0, c: 1, d: 'V', fr: 'ici' },
+    { kr: '저기',  r: 1, c: 0, d: 'H', fr: 'là-bas' },
+    { kr: '생선',  r: 0, c: 3, d: 'V', fr: 'poisson' },
+    { kr: '선생님', r: 1, c: 3, d: 'H', fr: 'professeur' } ] },
+  { titre: 'Les verbes du quotidien', rows: 4, cols: 5, mots: [
+    { kr: '주세요', r: 3, c: 0, d: 'H', fr: 's’il vous plaît / donnez-moi' },
+    { kr: '있어요', r: 1, c: 2, d: 'V', fr: 'il y a / j’ai' },
+    { kr: '있다',  r: 1, c: 2, d: 'H', fr: 'être / avoir (forme du dictionnaire)' },
+    { kr: '오빠',  r: 0, c: 3, d: 'H', fr: 'grand frère (quand on est une fille)' },
+    { kr: '오다',  r: 0, c: 3, d: 'V', fr: 'venir' } ] },
+  { titre: 'Savoir, dormir, famille', rows: 4, cols: 5, mots: [
+    { kr: '알아요', r: 2, c: 1, d: 'H', fr: 'je sais / je comprends' },
+    { kr: '아니요', r: 0, c: 3, d: 'V', fr: 'non' },
+    { kr: '아빠',  r: 0, c: 3, d: 'H', fr: 'papa' },
+    { kr: '알다',  r: 2, c: 1, d: 'V', fr: 'savoir (forme du dictionnaire)' },
+    { kr: '자다',  r: 3, c: 0, d: 'H', fr: 'dormir' } ] }
+];
+
+function motsCroisesBlock(idx) {
+  const g = MOTS_CROISES[idx % MOTS_CROISES.length];
+  const occ = {}, nums = {}; let n = 0;
+  const defs = { H: [], V: [] };
+  g.mots.forEach(m => {
+    for (let i = 0; i < m.kr.length; i++) {
+      const rr = m.d === 'H' ? m.r : m.r + i, cc = m.d === 'H' ? m.c + i : m.c;
+      occ[rr + ',' + cc] = true;
+    }
+  });
+  /* Numerotation dans l'ordre de lecture (gauche a droite, haut en bas), comme
+     dans une vraie grille — et non dans l'ordre ou les mots sont declares. */
+  const departs = {};
+  g.mots.forEach(m => { departs[m.r + ',' + m.c] = true; });
+  for (let r = 0; r < g.rows; r++) {
+    for (let c = 0; c < g.cols; c++) {
+      if (departs[r + ',' + c]) nums[r + ',' + c] = ++n;
+    }
+  }
+  g.mots.forEach(m => defs[m.d].push({ n: nums[m.r + ',' + m.c], fr: m.fr, len: m.kr.length }));
+  defs.H.sort((a, b) => a.n - b.n); defs.V.sort((a, b) => a.n - b.n);
+
+  let rows = '';
+  for (let r = 0; r < g.rows; r++) {
+    let tds = '';
+    for (let c = 0; c < g.cols; c++) {
+      const k = r + ',' + c;
+      tds += occ[k]
+        ? `<td width="36" height="36" style="width:36px;height:36px;border:1px solid #0F1B2D;background:#FFFFFF;vertical-align:top;padding:2px 0 0 3px;font-size:9px;line-height:1;color:#B8924E;font-weight:800">${nums[k] || '&nbsp;'}</td>`
+        : `<td width="36" height="36" style="width:36px;height:36px;border:0;background:transparent;font-size:0;line-height:0">&nbsp;</td>`;
+    }
+    rows += `<tr>${tds}</tr>`;
+  }
+  const liste = (arr, titre) => arr.length
+    ? `<p style="margin:0 0 5px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0F1B2D">${titre}</p>` +
+      arr.map(d => `<p style="margin:0 0 4px;font-size:13px;line-height:1.5;color:#475E78"><strong style="color:#0F1B2D">${d.n}.</strong> ${d.fr} <span style="color:#8FA5BE">· ${d.len} syllabes</span></p>`).join('')
+    : '';
+  const solution = g.mots.slice().sort((a, b) => (nums[a.r + ',' + a.c] - nums[b.r + ',' + b.c]))
+    .map(m => `${m.kr} <span style="color:#C3D0E2">(${m.d === 'H' ? 'horiz.' : 'vert.'})</span>`).join(' &nbsp;· &nbsp;');
+
+  return `
+        <tr><td style="padding:26px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="background:#FBF2E3;border:1px solid #E0CBA0;border-radius:14px;padding:22px 22px 18px">
+              <p style="margin:0 0 3px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8B6B3D;font-weight:800">Le jeu du numéro</p>
+              <p style="margin:0 0 16px;font-size:18px;font-weight:800;color:#0F1B2D">Mots croisés — ${g.titre}</p>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin:0 0 18px">${rows}</table>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="50%" valign="top" style="padding-right:10px">${liste(defs.H, 'Horizontalement')}</td>
+                  <td width="50%" valign="top" style="padding-left:10px">${liste(defs.V, 'Verticalement')}</td>
+                </tr>
+              </table>
+              <p style="margin:16px 0 0;font-size:11px;line-height:1.6;color:#B9A888">Solution — ne regarde qu’après avoir cherché : ${solution}</p>
+            </td></tr>
+          </table>
+        </td></tr>`;
+}
+
+// ── Trois articles de blog ────────────────────────────────────────────────────
+// Pas d'images : celles du blog sont hébergées sur Wikimedia, qui bloque au bout
+// de quelques requêtes — un e-mail parti à toute la liste ferait bien plus que
+// quelques requêtes. Cartes texte : robustes, légères, et lisibles partout.
+function blogTrioBlock(idx) {
+  const trio = [];
+  for (let i = 0; i < 3; i++) trio.push(NEWSLETTER_BLOG[(idx * 3 + i) % NEWSLETTER_BLOG.length]);
+  const cartes = trio.map(a => `
+              <tr><td style="padding:0 0 10px">
+                <a href="https://koreanstories.fr/${a.url}" style="display:block;background:#F5F8FF;border:1px solid #DAE3F2;border-radius:12px;padding:14px 16px;text-decoration:none">
+                  <span style="display:block;font-size:14.5px;font-weight:700;color:#0F1B2D;line-height:1.4">${a.titre}</span>
+                  <span style="display:block;font-size:12.5px;color:#475E78;line-height:1.55;margin-top:4px">${a.desc}</span>
+                  <span style="display:block;font-size:12px;font-weight:700;color:#B8924E;margin-top:8px">Lire l’article →</span>
+                </a>
+              </td></tr>`).join('');
+  return `
+        <tr><td style="padding:28px 32px 0">
+          <p style="margin:0 0 3px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA5BE;font-weight:800">À lire aussi sur le blog</p>
+          <p style="margin:0 0 14px;font-size:18px;font-weight:800;color:#0F1B2D">Trois articles pour aller plus loin</p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${cartes}</table>
+        </td></tr>`;
+}
+
+// ── Bloc « rejoindre Korean Stories » ─────────────────────────────────────────
+function rejoindreBlock() {
+  return `
+        <tr><td style="padding:28px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0F1B2D;border-radius:16px;overflow:hidden">
+            <tr><td><img src="https://koreanstories.fr/img/email/rejoindre.jpg" width="536" alt="Deux personnages se saluent en coréen" style="display:block;width:100%;max-width:536px;height:auto;border:0"/></td></tr>
+            <tr><td style="padding:22px 24px 24px;text-align:center">
+              <p style="margin:0 0 8px;font-size:19px;font-weight:800;color:#FFFFFF;line-height:1.35">Le parcours complet est gratuit,<br/>du tout premier mot au niveau B2</p>
+              <p style="margin:0 0 18px;font-size:13.5px;color:rgba(247,248,250,.62);line-height:1.6">250 activités, 42 histoires illustrées, un dictionnaire de 45 000 mots. Sans publicité, et sans carte bancaire.</p>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto">
+                <tr><td style="background:#C9A96E;border-radius:999px">
+                  <a href="https://koreanstories.fr/signup.html" style="display:inline-block;padding:13px 28px;font-size:14px;font-weight:800;color:#0F1B2D;text-decoration:none">Créer mon compte gratuit</a>
+                </td></tr>
+              </table>
+            </td></tr>
+          </table>
+        </td></tr>`;
+}
+
+// ── Bloc Livret A1 ────────────────────────────────────────────────────────────
+function livretBlock() {
+  return `
+        <tr><td style="padding:16px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFFFFF;border:1.5px solid #E0CBA0;border-radius:16px;overflow:hidden">
+            <tr>
+              <td width="170" valign="middle" style="padding:0"><img src="https://koreanstories.fr/img/email/livret.jpg" width="170" alt="Le Livret A1 tenu à deux mains" style="display:block;width:170px;height:auto;border:0"/></td>
+              <td valign="middle" style="padding:18px 20px">
+                <p style="margin:0 0 4px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8B6B3D;font-weight:800">Loin des écrans</p>
+                <p style="margin:0 0 6px;font-size:17px;font-weight:800;color:#0F1B2D;line-height:1.3">Le Livret A1, 280 pages</p>
+                <p style="margin:0 0 14px;font-size:13px;color:#475E78;line-height:1.55">Tout le niveau A1 à imprimer : les leçons, les exercices à remplir au crayon, et tous les corrigés. <strong>5 €</strong> une fois — ou compris dans le Premium.</p>
+                <a href="https://koreanstories.fr/livret-a1.html" style="display:inline-block;background:#0F1B2D;color:#FFFFFF;font-size:13px;font-weight:700;padding:10px 20px;border-radius:999px;text-decoration:none">Voir l’intérieur →</a>
+              </td>
+            </tr>
+          </table>
+        </td></tr>`;
+}
+
+// ── Gabarit des numéros de newsletter ─────────────────────────────────────────
+// Distinct d'emailLayout() à dessein : un e-mail transactionnel (clé de licence,
+// résiliation) ne doit surtout pas embarquer des mots croisés et deux promos.
+function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null, bodyHtml = '', noteHtml = '', related = null, idx = 0, unsubUrl = null }) {
+  const heroBlock = hero ? (hero.image ? `
+        <tr><td style="padding:0"><img src="${hero.image}" width="600" alt="${hero.sub || ''}" style="display:block;width:100%;max-width:600px;height:auto;border:0"/></td></tr>
+        <tr><td style="background:${hero.bg};padding:16px 24px;text-align:center">
+          <span style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:${hero.color};font-weight:700">${hero.word}</span>
+          ${hero.sub ? `<span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:${hero.color};opacity:.85;margin-left:12px">${hero.sub}</span>` : ''}
+        </td></tr>` : `
+        <tr><td style="background:${hero.bg};padding:44px 24px;text-align:center">
+          <div style="font-family:Georgia,'Times New Roman',serif;font-size:${hero.fontSize}px;line-height:1.15;color:${hero.color};font-weight:700">${hero.word}</div>
+          ${hero.sub ? `<div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:${hero.color};opacity:.85;margin-top:12px">${hero.sub}</div>` : ''}
+        </td></tr>`) : '';
+
+  const noteBlock = noteHtml ? `
+        <tr><td style="padding:6px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr><td style="background:#F5F8FF;border-left:3px solid #C9A96E;border-radius:0 10px 10px 0;padding:16px 18px">
+              <p style="margin:0 0 4px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8B6B3D;font-weight:800">Le mot à retenir</p>
+              <div style="font-size:14px;line-height:1.6;color:#0D1823">${noteHtml}</div>
+            </td></tr>
+          </table>
+        </td></tr>` : '';
+
+  const relatedBlock = related ? `
+        <tr><td style="padding:20px 32px 0;text-align:center">
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto">
+            <tr><td style="background:#B8924E;border-radius:999px">
+              <a href="${related.url}" style="display:inline-block;padding:13px 30px;font-size:14px;font-weight:800;color:#FFFFFF;text-decoration:none">${related.cta} →</a>
+            </td></tr>
+          </table>
+          ${related.label ? `<p style="margin:10px 0 0;font-size:12.5px;color:#8FA5BE;line-height:1.5">${related.label}</p>` : ''}
+        </td></tr>` : '';
+
+  return `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head>
+<body style="margin:0;padding:0;background:#EEF2FB;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0">${preheader}</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EEF2FB">
+    <tr><td align="center" style="padding:28px 12px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:20px;overflow:hidden;border:1px solid #DAE3F2">
+        <!-- Logo en texte, pas en image : les images du logo du site sont toutes
+             en marine (elles sont faites pour un fond clair), et surtout beaucoup
+             de messageries bloquent les images par defaut — un logotype HTML
+             s'affiche toujours, meme images desactivees. -->
+        <tr><td style="background:#0F1B2D;padding:26px 32px 22px;text-align:center">
+          <a href="https://koreanstories.fr" style="text-decoration:none">
+            <span style="font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:27px;font-weight:800;color:#FFFFFF;letter-spacing:-.02em">Korean </span><span style="font-family:Georgia,'Times New Roman',serif;font-size:29px;font-style:italic;font-weight:700;color:#CAA96E">Stories</span>
+          </a>
+          <div style="margin-top:7px;font-size:11.5px;color:rgba(247,248,250,.5);letter-spacing:.02em">Apprends le coréen à travers de vraies histoires</div>
+        </td></tr>
+        ${heroBlock}
+        <tr><td style="padding:26px 32px 8px">
+          ${kicker ? `<p style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#B8924E;font-weight:800;margin:0 0 12px">${kicker}</p>` : ''}
+          <div style="font-size:15px;line-height:1.75;color:#0D1823">${bodyHtml}</div>
+        </td></tr>
+        ${noteBlock}
+        ${relatedBlock}
+        ${blogTrioBlock(idx)}
+        ${motsCroisesBlock(idx)}
+        ${rejoindreBlock()}
+        ${livretBlock()}
+        ${emailFooter(unsubUrl)}
       </table>
     </td></tr>
   </table>
@@ -1596,7 +1862,8 @@ async function sendNewsletterEdition(theme, env, testRecipient = null) {
     // Salut personnalisé par contact (prénom Resend s'il existe) — le reste
     // du corps est partagé et calculé une seule fois au-dessus de la boucle.
     const greeting = `<p style="font-weight:700;margin:0 0 10px">Salut${contact.first_name ? ' ' + contact.first_name : ''} !</p>`;
-    const html = emailLayout({
+    const html = newsletterLayout({
+      idx,
       preheader: edition.title,
       title: edition.subject,
       kicker: `Korean Stories · ${meta.label}`,
