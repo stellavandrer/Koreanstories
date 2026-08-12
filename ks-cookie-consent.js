@@ -94,7 +94,12 @@
     wrapEl.innerHTML =
       '<div class="ks-ck" role="dialog" aria-label="Préférences de cookies">' +
         '<div class="ks-ck-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M9 15.5h.01"/></svg>Ton choix sur les cookies</div>' +
-        '<div class="ks-ck-txt">Korean Stories n\'utilise <strong>aucun cookie publicitaire</strong> ni traceur analytique. Un service ponctuel (DiceBear, avatars) peut afficher une ressource externe. Tu choisis. Détails dans la <a href="confidentialite.html">politique de confidentialité</a>.</div>' +
+        /* « ni traceur analytique » est tombé le 2026-08-12 : le site mesure
+           desormais son audience (Cloudflare Web Analytics). Cet outil ne pose
+           aucun cookie et ne cree aucun identifiant, il n'a donc rien a faire
+           dans ce bandeau — mais laisser ecrit qu'il n'existe pas serait un
+           mensonge affiche a chaque premiere visite. */
+        '<div class="ks-ck-txt">Korean Stories n\'utilise <strong>aucun cookie publicitaire</strong>. La mesure d\'audience se fait sans cookie et sans vous identifier. Un service ponctuel (DiceBear, avatars) peut afficher une ressource externe. Tu choisis. Détails dans la <a href="confidentialite.html">politique de confidentialité</a>.</div>' +
         '<div class="ks-ck-detail" id="ksCkDetail">' +
           '<div class="ks-ck-row"><div><div class="ks-ck-row-t">Nécessaires</div><div class="ks-ck-row-s">Connexion à ton compte (session Firebase Auth), sauvegarde locale de ta progression. Toujours actifs.</div></div><div class="ks-ck-sw on off" aria-hidden="true"></div></div>' +
           '<div class="ks-ck-row"><div><div class="ks-ck-row-t">Fonctionnels</div><div class="ks-ck-row-s">Affichage des avatars DiceBear d\'autres membres (ex. classement). Refusé par défaut.</div></div><div class="ks-ck-sw" id="ksCkFuncSw" role="switch" tabindex="0"></div></div>' +
