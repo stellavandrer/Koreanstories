@@ -150,8 +150,11 @@ export default {
       const token = url.searchParams.get('token');
       if (!env.NEWSLETTER_TEST_TOKEN || token !== env.NEWSLETTER_TEST_TOKEN) return new Response('Forbidden', { status: 403 });
       if (!NEWSLETTER_CONTENT[theme]) return json({ success: false, message: 'Thème inconnu (culture/histoire/actu)' }, 400);
-      await sendNewsletterEdition(theme, env, NEWSLETTER_TEST_RECIPIENT);
-      return json({ success: true, message: `Édition ${theme} envoyée en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
+      /* &date=AAAA-MM-JJ : force l'édition programmée de ce jour-là, pour
+         relire à l'avance un numéro de la quinzaine sans attendre sa date. */
+      const dateForcee = url.searchParams.get('date');
+      await sendNewsletterEdition(theme, env, NEWSLETTER_TEST_RECIPIENT, dateForcee);
+      return json({ success: true, message: `Édition ${theme}${dateForcee ? ' du ' + dateForcee : ''} envoyée en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
     }
 
     // Déclenchement manuel des e-mails licence/résiliation (normalement
@@ -200,7 +203,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-12.1 (newsletter refondue)\n' +
+      'Korean Stories Premium API — v2026-08-12.2 (quinzaine 13-29 août programmée)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -1345,11 +1348,42 @@ const MOTS_CROISES = [
     { kr: '아니요', r: 0, c: 3, d: 'V', fr: 'non' },
     { kr: '아빠',  r: 0, c: 3, d: 'H', fr: 'papa' },
     { kr: '알다',  r: 2, c: 1, d: 'V', fr: 'savoir (forme du dictionnaire)' },
-    { kr: '자다',  r: 3, c: 0, d: 'H', fr: 'dormir' } ] }
+    { kr: '자다',  r: 3, c: 0, d: 'H', fr: 'dormir' } ] },
+  /* Grilles 4 a 6 (2026-08-12). Construites par recherche automatique sur le
+     vocabulaire REELLEMENT enseigne (intersection audio/manifest.json x
+     ks-krdict.json), puis validees case par case : chaque mot croise au moins
+     un autre, et aucune suite de syllabes involontaire ne se forme. */
+  { titre: 'Mois & moments', rows: 4, cols: 3, mots: [
+    { kr: '오십',   r: 0, c: 0, d: 'H', fr: 'cinquante' },
+    { kr: '십일월', r: 0, c: 1, d: 'V', fr: 'novembre' },
+    { kr: '일월',   r: 1, c: 1, d: 'H', fr: 'janvier' },
+    { kr: '오월',   r: 2, c: 0, d: 'H', fr: 'mai' },
+    { kr: '오후',   r: 2, c: 0, d: 'V', fr: 'l’après-midi' } ] },
+  { titre: 'On s’invite', rows: 4, cols: 3, mots: [
+    { kr: '횟집',   r: 0, c: 1, d: 'H', fr: 'restaurant de poisson cru' },
+    { kr: '집들이', r: 0, c: 2, d: 'V', fr: 'pendaison de crémaillère' },
+    { kr: '나이',   r: 2, c: 1, d: 'H', fr: 'l’âge' },
+    { kr: '나물',   r: 2, c: 1, d: 'V', fr: 'légumes assaisonnés (banchan)' },
+    { kr: '스물',   r: 3, c: 0, d: 'H', fr: 'vingt' } ] },
+  { titre: 'Jeju, octobre et un panier-repas', rows: 4, cols: 4, mots: [
+    { kr: '이제',   r: 0, c: 0, d: 'V', fr: 'maintenant' },
+    { kr: '제주도', r: 1, c: 0, d: 'H', fr: 'l’île de Jeju' },
+    { kr: '도시락', r: 1, c: 2, d: 'V', fr: 'le panier-repas' },
+    { kr: '시월',   r: 2, c: 2, d: 'H', fr: 'octobre' },
+    { kr: '연락',   r: 3, c: 1, d: 'H', fr: 'prendre contact' } ] }
 ];
 
-function motsCroisesBlock(idx) {
-  const g = MOTS_CROISES[idx % MOTS_CROISES.length];
+/* Decalage de grille par theme. Sans lui, les trois editions d'une meme
+   semaine tomberaient sur la MEME grille : chaque theme a bien son compteur
+   dans KV, mais les trois ont demarre ensemble et avancent au meme rythme.
+   Avec 6 grilles et ces decalages, la semaine offre toujours 3 grilles
+   differentes, et un theme ne revoit la sienne qu'au bout de 6 semaines. */
+const DECALAGE_GRILLE = { culture: 0, histoire: 1, actu: 2 };
+
+function motsCroisesBlock(idx, theme) {
+  const L = MOTS_CROISES.length;
+  const pos = (((idx + (DECALAGE_GRILLE[theme] || 0)) % L) + L) % L;
+  const g = MOTS_CROISES[pos];
   const occ = {}, nums = {}; let n = 0;
   const defs = { H: [], V: [] };
   g.mots.forEach(m => {
@@ -1390,7 +1424,7 @@ function motsCroisesBlock(idx) {
      et ça empêche l'œil de la lire avant d'avoir cherché.
      Le numéro précédent de CE thème est idx-1 (chaque thème a son propre
      compteur dans KV), donc sa grille est MOTS_CROISES[(idx-1) % longueur]. */
-  const precedente = idx > 0 ? MOTS_CROISES[(idx - 1) % MOTS_CROISES.length] : null;
+  const precedente = idx > 0 ? MOTS_CROISES[((pos - 1) % L + L) % L] : null;
   const rappelSolution = precedente ? `
         <tr><td style="padding:12px 32px 0">
           <p style="margin:0;font-size:12px;line-height:1.7;color:#8FA5BE">
@@ -1499,7 +1533,7 @@ function livretBlock() {
 // ── Gabarit des numéros de newsletter ─────────────────────────────────────────
 // Distinct d'emailLayout() à dessein : un e-mail transactionnel (clé de licence,
 // résiliation) ne doit surtout pas embarquer des mots croisés et deux promos.
-function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null, bodyHtml = '', noteHtml = '', related = null, idx = 0, unsubUrl = null }) {
+function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null, bodyHtml = '', noteHtml = '', related = null, idx = 0, theme = '', unsubUrl = null }) {
   const heroBlock = hero ? (hero.image ? `
         <tr><td style="padding:0"><img src="${hero.image}" width="600" alt="${hero.sub || ''}" style="display:block;width:100%;max-width:600px;height:auto;border:0"/></td></tr>
         <tr><td style="background:${hero.bg};padding:16px 24px;text-align:center">
@@ -1556,7 +1590,7 @@ function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null
         ${noteBlock}
         ${relatedBlock}
         ${blogTrioBlock(idx)}
-        ${motsCroisesBlock(idx)}
+        ${motsCroisesBlock(idx, theme)}
         ${rejoindreBlock()}
         ${livretBlock()}
         ${emailFooter(unsubUrl)}
@@ -1699,11 +1733,20 @@ async function sendNewsletterGoodbyeEmail(email, env) {
 // Chaque thème a sa propre liste d'éditions. On tourne dans l'ordre (KV garde
 // l'index) puis on recommence au début — ajouter de nouvelles éditions ici à
 // tout moment (pas besoin de toucher au reste du code).
+//
+// Deux règles pour le champ `related.image` :
+//  1. toujours pointer vers img/email/*.jpg, JAMAIS vers le .webp du site.
+//     Outlook sur Windows n'affiche pas le WebP : l'image apparaît cassée.
+//     Les JPEG d'e-mail sont des copies en 600 px de large (voir img/email/).
+//  2. l'URL doit être absolue : un e-mail n'a pas de page d'origine.
+//
+// Le champ `date` (AAAA-MM-JJ) programme une édition pour un jour précis ;
+// sans lui, l'édition entre dans le fonds permanent qui tourne en boucle.
 const NEWSLETTER_CONTENT = {
   culture: [
     { subject: 'Le hanbok, bien plus qu\'un costume', hangeul: '한복', title: 'Le hanbok',
       hook: 'Un hanbok, ce n\'est jamais juste un vêtement — sous Joseon, c\'était presque une carte d\'identité brodée.',
-      related: { label: 'Suis Emma en hanbok à Gyeongbokgung, le grand palais de Séoul.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire29.html', image: 'https://koreanstories.fr/img/stories/histoire29.webp' }, html:
+      related: { label: 'Suis Emma en hanbok à Gyeongbokgung, le grand palais de Séoul.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire29.html', image: 'https://koreanstories.fr/img/email/histoire29.jpg' }, html:
       `<p>Le <strong>hanbok</strong> (한복) est le vêtement traditionnel coréen, porté aujourd'hui surtout lors des grandes occasions : Seollal (nouvel an lunaire), Chuseok, mariages.</p>
        <p>Il se compose pour les femmes d'un <strong>jeogori</strong> (veste courte) et d'une <strong>chima</strong> (jupe ample et haute), et pour les hommes d'un <strong>jeogori</strong> plus long porté avec un <strong>baji</strong> (pantalon bouffant). Les couleurs et motifs n'étaient pas choisis au hasard sous Joseon : elles indiquaient le rang social, l'âge ou le statut marital.</p>
        <p>Aujourd'hui, de nombreux jeunes Coréens louent un hanbok moderne pour visiter les palais de Séoul (comme Gyeongbokgung) — l'entrée y est même gratuite si tu en portes un !</p>
@@ -1717,7 +1760,7 @@ const NEWSLETTER_CONTENT = {
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>김치 주세요</strong> (gimchi juseyo) — « du kimchi, s'il vous plaît ».</p>` },
     { subject: 'Chuseok : Noël, Thanksgiving et un road-trip, en un seul week-end', hangeul: '추석', title: 'Chuseok',
       hook: 'Imagine Noël, Thanksgiving et un road-trip familial compressés en un seul week-end. Bienvenue à Chuseok.',
-      related: { label: 'Vis un vrai Chuseok à travers l\'histoire d\'une famille coréenne.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire27.html', image: 'https://koreanstories.fr/img/stories/histoire27.webp' }, html:
+      related: { label: 'Vis un vrai Chuseok à travers l\'histoire d\'une famille coréenne.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire27.html', image: 'https://koreanstories.fr/img/email/histoire27.jpg' }, html:
       `<p><strong>Chuseok</strong> (추석), parfois appelé « Thanksgiving coréen », est l'une des deux plus grandes fêtes du pays avec le nouvel an lunaire. Elle a lieu au 15e jour du 8e mois lunaire, généralement en septembre.</p>
        <p>Les familles se rassemblent, souvent après de longs trajets (les embouteillages de Chuseok sont légendaires en Corée), pour honorer les ancêtres lors d'un rite appelé <strong>charye</strong> (차례) et partager un repas de fête.</p>
        <p>Le plat emblématique est le <strong>songpyeon</strong> (송편), un petit gâteau de riz gluant en forme de demi-lune, fourré de sésame, haricots ou châtaignes, cuit à la vapeur sur des aiguilles de pin.</p>
@@ -1738,7 +1781,7 @@ const NEWSLETTER_CONTENT = {
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>새해 복 많이 받으세요</strong> (saehae bok mani badeuseyo) — « bonne année », la formule qu'on utilise précisément à Seollal.</p>` },
     { subject: 'Le jjimjilbang, ou comment les Coréens réinventent la détente', hangeul: '찜질방', title: 'Le jjimjilbang',
       hook: 'Un sauna, une salle de sieste collective et des œufs cuits à la vapeur, ouvert 24h/24 — bienvenue au jjimjilbang.',
-      related: { label: 'Suis Emma dans son premier jjimjilbang coréen.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire28.html', image: 'https://koreanstories.fr/img/stories/histoire28.webp' }, html:
+      related: { label: 'Suis Emma dans son premier jjimjilbang coréen.', cta: 'Lire l\'histoire', url: 'https://koreanstories.fr/histoire28.html', image: 'https://koreanstories.fr/img/email/histoire28.jpg' }, html:
       `<p>Le <strong>jjimjilbang</strong> (찜질방) est un établissement de bains publics et de sauna, immense institution du quotidien coréen. Zones de bains séparées par sexe, mais espaces communs (saunas, salle de repos, restauration) mixtes — ouverts jour et nuit.</p>
        <p>Le détail qui ne trompe pas : la fameuse serviette pliée en forme d'oreilles de mouton (<strong>양머리</strong>, yangmeori) que tout le monde porte sur la tête. On y trouve aussi des saunas à thème (sel, charbon, glace), et deux en-cas incontournables : l'œuf cuit à la vapeur et le <strong>sikhye</strong> (식혜), une boisson sucrée au riz.</p>
        <p>Beaucoup de Coréens y passent la nuit — moins cher qu'un hôtel, et un vrai moment de détente entre amis ou en famille, pas juste un lieu d'hygiène.</p>
@@ -1756,7 +1799,27 @@ const NEWSLETTER_CONTENT = {
       `<p>En Corée du Sud, le <strong>service militaire</strong> (군대, gundae) est obligatoire pour presque tous les hommes valides, en général entre 18 et 21 mois selon l'arme choisie — conséquence directe de l'armistice de 1953 avec la Corée du Nord, jamais suivi d'un traité de paix.</p>
        <p>Le sujet dépasse largement l'armée elle-même : plusieurs acteurs et membres de groupes de K-pop ont dû suspendre leur carrière le temps de leur service, un vrai événement médiatique à chaque fois. Il a aussi donné naissance à tout un folklore partagé, les <strong>군대 이야기</strong> (« histoires d'armée ») que tout homme coréen raconte (et enjolive) toute sa vie.</p>
        <p>Expression culte qui en découle : <strong>고무신 거꾸로 신다</strong> (gomusin geokkuro sinda), « porter ses chaussons en caoutchouc à l'envers » — désigne une compagne qui rompt unilatéralement pendant le service de son copain.</p>
-       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>말년</strong> (mallyeon) — la dernière ligne droite du service, réputée la période la plus détendue.</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>말년</strong> (mallyeon) — la dernière ligne droite du service, réputée la période la plus détendue.</p>` },
+
+    /* ── Éditions DATÉES (quinzaine du 13 au 29 août 2026) ──────────────────
+       Une édition qui porte un champ `date` part uniquement ce jour-là, et ne
+       tourne PAS dans le fonds permanent : « samedi », « la semaine dernière »
+       n'ont de sens qu'à la date prévue. Voir sendNewsletterEdition(). */
+    { date: '2026-08-18', subject: 'En Corée, un bébé né le 31 décembre avait deux ans le lendemain', hangeul: '나이', title: 'L\'âge coréen',
+      hook: 'La Corée a officiellement changé de façon de compter les âges en 2023. Officiellement.',
+      related: { label: 'Les trois âges coréens, la loi de 2023, et comment calculer le tien — sur le blog.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-age-coreen-explique.html', image: null }, html:
+      `<p>Jusqu'à récemment, un Coréen pouvait avoir trois âges en même temps. Le <strong>세는 나이</strong> (l'âge « compté ») : on naît à 1 an, et tout le monde prend une année ensemble le 1er janvier. Le <strong>연 나이</strong> (l'âge « d'année ») : année en cours moins année de naissance. Et le <strong>만 나이</strong>, l'âge international, celui qui change le jour de ton anniversaire.</p>
+       <p>D'où l'anomalie la plus citée : un bébé né le 31 décembre naissait à 1 an et passait à 2 ans le lendemain matin. Le 28 juin 2023, une loi a fait du 만 나이 la référence officielle dans tous les documents administratifs et juridiques.</p>
+       <p>Sauf que la vie quotidienne ne se réforme pas par décret. L'entrée à l'école, le service militaire, l'achat d'alcool et de tabac suivent toujours l'année de naissance — et dans une conversation, beaucoup de Coréens continuent de donner leur âge « compté ». C'est pour ça qu'on te demandera ton âge très tôt : ce n'est pas de l'indiscrétion, c'est ce qui décide de la façon dont on va te parler.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>몇 살이에요?</strong> (myeot sarieyo) — « quel âge as-tu ? ». La question qui arrive dans les cinq premières minutes.</p>` },
+
+    { date: '2026-08-25', subject: 'Pourquoi les Coréens ne s\'appellent presque jamais par leur prénom', hangeul: '오빠', title: 'Oppa, unnie, hyung, noona',
+      hook: 'La semaine dernière, on comptait les âges. Cette semaine, on regarde ce que les Coréens en font.',
+      related: { label: 'Les quatre titres, leurs pièges, et ce qu\'ils disent de la société coréenne — sur le blog.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-oppa-unnie-hyung-noona.html', image: null }, html:
+      `<p>En coréen, appeler un aîné par son seul prénom est presque impensable. On utilise un titre, et il dépend de deux choses : ton sexe et celui de la personne. Une femme dit <strong>오빠</strong> à un homme plus âgé et <strong>언니</strong> à une femme plus âgée. Un homme dit <strong>형</strong> à un homme plus âgé et <strong>누나</strong> à une femme plus âgée. Quatre mots pour une seule situation française : « lui, il est plus vieux que moi ».</p>
+       <p>À l'origine, ces mots désignent des frères et sœurs — d'où le <strong>동생</strong> (le cadet) en face. Mais ils débordent largement la famille : entre amis, entre voisins, dans un groupe de K-pop. À l'école et au bureau, un autre couple prend le relais, <strong>선배</strong> et <strong>후배</strong>, l'ancien et le nouveau — qui ne dépend plus de l'âge mais de l'année d'arrivée.</p>
+       <p>Le piège classique pour les apprenants : une femme appelle aussi son copain ou son mari <strong>오빠</strong>. Le même mot veut dire « grand frère » ou « chéri » selon le contexte. Et c'est exactement pour ça que la question de l'âge tombe si vite dans une première conversation : sans la réponse, personne ne sait comment s'adresser à l'autre.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>언니</strong> (eonni) — en Corée, on l'emploie aussi pour s'adresser à une vendeuse ou à une serveuse un peu plus âgée que soi.</p>` }
   ],
   histoire: [
     { subject: 'Le roi qui a inventé un alphabet pour que tout le monde sache lire', hangeul: '세종대왕', title: 'Le roi Sejong le Grand',
@@ -1807,26 +1870,51 @@ const NEWSLETTER_CONTENT = {
       `<p><strong>Gyeongju</strong> (경주) fut la capitale du royaume de <strong>Silla</strong> (신라) pendant près de mille ans, de 57 av. J.-C. jusqu'à sa chute en 935 apr. J.-C. — l'un des Trois Royaumes qui se partageaient autrefois la péninsule coréenne.</p>
        <p>Les Coréens la surnomment <strong>지붕 없는 박물관</strong> (jibung eomneun bangmulgwan), « le musée sans toit » : les vestiges archéologiques (temples, tombeaux royaux, observatoire) y sont si nombreux qu'on en croise à ciel ouvert, en pleine ville, sans qu'aucun bâtiment de musée ne les encadre.</p>
        <p>Parmi les incontournables : les temples <strong>Bulguksa</strong> et <strong>Seokguram</strong> (classés UNESCO, entrée gratuite depuis 2023), les tumulus royaux de <strong>Daereungwon</strong>, et le bassin de <strong>Donggung Wolji</strong> — l'un des plus beaux reflets nocturnes du pays, pavillons illuminés doublés dans l'eau.</p>
-       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>지붕 없는 박물관</strong> (jibung eomneun bangmulgwan) — le surnom de Gyeongju, « le musée sans toit ».</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>지붕 없는 박물관</strong> (jibung eomneun bangmulgwan) — le surnom de Gyeongju, « le musée sans toit ».</p>` },
+
+    /* ── Éditions DATÉES (quinzaine du 13 au 29 août 2026) ────────────────── */
+    { date: '2026-08-13', subject: 'Samedi, la Corée fête le jour où elle a récupéré son nom', hangeul: '광복절', title: 'Gwangbokjeol, le 15 août coréen',
+      hook: 'Le 15 août 1945 à midi, une voix inconnue sort des radios : l\'empereur du Japon annonce la capitulation. Trente-cinq ans de colonisation s\'arrêtent là.',
+      related: { label: 'Ce que la libération a déclenché dans les semaines suivantes : la frontière la plus fermée du monde.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-dmz-frontiere-corees.html', image: null }, html:
+      `<p>Le <strong>광복절</strong> (gwangbokjeol) est le jour férié le plus chargé de sens du calendrier coréen. Son nom se lit en trois idées : 광 (la lumière), 복 (le retour), 절 (la fête) — « le jour où la lumière est revenue ».</p>
+       <p>Ce que la Corée récupère ce jour-là dépasse largement un territoire. Pendant la colonisation japonaise (1910-1945), l'enseignement du coréen est progressivement écarté des écoles, les grands journaux en coréen sont fermés, et les familles sont poussées à adopter un nom japonais. Une société savante travaillait en secret au premier grand dictionnaire de la langue : ses membres sont arrêtés en 1942, le manuscrit disparaît — et ne réapparaît qu'en 1945, dans un entrepôt de la gare de Séoul.</p>
+       <p>Détail que peu de gens connaissent : le 15 août porte deux anniversaires. En 1945, la libération ; en 1948, jour pour jour, la proclamation de la République de Corée. C'est aussi l'un des très rares jours fériés célébrés des deux côtés de la frontière — au Nord, il s'appelle « le jour de la libération de la patrie ».</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>태극기</strong> (taegeukgi) — le drapeau coréen, que les familles accrochent à leur fenêtre ce jour-là.</p>` },
+
+    { date: '2026-08-20', subject: 'Le grand palais de Séoul a été détruit deux fois — et le chantier n\'est pas fini', hangeul: '경복궁', title: 'Gyeongbokgung',
+      hook: 'Quand tu visites Gyeongbokgung aujourd\'hui, tu regardes un chantier commencé il y a plus de trente ans, et prévu pour durer encore vingt.',
+      related: { label: 'Emma visite le palais royal en hanbok — la BD, avec audio et traduction.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire29-bd.html', image: 'https://koreanstories.fr/img/email/histoire29.jpg' }, html:
+      `<p><strong>경복궁</strong> (Gyeongbokgung, « le palais du bonheur resplendissant ») sort de terre en 1395, trois ans après la fondation de la dynastie Joseon. C'est le palais principal du royaume : le centre politique du pays.</p>
+       <p>Il brûle en 1592, pendant l'invasion japonaise. Et là commence l'anomalie : au lieu d'être relevé, il reste en ruines pendant près de trois siècles. Il faut attendre les années 1860 et la volonté d'un régent, le Daewongun, pour qu'on le reconstruise — un chantier si colossal qu'il vide les caisses de l'État.</p>
+       <p>Quarante ans plus tard, la colonisation japonaise le démonte presque entièrement et fait bâtir juste devant l'immense bâtiment du Gouvernement général, qui masque le palais depuis la rue. Ce bâtiment-là n'a été démoli qu'en 1995. Depuis, la Corée reconstruit, pavillon par pavillon, sur plans anciens : la porte principale, <strong>광화문</strong>, a retrouvé son bois et son emplacement d'origine en 2010.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>궁</strong> (gung) — « palais ». Tu le retrouves dans les cinq palais de Séoul : 경복궁, 창덕궁, 창경궁, 덕수궁, 경희궁.</p>` },
+
+    { date: '2026-08-27', subject: 'En 1998, des millions de Coréens ont donné leur or à l\'État', hangeul: '기적', title: 'Le miracle du fleuve Han',
+      hook: 'Le « miracle du fleuve Han » a un nom de conte de fées. Dans les faits, c\'est l\'histoire d\'un pays qui a vidé ses tiroirs.',
+      related: { label: 'Le miracle du Han raconté en coréen, en lecture guidée niveau B1.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/lect-b1-1.html', image: null }, html:
+      `<p><strong>한강의 기적</strong> (hangang-ui gijeok), « le miracle du fleuve Han », désigne la transformation économique de la Corée du Sud entre les années 1960 et 1990. Au début des années 1960, le revenu annuel par habitant y était inférieur à cent dollars : un pays sorti de la guerre, sans ressources et sans industrie. Il dépasse aujourd'hui les trente mille dollars.</p>
+       <p>Deux dates disent l'ampleur du basculement. En 1996, la Corée du Sud entre à l'OCDE. En 2010, elle devient le premier pays de l'histoire à passer du statut de bénéficiaire de l'aide internationale à celui de pays donateur.</p>
+       <p>Et puis il y a 1997. La crise financière asiatique frappe, le pays doit être renfloué par le FMI, et il se passe alors quelque chose de difficile à imaginer ailleurs : une campagne nationale invite les Coréens à donner leur or personnel — alliances, médailles, bagues de bébé — pour rembourser la dette. Plus de trois millions de personnes y participent, et environ 227 tonnes d'or sont collectées.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>기적</strong> (gijeok) — « miracle ». Le même fleuve qu'il y a deux semaines, une tout autre histoire.</p>` }
   ],
   actu: [
     { subject: 'La Hallyu : comment la Corée a conquis le monde', hangeul: '한류', title: 'La vague coréenne',
       hook: 'En 1997, la Corée du Sud était en pleine crise financière. 25 ans plus tard, elle exporte sa culture dans le monde entier. Comment ?',
-      related: { label: 'Un vrai article de presse coréen sur la Hallyu, expliqué et traduit.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/presse7.html', image: 'https://koreanstories.fr/img/press/presse7.webp' }, html:
+      related: { label: 'Un vrai article de presse coréen sur la Hallyu, expliqué et traduit.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/presse7.html', image: 'https://koreanstories.fr/img/email/presse7.jpg' }, html:
       `<p>La <strong>Hallyu</strong> (한류, « vague coréenne ») désigne l'essor mondial de la culture populaire sud-coréenne depuis la fin des années 1990 : d'abord les dramas dans le reste de l'Asie, puis la K-pop et le cinéma à l'échelle planétaire (Parasite, Squid Game, BTS, BLACKPINK…).</p>
        <p>Ce succès s'appuie sur un vrai soutien de l'État coréen à ses industries culturelles depuis la crise financière de 1997, où le pays a fait le pari de la « soft power » comme relais de croissance.</p>
        <p>Résultat : la demande pour apprendre le coréen a explosé dans le monde entier ces dernières années — et si tu lis ceci, tu en fais sûrement partie !</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한류 팬이에요</strong> (hallyu paenieyo) — « je suis fan de la Hallyu ».</p>` },
     { subject: 'Pourquoi les Coréens adorent les cafés à thème', hangeul: '카페', title: 'La culture des cafés',
       hook: 'À Séoul, il existe littéralement un café pour chaque obsession possible. Toi aussi, tu as ta place quelque part.',
-      related: { label: 'Retrouve Mina dans un café coréen — en BD, avec audio et traduction.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire32-bd.html', image: 'https://koreanstories.fr/img/stories/histoire32.webp' }, html:
+      related: { label: 'Retrouve Mina dans un café coréen — en BD, avec audio et traduction.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire32-bd.html', image: 'https://koreanstories.fr/img/email/histoire32.jpg' }, html:
       `<p>La Corée du Sud compte l'une des plus fortes densités de cafés au monde, en particulier à Séoul. Mais au-delà du café lui-même, ce sont des lieux de vie : on y étudie, on y travaille, on y retrouve des amis pendant des heures.</p>
        <p>Le pays s'est aussi fait une spécialité des <strong>cafés à thème</strong> : cafés à chats ou à chiens, cafés Lego, cafés dédiés à un groupe de K-pop, cafés robots... Le décor devient souvent aussi important que la boisson, pensé pour être partagé sur les réseaux sociaux.</p>
        <p>C'est aussi le reflet d'une vraie compétition entre commerces : pour se démarquer, les cafés innovent sans cesse sur l'ambiance et le concept plutôt que sur le prix.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>카페에 가요</strong> (kapeae gayo) — « je vais au café ».</p>` },
     { subject: 'Les webtoons, la BD qui se lit sur ton téléphone', hangeul: '웹툰', title: 'Le phénomène webtoon',
       hook: 'Pas de pages à tourner, pas de format fixe : la BD coréenne a réinventé ses propres règles, pensées pour ton téléphone.',
-      related: { label: 'Lis un vrai webtoon coréen, en lecture guidée avec vocabulaire expliqué.', cta: 'Lecture guidée', url: 'https://koreanstories.fr/histoire22.html', image: 'https://koreanstories.fr/img/stories/histoire22.webp' }, html:
+      related: { label: 'Lis un vrai webtoon coréen, en lecture guidée avec vocabulaire expliqué.', cta: 'Lecture guidée', url: 'https://koreanstories.fr/histoire22.html', image: 'https://koreanstories.fr/img/email/histoire22.jpg' }, html:
       `<p>Le <strong>webtoon</strong> (웹툰) est un format de bande dessinée numérique né en Corée dans les années 2000 : lecture verticale, en scrollant sur le téléphone, souvent en couleur et parfois animée — pensé dès le départ pour le mobile plutôt qu'adapté du papier.</p>
        <p>Des plateformes comme Naver Webtoon ou Kakao Webtoon publient des milliers de séries, beaucoup gratuites (avec un système d'épisodes en avance-première payants), couvrant tous les genres : romance, fantasy, thriller, tranche de vie.</p>
        <p>De nombreux dramas et films à succès (comme <em>Sweet Home</em> ou <em>The Uncanny Counter</em>) sont aujourd'hui adaptés de webtoons — un vrai pilier de l'industrie culturelle coréenne.</p>
@@ -1851,7 +1939,32 @@ const NEWSLETTER_CONTENT = {
       `<p>Le <strong>konglish</strong> (콩글리시, contraction de 한국 « Corée » et « English ») désigne des mots empruntés à l'anglais, mais utilisés en coréen avec un sens différent — ou carrément inventés.</p>
        <p>Exemples : <strong>핸드폰</strong> (haendeu-pon, « hand phone ») pour téléphone portable, <strong>서비스</strong> (seobiseu, « service ») pour un petit cadeau offert par un commerce (pas le service client !), ou <strong>아이쇼핑</strong> (ai-syoping, « eye shopping ») pour le lèche-vitrines.</p>
        <p>Ce ne sont pas des erreurs : c'est une vraie composante créative du coréen parlé moderne — et de quoi surprendre un anglophone la première fois qu'il les entend.</p>
-       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>화이팅!</strong> (hwaiting, de « fighting ») — un encouragement, pas une bagarre !</p>` }
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>화이팅!</strong> (hwaiting, de « fighting ») — un encouragement, pas une bagarre !</p>` },
+
+    /* ── Éditions DATÉES (quinzaine du 13 au 29 août 2026) ────────────────── */
+    { date: '2026-08-15', subject: 'La plus grande terrasse de Séoul est gratuite et fait 41 km de long', hangeul: '한강', title: 'Le fleuve Han, l\'été',
+      hook: 'À Séoul, l\'été, le rendez-vous du samedi soir n\'est ni un bar ni un restaurant : c\'est une pelouse au bord du fleuve.',
+      related: { label: 'Tente, photos et ramyeon de minuit au bord du Han — la BD niveau B1, avec audio.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire38-bd.html', image: 'https://koreanstories.fr/img/email/histoire38.jpg' }, html:
+      `<p>Le <strong>한강</strong> (hangang) traverse Séoul sur une quarantaine de kilomètres, et la ville a transformé ses deux berges en une douzaine de parcs publics ouverts à tous. L'été, quand la chaleur et l'humidité rendent la journée pénible, tout se déplace au soir : on loue une natte, on s'installe sur l'herbe, et on y reste.</p>
+       <p>Deux institutions rendent la chose typiquement coréenne. La première : les supérettes des parcs ont des machines à eau bouillante, faites pour cuire un <strong>라면</strong> sur place — le « ramyeon du Han » est un plat à part entière dans l'imaginaire local. La seconde : la livraison. On commande son poulet frit depuis la pelouse et on donne un repère au livreur (« près du troisième lampadaire »), qui traverse le parc pour venir jusqu'à la couverture.</p>
+       <p>Au coucher du soleil, le pont de Banpo se met à cracher de l'eau éclairée sur toute sa longueur — la plus longue fontaine sur pont du monde. C'est gratuit, ça dure une vingtaine de minutes, et ça se regarde assis dans l'herbe.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한강</strong> (hangang) — on l'explique le plus souvent comme « le grand fleuve », 한 valant ici « grand ».</p>` },
+
+    { date: '2026-08-22', subject: 'Le mot coréen qui est entré dans le dictionnaire anglais', hangeul: '먹방', title: 'Le mukbang',
+      hook: 'Deux syllabes, un mot qui n\'existait pas il y a quinze ans — et qui a fini dans l\'Oxford English Dictionary.',
+      related: { label: 'Pourquoi les Coréens filment leurs repas : l\'anecdote complète.', cta: 'Lire l\'anecdote', url: 'https://koreanstories.fr/anecdote17.html', image: null }, html:
+      `<p><strong>먹방</strong> (meokbang) est une contraction : 먹는 방송, « l'émission où l'on mange ». Le principe tient en une phrase — quelqu'un se filme en train de manger, face caméra, et des milliers de personnes regardent.</p>
+       <p>Le format naît vers 2009-2010 sur les plateformes de streaming coréennes, où les spectateurs peuvent envoyer de l'argent en direct. L'explication la plus souvent avancée est sociale : la Corée compte de plus en plus de foyers d'une seule personne, et le repas, qui est un moment collectif dans la culture coréenne, se retrouve pris seul. Le mukbang remet quelqu'un en face.</p>
+       <p>Le mot a voyagé tel quel : « mukbang » est entré dans l'Oxford English Dictionary en 2021, sans traduction. Le format a même créé ses dérivés — le <strong>쿡방</strong> (l'émission où l'on cuisine), et les versions ASMR où le son compte plus que la nourriture.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>방송</strong> (bangsong) — « émission, diffusion ». C'est le 방 que tu retrouves dans 먹방.</p>` },
+
+    { date: '2026-08-29', subject: 'En Corée, le meilleur repas chaud à 3 € est vendu dans une supérette', hangeul: '편의점', title: 'Le pyeonuijeom',
+      hook: 'Un repas chaud, un colis à récupérer, une carte de transport rechargée et un café : la même boutique, à trois heures du matin.',
+      related: { label: 'Mina et Joon à la supérette à 23 h — la BD niveau A1, avec audio et traduction.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire5-bd.html', image: 'https://koreanstories.fr/img/email/histoire5.jpg' }, html:
+      `<p>Le <strong>편의점</strong> (pyeonuijeom) est la supérette de quartier coréenne, et la Corée du Sud en compte plus de cinquante mille — l'une des densités les plus fortes au monde. Dans certains quartiers de Séoul, tu en croises trois en marchant cinq minutes.</p>
+       <p>La différence avec une supérette française tient à ce qu'on peut y faire. On y mange sur place : un <strong>도시락</strong> (plateau-repas complet) passé au micro-ondes, un triangle de riz à l'algue, des nouilles cuites à la machine à eau bouillante, le tout à un comptoir face à la vitrine. Et on y règle sa vie pratique : retirer un colis, recharger sa carte de transport, envoyer un bagage, retirer de l'argent.</p>
+       <p>Reste le sport national du lieu : les promotions <strong>1+1</strong> et <strong>2+1</strong>, affichées partout, qui font qu'on ressort systématiquement avec une boisson de plus que prévu. La première supérette 24 h/24 du pays a ouvert à Séoul en 1989 ; il y en a aujourd'hui dans à peu près chaque rue.</p>
+       <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>도시락</strong> (dosirak) — le plateau-repas. Celui de la supérette est un vrai repas, pas un dépannage.</p>` }
   ]
 };
 
@@ -1865,17 +1978,30 @@ const THEME_META = {
 // ── Envoi hebdomadaire d'une édition (culture / histoire / actu) ─────────────
 // testRecipient : si fourni, envoie uniquement à cette adresse (test manuel)
 // et n'avance PAS la rotation d'éditions partagée avec les envois réels.
-async function sendNewsletterEdition(theme, env, testRecipient = null) {
+async function sendNewsletterEdition(theme, env, testRecipient = null, dateForcee = null) {
   const editions = NEWSLETTER_CONTENT[theme];
   if (!editions || !editions.length) { console.log('[KS] aucune édition pour le thème', theme); return; }
 
   const idxKey = `nl_idx:${theme}`;
   const idx = parseInt(await env.KS_LICENSES.get(idxKey) || '0', 10) || 0;
-  const edition = editions[idx % editions.length];
+
+  /* Deux façons de choisir l'édition du jour :
+     — une édition PROGRAMMÉE (champ `date`) prime, et ne part que ce jour-là ;
+     — sinon on pioche dans le fonds permanent (les éditions SANS date), qui
+       tourne en boucle grâce au compteur KV.
+     Les crons Cloudflare tournent en UTC : on compare donc la date en UTC.
+     Le compteur avance dans les deux cas — c'est lui qui fait tourner les mots
+     croisés et le trio d'articles, et qui garantit que la solution de la grille
+     arrive bien dans l'édition SUIVANTE (demande de Stella, 2026-08-12). */
+  const aujourdhui = dateForcee || new Date().toISOString().slice(0, 10);
+  const fonds = editions.filter(e => !e.date);
+  const edition = editions.find(e => e.date === aujourdhui) ||
+                  (fonds.length ? fonds[idx % fonds.length] : null);
+  if (!edition) { console.log('[KS] aucune édition jouable pour le thème', theme); return; }
   if (!testRecipient) await env.KS_LICENSES.put(idxKey, String(idx + 1));
 
   const contacts = testRecipient ? [{ email: testRecipient }] : await listActiveContacts(env);
-  console.log(`[KS] newsletter ${theme} · édition ${idx % editions.length} · ${contacts.length} destinataires${testRecipient ? ' (test)' : ''}`);
+  console.log(`[KS] newsletter ${theme} · ${edition.date ? 'programmée ' + edition.date : 'fonds #' + (idx % fonds.length)} · ${contacts.length} destinataires${testRecipient ? ' (test)' : ''}`);
 
   // La dernière ligne de chaque édition (mot du jour / anecdote) est mise en
   // avant dans une carte « À retenir » façon fiche de vocabulaire, plutôt que
@@ -1895,7 +2021,7 @@ async function sendNewsletterEdition(theme, env, testRecipient = null) {
     // du corps est partagé et calculé une seule fois au-dessus de la boucle.
     const greeting = `<p style="font-weight:700;margin:0 0 10px">Salut${contact.first_name ? ' ' + contact.first_name : ''} !</p>`;
     const html = newsletterLayout({
-      idx,
+      idx, theme,
       preheader: edition.title,
       title: edition.subject,
       kicker: `Korean Stories · ${meta.label}`,
