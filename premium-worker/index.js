@@ -203,7 +203,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-12.3 (quinzaine + invitation Discord permanente)\n' +
+      'Korean Stories Premium API — v2026-08-12.4 (5 fiches Hangeul ouvertes a tous)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -673,6 +673,25 @@ async function servePdfFromR2(env, request, file) {
 // ks-pdf-content.js va chercher ce fragment ICI, après vérification de
 // licence, avant de l'injecter dans le DOM. Remplace l'ancien ks-pdf-gate.js
 // (overlay purement visuel, contournable via "Voir le code source").
+/* ── Fiches ouvertes a tout le monde (2026-08-12) ──────────────────────────
+   Decision de Stella, deleguee : ces cinq-la enseignent a LIRE le coreen.
+   Elles ne sont achetees par personne — on n'achete pas un abonnement pour
+   un tableau d'alphabet — mais ce sont exactement les documents qu'un
+   debutant cherche sur Google (« alphabet coreen a imprimer »), qu'il
+   partage et qu'il garde. Les laisser derriere la licence ne rapportait
+   rien et coutait la seule chose qui manque au site : des visiteurs.
+
+   La profondeur reste payante : vocabulaire et grammaire par niveau,
+   TOPIK, argot, business — 30 fiches.
+
+   ⚠️ Cette liste doit rester identique a PDF_LIBRES dans
+   pdf/ks-pdf-content.js, sinon la page demande une cle que le worker ne
+   reclame plus (ou l'inverse). */
+const PDF_LIBRES = {
+  'hangeul-chart': 1, 'hangeul-mnemo': 1, 'hangeul-exercices': 1,
+  'prononc-hangeul': 1, 'clavier-coreen': 1
+};
+
 async function handlePdfPreview(request, env) {
   const url = new URL(request.url);
   const file = (url.searchParams.get('file') || '').trim();
@@ -681,10 +700,27 @@ async function handlePdfPreview(request, env) {
   if (!/^[a-z0-9-]{1,60}$/.test(file)) {
     return corsResponse('Fichier invalide', 400);
   }
-  if (!key) return corsResponse('Clé manquante', 401);
+  const libre = !!PDF_LIBRES[file];
+  if (!key && !libre) return corsResponse('Clé manquante', 401);
 
   if (await rateLimited(request, env, 'pdfpreview', 60, 3600)) {
     return corsResponse('Trop de requêtes, réessaie dans un moment.', 429);
+  }
+
+  if (libre) {
+    const libreHtml = await env.KS_LICENSES.get('pdfpage:' + file, { type: 'text' });
+    if (!libreHtml) return corsResponse('Page introuvable', 404);
+    return new Response(libreHtml, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        /* Publique : on laisse le cache travailler, contrairement au
+           'private, no-store' des fiches sous licence. */
+        'Cache-Control': 'public, max-age=3600',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': CORS_ALLOW_HEADERS
+      }
+    });
   }
 
   const data = await env.KS_LICENSES.get(key, { type: 'json' });

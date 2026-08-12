@@ -61,6 +61,15 @@
        ramene vers le parcours. La fermer la viderait de son unique raison
        d'exister : accueillir des inconnus. */
     'age-coreen.html': 1,
+    /* Ouvertes le 2026-08-12. ressources.html est la vitrine des 35 fiches :
+       la garder fermee revenait a cacher le catalogue a ceux qui pourraient
+       l'acheter. Les cinq fiches Hangeul, elles, sont entierement gratuites
+       (voir PDF_LIBRES dans le worker) : ce sont des portes d'entree, pas
+       des avantages. Les 30 autres restent verrouillees cote serveur, cette
+       liste ne change rien pour elles. */
+    'ressources.html': 1,
+    'hangeul-chart.html': 1, 'hangeul-mnemo.html': 1, 'hangeul-exercices.html': 1,
+    'prononc-hangeul.html': 1, 'clavier-coreen.html': 1,
     'avis.html': 1, 'a-propos.html': 1, 'aide.html': 1,
     'mentions-legales.html': 1, 'cgv.html': 1, 'confidentialite.html': 1,
     '404.html': 1, 'reset.html': 1

@@ -53,11 +53,22 @@
     var key = null;
     try { key = localStorage.getItem('ks_premium_key'); } catch (e) {}
 
-    if (!file || !key) { showLocked(mount); return; }
+    /* ⚠️ Doit rester identique a PDF_LIBRES dans premium-worker/index.js.
+       Ces cinq fiches apprennent a lire le hangeul : ouvertes a tous, sans
+       compte et sans licence, parce qu'elles servent a faire entrer les
+       gens, pas a les faire payer. Le worker applique la meme regle de son
+       cote — c'est lui qui decide, pas cette liste-ci. */
+    var LIBRES = {
+      'hangeul-chart': 1, 'hangeul-mnemo': 1, 'hangeul-exercices': 1,
+      'prononc-hangeul': 1, 'clavier-coreen': 1
+    };
+    var libre = !!LIBRES[file];
+
+    if (!file || (!key && !libre)) { showLocked(mount); return; }
 
     showLoading(mount);
     fetch(WORKER + '?file=' + encodeURIComponent(file), {
-      headers: { 'X-License-Key': key }
+      headers: key ? { 'X-License-Key': key } : {}
     }).then(function (r) {
       if (!r.ok) throw new Error('denied');
       return r.text();
