@@ -141,8 +141,16 @@
     return '<div class="ks-nlp-modal" role="dialog" aria-modal="true" aria-labelledby="nlpTitle">' +
       '<button class="ks-nlp-close" type="button" aria-label="Fermer">&times;</button>' +
       '<div class="ks-nlp-emblem"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg></div>' +
-      '<h2 class="ks-nlp-title" id="nlpTitle">Un peu de Corée, <em>chaque semaine</em></h2>' +
-      '<p class="ks-nlp-sub">Culture, histoire et tendances coréennes dans ta boîte mail — un e-mail par semaine écrit par notre équipe. Jamais de spam.</p>' +
+      /* ⚠️ Cette promesse doit correspondre a CRON_THEME dans
+         premium-worker/index.js. Elle annoncait « un e-mail par semaine »
+         alors que trois partent reellement (mardi/jeudi/samedi, a tous les
+         contacts sans distinction de theme) : un abonne recevait le triple
+         de ce qu'on lui avait promis, ce qui se paie en desinscriptions et
+         en plaintes pour spam. Corrige le 2026-08-12.
+         « ecrit par notre equipe » est tombe au passage : Korean Stories,
+         c'est une personne. */
+      '<h2 class="ks-nlp-title" id="nlpTitle">Un peu de Corée, <em>trois fois par semaine</em></h2>' +
+      '<p class="ks-nlp-sub">Culture le mardi, histoire le jeudi, tendances le samedi. Trois e-mails courts, avec des mots croisés coréens dans chaque numéro. Jamais de spam.</p>' +
       '<form class="ks-nlp-form" id="nlpForm" novalidate>' +
         '<input type="email" id="nlpEmail" placeholder="Ton e-mail" aria-label="Ton e-mail" autocomplete="email" required>' +
         '<button type="submit" class="ks-nlp-submit" id="nlpBtn">Je m\'inscris</button>' +
