@@ -54,6 +54,13 @@ const PRICE_LIFETIME = 'price_1TlkwTPab8Hr1KXaM5WwjXWX';
 const PAYMENT_LINK_BOOKLET_A1 = 'plink_1Ttj9fPab8Hr1KXarL7fCXzB'; // https://buy.stripe.com/fZu14p8NF1gZfT178ce7m02
 const PRICE_BOOKLET_A1        = 'price_1Ttj8pPab8Hr1KXau35oN3EK'; // le tarif 5€ derrière ce Payment Link
 
+// Livret A2 (2026-08-13). Meme modele : 5 EUR, paiement unique, hors abonnement.
+// Le PRIX sert de filet quand la metadonnee manque — les deux livrets coutent
+// 5 EUR, donc le montant seul ne permet plus de les distinguer depuis qu'ils
+// sont deux. La metadonnee `product` reste le chemin normal.
+const PRODUCT_BOOKLET_A2      = 'prod_V3zsxjIyTYyx6c';
+const PRICE_BOOKLET_A2        = 'price_1U3rtBPab8Hr1KXa0NTRd2JM';
+
 // Tous les envois déclenchés via /newsletter/test-send partent vers cette
 // adresse (jamais vers la vraie liste de contacts) — c'est un destinataire
 // de test, pas un secret, donc pas besoin de variable d'environnement.
@@ -203,7 +210,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-12.4 (5 fiches Hangeul ouvertes a tous)\n' +
+      'Korean Stories Premium API — v2026-08-13.1 (Livret A2 : licence, Drive, cumul A1+A2)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -423,8 +430,21 @@ async function handleLinkLicense(request, env) {
 // 'booklet-a1' (achat unique du Livret A1 seul, hors Premium) ne donne accès
 // QU'à ce livret — sans ce garde-fou, une clé à 5€ pourrait télécharger les
 // 35+ autres fiches Premium via /pdf?file=<autre-fiche>.
+/* Quels livrets une licence ouvre.
+   Les cles emises avant le 2026-08-13 portent type:'booklet-a1' et aucun
+   champ `booklets` : on les lit comme ['a1']. Sans cette compatibilite, les
+   acheteurs du Livret A1 perdraient leur acces du jour au lendemain. */
+function bookletsOf(license) {
+  if (Array.isArray(license.booklets)) return license.booklets;
+  if (license.type === 'booklet-a1') return ['a1'];
+  return [];
+}
+
 function canAccessFile(license, file) {
-  if (license.type === 'booklet-a1') return file === 'livret-a1';
+  if (String(license.type || '').indexOf('booklet') === 0) {
+    const m = /^livret-(a1|a2)$/.exec(file);
+    return !!m && bookletsOf(license).indexOf(m[1]) !== -1;
+  }
   return true;
 }
 
@@ -522,7 +542,8 @@ async function handlePdfDownload(request, env) {
 // (DRIVE_LIVRET_A1), jamais dans ce fichier : ce dépôt est public sur GitHub,
 // l'écrire ici reviendrait à publier le lien qu'on cherche à protéger.
 async function servePdfFromDrive(env, request, file) {
-  if (file !== 'livret-a1') return null;
+  if (file !== 'livret-a1' && file !== 'livret-a2') return null;
+  const A2 = file === 'livret-a2';
 
   // Trois sources, et surtout : la valeur SE MÉMORISE TOUTE SEULE.
   //
@@ -535,8 +556,8 @@ async function servePdfFromDrive(env, request, file) {
   // Demander de la vigilance à chaque déploiement manuel n'est pas une
   // solution : dès qu'un identifiant est vu, on le range dans KV, qui survit
   // aux déploiements. Il suffit donc de le saisir UNE fois, jamais deux.
-  const MEMO = 'config:drive-livret-a1';
-  let id = env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1 || '';
+  const MEMO = A2 ? 'config:drive-livret-a2' : 'config:drive-livret-a1';
+  let id = (A2 ? env.DRIVE_LIVRET_A2 : (env.DRIVE_LIVRET_A1 || DRIVE_LIVRET_A1)) || '';
 
   if (id) {
     // Écriture seulement si la valeur a changé : inutile de solliciter KV
@@ -1028,7 +1049,8 @@ async function handleCheckout(session, env) {
   // Achat du Livret A1 seul (Payment Link distinct, 5€, hors abonnement) :
   // reconnu via la métadonnée `product=livret-a1` posée sur le Payment Link
   // Stripe (Stripe la reporte automatiquement sur la Checkout Session).
-  const bookletByMeta = session.metadata?.product === 'livret-a1';
+  const meta = session.metadata?.product;
+  const bookletByMeta = meta === 'livret-a1' || meta === 'livret-a2';
 
   // ⚠️ FILET DE SÉCURITÉ — NE PAS RETIRER.
   // Si cette métadonnée manque sur le Payment Link (oubli de configuration,
@@ -1052,13 +1074,20 @@ async function handleCheckout(session, env) {
                        && cents < LIFETIME_MIN_CENTS;
 
   if (bookletByMeta || bookletByAmount) {
-    if (!bookletByMeta) {
-      console.warn('[KS] Livret reconnu par le MONTANT (' + cents + ' centimes) et non par ' +
-        'la métadonnée : le Payment Link Stripe n\'a pas product=livret-a1. ' +
-        'À corriger dans le dashboard Stripe — sans ce filet, cet achat ' +
-        'aurait donné un accès à vie.');
+    /* QUEL livret ? Depuis qu'ils sont deux au meme prix, le montant ne les
+       distingue plus. Ordre : metadonnee (chemin normal) -> identifiant de
+       tarif lu sur la session -> A1 par defaut, en le criant dans les logs.
+       Se tromper de livret est silencieux pour nous et payant pour l'acheteur :
+       il regle 5 EUR et recoit le mauvais fichier. */
+    let niveau = bookletByMeta ? meta.slice(-2) : null;
+    if (!niveau) {
+      niveau = await bookletNiveauDepuisStripe(session, env) || 'a1';
+      console.warn('[KS] Livret reconnu SANS la métadonnée `product` (montant ' +
+        cents + ' centimes) — niveau retenu : ' + niveau + '. Le Payment Link ' +
+        'Stripe doit porter product=livret-a1 ou product=livret-a2. Sans ce ' +
+        'filet, cet achat aurait donné un accès à vie.');
     }
-    return handleBookletCheckout(session, email, env);
+    return handleBookletCheckout(session, email, env, niveau);
   }
 
   const isLifetime = session.mode === 'payment';
@@ -1106,7 +1135,26 @@ async function handleCheckout(session, env) {
 // jamais aux 35 autres fiches Premium. Si la personne a déjà une licence
 // monthly/lifetime, elle a déjà accès au livret : on ne crée rien de plus et on
 // le lui rappelle, plutôt que d'écraser sa licence existante par un downgrade.
-async function handleBookletCheckout(session, email, env) {
+/* Repli quand la metadonnee manque : on demande a Stripe les lignes de la
+   session et on reconnait le tarif. Un appel reseau de plus, mais seulement
+   dans ce cas anormal — et il evite de livrer le mauvais livret. */
+async function bookletNiveauDepuisStripe(session, env) {
+  try {
+    const r = await fetch('https://api.stripe.com/v1/checkout/sessions/' + session.id + '/line_items?limit=5', {
+      headers: { 'Authorization': 'Bearer ' + env.STRIPE_SECRET_KEY }
+    });
+    if (!r.ok) return null;
+    const d = await r.json();
+    for (const li of (d.data || [])) {
+      const price = li.price?.id;
+      if (price === PRICE_BOOKLET_A2) return 'a2';
+      if (price === PRICE_BOOKLET_A1) return 'a1';
+    }
+  } catch (e) { console.log('[KS] lecture des line_items impossible :', String(e)); }
+  return null;
+}
+
+async function handleBookletCheckout(session, email, env, niveau) {
   const existingKey = await env.KS_LICENSES.get(`email:${email}`);
   if (existingKey) {
     const data = await env.KS_LICENSES.get(existingKey, { type: 'json' });
@@ -1115,11 +1163,20 @@ async function handleBookletCheckout(session, email, env) {
         await sendBookletAlreadyPremiumEmail(email, env);
         return;
       }
-      // Déjà une clé 'booklet-a1' (rachat, ou changement d'e-mail) : idempotent.
+      /* Deja une cle livret. Deux cas tres differents :
+         — rachat du MEME livret : idempotent, on renvoie la cle.
+         — achat d'un AUTRE livret : il faut l'AJOUTER, sinon l'acheteur paie
+           5 EUR et recoit sa cle precedente, qui n'ouvre pas ce qu'il vient
+           d'acheter. C'est le cas le plus probable : quelqu'un qui a fini l'A1
+           est exactement la personne qui achete l'A2. */
+      const deja = bookletsOf(data);
+      if (deja.indexOf(niveau) === -1) deja.push(niveau);
+      data.booklets = deja;
+      data.type = 'booklet';           // le niveau vit dans `booklets`
       data.status = 'active';
       await env.KS_LICENSES.put(existingKey, JSON.stringify(data));
       if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, existingKey);
-      await sendBookletEmail(email, existingKey, env);
+      await sendBookletEmail(email, existingKey, env, niveau);
       return;
     }
   }
@@ -1127,7 +1184,8 @@ async function handleBookletCheckout(session, email, env) {
   const key = generateKey();
   await env.KS_LICENSES.put(key, JSON.stringify({
     email,
-    type: 'booklet-a1',
+    type: 'booklet',
+    booklets: [niveau],
     status: 'active',
     everCharged: true,
     createdAt: new Date().toISOString(),
@@ -1135,7 +1193,7 @@ async function handleBookletCheckout(session, email, env) {
   }));
   await env.KS_LICENSES.put(`email:${email}`, key);
   if (session.customer) await env.KS_LICENSES.put('cust:' + session.customer, key);
-  await sendBookletEmail(email, key, env);
+  await sendBookletEmail(email, key, env, niveau);
 }
 
 // ── Renouvellement mensuel ────────────────────────────────────────────────────
@@ -1661,9 +1719,10 @@ async function sendLicenseEmail(email, key, env) {
 }
 
 // ── Email de la clé Livret A1 (achat unique, hors Premium) ────────────────────
-async function sendBookletEmail(email, key, env) {
+async function sendBookletEmail(email, key, env, niveau) {
+  const LV = (niveau === 'a2') ? 'A2' : 'A1';
   const bodyHtml = `
-    <p>Merci pour ton achat — ton Livret A1 t'attend !</p>
+    <p>Merci pour ton achat — ton Livret ' + LV + ' t'attend !</p>
     <p style="margin-bottom:8px"><strong>Ta clé d'accès :</strong></p>
     <p style="font-size:22px;font-weight:bold;letter-spacing:6px;
               background:#FBF2E3;padding:16px 24px;border-radius:10px;
@@ -1677,9 +1736,9 @@ async function sendBookletEmail(email, key, env) {
     <p>Conserve cet email précieusement — ta clé est unique et personnelle.</p>
     <p style="font-size:13px;color:#475E78">Ce livret est réservé à ton usage personnel : merci de ne pas le partager ni le publier en ligne.</p>
   `;
-  const hero = { word: '📘', sub: 'Ton Livret A1 est prêt', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 48 };
-  const html = emailLayout({ preheader: 'Ton Livret A1 Korean Stories', title: 'Ton Livret A1', kicker: 'Korean Stories · Livret A1', hero, bodyHtml, ctaLabel: 'Télécharger mon livret', ctaUrl: 'https://koreanstories.fr/livret-a1.html' });
-  await sendEmail(email, '📘 Ton Livret A1 est prêt — Korean Stories', html, env);
+  const hero = { word: '📘', sub: 'Ton Livret ' + LV + ' est prêt', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 48 };
+  const html = emailLayout({ preheader: 'Ton Livret ' + LV + ' Korean Stories', title: 'Ton Livret ' + LV + '', kicker: 'Korean Stories · Livret ' + LV, hero, bodyHtml, ctaLabel: 'Télécharger mon livret', ctaUrl: 'https://koreanstories.fr/livret-a1.html' });
+  await sendEmail(email, '📘 Ton Livret ' + LV + ' est prêt — Korean Stories', html, env);
 }
 
 // ── Email si la personne a acheté le Livret A1 alors qu'elle a déjà Premium ───
@@ -1688,7 +1747,7 @@ async function sendBookletEmail(email, key, env) {
 // à confusion à côté de sa licence monthly/lifetime existante.
 async function sendBookletAlreadyPremiumEmail(email, env) {
   const bodyHtml = `
-    <p>Bonne nouvelle : ton compte a déjà accès au Premium Korean Stories, ce qui inclut le <strong>Livret A1</strong> gratuitement.</p>
+    <p>Bonne nouvelle : ton compte a déjà accès au Premium Korean Stories, ce qui inclut <strong>tous les livrets</strong> gratuitement.</p>
     <p>Aucune clé supplémentaire n'est nécessaire — utilise simplement ta clé Premium existante sur <strong>koreanstories.fr/livret-a1.html</strong> pour le télécharger.</p>
     <p style="font-size:13px;color:#475E78">On a annulé ce paiement en double de notre côté — si un remboursement est nécessaire, écris-nous à contact@koreanstories.fr.</p>
   `;
