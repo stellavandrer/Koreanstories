@@ -40,7 +40,7 @@
        premium.html, qui vend elle aussi, etait deja publique.
        Le TELECHARGEMENT reste protege : il se joue cote serveur (licence ou
        jeton verifie par le worker), pas sur cette porte-ci. */
-    'livret-a1.html': 1,
+    'livret-a1.html': 1, 'livret-a2.html': 1,
     /* Ouvertes aux visiteurs le 2026-08-07, sur decision de Stella.
        Ce sont les deux meilleures portes d'entree du site : on cherche
        « comment ecrire son prenom en coreen » ou un mot precis bien avant

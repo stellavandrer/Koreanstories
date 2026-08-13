@@ -210,7 +210,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-13.2 (livret identifie par le tarif Stripe)\n' +
+      'Korean Stories Premium API — v2026-08-13.3 (e-mail du livret : lien du BON niveau)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -1741,7 +1741,7 @@ async function sendBookletEmail(email, key, env, niveau) {
               text-align:center;color:#0F1B2D">${key}</p>
     <h3 style="color:#0F1B2D;margin-bottom:8px">Comment télécharger ton livret :</h3>
     <ol style="line-height:2;margin-top:0">
-      <li>Va sur <strong>koreanstories.fr/livret-a1.html</strong></li>
+      <li>Va sur <strong>koreanstories.fr/livret-' + LV.toLowerCase() + '.html</strong></li>
       <li>Colle ta clé dans le champ prévu</li>
       <li>Clique sur <strong>Télécharger le PDF</strong></li>
     </ol>
@@ -1749,7 +1749,7 @@ async function sendBookletEmail(email, key, env, niveau) {
     <p style="font-size:13px;color:#475E78">Ce livret est réservé à ton usage personnel : merci de ne pas le partager ni le publier en ligne.</p>
   `;
   const hero = { word: '📘', sub: 'Ton Livret ' + LV + ' est prêt', bg: 'linear-gradient(135deg,#B8924E,#CAA96E)', color: '#1a1208', fontSize: 48 };
-  const html = emailLayout({ preheader: 'Ton Livret ' + LV + ' Korean Stories', title: 'Ton Livret ' + LV + '', kicker: 'Korean Stories · Livret ' + LV, hero, bodyHtml, ctaLabel: 'Télécharger mon livret', ctaUrl: 'https://koreanstories.fr/livret-a1.html' });
+  const html = emailLayout({ preheader: 'Ton Livret ' + LV + ' Korean Stories', title: 'Ton Livret ' + LV + '', kicker: 'Korean Stories · Livret ' + LV, hero, bodyHtml, ctaLabel: 'Télécharger mon livret', ctaUrl: 'https://koreanstories.fr/livret-' + LV.toLowerCase() + '.html' });
   await sendEmail(email, '📘 Ton Livret ' + LV + ' est prêt — Korean Stories', html, env);
 }
 

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Le Livret A2 — 245 pages pour sortir du coréen de survie · Korean Stories</title>
+<meta name="description" content="Le Livret A2 : 245 pages, 16 chapitres, 4 bilans et plus de 200 exercices à remplir au crayon, corrigés inclus. Nuancer, promettre, supposer, comparer, raconter. Gratuit pour les Premium, 5 € à l'unité.">
+<link rel="canonical" href="https://koreanstories.fr/livret-a2.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Korean Stories">
+<meta property="og:title" content="Le Livret A2 — Korean Stories">
+<meta property="og:description" content="245 pages, 16 chapitres, 4 bilans : nuancer, promettre, supposer, comparer, raconter. Tout se remplit au crayon, corrigés inclus.">
+<meta property="og:url" content="https://koreanstories.fr/livret-a2.html">
+<meta property="og:image" content="https://koreanstories.fr/img/livret-a2-og.webp">
+<meta property="og:image:alt" content="Couverture du Livret A2 Korean Stories">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Le Livret A2 — Korean Stories">
+<meta name="twitter:description" content="245 pages, 16 chapitres, 4 bilans : nuancer, promettre, supposer, comparer, raconter. Tout se remplit au crayon, corrigés inclus.">
+<meta name="twitter:image" content="https://koreanstories.fr/img/livret-a2-og.webp">
+<link rel="stylesheet" href="design.css">
+<link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
+<style>
+  body{margin:0;background:var(--bg);color:var(--tx);font-family:'Segoe UI',system-ui,sans-serif}
+  .lv-wrap{max-width:600px;margin:0 auto}
+
+  /* ── HERO ── */
+  .lv-hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#0F1B2D 0%,#1b3a5c 100%);color:#fff;text-align:center;padding:48px 24px 40px;border-radius:0 0 28px 28px}
+  .lv-hero::before{content:"";position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:380px;height:380px;background:radial-gradient(circle,rgba(201,169,110,.34),transparent 62%);pointer-events:none}
+  .lv-hero>*{position:relative}
+  .lv-pill{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;letter-spacing:.04em;color:#e8d3a6;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.3);border-radius:100px;padding:5px 13px;margin-bottom:18px}
+  .lv-pill .dot{width:6px;height:6px;border-radius:50%;background:#C9A96E}
+  /* Visuel du livret. L'ancienne image etait une couverture a plat de 132px ;
+     le mockup fourni par Stella (2026-08-06) est un carre 1:1 avec le livre
+     tenu en main, qui merite d'etre vu. Coins tres arrondis pour qu'un carre
+     clair sur le degrade navy se lise comme une photo et non comme un bloc
+     blanc colle. */
+  .lv-cover{width:300px;max-width:78%;aspect-ratio:1/1;object-fit:cover;border-radius:22px;
+            box-shadow:0 22px 55px rgba(0,0,0,.45);margin:0 auto 20px;display:block}
+  @media(max-width:420px){.lv-cover{width:240px}}
+  .lv-hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,6vw,2.3rem);font-weight:800;margin:0 0 10px;line-height:1.15}
+  .lv-hero h1 em{color:#C9A96E;font-style:italic}
+  .lv-hero p{color:#c7d2e3;font-size:.95rem;max-width:36ch;margin:0 auto;line-height:1.6}
+  .lv-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin-top:16px}
+  .lv-meta span{font-size:.75rem;color:rgba(237,242,250,.5);font-weight:600}
+
+  /* ── MEMBRE PREMIUM ── */
+  .lv-member{max-width:560px;margin:26px auto 0;padding:0 20px}
+  .lv-member-card{border:1.5px solid rgba(201,169,110,.45);border-radius:22px;padding:26px 24px;text-align:center;background:linear-gradient(160deg,rgba(201,169,110,.10),rgba(201,169,110,.02))}
+  .lv-member-card h2{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:800;color:var(--navy);margin:0 0 8px}
+  [data-theme=dark] .lv-member-card h2{color:#f5e9d0}
+  .lv-member-card p{font-size:.88rem;color:var(--t2);line-height:1.55;margin:0 auto 18px;max-width:38ch}
+  .lv-status{display:inline-flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;color:#15803d;background:rgba(22,163,74,.12);border-radius:100px;padding:5px 14px;margin-bottom:14px}
+  .lv-status .dot{width:7px;height:7px;border-radius:50%;background:#16a34a}
+  .lv-dl-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:13px;font-size:.95rem;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#e0c48a,#C9A96E);color:#3a2c12;border:none;cursor:pointer;transition:.15s}
+  .lv-dl-btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+  .lv-dl-btn:disabled{opacity:.6;cursor:wait}
+  .lv-dl-btn svg{width:16px;height:16px}
+  .lv-dl-msg{font-size:.82rem;margin-top:10px;min-height:1.2em}
+  .lv-dl-msg.err{color:#dc2626}
+  .lv-dl-msg.ok{color:#16a34a;font-weight:600}
+
+  /* ── APERÇU DE L'INTÉRIEUR ──
+     Le meilleur argument de vente d'un livre, c'est le livre. La page
+     n'en montrait que la couverture : on demandait 5 € pour 280 pages
+     que personne ne pouvait ouvrir. Cinq vraies pages, extraites du PDF
+     vendu, chacune prouvant une chose differente (beaute, ecriture a la
+     main, dialogues, jeux, references). */
+  .lv-peek{padding:38px 0 0}
+  .lv-peek-in{max-width:560px;margin:0 auto;padding:0 20px}
+  .lv-peek h2{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:800;
+    color:var(--tx);margin:0 0 6px;text-align:center;line-height:1.25}
+  .lv-peek h2 em{color:#8B6B3D;font-style:italic}
+  [data-theme=dark] .lv-peek h2 em{color:#D5BA8A}
+  .lv-peek-lead{font-size:.88rem;color:var(--t2);text-align:center;line-height:1.55;
+    margin:0 auto 18px;max-width:34ch}
+  /* Bande defilante : on sort volontairement de la colonne de 560px pour
+     que les pages respirent et qu'on devine la suivante — c'est ce qui
+     donne envie de faire glisser. */
+  .lv-strip{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;padding:4px 20px 18px;margin:0 -20px;
+    scrollbar-width:none}
+  .lv-strip::-webkit-scrollbar{display:none}
+  .lv-shot{flex:0 0 auto;width:210px;scroll-snap-align:center;background:none;
+    border:none;padding:0;cursor:zoom-in;text-align:left;font-family:inherit}
+  .lv-shot img{width:100%;display:block;border-radius:12px;border:1px solid var(--bd);
+    box-shadow:0 8px 24px rgba(15,27,45,.16);background:#fff;transition:.18s}
+  .lv-shot:hover img{transform:translateY(-3px);box-shadow:0 14px 32px rgba(15,27,45,.24)}
+  .lv-shot figcaption{font-size:.76rem;line-height:1.45;color:var(--t2);margin-top:9px}
+  .lv-peek-hint{font-size:.74rem;color:var(--t3);text-align:center;margin:0}
+  @media(min-width:620px){.lv-shot{width:240px}}
+
+  /* Agrandissement : ces pages sont denses, un vignette de 210px ne suffit
+     pas a juger. Fermeture au clic, a Echap, ou sur le bouton. */
+  .lv-zoom{position:fixed;inset:0;z-index:9800;background:rgba(8,14,24,.88);
+    display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+  .lv-zoom.on{display:flex}
+  .lv-zoom img{max-width:100%;max-height:92vh;border-radius:8px;
+    box-shadow:0 24px 70px rgba(0,0,0,.6)}
+  .lv-zoom-x{position:absolute;top:16px;right:16px;width:40px;height:40px;border:none;
+    border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:22px;
+    line-height:1;cursor:pointer;font-family:inherit}
+  .lv-zoom-x:hover{background:rgba(255,255,255,.26)}
+
+  /* ── SOMMAIRE ── */
+  .lv-toc{max-width:560px;margin:0 auto;padding:40px 20px 0}
+  .lv-sec-lbl{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--t3);margin:0 0 16px;text-align:center}
+  .lv-toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media(max-width:460px){.lv-toc-grid{grid-template-columns:1fr}}
+  .lv-toc-item{display:flex;align-items:baseline;gap:8px;background:var(--surf);border:1px solid var(--bd);border-radius:11px;padding:10px 13px;font-size:.82rem}
+  .lv-toc-item b{color:#C9A96E;font-weight:800;flex-shrink:0;min-width:1.1em}
+  /* Les titres de chapitres contiennent du coréen (이/가, -았/었어요…).
+     On NE charge PAS fonts/ks-fonts-kr.css ici : 333 Ko sur une page de
+     vente coûteraient plus en abandons qu'ils ne rapportent en finesse
+     typographique. On nomme donc explicitement les polices coréennes
+     livrées avec macOS, Windows et Android, plutôt que de laisser le
+     navigateur choisir au hasard. */
+  .lv-toc-item span,.lv-part span{color:var(--tx);
+    font-family:'Segoe UI','Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR',system-ui,sans-serif}
+  .lv-part span{color:var(--t3)}
+  .lv-part{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.09em;
+           color:var(--tx);margin:22px 0 9px;padding-bottom:6px;border-bottom:1.5px solid #C9A96E}
+  .lv-part:first-of-type{margin-top:0}
+  .lv-part span{font-weight:600;letter-spacing:0}
+  .lv-toc-note{font-size:.78rem;color:var(--tx-muted);text-align:center;margin:10px 0 0;line-height:1.5}
+
+  /* ── PERKS ── */
+  .lv-perks{max-width:560px;margin:0 auto;padding:36px 20px 0}
+  .perk{display:flex;align-items:flex-start;gap:13px;background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+  .perk-tick{flex:0 0 30px;width:30px;height:30px;border-radius:9px;background:rgba(201,169,110,.14);display:flex;align-items:center;justify-content:center}
+  .perk-tick svg{width:15px;height:15px;stroke:#C9A96E;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .perk-body{flex:1}
+  .perk-title{font-size:.92rem;font-weight:700;color:var(--tx);margin-bottom:2px}
+  .perk-sub{font-size:.8rem;color:var(--t3);line-height:1.45}
+
+  /* ── CGV ── */
+  .lv-cgv{max-width:560px;margin:0 auto;padding:26px 20px 0}
+  .lv-cgv label{display:flex;align-items:flex-start;gap:11px;font-size:.86rem;color:var(--tx);line-height:1.5;cursor:pointer;background:var(--surf);border:1px solid var(--bd);border-radius:13px;padding:14px 16px;transition:.15s}
+  .lv-cgv input{margin-top:2px;width:18px;height:18px;flex-shrink:0;accent-color:#C9A96E;cursor:pointer}
+  .lv-cgv a{color:#C9A96E;font-weight:600}
+  .lv-cgv-err{font-size:.8rem;color:#dc2626;margin:7px 0 0 4px;min-height:1em}
+
+  /* ── ACHAT ── */
+  .lv-buy{max-width:560px;margin:0 auto;padding:16px 20px 0}
+  .lv-buy-card{border:1.5px solid #C9A96E;border-radius:20px;padding:26px 22px;background:var(--surf);text-align:center;position:relative;box-shadow:0 14px 34px rgba(201,169,110,.18)}
+  .lv-buy-price{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:800;color:var(--navy);line-height:1;margin-bottom:4px}
+  [data-theme=dark] .lv-buy-price{color:#f5e9d0}
+  .lv-buy-price small{font-family:'Segoe UI',sans-serif;font-size:.8rem;font-weight:600;color:var(--t3)}
+  .lv-buy-sub{font-size:.78rem;color:#C9A96E;font-weight:700;margin-bottom:18px}
+  .lv-buy-btn{display:block;width:100%;padding:14px;border-radius:13px;font-size:.95rem;font-weight:700;text-align:center;text-decoration:none;background:linear-gradient(135deg,#e0c48a,#C9A96E);color:#3a2c12;border:none;cursor:pointer;box-sizing:border-box}
+  .lv-buy-btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+  .lv-buy-alt{display:block;margin-top:12px;font-size:.85rem;color:var(--t3)}
+  .lv-buy-alt a{color:#C9A96E;font-weight:600;text-decoration:none}
+
+  /* ── LICENCE ── */
+  .lv-lic{max-width:560px;margin:0 auto;padding:24px 20px 0}
+  .lv-lic-box{border:1px solid var(--bd);border-radius:16px;padding:20px;background:var(--surf)}
+  .lv-lic-title{font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:12px}
+  .lv-lic-row{display:flex;gap:10px}
+  .lv-lic-input{flex:1;border:1.5px solid var(--bd);border-radius:11px;padding:11px 14px;font-size:.9rem;background:var(--bg);color:var(--tx);outline:none;font-family:monospace;letter-spacing:.05em}
+  .lv-lic-input:focus{border-color:#C9A96E}
+  .lv-lic-btn{padding:11px 18px;border-radius:11px;background:#0F1B2D;color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.9rem;white-space:nowrap}
+  [data-theme=dark] .lv-lic-btn{background:#C9A96E;color:#3a2c12}
+  .lv-lic-btn:disabled{opacity:.6;cursor:wait}
+  .lv-lic-msg{font-size:.82rem;margin-top:10px;min-height:1.2em}
+  .lv-lic-msg.ok{color:#16a34a;font-weight:600}
+  .lv-lic-msg.err{color:#dc2626}
+
+  /* ── ANTI-PARTAGE ── */
+  .lv-notice{max-width:560px;margin:26px auto 0;padding:0 20px}
+  .lv-notice-box{display:flex;gap:12px;background:#FBF2E3;border:1px solid #E0CBA0;border-radius:14px;padding:15px 17px}
+  [data-theme=dark] .lv-notice-box{background:rgba(201,169,110,.08);border-color:rgba(201,169,110,.25)}
+  .lv-notice-box svg{width:18px;height:18px;flex-shrink:0;stroke:#92610E;fill:none;stroke-width:2;margin-top:1px}
+  [data-theme=dark] .lv-notice-box svg{stroke:#e8d3a6}
+  .lv-notice-box p{font-size:.82rem;line-height:1.55;color:#5b4322;margin:0}
+  [data-theme=dark] .lv-notice-box p{color:#e8d3a6}
+
+  /* ── FOOTER ── */
+  .lv-footer{text-align:center;padding:38px 20px 60px;color:var(--t3);font-size:.82rem;max-width:560px;margin:0 auto}
+  .lv-footer a{color:var(--t3)}
+</style>
+</head>
+<body>
+<div class="lv-wrap">
+
+  <!-- HERO -->
+  <div class="lv-hero">
+    <span class="lv-pill"><span class="dot"></span> PDF à télécharger · Niveau A2 · CECRL A2 · TOPIK 1-2</span>
+    <img class="lv-cover" src="img/livret-a2-mockup.webp" width="760" height="760" alt="Le Livret A2 Korean Stories, « Le Coréen A2 — cahier de cours et d'exercices », tenu à deux mains" loading="eager">
+    <h1>Le Livret <em>A2</em></h1>
+    <!-- « PDF » doit apparaitre AVANT le prix, et pas seulement sur le bouton
+         de telechargement que seuls les membres voient. La couverture est un
+         visuel de livre relie : sans cette precision, quelqu'un peut croire
+         qu'il achete un livre imprime expedie chez lui pour 5 EUR. -->
+    <p>Un manuel de 245 pages, <strong>en PDF</strong> : 16 chapitres, 4 bilans, plus de 200 exercices à remplir au crayon et tous les corrigés. La suite directe du <a href="livret-a1.html">Livret A1</a> — nuancer, promettre, supposer, comparer, raconter. À imprimer chez toi, en entier ou chapitre par chapitre.</p>
+    <!-- Chiffres relus sur le PDF lui-même (2026-08-06) : 280 pages,
+         16 chapitres, 4 bilans, 7 annexes. Ne rien annoncer ici qui n'ait
+         été verifié dans le fichier — c'est une page de vente. -->
+    <div class="lv-meta">
+      <span>16 chapitres · 4 bilans · 7 annexes · tous les corrigés</span>
+      <span>·</span>
+      <span>Aucun plagiat — 100% contenu Korean Stories</span>
+    </div>
+  </div>
+
+  <!-- APERÇU — de vraies pages du livret vendu, extraites du PDF final.
+       Aucune maquette, aucune retouche : ce qui est montré est ce qu'on
+       reçoit. Les 4 dernières sont en chargement différé. -->
+  <div class="lv-peek">
+    <div class="lv-peek-in">
+      <h2>Regarde <em>à l'intérieur</em></h2>
+      <p class="lv-peek-lead">Cinq pages prises telles quelles dans le livret A2. Fais glisser, et touche une page pour l'agrandir.</p>
+    </div>
+    <div class="lv-strip" id="lvStrip">
+      <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-a2-apercu-chapitre.webp">
+        <img src="img/livret-a2-apercu-chapitre.webp" width="861" height="1217" loading="eager" decoding="async"
+             alt="Ouverture du chapitre 7 « Demander un service », avec photo de rue coréenne et QR code audio">
+        <figcaption>Chaque chapitre s'ouvre comme un vrai manuel — et le QR code lance l'audio sur le site.</figcaption>
+      </figure>
+      <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-a2-apercu-grammaire.webp">
+        <img src="img/livret-a2-apercu-grammaire.webp" width="861" height="1217" loading="lazy" decoding="async"
+             alt="Page 101 : la règle « avant et après » (전에 / 후에) expliquée puis mise en pratique">
+        <figcaption>La règle d'abord expliquée, avec son « pourquoi » — puis un « À toi de jouer ! ».</figcaption>
+      </figure>
+      <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-a2-apercu-dialogue.webp">
+        <img src="img/livret-a2-apercu-dialogue.webp" width="861" height="1217" loading="lazy" decoding="async"
+             alt="Page 157 : dialogue « Chez le médecin » en images, avec photos et répliques coréen-français">
+        <figcaption>Des dialogues du quotidien avec Mina, Emma et Jiwoo, en coréen puis traduits.</figcaption>
+      </figure>
+      <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-a2-apercu-jeux.webp">
+        <img src="img/livret-a2-apercu-jeux.webp" width="861" height="1217" loading="lazy" decoding="async"
+             alt="Page 29 : grille de mots mêlés en hangeul et exercices à compléter au crayon">
+        <figcaption>Mots mêlés en hangeul et jeux de liaison : on révise sans en avoir l'air.</figcaption>
+      </figure>
+      <figure class="lv-shot" role="button" tabindex="0" data-src="img/livret-a2-apercu-annexes.webp">
+        <img src="img/livret-a2-apercu-annexes.webp" width="861" height="1217" loading="lazy" decoding="async"
+             alt="Page 241 : carte de la Corée du Sud en annexe, avec les villes et leurs noms en hangeul">
+        <figcaption>Sept annexes : corrigés, lexique, guide du voyageur, conjugaison, index, carte.</figcaption>
+      </figure>
+    </div>
+    <div class="lv-peek-in"><p class="lv-peek-hint">245 pages au total, dont 16 chapitres, 4 bilans et 7 annexes.</p></div>
+  </div>
+
+  <!-- VUE MEMBRE PREMIUM -->
+  <div class="lv-member" id="lvMember" style="display:none">
+    <div class="lv-member-card">
+      <span class="lv-status"><span class="dot"></span> Premium actif</span>
+      <h2>Ton livret t'attend</h2>
+      <p>Ton abonnement ou accès à vie Korean Stories inclut le Livret A2 gratuitement.</p>
+      <button class="lv-dl-btn" id="lvMemberDl"><svg viewBox="0 0 24 24" fill="none" stroke="#3a2c12" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M20 21H4"/></svg> Télécharger le PDF</button>
+      <div class="lv-dl-msg" id="lvMemberMsg"></div>
+    </div>
+  </div>
+
+  <!-- VUE ACHAT (non-Premium) -->
+  <div id="lvBuy">
+
+    <!-- SOMMAIRE -->
+    <!-- Sommaire recopié du PDF (pages 3-4), pas résumé de mémoire.
+         L'ancienne version listait 12 chapitres d'un livret antérieur :
+         les titres ne correspondaient plus au fichier vendu. -->
+    <div class="lv-toc">
+      <p class="lv-sec-lbl">Ce que contient le livret</p>
+
+      <p class="lv-part">Première partie · Tes fondations A1 <span>기초 다지기</span></p>
+      <div class="lv-toc-grid">
+        <div class="lv-toc-item"><b>·</b><span>Ton A1 en mémo express, avant de repartir</span></div>
+        <div class="lv-toc-item"><b>·</b><span>Les particules, ta carte d'état-major</span></div>
+      </div>
+
+      <p class="lv-part">Deuxième partie · 16 chapitres + 4 bilans</p>
+      <div class="lv-toc-grid">
+        <div class="lv-toc-item"><b>01</b><span>Remise en route : ton A1 en mode réflexe</span></div>
+        <div class="lv-toc-item"><b>02</b><span>L'action en cours : -고 있어요 / -아 있어요</span></div>
+        <div class="lv-toc-item"><b>03</b><span>Savoir-faire ou pouvoir : -(으)ㄹ 줄 알다 vs -(으)ㄹ 수 있다</span></div>
+        <div class="lv-toc-item"><b>04</b><span>Obligation &amp; résolution : -아야 해요 / -아야지</span></div>
+        <div class="lv-toc-item"><b>05</b><span>Décider &amp; proposer : -(으)ㄹ게요 / -(으)ㄹ래요</span></div>
+        <div class="lv-toc-item"><b>06</b><span>Supposer : -(으)ㄹ 것 같아요</span></div>
+        <div class="lv-toc-item"><b>07</b><span>Demander un service : -아/어 주세요 &amp; 주실 수 있어요?</span></div>
+        <div class="lv-toc-item"><b>08</b><span>Réagir &amp; expliquer : -네요 · -거든요 · -잖아요</span></div>
+        <div class="lv-toc-item"><b>09</b><span>Situer dans le temps : 전에 · 후에 · 동안 · -(으)면서</span></div>
+        <div class="lv-toc-item"><b>10</b><span>Les particules qui nuancent : 만 · 도 · 밖에 · 마다</span></div>
+        <div class="lv-toc-item"><b>11</b><span>Cause &amp; condition : -아/어서 · -(으)니까 · -(으)면</span></div>
+        <div class="lv-toc-item"><b>12</b><span>L'expérience : -아/어 봤어요 · -(으)ㄴ 적이 있어요</span></div>
+        <div class="lv-toc-item"><b>13</b><span>Comparer : 보다 · 더 · 제일 · 만큼 · 처럼</span></div>
+        <div class="lv-toc-item"><b>14</b><span>Santé &amp; corps : chez le médecin</span></div>
+        <div class="lv-toc-item"><b>15</b><span>Permission &amp; interdiction : 아/어도 돼요 · -면 안 돼요</span></div>
+        <div class="lv-toc-item"><b>16</b><span>Raconter : le style écrit -ㄴ/는다 &amp; grand bilan</span></div>
+      </div>
+      <p class="lv-toc-note">Un bilan récapitulatif tous les 4 chapitres, plus un bilan final sur tout le niveau A2.</p>
+
+      <p class="lv-part">Troisième partie · 7 annexes</p>
+      <div class="lv-toc-grid">
+        <div class="lv-toc-item"><b>A</b><span>Corrigés de tous les exercices et bilans</span></div>
+        <div class="lv-toc-item"><b>B</b><span>Lexique : tout le vocabulaire du livret</span></div>
+        <div class="lv-toc-item"><b>C</b><span>Le guide de survie du voyageur</span></div>
+        <div class="lv-toc-item"><b>D</b><span>Les tableaux de conjugaison</span></div>
+        <div class="lv-toc-item"><b>E</b><span>Index des notions</span></div>
+        <div class="lv-toc-item"><b>F</b><span>La carte de la Corée du Sud</span></div>
+        <div class="lv-toc-item"><b>G</b><span>Crédits &amp; remerciements</span></div>
+      </div>
+    </div>
+
+    <!-- PERKS -->
+    <div class="lv-perks">
+      <p class="lv-sec-lbl">Pourquoi ce format</p>
+      <div class="perk">
+        <div class="perk-tick"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <!-- 300 dpi verifie le 2026-08-07 : le worker sert desormais le fichier
+             depuis le Drive de Stella (49,6 Mo), et un vrai telechargement l'a
+             confirme. Ne remettre un chiffre ici qu'apres avoir verifie ce que
+             la racine du worker annonce — elle indique si l'identifiant Drive
+             est en place, donc si c'est bien le 300 dpi qui part. -->
+        <div class="perk-body"><div class="perk-title">Fait pour être imprimé</div><div class="perk-sub">Mis en page comme un vrai manuel, à imprimer en entier ou chapitre par chapitre, en pleine résolution 300 dpi (50 Mo). Une fois le PDF téléchargé, il est à toi, hors-ligne, pour toujours.</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-tick"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="perk-body"><div class="perk-title">Directement lié au Parcours</div><div class="perk-sub">Pour l'audio natif de chaque mot, retrouve les leçons correspondantes sur l'app.</div></div>
+      </div>
+      <div class="perk">
+        <div class="perk-tick"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <div class="perk-body"><div class="perk-title">Gratuit avec Premium</div><div class="perk-sub">Déjà abonné·e ou accès à vie ? Le livret est inclus, sans rien payer de plus.</div></div>
+      </div>
+    </div>
+
+    <!-- CGV -->
+    <div class="lv-cgv">
+      <label>
+        <input type="checkbox" id="cgvCheck">
+        <span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">Conditions Générales de Vente</a> et la <a href="confidentialite.html" target="_blank" rel="noopener">Politique de confidentialité</a>.</span>
+      </label>
+      <div class="lv-cgv-err" id="cgvErr"></div>
+    </div>
+
+    <!-- ACHAT -->
+    <div class="lv-buy">
+      <div class="lv-buy-card">
+        <div class="lv-buy-price">5€<small> une fois</small></div>
+        <div class="lv-buy-sub">Le PDF de 245 pages, à toi pour toujours.<br>Téléchargement immédiat — rien n'est expédié.</div>
+        <a href="https://buy.stripe.com/14A4gBbZRbVDcGP1NSe7m03" data-buy="1" class="lv-buy-btn" target="_blank" rel="noopener">Acheter le Livret A2</a>
+        <div class="lv-buy-alt">Envie de tous les bonus (35 fiches, certificat…) ? <a href="premium.html">Voir le Premium</a></div>
+      </div>
+    </div>
+
+    <!-- LICENCE EXISTANTE -->
+    <div class="lv-lic">
+      <div class="lv-lic-box">
+        <div class="lv-lic-title">Déjà acheté ou déjà Premium ?</div>
+        <div class="lv-lic-row">
+          <input class="lv-lic-input" id="licInput" type="text" placeholder="XXXX-XXXX-XXXX-XXXX" aria-label="Clé de licence" autocomplete="off" spellcheck="false">
+          <button class="lv-lic-btn" id="licBtn">Télécharger</button>
+        </div>
+        <div class="lv-lic-msg" id="licMsg"></div>
+      </div>
+    </div>
+
+  </div><!-- /lvBuy -->
+
+  <!-- Agrandissement des pages d'aperçu -->
+  <div class="lv-zoom" id="lvZoom" role="dialog" aria-modal="true" aria-label="Page agrandie">
+    <button class="lv-zoom-x" id="lvZoomX" aria-label="Fermer">&times;</button>
+    <img id="lvZoomImg" src="" alt="">
+  </div>
+
+  <!-- ANTI-PARTAGE -->
+  <div class="lv-notice">
+    <div class="lv-notice-box">
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      <p>Ce livret est réservé à l'usage personnel de l'acheteuse ou de l'acheteur. Toute reproduction, revente ou partage — y compris en ligne — est strictement interdit.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="lv-footer">
+    <p>Paiement sécurisé par <strong>Stripe</strong></p>
+    <p><a href="cgv.html">CGV/CGU</a> · <a href="confidentialite.html">Confidentialité</a> · <a href="mentions-legales.html">Mentions légales</a> · <a href="aide.html">Aide</a></p>
+  </div>
+
+</div>
+
+<!-- Charge Firebase UNIQUEMENT si un compte existe (voir ks-boot-sync.js) :
+     sans compte, zero octet de SDK. Necessaire ici depuis le 2026-08-06 pour
+     obtenir le jeton d'identite et telecharger sans saisir de cle. -->
+<script defer src="ks-boot-sync.js"></script>
+<script src="ks.js"></script>
+<script>
+var WORKER_BASE = 'https://ks-premium.delicate-voice-1d19.workers.dev';
+var WORKER_PDF_URL = WORKER_BASE + '/pdf?file=livret-a2';
+
+/* Jeton d'identite du compte connecte, ou null. Le worker le verifie
+   (signature RSA contre les cles publiques de Google) puis retrouve la
+   licence liee au compte — plus aucune cle a saisir. */
+function ksIdToken(){
+  return new Promise(function(resolve){
+    var fini = false;
+    function rendre(v){ if(!fini){ fini = true; resolve(v); } }
+    /* Filet de securite : si Firebase ne repond pas (hors-ligne, SDK bloque),
+       on ne bloque pas le telechargement — on retombe sur la cle locale. */
+    setTimeout(function(){ rendre(null); }, 4000);
+    try {
+      if (!window.firebase || !firebase.auth) return rendre(null);
+      firebase.auth().onAuthStateChanged(function(u){
+        if (!u) return rendre(null);
+        u.getIdToken().then(rendre).catch(function(){ rendre(null); });
+      });
+    } catch(e){ rendre(null); }
+  });
+}
+
+/* Lit le corps de la reponse morceau par morceau en annoncant l'avancement,
+   puis rend un Blob identique a ce que r.blob() aurait produit.
+   Les navigateurs sans ReadableStream (ou une reponse sans corps lisible)
+   retombent silencieusement sur r.blob(). */
+function lireAvecProgression(r, msgEl){
+  if (!r.body || !r.body.getReader) return r.blob();
+
+  var total = parseInt(r.headers.get('Content-Length') || '0', 10);
+  var recu = 0;
+  var morceaux = [];
+  var lecteur = r.body.getReader();
+
+  function mo(n){ return (n / 1048576).toFixed(1); }
+  function afficher(){
+    if (!msgEl) return;
+    msgEl.textContent = total
+      ? 'Téléchargement… ' + Math.round(recu / total * 100) + ' % (' + mo(total) + ' Mo)'
+      : 'Téléchargement… ' + mo(recu) + ' Mo';
+  }
+
+  return (function suivant(){
+    return lecteur.read().then(function(res){
+      if (res.done) return new Blob(morceaux, { type: 'application/pdf' });
+      morceaux.push(res.value);
+      recu += res.value.length;
+      afficher();
+      return suivant();
+    });
+  })();
+}
+
+/* Télécharge le PDF en pièce jointe via fetch (nécessite une clé de licence
+   valide dans l'en-tête X-License-Key — jamais de fichier statique public,
+   même architecture que les 35 fiches Premium). */
+function downloadLivret(key, msgEl, btnEl, onFail){
+  if (btnEl) { btnEl.disabled = true; }
+  if (msgEl) { msgEl.textContent = 'Préparation du téléchargement…'; msgEl.className = msgEl.className.replace(/\s*(err|ok)/g,''); }
+
+  /* Les deux zones de message sont distinctes (#lvMemberMsg pour le bouton
+     membre, #licMsg pour le champ de cle). Sans ce nettoyage, l'erreur du
+     premier essai restait affichee pendant que le second reussissait : on
+     lisait « Abonnement expire ou annule » ET le PDF arrivait. Toute
+     nouvelle tentative efface donc l'ardoise des deux cotes. */
+  ['lvMemberMsg', 'licMsg'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el && el !== msgEl) {
+      el.textContent = '';
+      el.className = el.className.replace(/\s*(err|ok)/g, '');
+    }
+  });
+  /* On envoie les deux preuves possibles : le jeton du compte (chemin normal,
+     aucune cle a retenir) et la cle si on en a une. Le worker prend la
+     premiere qui marche — cf. handlePdfDownload. */
+  ksIdToken().then(function(token){
+  var entetes = {};
+  if (key)   entetes['X-License-Key']   = key;
+  if (token) entetes['X-Firebase-Token'] = token;
+
+  /* Cle + compte presents en meme temps : on scelle la liaison, sans rien
+     demander ni attendre. C'est ce qui fait que la cle ne servira plus
+     jamais — y compris pour les clients deja la, rattaches en silence a leur
+     prochain telechargement. L'echec est sans consequence : on retentera. */
+  if (key && token) {
+    try {
+      fetch(WORKER_BASE + '/link-license', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Firebase-Token': token },
+        body: JSON.stringify({ key: key })
+      }).catch(function(){});
+    } catch(e){}
+  }
+  fetch(WORKER_PDF_URL, { headers: entetes })
+    /* Le worker distingue precisement les cas d'echec dans le CORPS de sa
+       reponse : « Cle invalide », « Abonnement expire ou annule », « Cette
+       cle ne donne pas acces a cette fiche », « Fiche introuvable ». La
+       version precedente jetait ce corps et affichait un unique « Cle
+       invalide ou n'a pas acces au Livret A2 » pour tous les 403 — ce qui
+       a coute un diagnostic entier le 2026-08-06 : impossible de savoir si
+       le probleme venait de la cle, de l'abonnement, ou du fichier absent
+       de KV. On lit donc le message reel et on l'affiche. */
+    .then(function(r){
+      /* Le livret pese ~50 Mo (300 dpi, servi depuis Drive). Un simple
+         r.blob() ne dirait rien pendant tout le transfert : bouton grise,
+         message fige, aucun moyen de savoir si ca avance ou si c'est
+         casse — et sur 50 Mo l'attente est longue. On lit donc le flux
+         nous-memes pour
+         afficher une progression reelle. Si le serveur ne donne pas la taille
+         (Content-Length masque par CORS, compression), on retombe sur les Mo
+         recus. */
+      if (r.ok) return lireAvecProgression(r, msgEl);
+      return r.text().then(function(txt){
+        var detail = (txt || '').trim().slice(0, 120);
+        if (r.status === 404) {
+          throw new Error('Le livret n’est pas encore disponible au téléchargement. Écris-nous à contact@koreanstories.fr.');
+        }
+        if (r.status === 429) {
+          throw new Error('Trop de téléchargements d’affilée. Réessaie dans une heure.');
+        }
+        if (r.status === 401 || r.status === 403) {
+          throw new Error((detail || 'Clé refusée') +
+            ' — vérifie ta clé dans Réglages › Premium.');
+        }
+        throw new Error('Téléchargement impossible (' + r.status +
+                        (detail ? ' : ' + detail : '') + ').');
+      });
+    })
+    .then(function(blob){
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'Korean-Stories-Livret-A2.pdf';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      if (msgEl) { msgEl.textContent = 'Téléchargement lancé !'; msgEl.className += ' ok'; }
+      if (btnEl) { btnEl.disabled = false; }
+    })
+    .catch(function(e){
+      if (msgEl) { msgEl.textContent = e.message || 'Erreur réseau, réessaie dans un instant.'; msgEl.className += ' err'; }
+      if (btnEl) { btnEl.disabled = false; }
+      if (typeof onFail === 'function') { try { onFail(); } catch(_){} }
+    });
+  });
+}
+
+/* Bascule vue achat / vue membre selon l'état Premium, et branche le bouton
+   de téléchargement direct sur la clé Premium déjà stockée localement. */
+function lvSync(){
+  var on = window.KSPremium && KSPremium.isPremium();
+  var m = document.getElementById('lvMember'), b = document.getElementById('lvBuy');
+  if (m) m.style.display = on ? 'block' : 'none';
+  if (b) b.style.display = on ? 'none' : 'block';
+}
+document.addEventListener('ks-premium-change', lvSync);
+(function w(n){ if (window.KSPremium) lvSync(); else if ((n||0) < 50) setTimeout(function(){ w((n||0)+1); }, 100); })();
+
+/* Quand la vue membre est affichee, tout le bloc #lvBuy est masque — y
+   compris le champ « Deja achete ou deja Premium ? ». Si la cle stockee
+   localement est mauvaise ou absente, la personne se retrouvait donc dans
+   un cul-de-sac : badge « Premium actif », telechargement refuse, et aucun
+   endroit ou coller la vraie cle recue par e-mail. On rouvre ce champ (et
+   lui seul, pas la carte d'achat — quelqu'un de deja abonne n'a rien a
+   racheter) des qu'un telechargement echoue. */
+function revealKeyBox(){
+  var b = document.getElementById('lvBuy');
+  if (!b) return;
+  b.style.display = 'block';
+  ['.lv-toc', '.lv-perks', '.lv-cgv', '.lv-buy'].forEach(function(sel){
+    var el = b.querySelector(sel);
+    if (el) el.style.display = 'none';
+  });
+  var lic = b.querySelector('.lv-lic');
+  if (lic) {
+    var t = lic.querySelector('.lv-lic-title');
+    if (t) t.textContent = 'Colle la clé reçue par e-mail à ton achat';
+    try {
+      document.documentElement.style.scrollBehavior = 'auto';
+      lic.scrollIntoView({ block: 'center' });
+    } catch(e){}
+  }
+}
+
+document.getElementById('lvMemberDl').addEventListener('click', function(){
+  var key = null;
+  try { key = localStorage.getItem('ks_premium_key'); } catch(e){}
+  var msg = document.getElementById('lvMemberMsg');
+  if (!key) {
+    msg.textContent = 'Aucune clé enregistrée sur cet appareil. Colle celle de ton e-mail d\'achat ci-dessous.';
+    msg.className = 'lv-dl-msg err';
+    revealKeyBox();
+    return;
+  }
+  downloadLivret(key, msg, this, revealKeyBox);
+});
+
+/* Déblocage par clé de licence : vérifie d'abord le TYPE de la clé (jamais
+   d'appel à KSPremium.unlock ici — une clé 'booklet-a1' ne doit jamais
+   débloquer le Premium complet du site, seulement ce livret). */
+document.getElementById('licBtn').addEventListener('click', function(){
+  var key = document.getElementById('licInput').value.trim();
+  var msg = document.getElementById('licMsg');
+  var btn = this;
+  if (!key) { msg.textContent = 'Entre ta clé de licence.'; msg.className = 'lv-lic-msg err'; return; }
+  msg.textContent = 'Vérification…'; msg.className = 'lv-lic-msg';
+  function tryVerify(){
+    if (window.KSPremium) {
+      KSPremium.verifyKey(key).then(function(res){
+        if (!res.ok) {
+          /* Ce message s'adresse a quelqu'un qui vient de payer 5 EUR et n'a
+             peut-etre pas de compte : « Cle invalide » tout seul le laisse
+             sans issue. On dit ou retrouver la cle, et a qui ecrire.
+             Ne PAS renvoyer vers Reglages > Premium ici : cette page demande
+             un compte, que l'acheteur du livret seul n'a pas forcement. */
+          msg.innerHTML = (res.msg || 'Clé invalide') +
+            ' — vérifie qu\'elle est recopiée en entier depuis l\'e-mail ' +
+            '« Ton Livret A2 est prêt ». Toujours bloqué ? Écris-nous à ' +
+            '<a href="mailto:contact@koreanstories.fr">contact@koreanstories.fr</a>' +
+            ', on te l\'envoie directement.';
+          msg.className = 'lv-lic-msg err';
+          return;
+        }
+        if (res.type === 'monthly' || res.type === 'lifetime') KSPremium.setPremium(true, key);
+        downloadLivret(key, msg, btn);
+      });
+    } else { setTimeout(tryVerify, 200); }
+  }
+  tryVerify();
+});
+document.getElementById('licInput').addEventListener('keydown', function(e){
+  if(e.key==='Enter') document.getElementById('licBtn').click();
+});
+
+/* ── Agrandissement d'une page d'aperçu ──
+   Ces pages sont denses : une vignette de 210 px ne permet pas de juger
+   du contenu, et c'est justement le contenu qui décide de l'achat. */
+(function(){
+  var zoom = document.getElementById('lvZoom');
+  var zimg = document.getElementById('lvZoomImg');
+  if (!zoom || !zimg) return;
+  var lastFocus = null;
+
+  function open(fig){
+    var img = fig.querySelector('img');
+    zimg.src = fig.getAttribute('data-src');
+    zimg.alt = img ? img.alt : '';
+    zoom.classList.add('on');
+    lastFocus = fig;
+    var x = document.getElementById('lvZoomX');
+    if (x) { try { x.focus(); } catch(e){} }
+  }
+  function close(){
+    zoom.classList.remove('on');
+    /* On vide la source : sinon l'image reste en memoire et, sur mobile,
+       cinq pages ouvertes de suite finissent par peser. */
+    zimg.src = '';
+    if (lastFocus) { try { lastFocus.focus(); } catch(e){} }
+  }
+
+  document.querySelectorAll('.lv-shot').forEach(function(fig){
+    fig.addEventListener('click', function(){ open(fig); });
+    /* Une figure n'est pas un bouton : sans ca, rien au clavier. */
+    fig.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(fig); }
+    });
+  });
+  zoom.addEventListener('click', close);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && zoom.classList.contains('on')) close();
+  });
+})();
+
+/* Bloque l'achat tant que les CGV ne sont pas acceptées */
+document.querySelectorAll('a[data-buy]').forEach(function(a){
+  a.addEventListener('click', function(e){
+    if(!document.getElementById('cgvCheck').checked){
+      e.preventDefault();
+      document.getElementById('cgvErr').textContent = 'Merci d\'accepter les CGV avant de continuer.';
+      var box = document.querySelector('.lv-cgv label');
+      if(box){ box.style.borderColor = '#dc2626'; box.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(function(){ box.style.borderColor=''; }, 1800); }
+    }
+  });
+});
+document.getElementById('cgvCheck').addEventListener('change', function(){
+  if(this.checked) document.getElementById('cgvErr').textContent = '';
+});
+</script>
+<script src="ks-menu.js" defer></script>
+</body>
+</html>

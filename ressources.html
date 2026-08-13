@@ -63,6 +63,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .lv-card-s{font-size:12.5px;color:var(--gray);line-height:1.6;margin-bottom:10px}
 .lv-card-go{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#e0c48a,var(--gold));color:#3a2c12;text-decoration:none;font-size:13px;font-weight:700;padding:9px 15px;border-radius:100px}
 .lv-card-go svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+/* Sans cette ligne, [hidden] ne masque RIEN : .lv-card-go pose
+   display:inline-flex, qui l'emporte sur le display:none par defaut de
+   l'attribut. Resultat vu par Stella : « Acheter » et « Telecharger »
+   affiches cote a cote. */
+.lv-card-go[hidden]{display:none}
 .lv-dl{border:none;cursor:pointer;font-family:inherit}
 .lv-dl[disabled]{opacity:.6;cursor:default}
 .lv-dl-msg{font-size:11.5px;line-height:1.5;color:var(--gray);margin-top:7px;min-height:1em}
@@ -197,7 +202,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="lv-card-tag">Niveau A2 · 245 pages</div>
       <div class="lv-card-t">Le Coréen A2</div>
       <p class="lv-card-s">16 chapitres, 4 bilans, plus de 200 exercices : nuancer, promettre, supposer, comparer, raconter. <strong>5 €</strong> une fois — ou compris dans le Premium.</p>
-      <a href="https://buy.stripe.com/14A4gBbZRbVDcGP1NSe7m03" class="lv-card-go" data-achat="a2">Acheter le Livret A2 <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+      <a href="livret-a2.html" class="lv-card-go" data-achat="a2">Voir l'intérieur <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
       <button type="button" class="lv-card-go lv-dl" id="lvDlA2" hidden><svg viewBox="0 0 24 24"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M20 17v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3"/></svg> Télécharger</button>
       <div class="lv-dl-msg" id="lvMsgA2"></div>
     </div>
@@ -462,7 +467,14 @@ render();
       btn.disabled = false;
     }).catch(function (e) {
       msg.className = 'lv-dl-msg err';
-      msg.textContent = String(e.message || e).slice(0, 160);
+      var t = String(e.message || e);
+      /* « Cette cle ne donne pas acces a cette fiche » est exact mais opaque
+         cote client : il croit que sa cle est cassee alors qu'il n'a
+         simplement pas achete CE livret-la. */
+      if (/ne donne pas acc/i.test(t)) {
+        t = 'Ta clé ouvre un autre livret. Celui-ci s\'achète séparément, ou est compris dans le Premium.';
+      }
+      msg.textContent = t.slice(0, 180);
       btn.disabled = false;
     });
   }
@@ -480,7 +492,11 @@ render();
          refusera et le dira — c'est lui qui tranche, pas cette page. */
       if (premium || cle()) {
         btn.hidden = false;
-        if (niv === 'a2') achat.hidden = true;      // ne pas revendre l'A2 a qui l'a
+        /* On ne masque l'achat QUE pour un abonne Premium, qui possede tout.
+           Un porteur de cle, lui, peut n'avoir que l'A1 : lui retirer le
+           bouton d'achat de l'A2 l'empecherait d'acheter ce qui lui manque.
+           C'est le cas de Stella elle-meme — cle A1, pas d'A2. */
+        if (niv === 'a2' && premium) achat.hidden = true;
         btn.addEventListener('click', function () { telecharger(niv, btn, msg); });
       }
     });
