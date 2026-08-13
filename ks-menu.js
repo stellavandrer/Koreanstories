@@ -55,7 +55,13 @@
       ['dictionnaire.html','Dictionnaire',IC.dico],
       ['hangeul.html','Hangeul',IC.hangeul],
       ['grammaire.html','Grammaire',IC.grammar],
-      ['livret-a1.html','Livret A1 à imprimer',IC.livret,'or','PDF']
+      /* Une seule entree pour TOUT ce qui s'imprime — livrets ET fiches.
+         Avant : « Livret A1 a imprimer » ici, plus « Ressources » dans la
+         liste secondaire : deux lignes pour la meme idee, et chaque nouveau
+         livret (A2, puis B1, B2) en aurait ajoute une. Le menu grossissait
+         a chaque parution. ressources.html accueille desormais les livrets
+         en haut et les 35 fiches en dessous : le menu, lui, ne bouge plus. */
+      ['ressources.html','Livrets & fiches à imprimer',IC.livret,'or','PDF']
     ]},
     { title:'Pratiquer', items:[
       ['challenge.html','Défi du jour',IC.bolt],
@@ -85,7 +91,6 @@
      allongeaient le tiroir d'autant. */
   var SECONDARY = [
     ['blog.html','Blog'],
-    ['ressources.html','Ressources'],
     ['aide.html','Aide'],
     ['a-propos.html','À propos'],
     ['avis.html','Avis']
