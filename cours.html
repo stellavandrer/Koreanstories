@@ -714,6 +714,20 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
 .pdfs-livret-t{font-size:13.5px;font-weight:800;color:var(--t)}
 .pdfs-livret-s{font-size:11.5px;color:var(--t3);line-height:1.5;margin-top:2px}
 .pdfs-livret-go{flex-shrink:0;font-size:11px;font-weight:800;color:var(--gold-text,#8B6B3D);background:var(--goldbg,#FBF2E3);border:1px solid var(--gold);border-radius:100px;padding:5px 10px}
+/* ── FIN DE NIVEAU ──
+   Ne s'affiche qu'a 100 %. C'est le seul instant ou annoncer la suite
+   est une bonne nouvelle et pas une publicite : la personne vient de
+   terminer, elle cherche precisement quoi faire ensuite. Le reste du
+   temps, ce bloc n'existe pas — c'est ce qui lui permet d'etre direct
+   sans etre insistant. */
+.lv-next{margin:14px 0 2px;padding:16px 16px 15px;border-radius:16px;
+  background:var(--goldbg,#FBF2E3);border:1.5px solid var(--goldbd,#E0CBA0)}
+.lv-next-t{font-size:14.5px;font-weight:800;color:var(--t);line-height:1.3}
+.lv-next-s{font-size:12.5px;line-height:1.65;color:var(--t2);margin-top:5px}
+.lv-next-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.lv-next-b{font-size:12px;font-weight:800;padding:9px 15px;border-radius:100px;text-decoration:none;white-space:nowrap}
+.lv-next-b1{background:var(--gold);color:#3a2c12}
+.lv-next-b2{border:1.5px solid var(--goldbd,#E0CBA0);color:var(--t)}
 .pdf-card{
   display:flex;align-items:center;gap:10px;
   background:var(--surf);border:1.5px solid var(--bd);
@@ -2447,6 +2461,40 @@ function rPdfs(lv){
         });
       }
     }
+
+    /* Fin de niveau : ne concerne aujourd'hui que le A1, seul niveau dont
+       la suite existe AUSSI sur papier. Le jour ou un Livret B1 sortira,
+       ajouter une entree a2 ici — pas avant : annoncer un livret qui
+       n'existe pas serait promettre du vide.
+       Contrairement au bloc « Livret » plus haut, celui-ci s'affiche a
+       TOUT LE MONDE, Premium ou non : pour un abonne c'est « va le
+       chercher », pour les autres c'est le seul moment de la vie du
+       compte ou le Livret A2 repond a une question qu'ils se posent. */
+    const SUITE={
+      a1:{ancre:'lv-a2',niveau:'A2',livret:'livret-a2.html',
+          quoi:'nuancer, promettre, supposer, comparer, raconter'}
+    };
+    const su=SUITE[lv.id];
+    if(su && acts.length && lvDone>=acts.length){
+      const estPrem=(function(){try{return localStorage.getItem('ks_premium')==='1';}catch(e){return false;}})();
+      const nx=document.createElement('div');nx.className='lv-next';
+      nx.innerHTML=`
+        <div class="lv-next-t">Tu as terminé le ${lv.tab}.</div>
+        <div class="lv-next-s">Le ${su.niveau} continue dans le parcours — ${su.quoi}. Et le Livret ${su.niveau} reprend tout le niveau à imprimer, exercices et corrigés compris${estPrem?' : il est dans ton Premium.':'.'}</div>
+        <div class="lv-next-btns">
+          <a class="lv-next-b lv-next-b1" href="#${su.ancre}">Continuer en ${su.niveau}</a>
+          <a class="lv-next-b lv-next-b2" href="${su.livret}">${estPrem?'Récupérer le Livret '+su.niveau:'Voir le Livret '+su.niveau}</a>
+        </div>`;
+      nx.querySelector('.lv-next-b1').addEventListener('click',function(e){
+        e.preventDefault();
+        const cible=document.getElementById(su.ancre);
+        if(!cible)return;
+        cible.classList.add('open');
+        cible.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+      lvBody.appendChild(nx);
+    }
+
     sec.appendChild(lvBody);
 
     if(levelHasActive) sec.classList.add('open');  /* niveau courant déplié par défaut */
