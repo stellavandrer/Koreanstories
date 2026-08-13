@@ -146,6 +146,18 @@
     '.ksm-more{display:flex;flex-wrap:wrap;gap:4px 14px;padding:2px 10px 4px}',
     '.ksm-more a{font-size:12.5px;font-weight:600;color:var(--t3,#8FA5BE);text-decoration:none;padding:3px 0}',
     '.ksm-more a:hover{color:var(--gold-text,#8B6B3D);text-decoration:underline}',
+    /* Deconnexion : volontairement discrete et tout en bas. Ce n'est pas une
+       action du quotidien — lui donner le poids visuel d'une lecon serait la
+       mettre sur le chemin de gens qui ne la cherchent pas. Elle reste
+       neanmoins a sa place attendue : derniere ligne du tiroir. */
+    '.ksm-out{display:none;align-items:center;gap:9px;width:calc(100% - 20px);margin:6px 10px 4px;padding:11px 13px;border-radius:11px;border:1px solid var(--bd,#DAE3F2);background:none;color:var(--t2,#475E78);font:600 13px/1 inherit;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s}',
+    '.ksm-out[data-on="1"]{display:flex}',
+    '.ksm-out:hover{border-color:#dc2626;color:#dc2626}',
+    '.ksm-out svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
+    /* --t2 et non --t3 pour l'adresse : --t3 (#8FA5BE) ne fait que 2,5:1 sur
+       le fond du tiroir, sous le 4,5:1 exige. C'est la taille et la graisse
+       qui la mettent au second plan, pas un gris illisible. */
+    '.ksm-out i{margin-left:auto;font-style:normal;font-weight:500;font-size:11.5px;color:var(--t2,#475E78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:52%}',
     '.ksm-foot{padding:14px 16px;border-top:1px solid var(--bd,#DAE3F2);display:flex;gap:10px;flex-shrink:0}',
     '.ksm-foot a{flex:1;text-align:center;padding:11px;border-radius:11px;font-size:13.5px;font-weight:700;text-decoration:none}',
     '.ksm-cta{background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12}',
@@ -198,6 +210,12 @@
     html += '<a href="'+it[0]+'">'+it[1]+'</a>';
   });
   html += '</div></div>';
+  /* Rendu masque par defaut : c'est ksmOutSync() qui l'allume, et seulement
+     pour un vrai compte. Un visiteur sans compte ne doit pas lire
+     « Se deconnecter » — il n'est connecte a rien. */
+  html += '<button class="ksm-out" id="ksmOut" type="button">'
+        + svg('<path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>')
+        + '<span>Se déconnecter</span><i id="ksmOutWho"></i></button>';
   html += '</div>'
     + '<div class="ksm-foot"><a class="ksm-ghost" href="index.html">Accueil</a><a class="ksm-cta" href="app.html">Mon espace</a></div>'
     + '</aside>';
@@ -244,9 +262,10 @@
 
   function open(){
     lastFocused = document.activeElement;
-    /* Rafraîchi à chaque ouverture : la série et le statut Premium ont pu
-       changer depuis le chargement de la page (activité terminée, achat…). */
-    ksmProgSync(); ksmPremSync();
+    /* Rafraîchi à chaque ouverture : la série, le statut Premium et l'état
+       de connexion ont pu changer depuis le chargement de la page (activité
+       terminée, achat, déconnexion dans un autre onglet…). */
+    ksmProgSync(); ksmPremSync(); ksmOutSync();
     overlay.classList.add('open'); drawer.classList.add('open'); document.body.style.overflow='hidden';
     menuTriggers.forEach(function(b){ b.setAttribute('aria-expanded','true'); });
     document.addEventListener('keydown', trapTab);
@@ -333,6 +352,59 @@
     e.preventDefault();
     if (window.KSPremium) KSPremium.openUpgrade();
     else location.href = 'premium.html';
+  });
+
+  /* ── Se déconnecter (demande de Stella, 2026-08-13) ──
+     Existait déjà dans Réglages et Profil, mais il fallait connaître le
+     chemin. Le menu est le seul endroit présent sur les 400+ pages.
+     Réévalué à chaque ouverture comme la série et le Premium : on peut
+     s'être connecté ou déconnecté depuis le chargement de la page. */
+  var outBtn = document.getElementById('ksmOut');
+  function ksmCompte(){
+    try {
+      var u = JSON.parse(localStorage.getItem('ks_user') || 'null');
+      return (u && u.guest !== true) ? u : null;
+    } catch (e) { return null; }
+  }
+  function ksmOutSync(){
+    if (!outBtn) return;
+    var u = ksmCompte();
+    outBtn.dataset.on = u ? '1' : '0';
+    var who = document.getElementById('ksmOutWho');
+    if (who) who.textContent = u ? (u.email || u.name || '') : '';
+  }
+  ksmOutSync();
+  if (outBtn) outBtn.addEventListener('click', function () {
+    if (!confirm('Se déconnecter ? Ta progression est sauvegardée dans le cloud — tu la retrouveras à la reconnexion.')) return;
+    outBtn.disabled = true;
+    outBtn.querySelector('span').textContent = 'Déconnexion…';
+
+    function finir(){
+      try { localStorage.removeItem('ks_user'); } catch (e) {}
+      location.href = 'bienvenue.html';
+    }
+    /* La phrase ci-dessus promet que la progression est sauvegardée : on
+       la pousse donc AVANT de partir, au lieu de faire confiance au cycle
+       automatique de ~12 s. Quelqu'un qui finit une leçon puis se
+       déconnecte aussitôt perdrait sinon ce qu'il vient de faire.
+       Plafonné à 1,5 s : une promesse tenue ne vaut pas de bloquer
+       quelqu'un qui veut partir sur un réseau lent. */
+    function pousser(){
+      try {
+        if (!(window.KSSync && KSSync.isAuthed && KSSync.isAuthed() && KSSync.push)) return Promise.resolve();
+        return Promise.race([
+          KSSync.push().catch(function(){}),
+          new Promise(function(r){ setTimeout(r, 1500); })
+        ]);
+      } catch (e) { return Promise.resolve(); }
+    }
+    pousser().then(function(){
+      if (typeof firebase !== 'undefined' && firebase.auth) {
+        firebase.auth().signOut().then(finir).catch(finir);
+      } else {
+        finir();
+      }
+    });
   });
 
   /* ── Bouton déclencheur ── */
