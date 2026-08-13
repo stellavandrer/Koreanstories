@@ -343,6 +343,14 @@ section.s{padding:84px 0}
 .book-cta{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .book-price{font-size:13.5px;color:var(--t2);margin:0}
 .book-price strong{color:var(--t)}
+/* Lien en --t souligne d'or, pas ECRIT en or : sur le fond clair de cette
+   section (#FBF8F1), --gold-deep (#B8924E) plafonne a 2,9:1, sous le 4,5:1
+   exige a 12,5px. Meme piege que la passe de contraste du 2026-07-04.
+   Le souligne porte l'affordance, la couleur porte la lisibilite.
+   Mesure au navigateur le 2026-08-13 : lien 16,9:1 clair / 13,2:1 sombre,
+   paragraphe 6,3:1 clair / 4,7:1 sombre. */
+.book-next{font-size:12.5px;color:var(--t2);margin:8px 0 0}
+.book-next a{color:var(--t);font-weight:700;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--gold)}
 @media(max-width:860px){
   .book-inner{grid-template-columns:1fr;gap:26px;text-align:center}
   .book-pic{max-width:260px;margin:0 auto}
@@ -726,6 +734,11 @@ section.s{padding:84px 0}
       <div class="book-cta">
         <a href="livret-a1.html" class="btn btn-gold">Voir l'intérieur du livret →</a>
         <p class="book-price"><strong>5 €</strong> une fois — ou <strong>inclus</strong> avec le Premium.</p>
+        <!-- Le A2 est mentionne ici, pas mis en vedette : un visiteur qui
+             decouvre le site est debutant, lui presenter deux manuels le
+             ferait hesiter au lieu de choisir. Mais taire la suite serait
+             pire — c'est la preuve que la methode continue apres le A1. -->
+        <p class="book-next">La suite existe : le <a href="livret-a2.html">Livret A2</a>, 245 pages, vient de paraître.</p>
       </div>
     </div>
   </div>

@@ -2311,21 +2311,30 @@ function rPdfs(lv){
     grid.appendChild(a);
   });
   wrap.appendChild(grid);
-  /* Seulement sous le A1 : c'est le seul niveau que le Livret couvre.
-     L'annoncer sous A2 ou B1 serait vendre autre chose que ce qu'on lit.
+  /* Un bloc par niveau REELLEMENT couvert par un livret — rien d'autre.
+     L'annoncer sous B1 ou B2 serait vendre autre chose que ce qu'on lit.
+     Le A2 est sorti le 2026-08-13 : tant qu'il manquait ici, quelqu'un qui
+     avait fini le A1 n'apprenait nulle part que la suite existait.
      Cette section n'est rendue qu'aux Premium — donc a des gens qui ont
-     deja le Livret sans le savoir. On ne leur affiche pas un prix, on leur
-     dit ou le recuperer. */
-  if(lv.id==='a1'){
+     deja les livrets sans le savoir. On ne leur affiche pas un prix, on
+     leur dit ou les recuperer. */
+  const LIVRETS={
+    a1:{href:'livret-a1.html',t:'Tout le A1 en un seul livret',
+        s:'280 pages à imprimer : les leçons, les exercices à remplir et les corrigés. Compris dans ton Premium.'},
+    a2:{href:'livret-a2.html',t:'Tout le A2 en un seul livret',
+        s:'245 pages à imprimer : nuancer, promettre, supposer, comparer, raconter — exercices et corrigés inclus. Compris dans ton Premium.'}
+  };
+  const lvi=LIVRETS[lv.id];
+  if(lvi){
     const lvr=document.createElement('a');
-    lvr.href='livret-a1.html';lvr.className='pdfs-livret';
+    lvr.href=lvi.href;lvr.className='pdfs-livret';
     lvr.innerHTML=`
       <div class="pdfs-livret-ico">
         <svg viewBox="0 0 24 24"><path d="M4 3h10l5 5v13a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z"/><polyline points="14 3 14 8 19 8"/><line x1="7" y1="13" x2="15" y2="13"/><line x1="7" y1="17" x2="12" y2="17"/></svg>
       </div>
       <div class="pdfs-livret-b">
-        <div class="pdfs-livret-t">Tout le A1 en un seul livret</div>
-        <div class="pdfs-livret-s">280 pages à imprimer : les leçons, les exercices à remplir et les corrigés. Compris dans ton Premium.</div>
+        <div class="pdfs-livret-t">${lvi.t}</div>
+        <div class="pdfs-livret-s">${lvi.s}</div>
       </div>
       <span class="pdfs-livret-go">Récupérer</span>`;
     wrap.appendChild(lvr);
