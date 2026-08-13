@@ -210,7 +210,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-13.1 (Livret A2 : licence, Drive, cumul A1+A2)\n' +
+      'Korean Stories Premium API — v2026-08-13.2 (livret identifie par le tarif Stripe)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -1080,12 +1080,24 @@ async function handleCheckout(session, env) {
        Se tromper de livret est silencieux pour nous et payant pour l'acheteur :
        il regle 5 EUR et recoit le mauvais fichier. */
     let niveau = bookletByMeta ? meta.slice(-2) : null;
+
+    /* Pas de metadonnee : on lit le TARIF de la session. Ce n'est pas un
+       pis-aller, c'est le chemin normal pour un lien cree depuis le
+       Dashboard — Stripe n'y expose aucun champ « metadata » pour les
+       Payment Links, il n'existe que par l'API. L'identifiant de tarif, lui,
+       est toujours la et ne ment pas. */
+    if (!niveau) niveau = await bookletNiveauDepuisStripe(session, env);
+
+    /* Ni metadonnee, ni tarif reconnu : la on est vraiment dans le noir.
+       On sert l'A1 et on le crie, parce qu'un acheteur qui recoit le mauvais
+       livret ne s'en plaindra peut-etre jamais — il se dira qu'il s'est
+       trompe de bouton. */
     if (!niveau) {
-      niveau = await bookletNiveauDepuisStripe(session, env) || 'a1';
-      console.warn('[KS] Livret reconnu SANS la métadonnée `product` (montant ' +
-        cents + ' centimes) — niveau retenu : ' + niveau + '. Le Payment Link ' +
-        'Stripe doit porter product=livret-a1 ou product=livret-a2. Sans ce ' +
-        'filet, cet achat aurait donné un accès à vie.');
+      niveau = 'a1';
+      console.warn('[KS] Livret NON identifie : ni metadonnee `product`, ni ' +
+        'tarif connu (montant ' + cents + ' centimes). A1 servi par defaut. ' +
+        'Verifier que le tarif du Payment Link est bien ' + PRICE_BOOKLET_A1 +
+        ' ou ' + PRICE_BOOKLET_A2 + '.');
     }
     return handleBookletCheckout(session, email, env, niveau);
   }
