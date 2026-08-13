@@ -228,8 +228,31 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <script src="ks.js" defer></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script defer src="ks-sync.js"></script>
+<!-- Firestore (344 Ko) n'est PAS chargé ici, contrairement à app (32 Ko) et
+     auth (139 Ko) qui sont indispensables au formulaire. Il ne sert qu'une
+     fois, après l'envoi, pour écrire le document utilisateur — mais il
+     s'analysait au chargement, en plein pendant la saisie. Cloudflare Web
+     Analytics a mesuré 1 448 ms de latence sur #pw2 (le champ « confirme ton
+     mot de passe ») le 2026-08-13, alors que la fonction déclenchée par ce
+     champ ne fait que cinq opérations DOM : ce n'était pas elle, c'était le
+     fil principal occupé ailleurs.
+     Le chargement démarre maintenant en parallèle de l'appel à Auth, donc
+     son coût disparaît derrière l'aller-retour réseau de la connexion. -->
+<script>
+window.ksFirestore = function () {
+  if (window.__ksFsP) return window.__ksFsP;
+  if (window.firebase && firebase.firestore) return (window.__ksFsP = Promise.resolve());
+  window.__ksFsP = new Promise(function (ok, ko) {
+    var s = document.createElement('script');
+    s.src = 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js';
+    s.onload  = function () { ok(); };
+    s.onerror = function () { window.__ksFsP = null; ko(new Error('firestore')); };
+    document.head.appendChild(s);
+  });
+  return window.__ksFsP;
+};
+</script>
 </head>
 <body>
 
@@ -439,20 +462,37 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     const fullName = lastName ? firstName + ' ' + lastName : firstName;
     setLoading(true);
 
+    /* Lancé MAINTENANT, pas plus bas : le téléchargement de Firestore court
+       en parallèle de l'aller-retour réseau de la création de compte, donc
+       il ne rallonge rien. */
+    const fsPret = window.ksFirestore();
+
     firebase.auth().createUserWithEmailAndPassword(email, pw)
       .then(function(cred){
         return cred.user.updateProfile({ displayName: fullName }).then(function(){ return cred; });
       })
       .then(function(cred){
-        /* Migration : upload la progression locale actuelle */
+        /* Migration : upload la progression locale actuelle.
+           Volontairement « au mieux » : à ce stade le compte EXISTE déjà chez
+           Firebase Auth. Faire échouer l'inscription entière parce que ce
+           document n'a pas pu s'écrire laisserait quelqu'un avec un compte
+           créé et un message d'erreur — le pire des deux mondes. Si ça
+           échoue, ks-sync pousse la même progression depuis la page suivante,
+           il tourne toutes les ~12 s.
+           (Avant le chargement à la demande, un Firestore indisponible
+           cassait l'inscription pour de bon. C'est donc plus solide qu'avant,
+           pas seulement plus rapide.) */
         var snap = snapshotLocal();
-        return firebase.firestore().collection('users').doc(cred.user.uid).set({
-          name: fullName,
-          email: email,
-          data: snap,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true }).then(function(){ return cred; });
+        return fsPret.then(function(){
+          return firebase.firestore().collection('users').doc(cred.user.uid).set({
+            name: fullName,
+            email: email,
+            data: snap,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+        }).catch(function(){ /* le compte existe, on continue */ })
+          .then(function(){ return cred; });
       })
       .then(function(cred){
         try {

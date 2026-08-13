@@ -25,6 +25,31 @@
 
   try { firebase.initializeApp(CONFIG); } catch (e) { /* déjà initialisé */ }
   var auth = firebase.auth();
+
+  /* ── Firestore peut ne pas être chargé ──
+     signup.html et login.html ne l'injectent plus qu'au moment de l'envoi
+     du formulaire (2026-08-13) : il pesait 344 Ko analysés pendant que la
+     personne tapait son mot de passe (1 448 ms de latence mesurés par
+     Cloudflare sur le champ de confirmation).
+     ⚠️ ATTENTION EN RELISANT CE FICHIER : c'est ICI, et nulle part
+     ailleurs, que Firebase est démarré pour signup.html, login.html,
+     classement.html, profil.html, reglages.html — aucune de ces pages
+     n'appelle initializeApp() elle-même. On s'arrête donc APRÈS l'init
+     d'Auth, jamais avant : sortir plus tôt casserait l'inscription et la
+     connexion du site entier.
+     La synchro, elle, n'a rien à faire sur ces deux pages : personne n'est
+     encore connecté, et elles redirigent aussitôt après. */
+  if (!firebase.firestore) {
+    window.KSSync = {
+      isAuthed: function () { return !!auth.currentUser; },
+      user:     function () { return auth.currentUser; },
+      auth:     auth,
+      push:     function () { return Promise.resolve(false); },
+      pull:     function () { return Promise.resolve('no-firestore'); }
+    };
+    return;
+  }
+
   var db   = firebase.firestore();
 
   /* ── Quelles clés on synchronise ─────────────────────────────────── */

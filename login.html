@@ -201,8 +201,26 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <script src="ks.js" defer></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script defer src="ks-sync.js"></script>
+<!-- Même raison que sur signup.html (2026-08-13) : Firestore pèse 344 Ko
+     analysés au chargement alors qu'il ne sert qu'APRÈS l'envoi, pour
+     relire la progression du compte. On le charge à la demande, en
+     parallèle de l'appel à Auth. Voir le commentaire détaillé dans
+     signup.html et la garde !firebase.firestore dans ks-sync.js. -->
+<script>
+window.ksFirestore = function () {
+  if (window.__ksFsP) return window.__ksFsP;
+  if (window.firebase && firebase.firestore) return (window.__ksFsP = Promise.resolve());
+  window.__ksFsP = new Promise(function (ok, ko) {
+    var s = document.createElement('script');
+    s.src = 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js';
+    s.onload  = function () { ok(); };
+    s.onerror = function () { window.__ksFsP = null; ko(new Error('firestore')); };
+    document.head.appendChild(s);
+  });
+  return window.__ksFsP;
+};
+</script>
 </head>
 <body>
 
@@ -313,13 +331,24 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
     setLoading(true);
 
+    /* En parallèle de l'aller-retour d'Auth : le téléchargement ne rallonge
+       donc pas la connexion. */
+    const fsPret = window.ksFirestore();
+
     firebase.auth().signInWithEmailAndPassword(email, pw)
       .then(function(cred){
         /* Tire la progression cloud avant de rediriger pour que l'app
-           se charge déjà avec les vraies données de l'utilisateur. */
-        return firebase.firestore().collection('users').doc(cred.user.uid).get().then(function(doc){
-          var name = (cred.user.displayName) || (doc.exists && doc.data().name) || email.split('@')[0];
-          if (doc.exists) {
+           se charge déjà avec les vraies données de l'utilisateur.
+           « Au mieux » : si Firestore ne répond pas, on connecte quand même
+           — ks-sync retire la progression depuis app.html. Refuser la
+           connexion à quelqu'un dont le mot de passe est bon parce qu'une
+           lecture a échoué serait une punition sans rapport avec la faute. */
+        return fsPret
+          .then(function(){ return firebase.firestore().collection('users').doc(cred.user.uid).get(); })
+          .catch(function(){ return null; })
+          .then(function(doc){
+          var name = (cred.user.displayName) || (doc && doc.exists && doc.data().name) || email.split('@')[0];
+          if (doc && doc.exists) {
             var data = doc.data().data || {};
             var EXCLUDE = {'ks_theme':1,'ks_access':1,'ks_user':1,'ks_accounts':1,'ks_profile':1};
             for (var k in data) {
