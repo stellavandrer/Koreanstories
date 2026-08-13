@@ -189,7 +189,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="lv-card-tag">Niveau A1 · 280 pages</div>
       <div class="lv-card-t">Le Coréen A1</div>
       <p class="lv-card-s">Du Hangeul à tes premières conversations : cours, exercices à remplir au crayon et tous les corrigés. <strong>5 €</strong> une fois — ou compris dans le Premium.</p>
-      <a href="livret-a1.html" class="lv-card-go" data-achat="a1">Voir l'intérieur <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+      <a href="livret-a1.html" class="lv-card-go" data-achat="a1">En savoir plus <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
       <button type="button" class="lv-card-go lv-dl" id="lvDlA1" hidden><svg viewBox="0 0 24 24"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M20 17v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3"/></svg> Télécharger</button>
       <div class="lv-dl-msg" id="lvMsgA1"></div>
     </div>
@@ -202,7 +202,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="lv-card-tag">Niveau A2 · 245 pages</div>
       <div class="lv-card-t">Le Coréen A2</div>
       <p class="lv-card-s">16 chapitres, 4 bilans, plus de 200 exercices : nuancer, promettre, supposer, comparer, raconter. <strong>5 €</strong> une fois — ou compris dans le Premium.</p>
-      <a href="livret-a2.html" class="lv-card-go" data-achat="a2">Voir l'intérieur <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+      <a href="livret-a2.html" class="lv-card-go" data-achat="a2">En savoir plus <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
       <button type="button" class="lv-card-go lv-dl" id="lvDlA2" hidden><svg viewBox="0 0 24 24"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M20 17v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3"/></svg> Télécharger</button>
       <div class="lv-dl-msg" id="lvMsgA2"></div>
     </div>
@@ -492,11 +492,12 @@ render();
          refusera et le dira — c'est lui qui tranche, pas cette page. */
       if (premium || cle()) {
         btn.hidden = false;
-        /* On ne masque l'achat QUE pour un abonne Premium, qui possede tout.
-           Un porteur de cle, lui, peut n'avoir que l'A1 : lui retirer le
-           bouton d'achat de l'A2 l'empecherait d'acheter ce qui lui manque.
-           C'est le cas de Stella elle-meme — cle A1, pas d'A2. */
-        if (niv === 'a2' && premium) achat.hidden = true;
+        /* On ne masque plus rien. Cette regle datait du moment ou le bouton
+           A2 menait droit a Stripe : la cacher aux abonnes evitait de leur
+           revendre ce qu'ils avaient. Depuis, il mene a livret-a2.html — le
+           masquer privait les abonnes du seul chemin vers la page du livret,
+           sommaire et apercus compris. Un membre a autant besoin de lire ce
+           qu'il telecharge qu'un acheteur. */
         btn.addEventListener('click', function () { telecharger(niv, btn, msg); });
       }
     });
