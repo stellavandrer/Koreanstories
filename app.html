@@ -1174,6 +1174,19 @@
 
 <!-- CONTENT WRAPPER -->
 <div id="appContent">
+<!-- Decision « jour-1 » AVANT que le navigateur ne parse les enfants.
+     Elle se prenait en bas de page : le tableau de bord complet etait donc
+     peint (objectif, defi, sections, widgets), PUIS six blocs passaient en
+     display:none et tout remontait d'un coup — un CLS mesure a 0,268 sur
+     #appContent>div.goal-strip (Cloudflare Web Analytics, 2026-08-13 ;
+     le seuil « mauvais » est 0,25). Ici le script s'execute pendant le
+     parsing, avant que les enfants existent : les regles .ks-new
+     s'appliquent d'emblee et rien ne bouge.
+     Meme principe que le script de theme en tete des autres pages.
+     N'utilise QUE localStorage — aucune dependance au DOM ni au reseau,
+     sinon il ne pourrait pas tourner ici. Le renommage du libelle
+     « Reprendre » → « Commence ici » reste en bas : lui a besoin du DOM. -->
+<script>try{var _ac=document.getElementById('appContent');if(_ac&&(parseInt(localStorage.getItem('ks_xp')||'0',10)||0)===0)_ac.className+=' ks-new';}catch(e){}</script>
 
   <!-- DESKTOP HEADER (≥900px only) -->
   <div class="desk-hdr" id="deskHdr" style="display:none;align-items:center;justify-content:space-between;padding:20px 28px 12px">
