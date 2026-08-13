@@ -63,6 +63,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .lv-card-s{font-size:12.5px;color:var(--gray);line-height:1.6;margin-bottom:10px}
 .lv-card-go{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#e0c48a,var(--gold));color:#3a2c12;text-decoration:none;font-size:13px;font-weight:700;padding:9px 15px;border-radius:100px}
 .lv-card-go svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
+.lv-dl{border:none;cursor:pointer;font-family:inherit}
+.lv-dl[disabled]{opacity:.6;cursor:default}
+.lv-dl-msg{font-size:11.5px;line-height:1.5;color:var(--gray);margin-top:7px;min-height:1em}
+.lv-dl-msg.err{color:#b91c1c;font-weight:600}
+[data-theme=dark] .lv-dl-msg.err{color:#fca5a5}
 @media(max-width:460px){.lv-card{flex-direction:column;align-items:flex-start;gap:12px}}
 @media(min-width:1024px){.lv-block{max-width:1080px}}
 .level-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
@@ -179,7 +184,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="lv-card-tag">Niveau A1 · 280 pages</div>
       <div class="lv-card-t">Le Coréen A1</div>
       <p class="lv-card-s">Du Hangeul à tes premières conversations : cours, exercices à remplir au crayon et tous les corrigés. <strong>5 €</strong> une fois — ou compris dans le Premium.</p>
-      <a href="livret-a1.html" class="lv-card-go">Voir l'intérieur <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+      <a href="livret-a1.html" class="lv-card-go" data-achat="a1">Voir l'intérieur <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+      <button type="button" class="lv-card-go lv-dl" id="lvDlA1" hidden><svg viewBox="0 0 24 24"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M20 17v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3"/></svg> Télécharger</button>
+      <div class="lv-dl-msg" id="lvMsgA1"></div>
     </div>
   </div>
   <div class="lv-card">
@@ -190,7 +197,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="lv-card-tag">Niveau A2 · 245 pages</div>
       <div class="lv-card-t">Le Coréen A2</div>
       <p class="lv-card-s">16 chapitres, 4 bilans, plus de 200 exercices : nuancer, promettre, supposer, comparer, raconter. <strong>5 €</strong> une fois — ou compris dans le Premium.</p>
-      <a href="https://buy.stripe.com/14A4gBbZRbVDcGP1NSe7m03" class="lv-card-go">Acheter le Livret A2 <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+      <a href="https://buy.stripe.com/14A4gBbZRbVDcGP1NSe7m03" class="lv-card-go" data-achat="a2">Acheter le Livret A2 <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></a>
+      <button type="button" class="lv-card-go lv-dl" id="lvDlA2" hidden><svg viewBox="0 0 24 24"><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/><path d="M20 17v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3"/></svg> Télécharger</button>
+      <div class="lv-dl-msg" id="lvMsgA2"></div>
     </div>
   </div>
 </div>
@@ -369,6 +378,123 @@ function toggleTheme() {
 
 render();
 </script>
-  <script src="ks-menu.js" defer></script>
+  <script src="ks-premium.js" defer></script>
+<script>
+/* ── Livrets : le membre telecharge, le visiteur achete ────────────────────
+   Stella, 2026-08-13 : « le A2 on peut que l'acheter, ceux qui ont le premium
+   ont besoin de faire comme le A1 ». Un abonne qui cliquait payait 5 EUR pour
+   un fichier deja compris dans son abonnement.
+
+   Le telechargement se fait ICI plutot que sur une page dediee : la demande
+   etait justement de ne pas multiplier les pages. Meme contrat que
+   livret-a1.html — on envoie les deux preuves possibles (jeton du compte,
+   cle de licence), le worker retient la premiere qui marche.
+
+   Le fichier pese des dizaines de Mo : sans compteur, le bouton reste fige
+   une minute et on croit que c'est casse. On lit donc le flux nous-memes. */
+(function () {
+  'use strict';
+  var WORKER = 'https://ks-premium.delicate-voice-1d19.workers.dev';
+
+  function jeton() {
+    return new Promise(function (resolve) {
+      var fini = false;
+      function rendre(v) { if (!fini) { fini = true; resolve(v); } }
+      setTimeout(function () { rendre(null); }, 4000);   // Firebase muet : on continue
+      try {
+        if (!window.firebase || !firebase.auth) return rendre(null);
+        firebase.auth().onAuthStateChanged(function (u) {
+          if (!u) return rendre(null);
+          u.getIdToken().then(rendre).catch(function () { rendre(null); });
+        });
+      } catch (e) { rendre(null); }
+    });
+  }
+
+  function cle() { try { return localStorage.getItem('ks_premium_key'); } catch (e) { return null; } }
+
+  function telecharger(niv, btn, msg) {
+    btn.disabled = true;
+    msg.className = 'lv-dl-msg';
+    msg.textContent = 'Préparation du fichier…';
+    jeton().then(function (tok) {
+      var h = {}, k = cle();
+      if (k)   h['X-License-Key']    = k;
+      if (tok) h['X-Firebase-Token'] = tok;
+      /* Cle + compte ensemble : on scelle la liaison en silence, comme sur
+         livret-a1.html. La cle ne servira plus jamais ensuite. */
+      if (k && tok) {
+        try {
+          fetch(WORKER + '/link-license', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Firebase-Token': tok },
+            body: JSON.stringify({ key: k })
+          }).catch(function () {});
+        } catch (e) {}
+      }
+      return fetch(WORKER + '/pdf?file=livret-' + niv, { headers: h });
+    }).then(function (r) {
+      if (!r.ok) {
+        /* Le worker explique PRECISEMENT l'echec dans le corps (cle invalide,
+           abonnement expire, fichier absent). On affiche son message, pas un
+           « erreur » generique qui ne se diagnostique pas. */
+        return r.text().then(function (t) { throw new Error(t || ('Erreur ' + r.status)); });
+      }
+      var total = parseInt(r.headers.get('Content-Length') || '0', 10);
+      if (!r.body || !total) return r.blob();
+      var lu = 0, morceaux = [];
+      var lecteur = r.body.getReader();
+      return (function suite() {
+        return lecteur.read().then(function (res) {
+          if (res.done) return new Blob(morceaux, { type: 'application/pdf' });
+          morceaux.push(res.value); lu += res.value.length;
+          msg.textContent = 'Téléchargement… ' + Math.round(lu / total * 100) + ' %';
+          return suite();
+        });
+      })();
+    }).then(function (blob) {
+      var u = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = u; a.download = 'Korean-Stories-Livret-' + niv.toUpperCase() + '.pdf';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
+      msg.textContent = 'Téléchargé. Bonne lecture !';
+      btn.disabled = false;
+    }).catch(function (e) {
+      msg.className = 'lv-dl-msg err';
+      msg.textContent = String(e.message || e).slice(0, 160);
+      btn.disabled = false;
+    });
+  }
+
+  function poser() {
+    var premium = !!(window.KSPremium && KSPremium.isPremium && KSPremium.isPremium());
+    ['a1', 'a2'].forEach(function (niv) {
+      var U = niv.toUpperCase();
+      var btn = document.getElementById('lvDl' + U);
+      var msg = document.getElementById('lvMsg' + U);
+      var achat = document.querySelector('[data-achat="' + niv + '"]');
+      if (!btn || !achat) return;
+      /* Un acheteur du livret seul possede une cle mais n'est pas Premium :
+         on lui montre aussi le bouton. S'il n'a pas CE livret-la, le worker
+         refusera et le dira — c'est lui qui tranche, pas cette page. */
+      if (premium || cle()) {
+        btn.hidden = false;
+        if (niv === 'a2') achat.hidden = true;      // ne pas revendre l'A2 a qui l'a
+        btn.addEventListener('click', function () { telecharger(niv, btn, msg); });
+      }
+    });
+  }
+
+  /* ks-premium.js est charge en defer : au premier passage il peut manquer. */
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poser);
+  else poser();
+  window.addEventListener('load', function () {
+    if (!document.getElementById('lvDlA1') || document.getElementById('lvDlA1').hidden) poser();
+  });
+})();
+</script>
+
+<script src="ks-menu.js" defer></script>
 </body>
 </html>
