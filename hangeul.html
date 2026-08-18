@@ -466,6 +466,30 @@
     .lec-cta-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px}
     .lec-cta-sub{font-size:11px;color:var(--gray)}
     .lec-cta-arr{color:var(--gold);font-size:18px;flex-shrink:0}
+    /* Fiches Hangeul a imprimer — liens STATIQUES, et c'est le point.
+       Les cinq fiches gratuites n'etaient atteignables que par les cartes
+       de ressources.html, qui sont construites en JavaScript depuis le
+       tableau PDFS : aucun lien en dur nulle part sur le site public.
+       Elles etaient donc dans le sitemap, autorisees dans robots.txt,
+       publiques dans la porte d'acces… et sans un seul lien entrant.
+       Un moteur les trouvait par le sitemap seul, ce qui est le signal
+       le plus faible qui soit. Ici ce sont de vraies balises <a href>. */
+    .fic-gr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+    @media(max-width:520px){.fic-gr{grid-template-columns:1fr}}
+    .fic{display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:14px;
+      background:var(--surf);border:1.5px solid var(--bd);text-decoration:none;transition:all .18s}
+    .fic:hover{border-color:var(--gold);transform:translateY(-1px)}
+    .fic-ic{width:34px;height:34px;border-radius:10px;background:rgba(201,169,110,.13);
+      display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .fic-ic svg{width:17px;height:17px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .fic-b{flex:1;min-width:0}
+    /* --t et --t2, PAS --navy/--gray : --navy n'est defini qu'une fois
+       dans design.css (bloc clair) et n'est jamais redefini en sombre —
+       un titre en --navy serait quasi noir sur la carte sombre. C'est le
+       piege deja corrige sur 240 fichiers. Et --gray plafonne a 2,5:1,
+       sous le 4,5:1 exige. --t et --t2 suivent le theme et passent. */
+    .fic-t{font-size:13px;font-weight:700;color:var(--t,#0D1823);line-height:1.25}
+    .fic-s{font-size:11px;color:var(--t2,#475E78);margin-top:2px}
 
     /* ── MODAL ── */
     .modal-bg{position:fixed;inset:0;z-index:200;background:rgba(15,27,45,.65);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
@@ -1105,6 +1129,21 @@
       </div>
     </div>
     <p class="ecr-pdf">Pour t'entraîner sur papier : la <a href="ressources.html">fiche d'exercices d'écriture</a> (grilles à imprimer) est dans les ressources, gratuitement. Si tu veux des grilles pour <em>chaque</em> lettre et la suite du A1 dans la foulée, elles sont dans le <a href="livret-a1.html">Livret A1</a>.</p>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- ⑧ter LES CINQ FICHES GRATUITES -->
+  <div class="sec-hd sec-anchor" id="secFiches">
+    <h2>Les cinq fiches à imprimer, gratuites</h2>
+    <p>Tout ce qu'il y a sur cette page tient aussi sur papier. Ces cinq fiches sont libres — pas de compte, pas de paiement : tu cliques, tu imprimes, tu écris au crayon.</p>
+  </div>
+  <div class="fic-gr">
+    <a class="fic" href="pdf/hangeul-chart.html"><div class="fic-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="fic-b"><div class="fic-t">Tableau Hangeul complet</div><div class="fic-s">Les 40 caractères, avec romanisation</div></div></a>
+    <a class="fic" href="pdf/hangeul-mnemo.html"><div class="fic-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="fic-b"><div class="fic-t">Hangeul par mnémotechniques</div><div class="fic-s">Retenir chaque lettre par une image</div></div></a>
+    <a class="fic" href="pdf/hangeul-exercices.html"><div class="fic-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="fic-b"><div class="fic-t">Exercices Hangeul</div><div class="fic-s">Lire, écrire, reconnaître — à remplir</div></div></a>
+    <a class="fic" href="pdf/prononc-hangeul.html"><div class="fic-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="fic-b"><div class="fic-t">Guide de prononciation</div><div class="fic-s">Batchim, liaisons, sons qui changent</div></div></a>
+    <a class="fic" href="pdf/clavier-coreen.html"><div class="fic-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="fic-b"><div class="fic-t">Le clavier coréen</div><div class="fic-s">Taper en coréen sur iPhone, Android, PC</div></div></a>
   </div>
 
   <!-- ⑧bis TU SAIS DÉJÀ LIRE -->
