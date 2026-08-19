@@ -7,10 +7,18 @@ durable). Réplique exactement le pipeline utilisé pour le contenu
 existant — les lignes de personnages BD jouent via la chaîne de repli
 narrateur/neural comme leurs voisines déjà en prod.
 
-  python3 fix_missing_audio.py            # répare tout ce qui manque
+  python3 fix_missing_audio.py                       # répare tout ce qui manque
+  python3 fix_missing_audio.py --liste FICHIER.txt  # génère une liste explicite
+
+Le mode --liste sert au contenu que check_audio.py ne peut PAS voir : les
+chaînes que le navigateur compose à la volée. Les syllabes de
+prenom-coreen.html n'existent nulle part dans le HTML — elles sortent du
+moteur de transcription — et les âges de age-coreen.html sont assemblés en
+JavaScript. Voir audio_prenoms.txt et audio_ages.txt.
 """
 import asyncio
 import hashlib
+import io
 import json
 import os
 import sys
@@ -73,22 +81,49 @@ async def gen_edge(text, h):
         print(f"    edge/{vkey} ok ({os.path.getsize(path)} o)")
 
 
+def strings_from_file(path):
+    """Une chaîne par ligne. Lignes vides et commentaires # ignorés — les
+    fichiers de liste s'expliquent eux-mêmes en en-tête."""
+    out = []
+    with io.open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                out.append(line)
+    # dédoublonne en gardant l'ordre : les listes sont triées par utilité
+    vu, uniques = set(), []
+    for t in out:
+        if t not in vu:
+            vu.add(t)
+            uniques.append(t)
+    return uniques
+
+
 def main():
     tc = load_module("gat", "generate_audio_typecast.py")
     key = tc.get_api_key()
     voices = json.load(open("character_voices.json"))
     narr_id = voices["characters"]["narrateur"]["voice_id"]
 
-    texts = missing_strings()
-    print(f"{len(texts)} chaînes à générer\n")
+    manifest = json.load(open("audio/manifest.json"))
+    sidecar = json.load(open("audio/manifest-extra.json"))
+
+    if "--liste" in sys.argv:
+        chemin = sys.argv[sys.argv.index("--liste") + 1]
+        demandes = strings_from_file(chemin)
+        texts = [t for t in demandes if t not in manifest and t not in sidecar]
+        print(f"{chemin} : {len(demandes)} chaînes, "
+              f"{len(demandes) - len(texts)} déjà enregistrées, {len(texts)} à générer\n")
+    else:
+        texts = missing_strings()
+        print(f"{len(texts)} chaînes à générer\n")
+
     if not texts:
         print("Rien à faire.")
         return
 
-    manifest = json.load(open("audio/manifest.json"))
-    sidecar = json.load(open("audio/manifest-extra.json"))
-
     done, fails = 0, 0
+    crees = []
     for i, text in enumerate(texts, 1):
         h = short_hash(text)
         print(f"[{i}/{len(texts)}] «{text[:50]}…» → {h}")
@@ -103,6 +138,8 @@ def main():
             asyncio.run(gen_edge(text, h))
             manifest[text] = h + ".mp3"
             sidecar[text] = h + ".mp3"
+            crees.append(tc_path)
+            crees += [os.path.join("audio", v, h + ".mp3") for v in EDGE_VOICES]
             done += 1
         except Exception as e:
             fails += 1
@@ -111,6 +148,14 @@ def main():
     json.dump(manifest, open("audio/manifest.json", "w"), ensure_ascii=False)
     json.dump(sidecar, open("audio/manifest-extra.json", "w"), ensure_ascii=False)
     print(f"\nTERMINÉ : {done} générées, {fails} échecs. Manifest: {len(manifest)} entrées, sidecar: {len(sidecar)}.")
+
+    if crees:
+        with io.open("audio_ajouts.txt", "w", encoding="utf-8") as f:
+            f.write("\n".join(crees) + "\n")
+        print(f"\n{len(crees)} fichiers listés dans audio_ajouts.txt.")
+        print("Pour committer SANS ramasser le reste de audio/narrateur/ :")
+        print("  git add audio/manifest.json audio/manifest-extra.json")
+        print("  xargs -a audio_ajouts.txt git add")
 
 
 if __name__ == "__main__":

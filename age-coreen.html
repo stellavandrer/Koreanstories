@@ -196,6 +196,10 @@
         </div>
 
         <div class="ag-actions">
+          <button type="button" class="ag-btn" id="agSay" hidden>
+            <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+            Écouter mon âge
+          </button>
           <button type="button" class="ag-btn" id="agAsk">
             <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
             Écouter « <span class="kr">몇 살이에요?</span> »
@@ -268,6 +272,18 @@
   var annee  = document.getElementById('agAnnee');
   var copie  = document.getElementById('agCopie');
   var btnAsk = document.getElementById('agAsk');
+  var btnSay = document.getElementById('agSay');
+
+  /* On lit le manifeste nous-mêmes plutôt que de laisser speak() échouer
+     en silence : un bouton qui ne joue rien est pire que pas de bouton.
+     Tant que les 99 phrases « N 살 » ne sont pas enregistrées, le bouton
+     reste simplement absent — et il apparaîtra tout seul le jour où elles
+     le seront, sans retoucher cette page. */
+  var voix = null;
+  fetch('audio/manifest.json')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (m) { if (m) { voix = m; rendre(); } })
+    .catch(function () {});
   var repEl  = document.getElementById('agRep');
   var repKr  = document.getElementById('agRepKr');
   var repFr  = document.getElementById('agRepFr');
@@ -337,11 +353,13 @@
          piège — autant ne pas le tendre nous-mêmes. */
       var lu = window.KSLectureFR ? window.KSLectureFR.lire(kr) : '';
       romEl.textContent = (lu ? '« ' + lu + ' » — ' : '') + a.coreen + ' ' + pluriel;
+      btnSay.hidden = !(voix && voix[kr]);
       repEl.hidden = false;
       repKr.textContent = mots.join('') + ' 살이에요';
       repFr.textContent = window.KSLectureFR
         ? '« ' + window.KSLectureFR.lire(mots.join('') + ' 살이에요') + ' »' : '';
     } else {
+      btnSay.hidden = true;
       repEl.hidden = true;
       /* Au-delà de 99 ans, le coréen bascule sur les nombres sino-coréens :
          plutôt que d'inventer une forme, on le dit franchement. */
@@ -356,12 +374,16 @@
     e.preventDefault(); input.blur();
   });
 
-  /* Audio : uniquement « 몇 살이에요? », dont l'enregistrement est vérifié
-     dans audio/manifest.json. Les nombres natifs n'ont pas encore de voix
-     complète — un bouton qui ne joue rien est pire que pas de bouton, et
-     la règle du site est ferme : aucune voix de synthèse, nulle part. */
+  /* Deux boutons, tous deux adossés au manifeste : la question, toujours
+     disponible, et l'âge lui-même, qui n'apparaît que si la phrase a été
+     enregistrée. La liste à générer est dans audio_ages.txt. */
   btnAsk.addEventListener('click', function () {
     if (typeof window.speak === 'function') window.speak('몇 살이에요?', btnAsk);
+  });
+
+  btnSay.addEventListener('click', function () {
+    var kr = krEl.textContent;
+    if (kr && typeof window.speak === 'function') window.speak(kr, btnSay);
   });
 
   document.getElementById('agCopy').addEventListener('click', function () {
