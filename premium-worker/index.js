@@ -119,6 +119,9 @@ export default {
 
     // Lie une clé de licence au compte connecté. Après ça, le jeton
     // d'identité suffit pour télécharger, sur n'importe quel appareil.
+    if ((request.method === 'GET' || request.method === 'POST') && url.pathname === '/fiche-offerte') {
+      return handleFicheOfferte(request, env);
+    }
     if (request.method === 'POST' && url.pathname === '/link-license') {
       return handleLinkLicense(request, env);
     }
@@ -210,7 +213,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-13.3 (e-mail du livret : lien du BON niveau)\n' +
+      'Korean Stories Premium API — v2026-08-16.1 (fiche A1 offerte a la fin du Hangeul)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -440,7 +443,81 @@ function bookletsOf(license) {
   return [];
 }
 
+/* ── FICHE OFFERTE À LA FIN DU MODULE HANGEUL (2026-08-16) ──────────────────
+   Décision de Stella : offrir une vraie fiche Premium, définitivement, à qui
+   termine le Hangeul. Un cadeau qu'on emporte, pas un badge de plus — le site
+   en compte déjà six systèmes.
+
+   Pool limité au niveau A1 : quelqu'un qui vient d'apprendre l'alphabet ne
+   ferait rien de « Littérature B2 » ou « Coréen des affaires ». Un cadeau
+   inutilisable n'est pas un cadeau. Le critère est le niveau déclaré dans le
+   catalogue (ressources.html), pas un choix au doigt mouillé.
+
+   ⚠️ CE QUE CE GARDE-FOU FAIT, ET CE QU'IL NE FAIT PAS.
+   Il vérifie une identité RÉELLE (jeton Firebase signé, adresse vérifiée) et
+   n'accorde QU'UN cadeau par compte, définitivement. Il ne vérifie PAS que le
+   Hangeul est réellement terminé : cette condition est évaluée côté navigateur.
+   Le worker n'a aucun accès à Firestore, où vit la progression — lui en donner
+   un imposerait une clé de service privée sur le chemin critique des
+   téléchargements, pour protéger un cadeau à 0 €. Disproportionné : quelqu'un
+   de déterminé peut de toute façon créer un autre compte. L'exigence d'adresse
+   vérifiée est ce qui rend l'opération pénible à répéter.
+   Si un jour ça devient un vrai problème, la bonne réponse est de lire la
+   progression, pas de durcir ici. */
+const FICHES_OFFERTES = {
+  'vocab-a1': 1, 'expressions-a1': 1, 'grammaire-a1': 1, 'exister-avoir': 1,
+  'conjugaison-a1': 1, 'corps-a1': 1, 'topik1-prep': 1
+};
+
+async function cadeauDe(user, env) {
+  if (!user || !user.uid) return null;
+  try { return (await env.KS_LICENSES.get('cadeau:' + user.uid)) || null; }
+  catch (e) { return null; }
+}
+
+// ── Consulter / réclamer la fiche offerte ────────────────────────────────────
+async function handleFicheOfferte(request, env) {
+  const user = await verifyFirebaseToken(request.headers.get('X-Firebase-Token') || '');
+  if (!user) return json({ success: false, message: 'Session invalide, reconnecte-toi.' }, 401);
+
+  const deja = await cadeauDe(user, env);
+
+  if (request.method === 'GET') {
+    return json({ success: true, fiche: deja, choix: Object.keys(FICHES_OFFERTES) });
+  }
+
+  if (await rateLimited(request, env, 'cadeau', 10, 3600)) {
+    return json({ success: false, message: 'Trop de tentatives, réessaie plus tard.' }, 429);
+  }
+  /* Une adresse non vérifiée ne prouve rien : c'est le seul vrai coût à payer
+     pour recommencer avec un autre compte. Même raison que dans
+     licenseForAccount. */
+  if (!user.emailVerified) {
+    return json({ success: false, message:
+      "Confirme d'abord ton adresse e-mail : on t'a envoyé un lien à l'inscription." }, 403);
+  }
+  if (deja) {
+    return json({ success: false, dejaChoisie: deja, message:
+      'Tu as déjà choisi ta fiche offerte. Elle reste à toi pour toujours.' }, 409);
+  }
+
+  let body = {};
+  try { body = await request.json(); } catch (e) {}
+  const file = String(body.file || '').trim();
+  if (!FICHES_OFFERTES[file]) {
+    return json({ success: false, message: 'Cette fiche ne fait pas partie du choix.' }, 400);
+  }
+
+  await env.KS_LICENSES.put('cadeau:' + user.uid, file);
+  return json({ success: true, fiche: file });
+}
+
 function canAccessFile(license, file) {
+  /* Un cadeau n'ouvre QUE la fiche choisie — jamais les 29 autres, jamais les
+     livrets. Même principe que les licences 'booklet'. */
+  if (license.type === 'cadeau') {
+    return Array.isArray(license.fiches) && license.fiches.indexOf(file) !== -1;
+  }
   if (String(license.type || '').indexOf('booklet') === 0) {
     const m = /^livret-(a1|a2)$/.exec(file);
     return !!m && bookletsOf(license).indexOf(m[1]) !== -1;
@@ -487,6 +564,13 @@ async function handlePdfDownload(request, env) {
     if (data.type === 'monthly' && data.status !== 'active') {
       return corsResponse('Abonnement expiré ou annulé', 403);
     }
+  }
+  /* Pas de licence ? Reste le cadeau de fin de Hangeul. Vérifié ici et pas
+     ailleurs : c'est le seul endroit qui décide si les octets partent. */
+  if (!data && token) {
+    const u = await verifyFirebaseToken(token);
+    const offerte = await cadeauDe(u, env);
+    if (offerte && offerte === file) data = { type: 'cadeau', fiches: [offerte] };
   }
   if (!data) {
     return corsResponse(
