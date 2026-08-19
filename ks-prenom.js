@@ -78,7 +78,7 @@
     ['yn', 'N', 'nasale'], ['ym', 'N', 'nasale'],
     // Consonnes composées.
     ['sch', 'S'], ['ch', 'S'], ['ph', 'f'], ['gn', 'J'], ['th', 't'],
-    ['qu', 'k'], ['q', 'k'],
+    ['cqu', 'k'], ['qu', 'k'], ['q', 'k'],
     ['ill', 'ij'], ['ll', 'l'],
     ['ss', 's'], ['tt', 't'], ['pp', 'p'], ['mm', 'm'], ['nn', 'n'],
     ['rr', 'R'], ['ff', 'f'], ['cc', 'k'], ['dd', 'd'], ['bb', 'b'],
@@ -112,15 +112,44 @@
 
       if (c === ' ' || c === '-' || c === "'") { i++; continue; }
 
+      /* « gu » devant e, i ou y n'est qu'une façon d'écrire le g dur :
+         le u ne s'entend pas. Guillaume se dit « gi-yom » (기욤) et non
+         « gui-i-yom ». À placer AVANT l'adoucissement du g, sinon le g
+         de Guy partirait en « j ». */
+      if (c === 'g' && s.charAt(i + 1) === 'u' && 'eéèêiïy'.indexOf(s.charAt(i + 2)) >= 0) {
+        sons += 'g'; i += 2; continue;
+      }
+
       /* « c » et « g » changent de son devant e, i, y — Cécile fait
          « sé-sil », Gérard fait « jé-rar ». */
-      if (c === 'c' && 'eéèêiïy'.indexOf(s.charAt(i + 1)) >= 0) { sons += 's'; i++; continue; }
-      if (c === 'g' && 'eéèêiïy'.indexOf(s.charAt(i + 1)) >= 0) { sons += 'Z'; i++; continue; }
+      /* Un « e » suivi d'une consonne DOUBLE à l'écrit se dit è : c'est
+         la première des deux qui ferme la syllabe. Stella fait 스텔라,
+         Estelle 에스텔, Jeannette 자네트. Le test doit avoir lieu ICI,
+         sur l'orthographe : la table réduit juste après ll, tt, nn… à
+         une seule consonne, et l'indice serait perdu. */
+      var dbl = s.charAt(i + 1);
+      if (c === 'e' && dbl && dbl === s.charAt(i + 2) && 'pbtdkgfvszcmnlr'.indexOf(dbl) >= 0) {
+        sons += 'E'; i++; continue;
+      }
+
+      /* Le test sur la chaîne vide n'est pas décoratif : indexOf('')
+         vaut 0, donc « rien après » passait pour un e. Marc, Éric, Loïc
+         et Ludovic finissaient en « s » — 마르스 au lieu de 마르크. */
+      var apresCG = s.charAt(i + 1);
+      if (c === 'c' && apresCG && 'eéèêiïy'.indexOf(apresCG) >= 0) { sons += 's'; i++; continue; }
+      if (c === 'g' && apresCG && 'eéèêiïy'.indexOf(apresCG) >= 0) { sons += 'Z'; i++; continue; }
 
       /* « ch » suivi d'une consonne vient du grec et se dit k :
          Chloé, Christophe, Christine — jamais « ch » de chat. */
       if (s.substr(i, 2) === 'ch' && 'lr'.indexOf(s.charAt(i + 2)) >= 0) {
         sons += 'k'; i += 2; continue;
+      }
+
+      /* Un « y » entre deux voyelles n'est pas une voyelle mais un
+         glide : Maya se dit « ma-ya » (마야) et non « ma-i-a » (마이아).
+         Entre consonnes il reste un i ordinaire (Lyna, Sylvie). */
+      if (c === 'y' && i > 0 && estVoyelleFr(s.charAt(i - 1)) && estVoyelleFr(s.charAt(i + 1))) {
+        sons += 'j'; i++; continue;
       }
 
       /* Un « s » entre deux voyelles se dit z : Lisa fait « li-za ». */
@@ -171,8 +200,14 @@
            « da-vid ». C'est cette distinction qui évite de choisir
            entre 로랑 et 다비드 : les deux sont justes. */
     /* Le s final se tait (Nicolas, Thomas) SAUF après un è, où il
-       s'entend : Inès et Agnès se disent bien « i-nèss », « a-gnèss ». */
-    out = out.replace(/([^E])[sz]$/, '$1');
+       s'entend : Inès et Agnès se disent bien « i-nèss », « a-gnèss ».
+       Et surtout : il ne se tait QUE s'il est vraiment le dernier signe
+       du mot écrit. Sans cette garde, l'étape précédente ôtait le « e »
+       muet de Rose, Alice ou Louise, exposait leur s… qui se faisait
+       manger à son tour. Rose donnait 로 (« ro »), Alice 알리 — la fin du
+       prénom disparaissait purement et simplement. */
+    var brut = String(motOriginal || '').trim().toLowerCase();
+    if (/[sxz]$/.test(brut)) out = out.replace(/([^E])[sz]$/, '$1');
     /* Un t ou un d final se tait après une nasale (Laurent, Vincent) et
        après un r (Bernard, Gérard), mais s'entend ailleurs : David se dit
        « da-vid », Baptiste garde son t final. */
@@ -187,6 +222,7 @@
     out = out.replace(/([aeEiouy2AON])@/g, '$1e');
     // Un « e » devant deux consonnes se dit è : Bertrand.
     out = out.replace(/@(?=[pbtdkgfvszSZmnlRJ]{2})/g, 'E');
+
     /* En début de mot, le « e » s'entend toujours : Emma, Estelle,
        Emile. Sans ça, Emma donnait 어마 au lieu de 엠마. Idem devant une
        consonne doublée à l'écrit, que la table a déjà réduite à un seul
@@ -268,6 +304,11 @@
           var finaleCluster = '';
           if (apresCons === 'l' && estVoyelleSon(sons.charAt(i + 1))) {
             finaleCluster = 'r';
+          } else if (apresCons === 'l' && i + 1 >= sons.length) {
+            /* En toute fin de mot il n'y a plus de syllabe à rouvrir : le
+               l se contente de fermer celle-ci, et on le consomme.
+               Charles fait 샤를 et non 샤르르, Carl fait 카를. */
+            finaleCluster = 'r'; i++;
           }
           blocs.push({
             hangeul: composer(initiale, 'eu', finaleCluster),

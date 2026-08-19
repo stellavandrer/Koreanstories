@@ -61,7 +61,7 @@
   .ag-out{margin:26px auto 0;max-width:520px}
   .ag-card{background:var(--surf,#fff);border:1.5px solid var(--bd,#e6e6e6);
     border-radius:22px;padding:26px 20px;text-align:center}
-  .ag-empty{color:var(--t3);font-size:.9rem;padding:14px 0}
+  .ag-empty{color:var(--t2);font-size:.9rem;padding:14px 0}
   .ag-err{color:#b91c1c;font-size:.88rem;padding:10px 0;font-weight:600}
   [data-theme=dark] .ag-err{color:#fca5a5}
 
@@ -78,6 +78,18 @@
     font-weight:700;color:var(--tx);line-height:1.25;word-break:keep-all}
   .ag-kr-rom{font-size:.85rem;color:var(--t2);margin-top:5px}
 
+  /* La phrase de réponse : savoir dire son âge sert plus que le savoir
+     compter. On la donne juste sous le nombre, pas dans une section à part. */
+  .ag-rep{margin-top:16px;padding:13px 14px;border-radius:14px;
+    background:var(--goldbg,rgba(201,169,110,.1));
+    border:1px solid var(--goldbd,rgba(201,169,110,.3))}
+  .ag-rep-l{font-size:.68rem;font-weight:800;letter-spacing:.06em;
+    text-transform:uppercase;color:#8B6B3D}
+  [data-theme=dark] .ag-rep-l{color:#D5BA8A}
+  .ag-rep-kr{font-family:'Noto Sans KR',serif;font-size:1.15rem;font-weight:700;
+    color:var(--tx);margin-top:5px;line-height:1.35;word-break:keep-all}
+  .ag-rep-fr{font-size:.8rem;color:var(--t2);margin-top:3px}
+
   /* Les deux autres âges, en retrait : ils comptent, mais ce n'est pas
      eux qu'on vient chercher. */
   .ag-autres{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
@@ -87,7 +99,7 @@
     font-weight:800;color:var(--tx);line-height:1}
   .ag-mini-l{font-size:.68rem;font-weight:700;letter-spacing:.05em;
     text-transform:uppercase;color:var(--t2);margin-top:5px}
-  .ag-mini-x{font-size:.72rem;color:var(--t3);line-height:1.45;margin-top:4px}
+  .ag-mini-x{font-size:.72rem;color:var(--t2);line-height:1.45;margin-top:4px}
 
   .ag-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;
     margin-top:20px}
@@ -164,6 +176,12 @@
           <div class="ag-kr-rom" id="agRom"></div>
         </div>
 
+        <div class="ag-rep" id="agRep" hidden>
+          <div class="ag-rep-l">Pour répondre</div>
+          <div class="ag-rep-kr" id="agRepKr"></div>
+          <div class="ag-rep-fr" id="agRepFr"></div>
+        </div>
+
         <div class="ag-autres">
           <div class="ag-mini">
             <div class="ag-mini-n" id="agIntl"></div>
@@ -233,6 +251,7 @@
 </div>
 
 <script src="ks.js" defer></script>
+<script src="ks-lecture-fr.js" defer></script>
 <script>
 (function () {
   'use strict';
@@ -249,6 +268,9 @@
   var annee  = document.getElementById('agAnnee');
   var copie  = document.getElementById('agCopie');
   var btnAsk = document.getElementById('agAsk');
+  var repEl  = document.getElementById('agRep');
+  var repKr  = document.getElementById('agRepKr');
+  var repFr  = document.getElementById('agRepFr');
 
   /* ── Nombres NATIFS coréens (ceux des âges) ────────────────────────────
      Les nombres sino-coreens (일, 이, 삼...) servent aux dates, aux prix et
@@ -258,13 +280,6 @@
      UNIQUEMENT quand il est seul : 스무 살 (20 ans), et 스물한 살 (21 ans). */
   var UNITES   = ['', '한', '두', '세', '네', '다섯', '여섯', '일곱', '여덟', '아홉'];
   var DIZAINES = ['', '열', '스물', '서른', '마흔', '쉰', '예순', '일흔', '여든', '아흔'];
-  var ROM = {
-    '한':'han', '두':'du', '세':'se', '네':'ne', '다섯':'daseot', '여섯':'yeoseot',
-    '일곱':'ilgop', '여덟':'yeodeol', '아홉':'ahop', '열':'yeol', '스물':'seumul',
-    '스무':'seumu', '서른':'seoreun', '마흔':'maheun', '쉰':'swin', '예순':'yesun',
-    '일흔':'ilheun', '여든':'yeodeun', '아흔':'aheun'
-  };
-
   function nombreNatif(n) {
     if (n < 1 || n > 99) return null;
     if (n === 20) return ['스무'];
@@ -272,10 +287,6 @@
     if (d) mots.push(DIZAINES[d]);
     if (u) mots.push(UNITES[u]);
     return mots;
-  }
-
-  function romaniser(mots) {
-    return mots.map(function (m) { return ROM[m] || ''; }).join('');
   }
 
   /* ── Les trois âges ──────────────────────────────────────────────────── */
@@ -317,9 +328,21 @@
 
     var mots = nombreNatif(a.coreen);
     if (mots) {
-      krEl.textContent  = mots.join('') + ' 살';
-      romEl.textContent = romaniser(mots) + ' sal — « ' + a.coreen + ' ' + pluriel + ' »';
+      var kr = mots.join('') + ' 살';
+      krEl.textContent = kr;
+      /* Lecture à la française, et non romanisation officielle : celle-ci
+         écrit 서른 « seoreun », qu'un francophone lit « sé-o-reun » alors
+         que ça se dit « so-reun » ; et 스물 « seumul » pour « seu-moul ».
+         hangeul.html prévient déjà que le « u » de la romanisation est un
+         piège — autant ne pas le tendre nous-mêmes. */
+      var lu = window.KSLectureFR ? window.KSLectureFR.lire(kr) : '';
+      romEl.textContent = (lu ? '« ' + lu + ' » — ' : '') + a.coreen + ' ' + pluriel;
+      repEl.hidden = false;
+      repKr.textContent = mots.join('') + ' 살이에요';
+      repFr.textContent = window.KSLectureFR
+        ? '« ' + window.KSLectureFR.lire(mots.join('') + ' 살이에요') + ' »' : '';
     } else {
+      repEl.hidden = true;
       /* Au-delà de 99 ans, le coréen bascule sur les nombres sino-coréens :
          plutôt que d'inventer une forme, on le dit franchement. */
       krEl.textContent  = '';
@@ -343,7 +366,7 @@
 
   document.getElementById('agCopy').addEventListener('click', function () {
     var txt = krEl.textContent
-      ? krEl.textContent + ' (' + romEl.textContent.split(' —')[0] + ')'
+      ? krEl.textContent + ' ' + romEl.textContent.split(' —')[0]
       : big.textContent + ' ans';
     function ok() { copie.textContent = 'Copié !'; setTimeout(function(){ copie.textContent=''; }, 2200); }
     if (navigator.clipboard && navigator.clipboard.writeText) {

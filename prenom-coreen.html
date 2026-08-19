@@ -64,7 +64,11 @@
   .pn-big{font-family:'Noto Sans KR','Playfair Display',serif;
     font-size:clamp(2.4rem,11vw,3.6rem);font-weight:700;line-height:1.15;
     color:var(--tx);letter-spacing:.02em;word-break:keep-all}
-  .pn-roman{font-size:.85rem;color:var(--t2);margin-top:6px}
+  /* La lecture française, juste sous le hangeul : c'est la première
+     chose qu'on cherche après avoir vu son prénom écrit. */
+  .pn-lect{font-size:1.05rem;font-weight:700;color:var(--t2);margin-top:8px;
+    letter-spacing:.01em}
+  .pn-lect-x{font-size:.74rem;font-weight:500;color:var(--t2);margin-top:3px}
   .pn-syls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;
     margin-top:22px}
   .pn-syl{min-width:76px;padding:12px 10px 10px;border-radius:14px;
@@ -75,12 +79,20 @@
   .pn-syl.playing{border-color:#C9A96E;background:rgba(201,169,110,.14)}
   .pn-syl-kr{font-family:'Noto Sans KR',serif;font-size:1.75rem;
     font-weight:700;color:var(--tx);line-height:1.1}
-  .pn-syl-fr{font-size:.72rem;color:var(--t2);margin-top:5px}
+  .pn-syl-fr{font-size:.82rem;font-weight:700;color:var(--t2);margin-top:5px}
   /* Hauteur réservée même sans audio : toutes les syllabes n'ont pas de
      voix enregistrée, et sans ce min-height les cartes se décalaient en
      hauteur les unes par rapport aux autres. */
-  .pn-syl-snd{font-size:.66rem;color:var(--t3);margin-top:2px;min-height:1em}
-  .pn-empty{color:var(--t3);font-size:.9rem;padding:14px 0}
+  .pn-syl-snd{font-size:.66rem;color:var(--t2);margin-top:2px;min-height:1em}
+  .pn-empty{color:var(--t2);font-size:.9rem;padding:14px 0}
+  /* Un visiteur qui arrive de Google tombe sinon sur une carte vide.
+     Trois exemples cliquables valent mieux qu'une phrase d'attente. */
+  .pn-ex{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:11px}
+  .pn-ex button{padding:6px 13px;border-radius:100px;font-size:.78rem;
+    font-weight:600;cursor:pointer;font-family:inherit;
+    border:1px solid var(--bd,#e0e0e0);background:transparent;color:var(--t2)}
+  .pn-ex button:hover{border-color:#C9A96E;color:var(--tx)}
+  .pn-note{font-size:.72rem;color:var(--t2);line-height:1.5;margin-top:14px}
 
   .pn-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;
     margin-top:20px}
@@ -144,9 +156,17 @@
   <div class="pn-out">
     <div class="pn-card">
       <div class="pn-big" id="pnBig" aria-live="polite"></div>
-      <div class="pn-roman" id="pnRoman"></div>
+      <div class="pn-lect" id="pnLect"></div>
       <div class="pn-syls" id="pnSyls"></div>
-      <div class="pn-empty" id="pnEmpty">Ton prénom apparaîtra ici.</div>
+      <div class="pn-empty" id="pnEmpty">
+        Ton prénom apparaîtra ici.
+        <div class="pn-ex">
+          <button type="button" data-ex="Camille">Camille</button>
+          <button type="button" data-ex="Lucas">Lucas</button>
+          <button type="button" data-ex="Léa">Léa</button>
+        </div>
+      </div>
+      <p class="pn-note" id="pnNote" hidden></p>
       <div class="pn-actions" id="pnActions" hidden>
         <button type="button" class="pn-btn" id="pnCopy">
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
@@ -199,13 +219,15 @@
 
 <script src="ks.js" defer></script>
 <script src="ks-prenom.js" defer></script>
+<script src="ks-lecture-fr.js" defer></script>
 <script>
 (function () {
   'use strict';
 
   var input   = document.getElementById('pnInput');
   var big     = document.getElementById('pnBig');
-  var roman   = document.getElementById('pnRoman');
+  var lect    = document.getElementById('pnLect');
+  var note    = document.getElementById('pnNote');
   var syls    = document.getElementById('pnSyls');
   var vide    = document.getElementById('pnEmpty');
   var actions = document.getElementById('pnActions');
@@ -225,17 +247,18 @@
     var val = input.value.trim();
 
     if (!val || !window.KSPrenom) {
-      big.textContent = ''; roman.textContent = ''; syls.innerHTML = '';
+      big.textContent = ''; lect.innerHTML = ''; syls.innerHTML = '';
       vide.hidden = false; actions.hidden = true; copie.textContent = '';
+      note.hidden = true;
       return;
     }
 
     var res = window.KSPrenom.transcrire(val);
     if (!res.hangeul) {
-      big.textContent = ''; syls.innerHTML = '';
+      big.textContent = ''; syls.innerHTML = ''; lect.innerHTML = '';
       vide.hidden = false; vide.textContent =
         'Ce prénom n’utilise que des lettres que je ne sais pas encore lire.';
-      actions.hidden = true;
+      actions.hidden = true; note.hidden = true;
       return;
     }
 
@@ -243,18 +266,29 @@
     actions.hidden = false;
     copie.textContent = '';
     big.textContent = res.hangeul;
-    roman.textContent = res.blocs.length +
-      (res.blocs.length > 1 ? ' syllabes' : ' syllabe');
+
+    /* La lecture à la française, pas la romanisation officielle : « seoreun »
+       se lit « sé-o-reun » par un francophone alors que ça se dit « so-reun ».
+       C'est la doctrine de hangeul.html, appliquée ici. */
+    var lectures = window.KSLectureFR
+      ? window.KSLectureFR.lireBlocs(res.hangeul) : [];
+    lect.innerHTML = lectures.length
+      ? '« ' + lectures.join('-') + ' »' +
+        '<div class="pn-lect-x">' + res.blocs.length +
+        (res.blocs.length > 1 ? ' syllabes' : ' syllabe') + ' · lu à la française</div>'
+      : '';
 
     syls.innerHTML = '';
+    var muettes = 0;
     res.blocs.forEach(function (b, n) {
       var jouable = !!(voix && voix[b.hangeul]);
+      if (!jouable) muettes++;
       var el = document.createElement(jouable ? 'button' : 'div');
       el.className = 'pn-syl' + (jouable ? ' jouable' : '');
-      if (jouable) { el.type = 'button'; el.setAttribute('aria-label', 'Écouter la syllabe ' + (n + 1)); }
+      if (jouable) { el.type = 'button'; el.setAttribute('aria-label', 'Écouter ' + b.hangeul); }
       el.innerHTML =
         '<div class="pn-syl-kr">' + b.hangeul + '</div>' +
-        '<div class="pn-syl-fr">syllabe ' + (n + 1) + '</div>' +
+        '<div class="pn-syl-fr">' + (lectures[n] || '') + '</div>' +
         '<div class="pn-syl-snd">' + (jouable ? 'écouter' : '') + '</div>';
       if (jouable) {
         el.addEventListener('click', function () {
@@ -263,6 +297,18 @@
       }
       syls.appendChild(el);
     });
+
+    /* Dire pourquoi certaines cartes ne réagissent pas au clic. Le
+       catalogue de voix ne couvre pas encore toutes les syllabes, et un
+       silence sans explication passe pour une panne. */
+    if (muettes && voix) {
+      note.hidden = false;
+      note.textContent = muettes === res.blocs.length
+        ? 'Aucune de ces syllabes n’a encore d’enregistrement — la lecture ci-dessus reste juste.'
+        : 'Les syllabes qui portent « écouter » ont un enregistrement ; les autres n’en ont pas encore.';
+    } else {
+      note.hidden = true;
+    }
   }
 
   input.addEventListener('input', rendre);
@@ -270,9 +316,20 @@
     e.preventDefault(); input.blur();
   });
 
+  vide.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-ex]');
+    if (!b) return;
+    input.value = b.getAttribute('data-ex');
+    rendre();
+  });
+
   document.getElementById('pnCopy').addEventListener('click', function () {
     var txt = big.textContent;
     if (!txt) return;
+    /* On copie aussi la lecture : collé dans une bio ou un message, le
+       hangeul seul ne dit pas comment le prononcer. */
+    var l = window.KSLectureFR ? window.KSLectureFR.lire(txt) : '';
+    if (l) txt += ' (' + l + ')';
     function ok() { copie.textContent = 'Copié !'; setTimeout(function(){ copie.textContent=''; }, 2200); }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(txt).then(ok, function(){});
