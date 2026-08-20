@@ -222,6 +222,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <button class="fchip" data-f="topik" onclick="setFilter('topik')">TOPIK</button>
   </div>
 </div>
+<div class="section-wrap" id="cadeauBloc"></div>
+<style>/* .section-wrap porte 20px de padding : sans ça, tous ceux qui n'ont
+  pas de fiche offerte — l'immense majorité — récoltent un trou blanc. */
+#cadeauBloc:empty{display:none}</style>
 <div class="section-wrap" style="padding-top:6px"><p class="lv-block-lbl" style="margin:0 0 4px">Les fiches — une notion par page</p></div>
 <main id="mainContent"></main>
 
@@ -259,10 +263,17 @@ var activeFilter = 'all';
    local — jamais d'URL publique directe vers le PDF. */
 var PDF_WORKER = 'https://ks-premium.delicate-voice-1d19.workers.dev/pdf';
 
+/* La fiche offerte à la fin du Hangeul : son propriétaire y a droit sans
+   être Premium. On mémorise le slug renvoyé par le worker, qui reste seul
+   juge — ici on ne fait qu'éviter de bloquer la personne avant l'appel. */
+var CADEAU = null;
+function estCadeau(id) { return CADEAU === id; }
+
 function pdfAction(id, mode, btn) {
   var p = PDFS.find(function (x) { return x.id === id; });
   if (!p) return;
-  if (!window.KSPremium || !KSPremium.isPremium()) {
+  var prem = !!(window.KSPremium && KSPremium.isPremium());
+  if (!prem && !estCadeau(id)) {
     if (confirm('Cette fiche PDF est réservée aux membres Premium. Découvrir Premium maintenant ?')) {
       window.location.href = 'premium.html';
     }
@@ -273,8 +284,14 @@ function pdfAction(id, mode, btn) {
   var baseFile = p.file.replace(/^.*\//, '');
   var original = btn.innerHTML;
   btn.disabled = true;
-  fetch(PDF_WORKER + '?file=' + encodeURIComponent(baseFile), {
-    headers: key ? { 'X-License-Key': key } : {}
+  /* Le jeton du compte est la seule preuve qui vaille pour un cadeau : il
+     n'y a pas de clé de licence derrière. On l'envoie aussi pour les
+     Premium — le worker retient la première preuve qui marche. */
+  (window.KSCadeau ? KSCadeau.jeton() : Promise.resolve(null)).then(function (tok) {
+    var h = {};
+    if (key) h['X-License-Key'] = key;
+    if (tok) h['X-Firebase-Token'] = tok;
+    return fetch(PDF_WORKER + '?file=' + encodeURIComponent(baseFile), { headers: h });
   }).then(function (resp) {
     if (!resp.ok) throw new Error('denied');
     return resp.blob();
@@ -347,7 +364,9 @@ function render() {
             '<div class="pdf-tags">' +
               (LIBRES[p.id]
                 ? '<span class="pdf-acces libre">Gratuit</span>'
-                : '<span class="pdf-acces prem">Premium</span>') +
+                : estCadeau(p.id)
+                  ? '<span class="pdf-acces libre">Ta fiche offerte</span>'
+                  : '<span class="pdf-acces prem">Premium</span>') +
               '<span class="pdf-type-tag" style="background:' + cc.bg + ';color:' + cc.color + '">' + (CAT_LBL[p.cat] || p.cat) + '</span>' +
               tags +
             '</div>' +
@@ -382,7 +401,24 @@ function toggleTheme() {
 }
 
 render();
+
+/* La fiche offerte, si cette personne en a une. L'appel réseau arrive
+   après le premier rendu — on redessine alors les cartes pour que la
+   sienne cesse d'afficher « Premium ». Le bloc de tête, lui, ne s'affiche
+   que pour qui a déjà choisi : inutile de proposer un cadeau ici, il se
+   gagne à la fin du Hangeul. */
+window.addEventListener('load', function () {
+  if (!window.KSCadeau) return;
+  KSCadeau.etat().then(function (e) {
+    if (!e || !e.fiche) return;
+    CADEAU = e.fiche;
+    render();
+    var bloc = document.getElementById('cadeauBloc');
+    if (bloc) KSCadeau.monter(bloc, { ici: true });
+  });
+});
 </script>
+  <script src="ks-cadeau.js" defer></script>
   <script src="ks-premium.js" defer></script>
 <script>
 /* ── Livrets : le membre telecharge, le visiteur achete ────────────────────

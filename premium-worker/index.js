@@ -213,7 +213,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-16.1 (fiche A1 offerte a la fin du Hangeul)\n' +
+      'Korean Stories Premium API — v2026-08-20.1 (fiche A1 offerte a la fin du Hangeul)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -553,8 +553,9 @@ async function handlePdfDownload(request, env) {
   //   - la clé de licence, qui reste indispensable la toute première fois
   //     (et pour qui achète le livret seul sans jamais créer de compte).
   let data = null;
+  let user = null;
   if (token) {
-    const user = await verifyFirebaseToken(token);
+    user = await verifyFirebaseToken(token);
     const found = await licenseForAccount(user, env);
     if (found) data = found.data;
   }
@@ -567,9 +568,8 @@ async function handlePdfDownload(request, env) {
   }
   /* Pas de licence ? Reste le cadeau de fin de Hangeul. Vérifié ici et pas
      ailleurs : c'est le seul endroit qui décide si les octets partent. */
-  if (!data && token) {
-    const u = await verifyFirebaseToken(token);
-    const offerte = await cadeauDe(u, env);
+  if (!data && user) {
+    const offerte = await cadeauDe(user, env);
     if (offerte && offerte === file) data = { type: 'cadeau', fiches: [offerte] };
   }
   if (!data) {

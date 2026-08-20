@@ -717,6 +717,7 @@
 
   <!-- COMPLETION BANNER (shown when 100%) -->
   <div id="completionBanner" style="display:none"></div>
+  <div id="cadeauBloc"></div>
 
   <!-- ⓪ DÉCOUVRIR — pour ceux qui partent de zéro -->
   <div class="sep" style="margin-top:0;margin-bottom:18px"></div>
@@ -1416,6 +1417,18 @@ function applyProgress() {
 }
 applyProgress();
 
+/* ks-cadeau.js est chargé en defer et updateSectionBadges() tourne à
+   l'analyse : au premier passage le module n'existe pas encore. On
+   retente donc une fois la page chargée. monter() est idempotent. */
+function monterCadeau() {
+  var el = document.getElementById('cadeauBloc');
+  if (!el) return;
+  if (window.KSCadeau) { KSCadeau.monter(el); return; }
+  window.addEventListener('load', function () {
+    if (window.KSCadeau) KSCadeau.monter(el);
+  });
+}
+
 // ── Progress badges & completion ──
 function updateSectionBadges() {
   function badge(arr, elId, tabId, total) {
@@ -1453,6 +1466,10 @@ function updateSectionBadges() {
         Commencer les histoires →
       </a>
     </div>`;
+    /* La fiche offerte n'apparaît qu'ici : c'est le seul endroit du site où
+       l'on sait que quelqu'un a fini les 40 caractères. Le bloc gère lui-même
+       les trois cas — pas de compte, choix à faire, choix déjà fait. */
+    monterCadeau();
   }
 }
 updateSectionBadges();
@@ -2179,6 +2196,7 @@ function raceFinish(){
 
 <!-- BOTTOM NAV -->
 
-  <script src="ks-menu.js" defer></script>
+  <script src="ks-cadeau.js" defer></script>
+<script src="ks-menu.js" defer></script>
 </body>
 </html>
