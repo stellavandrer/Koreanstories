@@ -268,7 +268,8 @@
     <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
   </div>
 
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
 <script>
   var VOCAB={"noraebang": {"ko": "노래방", "rom": "no-rae-bang", "fr": "karaoké / noraebang"}, "sinnayo": {"ko": "신나요", "rom": "sin-na-yo", "fr": "c'est fun ! / excitant !"}, "eotteon": {"ko": "어떤", "rom": "eo-tteon", "fr": "quel(le) / lequel"}, "norae": {"ko": "노래", "rom": "no-rae", "fr": "chanson"}, "bulreoyo": {"ko": "불러요", "rom": "bul-leo-yo", "fr": "on chante"}, "joayo": {"ko": "좋아요", "rom": "jo-a-yo", "fr": "j'aime / c'est bien"}, "maikheu": {"ko": "마이크", "rom": "ma-i-keu", "fr": "micro"}, "sori": {"ko": "소리", "rom": "so-ri", "fr": "son / voix / bruit"}, "motaeyo": {"ko": "못해요", "rom": "mot-hae-yo", "fr": "je suis nul(le) / je n'y arrive pas"}, "dasi": {"ko": "다시", "rom": "da-si", "fr": "encore / de nouveau"}, "jalhaeyo": {"ko": "잘해요", "rom": "jal-hae-yo", "fr": "tu es doué(e) / tu chantes bien"}, "jeomsu": {"ko": "점수", "rom": "jeom-su", "fr": "score / points"}, "jinjjayo": {"ko": "진짜요", "rom": "jin-jja-yo", "fr": "vraiment ? / c'est vrai !"}, "baksu": {"ko": "박수", "rom": "bak-su", "fr": "applaudissements"}, "choegoyeyo": {"ko": "최고예요", "rom": "choe-go-ye-yo", "fr": "c'est le top ! / le meilleur !"}, "nolayo": {"ko": "놀아요", "rom": "no-la-yo", "fr": "on s'amuse / on joue"}};
 
@@ -307,7 +308,7 @@
   romBtn.addEventListener('click',function(){var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);});
 
   var pop=document.getElementById('vocabPop');
-  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
+  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=ksLireDe(v);document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
   document.querySelectorAll('.kw').forEach(function(k){k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){e.stopPropagation();showVocab(k.getAttribute('data-id'));});k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));}});});
   document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
 

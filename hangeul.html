@@ -605,6 +605,7 @@
       .hero-inner{max-width:880px}
     }
   </style>
+  <script src="ks-lecture-fr.js"></script>
   <script src="ks.js" defer></script>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <script defer src="ks-boot-sync.js"></script>
@@ -1687,7 +1688,7 @@ function renderBuilderGrid(containerId, data, type) {
   data.forEach(item => {
     const btn = document.createElement('button');
     btn.className = 'bkey';
-    btn.innerHTML = `<div class="bkey-kr">${item.kr}</div><div class="bkey-rom">${item.rom}</div>`;
+    btn.innerHTML = `<div class="bkey-kr">${item.kr}</div><div class="bkey-rom">${ksLireDe(item)}</div>`;
     btn.addEventListener('click', () => {
       wrap.querySelectorAll('.bkey').forEach(b=>b.classList.remove('sel'));
       btn.classList.add('sel');

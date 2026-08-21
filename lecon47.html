@@ -93,6 +93,7 @@
     .res-sec:hover{border-color:var(--gold)}
     [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
   </style>
+  <script src="ks-lecture-fr.js"></script>
   <script src="ks.js" defer></script>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -248,7 +249,7 @@ function renderPattern(type){
   p.exs.forEach(e=>{
     exHtml+=`<div style="padding:8px 0;border-bottom:1px solid var(--bd);cursor:pointer" onclick="speak('${e.kor}',null)">
       <div style="font-size:16px;color:var(--t);font-weight:300">${e.kor}</div>
-      <div style="font-size:10px;color:var(--gold);font-weight:700">${e.rom}</div>
+      <div style="font-size:10px;color:var(--gold);font-weight:700">${ksLireDe(e)}</div>
       <div style="font-size:12px;color:var(--t2)">${e.mean}</div>
     </div>`;
   });
@@ -276,7 +277,7 @@ function renderDialogue(){
     html+=`<div class="bubble ${l.r?'r':''}">
       <div class="bubble-av">${l.av}</div>
       <div>
-        <div class="bubble-txt" onclick="speak('${l.kor}',null)">${l.kor}<div class="bubble-rom">${l.rom}</div><div class="bubble-mean">${l.mean}</div></div>
+        <div class="bubble-txt" onclick="speak('${l.kor}',null)">${l.kor}<div class="bubble-rom">${ksLireDe(l)}</div><div class="bubble-mean">${l.mean}</div></div>
       </div>
     </div>`;
   });

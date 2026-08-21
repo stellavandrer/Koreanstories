@@ -79,6 +79,7 @@
     .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
     .res-sec:hover{border-color:var(--gold)}
   </style>
+  <script src="ks-lecture-fr.js"></script>
   <script src="ks.js" defer></script>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -236,7 +237,7 @@ function renderComp(idx){
   c.exs.forEach(e=>{
     exHtml+=`<div class="comp-ex" onclick="speak('${e.kor}',null)">
       <div class="comp-ex-kor">${e.kor}</div>
-      <div class="comp-ex-rom">${e.rom}</div>
+      <div class="comp-ex-rom">${ksLireDe(e)}</div>
       <div class="comp-ex-mean">${e.mean}</div>
     </div>`;
   });

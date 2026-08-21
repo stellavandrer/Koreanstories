@@ -98,6 +98,7 @@
     [data-theme=dark] .q-big{color:var(--t);border-color:var(--bd);background:var(--surf)}
     [data-theme=dark] .q-prompt{color:var(--t)}
   </style>
+  <script src="ks-lecture-fr.js"></script>
   <script src="ks.js" defer></script>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -284,7 +285,7 @@ function renderCounters(){
       <div class="ctr-em">${c.em}</div>
       <div class="ctr-body">
         <div class="ctr-kor">${c.kor}</div>
-        <div class="ctr-rom">${c.rom}</div>
+        <div class="ctr-rom">${ksLireDe(c)}</div>
         <div class="ctr-used">${c.used}</div>
         <div class="ctr-ex">${c.ex}</div>
       </div>
@@ -309,7 +310,7 @@ function renderNumbers(){
     html+=`<tr>
       <td style="font-weight:700;color:var(--gold)">${n.sino}</td>
       <td class="kor" style="cursor:pointer" onclick="speak('${n.nat.replace('→','').split(' ')[0]}',null)">${n.nat}</td>
-      <td><span style="font-size:10px;color:var(--gold);font-weight:700">${n.rom}</span></td>
+      <td><span style="font-size:10px;color:var(--gold);font-weight:700">${ksLireDe(n)}</span></td>
     </tr>`;
   });
   html+=`</tbody></table>

@@ -165,7 +165,8 @@
   </div>
 </div>
 
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
 <script src="ks-keyboard.js"></script>
 <script>
 /* ═══════════════ BANQUES DE MOTS (vocabulaire du curriculum) ═══════════════ */
@@ -297,7 +298,7 @@ function renderQuestion(){
   const p = document.getElementById('exoPrompt');
   if (curMode === 'copie'){
     kind.textContent = 'COPIE — retape ce mot';
-    p.innerHTML = `<div class="exo-prompt-kr">${q.kr}</div><div class="exo-prompt-rom">${q.rom} · ${q.fr}</div>`;
+    p.innerHTML = `<div class="exo-prompt-kr">${q.kr}</div><div class="exo-prompt-rom">${ksLireDe(q)} · ${q.fr}</div>`;
   } else if (curMode === 'dictee'){
     kind.textContent = 'DICTÉE — écris ce que tu entends';
     p.innerHTML = `<button class="exo-audio-btn" id="exoPlay" aria-label="Écouter le mot">
@@ -308,7 +309,7 @@ function renderQuestion(){
     setTimeout(()=>{ if (window.speak) speak(q.kr); }, 350);
   } else {
     kind.textContent = 'TRADUCTION — écris en coréen';
-    p.innerHTML = `<div class="exo-prompt-fr">${q.fr}</div><div class="exo-prompt-rom">indice : ${q.rom}</div>`;
+    p.innerHTML = `<div class="exo-prompt-fr">${q.fr}</div><div class="exo-prompt-rom">indice : ${ksLireDe(q)}</div>`;
   }
   renderTyped('');
 }

@@ -131,6 +131,7 @@
     [data-theme=dark] .gram-exp em{color:var(--t)}
     body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
   </style>
+  <script src="ks-lecture-fr.js"></script>
   <script src="ks.js" defer></script>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -379,11 +380,11 @@ function updateProgress(){
 }
 
 function renderVTable(step,id){
-  const rows=step.verbs.map(v=>`<div class="vrow"><span class="vkor" onclick="speak('${v.kor}')">${v.kor}</span><span class="vrom">${v.rom}</span><span class="vmean">${v.mean}</span><button class="vplay" onclick="speak('${v.kor}',this)"><svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');
+  const rows=step.verbs.map(v=>`<div class="vrow"><span class="vkor" onclick="speak('${v.kor}')">${v.kor}</span><span class="vrom">${ksLireDe(v)}</span><span class="vmean">${v.mean}</span><button class="vplay" onclick="speak('${v.kor}',this)"><svg viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');
   return `<div class="vtable"><div class="vtable-title">${step.title||'Verbes'}</div>${rows}</div><button class="next-btn" onclick="advance()">Continuer →</button>`;
 }
 function renderConj(step){
-  const rows=step.rows.map(r=>`<div class="cr"><span class="cr-lbl">${r.lbl}</span><div style="flex:1"><span class="cr-kor" onclick="speak('${r.kor}')">${r.kor}</span><span class="cr-rom">${r.rom}</span></div><button class="cr-play" onclick="speak('${r.kor}',this)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');
+  const rows=step.rows.map(r=>`<div class="cr"><span class="cr-lbl">${r.lbl}</span><div style="flex:1"><span class="cr-kor" onclick="speak('${r.kor}')">${r.kor}</span><span class="cr-rom">${ksLireDe(r)}</span></div><button class="cr-play" onclick="speak('${r.kor}',this)"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button></div>`).join('');
   return `<div class="conj-card"><div class="conj-head"><span class="conj-verb" onclick="speak('${step.verb}')">${step.verb}</span><span class="conj-mean">— ${step.mean}</span></div><div class="conj-rows">${rows}</div></div><button class="next-btn" onclick="advance()">${cur<STEPS.length-1?'Continuer →':'Terminer !'}</button>`;
 }
 function renderStory(step){

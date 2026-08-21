@@ -501,7 +501,7 @@ function renderVocab() {
   VOCAB.forEach(v => {
     const d = document.createElement('div');
     d.className = 'vocab-card';
-    d.innerHTML = `<div class="vocab-kr">${v.kr}</div><div class="vocab-rom">${v.rom}</div><div class="vocab-fr">${v.fr}</div><span class="vocab-type vt-${v.t}">${labels[v.t]}</span>`;
+    d.innerHTML = `<div class="vocab-kr">${v.kr}</div><div class="vocab-rom">${ksLireDe(v)}</div><div class="vocab-fr">${v.fr}</div><span class="vocab-type vt-${v.t}">${labels[v.t]}</span>`;
     grid.appendChild(d);
   });
 }
@@ -593,7 +593,8 @@ renderVocab();
 renderQuiz();
 updateProgress();
 </script>
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
   <script src="ks-menu.js" defer></script>
 </body>
 </html>

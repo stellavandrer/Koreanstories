@@ -240,7 +240,8 @@
     <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
   </div>
 
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
 <script>
   var VOCAB={"sokdam": {"ko": "속담", "rom": "sokdam", "fr": "proverbe"}, "jiheui": {"ko": "삶의 지혜", "rom": "salm-eui jihye", "fr": "sagesse de la vie"}, "ganeun": {"ko": "가는 말이 고와야 오는 말이 곱다", "rom": "ganeun mal-i gowaya oneun mal-i gopda", "fr": "on récolte ce qu'on sème (lit. : si tes mots sont doux, les leurs le seront aussi)"}, "baleopmun": {"ko": "발 없는 말이 천 리 간다", "rom": "bal eomneun mal-i cheon ri ganda", "fr": "les paroles vont loin — il faut faire attention à ce qu'on dit"}, "geumgang": {"ko": "금강산도 식후경", "rom": "Geumgangsan-do sikhugeyeong", "fr": "même le plus beau paysage s'apprécie le ventre plein"}, "deokbun": {"ko": "덕분에", "rom": "deokbun-e", "fr": "grâce à ~ (reconnaissance)"}};
 
@@ -279,7 +280,7 @@
   romBtn.addEventListener('click',function(){var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);});
 
   var pop=document.getElementById('vocabPop');
-  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
+  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=ksLireDe(v);document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
   document.querySelectorAll('.kw').forEach(function(k){k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){e.stopPropagation();showVocab(k.getAttribute('data-id'));});k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));}});});
   document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
 

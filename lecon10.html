@@ -471,6 +471,7 @@
 /* ── BNAV DOT NOTIFICATION ── */
 
 </style>
+  <script src="ks-lecture-fr.js"></script>
   <script src="ks.js" defer></script>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <script defer src="ks-boot-sync.js"></script>
@@ -740,7 +741,7 @@ function render(step){
     setMina(step.mina,A.e);document.getElementById('sb').onclick=next;
   } else if(step.type==='flash'){
     const _mn=step.mnem?`<div style="margin-top:10px;background:rgba(79,142,247,.08);border:1.5px solid rgba(79,142,247,.2);border-radius:14px;padding:10px 14px;font-size:12px;color:rgba(247,248,250,.92);line-height:1.55;display:flex;align-items:flex-start;gap:8px;text-align:left"><span style="flex-shrink:0;display:flex;align-items:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0018 8 6 6 0 006 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 018.91 14"/></svg></span><span>${step.mnem}</span></div>`:''; 
-    lc.innerHTML=`<div class="flash"><div class="flash-char">${step.char}</div><div class="flash-eq"><span class="flash-char-sm">${step.char}</span> = <span class="flash-rom-em">${step.rom}</span></div><div class="flash-type">${step.typeLbl}</div>${sbtn(step.audio,'Écouter : '+(step.audioLabel||step.audio))}<div class="flash-tip">${step.tip}</div>${_mn}</div><button class="gotit-btn" id="gb">J'ai compris — continuer<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>`;
+    lc.innerHTML=`<div class="flash"><div class="flash-char">${step.char}</div><div class="flash-eq"><span class="flash-char-sm">${step.char}</span> = <span class="flash-rom-em">${ksLireDe(step)}</span></div><div class="flash-type">${step.typeLbl}</div>${sbtn(step.audio,'Écouter : '+(step.audioLabel||step.audio))}<div class="flash-tip">${step.tip}</div>${_mn}</div><button class="gotit-btn" id="gb">J'ai compris — continuer<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>`;
     setMina(step.mina,A.a);document.getElementById('gb').onclick=next;
   } else if(step.type==='combo'){
     lc.innerHTML=`<div class="flash" style="padding-bottom:24px"><div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,248,250,.4);margin-bottom:16px">Combinaison</div><div class="combo-parts"><div class="combo-box"><div class="ck">${step.left.c}</div><div class="cr">${step.left.r}</div></div><div class="combo-op">+</div><div class="combo-box"><div class="ck">${step.right.c}</div><div class="cr">${step.right.r}</div></div><div class="combo-op">=</div><div class="combo-res"><div class="ck">${step.result.c}</div><div class="cr">${step.result.r}</div></div></div>${sbtn(step.audio,'Écouter «\u00a0'+step.result.c+'\u00a0»')}<div class="flash-tip">${step.note}</div></div><button class="gotit-btn" id="gb">Super, je continue !<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></button>`;
@@ -771,7 +772,7 @@ function render(step){
   } else if(step.type==='typeword'){
     let twIdx=0,twOk=true;
     const shuf=a=>{let b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
-    lc.innerHTML=`<div class="kb-section"><span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span><p class="q-prompt">${step.prompt||'Écris ce mot en coréen :'}</p><div class="tw-hint">${step.hint}</div><div class="tw-rom">${step.rom}</div><div class="tw-blanks" id="twBlanks"></div><div class="kb-grid" id="twKeys" style="justify-content:center"></div><div class="fb" id="fb"></div><button class="nxt" id="nxt">Continuer →</button></div>`;
+    lc.innerHTML=`<div class="kb-section"><span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span><p class="q-prompt">${step.prompt||'Écris ce mot en coréen :'}</p><div class="tw-hint">${step.hint}</div><div class="tw-rom">${ksLireDe(step)}</div><div class="tw-blanks" id="twBlanks"></div><div class="kb-grid" id="twKeys" style="justify-content:center"></div><div class="fb" id="fb"></div><button class="nxt" id="nxt">Continuer →</button></div>`;
     setMina('Tape chaque syllabe dans l\'ordre !',A.e);
     document.getElementById('nxt').onclick=next;
     function drawTW(){

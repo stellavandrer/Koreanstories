@@ -248,7 +248,8 @@
     <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
   </div>
 
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
 <script>
   var VOCAB={"tenteu": {"ko": "텐트", "rom": "tenteu", "fr": "la tente"}, "omyeon": {"ko": "-(으)면", "rom": "-(eu)myeon", "fr": "si ~ (conditionnel)"}, "yakyeong": {"ko": "야경", "rom": "yakyeong", "fr": "vue nocturne, skyline de nuit"}, "ddeogeoun": {"ko": "뜨거우니까", "rom": "ddeogeounikka", "fr": "c'est brûlant, donc (-(으)니까)"}, "busan": {"ko": "부산", "rom": "Busan", "fr": "Busan (2ème ville de Corée)"}};
 
@@ -287,7 +288,7 @@
   romBtn.addEventListener('click',function(){var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);});
 
   var pop=document.getElementById('vocabPop');
-  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
+  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=ksLireDe(v);document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
   document.querySelectorAll('.kw').forEach(function(k){k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){e.stopPropagation();showVocab(k.getAttribute('data-id'));});k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));}});});
   document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
 

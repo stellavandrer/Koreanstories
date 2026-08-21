@@ -228,7 +228,8 @@
     <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
   </div>
 
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
 <script>
   var VOCAB={"tteollida": {"ko": "떨리다", "rom": "tteollida", "fr": "trembler, être nerveux"}, "sinbal": {"ko": "신발을 벗다", "rom": "sinbareul beotda", "fr": "enlever ses chaussures"}, "garaipda": {"ko": "옷을 갈아입다", "rom": "oseul garaipda", "fr": "se changer (de vêtements)"}, "ttatteut": {"ko": "따뜻하다", "rom": "ttatteutada", "fr": "être chaud, tiède"}, "swida": {"ko": "쉬다", "rom": "swida", "fr": "se reposer"}, "gyeran": {"ko": "계란", "rom": "gyeran", "fr": "œuf (à la vapeur, au jjimjilbang)"}, "sikhye": {"ko": "식혜", "rom": "sikhye", "fr": "boisson de riz sucrée"}, "jeontong": {"ko": "전통", "rom": "jeontong", "fr": "tradition"}};
 
@@ -267,7 +268,7 @@
   romBtn.addEventListener('click',function(){var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);});
 
   var pop=document.getElementById('vocabPop');
-  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
+  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=ksLireDe(v);document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
   document.querySelectorAll('.kw').forEach(function(k){k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){e.stopPropagation();showVocab(k.getAttribute('data-id'));});k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));}});});
   document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
 

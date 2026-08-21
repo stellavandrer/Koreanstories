@@ -268,7 +268,8 @@
     <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
   </div>
 
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
 <script>
   var VOCAB={"apayo": {"ko": "아파요", "rom": "a-pa-yo", "fr": "j'ai mal / je suis malade"}, "eodiga": {"ko": "어디가", "rom": "eo-di-ga", "fr": "où / quelle partie"}, "meori": {"ko": "머리", "rom": "meo-ri", "fr": "tête"}, "gichim": {"ko": "기침", "rom": "gi-chim", "fr": "toux"}, "eonje": {"ko": "언제", "rom": "eon-je", "fr": "quand"}, "eoje": {"ko": "어제", "rom": "eo-je", "fr": "hier"}, "yeol": {"ko": "열", "rom": "yeol", "fr": "fièvre / chaleur"}, "do": {"ko": "도", "rom": "do", "fr": "degré(s)"}, "geomsa": {"ko": "검사", "rom": "geom-sa", "fr": "examen médical"}, "jom": {"ko": "좀", "rom": "jom", "fr": "un peu / s'il vous plaît"}, "gamgi": {"ko": "감기", "rom": "gam-gi", "fr": "rhume"}, "yak": {"ko": "약", "rom": "yak", "fr": "médicament"}, "deurilgeyo": {"ko": "드릴게요", "rom": "deu-ril-ge-yo", "fr": "je vais vous donner"}, "naayo": {"ko": "나아요", "rom": "na-a-yo", "fr": "ça va mieux / guérir"}, "swiseyo": {"ko": "쉬세요", "rom": "swi-se-yo", "fr": "reposez-vous !"}, "algesseoyo": {"ko": "알겠어요", "rom": "al-get-seo-yo", "fr": "j'ai compris / d'accord"}};
 
@@ -307,7 +308,7 @@
   romBtn.addEventListener('click',function(){var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);});
 
   var pop=document.getElementById('vocabPop');
-  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
+  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=ksLireDe(v);document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
   document.querySelectorAll('.kw').forEach(function(k){k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){e.stopPropagation();showVocab(k.getAttribute('data-id'));});k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));}});});
   document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
 

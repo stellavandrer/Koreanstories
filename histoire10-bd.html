@@ -268,7 +268,8 @@
     <div class="vp-ko" id="vpKo"></div><div class="vp-rom" id="vpRom"></div><div class="vp-fr" id="vpFr"></div>
   </div>
 
-<script src="ks.js"></script>
+<script src="ks-lecture-fr.js"></script>
+  <script src="ks.js"></script>
 <script>
   var VOCAB={"syopingmol": {"ko": "쇼핑몰", "rom": "syo-ping-mol", "fr": "centre commercial"}, "seil": {"ko": "세일", "rom": "se-il", "fr": "soldes / promotion"}, "ot": {"ko": "옷", "rom": "ot", "fr": "vêtement / habit"}, "ibeobwayo": {"ko": "입어봐요", "rom": "i-beo-bwa-yo", "fr": "essaie / j'essaie"}, "saijeu": {"ko": "사이즈", "rom": "sa-i-jeu", "fr": "taille / pointure"}, "eoullyeoyo": {"ko": "어울려요", "rom": "eo-ul-lyeo-yo", "fr": "ça te va bien"}, "neomu": {"ko": "너무", "rom": "neo-mu", "fr": "trop / vraiment (intensif)"}, "saekgal": {"ko": "색깔", "rom": "saek-gal", "fr": "couleur"}, "dareun": {"ko": "다른", "rom": "da-reun", "fr": "autre / différent"}, "gyesan": {"ko": "계산", "rom": "gye-san", "fr": "paiement / addition"}, "hyeongeum": {"ko": "현금", "rom": "hyeon-geum", "fr": "espèces / cash"}, "yeongsujeung": {"ko": "영수증", "rom": "yeong-su-jeung", "fr": "reçu / ticket de caisse"}, "salgeyo": {"ko": "살게요", "rom": "sal-ge-yo", "fr": "je vais l'acheter"}};
 
@@ -307,7 +308,7 @@
   romBtn.addEventListener('click',function(){var on=romBtn.getAttribute('aria-pressed')==='true';romBtn.setAttribute('aria-pressed',String(!on));document.body.classList.toggle('no-rom',on);});
 
   var pop=document.getElementById('vocabPop');
-  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=v.rom;document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
+  function showVocab(id){var v=VOCAB[id];if(!v)return;document.getElementById('vpKo').textContent=v.ko;document.getElementById('vpRom').textContent=ksLireDe(v);document.getElementById('vpFr').textContent=v.fr;pop.classList.add('show');clearTimeout(showVocab._t);showVocab._t=setTimeout(function(){pop.classList.remove('show');},5000);}
   document.querySelectorAll('.kw').forEach(function(k){k.setAttribute('tabindex','0');k.setAttribute('role','button');k.addEventListener('click',function(e){e.stopPropagation();showVocab(k.getAttribute('data-id'));});k.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showVocab(k.getAttribute('data-id'));}});});
   document.getElementById('vpClose').addEventListener('click',function(){pop.classList.remove('show');});
 
