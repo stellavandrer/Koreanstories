@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="theme-color" content="#0F1B2D"/>
 <title>Dictionnaire coréen-français — Korean Stories</title>
-<meta name="description" content="Dictionnaire coréen ⇄ français intelligent : recherche instantanée, audio, romanisation automatique et conjugaison complète des verbes et adjectifs coréens."/>
+<meta name="description" content="Dictionnaire coréen ⇄ français intelligent : recherche instantanée, audio, prononciation à la française et conjugaison complète des verbes et adjectifs coréens."/>
 <link rel="canonical" href="https://koreanstories.fr/dictionnaire.html"/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
 <link rel="preload" href="fonts/ks-fonts-kr.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts-kr.css"/></noscript>
@@ -105,7 +105,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   </div>
   <div class="dic-hd">
     <h1>Dictionnaire coréen ⇄ français</h1>
-    <p>Cherche en français ou en coréen — avec audio, romanisation et conjugaison automatiques.</p>
+    <p>Cherche en français ou en coréen — avec audio, prononciation à la française et conjugaison automatiques.</p>
     <div class="search-wrap">
       <svg class="si" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input id="q" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex : 사랑, manger, 가다, école…" aria-label="Rechercher un mot"/>
@@ -119,15 +119,23 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 <p class="dic-credit">Vocabulaire enrichi par le <a href="https://krdict.korean.go.kr" target="_blank" rel="noopener">한국어기초사전</a> du 국립국어원 (National Institute of Korean Language) — <a href="https://creativecommons.org/licenses/by-sa/2.0/kr/deed.fr" target="_blank" rel="noopener">CC BY-SA 2.0 KR</a>.</p>
 
 
+<script src="ks-lecture-fr.js"></script>
 <script src="ks-dictionary.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════
-   Dictionnaire intelligent — recherche, romanisation auto, conjugaison.
+   Dictionnaire intelligent — recherche, prononciation à la française, conjugaison.
    Données : KSDict.raw() (noyau curé, chargé immédiatement)
    + ks-krdict.json (한국어기초사전 du 국립국어원, CC BY-SA) chargé en différé.
    ═══════════════════════════════════════════════════════════════════ */
 var DICT = (window.KSDict && KSDict.raw()) ? KSDict.raw() : {};
-var ENTRIES = Object.keys(DICT).map(function(ko){ var e=DICT[ko]; return {ko:ko, fr:e.fr||'', rom:e.rom||'', pos:e.pos||'', ex:e.ex||''}; });
+/* `lec` = la lecture française, sans traits d'union, prête à comparer.
+   Calculée une fois à la construction de l'index et non à chaque frappe :
+   43 270 mots se lisent en 28 ms, mais la recherche tourne sur l'index
+   entier à chaque caractère tapé. Elle permet de retrouver 어머니 en tapant
+   « omoni » — la romanisation officielle, elle, n'existe que pour les
+   2 081 entrées curées et donne « eomeoni ». */
+function indexLecture(ko){ try { return norm(lecture(ko).replace(/-/g,'')); } catch(e){ return ''; } }
+var ENTRIES = Object.keys(DICT).map(function(ko){ var e=DICT[ko]; return {ko:ko, fr:e.fr||'', rom:e.rom||'', lec:indexLecture(ko), pos:e.pos||'', ex:e.ex||''}; });
 
 /* ── Élargissement différé : dictionnaire complet krdict (≈40k mots, CC BY-SA).
    Le noyau curé reste instantané ; krdict se fond dans l'index une fois chargé. ── */
@@ -136,7 +144,7 @@ var ENTRIES = Object.keys(DICT).map(function(ko){ var e=DICT[ko]; return {ko:ko,
   fetch('ks-krdict.json').then(function(r){ return r.ok?r.json():null; }).then(function(extra){
     if(!extra) return;
     var added=0;
-    for(var ko in extra){ if(seen[ko]) continue; var e=extra[ko]; ENTRIES.push({ko:ko, fr:e.fr||'', rom:'', pos:e.pos||'', ex:''}); seen[ko]=1; added++; }
+    for(var ko in extra){ if(seen[ko]) continue; var e=extra[ko]; ENTRIES.push({ko:ko, fr:e.fr||'', rom:'', lec:indexLecture(ko), pos:e.pos||'', ex:''}); seen[ko]=1; added++; }
     if(!added) return;
     if(qEl && !qEl.value.trim()){ if(dirHint) dirHint.textContent=ENTRIES.length+' mots · tape un mot coréen ou français'; }
     else if(typeof run==='function'){ run(); }   /* relance la recherche en cours avec le corpus complet */
@@ -154,6 +162,21 @@ function isHangeul(s){return /[가-힣ㄱ-ㅎㅏ-ㅣ]/.test(s);}
 var L_ROM=['g','kk','n','d','tt','r','m','b','pp','s','ss','','j','jj','ch','k','t','p','h'];
 var V_ROM=['a','ae','ya','yae','eo','e','yeo','ye','o','wa','wae','oe','yo','u','wo','we','wi','yu','eu','ui','i'];
 var T_ROM=['','k','k','k','n','n','n','t','l','k','m','l','l','l','p','l','m','p','p','t','t','ng','t','t','k','t','p','t'];
+/* ── Ce qu'on AFFICHE sous un mot ────────────────────────────────────
+   Pas la romanisation officielle. Elle transcrit des lettres, pas des
+   sons, et trompe systématiquement un lecteur francophone :
+     어머니 → « eomeoni »   qu'on lit « é-o-mé-o-ni »  (c'est « o-mo-ni »)
+     감사합니다 → « gamsahamnida »                      (« gam-sa-ham-ni-da »)
+   hangeul.html prévient déjà que le « u » de la romanisation est un piège.
+   KSLectureFR applique la même doctrine et tient compte des liaisons et
+   des assimilations, que la romanisation lettre à lettre ignore.
+   romanize() reste en repli si le module n'a pas chargé, et sert toujours
+   à la recherche : quelqu'un qui tape « annyeong » doit trouver. */
+function lecture(text){
+  try { if (window.KSLectureFR) return window.KSLectureFR.lire(text); } catch(e){}
+  return romanize(text);
+}
+
 function romanize(text){
   var out='';
   for(var i=0;i<text.length;i++){
@@ -274,12 +297,14 @@ function search(qRaw){
     var e=ENTRIES[i], sc=-1;
     if(kr){
       if(e.ko===qRaw) sc=100; else if(e.ko.indexOf(qRaw)===0) sc=80; else if(e.ko.indexOf(qRaw)>=0) sc=55;
-      else if(norm(e.rom).indexOf(q)>=0) sc=30;
+      else if(norm(e.rom).indexOf(q)>=0 || (e.lec && e.lec.indexOf(q)>=0)) sc=30;
     } else {
       var f=norm(e.fr), r=norm(e.rom);
       if(f===q) sc=100; else if(f.split(/[\s/(),]+/).indexOf(q)>=0) sc=82;
       else if(f.indexOf(q)===0) sc=70; else if(f.indexOf(q)>=0) sc=50;
-      else if(r===q) sc=60; else if(r.indexOf(q)===0) sc=40; else if(r.indexOf(q)>=0) sc=25;
+      else if(r===q || e.lec===q) sc=60;
+      else if(r.indexOf(q)===0 || (e.lec && e.lec.indexOf(q)===0)) sc=40;
+      else if(r.indexOf(q)>=0 || (e.lec && e.lec.indexOf(q)>=0)) sc=25;
     }
     if(sc>=0) scored.push({e:e,sc:sc});
   }
@@ -298,7 +323,7 @@ function entryHTML(e){
   h+='<div class="entry-head">';
   h+='<div class="entry-main">';
   h+='<div class="entry-ko">'+esc(e.ko)+(e.pos?'<span class="pos-tag pos-'+e.pos+'">'+(POS_LBL[e.pos]||e.pos)+'</span>':'')+'</div>';
-  h+='<div class="entry-rom">'+esc(e.rom||romanize(e.ko))+'</div>';
+  h+='<div class="entry-rom">'+esc(lecture(e.ko))+'</div>';
   h+='<div class="entry-fr">'+esc(e.fr)+'</div>';
   if(e.ex) h+='<div class="entry-ex"><span class="exk">'+esc(e.ex)+'</span></div>';
   if(canConj) h+='<button class="conj-toggle" type="button">Conjuguer <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button>';
@@ -311,7 +336,7 @@ function entryHTML(e){
       h+='<div class="conj-panel"><div class="conj-inner">';
       h+='<div class="conj-title">Conjugaison · '+esc(e.ko)+'</div>';
       forms.forEach(function(f){
-        h+='<div class="conj-row"><span class="conj-lbl">'+f[0]+'</span><span class="conj-val">'+esc(f[1])+'<span class="rom">'+esc(romanize(f[1].replace(/\s/g,'')))+'</span></span><button class="conj-spk" aria-label="Écouter" data-say="'+esc(f[1])+'">'+SPK_SVG+'</button></div>';
+        h+='<div class="conj-row"><span class="conj-lbl">'+f[0]+'</span><span class="conj-val">'+esc(f[1])+'<span class="rom">'+esc(lecture(f[1]))+'</span></span><button class="conj-spk" aria-label="Écouter" data-say="'+esc(f[1])+'">'+SPK_SVG+'</button></div>';
       });
       h+='<div class="conj-note">Formes générées automatiquement — les cas très irréguliers peuvent varier.</div>';
       h+='</div></div>';
@@ -334,13 +359,13 @@ function renderEmpty(q){
   var h='<div class="empty">';
   if(kr){
     var conj=conjugate(q);
-    h+='<div class="big">'+esc(q)+'</div><div class="rom">'+esc(romanize(q))+'</div>';
+    h+='<div class="big">'+esc(q)+'</div><div class="rom">'+esc(lecture(q))+'</div>';
     h+='<button class="spk" aria-label="Écouter" data-say="'+esc(q)+'">'+SPK_SVG+'</button>';
     h+='<p>Ce mot n\'est pas encore dans notre dictionnaire, mais voici sa lecture'+(conj?' et sa conjugaison':'')+'.</p>';
     h+='</div>';
     if(conj){
       h+='<div class="entry open" style="margin-top:8px"><div class="conj-panel" style="max-height:640px"><div class="conj-inner"><div class="conj-title">Conjugaison · '+esc(q)+'</div>';
-      conj.forEach(function(f){ h+='<div class="conj-row"><span class="conj-lbl">'+f[0]+'</span><span class="conj-val">'+esc(f[1])+'<span class="rom">'+esc(romanize(f[1].replace(/\s/g,'')))+'</span></span><button class="conj-spk" data-say="'+esc(f[1])+'" aria-label="Écouter">'+SPK_SVG+'</button></div>'; });
+      conj.forEach(function(f){ h+='<div class="conj-row"><span class="conj-lbl">'+f[0]+'</span><span class="conj-val">'+esc(f[1])+'<span class="rom">'+esc(lecture(f[1]))+'</span></span><button class="conj-spk" data-say="'+esc(f[1])+'" aria-label="Écouter">'+SPK_SVG+'</button></div>'; });
       h+='<div class="conj-note">Formes générées automatiquement.</div></div></div></div>';
     }
   } else {

@@ -14,10 +14,11 @@
    calcul Unicode et on rend chaque jamo avec la valeur que le site
    enseigne dans hangeul.html (champ frs). Une lecture fausse ne peut donc
    venir que d'une table fausse, jamais d'une faute de frappe.
-   Portée : la lecture d'un mot ou d'un nombre, pas d'une phrase entière.
-   Seule la liaison est traitée (voir plus bas) ; les assimilations —
-   nasalisation de 합니다 en « ham-ni-da », tension du ㅅ après une finale —
-   ne le sont pas. À réserver aux mots isolés tant que ce n'est pas fait.
+   Portée : un mot ou un nombre. Trois transformations sont appliquées —
+   liaison, nasalisation, latéralisation (voir plus bas). La tension
+   (된소리 : 학교 « hak-kkyo ») ne l'est pas, ni les chaînes de règles qui
+   se déclenchent l'une l'autre : elles restent rares dans du vocabulaire
+   isolé, qui est l'usage visé.
    ═══════════════════════════════════════════════════════════════════ */
 (function (global) {
   'use strict';
@@ -54,71 +55,141 @@
      d'après. 살 + 이에요 ne se lit pas « sal-i-é-yo » mais « sa-ri-é-yo ».
      La finale reprend alors sa vraie valeur : le ㅅ de 옷이 redevient un s
      (« o-si ») alors qu'il sonnait t tout seul.
-     Limite assumée : seules les finales simples sont traitées. Les finales
-     doubles (ㄺ, ㄼ, ㅄ…) partagent leur consonne entre les deux syllabes,
-     règle par règle — elles n'apparaissent dans aucun des deux outils qui
-     utilisent ce fichier, on ne les invente donc pas. */
+     Les finales DOUBLES se partagent : la première reste, la seconde part.
+     읽어 « il-go », 없어 « op-sso ». Deux exceptions, où le ㅎ s'efface au
+     lieu de partir et laisse filer sa voisine : 많아 « ma-na », 싫어
+     « chi-ro ». On ne pouvait pas les ignorer — 없어요, 많아요, 괜찮아요 et
+     읽어요 sont du vocabulaire de première semaine. */
   var LIAISON = { 1: 'g', 2: 'kk', 4: 'n', 7: 'd', 8: 'r', 16: 'm', 17: 'b',
                   19: 's', 20: 'ss', 22: 'dj', 23: 'tch', 24: 'k', 25: 't',
                   26: 'p', 27: '' };
 
+  /* Finales doubles : [ce qui reste, ce qui part]. Le ㅅ qui se déplace se
+     tend (없어 se dit « op-sso », pas « op-so »). */
+  var LIAISON_DOUBLE = {
+    3:  ['k', 'ss'],   //  ㄳ
+    5:  ['n', 'dj'],   //  ㄵ  앉아
+    6:  ['',  'n'],    //  ㄶ  많아 — le ㅎ s'efface, le ㄴ part
+    9:  ['l', 'g'],    //  ㄺ  읽어
+    10: ['l', 'm'],    //  ㄻ  젊어
+    11: ['l', 'b'],    //  ㄼ  넓어
+    12: ['l', 'ss'],   //  ㄽ
+    13: ['l', 't'],    //  ㄾ
+    14: ['l', 'p'],    //  ㄿ
+    15: ['',  'r'],    //  ㅀ  싫어 — le ㅎ s'efface, le ㄹ part
+    18: ['p', 'ss']    //  ㅄ  없어
+  };
+
+  /* Assimilations — deux consonnes qui se touchent se déforment, et le
+     coréen parlé ne ressemble alors plus à ce qui est écrit. C'est LA
+     raison pour laquelle une romanisation lettre à lettre trompe :
+     감사합니다 ne se dit pas « hap-ni-da » mais « ham-ni-da ».
+
+     비음화 (nasalisation) — une finale occlusive devant ㄴ ou ㅁ devient
+     la nasale du même point d'articulation :
+       [k] → ng   한국말 « han-goung-mal »
+       [t] → n
+       [p] → m    합니다 « ham-ni-da »
+     유음화 (latéralisation) — ㄴ et ㄹ qui se touchent donnent deux l :
+       신라 « chil-la », 설날 « sol-lal »
+     et un ㄹ derrière ㅁ ou ㅇ se durcit en n : 종로 « djong-no ». */
+  var NASALISE = { k: 'ng', t: 'n', p: 'm' };
+
   function estSyllabe(c) { var n = c.charCodeAt(0); return n >= BASE && n <= FIN; }
 
-  function lireSyllabe(car, initialePrecedeeDeL, attaqueHeritee, finaleCedee) {
+  function decomposer(c) {
+    var off = c.charCodeAt(0) - BASE;
+    return { cho: Math.floor(off / (21 * 28)),
+             jung: Math.floor((off % (21 * 28)) / 28),
+             jong: off % 28 };
+  }
+
+  /* Rend UNE syllabe. `attaqueForcee` et `codaForcee` viennent des règles
+     de contact calculées par lireBlocs : à ce stade la syllabe ne décide
+     plus seule de ses consonnes de bord. */
+  function lireSyllabe(car, attaqueForcee, codaForcee) {
     if (!estSyllabe(car)) return car;
-    var off = car.charCodeAt(0) - BASE;
-    var cho = Math.floor(off / (21 * 28));
-    var jung = Math.floor((off % (21 * 28)) / 28);
-    var jong = off % 28;
+    var d = decomposer(car);
+    var attaque = attaqueForcee !== null && attaqueForcee !== undefined
+      ? attaqueForcee : CHO[d.cho];
+    var voyelle = JUNG[d.jung];
 
-    var attaque = CHO[cho];
-    if (cho === 11 && attaqueHeritee) attaque = attaqueHeritee;
-    if (finaleCedee) jong = 0;
-    var voyelle = JUNG[jung];
-
-    if ((cho === 9 || cho === 10) && MOUILLANTES[jung]) {
+    /* ㅅ et ㅆ se mouillent devant i et devant les voyelles en y : 시 se dit
+       « chi » et non « si », 샤 « cha » et non « sya ». Le test porte sur
+       l'attaque EFFECTIVE : le ㅅ de 옷이 arrive par liaison, il se mouille
+       tout autant — « o-chi ». Le son mouillé porte déjà le y, on le retire
+       donc de la voyelle, sinon 샤 donnerait « chya ». */
+    if ((attaque === 's' || attaque === 'ss') && MOUILLANTES[d.jung]) {
       attaque = 'ch';
       voyelle = voyelle.charAt(0) === 'y' ? voyelle.slice(1) : voyelle;
       if (voyelle === 'oui') voyelle = 'ui';
-    } else if ((cho === 12 || cho === 13 || cho === 14) && voyelle.charAt(0) === 'y') {
+    } else if ((attaque === 'dj' || attaque === 'ddj' || attaque === 'tch') &&
+               voyelle.charAt(0) === 'y') {
       voyelle = voyelle.slice(1);
-    } else if (cho !== 11 && voyelle === 'oui') {
-      /* ㅟ seul se dit « oui » (위) ; derrière une consonne il se réduit
-         au « ui » de « lui » : 뤼 se lit « rui », pas « rouii ». */
+    } else if (attaque && voyelle === 'oui') {
+      /* ㅟ seul se dit « oui » (위) ; derrière une consonne il se réduit au
+         « ui » de « lui » : 뤼 se lit « rui », pas « rouii ». */
       voyelle = 'ui';
     }
 
-    /* ㄹ redoublé : une finale l suivie d'un ㄹ d'attaque donne deux l,
-       pas un r. C'est le « ni-kol-la » de 니콜라, déjà documenté dans
-       ks-prenom.js — le rendre en « ni-kol-ra » serait faux. */
-    if (initialePrecedeeDeL && cho === 5) attaque = 'l';
-
-    return attaque + voyelle + JONG[jong];
+    return attaque + voyelle +
+      (codaForcee !== null && codaForcee !== undefined ? codaForcee : JONG[d.jong]);
   }
 
-  /* Rend un mot entier : un tableau de syllabes lues, dans l'ordre. */
+  /* Rend un mot entier : un tableau de syllabes lues, dans l'ordre.
+     Deux passes, parce qu'une syllabe ne se lit pas sans savoir ce qui la
+     suit : on décompose tout, on applique les règles de contact, puis on
+     rend. */
   function lireBlocs(mot) {
-    var out = [], precedeeDeL = false, heritee = '';
-    var s = String(mot || '');
+    var s = String(mot || ''), out = [];
     for (var i = 0; i < s.length; i++) {
       var c = s.charAt(i);
-      if (!estSyllabe(c)) { precedeeDeL = false; heritee = ''; continue; }
+      if (!estSyllabe(c)) continue;
+      var d = decomposer(c);
+      d.car = c;
+      d.coda = JONG[d.jong];      // son de finale, avant transformation
+      d.attaque = null;           // attaque imposée par la syllabe d'avant
+      out.push(d);
+    }
 
-      var jong = (c.charCodeAt(0) - BASE) % 28;
-      /* La finale part-elle dans la syllabe suivante ? Seulement si celle-ci
-         existe, commence par ㅇ, et que la finale sait se déplacer. */
-      var suiv = s.charAt(i + 1);
-      var cede = false;
-      if (suiv && estSyllabe(suiv) && LIAISON.hasOwnProperty(jong) &&
-          Math.floor((suiv.charCodeAt(0) - BASE) / (21 * 28)) === 11) {
-        cede = true;
+    for (var k = 0; k < out.length - 1; k++) {
+      var a = out[k], b = out[k + 1];
+      if (!a.coda) continue;
+
+      /* Liaison : la finale glisse dans le ㅇ suivant, qui ne se prononce
+         pas, et retrouve au passage sa vraie valeur — le ㅅ de 옷이 sonne
+         t tout seul mais s devant une voyelle. */
+      if (b.cho === 11) {
+        if (LIAISON_DOUBLE.hasOwnProperty(a.jong)) {
+          a.coda = LIAISON_DOUBLE[a.jong][0];
+          b.attaque = LIAISON_DOUBLE[a.jong][1];
+          continue;
+        }
+        if (LIAISON.hasOwnProperty(a.jong)) {
+          b.attaque = LIAISON[a.jong];
+          a.coda = '';
+          continue;
+        }
       }
 
-      out.push(lireSyllabe(c, precedeeDeL, heritee, cede));
-      heritee = cede ? LIAISON[jong] : '';
-      precedeeDeL = !cede && jong === 8;   // finale ㄹ conservée
+      // 유음화 — ㄴ et ㄹ qui se touchent donnent deux l.
+      if (a.coda === 'n' && b.cho === 5) { a.coda = 'l'; b.attaque = 'l'; continue; }
+      if (a.coda === 'l' && b.cho === 2) { b.attaque = 'l'; continue; }
+
+      // Un ㄹ derrière une nasale se durcit en n : 종로 « djong-no ».
+      if ((a.coda === 'm' || a.coda === 'ng') && b.cho === 5) { b.attaque = 'n'; continue; }
+
+      // 비음화 — occlusive devant ㄴ ou ㅁ.
+      if (NASALISE[a.coda] && (b.cho === 2 || b.cho === 6)) { a.coda = NASALISE[a.coda]; continue; }
+
+      /* Le ㄹ doublé ordinaire (니콜라 « ni-kol-la ») : une finale l suivie
+         d'une attaque ㄹ se lit l, pas r. */
+      /* Le ㄹ doublé ordinaire (니콜라 « ni-kol-la ») : une finale l suivie
+         d'une attaque ㄹ se lit l, pas r. */
+      if (a.coda === 'l' && b.cho === 5) b.attaque = 'l';
     }
-    return out;
+
+    return out.map(function (d) { return lireSyllabe(d.car, d.attaque, d.coda); });
   }
 
   /* Lecture d'un mot, syllabes reliées par des traits : « ka-mi-you ».
