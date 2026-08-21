@@ -1336,21 +1336,30 @@
     }
     initProg(0);
 
-    /* Timer d'étude */
+    /* Timer d'étude — le moteur vit dans ks.js (KSTimer), pas ici : le
+       chrono doit continuer de tourner quand on ouvre une leçon, ce que
+       cette page ne peut pas faire puisqu'elle est déchargée. Ce bloc
+       n'est plus qu'un affichage et trois boutons. */
     var today=localKey(new Date());
-    var session=0, running=false, iv=null;
     var elTime=document.getElementById('dwTime'), elToggle=document.getElementById('dwToggle'),
         elReset=document.getElementById('dwReset'), elToday=document.getElementById('dwToday'), elTotal=document.getElementById('dwTotal');
     function fmt(s){var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),x=s%60;return pad(h)+':'+pad(m)+':'+pad(x);}
     function human(s){var h=Math.floor(s/3600),m=Math.round((s%3600)/60); if(h>0)return h+' h'+(m?' '+m:''); return m+' min';}
-    function paintFoot(){ elToday.textContent=human(lsInt('ks_study_'+today)); elTotal.textContent=human(lsInt('ks_study_total')); }
+    function chrono(){ return window.KSTimer || null; }
+    /* On interroge KSTimer plutôt que la clé du jour figée au chargement :
+       un onglet laissé ouvert franchit minuit, et le total « aujourd'hui »
+       doit alors repartir du bon jour. */
+    function secAujourdhui(){ var t=chrono(); return t ? t.aujourdhui() : lsInt('ks_study_'+today); }
+    function paintFoot(){ var t=chrono();
+      elToday.textContent=human(secAujourdhui());
+      elTotal.textContent=human(t ? t.total() : lsInt('ks_study_total')); }
     /* Objectif de temps d'étude quotidien (minutes) — cliquer/Entrée pour changer le palier */
     var GOAL_PRESETS=[10,15,20,30,45,60];
     function studyGoalMin(){ var v=lsInt('ks_study_goal'); return v>0?v:15; }
     var elGoal=document.getElementById('dwGoal'), elGoalFill=document.getElementById('dwGoalFill'),
         elGoalLbl=document.getElementById('dwGoalLbl'), elGoalState=document.getElementById('dwGoalState');
     function paintGoal(){
-      var gMin=studyGoalMin(), goalSec=gMin*60, todaySec=lsInt('ks_study_'+today);
+      var gMin=studyGoalMin(), goalSec=gMin*60, todaySec=secAujourdhui();
       var pct=Math.min(100, Math.round(todaySec/goalSec*100)), met=todaySec>=goalSec;
       if(elGoalFill) elGoalFill.style.width=pct+'%';
       if(elGoalLbl) elGoalLbl.textContent='Objectif '+gMin+' min/j';
@@ -1362,13 +1371,28 @@
       elGoal.addEventListener('click', cycleGoal);
       elGoal.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); cycleGoal(); } });
     }
-    function tick(){ session++; lsSet('ks_study_'+today, lsInt('ks_study_'+today)+1); lsSet('ks_study_total', lsInt('ks_study_total')+1); elTime.textContent=fmt(session); paintFoot(); paintGoal(); }
-    function start(){ running=true; elToggle.textContent='Pause'; elToggle.classList.add('running'); iv=setInterval(tick,1000); }
-    function stop(){ running=false; elToggle.textContent=session?'Reprendre':'Démarrer'; elToggle.classList.remove('running'); clearInterval(iv); }
-    elToggle.addEventListener('click',function(){ running?stop():start(); });
-    elReset.addEventListener('click',function(){ stop(); session=0; elTime.textContent=fmt(0); elToggle.textContent='Démarrer'; });
-    document.addEventListener('visibilitychange',function(){ if(document.hidden&&running) stop(); });
-    elTime.textContent=fmt(0); paintFoot(); paintGoal();
+    /* Un seul rendu, appelé chaque seconde : l'état fait autorité dans
+       localStorage, l'affichage ne fait que le refléter. Deux onglets
+       ouverts sur le tableau de bord montrent donc la même chose. */
+    function peindre(){
+      var t=chrono(), sec = t ? t.session() : 0, marche = !!(t && t.actif());
+      elTime.textContent=fmt(sec);
+      elToggle.textContent = marche ? 'Pause' : (sec ? 'Reprendre' : 'Démarrer');
+      elToggle.classList.toggle('running', marche);
+      paintFoot(); paintGoal();
+    }
+    elToggle.addEventListener('click',function(){
+      var t=chrono(); if(!t) return;
+      t.actif() ? t.pause() : t.demarrer();
+      peindre();
+    });
+    elReset.addEventListener('click',function(){
+      var t=chrono(); if(!t) return;
+      t.remettreAZero(); peindre();
+    });
+    /* ks.js est chargé en defer : au premier passage KSTimer peut ne pas
+       exister. Le rendu périodique le rattrape sans cas particulier. */
+    peindre(); setInterval(peindre, 1000);
 
     /* Calendrier d'activité */
     var MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];

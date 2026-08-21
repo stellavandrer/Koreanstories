@@ -142,3 +142,116 @@ document.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')
     (document.body || document.head).appendChild(s);
   }catch(e){}
 })();
+
+/* ═══════════════════════════════════════════════════════════════════
+   KSTimer — le chronomètre d'étude, continu d'une page à l'autre.
+   ──────────────────────────────────────────────────────────────────
+   Il vivait dans app.html sous forme de setInterval : ouvrir une leçon
+   tuait la page, donc l'intervalle, donc le chrono. Une apprenante l'a
+   signalé — le temps ne comptait JAMAIS pendant qu'elle étudiait, ce qui
+   est exactement l'inverse de ce qu'on attend d'un timer d'étude.
+
+   Deux corrections dans le même mouvement :
+
+   1. L'état vit dans localStorage, pas dans la page. N'importe quelle
+      page qui charge ks.js (451 sur 459) reprend le décompte là où la
+      précédente l'a laissé.
+   2. On compte des HORODATAGES, plus des battements. L'ancien tick()
+      ajoutait 1 s par seconde écoulée — or les navigateurs brident les
+      minuteries des onglets en arrière-plan (Chrome : une par minute),
+      donc le total sous-comptait dès que l'onglet passait derrière.
+
+   Deux garde-fous, parce qu'un chronomètre qui ment est pire qu'absent :
+   - on ne compte que si la page est VISIBLE. Onglet caché, ordinateur
+     en veille : le temps ne court pas ;
+   - au-delà de TROU_MAX entre deux crédits, on considère que la personne
+     est partie (navigateur fermé, machine endormie) : le trou n'est pas
+     crédité et le chrono s'arrête de lui-même. Sans ça, un onglet oublié
+     une nuit offrirait huit heures d'étude au réveil.
+
+   Clés : ks_timer_on / ks_timer_base / ks_timer_vu, et les deux
+   compteurs historiques ks_study_<jour> et ks_study_total, inchangés —
+   le widget du tableau de bord et l'objectif quotidien continuent de
+   les lire tels quels.
+   ═══════════════════════════════════════════════════════════════════ */
+(function (g) {
+  'use strict';
+  if (g.KSTimer) return;
+
+  var TROU_MAX = 300;          // secondes
+  var CADENCE  = 5000;         // millisecondes entre deux crédits
+
+  function lire(k)      { try { return parseInt(localStorage.getItem(k) || '0', 10) || 0; } catch (e) { return 0; } }
+  function ecrire(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function oter(k)      { try { localStorage.removeItem(k); } catch (e) {} }
+  function deuxChiffres(n) { return (n < 10 ? '0' : '') + n; }
+  function jour() {
+    var d = new Date();
+    return d.getFullYear() + '-' + deuxChiffres(d.getMonth() + 1) + '-' + deuxChiffres(d.getDate());
+  }
+  function actif()  { try { return localStorage.getItem('ks_timer_on') === '1'; } catch (e) { return false; } }
+  function visible() { return typeof document === 'undefined' || document.visibilityState !== 'hidden'; }
+
+  /* Verse le temps écoulé depuis le dernier passage dans les compteurs.
+     Renvoie true si l'état a changé, pour que l'affichage se rafraîchisse. */
+  function crediter() {
+    if (!actif()) return false;
+    var vu = lire('ks_timer_vu');
+    var maintenant = Date.now();
+    if (!vu) { ecrire('ks_timer_vu', maintenant); return false; }
+
+    var delta = Math.floor((maintenant - vu) / 1000);
+    if (delta <= 0) return false;
+
+    if (delta > TROU_MAX) {
+      /* Trou trop grand pour être une navigation : on ne crédite rien et
+         on arrête, en gardant la session déjà comptée. */
+      oter('ks_timer_on');
+      ecrire('ks_timer_vu', maintenant);
+      return true;
+    }
+    if (!visible()) { ecrire('ks_timer_vu', maintenant); return false; }
+
+    ecrire('ks_timer_base', lire('ks_timer_base') + delta);
+    ecrire('ks_study_' + jour(), lire('ks_study_' + jour()) + delta);
+    ecrire('ks_study_total', lire('ks_study_total') + delta);
+    ecrire('ks_timer_vu', maintenant);
+    return true;
+  }
+
+  /* Secondes de la session en cours, crédit non encore versé compris. */
+  function session() {
+    var base = lire('ks_timer_base');
+    if (!actif() || !visible()) return base;
+    var vu = lire('ks_timer_vu');
+    if (!vu) return base;
+    var delta = Math.floor((Date.now() - vu) / 1000);
+    return base + (delta > 0 && delta <= TROU_MAX ? delta : 0);
+  }
+
+  function demarrer()  { ecrire('ks_timer_vu', Date.now()); ecrire('ks_timer_on', '1'); }
+  function pause()     { crediter(); oter('ks_timer_on'); }
+  function remettre()  { crediter(); oter('ks_timer_on'); ecrire('ks_timer_base', 0); }
+
+  crediter();
+  setInterval(crediter, CADENCE);
+
+  if (typeof document !== 'undefined') {
+    /* pagehide plutôt que unload : c'est le seul que Safari iOS déclenche
+       de façon fiable, et le seul compatible avec le cache de retour arrière. */
+    g.addEventListener('pagehide', crediter);
+    document.addEventListener('visibilitychange', function () {
+      crediter();
+      /* En revenant, on repart de maintenant : le temps passé ailleurs ne
+         doit pas se retrouver crédité d'un bloc. */
+      if (visible()) ecrire('ks_timer_vu', Date.now());
+    });
+  }
+
+  g.KSTimer = {
+    actif: actif, session: session, crediter: crediter,
+    demarrer: demarrer, pause: pause, remettreAZero: remettre,
+    aujourdhui: function () { return lire('ks_study_' + jour()); },
+    total:      function () { return lire('ks_study_total'); }
+  };
+})(typeof window !== 'undefined' ? window : this);
