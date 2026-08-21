@@ -272,6 +272,11 @@ function estCadeau(id) { return CADEAU === id; }
 function pdfAction(id, mode, btn) {
   var p = PDFS.find(function (x) { return x.id === id; });
   if (!p) return;
+  /* Les cinq fiches Hangeul sont annoncées « Gratuit » sur leur carte mais
+     passaient par la même porte Premium que les 30 autres : le clic ouvrait
+     une invitation à s'abonner. Elles ont leur page à elles, celle vers
+     laquelle hangeul.html pointe déjà — on y va directement. */
+  if (LIBRES[id]) { window.open(p.file + '.html', '_blank'); return; }
   var prem = !!(window.KSPremium && KSPremium.isPremium());
   if (!prem && !estCadeau(id)) {
     if (confirm('Cette fiche PDF est réservée aux membres Premium. Découvrir Premium maintenant ?')) {
