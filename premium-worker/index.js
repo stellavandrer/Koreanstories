@@ -147,7 +147,7 @@ export default {
       return handleReviewNotify(request, env);
     }
 
-    if (request.method === 'GET' && url.pathname === '/newsletter/unsubscribe') {
+    if ((request.method === 'GET' || request.method === 'POST') && url.pathname === '/newsletter/unsubscribe') {
       return handleNewsletterUnsubscribeLink(request, env);
     }
 
@@ -214,7 +214,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-27.1 (rotation hebdomadaire corrigee)\n' +
+      'Korean Stories Premium API — v2026-08-27.3 (un-clic RFC 8058 + 18 grilles)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -1058,6 +1058,17 @@ async function handleNewsletter(request, env) {
 async function handleNewsletterUnsubscribeLink(request, env) {
   const url = new URL(request.url);
   const email = (url.searchParams.get('email') || '').trim().toLowerCase();
+  /* Appel automatique du client mail (List-Unsubscribe-Post) : on désinscrit
+     sans rien renvoyer d'autre qu'un 200, et sans e-mail d'adieu — personne
+     n'a cliqué pour lire une page, et un envoi supplémentaire à quelqu'un qui
+     vient de se désabonner est exactement ce qu'il ne faut pas faire. */
+  const unClic = request.method === 'POST';
+  if (unClic) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return new Response('Bad Request', { status: 400 });
+    const fait = await resendUnsubscribe(email, env);
+    console.log('[KS] désinscription un-clic', email, fait ? 'OK' : 'ECHEC');
+    return new Response('OK', { status: fait ? 200 : 500 });
+  }
   const page = (title, msg) => new Response(
     `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>${title} — Korean Stories</title>
      <meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -1378,7 +1389,7 @@ async function handleSubscriptionUpdated(event, env) {
 // ── Envoi générique d'un e-mail via Resend ────────────────────────────────────
 // Domaine koreanstories.fr vérifié dans Resend → envoi depuis l'adresse du
 // site. Surchargeable via la variable RESEND_FROM dans Cloudflare si besoin.
-async function sendEmail(to, subject, html, env) {
+async function sendEmail(to, subject, html, env, extraHeaders = null) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -1387,7 +1398,8 @@ async function sendEmail(to, subject, html, env) {
     },
     body: JSON.stringify({
       from: env.RESEND_FROM || 'Korean Stories <contact@koreanstories.fr>',
-      to, subject, html
+      to, subject, html,
+      ...(extraHeaders ? { headers: extraHeaders } : {})
     })
   });
   const resJson = await res.json();
@@ -1581,7 +1593,86 @@ const MOTS_CROISES = [
     { kr: '제주도', r: 1, c: 0, d: 'H', fr: 'l’île de Jeju' },
     { kr: '도시락', r: 1, c: 2, d: 'V', fr: 'le panier-repas' },
     { kr: '시월',   r: 2, c: 2, d: 'H', fr: 'octobre' },
-    { kr: '연락',   r: 3, c: 1, d: 'H', fr: 'prendre contact' } ] }
+    { kr: '연락',   r: 3, c: 1, d: 'H', fr: 'prendre contact' } ] },
+
+  /* ── 12 grilles ajoutées le 27/08/2026 ─────────────────────────────────────
+     Bâties par un générateur à partir du seul vocabulaire déjà enseigné :
+     noyau curé de ks-dictionary.js ∩ mots narrés dans audio/manifest.json.
+     Aucun mot n'a été saisi à la main, définitions comprises. Sans le filtre
+     « narré sur le site », le noyau remontait « molécule » et « télescope ».
+     Le cycle passe de 6 à 18 semaines. */
+  { titre: 'Parler, manger, recommencer', rows: 2, cols: 4, mots: [
+    { kr: '말하다', r: 0, c: 0, d: 'H', fr: 'parler' },
+    { kr: '하늘', r: 0, c: 1, d: 'V', fr: 'ciel' },
+    { kr: '다음', r: 0, c: 2, d: 'V', fr: 'suivant / après' },
+    { kr: '음식', r: 1, c: 2, d: 'H', fr: 'nourriture / plat' },
+    { kr: '회식', r: 0, c: 3, d: 'V', fr: 'dîner d’entreprise' } ] },
+  { titre: 'Demain, dimanche, et du travail', rows: 3, cols: 4, mots: [
+    { kr: '내일', r: 0, c: 0, d: 'H', fr: 'demain' },
+    { kr: '내리다', r: 0, c: 0, d: 'V', fr: 'descendre / tomber' },
+    { kr: '일요일', r: 0, c: 1, d: 'V', fr: 'dimanche' },
+    { kr: '요리', r: 1, c: 1, d: 'H', fr: 'cuisine / plat' },
+    { kr: '일하다', r: 2, c: 1, d: 'H', fr: 'travailler' } ] },
+  { titre: 'Une chaise, un médecin, un bruit', rows: 2, cols: 3, mots: [
+    { kr: '의자', r: 0, c: 0, d: 'H', fr: 'chaise' },
+    { kr: '의사', r: 0, c: 0, d: 'V', fr: 'médecin' },
+    { kr: '자유', r: 0, c: 1, d: 'V', fr: 'liberté' },
+    { kr: '유리', r: 1, c: 1, d: 'H', fr: 'verre' },
+    { kr: '소리', r: 0, c: 2, d: 'V', fr: 'son / bruit' } ] },
+  { titre: 'Les mots qui relient les phrases', rows: 3, cols: 3, mots: [
+    { kr: '또한', r: 0, c: 0, d: 'H', fr: 'de plus / aussi' },
+    { kr: '한국어', r: 0, c: 1, d: 'V', fr: 'coréen' },
+    { kr: '어떤', r: 2, c: 1, d: 'H', fr: 'quel, quel genre de' },
+    { kr: '결국', r: 1, c: 0, d: 'H', fr: 'finalement, au bout du compte' },
+    { kr: '결과', r: 1, c: 0, d: 'V', fr: 'résultat' } ] },
+  { titre: 'Aujourd’hui, ces jours-ci, mardi', rows: 3, cols: 4, mots: [
+    { kr: '화요일', r: 0, c: 0, d: 'H', fr: 'mardi' },
+    { kr: '일하다', r: 0, c: 2, d: 'V', fr: 'travailler' },
+    { kr: '요즘', r: 0, c: 1, d: 'V', fr: 'ces jours-ci' },
+    { kr: '하늘', r: 1, c: 2, d: 'H', fr: 'ciel' },
+    { kr: '오늘', r: 0, c: 3, d: 'V', fr: 'aujourd’hui' } ] },
+  { titre: 'Le temps, le marché, encore une fois', rows: 2, cols: 4, mots: [
+    { kr: '계시다', r: 0, c: 0, d: 'H', fr: 'être / rester' },
+    { kr: '계약', r: 0, c: 0, d: 'V', fr: 'contrat' },
+    { kr: '시간', r: 0, c: 1, d: 'V', fr: 'temps / heure' },
+    { kr: '다시', r: 0, c: 2, d: 'V', fr: 'encore une fois, à nouveau' },
+    { kr: '시장', r: 1, c: 2, d: 'H', fr: 'marché / maire' } ] },
+  { titre: 'À droite, à gauche, et un concombre', rows: 3, cols: 3, mots: [
+    { kr: '먹다', r: 0, c: 0, d: 'H', fr: 'manger' },
+    { kr: '다른', r: 0, c: 1, d: 'V', fr: 'autre, différent' },
+    { kr: '오른쪽', r: 1, c: 0, d: 'H', fr: 'droite' },
+    { kr: '왼쪽', r: 0, c: 2, d: 'V', fr: 'gauche' },
+    { kr: '오이', r: 1, c: 0, d: 'V', fr: 'concombre' } ] },
+  { titre: 'Le corps, et ce qui est proche', rows: 3, cols: 3, mots: [
+    { kr: '게다가', r: 0, c: 0, d: 'H', fr: 'de plus, en outre' },
+    { kr: '다리', r: 0, c: 1, d: 'V', fr: 'pont / jambe' },
+    { kr: '가깝다', r: 0, c: 2, d: 'V', fr: 'être proche' },
+    { kr: '말하다', r: 2, c: 0, d: 'H', fr: 'parler' },
+    { kr: '허리', r: 1, c: 0, d: 'H', fr: 'taille / reins' } ] },
+  { titre: 'Séoul, deux nouilles et un frigo', rows: 4, cols: 3, mots: [
+    { kr: '따라서', r: 0, c: 0, d: 'H', fr: 'par conséquent, donc' },
+    { kr: '서울', r: 0, c: 2, d: 'V', fr: 'Séoul' },
+    { kr: '라면', r: 0, c: 1, d: 'V', fr: 'ramyeon' },
+    { kr: '냉면', r: 1, c: 0, d: 'H', fr: 'naengmyeon' },
+    { kr: '냉장고', r: 1, c: 0, d: 'V', fr: 'réfrigérateur' } ] },
+  { titre: 'Beaucoup, loin, et une tante', rows: 2, cols: 4, mots: [
+    { kr: '많이', r: 0, c: 0, d: 'H', fr: 'beaucoup' },
+    { kr: '이모', r: 0, c: 1, d: 'V', fr: 'tante' },
+    { kr: '많다', r: 0, c: 0, d: 'V', fr: 'être nombreux / beaucoup' },
+    { kr: '모르다', r: 1, c: 1, d: 'H', fr: 'ne pas savoir' },
+    { kr: '멀다', r: 0, c: 3, d: 'V', fr: 'être loin' } ] },
+  { titre: 'Quatre jours et une tomate', rows: 5, cols: 4, mots: [
+    { kr: '월요일', r: 0, c: 0, d: 'H', fr: 'lundi' },
+    { kr: '일요일', r: 0, c: 2, d: 'V', fr: 'dimanche' },
+    { kr: '토요일', r: 2, c: 0, d: 'H', fr: 'samedi' },
+    { kr: '수요일', r: 1, c: 1, d: 'H', fr: 'mercredi' },
+    { kr: '토마토', r: 2, c: 0, d: 'V', fr: 'tomate' } ] },
+  { titre: 'Bleu, jaune, et un appartement', rows: 3, cols: 4, mots: [
+    { kr: '알아', r: 0, c: 0, d: 'H', fr: 'je sais' },
+    { kr: '아파트', r: 0, c: 1, d: 'V', fr: 'appartement' },
+    { kr: '파란색', r: 1, c: 1, d: 'H', fr: 'bleu' },
+    { kr: '색깔', r: 1, c: 3, d: 'V', fr: 'couleur' },
+    { kr: '노란색', r: 0, c: 2, d: 'V', fr: 'jaune' } ] }
 ];
 
 /* Decalage de grille par theme. Sans lui, les trois editions d'une meme
@@ -2352,7 +2443,15 @@ async function sendNewsletterEdition(theme, env, testRecipient = null, dateForce
       unsubUrl
     });
     try {
-      await sendEmail(contact.email, edition.subject, html, env);
+      /* Désinscription en un clic (RFC 8058). Gmail et Yahoo affichent alors le
+         bouton « Se désabonner » à côté de l'expéditeur, et comptent son usage
+         à la place d'un signalement en spam — c'est le levier de délivrabilité
+         le moins cher qui existe pour un envoi de masse. Le POST est traité
+         sans page ni e-mail d'adieu : le client mail attend juste un 200. */
+      await sendEmail(contact.email, edition.subject, html, env, {
+        'List-Unsubscribe': `<${unsubUrl}>, <mailto:contact@koreanstories.fr?subject=Desinscription>`,
+        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
+      });
       sent++;
     } catch (e) {
       console.log('[KS] échec envoi newsletter à', contact.email, String(e));
