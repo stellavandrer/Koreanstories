@@ -213,7 +213,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-20.1 (fiche A1 offerte a la fin du Hangeul)\n' +
+      'Korean Stories Premium API — v2026-08-26.1 (newsletter hebdomadaire illustree)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -230,19 +230,39 @@ export default {
   // dashboard (Worker → Triggers). controller.cron indique QUELLE expression
   // a déclenché l'appel, ce qui permet de faire correspondre un jour à un thème.
   async scheduled(controller, env, ctx) {
-    const theme = CRON_THEME[controller.cron];
-    if (!theme) { console.log('[KS] cron inconnu, ignoré :', controller.cron); return; }
-    ctx.waitUntil(sendNewsletterEdition(theme, env));
+    if (controller.cron !== CRON_HEBDO) {
+      /* Un ancien Cron Trigger (mardi/samedi) est encore actif dans Cloudflare.
+         On l'ignore plutôt que d'envoyer : mieux vaut une semaine sans e-mail
+         qu'un abonné qui en reçoit trois alors qu'on lui en a promis un. */
+      console.log('[KS] cron non hebdomadaire, ignoré :', controller.cron,
+                  '— à supprimer dans Cloudflare → Triggers');
+      return;
+    }
+    ctx.waitUntil(sendNewsletterHebdo(env));
   }
 };
 
 // ── Mapping expression cron → thème de newsletter ─────────────────────────────
 // À adapter si les horaires choisis dans Cloudflare diffèrent (garder les
 // mêmes clés que les Cron Triggers ajoutés dans le dashboard).
+/* Un seul envoi par semaine depuis le 2026-08-26 (décision de Stella) : trois
+   e-mails hebdomadaires demandaient trois fois l'attention pour un tiers du
+   contenu chacun. L'édition unique reprend les trois thèmes à tour de rôle et
+   porte, en plus du sujet principal, une minute de langue et une histoire.
+
+   Le thème n'est donc plus décidé par le jour d'envoi mais par un compteur :
+   culture, puis histoire, puis tendances, et on recommence. Les 29 éditions
+   déjà écrites restent toutes en circulation.
+
+   ⚠️ Dans Cloudflare → Worker ks-premium → Triggers, il ne doit rester QUE
+   l'expression ci-dessous. Tant que les crons du mardi et du samedi existent,
+   ils continueront de déclencher un envoi. */
+const CRON_HEBDO = '0 9 * * 4';          // jeudi 9h UTC
+const THEME_ROTATION = ['culture', 'histoire', 'actu'];
+
+/* Gardé pour les envois manuels via /newsletter/test-send?theme=… */
 const CRON_THEME = {
-  '0 9 * * 2': 'culture',   // mardi 9h UTC
-  '0 9 * * 4': 'histoire',  // jeudi 9h UTC
-  '0 9 * * 6': 'actu'       // samedi 9h UTC
+  '0 9 * * 4': null        // null = thème tournant, choisi par le compteur
 };
 
 // ── Vérification d'une clé depuis l'app ──────────────────────────────────────
@@ -1674,11 +1694,90 @@ function blogTrioBlock(idx) {
               </tr>`).join('');
   return `
         <tr><td style="padding:30px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-radius:14px;overflow:hidden;margin-bottom:18px">
+            <tr><td><img src="https://koreanstories.fr/img/email/books.jpg" width="536" alt="" style="display:block;width:100%;max-width:536px;height:auto"/></td></tr>
+          </table>
           <p style="margin:0 0 3px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA5BE;font-weight:800">À lire aussi sur le blog</p>
           <p style="margin:0 0 6px;font-size:18px;font-weight:800;color:#0F1B2D">Trois articles pour aller plus loin</p>
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
             <tr><td colspan="2" style="border-top:1px solid #E8EDF7;font-size:0;line-height:0">&nbsp;</td></tr>
             ${lignes}
+          </table>
+        </td></tr>`;
+}
+
+// ── La minute langue ─────────────────────────────────────────────────────────
+// Aucune chaîne coréenne inédite ici : on reprend le « mot à retenir » d'une
+// AUTRE édition du fonds, illustré. Ces phrases ont déjà été écrites et
+// relues ; les recombiner évite d'inventer du coréen semaine après semaine,
+// ce qui est le meilleur moyen d'y glisser une faute.
+const LANGUE_IMAGES = ['numbers', 'clock', 'colors', 'directions', 'food',
+                       'places', 'travel', 'study', 'music', 'meeting',
+                       'newspaper', 'exam', 'tips', 'certificate'];
+
+function tousLesMots() {
+  const out = [];
+  for (const theme of Object.keys(NEWSLETTER_CONTENT)) {
+    for (const ed of NEWSLETTER_CONTENT[theme]) {
+      const m = ed.html.match(/<p style="font-size:13px;color:#475E78">([\s\S]*?)<\/p>\s*$/);
+      if (m) out.push({ texte: m[1].replace(/^Petit mot du jour\s*:\s*/i, ''), sujet: ed.title });
+    }
+  }
+  return out;
+}
+
+function minuteLangueBlock(idx, motCourant) {
+  const mots = tousLesMots().filter(m => m.texte !== motCourant);
+  if (!mots.length) return '';
+  const mot = mots[(idx * 5 + 2) % mots.length];
+  const img = LANGUE_IMAGES[idx % LANGUE_IMAGES.length];
+  return `
+        <tr><td style="padding:30px 32px 0">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F9FE;border:1px solid #E8EDF7;border-radius:16px;overflow:hidden">
+            <tr><td><img src="https://koreanstories.fr/img/email/${img}.jpg" width="536" alt="" style="display:block;width:100%;max-width:536px;height:auto"/></td></tr>
+            <tr><td style="padding:20px 24px 22px">
+              <p style="margin:0 0 6px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#B8924E;font-weight:800">La minute langue</p>
+              <p style="margin:0 0 10px;font-size:15px;line-height:1.7;color:#0D1823">${mot.texte}</p>
+              <a href="https://koreanstories.fr/dictionnaire.html" style="font-size:13px;font-weight:700;color:#B8924E;text-decoration:none">Chercher un mot dans le dictionnaire →</a>
+            </td></tr>
+          </table>
+        </td></tr>`;
+}
+
+// ── L'histoire de la semaine ─────────────────────────────────────────────────
+// Titres et couvertures réels, relevés dans les pages du site — rien d'inventé.
+const NEWSLETTER_HISTOIRES = [
+  { n: 2,  titre: '시장에서 — Au marché',            sous: 'Marchander, compter, repartir avec trop de melons.' },
+  { n: 4,  titre: '카페에서 — Au café',              sous: 'Commander sans paniquer quand la file avance.' },
+  { n: 8,  titre: '노래방에서 — Au noraebang',        sous: 'Le karaoké coréen, tambourine comprise.' },
+  { n: 13, titre: 'Un week-end à Hongdae',           sous: 'Le quartier étudiant de Séoul, un samedi soir.' },
+  { n: 14, titre: "À l'aéroport d'Incheon",          sous: 'Les premières phrases qu\'on prononce en arrivant.' },
+  { n: 27, titre: 'Chuseok en famille',              sous: 'La plus grande fête coréenne, vue de l\'intérieur.' },
+  { n: 28, titre: 'Emma et le jimjilbang',           sous: 'Premier sauna coréen, premières maladresses.' },
+  { n: 29, titre: 'Une journée à Gyeongbokgung',     sous: 'Le grand palais de Séoul, en hanbok.' },
+  { n: 32, titre: 'Au café avec Mina',               sous: 'Une conversation ordinaire, et tout ce qu\'elle contient.' },
+  { n: 35, titre: 'Le kimbap de Joon',               sous: 'Une recette de famille et le vocabulaire qui va avec.' },
+  { n: 38, titre: 'Soirée au bord du Han',           sous: 'Poulet frit, canettes et couchers de soleil.' },
+  { n: 39, titre: 'Le kimchi de grand-mère',         sous: 'Le gimjang, ce grand rituel d\'automne.' }
+];
+
+function histoireSemaineBlock(idx) {
+  const h = NEWSLETTER_HISTOIRES[(idx * 3 + 1) % NEWSLETTER_HISTOIRES.length];
+  return `
+        <tr><td style="padding:30px 32px 0">
+          <p style="margin:0 0 3px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA5BE;font-weight:800">L'histoire de la semaine</p>
+          <p style="margin:0 0 12px;font-size:18px;font-weight:800;color:#0F1B2D">Lis du vrai coréen, à ton niveau</p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFFFFF;border:1.5px solid #E8EDF7;border-radius:16px;overflow:hidden">
+            <tr><td><img src="https://koreanstories.fr/img/email/histoire${h.n}.jpg" width="536" alt="${h.titre}" style="display:block;width:100%;max-width:536px;height:auto"/></td></tr>
+            <tr><td style="padding:18px 22px 22px">
+              <p style="margin:0 0 5px;font-size:17px;font-weight:800;color:#0F1B2D;line-height:1.35">${h.titre}</p>
+              <p style="margin:0 0 15px;font-size:13.5px;color:#475E78;line-height:1.6">${h.sous}</p>
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr><td style="background:#0F1B2D;border-radius:999px">
+                  <a href="https://koreanstories.fr/histoire${h.n}.html" style="display:inline-block;padding:12px 26px;font-size:13.5px;font-weight:800;color:#FFFFFF;text-decoration:none">Lire l'histoire →</a>
+                </td></tr>
+              </table>
+            </td></tr>
           </table>
         </td></tr>`;
 }
@@ -1779,10 +1878,14 @@ function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null
         </td></tr>
         ${noteBlock}
         ${relatedBlock}
+        ${histoireSemaineBlock(idx)}
+        ${minuteLangueBlock(idx, noteHtml)}
         ${blogTrioBlock(idx)}
         ${motsCroisesBlock(idx, theme)}
-        ${rejoindreBlock()}
-        ${livretBlock()}
+        ${/* Un seul bloc de promotion par envoi, en alternance. Les deux à la
+             suite faisaient finir chaque e-mail sur 620 px de publicité —
+             et le second n'était probablement jamais lu. */
+           idx % 2 === 0 ? rejoindreBlock() : livretBlock()}
         ${emailFooter(unsubUrl)}
       </table>
     </td></tr>
@@ -2169,6 +2272,17 @@ const THEME_META = {
 // ── Envoi hebdomadaire d'une édition (culture / histoire / actu) ─────────────
 // testRecipient : si fourni, envoie uniquement à cette adresse (test manuel)
 // et n'avance PAS la rotation d'éditions partagée avec les envois réels.
+/* Envoi hebdomadaire : choisit le thème à la place du cron.
+   Le compteur vit dans KV et n'avance qu'aux envois réels, jamais aux tests. */
+async function sendNewsletterHebdo(env) {
+  const cle = 'nl_rota';
+  const n = parseInt(await env.KS_LICENSES.get(cle) || '0', 10) || 0;
+  const theme = THEME_ROTATION[n % THEME_ROTATION.length];
+  await env.KS_LICENSES.put(cle, String(n + 1));
+  console.log('[KS] édition hebdomadaire · thème', theme, '· rotation', n);
+  return sendNewsletterEdition(theme, env);
+}
+
 async function sendNewsletterEdition(theme, env, testRecipient = null, dateForcee = null) {
   const editions = NEWSLETTER_CONTENT[theme];
   if (!editions || !editions.length) { console.log('[KS] aucune édition pour le thème', theme); return; }
