@@ -214,7 +214,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-27.4 (un-clic RFC 8058 + 18 grilles)\n' +
+      'Korean Stories Premium API — v2026-08-27.5 (verrou de frequence, jour librement reglable)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -231,14 +231,13 @@ export default {
   // dashboard (Worker → Triggers). controller.cron indique QUELLE expression
   // a déclenché l'appel, ce qui permet de faire correspondre un jour à un thème.
   async scheduled(controller, env, ctx) {
-    if (controller.cron !== CRON_HEBDO) {
-      /* Un ancien Cron Trigger (mardi/samedi) est encore actif dans Cloudflare.
-         On l'ignore plutôt que d'envoyer : mieux vaut une semaine sans e-mail
-         qu'un abonné qui en reçoit trois alors qu'on lui en a promis un. */
-      console.log('[KS] cron non hebdomadaire, ignoré :', controller.cron,
-                  '— à supprimer dans Cloudflare → Triggers');
-      return;
-    }
+    /* N'IMPORTE quel Cron Trigger déclenche l'envoi — c'est le verrou de
+       fréquence (et non l'expression cron) qui garantit un seul e-mail par
+       semaine. Comparer `controller.cron` à une expression écrite en dur avait
+       un défaut vicieux : changer le jour dans Cloudflare sans toucher au code
+       arrêtait tous les envois, en silence. Le jour d'envoi se règle donc
+       uniquement dans Cloudflare → Triggers, et des déclencheurs oubliés ne
+       peuvent plus produire qu'un décalage de jour, jamais un doublon. */
     ctx.waitUntil(sendNewsletterHebdo(env));
   }
 };
@@ -258,6 +257,8 @@ export default {
    ⚠️ Dans Cloudflare → Worker ks-premium → Triggers, il ne doit rester QUE
    l'expression ci-dessous. Tant que les crons du mardi et du samedi existent,
    ils continueront de déclencher un envoi. */
+// Rappel du réglage attendu dans Cloudflare → Triggers. Purement indicatif :
+// le code n'en dépend plus, c'est le verrou de fréquence qui fait foi.
 const CRON_HEBDO = '0 9 * * 4';          // jeudi 9h UTC
 const THEME_ROTATION = ['culture', 'histoire', 'actu'];
 
@@ -2388,6 +2389,21 @@ const THEME_META = {
 /* Envoi hebdomadaire : choisit le thème à la place du cron.
    Le compteur vit dans KV et n'avance qu'aux envois réels, jamais aux tests. */
 async function sendNewsletterHebdo(env) {
+  /* Verrou de fréquence : un envoi tous les 6 jours au minimum. Six et non
+     sept, pour qu'un cron hebdomadaire qui décale de quelques minutes ne saute
+     jamais sa semaine. */
+  const JOURS_MIN = 6;
+  const aujourdhui = new Date();
+  const dernier = await env.KS_LICENSES.get('nl_dernier_envoi');
+  if (dernier) {
+    const ecart = (aujourdhui - new Date(dernier)) / 86400000;
+    if (ecart < JOURS_MIN) {
+      console.log(`[KS] envoi ignoré : dernier envoi il y a ${ecart.toFixed(1)} jour(s), minimum ${JOURS_MIN}`);
+      return;
+    }
+  }
+  await env.KS_LICENSES.put('nl_dernier_envoi', aujourdhui.toISOString());
+
   const cle = 'nl_rota';
   const n = parseInt(await env.KS_LICENSES.get(cle) || '0', 10) || 0;
   const theme = THEME_ROTATION[n % THEME_ROTATION.length];
