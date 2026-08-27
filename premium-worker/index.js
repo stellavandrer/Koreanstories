@@ -214,7 +214,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-27.3 (un-clic RFC 8058 + 18 grilles)\n' +
+      'Korean Stories Premium API — v2026-08-27.4 (un-clic RFC 8058 + 18 grilles)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -1855,11 +1855,18 @@ const NEWSLETTER_HISTOIRES = [
   { n: 39, titre: 'Le kimchi de grand-mère',         sous: 'Le gimjang, ce grand rituel d\'automne.' }
 ];
 
-function histoireSemaineBlock(idx) {
+function histoireSemaineBlock(idx, imageHero = null) {
   /* Un pas de 1 : le compteur avance à chaque envoi, les 12 histoires défilent
      donc toutes. Un pas de 3 (hérité des trois envois hebdomadaires) ne visitait
-     que 4 histoires sur 12, puisque 3 divise 12. */
-  const h = NEWSLETTER_HISTOIRES[(idx + 1) % NEWSLETTER_HISTOIRES.length];
+     que 4 histoires sur 12, puisque 3 divise 12.
+     `imageHero` : la couverture d'une histoire sert parfois d'image d'en-tête à
+     l'édition. Sans ce garde-fou, la même illustration apparaît deux fois dans
+     le même e-mail — on décale alors d'une histoire. */
+  const L = NEWSLETTER_HISTOIRES.length;
+  let pos = (idx + 1) % L;
+  const img = n => `https://koreanstories.fr/img/email/histoire${n}.jpg`;
+  if (imageHero && img(NEWSLETTER_HISTOIRES[pos].n) === imageHero) pos = (pos + 1) % L;
+  const h = NEWSLETTER_HISTOIRES[pos];
   return `
         <tr><td style="padding:30px 32px 0">
           <p style="margin:0 0 3px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA5BE;font-weight:800">L'histoire de la semaine</p>
@@ -1982,7 +1989,7 @@ function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null
         </td></tr>
         ${noteBlock}
         ${relatedBlock}
-        ${histoireSemaineBlock(rot)}
+        ${histoireSemaineBlock(rot, hero && hero.image ? hero.image : null)}
         ${minuteLangueBlock(rot, noteHtml)}
         ${blogTrioBlock(rot)}
         ${motsCroisesBlock(rot)}
