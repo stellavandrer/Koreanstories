@@ -163,7 +163,8 @@ export default {
       /* &date=AAAA-MM-JJ : force l'édition programmée de ce jour-là, pour
          relire à l'avance un numéro de la quinzaine sans attendre sa date. */
       const dateForcee = url.searchParams.get('date');
-      await sendNewsletterEdition(theme, env, NEWSLETTER_TEST_RECIPIENT, dateForcee);
+      const semTest = parseInt(await env.KS_LICENSES.get('nl_rota') || '0', 10) || 0;
+      await sendNewsletterEdition(theme, env, NEWSLETTER_TEST_RECIPIENT, dateForcee, semTest);
       return json({ success: true, message: `Édition ${theme}${dateForcee ? ' du ' + dateForcee : ''} envoyée en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
     }
 
@@ -213,7 +214,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-26.1 (newsletter hebdomadaire illustree)\n' +
+      'Korean Stories Premium API — v2026-08-27.1 (rotation hebdomadaire corrigee)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -1588,11 +1589,12 @@ const MOTS_CROISES = [
    dans KV, mais les trois ont demarre ensemble et avancent au meme rythme.
    Avec 6 grilles et ces decalages, la semaine offre toujours 3 grilles
    differentes, et un theme ne revoit la sienne qu'au bout de 6 semaines. */
-const DECALAGE_GRILLE = { culture: 0, histoire: 1, actu: 2 };
-
-function motsCroisesBlock(idx, theme) {
+/* Une grille par envoi, dans l'ordre, pilotée par le compteur hebdomadaire
+   global. Un décalage par thème existait du temps des trois envois par semaine ;
+   avec un seul envoi il faisait revenir la même grille deux semaines sur trois. */
+function motsCroisesBlock(idx) {
   const L = MOTS_CROISES.length;
-  const pos = (((idx + (DECALAGE_GRILLE[theme] || 0)) % L) + L) % L;
+  const pos = ((idx % L) + L) % L;
   const g = MOTS_CROISES[pos];
   const occ = {}, nums = {}; let n = 0;
   const defs = { H: [], V: [] };
@@ -1729,7 +1731,8 @@ function tousLesMots() {
 function minuteLangueBlock(idx, motCourant) {
   const mots = tousLesMots().filter(m => m.texte !== motCourant);
   if (!mots.length) return '';
-  const mot = mots[(idx * 5 + 2) % mots.length];
+  // Pas de 1, pour la même raison que l'histoire de la semaine.
+  const mot = mots[(idx + 2) % mots.length];
   const img = LANGUE_IMAGES[idx % LANGUE_IMAGES.length];
   return `
         <tr><td style="padding:30px 32px 0">
@@ -1762,7 +1765,10 @@ const NEWSLETTER_HISTOIRES = [
 ];
 
 function histoireSemaineBlock(idx) {
-  const h = NEWSLETTER_HISTOIRES[(idx * 3 + 1) % NEWSLETTER_HISTOIRES.length];
+  /* Un pas de 1 : le compteur avance à chaque envoi, les 12 histoires défilent
+     donc toutes. Un pas de 3 (hérité des trois envois hebdomadaires) ne visitait
+     que 4 histoires sur 12, puisque 3 divise 12. */
+  const h = NEWSLETTER_HISTOIRES[(idx + 1) % NEWSLETTER_HISTOIRES.length];
   return `
         <tr><td style="padding:30px 32px 0">
           <p style="margin:0 0 3px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8FA5BE;font-weight:800">L'histoire de la semaine</p>
@@ -1822,7 +1828,14 @@ function livretBlock() {
 // ── Gabarit des numéros de newsletter ─────────────────────────────────────────
 // Distinct d'emailLayout() à dessein : un e-mail transactionnel (clé de licence,
 // résiliation) ne doit surtout pas embarquer des mots croisés et deux promos.
-function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null, bodyHtml = '', noteHtml = '', related = null, idx = 0, theme = '', unsubUrl = null }) {
+function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null, bodyHtml = '', noteHtml = '', related = null, idx = 0, sem = null, theme = '', unsubUrl = null }) {
+  /* `idx` = rang de l'édition DANS SON THÈME. Depuis le passage à un envoi
+     hebdomadaire avec rotation des thèmes, il n'avance plus qu'une semaine sur
+     trois : s'en servir pour les rubriques tournantes affichait trois semaines
+     de suite la même histoire, le même trio d'articles et la même grille.
+     `sem` est le compteur GLOBAL des envois (KV `nl_rota`) : il avance à chaque
+     e-mail, c'est donc lui qui doit faire tourner les rubriques. */
+  const rot = (sem === null || sem === undefined) ? idx : sem;
   const heroBlock = hero ? (hero.image ? `
         <tr><td style="padding:0"><img src="${hero.image}" width="600" alt="${hero.sub || ''}" style="display:block;width:100%;max-width:600px;height:auto;border:0"/></td></tr>
         <tr><td style="background:${hero.bg};padding:16px 24px;text-align:center">
@@ -1878,14 +1891,14 @@ function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null
         </td></tr>
         ${noteBlock}
         ${relatedBlock}
-        ${histoireSemaineBlock(idx)}
-        ${minuteLangueBlock(idx, noteHtml)}
-        ${blogTrioBlock(idx)}
-        ${motsCroisesBlock(idx, theme)}
+        ${histoireSemaineBlock(rot)}
+        ${minuteLangueBlock(rot, noteHtml)}
+        ${blogTrioBlock(rot)}
+        ${motsCroisesBlock(rot)}
         ${/* Un seul bloc de promotion par envoi, en alternance. Les deux à la
              suite faisaient finir chaque e-mail sur 620 px de publicité —
              et le second n'était probablement jamais lu. */
-           idx % 2 === 0 ? rejoindreBlock() : livretBlock()}
+           rot % 2 === 0 ? rejoindreBlock() : livretBlock()}
         ${emailFooter(unsubUrl)}
       </table>
     </td></tr>
@@ -2095,11 +2108,13 @@ const NEWSLETTER_CONTENT = {
        <p>Expression culte qui en découle : <strong>고무신 거꾸로 신다</strong> (gomusin geokkuro sinda), « porter ses chaussons en caoutchouc à l'envers » — désigne une compagne qui rompt unilatéralement pendant le service de son copain.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>말년</strong> (mallyeon) — la dernière ligne droite du service, réputée la période la plus détendue.</p>` },
 
-    /* ── Éditions DATÉES (quinzaine du 13 au 29 août 2026) ──────────────────
-       Une édition qui porte un champ `date` part uniquement ce jour-là, et ne
-       tourne PAS dans le fonds permanent : « samedi », « la semaine dernière »
-       n'ont de sens qu'à la date prévue. Voir sendNewsletterEdition(). */
-    { date: '2026-08-18', subject: 'En Corée, un bébé né le 31 décembre avait deux ans le lendemain', hangeul: '나이', title: 'L\'âge coréen',
+    /* ── Anciennes éditions datées, remises dans le fonds permanent ────────
+       Le mécanisme des dates reste disponible (voir sendNewsletterEdition) :
+       une édition portant un champ `date` ne part que ce jour-là. Mais depuis
+       le passage à un envoi unique le jeudi, une date qui ne tombe pas un jeudi
+       ne se déclenche jamais — ces huit numéros étaient devenus injouables.
+       Ils tournent désormais comme les autres. */
+    { subject: 'En Corée, un bébé né le 31 décembre avait deux ans le lendemain', hangeul: '나이', title: 'L\'âge coréen',
       hook: 'La Corée a officiellement changé de façon de compter les âges en 2023. Officiellement.',
       related: { label: 'Les trois âges coréens, la loi de 2023, et comment calculer le tien — sur le blog.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-age-coreen-explique.html', image: null }, html:
       `<p>Jusqu'à récemment, un Coréen pouvait avoir trois âges en même temps. Le <strong>세는 나이</strong> (l'âge « compté ») : on naît à 1 an, et tout le monde prend une année ensemble le 1er janvier. Le <strong>연 나이</strong> (l'âge « d'année ») : année en cours moins année de naissance. Et le <strong>만 나이</strong>, l'âge international, celui qui change le jour de ton anniversaire.</p>
@@ -2107,8 +2122,8 @@ const NEWSLETTER_CONTENT = {
        <p>Sauf que la vie quotidienne ne se réforme pas par décret. L'entrée à l'école, le service militaire, l'achat d'alcool et de tabac suivent toujours l'année de naissance — et dans une conversation, beaucoup de Coréens continuent de donner leur âge « compté ». C'est pour ça qu'on te demandera ton âge très tôt : ce n'est pas de l'indiscrétion, c'est ce qui décide de la façon dont on va te parler.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>몇 살이에요?</strong> (myeot sarieyo) — « quel âge as-tu ? ». La question qui arrive dans les cinq premières minutes.</p>` },
 
-    { date: '2026-08-25', subject: 'Pourquoi les Coréens ne s\'appellent presque jamais par leur prénom', hangeul: '오빠', title: 'Oppa, unnie, hyung, noona',
-      hook: 'La semaine dernière, on comptait les âges. Cette semaine, on regarde ce que les Coréens en font.',
+    { subject: 'Pourquoi les Coréens ne s\'appellent presque jamais par leur prénom', hangeul: '오빠', title: 'Oppa, unnie, hyung, noona',
+      hook: 'En Corée, l\'âge ne sert pas qu\'à souffler des bougies : il décide du mot par lequel on s\'adresse à quelqu\'un.',
       related: { label: 'Les quatre titres, leurs pièges, et ce qu\'ils disent de la société coréenne — sur le blog.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-oppa-unnie-hyung-noona.html', image: null }, html:
       `<p>En coréen, appeler un aîné par son seul prénom est presque impensable. On utilise un titre, et il dépend de deux choses : ton sexe et celui de la personne. Une femme dit <strong>오빠</strong> à un homme plus âgé et <strong>언니</strong> à une femme plus âgée. Un homme dit <strong>형</strong> à un homme plus âgé et <strong>누나</strong> à une femme plus âgée. Quatre mots pour une seule situation française : « lui, il est plus vieux que moi ».</p>
        <p>À l'origine, ces mots désignent des frères et sœurs — d'où le <strong>동생</strong> (le cadet) en face. Mais ils débordent largement la famille : entre amis, entre voisins, dans un groupe de K-pop. À l'école et au bureau, un autre couple prend le relais, <strong>선배</strong> et <strong>후배</strong>, l'ancien et le nouveau — qui ne dépend plus de l'âge mais de l'année d'arrivée.</p>
@@ -2167,7 +2182,7 @@ const NEWSLETTER_CONTENT = {
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>지붕 없는 박물관</strong> (jibung eomneun bangmulgwan) — le surnom de Gyeongju, « le musée sans toit ».</p>` },
 
     /* ── Éditions DATÉES (quinzaine du 13 au 29 août 2026) ────────────────── */
-    { date: '2026-08-13', subject: 'Samedi, la Corée fête le jour où elle a récupéré son nom', hangeul: '광복절', title: 'Gwangbokjeol, le 15 août coréen',
+    { subject: 'Le jour où la Corée a récupéré son nom', hangeul: '광복절', title: 'Gwangbokjeol, le 15 août coréen',
       hook: 'Le 15 août 1945 à midi, une voix inconnue sort des radios : l\'empereur du Japon annonce la capitulation. Trente-cinq ans de colonisation s\'arrêtent là.',
       related: { label: 'Ce que la libération a déclenché dans les semaines suivantes : la frontière la plus fermée du monde.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/blog-dmz-frontiere-corees.html', image: null }, html:
       `<p>Le <strong>광복절</strong> (gwangbokjeol) est le jour férié le plus chargé de sens du calendrier coréen. Son nom se lit en trois idées : 광 (la lumière), 복 (le retour), 절 (la fête) — « le jour où la lumière est revenue ».</p>
@@ -2175,7 +2190,7 @@ const NEWSLETTER_CONTENT = {
        <p>Détail que peu de gens connaissent : le 15 août porte deux anniversaires. En 1945, la libération ; en 1948, jour pour jour, la proclamation de la République de Corée. C'est aussi l'un des très rares jours fériés célébrés des deux côtés de la frontière — au Nord, il s'appelle « le jour de la libération de la patrie ».</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>태극기</strong> (taegeukgi) — le drapeau coréen, que les familles accrochent à leur fenêtre ce jour-là.</p>` },
 
-    { date: '2026-08-20', subject: 'Le grand palais de Séoul a été détruit deux fois — et le chantier n\'est pas fini', hangeul: '경복궁', title: 'Gyeongbokgung',
+    { subject: 'Le grand palais de Séoul a été détruit deux fois — et le chantier n\'est pas fini', hangeul: '경복궁', title: 'Gyeongbokgung',
       hook: 'Quand tu visites Gyeongbokgung aujourd\'hui, tu regardes un chantier commencé il y a plus de trente ans, et prévu pour durer encore vingt.',
       related: { label: 'Emma visite le palais royal en hanbok — la BD, avec audio et traduction.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire29-bd.html', image: 'https://koreanstories.fr/img/email/histoire29.jpg' }, html:
       `<p><strong>경복궁</strong> (Gyeongbokgung, « le palais du bonheur resplendissant ») sort de terre en 1395, trois ans après la fondation de la dynastie Joseon. C'est le palais principal du royaume : le centre politique du pays.</p>
@@ -2183,7 +2198,7 @@ const NEWSLETTER_CONTENT = {
        <p>Quarante ans plus tard, la colonisation japonaise le démonte presque entièrement et fait bâtir juste devant l'immense bâtiment du Gouvernement général, qui masque le palais depuis la rue. Ce bâtiment-là n'a été démoli qu'en 1995. Depuis, la Corée reconstruit, pavillon par pavillon, sur plans anciens : la porte principale, <strong>광화문</strong>, a retrouvé son bois et son emplacement d'origine en 2010.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>궁</strong> (gung) — « palais ». Tu le retrouves dans les cinq palais de Séoul : 경복궁, 창덕궁, 창경궁, 덕수궁, 경희궁.</p>` },
 
-    { date: '2026-08-27', subject: 'En 1998, des millions de Coréens ont donné leur or à l\'État', hangeul: '기적', title: 'Le miracle du fleuve Han',
+    { subject: 'En 1998, des millions de Coréens ont donné leur or à l\'État', hangeul: '기적', title: 'Le miracle du fleuve Han',
       hook: 'Le « miracle du fleuve Han » a un nom de conte de fées. Dans les faits, c\'est l\'histoire d\'un pays qui a vidé ses tiroirs.',
       related: { label: 'Le miracle du Han raconté en coréen, en lecture guidée niveau B1.', cta: 'Lire l\'article', url: 'https://koreanstories.fr/lect-b1-1.html', image: null }, html:
       `<p><strong>한강의 기적</strong> (hangang-ui gijeok), « le miracle du fleuve Han », désigne la transformation économique de la Corée du Sud entre les années 1960 et 1990. Au début des années 1960, le revenu annuel par habitant y était inférieur à cent dollars : un pays sorti de la guerre, sans ressources et sans industrie. Il dépasse aujourd'hui les trente mille dollars.</p>
@@ -2236,7 +2251,7 @@ const NEWSLETTER_CONTENT = {
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>화이팅!</strong> (hwaiting, de « fighting ») — un encouragement, pas une bagarre !</p>` },
 
     /* ── Éditions DATÉES (quinzaine du 13 au 29 août 2026) ────────────────── */
-    { date: '2026-08-15', subject: 'La plus grande terrasse de Séoul est gratuite et fait 41 km de long', hangeul: '한강', title: 'Le fleuve Han, l\'été',
+    { subject: 'La plus grande terrasse de Séoul est gratuite et fait 41 km de long', hangeul: '한강', title: 'Le fleuve Han, l\'été',
       hook: 'À Séoul, l\'été, le rendez-vous du samedi soir n\'est ni un bar ni un restaurant : c\'est une pelouse au bord du fleuve.',
       related: { label: 'Tente, photos et ramyeon de minuit au bord du Han — la BD niveau B1, avec audio.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire38-bd.html', image: 'https://koreanstories.fr/img/email/histoire38.jpg' }, html:
       `<p>Le <strong>한강</strong> (hangang) traverse Séoul sur une quarantaine de kilomètres, et la ville a transformé ses deux berges en une douzaine de parcs publics ouverts à tous. L'été, quand la chaleur et l'humidité rendent la journée pénible, tout se déplace au soir : on loue une natte, on s'installe sur l'herbe, et on y reste.</p>
@@ -2244,7 +2259,7 @@ const NEWSLETTER_CONTENT = {
        <p>Au coucher du soleil, le pont de Banpo se met à cracher de l'eau éclairée sur toute sa longueur — la plus longue fontaine sur pont du monde. C'est gratuit, ça dure une vingtaine de minutes, et ça se regarde assis dans l'herbe.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>한강</strong> (hangang) — on l'explique le plus souvent comme « le grand fleuve », 한 valant ici « grand ».</p>` },
 
-    { date: '2026-08-22', subject: 'Le mot coréen qui est entré dans le dictionnaire anglais', hangeul: '먹방', title: 'Le mukbang',
+    { subject: 'Le mot coréen qui est entré dans le dictionnaire anglais', hangeul: '먹방', title: 'Le mukbang',
       hook: 'Deux syllabes, un mot qui n\'existait pas il y a quinze ans — et qui a fini dans l\'Oxford English Dictionary.',
       related: { label: 'Pourquoi les Coréens filment leurs repas : l\'anecdote complète.', cta: 'Lire l\'anecdote', url: 'https://koreanstories.fr/anecdote17.html', image: null }, html:
       `<p><strong>먹방</strong> (meokbang) est une contraction : 먹는 방송, « l'émission où l'on mange ». Le principe tient en une phrase — quelqu'un se filme en train de manger, face caméra, et des milliers de personnes regardent.</p>
@@ -2252,7 +2267,7 @@ const NEWSLETTER_CONTENT = {
        <p>Le mot a voyagé tel quel : « mukbang » est entré dans l'Oxford English Dictionary en 2021, sans traduction. Le format a même créé ses dérivés — le <strong>쿡방</strong> (l'émission où l'on cuisine), et les versions ASMR où le son compte plus que la nourriture.</p>
        <p style="font-size:13px;color:#475E78">Petit mot du jour : <strong>방송</strong> (bangsong) — « émission, diffusion ». C'est le 방 que tu retrouves dans 먹방.</p>` },
 
-    { date: '2026-08-29', subject: 'En Corée, le meilleur repas chaud à 3 € est vendu dans une supérette', hangeul: '편의점', title: 'Le pyeonuijeom',
+    { subject: 'En Corée, le meilleur repas chaud à 3 € est vendu dans une supérette', hangeul: '편의점', title: 'Le pyeonuijeom',
       hook: 'Un repas chaud, un colis à récupérer, une carte de transport rechargée et un café : la même boutique, à trois heures du matin.',
       related: { label: 'Mina et Joon à la supérette à 23 h — la BD niveau A1, avec audio et traduction.', cta: 'Lire la BD', url: 'https://koreanstories.fr/histoire5-bd.html', image: 'https://koreanstories.fr/img/email/histoire5.jpg' }, html:
       `<p>Le <strong>편의점</strong> (pyeonuijeom) est la supérette de quartier coréenne, et la Corée du Sud en compte plus de cinquante mille — l'une des densités les plus fortes au monde. Dans certains quartiers de Séoul, tu en croises trois en marchant cinq minutes.</p>
@@ -2280,10 +2295,10 @@ async function sendNewsletterHebdo(env) {
   const theme = THEME_ROTATION[n % THEME_ROTATION.length];
   await env.KS_LICENSES.put(cle, String(n + 1));
   console.log('[KS] édition hebdomadaire · thème', theme, '· rotation', n);
-  return sendNewsletterEdition(theme, env);
+  return sendNewsletterEdition(theme, env, null, null, n);
 }
 
-async function sendNewsletterEdition(theme, env, testRecipient = null, dateForcee = null) {
+async function sendNewsletterEdition(theme, env, testRecipient = null, dateForcee = null, semaine = null) {
   const editions = NEWSLETTER_CONTENT[theme];
   if (!editions || !editions.length) { console.log('[KS] aucune édition pour le thème', theme); return; }
 
@@ -2326,7 +2341,7 @@ async function sendNewsletterEdition(theme, env, testRecipient = null, dateForce
     // du corps est partagé et calculé une seule fois au-dessus de la boucle.
     const greeting = `<p style="font-weight:700;margin:0 0 10px">Salut${contact.first_name ? ' ' + contact.first_name : ''} !</p>`;
     const html = newsletterLayout({
-      idx, theme,
+      idx, sem: semaine, theme,
       preheader: edition.title,
       title: edition.subject,
       kicker: `Korean Stories · ${meta.label}`,
