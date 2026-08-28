@@ -49,6 +49,14 @@
     if (!mount) return;
     injectStyle();
 
+    /* Contenu deja present dans le HTML ? Les cinq fiches libres sont
+       desormais servies pre-remplies (voir le commentaire LIBRES plus bas) :
+       leur texte est dans la page des le premier octet, donc indexable sans
+       execution de JavaScript. On ne refait ni le fetch ni le rendu. Les
+       fiches Premium, elles, arrivent toujours vides et suivent le chemin
+       normal — leur contenu ne doit jamais etre ecrit dans le HTML. */
+    if (mount.children.length) return;
+
     var file = mount.getAttribute('data-file');
     var key = null;
     try { key = localStorage.getItem('ks_premium_key'); } catch (e) {}
