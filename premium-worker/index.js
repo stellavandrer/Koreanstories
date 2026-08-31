@@ -163,8 +163,7 @@ export default {
       /* &date=AAAA-MM-JJ : force l'édition programmée de ce jour-là, pour
          relire à l'avance un numéro de la quinzaine sans attendre sa date. */
       const dateForcee = url.searchParams.get('date');
-      const semTest = parseInt(await env.KS_LICENSES.get('nl_rota') || '0', 10) || 0;
-      await sendNewsletterEdition(theme, env, NEWSLETTER_TEST_RECIPIENT, dateForcee, semTest);
+      await sendNewsletterEdition(theme, env, NEWSLETTER_TEST_RECIPIENT, dateForcee);
       return json({ success: true, message: `Édition ${theme}${dateForcee ? ' du ' + dateForcee : ''} envoyée en test à ${NEWSLETTER_TEST_RECIPIENT}.` });
     }
 
@@ -214,7 +213,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-27.5 (verrou de frequence, jour librement reglable)\n' +
+      'Korean Stories Premium API — v2026-08-28.1 (retour a 3 envois par semaine)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -238,34 +237,44 @@ export default {
        arrêtait tous les envois, en silence. Le jour d'envoi se règle donc
        uniquement dans Cloudflare → Triggers, et des déclencheurs oubliés ne
        peuvent plus produire qu'un décalage de jour, jamais un doublon. */
-    ctx.waitUntil(sendNewsletterHebdo(env));
+    ctx.waitUntil(sendNewsletterDuJour(controller.cron, env));
   }
 };
 
 // ── Mapping expression cron → thème de newsletter ─────────────────────────────
-// À adapter si les horaires choisis dans Cloudflare diffèrent (garder les
-// mêmes clés que les Cron Triggers ajoutés dans le dashboard).
-/* Un seul envoi par semaine depuis le 2026-08-26 (décision de Stella) : trois
-   e-mails hebdomadaires demandaient trois fois l'attention pour un tiers du
-   contenu chacun. L'édition unique reprend les trois thèmes à tour de rôle et
-   porte, en plus du sujet principal, une minute de langue et une histoire.
+/* Trois envois par semaine, un thème par jour — cadence d'origine, rétablie le
+   2026-08-28 (décision de Stella). Le passage à un envoi unique n'a jamais été
+   déployé : les Cron Triggers du mardi, du jeudi et du samedi sont restés en
+   place dans Cloudflare, donc il n'y a rien à défaire là-bas.
 
-   Le thème n'est donc plus décidé par le jour d'envoi mais par un compteur :
-   culture, puis histoire, puis tendances, et on recommence. Les 29 éditions
-   déjà écrites restent toutes en circulation.
+   Ce qui a été GARDÉ de l'épisode hebdomadaire, parce que ces défauts
+   existaient déjà avant :
+   — l'histoire de la semaine avançait de 3 en 3 sur une liste de 12 ; comme 3
+     divise 12, seules 4 histoires sur 12 pouvaient sortir. Pas de 1 désormais.
+   — la grille de mots croisés était décalée par thème (0/1/2) à partir du
+     compteur de semaine : la grille du jeudi revenait donc le mardi suivant.
+     Elle suit maintenant un numéro d'ENVOI continu, une grille par e-mail.
+   — les 8 éditions datées d'août 2026 sont dans le fonds permanent, la même
+     illustration ne peut plus apparaître deux fois dans un e-mail, et les
+     en-têtes de désinscription en un clic sont posés.
 
-   ⚠️ Dans Cloudflare → Worker ks-premium → Triggers, il ne doit rester QUE
-   l'expression ci-dessous. Tant que les crons du mardi et du samedi existent,
-   ils continueront de déclencher un envoi. */
-// Rappel du réglage attendu dans Cloudflare → Triggers. Purement indicatif :
-// le code n'en dépend plus, c'est le verrou de fréquence qui fait foi.
-const CRON_HEBDO = '0 9 * * 4';          // jeudi 9h UTC
+   Ce qui reste stable du mardi au samedi : l'histoire de la semaine, le trio
+   d'articles et le bloc de promotion — c'est voulu, ils sont hebdomadaires. */
 const THEME_ROTATION = ['culture', 'histoire', 'actu'];
 
-/* Gardé pour les envois manuels via /newsletter/test-send?theme=… */
+/* Trois envois par semaine, un thème par jour. Réglage attendu dans
+   Cloudflare → Triggers : ces trois expressions, et elles seules. */
 const CRON_THEME = {
-  '0 9 * * 4': null        // null = thème tournant, choisi par le compteur
+  '0 9 * * 2': 'culture',   // mardi 9h UTC
+  '0 9 * * 4': 'histoire',  // jeudi 9h UTC
+  '0 9 * * 6': 'actu'       // samedi 9h UTC
 };
+
+/* Rang du jour dans la semaine. Sert à fabriquer un numéro d'envoi continu
+   (semaine × 3 + rang) : c'est lui qui fait défiler les grilles de mots
+   croisés une par envoi, sans jamais en répéter une. */
+const ENVOIS_PAR_SEMAINE = 3;
+const RANG_SEMAINE = { culture: 0, histoire: 1, actu: 2 };
 
 // ── Vérification d'une clé depuis l'app ──────────────────────────────────────
 async function handleVerify(request, env) {
@@ -1927,14 +1936,20 @@ function livretBlock() {
 // ── Gabarit des numéros de newsletter ─────────────────────────────────────────
 // Distinct d'emailLayout() à dessein : un e-mail transactionnel (clé de licence,
 // résiliation) ne doit surtout pas embarquer des mots croisés et deux promos.
-function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null, bodyHtml = '', noteHtml = '', related = null, idx = 0, sem = null, theme = '', unsubUrl = null }) {
-  /* `idx` = rang de l'édition DANS SON THÈME. Depuis le passage à un envoi
-     hebdomadaire avec rotation des thèmes, il n'avance plus qu'une semaine sur
-     trois : s'en servir pour les rubriques tournantes affichait trois semaines
-     de suite la même histoire, le même trio d'articles et la même grille.
-     `sem` est le compteur GLOBAL des envois (KV `nl_rota`) : il avance à chaque
-     e-mail, c'est donc lui qui doit faire tourner les rubriques. */
-  const rot = (sem === null || sem === undefined) ? idx : sem;
+function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null, bodyHtml = '', noteHtml = '', related = null, idx = 0, envoi = null, theme = '', unsubUrl = null }) {
+  /* Deux horloges, et il faut les distinguer.
+
+     `idx` = rang de l'édition dans SON thème. Chaque thème partant une fois par
+     semaine, idx est de fait le NUMÉRO DE SEMAINE. C'est lui qui pilote tout ce
+     qui doit rester stable du mardi au samedi : « l'histoire de la semaine »
+     porte mal son nom si elle change trois fois, et il en va de même du trio
+     d'articles et du bloc de promotion.
+
+     `envoi` = numéro d'envoi continu (semaine × 3 + rang du jour). Il avance à
+     CHAQUE e-mail, et ne sert qu'aux mots croisés : une grille par envoi, dans
+     l'ordre, pour que « la solution du numéro précédent » soit bien celle que
+     le lecteur a reçue l'avant-veille. */
+  const nEnvoi = (envoi === null || envoi === undefined) ? idx : envoi;
   const heroBlock = hero ? (hero.image ? `
         <tr><td style="padding:0"><img src="${hero.image}" width="600" alt="${hero.sub || ''}" style="display:block;width:100%;max-width:600px;height:auto;border:0"/></td></tr>
         <tr><td style="background:${hero.bg};padding:16px 24px;text-align:center">
@@ -1990,14 +2005,14 @@ function newsletterLayout({ preheader = '', title = '', kicker = '', hero = null
         </td></tr>
         ${noteBlock}
         ${relatedBlock}
-        ${histoireSemaineBlock(rot, hero && hero.image ? hero.image : null)}
-        ${minuteLangueBlock(rot, noteHtml)}
-        ${blogTrioBlock(rot)}
-        ${motsCroisesBlock(rot)}
+        ${histoireSemaineBlock(idx, hero && hero.image ? hero.image : null)}
+        ${minuteLangueBlock(idx, noteHtml)}
+        ${blogTrioBlock(idx)}
+        ${motsCroisesBlock(nEnvoi)}
         ${/* Un seul bloc de promotion par envoi, en alternance. Les deux à la
              suite faisaient finir chaque e-mail sur 620 px de publicité —
              et le second n'était probablement jamais lu. */
-           rot % 2 === 0 ? rejoindreBlock() : livretBlock()}
+           idx % 2 === 0 ? rejoindreBlock() : livretBlock()}
         ${emailFooter(unsubUrl)}
       </table>
     </td></tr>
@@ -2388,31 +2403,39 @@ const THEME_META = {
 // et n'avance PAS la rotation d'éditions partagée avec les envois réels.
 /* Envoi hebdomadaire : choisit le thème à la place du cron.
    Le compteur vit dans KV et n'avance qu'aux envois réels, jamais aux tests. */
-async function sendNewsletterHebdo(env) {
-  /* Verrou de fréquence : un envoi tous les 6 jours au minimum. Six et non
-     sept, pour qu'un cron hebdomadaire qui décale de quelques minutes ne saute
-     jamais sa semaine. */
-  const JOURS_MIN = 6;
-  const aujourdhui = new Date();
+async function sendNewsletterDuJour(cron, env) {
+  /* Anti-doublon, pas anti-fréquence : 20 heures. Assez pour qu'un même cron
+     qui se déclencherait deux fois dans la journée n'envoie qu'une fois ; bien
+     trop court pour gêner l'envoi suivant, qui est à 48 heures au plus près
+     (mardi → jeudi). */
+  const HEURES_MIN = 20;
+  const maintenant = new Date();
   const dernier = await env.KS_LICENSES.get('nl_dernier_envoi');
   if (dernier) {
-    const ecart = (aujourdhui - new Date(dernier)) / 86400000;
-    if (ecart < JOURS_MIN) {
-      console.log(`[KS] envoi ignoré : dernier envoi il y a ${ecart.toFixed(1)} jour(s), minimum ${JOURS_MIN}`);
+    const ecart = (maintenant - new Date(dernier)) / 3600000;
+    if (ecart < HEURES_MIN) {
+      console.log(`[KS] envoi ignoré : dernier envoi il y a ${ecart.toFixed(1)} h, minimum ${HEURES_MIN} h`);
       return;
     }
   }
-  await env.KS_LICENSES.put('nl_dernier_envoi', aujourdhui.toISOString());
 
-  const cle = 'nl_rota';
-  const n = parseInt(await env.KS_LICENSES.get(cle) || '0', 10) || 0;
-  const theme = THEME_ROTATION[n % THEME_ROTATION.length];
-  await env.KS_LICENSES.put(cle, String(n + 1));
-  console.log('[KS] édition hebdomadaire · thème', theme, '· rotation', n);
-  return sendNewsletterEdition(theme, env, null, null, n);
+  /* Le jour décide du thème. Si l'expression cron n'est pas reconnue — un
+     horaire modifié dans Cloudflare, par exemple — on ne s'arrête pas : on
+     retombe sur un compteur tournant. Comparer le cron à une liste fermée
+     pour REFUSER d'envoyer avait un défaut vicieux : changer l'horaire coupait
+     tous les envois, en silence. */
+  let theme = CRON_THEME[cron];
+  if (!theme) {
+    const n = parseInt(await env.KS_LICENSES.get('nl_rota') || '0', 10) || 0;
+    theme = THEME_ROTATION[n % THEME_ROTATION.length];
+    await env.KS_LICENSES.put('nl_rota', String(n + 1));
+    console.log('[KS] cron non répertorié (' + cron + ') — thème pris à la rotation :', theme);
+  }
+  await env.KS_LICENSES.put('nl_dernier_envoi', maintenant.toISOString());
+  return sendNewsletterEdition(theme, env);
 }
 
-async function sendNewsletterEdition(theme, env, testRecipient = null, dateForcee = null, semaine = null) {
+async function sendNewsletterEdition(theme, env, testRecipient = null, dateForcee = null) {
   const editions = NEWSLETTER_CONTENT[theme];
   if (!editions || !editions.length) { console.log('[KS] aucune édition pour le thème', theme); return; }
 
@@ -2455,7 +2478,7 @@ async function sendNewsletterEdition(theme, env, testRecipient = null, dateForce
     // du corps est partagé et calculé une seule fois au-dessus de la boucle.
     const greeting = `<p style="font-weight:700;margin:0 0 10px">Salut${contact.first_name ? ' ' + contact.first_name : ''} !</p>`;
     const html = newsletterLayout({
-      idx, sem: semaine, theme,
+      idx, envoi: idx * ENVOIS_PAR_SEMAINE + (RANG_SEMAINE[theme] || 0), theme,
       preheader: edition.title,
       title: edition.subject,
       kicker: `Korean Stories · ${meta.label}`,
