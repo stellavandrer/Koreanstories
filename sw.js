@@ -63,7 +63,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v8.09';
+const CACHE = 'ks-v8.10';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -253,11 +253,28 @@ self.addEventListener('fetch', e => {
         if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
         return res;
       }).catch(() =>
-        caches.match(e.request, { ignoreSearch: isHTML }).then(cached => {
+        /* ⚠️ Correspondance EXACTE d'abord. `ignoreSearch` sur tout le HTML
+           faisait se confondre les QUATRE ateliers d'écriture, qui ne
+           diffèrent que par leur query (?lvl=hangeul|a1|a2|b1) : hors ligne,
+           on servait toujours le premier mis en cache, quel que soit le
+           niveau demandé. On ne tolère la recherche laxiste que pour une
+           requête SANS query — c'était son seul usage légitime : retrouver
+           « page.html » quand seul « page.html?utm=… » avait été mis en
+           cache. Une adresse qui porte une query la porte pour une raison. */
+        caches.match(e.request).then(cached => {
           if (cached) return cached;
+          if (!isHTML) return undefined;
+          /* Quels parametres changent VRAIMENT la page servie. Tout le reste
+             (?utm=, ?fbclid=, ?cb=…) n'est que du marquage : ignorer la query
+             est alors le bon comportement, et c'etait l'intention d'origine. */
+          const PARAMS_UTILES = ['lvl', 'file', 'theme', 'page', 'key'];
+          const qs = new URL(e.request.url).searchParams;
+          const queryUtile = PARAMS_UTILES.some(k => qs.has(k));
+          const approx = queryUtile
+            ? Promise.resolve(undefined)
+            : caches.match(e.request, { ignoreSearch: true });
           /* Page jamais visitée + hors-ligne → page de repli */
-          if (isHTML) return caches.match('offline.html');
-          return undefined;
+          return approx.then(a => a || caches.match('offline.html'));
         })
       )
     );
