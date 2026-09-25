@@ -638,22 +638,46 @@
   function next(fromHref) {
     var start = 0;
     if (fromHref) {
-      var clean = String(fromHref).split('?')[0].split('#')[0].split('/').pop();
-      /* 1. La page courante est-elle une activité cœur ? */
+      /* ⚠️ On garde la query. QUATRE activités partagent le chemin
+         « ecriture.html » et ne se distinguent que par ?lvl=hangeul|a1|a2|b1.
+         En comparant sur le chemin seul, les quatre ateliers d'écriture
+         tombaient tous sur le PREMIER — celui du Hangeul. Résultat : qui
+         terminait l'atelier A1, A2 ou B1 était renvoyé vers une histoire A1,
+         soit « un cours que j'ai déjà fait ». Signalé par une cliente le
+         2026-09-25, reproduit, corrigé ici. */
+      var cleanFull = String(fromHref).split('#')[0].split('/').pop();
+      var cleanPath = cleanFull.split('?')[0];
+      /* 1a. La page courante est-elle une activité cœur ? Correspondance
+         EXACTE d'abord, query comprise. */
       var found = false;
       for (var j = 0; j < ACTIVITIES.length; j++) {
-        if (ACTIVITIES[j].href.split('?')[0] === clean) { start = j + 1; found = true; break; }
+        if (ACTIVITIES[j].href.split('#')[0] === cleanFull) { start = j + 1; found = true; break; }
+      }
+      /* 1b. À défaut, correspondance sur le chemin seul — mais UNIQUEMENT si
+         une seule activité porte ce chemin. S'il y en a plusieurs, choisir la
+         première revient à tirer au sort : mieux vaut passer au repère
+         suivant. */
+      if (!found) {
+        var iPath = -1, nPath = 0;
+        for (var j2 = 0; j2 < ACTIVITIES.length; j2++) {
+          if (ACTIVITIES[j2].href.split('?')[0] === cleanPath) { nPath++; if (iPath < 0) iPath = j2; }
+        }
+        if (nPath === 1) { start = iPath + 1; found = true; }
       }
       /* 2. Sinon (anecdote, conseil, jeu, chanson…), on se repère via
          l'ordre complet du parcours : on cherche la première activité
          cœur qui suit cette page dans FULL_ORDER. */
       if (!found && typeof FULL_ORDER !== 'undefined') {
-        var pos = FULL_ORDER.indexOf(clean);
+        var pos = FULL_ORDER.indexOf(cleanFull);
+        if (pos === -1) pos = FULL_ORDER.indexOf(cleanPath);
         if (pos !== -1) {
           outer:
           for (var p = pos + 1; p < FULL_ORDER.length; p++) {
             for (var q = 0; q < ACTIVITIES.length; q++) {
-              if (ACTIVITIES[q].href.split('?')[0] === FULL_ORDER[p]) { start = q; break outer; }
+              /* Comparaison sur l'href COMPLET : FULL_ORDER stocke
+                 « ecriture.html?lvl=hangeul », query comprise. L'ancienne
+                 comparaison tronquée ne pouvait jamais les faire coïncider. */
+              if (ACTIVITIES[q].href === FULL_ORDER[p]) { start = q; break outer; }
             }
           }
         }
