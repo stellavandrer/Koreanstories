@@ -104,6 +104,11 @@
   [data-theme=dark] .pn-btn:hover{color:#D5BA8A}
   .pn-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;
     stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .pn-btn-or{background:var(--gold,#B8924E);border-color:var(--gold,#B8924E);color:#1a1208}
+  .pn-btn-or:hover{filter:brightness(1.07)}
+  .pn-btn-or svg{stroke:#1a1208}
+  .pn-apres{margin:12px 0 0;font-size:13px;line-height:1.6;color:var(--t2,#475E78)}
+  .pn-apres a{color:var(--gold-text,#8B6B3D);font-weight:700}
   .pn-copie{font-size:.76rem;color:#16a34a;font-weight:600;min-height:1.1em;
     margin-top:9px}
 
@@ -172,7 +177,16 @@
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
           Copier
         </button>
+        <button type="button" class="pn-btn pn-btn-or" id="pnShare">
+          <svg viewBox="0 0 24 24"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M20 15v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4"/></svg>
+          <span id="pnShareTxt">Image à partager</span>
+        </button>
       </div>
+      <p class="pn-apres" id="pnApres" hidden>
+        Image prête. Tu la postes ? Pense à identifier
+        <strong>@koreanstories.fr</strong> — et si tu veux apprendre pour de bon,
+        <a href="cours.html">le parcours est gratuit</a>.
+      </p>
       <div class="pn-copie" id="pnCopie"></div>
     </div>
   </div>
@@ -321,6 +335,145 @@
     if (!b) return;
     input.value = b.getAttribute('data-ex');
     rendre();
+  });
+
+  /* ── Image à partager ────────────────────────────────────────────────────
+     « Écris ton prénom en coréen » est une recherche à forte intention, un
+     résultat personnel et un visuel : les trois conditions d'un partage. Il
+     manquait l'objet à partager — la page ne produisait que du texte.
+
+     Choix assumés :
+     — 1080×1350 (4:5). Le format qui passe en publication comme en story,
+       sans recadrage destructeur.
+     — navigator.share() avec le FICHIER en priorité : sur mobile, c'est ce
+       qui ouvre directement Instagram ou TikTok. Le téléchargement n'est
+       qu'un repli, et sur iOS il ouvre l'image plutôt que de l'enregistrer.
+     — AUCUN mur d'e-mail avant le partage. Le plan de croissance en
+       proposait un ; je ne l'ai pas posé. Une boucle virale tire sa valeur
+       de la propagation, et mettre un péage devant le partage la tue.
+       L'invitation passe après, sans bloquer. */
+  var W = 1080, H = 1350;
+
+  function dessiner(prenom, hangeul, lecture, nbSyl) {
+    var c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    var x = c.getContext('2d');
+
+    /* Fond marine + halo doré, comme le reste du site */
+    x.fillStyle = '#0F1B2D'; x.fillRect(0, 0, W, H);
+    var halo = x.createRadialGradient(W / 2, 250, 0, W / 2, 250, 760);
+    halo.addColorStop(0, 'rgba(184,146,78,.20)');
+    halo.addColorStop(1, 'rgba(184,146,78,0)');
+    x.fillStyle = halo; x.fillRect(0, 0, W, H);
+
+    x.textAlign = 'center';
+
+    /* Filet doré */
+    x.fillStyle = '#B8924E'; x.fillRect(W / 2 - 34, 130, 68, 5);
+
+    /* Le prénom tel qu'il a été tapé */
+    x.fillStyle = 'rgba(237,242,250,.62)';
+    x.font = '500 40px Inter, system-ui, sans-serif';
+    x.fillText(prenom, W / 2, 224);
+
+    /* Le hangeul — la vedette. On réduit la taille si le prénom est long
+       pour qu'il ne sorte jamais du cadre. */
+    var taille = 210;
+    x.font = '700 ' + taille + 'px "Noto Sans KR", serif';
+    while (x.measureText(hangeul).width > W - 140 && taille > 70) {
+      taille -= 8;
+      x.font = '700 ' + taille + 'px "Noto Sans KR", serif';
+    }
+    x.fillStyle = '#FFFFFF';
+    x.fillText(hangeul, W / 2, 470 + taille / 3);
+
+    /* La lecture à la française */
+    if (lecture) {
+      x.fillStyle = '#D5BA8A';
+      x.font = 'italic 600 52px "Playfair Display", Georgia, serif';
+      x.fillText('« ' + lecture + ' »', W / 2, 660);
+    }
+
+    x.fillStyle = 'rgba(237,242,250,.44)';
+    x.font = '500 30px Inter, system-ui, sans-serif';
+    x.fillText(nbSyl + (nbSyl > 1 ? ' syllabes' : ' syllabe') + ' · lu à la française',
+               W / 2, 724);
+
+    /* Les syllabes une à une */
+    var blocs = Array.from(hangeul);
+    if (blocs.length && blocs.length <= 6) {
+      var cote = 150, ecart = 22;
+      var total = blocs.length * cote + (blocs.length - 1) * ecart;
+      var gx = (W - total) / 2, gy = 830;
+      blocs.forEach(function (b, i) {
+        var bx = gx + i * (cote + ecart);
+        x.fillStyle = 'rgba(255,255,255,.055)';
+        x.fillRect(bx, gy, cote, cote);
+        x.strokeStyle = 'rgba(255,255,255,.14)';
+        x.lineWidth = 2; x.strokeRect(bx, gy, cote, cote);
+        x.fillStyle = '#FFFFFF';
+        x.font = '700 76px "Noto Sans KR", serif';
+        x.fillText(b, bx + cote / 2, gy + 100);
+      });
+    }
+
+    /* Signature */
+    x.fillStyle = '#B8924E';
+    x.font = 'italic 700 46px "Playfair Display", Georgia, serif';
+    x.fillText('Korean Stories', W / 2, H - 132);
+    x.fillStyle = 'rgba(237,242,250,.46)';
+    x.font = '500 30px Inter, system-ui, sans-serif';
+    x.fillText('koreanstories.fr', W / 2, H - 82);
+
+    return c;
+  }
+
+  var shareBtn = document.getElementById('pnShare');
+  var shareTxt = document.getElementById('pnShareTxt');
+  var apres    = document.getElementById('pnApres');
+
+  shareBtn.addEventListener('click', function () {
+    var prenom = input.value.trim();
+    var hangeul = big.textContent;
+    if (!hangeul) return;
+    var lecture = window.KSLectureFR ? window.KSLectureFR.lire(hangeul) : '';
+    var nb = window.KSPrenom ? window.KSPrenom.transcrire(prenom).blocs.length : 0;
+
+    shareTxt.textContent = 'Un instant…';
+    shareBtn.disabled = true;
+
+    /* Attendre les polices : un canvas dessiné trop tôt tombe sur la police
+       de repli, et le hangeul sort en carrés. */
+    var pret = document.fonts && document.fonts.ready
+      ? document.fonts.ready : Promise.resolve();
+
+    pret.then(function () {
+      var c = dessiner(prenom, hangeul, lecture, nb);
+      c.toBlob(function (blob) {
+        shareBtn.disabled = false;
+        shareTxt.textContent = 'Image à partager';
+        if (!blob) return;
+        var nomFichier = 'mon-prenom-en-coreen.png';
+        var f = null;
+        try { f = new File([blob], nomFichier, { type: 'image/png' }); } catch (e) {}
+
+        if (f && navigator.canShare && navigator.canShare({ files: [f] })) {
+          navigator.share({
+            files: [f],
+            text: prenom + ' en coréen : ' + hangeul + ' — koreanstories.fr'
+          }).then(function () { apres.hidden = false; })
+            .catch(function () {});
+          return;
+        }
+        /* Repli : téléchargement */
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = nomFichier;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+        apres.hidden = false;
+      }, 'image/png');
+    });
   });
 
   document.getElementById('pnCopy').addEventListener('click', function () {
