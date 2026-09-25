@@ -213,7 +213,7 @@ export default {
       /* A INCREMENTER A CHAQUE MODIFICATION DU WORKER — sans quoi on ne peut
          pas savoir de l'exterieur si un collage dans Cloudflare a bien eu
          lieu, et on finit par supposer au lieu de verifier. */
-      'Korean Stories Premium API — v2026-08-28.1 (retour a 3 envois par semaine)\n' +
+      'Korean Stories Premium API — v2026-09-25.1 (licences a duree limitee)\n' +
       'constante en haut du fichier : ' +
         (DRIVE_LIVRET_A1 ? DRIVE_LIVRET_A1.length + ' caracteres' : 'vide') + '\n' +
       'variable d environnement     : ' + (drive || 'aucune') + '\n' +
@@ -287,7 +287,7 @@ async function handleVerify(request, env) {
 
   if (!data) return json({ success: false, message: 'Clé invalide' });
 
-  if (data.type === 'monthly' && data.status !== 'active') {
+  if (licenceInactive(data)) {
     return json({ success: false, message: 'Abonnement expiré ou annulé' });
   }
 
@@ -432,7 +432,7 @@ async function licenseForAccount(user, env) {
 
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
   if (!data) return null;
-  if (data.type === 'monthly' && data.status !== 'active') return null;
+  if (licenceInactive(data)) return null;
   return { key, data };
 }
 
@@ -451,7 +451,7 @@ async function handleLinkLicense(request, env) {
 
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
   if (!data) return json({ success: false, message: 'Clé invalide.' }, 403);
-  if (data.type === 'monthly' && data.status !== 'active') {
+  if (licenceInactive(data)) {
     return json({ success: false, message: 'Abonnement expiré ou annulé.' }, 403);
   }
 
@@ -593,7 +593,7 @@ async function handlePdfDownload(request, env) {
   if (!data && key) {
     data = await env.KS_LICENSES.get(key, { type: 'json' });
     if (!data) return corsResponse('Clé invalide', 403);
-    if (data.type === 'monthly' && data.status !== 'active') {
+    if (licenceInactive(data)) {
       return corsResponse('Abonnement expiré ou annulé', 403);
     }
   }
@@ -861,7 +861,7 @@ async function handlePdfPreview(request, env) {
 
   const data = await env.KS_LICENSES.get(key, { type: 'json' });
   if (!data) return corsResponse('Clé invalide', 403);
-  if (data.type === 'monthly' && data.status !== 'active') {
+  if (licenceInactive(data)) {
     return corsResponse('Abonnement expiré ou annulé', 403);
   }
   if (!canAccessFile(data, file)) return corsResponse('Cette clé ne donne pas accès à cette fiche', 403);
@@ -2563,6 +2563,28 @@ async function emailForCustomer(customerId, env) {
 // caractères ambigus (ni I/O/0/1). Aléa CRYPTOGRAPHIQUE (crypto.getRandomValues,
 // pas Math.random) : imprévisible, non reproductible à partir d'un état de PRNG.
 // `octet & 31` == `octet % 32` sans biais de modulo, car 32 divise 256.
+/* ── Validite d'une licence ───────────────────────────────────────────────────
+   Jusqu'ici une licence « monthly » etait valable tant que son statut valait
+   'active', et rien d'autre. Aucune date n'etait jamais lue : offrir deux mois
+   a quelqu'un obligeait donc a penser soi-meme a lui retirer l'acces, et un
+   oubli transformait le geste commercial en acces a vie.
+
+   `expiresAt` (ISO 8601) est facultatif. Absent, rien ne change : les
+   abonnements Stripe restent pilotes par `status` exactement comme avant.
+   Present, la cle cesse d'ouvrir passe la date, toute seule. */
+function licenceExpiree(data) {
+  if (!data || !data.expiresAt) return false;
+  const t = Date.parse(data.expiresAt);
+  return !isNaN(t) && Date.now() > t;
+}
+
+/* Un seul point de verite, utilise par les cinq controles de lecture. */
+function licenceInactive(data) {
+  if (!data) return true;
+  if (data.type === 'monthly' && data.status !== 'active') return true;
+  return licenceExpiree(data);
+}
+
 function generateKey() {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const bytes = crypto.getRandomValues(new Uint8Array(16));
