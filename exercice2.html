@@ -58,10 +58,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .score-badge .score-num{font-size:40px;font-weight:800;color:var(--gold)}
     .score-badge .score-lbl{font-size:12px;color:var(--t2)}
     .syllable-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:12px;margin:16px 0}
-    .syl-card{background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .2s}
+    /* Petit haut-parleur en coin : sans lui, rien n'indique que la carte parle. */
+    .syl-card{position:relative;background:var(--s2);border:1.5px solid var(--bd);border-radius:12px;padding:16px 8px;text-align:center;cursor:pointer;transition:all .2s}
     .syl-card:hover{border-color:var(--goldbd);transform:translateY(-2px)}
     .syl-card.revealed{background:var(--goldbg);border-color:var(--goldbd)}
     .syl-kr{font-size:28px;font-weight:700;color:var(--gold);display:block}
+    .syl-card::after{content:'';position:absolute;top:6px;right:7px;width:12px;height:12px;opacity:.38;
+      background:currentColor;color:var(--t2);
+      -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5' fill='black'/%3E%3Cpath d='M15.5 8.5a5 5 0 0 1 0 7'/%3E%3C/svg%3E") center/contain no-repeat;
+      mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5' fill='black'/%3E%3Cpath d='M15.5 8.5a5 5 0 0 1 0 7'/%3E%3C/svg%3E") center/contain no-repeat}
+    .syl-card.playing::after{opacity:1;color:var(--gold)}
+    .big-kr.ecoutable{cursor:pointer}
+    .big-kr.ecoutable:hover{filter:brightness(1.12)}
     .syl-rom{font-size:11px;color:var(--t2);margin-top:4px;display:none}
     .syl-card.revealed .syl-rom{display:block}
     .big-reveal-card{background:var(--surf);border-radius:var(--r);padding:32px 20px;text-align:center;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06);margin-bottom:16px}
@@ -114,7 +122,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
     <div class="card" style="padding:16px 20px 12px">
       <div class="level-badge" id="levelBadge">NIVEAU 1 — Syllabes simples</div>
-      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">Clique sur chaque syllabe pour révéler sa prononciation !</p>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:12px">Clique sur chaque syllabe : tu la révèles et tu l'entends, en voix coréenne réelle.</p>
       <div class="syllable-grid" id="syllableGrid"></div>
     </div>
 
@@ -152,7 +160,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="score-num">5/5</div>
       <div class="score-lbl">niveaux complétés</div>
     </div>
-    <a href="quiz1.html" class="btn btn-gold">Checkpoint Hangeul →</a>
+    <a href="quiz1.html" id="btnSuivant" class="btn btn-gold">Checkpoint Hangeul →</a>
   </div>
 </div>
 
@@ -258,8 +266,14 @@ function renderLevel() {
       const div = document.createElement('div');
       div.className = 'syl-card';
       div.innerHTML = `<span class="syl-kr">${item.kr}</span><span class="syl-rom">${ksLireDe(item)}${item.meaning && item.meaning !== ksLireDe(item) ? '<br>'+item.meaning : ''}</span>`;
+      /* Un clic revele ET fait entendre. La regle du site est ferme : aucune
+         voix de synthese. speak() ne joue que s'il existe un enregistrement
+         reel au manifeste -- verifie ici, les 22 items de l'exercice en ont un.
+         L'appel est dans un try : un audio muet ne doit jamais empecher la
+         carte de se retourner, sinon on rebloque l'exercice. */
       div.onclick = () => {
         div.classList.toggle('revealed');
+        try { if (typeof window.speak === 'function') window.speak(item.kr, div); } catch (e) {}
         checkAllRevealed();
       };
       grid.appendChild(div);
@@ -276,6 +290,11 @@ function showRevealItem() {
   const lv = levels[currentLevel];
   const item = lv.items[currentRevealIdx];
   document.getElementById('bigKr').textContent = item.kr;
+  /* Le hangeul en grand s'ecoute aussi : on clique dessus. */
+  const bk = document.getElementById('bigKr');
+  bk.classList.add('ecoutable');
+  bk.title = 'Écouter ' + item.kr;
+  bk.onclick = () => { try { if (typeof window.speak === 'function') window.speak(item.kr, bk); } catch (e) {} };
   document.getElementById('revealInfo').className = 'reveal-info';
   document.getElementById('revealRoman').textContent = item.rom;
   document.getElementById('revealMeaning').innerHTML = item.meaning;
@@ -393,6 +412,33 @@ function showSuccess() {
 renderLevel();
 </script>
 <script src="ks-results.js"></script>
-  <script src="ks-menu.js" defer></script>
+  <script src="ks-menu.js" defer>
+</script>
+<script>
+/* Le bouton de fin suit le PARCOURS, plus un lien ecrit en dur. Celui-ci
+   pointait vers quiz1.html et sautait les etapes inserees depuis. Le href du HTML
+   reste en repli : si le curriculum ne charge pas, le bouton marche quand
+   meme. */
+(function () {
+  function majSuivant() {
+    var a = document.getElementById('btnSuivant');
+    if (!a || !window.KSCurriculum || !KSCurriculum.suivantDe) return false;
+    var n = KSCurriculum.suivantDe(location.pathname.split('/').pop());
+    if (!n) return false;
+    a.href = n.href;
+    a.textContent = n.title + ' \u2192';
+    return true;
+  }
+  /* ks-curriculum.js est charge A LA DEMANDE par ks-nav.js : il n'est pas la
+     au chargement de la page. On l'attend au lieu de le supposer -- 5 s au
+     plus, apres quoi le href ecrit dans le HTML fait office de repli. */
+  if (!majSuivant()) {
+    var essais = 0;
+    var t = setInterval(function () {
+      if (majSuivant() || ++essais > 50) clearInterval(t);
+    }, 100);
+  }
+})();
+</script>
 </body>
 </html>

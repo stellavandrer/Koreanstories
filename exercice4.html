@@ -117,7 +117,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="score-num" id="finalScore">15</div>
       <div class="score-lbl">/ 15 bonnes réponses</div>
     </div>
-    <a href="lecon42.html" class="btn btn-gold">Leçon suivante →</a>
+    <a href="lecon42.html" id="btnSuivant" class="btn btn-gold">Leçon suivante →</a>
   </div>
 </div>
 
@@ -214,6 +214,33 @@ function showSuccess() {
 renderQ();
 </script>
 <script src="ks-results.js"></script>
-  <script src="ks-menu.js" defer></script>
+  <script src="ks-menu.js" defer>
+</script>
+<script>
+/* Le bouton de fin suit le PARCOURS, plus un lien ecrit en dur. Celui-ci
+   pointait vers lecon42.html et sautait les etapes inserees depuis. Le href du HTML
+   reste en repli : si le curriculum ne charge pas, le bouton marche quand
+   meme. */
+(function () {
+  function majSuivant() {
+    var a = document.getElementById('btnSuivant');
+    if (!a || !window.KSCurriculum || !KSCurriculum.suivantDe) return false;
+    var n = KSCurriculum.suivantDe(location.pathname.split('/').pop());
+    if (!n) return false;
+    a.href = n.href;
+    a.textContent = n.title + ' \u2192';
+    return true;
+  }
+  /* ks-curriculum.js est charge A LA DEMANDE par ks-nav.js : il n'est pas la
+     au chargement de la page. On l'attend au lieu de le supposer -- 5 s au
+     plus, apres quoi le href ecrit dans le HTML fait office de repli. */
+  if (!majSuivant()) {
+    var essais = 0;
+    var t = setInterval(function () {
+      if (majSuivant() || ++essais > 50) clearInterval(t);
+    }, 100);
+  }
+})();
+</script>
 </body>
 </html>

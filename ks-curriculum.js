@@ -712,12 +712,36 @@
     return { done: done, total: total };
   }
 
+  /* Le voisin POSITIONNEL dans le parcours, indépendamment de ce qui est
+     déjà fait. À ne pas confondre avec next(), qui cherche la première
+     activité NON TERMINÉE et saute donc ce qu'on a déjà vu.
+     Un bouton « suivant » en fin d'activité doit suivre l'ORDRE : sinon on
+     envoie quelqu'un trois chapitres plus loin parce qu'il a fait l'atelier
+     avant l'exercice. Les liens écrits en dur dérivent dès qu'on insère une
+     étape — c'est arrivé sur exercice2 et exercice4. */
+  function suivantDe(href) {
+    if (!href) return null;
+    var clean = String(href).split('#')[0].split('/').pop();
+    var path  = clean.split('?')[0];
+    var idx = -1;
+    for (var i = 0; i < ACTIVITIES.length; i++) {
+      var a = ACTIVITIES[i].href;
+      if (a.split('#')[0] === clean || (idx === -1 && a.split('?')[0] === path)) { idx = i; if (a.split('#')[0] === clean) break; }
+    }
+    if (idx === -1) return null;
+    for (var j = idx + 1; j < ACTIVITIES.length; j++) {
+      if (!isComingSoon(ACTIVITIES[j].href)) return ACTIVITIES[j];
+    }
+    return null;
+  }
+
   global.KSCurriculum = {
     activities:    ACTIVITIES,
     isDone:        isDone,
     isComingSoon:  isComingSoon,
     comingSoon:    COMING_SOON,
     next:          next,
+    suivantDe:     suivantDe,
     progress:      progress
   };
 
