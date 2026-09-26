@@ -205,3 +205,38 @@
   global.KSLectureFR = { lire: lire, lireBlocs: lireBlocs, lireSyllabe: lireSyllabe };
 
 })(typeof window !== 'undefined' ? window : this);
+
+/* ══════════════════════════════════════════════════════════════════════
+   ksLireDe() vivait dans ks.js, charge en `defer`. Les 33 pages qui
+   l'appellent depuis un script en ligne s'executaient AVANT lui :
+   « ReferenceError: ksLireDe is not defined », la boucle de rendu cassait,
+   et la grille de syllabes restait vide. Une eleve est restee bloquee au
+   chapitre 11 sans rien pouvoir cliquer (signale le 2026-09-26).
+   Ce fichier-ci est SYNCHRONE et charge avant les scripts en ligne : la
+   fonction y est donc toujours prete a temps. Aucune page n'utilise
+   ksLireDe sans charger ks-lecture-fr.js -- verifie sur les 77 concernees.
+   ══════════════════════════════════════════════════════════════════════ */
+/* ── ksLireDe(objet) ────────────────────────────────────────────────
+   Les leçons, histoires et jeux portent leur vocabulaire dans des
+   tableaux d'objets qui contiennent DÉJÀ le hangeul à côté de la
+   romanisation ({kr, rom, fr} et ses variantes {kor,…} / {ko,…}).
+   On peut donc afficher la vraie prononciation sans réécrire une seule
+   donnée : on lit le hangeul de l'objet.
+
+   Le repli sur o.rom n'est pas décoratif. Ces pages rendent parfois leur
+   gabarit avant que ks-lecture-fr.js soit là, et une poignée d'objets
+   n'ont pas de champ hangeul : dans ces cas on réaffiche exactement ce
+   qui s'affichait avant, jamais du vide.
+
+   ⚠️ Réservé à l'AFFICHAGE. Sur plusieurs pages la romanisation sert de
+   réponse à apparier ou de valeur à comparer — y toucher casserait le
+   jeu. Ne pas remplacer o.rom mécaniquement : regarder ce qu'il fait. */
+function ksLireDe(o) {
+  if (!o) return '';
+  var kr = o.kr || o.kor || o.ko || o.hangeul || '';
+  try {
+    if (kr && window.KSLectureFR) return window.KSLectureFR.lire(kr);
+  } catch (e) {}
+  return o.rom || '';
+}
+if (typeof window !== 'undefined') window.ksLireDe = ksLireDe;
