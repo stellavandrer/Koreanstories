@@ -15,10 +15,29 @@
   'use strict';
   if (window.KSPremium) return;
 
+  /* ══════════════════════════════════════════════════════════════════════
+     VENTES FERMEES — interrupteur unique.
+
+     Mettre a `true` pour rouvrir : les liens Stripe reprennent leur place,
+     rien d'autre a toucher. Tant que c'est `false` :
+       — tous les boutons d'achat de toutes les pages sont remplaces par une
+         annonce de reouverture avec recuperation d'adresse ;
+       — le modal Premium n'affiche plus ses deux boutons (il gere deja des
+         URL vides) ;
+       — un clic sur un lien Stripe qui aurait echappe au remplacement est
+         intercepte : on ne peut pas arriver sur une page de paiement.
+
+     CE QUI N'EST PAS TOUCHE, et ne doit pas l'etre : la verification des
+     cles, le telechargement des PDF, le portail de gestion d'abonnement. Les
+     gens qui ont DEJA paye gardent tout. Fermer la vente n'est pas fermer le
+     produit. */
+  var VENTES_OUVERTES = false;
+
   /* ── CONFIG Stripe + Cloudflare Worker ── */
   var BUY_URL_MONTHLY  = 'https://buy.stripe.com/aFaaEZfc3cZH9uDeAEe7m01';
   var BUY_URL_LIFETIME = 'https://buy.stripe.com/5kQbJ35BtcZH36f1NSe7m00';
   var VERIFY_URL       = 'https://ks-premium.delicate-voice-1d19.workers.dev/verify';
+  if (!VENTES_OUVERTES) { BUY_URL_MONTHLY = ''; BUY_URL_LIFETIME = ''; }
   /* Portail client Stripe (gérer / résilier un abonnement mensuel). Vide = masqué. */
   var PORTAL_URL       = 'https://billing.stripe.com/p/login/5kQbJ35BtcZH36f1NSe7m00';
 
@@ -310,6 +329,98 @@
   function openUpgradeRefresh(){ closeUpgrade(); setTimeout(openUpgrade, 250); }
 
   /* ── API publique ── */
+
+  /* ── Annonce de reouverture, a la place des boutons d'achat ──────────────
+     Un bouton mort qui renvoie une erreur Stripe est pire que pas de bouton.
+     On remplace, on explique, et on transforme la visite en liste d'attente :
+     quelqu'un venu pour acheter est exactement la personne a prevenir en
+     premier. La reassurance pour les clients existants est en clair -- sans
+     elle, une cliente qui a paye hier croit avoir perdu son acces. */
+  function poserAnnonce() {
+    if (VENTES_OUVERTES) return;
+    if (!document.getElementById('ksv-style')) {
+      var st = document.createElement('style');
+      st.id = 'ksv-style';
+      st.textContent =
+        '.ksv{background:var(--surf,#fff);border:1.5px solid var(--goldbd,rgba(184,146,78,.4));' +
+          'border-radius:16px;padding:20px 20px 18px;margin:8px 0;text-align:left;' +
+          'font-family:inherit;max-width:420px}' +
+        '.ksv-k{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;' +
+          'color:var(--gold,#B8924E);margin-bottom:7px}' +
+        '.ksv-t{font-size:17px;font-weight:800;color:var(--t,#0D1823);margin-bottom:7px;line-height:1.3}' +
+        '.ksv-p{font-size:13.5px;line-height:1.65;color:var(--t2,#475E78);margin:0 0 14px}' +
+        '.ksv-f{display:flex;gap:8px}' +
+        '.ksv-f input{flex:1;min-width:0;padding:11px 12px;border-radius:10px;font-size:15px;' +
+          'font-family:inherit;border:1.5px solid var(--bd,#DAE3F2);background:var(--s2,#F8F9FC);color:var(--t,#0D1823)}' +
+        '.ksv-f input:focus{outline:2px solid var(--gold,#B8924E);outline-offset:1px}' +
+        '.ksv-f button{background:var(--gold,#B8924E);color:#1a1208;border:0;border-radius:10px;' +
+          'padding:11px 16px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap}' +
+        '.ksv-m{font-size:12.5px;margin-top:9px;line-height:1.55;display:none}' +
+        '.ksv-m.ok{display:block;color:var(--gold-text,#8B6B3D);font-weight:700}' +
+        '.ksv-m.ko{display:block;color:#b91c1c}' +
+        '.ksv-n{font-size:11.5px;line-height:1.55;color:var(--t3,#8FA5BE);margin-top:11px;' +
+          'padding-top:10px;border-top:1px solid var(--bd,#DAE3F2)}';
+      document.head.appendChild(st);
+    }
+
+    var liens = document.querySelectorAll('a[href^="https://buy.stripe.com"]');
+    var premier = true;
+    Array.prototype.forEach.call(liens, function (a) {
+      var d = document.createElement('div');
+      d.className = 'ksv';
+      /* Une seule annonce complete par page : les suivantes sont abregees,
+         sinon on repete trois fois le meme formulaire sur premium.html. */
+      d.innerHTML = premier
+        ? '<div class="ksv-k">Fermé pour le moment</div>' +
+          '<div class="ksv-t">Réouverture prochainement</div>' +
+          '<p class="ksv-p">Les accès Premium et les livrets sont temporairement fermés. ' +
+          'Laisse ton adresse : tu seras prévenue à la réouverture, avant l\'annonce publique.</p>' +
+          '<form class="ksv-f"><input type="email" inputmode="email" autocomplete="email" ' +
+          'placeholder="ton@email.fr" aria-label="Ton adresse e-mail" required>' +
+          '<button type="submit">Me prévenir</button></form>' +
+          '<p class="ksv-m" role="status"></p>' +
+          '<p class="ksv-n">Tu reçois la newsletter et l\'annonce de la réouverture. Désinscription en un clic.<br>' +
+          '<strong>Tu as déjà une clé&nbsp;?</strong> Ton accès n\'est pas affecté, rien ne change pour toi.</p>'
+        : '<div class="ksv-k">Fermé pour le moment</div>' +
+          '<div class="ksv-t">Réouverture prochainement</div>' +
+          '<p class="ksv-p" style="margin:0">Le formulaire ci-dessus te préviendra dès la réouverture.</p>';
+      premier = false;
+      var f = d.querySelector('form');
+      if (f) {
+        var i = d.querySelector('input'), m = d.querySelector('.ksv-m'), b = d.querySelector('button');
+        f.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var v = (i.value || '').trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { m.className = 'ksv-m ko'; m.textContent = 'Cette adresse ne semble pas valide.'; return; }
+          b.disabled = true; b.textContent = '…';
+          fetch('https://ks-premium.delicate-voice-1d19.workers.dev/newsletter', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: v, action: 'subscribe' })
+          }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
+            .then(function (j) { if (!j || !j.success) throw 0;
+              f.style.display = 'none'; m.className = 'ksv-m ok'; m.textContent = 'C\'est noté — tu seras prévenue en premier.'; })
+            .catch(function () { b.disabled = false; b.textContent = 'Me prévenir';
+              m.className = 'ksv-m ko'; m.textContent = 'Une erreur est survenue. Réessaie dans un instant.'; });
+        });
+      }
+      if (a.parentNode) a.parentNode.replaceChild(d, a);
+    });
+  }
+
+  /* Filet : un lien d'achat cree APRES ce passage (ou oublie) ne doit jamais
+     ouvrir Stripe. On intercepte au clic, quoi qu'il arrive. */
+  document.addEventListener('click', function (e) {
+    if (VENTES_OUVERTES) return;
+    var a = e.target && e.target.closest && e.target.closest('a[href^="https://buy.stripe.com"]');
+    if (!a) return;
+    e.preventDefault();
+    poserAnnonce();
+  }, true);
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', poserAnnonce);
+  else poserAnnonce();
+  window.addEventListener('load', poserAnnonce);
+
   window.KSPremium = {
     isPremium: isPremium,
     setPremium: setPremium,
