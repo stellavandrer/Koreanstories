@@ -3635,7 +3635,21 @@ document.addEventListener('click', function(e){
   let auth;
 
   function applyUser(name, email, photoURL) {
-    const first = name ? name.split(' ')[0] : (email ? email.split('@')[0] : null);
+    /* Le prenom affiche vient de Firebase, mais beaucoup de comptes n'ont pas
+       de displayName : on retombe alors sur l'adresse e-mail. Telle quelle,
+       elle donnait « Bonjour, camille ! » en minuscules, et « Bonjour, t ! »
+       pour une adresse courte -- on accueille quelqu'un par une lettre.
+       On nettoie : separateurs coupes, premiere lettre en capitale, et si ce
+       qui reste n'a pas l'air d'un prenom (1 caractere, ou que des chiffres),
+       on salue sans nom plutot que mal. */
+    var brut = name ? name.split(' ')[0] : (email ? email.split('@')[0] : null);
+    var first = null;
+    if (brut) {
+      brut = brut.split(/[._\-+0-9]/)[0].trim();
+      if (brut.length >= 2 && /[a-zA-ZÀ-ÿ]/.test(brut)) {
+        first = brut.charAt(0).toUpperCase() + brut.slice(1);
+      }
+    }
     // Greeting title
     const gt = document.getElementById('greetTitle');
     if(gt) {
