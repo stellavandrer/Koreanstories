@@ -34,6 +34,34 @@
     .al-card:not(.locked){border-color:color-mix(in srgb,var(--ac) 55%,var(--bd));
       background:linear-gradient(160deg,color-mix(in srgb,var(--ac) 12%,var(--surf)),var(--surf) 60%)}
     .al-card:not(.locked)::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac)}
+
+    /* ── Album doré ──────────────────────────────────────────────────
+       Bonus annoncé sur la page Premium depuis des mois (« Tes cartes
+       s'affichent dans un cadre doré exclusif ») mais jamais implémenté :
+       ni ks-album.js ni album.html ne lisaient l'état Premium. Vérifié le
+       2026-10-27. Le voici.
+       C'est un ajout pur : personne ne perd rien, les cartes restent
+       lisibles à l'identique pour tout le monde, seul le cadre change. */
+    body.ks-prem .al-card:not(.locked){
+      border-color:rgba(201,169,110,.55);
+      box-shadow:inset 0 0 0 1px rgba(201,169,110,.28);
+      background:linear-gradient(160deg,
+        color-mix(in srgb,var(--ac) 10%,var(--surf)),
+        color-mix(in srgb,#C9A96E 7%,var(--surf)) 70%, var(--surf));
+    }
+    body.ks-prem .al-card:not(.locked)::before{
+      background:linear-gradient(180deg,#E0C48A,#C9A96E 55%,#A8884E);
+      width:6px;
+    }
+    body.ks-prem .al-card:not(.locked):hover{
+      box-shadow:inset 0 0 0 1px rgba(201,169,110,.45), 0 10px 26px rgba(168,136,78,.22);
+    }
+    /* Le liseré doré vient DU cadre, pas du texte : le coréen et le
+       français gardent leur contraste d'origine. */
+    .al-gold-note{display:none;align-items:center;gap:7px;margin:0 0 14px;
+      font-size:12.5px;font-weight:700;color:#A8884E}
+    body.ks-prem .al-gold-note{display:inline-flex}
+    .al-gold-note svg{width:14px;height:14px;fill:#C9A96E}
     .al-kr{font-family:'Noto Sans KR',sans-serif;font-size:1.35rem;font-weight:800;color:var(--tx);margin-top:.35rem;line-height:1.2}
     .al-fr{font-size:.82rem;font-weight:600;color:var(--tx);line-height:1.25}
     .al-loc{font-size:.68rem;color:var(--tx-muted);margin-top:.1rem}

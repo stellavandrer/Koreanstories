@@ -127,6 +127,11 @@
     CARDS.forEach(function(c){ groups[rarityOf(c)].push(c); });
 
     var html = '';
+    /* Mention visible du cadre doré : un bonus qu'on ne remarque pas est
+       un bonus qu'on n'a pas vendu. Masquée hors Premium par le CSS. */
+    html += '<div class="al-gold-note">' +
+            '<svg viewBox="0 0 24 24"><path d="M2 20h20M5 20l-2-9 5 4 4-8 4 8 5-4-2 9z"/></svg>' +
+            'Cadre doré Premium, merci pour ton soutien</div>';
     ORDER.forEach(function(r){
       var list = groups[r]; if (!list.length) return;
       var rm = RMETA[r];
@@ -248,6 +253,26 @@
     if (line) x.fillText(line, a, yy);
   }
   function closeModal(){ var ov = document.getElementById('alOvr'); if (ov) ov.classList.remove('open'); }
+
+  /* ── Album doré (bonus Premium) ──────────────────────────────────────
+     La page Premium promet « tes cartes s'affichent dans un cadre doré
+     exclusif ». Le style existe désormais dans album.html, sous
+     body.ks-prem : il ne restait qu'à poser la classe. Vérifié le
+     2026-10-27 : ni ce fichier ni album.html ne lisaient l'état Premium,
+     le bonus était vendu mais jamais livré.
+
+     On lit la clé de stockage plutôt que KSPremium.isPremium(), car
+     ks-premium.js est injecté de façon asynchrone et peut n'être pas
+     encore là ; l'événement ks-premium-change rattrape le reste. */
+  function majCadreDore(){
+    var prem = false;
+    try { prem = localStorage.getItem('ks_premium') === '1'; } catch (e) {}
+    if (document.body) document.body.classList.toggle('ks-prem', prem);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', majCadreDore);
+  } else { majCadreDore(); }
+  document.addEventListener('ks-premium-change', majCadreDore);
 
   window.KSAlbum = { render: render, stats: stats, newCount: newCount, markSeen: markSeen, close: closeModal, cards: CARDS };
 })();
