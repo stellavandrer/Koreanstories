@@ -40,7 +40,7 @@
     { type:'page', title:'Révisions',               sub:'SRS, mots ratés',           href:'revision.html',      icon:'refresh' },
     { type:'page', title:'Speaking Practice',       sub:'Écoute + prononciation au micro',href:'speaking.html', icon:'mic' },
     { type:'page', title:'Vocabulaire',             sub:'Tous les mots appris',      href:'vocabulaire.html',   icon:'words' },
-    { type:'page', title:'Hangeul — Alphabet',      sub:'Référence complète',        href:'hangeul.html',       icon:'letters' },
+    { type:'page', title:'Hangeul : Alphabet',      sub:'Référence complète',        href:'hangeul.html',       icon:'letters' },
     { type:'page', title:'Ressources PDF',          sub:'Téléchargements',           href:'ressources.html',    icon:'download' },
     { type:'page', title:'Réglages',                sub:'Compte, voix, thème',       href:'reglages.html',      icon:'gear' },
     { type:'page', title:'Aide & FAQ',              sub:'17 questions fréquentes',   href:'aide.html',          icon:'help' },

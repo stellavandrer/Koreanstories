@@ -92,13 +92,13 @@ a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;curs
       </div>
     </div>
     <div class="btn-row" style="justify-content:center;margin-top:20px">
-      <button class="btn btn-gold" onclick="finish()">Terminer A2 — +30 XP</button>
+      <button class="btn btn-gold" onclick="finish()">Terminer A2, +30 XP</button>
     </div>
   </div>
 </div>
 <script>
 const QS=[["저는 식당___ 비빔밥___ 먹었어요", ["에서·를", "에·이", "로·를", "에서·은"], 0], ["이 옷 얼마예요? / ___ 비싸요", ["조금", "매우", "아주", "좀"], 3], ["배가 고파___ 밥을 먹어요", ["지만", "서", "니까", "고"], 1], ["한국어가 어렵___ 재미있어요", ["어서", "니까", "지만", "고"], 2], ["예쁜___ 여자를 만났어요", ["가", "는", "이", "(rien)"], 3], ["카드 ___?", ["돼요", "이에요", "있어요", "해요"], 0], ["호텔___ 예약했어요", ["를", "에서", "에", "로"], 0], ["지호가 밥___ 먹___ 커피를 마셔요", ["을·고", "를·지만", "이·어서", "을·니까"], 0], ["어제 제가 천천히 책___ 읽었어요", ["이", "는", "을", "가"], 2], ["서울에 사___ 친구가 왔어요", ["는", "은", "ㄴ", "ㅂ니다"], 0]];
-const EX=["에서 = lieu d'action, 를 = objet", "'좀 비싸요' = c'est un peu cher (naturel)", "-아서/-어서 = cause naturelle → résultat", "-지만 = mais (contraste)", "En coréen, l'adjectif précède directement le nom", "카드 돼요? = Vous acceptez la carte ?", "호텔을 예약 — 을/를 = objet de 'réserver'", "를 먹고 = et (puis) — -고 enchaîne les actions", "책을 읽었어요 — 을/를 = objet", "서울에 사는 친구 — relative présent = 는"];
+const EX=["에서 = lieu d'action, 를 = objet", "'좀 비싸요' = c'est un peu cher (naturel)", "-아서/-어서 = cause naturelle → résultat", "-지만 = mais (contraste)", "En coréen, l'adjectif précède directement le nom", "카드 돼요? = Vous acceptez la carte ?", "호텔을 예약 : 을/를 = objet de 'réserver'", "를 먹고 = et (puis), -고 enchaîne les actions", "책을 읽었어요 : 을/를 = objet", "서울에 사는 친구, relative présent = 는"];
 let qi=0,score=0;
 function render(){
   if(qi>=QS.length){
@@ -106,13 +106,13 @@ function render(){
     document.getElementById('rcard').style.display='block';
     document.getElementById('sc').textContent=score+'/'+QS.length;
     const pct=score/QS.length;
-    document.getElementById('sm').textContent=pct>=.8?'Excellent ! Tu as validé le niveau A2 !':pct>=.6?'Bien ! Quelques points à revoir avant le B1.':'Continue à pratiquer — révise les particules et conjonctions.';
+    document.getElementById('sm').textContent=pct>=.8?'Excellent ! Tu as validé le niveau A2 !':pct>=.6?'Bien ! Quelques points à revoir avant le B1.':'Continue à pratiquer, révise les particules et conjonctions.';
     if(pct>=.6)document.getElementById('bdg').style.display='flex';
     return;
   }
   const q=QS[qi];
   document.querySelectorAll('.q-dot').forEach((d,i)=>{d.className='q-dot';if(i<qi)d.classList.add('done')});
-  document.getElementById('qzone').innerHTML=`<p style="font-size:14px;font-weight:700;color:var(--t);margin-bottom:16px;line-height:1.4">${qi+1}/10 — Complète ou choisis : <span style="color:var(--gold)">${q[0]}</span></p><div style="display:flex;flex-direction:column;gap:8px" id="opts">${q[1].map((o,i)=>`<button class="q-opt" onclick="pick(${i})">${o}</button>`).join('')}</div><div class="q-feedback" id="fb" style="display:none"></div>`;
+  document.getElementById('qzone').innerHTML=`<p style="font-size:14px;font-weight:700;color:var(--t);margin-bottom:16px;line-height:1.4">${qi+1}/10 : Complète ou choisis : <span style="color:var(--gold)">${q[0]}</span></p><div style="display:flex;flex-direction:column;gap:8px" id="opts">${q[1].map((o,i)=>`<button class="q-opt" onclick="pick(${i})">${o}</button>`).join('')}</div><div class="q-feedback" id="fb" style="display:none"></div>`;
 }
 function pick(i){
   const q=QS[qi],btns=document.querySelectorAll('.q-opt');

@@ -7,8 +7,8 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Au café avec Mina — Korean Stories</title>
-<meta name="description" content="Mina retrouve Jiwoo au café : commander une boisson, payer, parler du week-end — la conversation café type à trois voix. Histoire A1 avec audio."/>
+  <title>Au café avec Mina · Korean Stories</title>
+<meta name="description" content="Mina retrouve Jiwoo au café : commander une boisson, payer, parler du week-end, la conversation café type à trois voix. Histoire A1 avec audio."/>
   <link rel="canonical" href="https://koreanstories.fr/histoire32.html"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <link rel="stylesheet" href="design.css">
@@ -72,7 +72,7 @@
   <span class="pill">A1 · Histoire</span> <span class="xp-badge">+15 XP</span>
   <div class="story-hero">
     <div class="story-tag">Dialogue immersif · Commander à boire</div>
-    <div class="story-title">카페에서 — Au café</div>
+    <div class="story-title">카페에서 : Au café</div>
     <div class="story-sub">Mina retrouve son ami Jiwoo dans un café près de l'université. Le barista prend leur commande. Vocab basique pour commander en coréen.</div>
   </div>
 
@@ -88,7 +88,7 @@
 
   <div id="storyContent">
 
-  <h3>Scène 1 — La rencontre</h3>
+  <h3>Scène 1 : La rencontre</h3>
   <div class="panel">
     <div class="panel-num">SCÈNE 01</div>
     <div class="narration">
@@ -127,7 +127,7 @@
     </div>
   </div>
 
-  <h3>Scène 2 — La commande</h3>
+  <h3>Scène 2 : La commande</h3>
   <div class="panel">
     <div class="panel-num">SCÈNE 02</div>
     <div class="narration">
@@ -176,7 +176,7 @@
     </div>
   </div>
 
-  <h3>Scène 3 — À la table</h3>
+  <h3>Scène 3 : À la table</h3>
   <div class="panel">
     <div class="panel-num">SCÈNE 03</div>
     <div class="bubble-row right" data-speaker="jiwoo">
@@ -242,7 +242,7 @@
 
   <div class="tip"><strong>Astuce :</strong> entre amis du même âge, on utilise <strong>-야 / -아</strong> (parler informel) au lieu de <strong>-요</strong>. Mina et Jiwoo se tutoient, donc 갔어 (je suis allée) au lieu de 갔어요.</div>
 
-  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer — +15 XP</button>
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer, +15 XP</button>
 </div></main></div>
 <script src="ks.js"></script>
 <script>
@@ -265,7 +265,7 @@ function toggleListen(){
   });
   let i = 0, stopped = false;
   function next(){
-    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé — relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
+    if (stopped || i >= items.length){ btn.classList.remove('playing'); icon.innerHTML = '<polygon points="6 4 20 12 6 20 6 4"/>'; sub.textContent = 'Terminé, relance pour réécouter'; _listenSession = null; document.querySelectorAll('.listening').forEach(el => el.classList.remove('listening')); return; }
     const item = items[i]; const bubble = item.el.closest('.bubble'); if (bubble) bubble.classList.add('listening');
     sub.textContent = `Lecture ${i+1} / ${items.length} · voix ${item.voice}`;
     window.speakAs(item.text, item.voice, null, {

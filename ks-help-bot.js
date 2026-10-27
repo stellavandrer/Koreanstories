@@ -16,12 +16,12 @@
       label: "Utiliser l'app",
       icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>',
       qas: [
-        {q: "Par où commencer si je suis débutant·e ?", a: "Le test de niveau à l'inscription te place automatiquement au bon endroit. Si tu n'as jamais fait de coréen, tu démarres par le module Hangeul (l'alphabet) — compte 2-3 semaines pour le maîtriser, puis le parcours t'amène de A1 à B2."},
+        {q: "Par où commencer si je suis débutant·e ?", a: "Le test de niveau à l'inscription te place automatiquement au bon endroit. Si tu n'as jamais fait de coréen, tu démarres par le module Hangeul (l'alphabet), compte 2-3 semaines pour le maîtriser, puis le parcours t'amène de A1 à B2."},
         {q: "Combien de temps par jour ?", a: "15-20 minutes suffisent. L'objectif quotidien par défaut est 50 XP (1-2 activités). La régularité compte plus que l'intensité."},
-        {q: "Comment fonctionnent les XP et le streak ?", a: "Chaque activité donne 5 à 50 XP selon la difficulté. Le streak compte tes jours consécutifs de pratique — tu as 2 « gels » automatiques par mois qui le sauvent si tu rates un jour."},
+        {q: "Comment fonctionnent les XP et le streak ?", a: "Chaque activité donne 5 à 50 XP selon la difficulté. Le streak compte tes jours consécutifs de pratique, tu as 2 « gels » automatiques par mois qui le sauvent si tu rates un jour."},
         {q: "Qu'est-ce que la révision SRS ?", a: "C'est la répétition espacée : chaque mot appris revient juste avant que tu risques de l'oublier (1 jour, puis 3, 7, 14, 30...). Pratique-la dans le menu Révisions."},
         {q: "Je ne trouve pas un mot dans le dictionnaire", a: "Le dictionnaire couvre environ 45 000 mots (français ⇄ coréen), avec conjugaison et romanisation automatiques. Essaie une autre orthographe, ou consulte le <a href=\"dictionnaire.html\">dictionnaire</a> directement."},
-        {q: "Qui parle dans les leçons et histoires ?", a: "Chaque personnage a sa propre voix coréenne naturelle générée par IA — jamais de synthèse robotique. Si un mot du dictionnaire n'a pas encore d'audio, le bouton le signale simplement, sans jouer de son de substitution."},
+        {q: "Qui parle dans les leçons et histoires ?", a: "Chaque personnage a sa propre voix coréenne naturelle générée par IA, jamais de synthèse robotique. Si un mot du dictionnaire n'a pas encore d'audio, le bouton le signale simplement, sans jouer de son de substitution."},
         {q: "Comment installer l'app sur mon téléphone ?", a: "Sur iPhone : Safari → bouton Partager → « Sur l'écran d'accueil ». Sur Android : Chrome → menu → « Installer l'app »."}
       ]
     },
@@ -33,11 +33,11 @@
         {q: "Dois-je créer un compte ?", a: "Non, l'app fonctionne sans compte (données stockées localement). Un compte gratuit permet en plus de sauvegarder ta progression dans le cloud et de synchroniser entre appareils."},
         {q: "Comment obtenir Premium ?", a: "Sur la <a href=\"premium.html\">page Premium</a>, choisis un plan (5€/mois ou 79€ à vie) et paie via Stripe. Ta clé de licence arrive par email et se remplit automatiquement si tu es connecté·e."},
         {q: "Comment annuler mon abonnement ?", a: "Réglages → Premium → « Gérer mon abonnement » ouvre le portail client Stripe. Ton accès reste actif jusqu'à la fin de la période déjà payée, sans nouveau prélèvement ensuite."},
-        {q: "Puis-je être remboursé·e ?", a: "Le service étant à accès immédiat, le droit de rétractation légal ne s'applique pas une fois la clé envoyée — mais on étudie toute demande de bonne foi sous 14 jours à contact@koreanstories.fr."},
+        {q: "Puis-je être remboursé·e ?", a: "Le service étant à accès immédiat, le droit de rétractation légal ne s'applique pas une fois la clé envoyée, mais on étudie toute demande de bonne foi sous 14 jours à contact@koreanstories.fr."},
         {q: "Où voir mes factures ?", a: "Réglages → Premium → « Voir / télécharger mes factures » ouvre le portail client Stripe."},
         {q: "J'ai oublié mon mot de passe", a: "Utilise le lien « Mot de passe oublié » sur la page de connexion, ou change-le directement dans Réglages → Compte si tu es déjà connecté·e."},
         {q: "Comment supprimer mon compte ?", a: "Écris à contact@koreanstories.fr avec l'objet « Suppression compte » (droit à l'effacement RGPD, sous 30 jours). Pense à exporter tes données avant si tu veux les garder."},
-        {q: "Mes données sont-elles privées ?", a: "Oui, seule toi peux voir tes XP/streaks/leçons par défaut. Si tu actives le classement communautaire, seuls prénom/XP/streak/avatar deviennent visibles — désactivable à tout moment."}
+        {q: "Mes données sont-elles privées ?", a: "Oui, seule toi peux voir tes XP/streaks/leçons par défaut. Si tu actives le classement communautaire, seuls prénom/XP/streak/avatar deviennent visibles, désactivable à tout moment."}
       ]
     }
   ];
@@ -104,7 +104,7 @@
       var cat=CATS.filter(function(c){return c.id===catId;})[0];
       if(!cat) return;
       var html='<button type="button" class="khb-back" data-back="1"><svg style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.4" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg> Retour</button>';
-      html+='<div class="khb-msg bot">'+cat.label+' — choisis une question :</div><div class="khb-choices">';
+      html+='<div class="khb-msg bot">'+cat.label+', choisis une question :</div><div class="khb-choices">';
       cat.qas.forEach(function(item,i){
         html+='<button type="button" class="khb-chip" data-cat="'+cat.id+'" data-idx="'+i+'">'+item.q+'</button>';
       });

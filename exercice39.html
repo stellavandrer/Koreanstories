@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Exercice : Déduction -나 보다 — Korean Stories</title>
+  <title>Exercice : Déduction -나 보다 · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/exercice39.html"/>
 <meta name="description" content="Pratique -나 보다/(으)ㄴ가 보다 (déduction à partir d'un indice observé) face à -것 같다 (ressenti direct) en 8 questions corrigées. Exercice B1."/>
   <meta name="theme-color" content="#0F1B2D"/>
@@ -47,7 +47,7 @@
   <div class="prog"><div class="prog-fill" id="progFill"></div></div>
   <div id="quizArea"></div>
   <div id="resultArea" style="display:none" class="result">
-    <div class="score" id="scoreVal">—</div>
+    <div class="score" id="scoreVal">-</div>
     <p id="resultMsg" style="color:var(--tx-muted)"></p>
     <button class="result-btn" onclick="restart()">Recommencer</button>
     <a class="result-btn" id="doneBtn" href="#" onclick="finish();return false;">Terminer · +12 XP</a>
@@ -59,7 +59,7 @@ const QS=[
   {fr:"« On dirait qu'il pleut dehors » (parapluies mouillés observés)",txt:"밖에 비가 ___",opts:["오나 봐요","올 거예요","오고 싶어요"],ans:0,exp:"-나 보다 = déduction à partir d'un indice observé (ici, les parapluies)."},
   {fr:"« Ce café doit être populaire » (longue file d'attente observée)",txt:"저 카페가 인기가 ___",opts:["많은가 봐요","많고 싶어요","많아야 해요"],ans:0,exp:"Adjectif + -(으)ㄴ가 보다 : déduction à partir de la file d'attente."},
   {fr:"« Minsu n'a pas l'air de bonne humeur » (il soupire sans arrêt)",txt:"민수 씨가 기분이 ___",opts:["안 좋은가 봐요","안 좋고 싶어요","안 좋으세요"],ans:0,exp:"On déduit son humeur à partir de son comportement observé, pas de son propre ressenti."},
-  {fr:"« J'ai l'impression d'avoir faim » (mon propre ressenti, pas une déduction sur autrui)",txt:"저 ___",opts:["배고픈 것 같아요","배고픈가 봐요","배고파야 해요"],ans:0,exp:"것 같다 pour son propre ressenti direct. 배고픈가 봐요 sonnerait bizarre — comme si tu observais ta faim de l'extérieur."},
+  {fr:"« J'ai l'impression d'avoir faim » (mon propre ressenti, pas une déduction sur autrui)",txt:"저 ___",opts:["배고픈 것 같아요","배고픈가 봐요","배고파야 해요"],ans:0,exp:"것 같다 pour son propre ressenti direct. 배고픈가 봐요 sonnerait bizarre, comme si tu observais ta faim de l'extérieur."},
   {fr:"« Il semble qu'elle soit partie » (elle ne répond plus depuis une heure)",txt:"그녀가 ___",opts:["갔나 봐요","갈 거예요","가고 싶어요"],ans:0,exp:"Passé + -았/었나 보다 : déduction à partir du silence prolongé."},
   {fr:"« Ce doit être un étudiant » (sac à dos, badge universitaire)",txt:"저 사람 학생___",opts:["인가 봐요","이고 싶어요","이어야 해요"],ans:0,exp:"이다 + -ㄴ가 보다 → 인가 보다, déduction à partir des indices visibles."},
   {fr:"« Tu as l'air très fatigué, tu n'as pas bonne mine » (dit à quelqu'un d'autre)",txt:"많이 ___, 안색이 안 좋아요",opts:["피곤한가 봐요","피곤하고 싶어요","피곤해야 해요"],ans:0,exp:"Déduction basée sur l'apparence de la personne en face de toi."},
@@ -93,7 +93,7 @@ function showResult(){
   document.getElementById('quizArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
   document.getElementById('scoreVal').textContent=score+' / '+order.length;
-  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! Ressenti direct ou indice observé, tu sais choisir.':score>=5?'Bien — repense à te demander : c\'est TON ressenti, ou un indice que tu observes ?':'Reprends la leçon « Déduction » puis réessaie.';
+  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! Ressenti direct ou indice observé, tu sais choisir.':score>=5?'Bien, repense à te demander : c\'est TON ressenti, ou un indice que tu observes ?':'Reprends la leçon « Déduction » puis réessaie.';
 }
 function restart(){start();}
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_c29c',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_c29c');location.href='cours.html';}}

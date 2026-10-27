@@ -26,7 +26,7 @@
     {
       id: 'ecriture',
       title: 'Atelier d\'écriture',
-      desc: 'Un vrai clavier coréen intégré pour apprendre à taper le Hangeul — copie, dictée audio et traduction, du Hangeul au B1. Sans rien installer.',
+      desc: 'Un vrai clavier coréen intégré pour apprendre à taper le Hangeul, copie, dictée audio et traduction, du Hangeul au B1. Sans rien installer.',
       icon: 'keyboard',
       color: '#0D9488',
       cta: 'Ouvrir l\'atelier',
@@ -35,7 +35,7 @@
     {
       id: 'voixstudio',
       title: 'Studio des voix',
-      desc: 'Écoute chaque personnage des histoires et compare les voix naturelles. Toutes nos prononciations sont des voix neuronales — jamais de voix robotique.',
+      desc: 'Écoute chaque personnage des histoires et compare les voix naturelles. Toutes nos prononciations sont des voix neuronales, jamais de voix robotique.',
       icon: 'mic',
       color: '#0EA5E9',
       cta: 'Écouter les voix',
@@ -62,7 +62,7 @@
     {
       id: 'blog',
       title: 'Le blog Korean Stories',
-      desc: 'Des guides pratiques et vérifiés sur la Corée : voyage, cuisine, culture et méthode — avec les mots coréens prononcés par des voix coréennes naturelles.',
+      desc: 'Des guides pratiques et vérifiés sur la Corée : voyage, cuisine, culture et méthode, avec les mots coréens prononcés par des voix coréennes naturelles.',
       icon: 'news',
       color: '#7C3AED',
       cta: 'Lire le blog',
@@ -89,7 +89,7 @@
     {
       id: 'search',
       title: 'Recherche instantanée',
-      desc: 'Trouve n\'importe quelle leçon en une seconde. Raccourci ⌘K (Mac) ou Ctrl+K (Windows) — ou clique sur le bouton flottant.',
+      desc: 'Trouve n\'importe quelle leçon en une seconde. Raccourci ⌘K (Mac) ou Ctrl+K (Windows), ou clique sur le bouton flottant.',
       icon: 'search',
       color: '#3B82F6',
       cta: 'Essayer ⌘K',

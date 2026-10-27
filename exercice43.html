@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Exercice : -네요, réagir & découvrir — Korean Stories</title>
+  <title>Exercice : -네요, réagir & découvrir · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/exercice43.html"/>
 <meta name="description" content="Pratique -네요 (réaction spontanée) face à -아요/어요 (fait neutre) et sa version polie -(으)시네요, en 8 questions corrigées. Exercice A2."/>
   <meta name="theme-color" content="#0F1B2D"/>
@@ -47,7 +47,7 @@
   <div class="prog"><div class="prog-fill" id="progFill"></div></div>
   <div id="quizArea"></div>
   <div id="resultArea" style="display:none" class="result">
-    <div class="score" id="scoreVal">—</div>
+    <div class="score" id="scoreVal">-</div>
     <p id="resultMsg" style="color:var(--tx-muted)"></p>
     <button class="result-btn" onclick="restart()">Recommencer</button>
     <a class="result-btn" id="doneBtn" href="#" onclick="finish();return false;">Terminer · +12 XP</a>
@@ -93,7 +93,7 @@ function showResult(){
   document.getElementById('quizArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
   document.getElementById('scoreVal').textContent=score+' / '+order.length;
-  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! Tu sens la différence entre un fait et une réaction.':score>=5?'Bien — repense à te demander : je le savais déjà, ou je viens de le découvrir ?':'Reprends la leçon « -네요 » puis réessaie.';
+  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! Tu sens la différence entre un fait et une réaction.':score>=5?'Bien, repense à te demander : je le savais déjà, ou je viens de le découvrir ?':'Reprends la leçon « -네요 » puis réessaie.';
 }
 function restart(){start();}
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_b36c',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_b36c');location.href='cours.html';}}

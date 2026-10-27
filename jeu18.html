@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Jeu : Photo Match — Korean Stories</title>
+  <title>Jeu : Photo Match · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/jeu18.html"/>
 <meta name="description" content="Photo Match : observe l'image et choisis le bon mot coréen parmi 27 photos, pour un apprentissage du vocabulaire par le visuel. Jeu Korean Stories."/>
   <meta name="theme-color" content="#0F1B2D"/>
@@ -47,7 +47,7 @@
   <div class="prog"><div class="prog-fill" id="progFill"></div></div>
   <div id="quizArea"></div>
   <div id="resultArea" style="display:none" class="result">
-    <div class="score" id="scoreVal">—</div>
+    <div class="score" id="scoreVal">-</div>
     <p id="resultMsg" style="color:var(--tx-muted)"></p>
     <button class="result-btn" onclick="restart()">Rejouer</button>
     <a class="result-btn" id="doneBtn" href="#" onclick="finish();return false;">Terminer · +10 XP</a>
@@ -113,8 +113,8 @@ function pick(el,q){
   if(document.querySelector('.opt.ok,.opt.ko'))return;
   const correct=el.getAttribute('data-c')==='1';
   const fb=document.getElementById('fb');
-  if(correct){el.classList.add('ok');score++;fb.style.color='#16A34A';fb.innerHTML='✓ <b>'+q.kr+'</b> · '+q.rom+' — '+q.fr;}
-  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();document.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('data-c')==='1')o.classList.add('ok');});fb.style.color='#dc2626';fb.innerHTML='✗ La réponse : <b>'+q.kr+'</b> · '+q.rom+' — '+q.fr;}
+  if(correct){el.classList.add('ok');score++;fb.style.color='#16A34A';fb.innerHTML='✓ <b>'+q.kr+'</b> · '+q.rom+', '+q.fr;}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();document.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('data-c')==='1')o.classList.add('ok');});fb.style.color='#dc2626';fb.innerHTML='✗ La réponse : <b>'+q.kr+'</b> · '+q.rom+', '+q.fr;}
   document.getElementById('nextBtn').style.display='block';
 }
 function next(){cur++;if(cur>=order.length){showResult();return;}render();}
@@ -123,7 +123,7 @@ function showResult(){
   document.getElementById('quizArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
   document.getElementById('scoreVal').textContent=score+' / '+order.length;
-  document.getElementById('resultMsg').textContent=score>=11?'Parfait ! Ton vocabulaire visuel est au top.':score>=8?'Bien joué — révise les mots ratés et recommence.':'Continue à t\'entraîner, ça rentre vite avec les images !';
+  document.getElementById('resultMsg').textContent=score>=11?'Parfait ! Ton vocabulaire visuel est au top.':score>=8?'Bien joué, révise les mots ratés et recommence.':'Continue à t\'entraîner, ça rentre vite avec les images !';
 }
 function restart(){start();}
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_a66',xp:10});else{if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_a66');location.href='cours.html';}}

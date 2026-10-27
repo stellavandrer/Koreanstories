@@ -50,7 +50,7 @@
     ov.innerHTML =
       '<div style="width:100%;max-width:360px;text-align:center;color:#fff">' +
         '<div style="font-family:Georgia,serif;font-style:italic;font-size:26px;margin-bottom:6px">Korean <span style="color:#C9A96E">Stories</span></div>' +
-        '<div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:22px">Site en cours de finalisation — accès réservé</div>' +
+        '<div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:22px">Site en cours de finalisation, accès réservé</div>' +
         '<input id="ks-gate-input" type="password" autocomplete="off" placeholder="Mot de passe" ' +
           'style="width:100%;box-sizing:border-box;padding:13px 15px;border-radius:12px;border:1.5px solid rgba(255,255,255,.18);' +
           'background:rgba(255,255,255,.06);color:#fff;font-size:15px;outline:none;text-align:center;letter-spacing:.04em">' +

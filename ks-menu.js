@@ -337,7 +337,7 @@
     try { xp = parseInt(localStorage.getItem('ks_xp')     || '0', 10) || 0; } catch (e) {}
     if (!s && !xp) { streakEl.hidden = true; return; }
     var txt = s > 1 ? s + ' jours d’affilée'
-            : s === 1 ? 'Premier jour — continue'
+            : s === 1 ? 'Premier jour, continue'
             : 'Ta série est retombée';
     streakEl.innerHTML = svg(IC.flamme) + '<span>' + txt + '</span><i>' + milliers(xp) + ' XP</i>';
     streakEl.hidden = false;
@@ -383,7 +383,7 @@
   }
   ksmOutSync();
   if (outBtn) outBtn.addEventListener('click', function () {
-    if (!confirm('Se déconnecter ? Ta progression est sauvegardée dans le cloud — tu la retrouveras à la reconnexion.')) return;
+    if (!confirm('Se déconnecter ? Ta progression est sauvegardée dans le cloud, tu la retrouveras à la reconnexion.')) return;
     outBtn.disabled = true;
     outBtn.querySelector('span').textContent = 'Déconnexion…';
 

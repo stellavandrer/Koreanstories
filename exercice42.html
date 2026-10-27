@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Exercice : -(으)ㄹ게요 vs -(으)ㄹ래요 — Korean Stories</title>
+  <title>Exercice : -(으)ㄹ게요 vs -(으)ㄹ래요 · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/exercice42.html"/>
 <meta name="description" content="Pratique -(으)ㄹ게요 (décision/promesse) face à -(으)ㄹ래요 (envie personnelle, invitation) en 8 questions corrigées. Exercice A2."/>
   <meta name="theme-color" content="#0F1B2D"/>
@@ -47,7 +47,7 @@
   <div class="prog"><div class="prog-fill" id="progFill"></div></div>
   <div id="quizArea"></div>
   <div id="resultArea" style="display:none" class="result">
-    <div class="score" id="scoreVal">—</div>
+    <div class="score" id="scoreVal">-</div>
     <p id="resultMsg" style="color:var(--tx-muted)"></p>
     <button class="result-btn" onclick="restart()">Recommencer</button>
     <a class="result-btn" id="doneBtn" href="#" onclick="finish();return false;">Terminer · +12 XP</a>
@@ -61,7 +61,7 @@ const QS=[
   {fr:"« Je vais prendre un bibimbap » (décision annoncée au serveur)",txt:"저는 비빔밥 ___",opts:["주문할게요","주문할래요?","주문하고 있어요"],ans:0,exp:"Décision prise à l'instant, annoncée : -(으)ㄹ게요."},
   {fr:"« Tu veux jouer avec moi ? » (invitation entre amis)",txt:"같이 게임 ___",opts:["할게요","할래요?","해야 해요"],ans:1,exp:"Invitation amicale sous forme de question : -(으)ㄹ래요."},
   {fr:"« Je vais commander à manger » (annoncé, ex. au serveur)",txt:"음식 ___",opts:["주문할게요","주문할래요?","주문하러 가요"],ans:0,exp:"Encore une décision annoncée sur le moment : -(으)ㄹ게요."},
-  {fr:"« Je vais voir un film aujourd'hui, tu veux venir ? » (invitation)",txt:"오늘 영화 보러 갈 건데요, 같이 ___",opts:["갈게요?","갈래요?","가야지"],ans:1,exp:"-(으)ㄹ게요 ne se pose (presque) jamais en question — l'invitation utilise -(으)ㄹ래요."},
+  {fr:"« Je vais voir un film aujourd'hui, tu veux venir ? » (invitation)",txt:"오늘 영화 보러 갈 건데요, 같이 ___",opts:["갈게요?","갈래요?","가야지"],ans:1,exp:"-(으)ㄹ게요 ne se pose (presque) jamais en question, l'invitation utilise -(으)ㄹ래요."},
   {fr:"« Ça, ce sera tout, merci » (décision finale en boutique)",txt:"이걸로 ___",opts:["할게요","할래요?","하고 있어요"],ans:0,exp:"Choix final annoncé au vendeur : -(으)ㄹ게요, la phrase la plus utile en boutique."},
   {fr:"« On mange dehors ce soir ? » (proposition à un ami)",txt:"오늘 저녁에 밖에서 ___",opts:["먹을게요?","먹을래요?","먹어야 해요?"],ans:1,exp:"Proposition amicale : -(으)ㄹ래요, jamais -(으)ㄹ게요 en question."}
 ];
@@ -93,7 +93,7 @@ function showResult(){
   document.getElementById('quizArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
   document.getElementById('scoreVal').textContent=score+' / '+order.length;
-  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! Décision annoncée ou invitation, tu sais choisir.':score>=5?'Bien — repense à te demander : c\'est TA décision, ou tu invites quelqu\'un ?':'Reprends la leçon « Décision ou Envie » puis réessaie.';
+  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! Décision annoncée ou invitation, tu sais choisir.':score>=5?'Bien, repense à te demander : c\'est TA décision, ou tu invites quelqu\'un ?':'Reprends la leçon « Décision ou Envie » puis réessaie.';
 }
 function restart(){start();}
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_b24l',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_b24l');location.href='cours.html';}}

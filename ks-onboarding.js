@@ -29,7 +29,7 @@
     {
       kr: '환영합니다',
       title: 'Bienvenue sur Korean Stories',
-      body: 'Un tour rapide en 4 étapes pour ne rien rater. Ça prend 30 secondes — ou tu peux passer.',
+      body: 'Un tour rapide en 4 étapes pour ne rien rater. Ça prend 30 secondes, ou tu peux passer.',
       target: null,
       btn: 'Démarrer',
       skip: 'Passer le tour'
@@ -37,7 +37,7 @@
     {
       kr: '한글',
       title: 'Commence par l\'alphabet',
-      body: 'Le Hangeul s\'apprend en 2 à 3 semaines. C\'est la fondation de tout — sans ça, le reste du parcours ne fonctionne pas.',
+      body: 'Le Hangeul s\'apprend en 2 à 3 semaines. C\'est la fondation de tout, sans ça, le reste du parcours ne fonctionne pas.',
       target: 'a[href="hangeul.html"].scard',
       btn: 'Suivant',
       skip: 'Passer'
@@ -53,7 +53,7 @@
     {
       kr: '인증서',
       title: 'Ton diplôme évolue avec toi',
-      body: 'XP, paliers, rang : tout est sur ton certificat — imprimable, téléchargeable, partageable. Et l\'aide est toujours dans le footer en bas si tu te perds.',
+      body: 'XP, paliers, rang : tout est sur ton certificat, imprimable, téléchargeable, partageable. Et l\'aide est toujours dans le footer en bas si tu te perds.',
       target: 'a[href="certificat.html"].scard',
       btn: 'C\'est parti !',
       skip: null

@@ -127,7 +127,7 @@
   function unlock(licenseKey){
     return verifyKey(licenseKey).then(function(res){
       if (res.ok && res.type === 'booklet-a1') {
-        return { ok:false, msg:'Cette clé donne accès au Livret A1 uniquement — utilise-la sur la page du Livret A1 pour le télécharger.' };
+        return { ok:false, msg:'Cette clé donne accès au Livret A1 uniquement, utilise-la sur la page du Livret A1 pour le télécharger.' };
       }
       if (res.ok) setPremium(true, (licenseKey || '').trim());
       return res;
@@ -197,7 +197,7 @@
     ['Les voix coréennes naturelles', 'bientôt'],
     ['Accès anticipé à chaque nouveauté', ''],
     ['Un badge de soutien sur ton profil', ''],
-    ['Tu soutiens une créatrice indépendante — et zéro pub, jamais', '']
+    ['Tu soutiens une créatrice indépendante, et zéro pub, jamais', '']
   ];
 
   function closeUpgrade(){
@@ -241,11 +241,11 @@
         return '<li>' + TICK + '<span>' + p[0] + (p[1] ? ' <small>' + p[1] + '</small>' : '') + '</span></li>';
       }).join('');
       var monthly = BUY_URL_MONTHLY
-        ? '<a class="ksp-buy ksp-buy-main" href="' + BUY_URL_MONTHLY + '" target="_blank" rel="noopener">Premium — 5 €<small>/mois</small></a>'
-        : '<a class="ksp-buy ksp-buy-main" aria-disabled="true">Premium — 5 €/mois <small>(bientôt)</small></a>';
+        ? '<a class="ksp-buy ksp-buy-main" href="' + BUY_URL_MONTHLY + '" target="_blank" rel="noopener">Premium : 5 €<small>/mois</small></a>'
+        : '<a class="ksp-buy ksp-buy-main" aria-disabled="true">Premium : 5 €/mois <small>(bientôt)</small></a>';
       var lifetime = BUY_URL_LIFETIME
-        ? '<a class="ksp-buy ksp-buy-alt" href="' + BUY_URL_LIFETIME + '" target="_blank" rel="noopener">Accès à vie — 79 €<small> une fois</small></a>'
-        : '<a class="ksp-buy ksp-buy-alt" aria-disabled="true">Accès à vie — 79 € <small>(bientôt)</small></a>';
+        ? '<a class="ksp-buy ksp-buy-alt" href="' + BUY_URL_LIFETIME + '" target="_blank" rel="noopener">Accès à vie : 79 €<small> une fois</small></a>'
+        : '<a class="ksp-buy ksp-buy-alt" aria-disabled="true">Accès à vie : 79 € <small>(bientôt)</small></a>';
       inner =
         '<div class="ksp-head"><button class="ksp-close" aria-label="Fermer">×</button>' +
           '<span class="ksp-pill"><span class="d"></span> Soutiens le projet</span>' +
@@ -319,7 +319,7 @@
       btn.disabled = true; btn.textContent = '...'; showMsg('Vérification…', '');
       unlock(inp.value).then(function(res){
         btn.disabled = false; btn.textContent = 'Débloquer';
-        if (res.ok) { showMsg('Premium débloqué — merci', 'ok'); setTimeout(openUpgradeRefresh, 900); }
+        if (res.ok) { showMsg('Premium débloqué, merci', 'ok'); setTimeout(openUpgradeRefresh, 900); }
         else showMsg(res.msg || 'Clé invalide.', 'err');
       });
     }
@@ -398,7 +398,7 @@
             body: JSON.stringify({ email: v, action: 'subscribe' })
           }).then(function (r) { if (!r.ok) throw 0; return r.json(); })
             .then(function (j) { if (!j || !j.success) throw 0;
-              f.style.display = 'none'; m.className = 'ksv-m ok'; m.textContent = 'C\'est noté — tu seras prévenue en premier.'; })
+              f.style.display = 'none'; m.className = 'ksv-m ok'; m.textContent = 'C\'est noté, tu seras prévenue en premier.'; })
             .catch(function () { b.disabled = false; b.textContent = 'Me prévenir';
               m.className = 'ksv-m ko'; m.textContent = 'Une erreur est survenue. Réessaie dans un instant.'; });
         });

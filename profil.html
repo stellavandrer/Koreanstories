@@ -13,8 +13,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
-<title>Korean Stories — Mon Profil</title>
-<meta name="description" content="Korean Stories — Mon Profil — apprends le coréen à travers des histoires, leçons et exercices interactifs avec Korean Stories."/>
+<title>Korean Stories · Mon Profil</title>
+<meta name="description" content="Korean Stories : Mon Profil, apprends le coréen à travers des histoires, leçons et exercices interactifs avec Korean Stories."/>
 
   <link rel="canonical" href="https://koreanstories.fr/profil.html"/><link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
 <link rel="preload" href="fonts/ks-fonts-kr.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts-kr.css"/></noscript>
@@ -378,7 +378,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <button class="xp-period-btn" id="btn30d" onclick="setXPPeriod(30)">30 j</button>
       </div>
     </div>
-    <div class="xp-period-total" id="xpPeriodTotal">— XP</div>
+    <div class="xp-period-total" id="xpPeriodTotal">- XP</div>
     <div class="xp-period-sub" id="xpPeriodSub">cette semaine</div>
     <div class="xp-svg-wrap" id="xpSvgWrap"></div>
   </div>
@@ -403,15 +403,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <span class="sec-lbl">Progression par niveau</span>
   <div class="prog-list">
     <div class="prog-item">
-      <div class="prog-top"><span class="prog-name">Hangeul 한글</span><span class="prog-pct" id="pctHangeul">—%</span></div>
+      <div class="prog-top"><span class="prog-name">Hangeul 한글</span><span class="prog-pct" id="pctHangeul">-%</span></div>
       <div class="prog-bar"><div class="prog-fill" id="pfHangeul" style="width:0%"></div></div>
     </div>
     <div class="prog-item">
-      <div class="prog-top"><span class="prog-name">Niveau A1</span><span class="prog-pct" id="pctA1">—%</span></div>
+      <div class="prog-top"><span class="prog-name">Niveau A1</span><span class="prog-pct" id="pctA1">-%</span></div>
       <div class="prog-bar"><div class="prog-fill" id="pfA1" style="width:0%;background:linear-gradient(90deg,#5BA8F5,#93C5FD)"></div></div>
     </div>
     <div class="prog-item">
-      <div class="prog-top"><span class="prog-name">Vocabulaire</span><span class="prog-pct" id="pctVocab">—%</span></div>
+      <div class="prog-top"><span class="prog-name">Vocabulaire</span><span class="prog-pct" id="pctVocab">-%</span></div>
       <div class="prog-bar"><div class="prog-fill" id="pfVocab" style="width:0%;background:linear-gradient(90deg,#FF8EA8,#FFC4D4)"></div></div>
     </div>
   </div>
@@ -1028,7 +1028,7 @@ function drawCard(){
     });
     ctx.fillStyle='rgba(201,169,110,.12)';ctx.fillRect(0,H-48,W,48);
     ctx.fillStyle='rgba(201,169,110,.7)';ctx.font='bold 11px Inter,sans-serif';
-    ctx.fillText('Rejoins-moi sur Korean Stories — koreanstories.fr',24,H-18);
+    ctx.fillText('Rejoins-moi sur Korean Stories, koreanstories.fr',24,H-18);
   };
   img.src=url;
 }
@@ -1113,7 +1113,7 @@ function init(){
   } catch (e) {}
 }
 function switchProfile(){
-  if(!confirm('Se déconnecter ? Tu reviendras à l\'écran de connexion. Ta progression cloud reste sauvegardée — tu la retrouveras à la reconnexion.')) return;
+  if(!confirm('Se déconnecter ? Tu reviendras à l\'écran de connexion. Ta progression cloud reste sauvegardée, tu la retrouveras à la reconnexion.')) return;
   function finish(){
     try{localStorage.removeItem('ks_user');localStorage.removeItem('ks_profile');}catch(e){}
     window.location.href='bienvenue.html';
@@ -1276,7 +1276,7 @@ function ksExportData(){
 
   } catch (err) {
     console.error('[ksExportData]', err);
-    _ksExportToast('Erreur lors de l\'export — réessaie ou écris à contact@koreanstories.fr', true);
+    _ksExportToast('Erreur lors de l\'export, réessaie ou écris à contact@koreanstories.fr', true);
   } finally {
     if (btn) btn.style.pointerEvents = '';
   }

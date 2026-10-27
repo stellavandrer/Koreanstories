@@ -53,7 +53,7 @@
     { metric:'histoires', goal:3,   unit:'histoires', label:'Lis 3 histoires',         hint:'Article ou planche BD, les deux comptent.' },
     { metric:'quiz',      goal:4,   unit:'quiz',      label:'Réussis 4 quiz',          hint:'Teste-toi après chaque bloc.' },
     { metric:'streak',    goal:7,   unit:'jours',     label:'Tiens un streak de 7 jours', hint:'Un peu de coréen chaque jour.' },
-    { metric:'xp',        goal:800, unit:'XP',        label:'Gagne 800 XP',            hint:'Semaine intensive — vise haut !' },
+    { metric:'xp',        goal:800, unit:'XP',        label:'Gagne 800 XP',            hint:'Semaine intensive, vise haut !' },
     { metric:'histoires', goal:5,   unit:'histoires', label:'Lis 5 histoires',         hint:'Enchaîne les récits de la semaine.' }
   ];
 
@@ -125,7 +125,7 @@
         bar +
         '<div class="ksc-foot">' +
           (c.done
-            ? '<span class="ksc-done-txt">' + CHECK + ' Défi relevé — bravo !</span>'
+            ? '<span class="ksc-done-txt">' + CHECK + ' Défi relevé, bravo !</span>'
             : '<span class="ksc-prog">' + c.progress + ' / ' + c.goal + ' ' + esc(c.unit) + '</span>' +
               '<span class="ksc-hint">' + esc(c.hint) + '</span>') +
         '</div>' +

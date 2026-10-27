@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test de niveau coréen — Korean Stories</title>
+<title>Test de niveau coréen · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/test-niveau.html"/>
-<meta name="description" content="Découvre ton niveau de coréen avec un test de placement adaptatif, de débutant absolu jusqu'au B2 — résultat instantané et parcours personnalisé."/>
+<meta name="description" content="Découvre ton niveau de coréen avec un test de placement adaptatif, de débutant absolu jusqu'au B2, résultat instantané et parcours personnalisé."/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
 <link rel="preload" href="fonts/ks-fonts-kr.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts-kr.css"/></noscript>
   <link rel="stylesheet" href="design.css"/>
@@ -304,7 +304,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
     <div class="intro-badge"><span></span>Gratuit · Adaptatif · Sans inscription</div>
     <h1 class="intro-h1">Quel est ton<br/>niveau de <em>coréen</em> ?</h1>
-    <p class="intro-sub">Test de placement adaptatif, de débutant absolu jusqu'au B2 — les questions s'arrêtent dès qu'on a trouvé ton niveau. 2 à 10 minutes selon ton niveau.</p>
+    <p class="intro-sub">Test de placement adaptatif, de débutant absolu jusqu'au B2, les questions s'arrêtent dès qu'on a trouvé ton niveau. 2 à 10 minutes selon ton niveau.</p>
     <div class="steps-row">
       <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>Hangeul</div>
       <div class="step-chip"><div class="ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>Vocabulaire</div>
@@ -373,59 +373,59 @@ const QUESTIONS = [
   {phase:'Hangeul',label:'Voyelles',
    q:'Quelle lettre coréenne correspond au son "a" (comme dans papa) ?',
    kr:'ㅏ',opts:['ㅏ','ㅓ','ㅗ','ㅜ'],ans:0,
-   exp:'ㅏ = "a" — la voyelle de base la plus fréquente'},
+   exp:'ㅏ = "a", la voyelle de base la plus fréquente'},
   {phase:'Hangeul',label:'Consonnes',
    q:'Quelle consonne se prononce "n" ?',
    opts:['ㄱ','ㄴ','ㅁ','ㅂ'],ans:1,
-   exp:'ㄴ = "n" — comme dans 나 (na = moi)'},
+   exp:'ㄴ = "n", comme dans 나 (na = moi)'},
   {phase:'Hangeul',label:'Lecture',
    q:'Que signifie ce mot coréen ?',
    kr:'나라',opts:['mer','pays','étoile','fleur'],ans:1,
-   exp:'나라 = pays — ㄴ+ㅏ + ㄹ+ㅏ'},
+   exp:'나라 = pays : ㄴ+ㅏ + ㄹ+ㅏ'},
   {phase:'Hangeul',label:'Composition de syllabes',
    q:'Comment s\'écrit "Kimchi" en coréen ?',
    opts:['김치','기무치','킴치','긤치'],ans:0,
-   exp:'김치 = kimchi — 김(kim, batchim ㅁ) + 치(chi)'},
+   exp:'김치 = kimchi : 김(kim, batchim ㅁ) + 치(chi)'},
   {phase:'Hangeul',label:'Diphtongues',
    q:'Comment se lit la voyelle composée ㅘ ?',
    kr:'ㅘ',opts:['ya','wa','o','yo'],ans:1,
-   exp:'ㅘ = "wa" (ㅗ + ㅏ) — comme dans 봐요 (regarde)'},
+   exp:'ㅘ = "wa" (ㅗ + ㅏ), comme dans 봐요 (regarde)'},
 
   /* ── PHASE 2 · VOCABULAIRE A1 (5) ── */
   {phase:'Vocabulaire',label:'Salutations',
    q:'Que signifie 안녕하세요 ?',
    kr:'안녕하세요',opts:['Merci','Bonjour','Au revoir','Excusez-moi'],ans:1,
-   exp:'안녕하세요 = Bonjour (formel) — la salutation la plus utilisée'},
+   exp:'안녕하세요 = Bonjour (formel), la salutation la plus utilisée'},
   {phase:'Vocabulaire',label:'Politesse',
    q:'Que signifie 감사합니다 ?',
    kr:'감사합니다',opts:['Désolé','Merci','Au revoir','Bienvenue'],ans:1,
-   exp:'감사합니다 = Merci (formel) — la formule polie la plus courante'},
+   exp:'감사합니다 = Merci (formel), la formule polie la plus courante'},
   {phase:'Vocabulaire',label:'Expressions',
    q:'Comment dit-on "je t\'aime" en coréen ?',
    opts:['감사합니다','사랑해요','괜찮아요','미안해요'],ans:1,
-   exp:'사랑해요 = je t\'aime — 사랑 = amour + -해요'},
+   exp:'사랑해요 = je t\'aime : 사랑 = amour + -해요'},
   {phase:'Vocabulaire',label:'À table',
    q:'Que signifie 맛있어요 ?',
    kr:'맛있어요',opts:["C'est épicé","C'est cher","C'est délicieux","C'est froid"],ans:2,
-   exp:'맛있어요 = c\'est délicieux — 맛 = goût + 있어요 = il y a'},
+   exp:'맛있어요 = c\'est délicieux : 맛 = goût + 있어요 = il y a'},
   {phase:'Vocabulaire',label:'Mots interrogatifs',
    q:'어디예요? signifie :',
    kr:'어디예요?',opts:['Qui est-ce ?','Quand ?','Combien ?','Où est-ce ?'],ans:3,
-   exp:'어디예요? = où est-ce ? — 어디 = où, indispensable en voyage'},
+   exp:'어디예요? = où est-ce ? 어디 = où, indispensable en voyage'},
 
   /* ── PHASE 3 · GRAMMAIRE (A1 puis A2) (7) ── */
   {phase:'Grammaire',label:'Ordre des mots',
    q:'En coréen, l\'ordre des mots dans une phrase est :',
    opts:['Sujet + Verbe + Objet (comme en français)','Verbe + Sujet + Objet','Sujet + Objet + Verbe','Objet + Verbe + Sujet'],ans:2,
-   exp:'SOV — 나는 밥을 먹어요 (Je + riz + mange). Le verbe est toujours en dernier'},
+   exp:'SOV : 나는 밥을 먹어요 (Je + riz + mange). Le verbe est toujours en dernier'},
   {phase:'Grammaire',label:'Forme polie -이에요/예요',
    q:'Complète la phrase : 저는 학생___에요',
    kr:'저는 학생___에요',opts:['가','이','을','에'],ans:1,
-   exp:'저는 학생이에요 = je suis étudiant — 이에요 après consonne finale, 예요 après voyelle'},
+   exp:'저는 학생이에요 = je suis étudiant : 이에요 après consonne finale, 예요 après voyelle'},
   {phase:'Grammaire',label:'Particules de lieu',
    q:'저는 학교에 가요 signifie :',
    kr:'저는 학교에 가요',opts:['Je suis à l\'école','Je vais à l\'école','Je reviens de l\'école','J\'étudie à l\'école'],ans:1,
-   exp:'에 + 가요 = aller à… — 학교에서 (avec 에서) marquerait le lieu d\'une action en cours'},
+   exp:'에 + 가요 = aller à… 학교에서 (avec 에서) marquerait le lieu d\'une action en cours'},
   {phase:'Grammaire',label:'Négation',
    q:'Pour dire "je ne mange pas" (par choix), quelle particule de négation utilise-t-on ?',
    opts:['안','못','도','만'],ans:0,
@@ -441,21 +441,21 @@ const QUESTIONS = [
   {phase:'Grammaire',label:'Conjonctions (A2)',
    q:'Quel connecteur exprime "mais" (opposition) en coréen ?',
    opts:['-고 (et)','-지만 (mais)','-아서 (parce que)','-면 (si)'],ans:1,
-   exp:'-지만 — opposition. Ex : 비가 오지만 나가요 = il pleut mais je sors'},
+   exp:'-지만, opposition. Ex : 비가 오지만 나가요 = il pleut mais je sors'},
 
   /* ── PHASE 4 · LECTURE — compréhension (3) ── */
   {phase:'Lecture',label:'Compréhension du passé',
-   q:'어제 카페에서 커피를 마셨어요 — quand cette action a-t-elle eu lieu ?',
+   q:'어제 카페에서 커피를 마셨어요, quand cette action a-t-elle eu lieu ?',
    kr:'어제 카페에서 커피를 마셨어요',opts:['Aujourd\'hui','Hier','Demain','Tous les jours'],ans:1,
    exp:'어제 = hier. 마셨어요 = passé de 마시다 (boire). « Hier j\'ai bu un café au café »'},
   {phase:'Lecture',label:'Compréhension du désir',
-   q:'한국에 가고 싶어요 — que signifie cette phrase ?',
+   q:'한국에 가고 싶어요, que signifie cette phrase ?',
    kr:'한국에 가고 싶어요',opts:['Je vais en Corée','Je veux aller en Corée','Je suis allé(e) en Corée','J\'aime la Corée'],ans:1,
    exp:'-고 싶어요 = je veux. 가고 싶어요 = je veux aller. 한국에 = en Corée'},
   {phase:'Lecture',label:'Structure de phrase',
    q:'Choisis la traduction correcte de « Je mange une pomme » :',
    opts:['저는 사과를 먹어요','사과는 저를 먹어요','먹어요 저는 사과를','저는 먹어요 사과를'],ans:0,
-   exp:'저는 사과를 먹어요 — SOV : Je (저는) + pomme (사과를) + mange (먹어요)'},
+   exp:'저는 사과를 먹어요 : SOV : Je (저는) + pomme (사과를) + mange (먹어요)'},
 
   /* ══════════════════════════════════════════════════════════════
      À PARTIR D'ICI : questions supplémentaires, montrées uniquement
@@ -488,7 +488,7 @@ const QUESTIONS = [
   {phase:'Grammaire A2+',label:'Poser le décor -는데',
    q:'-는데 sert surtout à :',
    opts:['Poser un contexte avant la suite de la phrase (« et du coup », « alors que »)','Exprimer un ordre poli','Marquer le passé lointain','Compter des objets'],ans:0,
-   exp:'-는데 pose une information de fond ou un contraste léger avant d\'enchaîner — extrêmement fréquent à l\'oral.'},
+   exp:'-는데 pose une information de fond ou un contraste léger avant d\'enchaîner, extrêmement fréquent à l\'oral.'},
   {phase:'Grammaire A2+',label:'Particules 만/도/부터/까지',
    q:'Quelle particule signifie "seulement" ?',
    opts:['만','도','부터','까지'],ans:0,
@@ -532,16 +532,16 @@ const QUESTIONS = [
   {phase:'Grammaire B2',label:'Concessive -아/어도 vs -더라도',
    q:'-더라도 (par rapport à -아/어도) exprime :',
    opts:['La même chose, en plus insistant/hypothétique','Le contraire exact','Une simple énumération','Le passé uniquement'],ans:0,
-   exp:'-아/어도 = même si (neutre). -더라도 = même si, avec une nuance hypothétique plus appuyée — souvent à l\'écrit ou en registre soutenu.'},
+   exp:'-아/어도 = même si (neutre). -더라도 = même si, avec une nuance hypothétique plus appuyée, souvent à l\'écrit ou en registre soutenu.'},
   {phase:'Grammaire B2',label:'Style narratif -ㄴ/는다',
    q:'Le style -ㄴ/는다 (par opposition à -아요/해요) s\'utilise pour :',
-   opts:['Les journaux intimes, articles, romans — registre neutre/littéraire','Parler à un supérieur','Poser une question polie','Le discours indirect uniquement'],ans:0,
-   exp:'-ㄴ/는다 = style neutre écrit (narration, presse, journal intime) — jamais utilisé pour s\'adresser directement à quelqu\'un.'},
+   opts:['Les journaux intimes, articles, romans, registre neutre/littéraire','Parler à un supérieur','Poser une question polie','Le discours indirect uniquement'],ans:0,
+   exp:'-ㄴ/는다 = style neutre écrit (narration, presse, journal intime), jamais utilisé pour s\'adresser directement à quelqu\'un.'},
   {phase:'Grammaire B2',label:'Connecteurs de dissertation',
    q:'Que signifie 게다가 dans cette phrase ?',
    kr:'저는 도시가 더 좋아요. 편리하기 때문이에요. 게다가 일자리도 많아요.',
    opts:['« Mais » (opposition)','« De plus / en plus » (ajout d\'argument)','« Par contre »','« Donc »'],ans:1,
-   exp:'게다가 = « de plus, en plus » — ajoute un argument supplémentaire dans le même sens, typique de l\'argumentation à l\'écrit.'},
+   exp:'게다가 = « de plus, en plus », ajoute un argument supplémentaire dans le même sens, typique de l\'argumentation à l\'écrit.'},
   {phase:'Grammaire B2',label:'-기 마련이다',
    q:'Que signifie cette phrase ?',
    kr:'글쎄요. 도시 생활은 스트레스가 쌓이기 마련이에요.',
@@ -551,7 +551,7 @@ const QUESTIONS = [
    q:'Que signifie cette phrase ?',
    kr:'하지만 시골 생활이 쉬울 리가 없어요. 병원도 멀고 가게도 적어요.',
    opts:['La vie à la campagne est sûrement facile','Il est impossible/hors de question que la vie à la campagne soit facile','La vie à la campagne pourrait être facile','La vie à la campagne est facile parfois'],ans:1,
-   exp:'-(으)ㄹ 리가 없다 = rejeter une possibilité comme improbable/impossible selon toute logique — « ça ne peut pas être… ».'},
+   exp:'-(으)ㄹ 리가 없다 = rejeter une possibilité comme improbable/impossible selon toute logique : « ça ne peut pas être… ».'},
   {phase:'Grammaire B2',label:'Réaction polie -(으)시네요',
    q:'Que signifie cette phrase ?',
    kr:'한국어를 정말 잘하시네요.',opts:['Tu parles bien coréen (fait neutre)','Vous parlez vraiment bien coréen ! (réaction polie, à l\'instant)','Vous devriez parler coréen','Vous n\'aimez pas parler coréen'],ans:1,
@@ -566,11 +566,11 @@ const QUESTIONS = [
    q:'Que signifie cette phrase de conclusion ?',
    kr:'따라서 저는 둘 다 경험해 보고 싶어요. 도시에서 일하고, 주말에는 시골에 가는 거예요.',
    opts:['« Donc » je veux essayer les deux : travailler en ville, aller à la campagne le week-end','« Mais » je préfère la campagne uniquement','« De plus » je déteste la ville','« Par contre » je ne veux ni l\'un ni l\'autre'],ans:0,
-   exp:'따라서 = « donc, par conséquent » — introduit une conclusion logique après des arguments, registre soutenu/dissertation.'},
+   exp:'따라서 = « donc, par conséquent », introduit une conclusion logique après des arguments, registre soutenu/dissertation.'},
   {phase:'Lecture avancée',label:'Réaction en visite',
    q:'Que signifie cette phrase ?',
    kr:'집이 정말 예뻐요! 텔레비전도 있네요.',opts:['La maison est jolie mais je n\'aime pas la télé','La maison est vraiment jolie ! Oh, il y a même une télé (je le remarque)','La maison n\'a pas de télé','Je cherche une maison avec télé'],ans:1,
-   exp:'-네요 marque qu\'on vient de REMARQUER quelque chose, ici en visitant — différent d\'un simple constat neutre (있어요).'},
+   exp:'-네요 marque qu\'on vient de REMARQUER quelque chose, ici en visitant, différent d\'un simple constat neutre (있어요).'},
   {phase:'Lecture avancée',label:'Au restaurant, surprise',
    q:'Que signifie cette phrase ?',
    kr:'정말 맛있네요! 얼마예요?',opts:['C\'était délicieux hier, c\'était combien ?','Oh, c\'est vraiment délicieux ! C\'est combien ? (réaction au moment de goûter)','Ce n\'est pas très bon, dommage','Je voudrais commander autre chose'],ans:1,
@@ -660,7 +660,7 @@ function showPhaseTransition(phase,cb){
     Grammaire:'On passe à la structure de la langue',
     'Grammaire A2+':'Beau score ! On continue avec de la grammaire A2 plus poussée',
     'Grammaire B1':'Toujours aussi bien ! Passons au niveau B1',
-    'Grammaire B2':'Impressionnant — voyons si tu tiens le niveau B2',
+    'Grammaire B2':'Impressionnant, voyons si tu tiens le niveau B2',
     'Lecture avancée':'Dernière ligne droite : compréhension de textes avancés'
   };
   document.getElementById('transIcon').innerHTML=icons[phase]||'<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
@@ -720,7 +720,7 @@ function selectAnswer(i,btn,q){
     document.querySelectorAll('.opt')[correct].classList.add('correct');
     const fb=document.getElementById('feedbackWrap');
     fb.className='feedback-wrap ko show';
-    fb.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> La bonne réponse : <strong>'+q.opts[correct]+'</strong> — '+q.exp;
+    fb.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> La bonne réponse : <strong>'+q.opts[correct]+'</strong>, '+q.exp;
   }
   qIdx++;
   document.getElementById('nextBtn').className='next-btn show';
@@ -750,16 +750,16 @@ function showResults(){
   if (finalStage==='base'){
     /* Test de base (20 questions) — 5 paliers historiques, seuils inchangés. */
     if (pct < 25) {
-      level='Débutant absolu — A0'; emoji=SVG_SEED;
-      desc='Tu pars de zéro — c\'est le meilleur point de départ. Le Hangeul est plus simple qu\'il en a l\'air : 10 leçons et tu lis vraiment le coréen.';
+      level='Débutant absolu : A0'; emoji=SVG_SEED;
+      desc='Tu pars de zéro, c\'est le meilleur point de départ. Le Hangeul est plus simple qu\'il en a l\'air : 10 leçons et tu lis vraiment le coréen.';
       cta='Commencer par le Hangeul'; ctaUrl='lecon.html'; ksLevel='zero';
     } else if (pct < 45) {
-      level='Hangeul en cours — A0+'; emoji=SVG_SEED;
-      desc='Tu reconnais déjà quelques lettres ou mots — bravo. Consolide d\'abord les 10 leçons d\'alphabet avant de passer à la grammaire.';
+      level='Hangeul en cours : A0+'; emoji=SVG_SEED;
+      desc='Tu reconnais déjà quelques lettres ou mots, bravo. Consolide d\'abord les 10 leçons d\'alphabet avant de passer à la grammaire.';
       cta='Reprendre le Hangeul'; ctaUrl='lecon.html'; ksLevel='bases';
     } else if (pct < 65) {
       level='Niveau A1 Débutant'; emoji=SVG_STAR;
-      desc='Tu as les fondations : alphabet, mots-clés, formules de base. Le niveau A1 est fait pour toi — démarre par les salutations.';
+      desc='Tu as les fondations : alphabet, mots-clés, formules de base. Le niveau A1 est fait pour toi, démarre par les salutations.';
       cta='Démarrer l\'A1'; ctaUrl='lecon5.html'; ksLevel='hangeul';
     } else if (pct < 82) {
       level='Niveau A1 Solide'; emoji=SVG_FLAME;
@@ -768,8 +768,8 @@ function showResults(){
     } else {
       /* Filet de sécurité — en pratique >=82% enchaîne automatiquement sur
          la phase suivante (voir CHECKPOINTS) et ne s'arrête jamais ici. */
-      level='Niveau A2 — Élémentaire'; emoji=SVG_TROPHY;
-      desc='Impressionnant ! Tu maîtrises l\'essentiel de l\'A1 : passé, désirs, conjonctions. Plonge dans le niveau A2 — temps composés, voix passive, K-Drama.';
+      level='Niveau A2 : Élémentaire'; emoji=SVG_TROPHY;
+      desc='Impressionnant ! Tu maîtrises l\'essentiel de l\'A1 : passé, désirs, conjonctions. Plonge dans le niveau A2, temps composés, voix passive, K-Drama.';
       cta='Explorer l\'A2'; ctaUrl='cours.html'; ksLevel='a2';
     }
   } else if (finalStage==='a2plus'){
@@ -778,21 +778,21 @@ function showResults(){
     cta='Consolider l\'A2'; ctaUrl='cours.html'; ksLevel='a2';
   } else if (finalStage==='b1'){
     level='Niveau B1 en cours'; emoji=SVG_TROPHY;
-    desc='Excellent parcours ! Discours indirect, causatif, déduction — le B1 commence déjà à rentrer. Termine de consolider l\'A2 pour aborder le B1 sereinement.';
+    desc='Excellent parcours ! Discours indirect, causatif, déduction, le B1 commence déjà à rentrer. Termine de consolider l\'A2 pour aborder le B1 sereinement.';
     cta='Terminer l\'A2'; ctaUrl='cours.html'; ksLevel='a2';
   } else if (finalStage==='b2'){
     level='Niveau B1 Confirmé'; emoji=SVG_CROWN;
-    desc='Vraiment impressionnant — tu as tenu jusqu\'au B1 complet (discours indirect, causatif, savoir-faire, but, résolution). Le B1 est fait pour toi.';
+    desc='Vraiment impressionnant, tu as tenu jusqu\'au B1 complet (discours indirect, causatif, savoir-faire, but, résolution). Le B1 est fait pour toi.';
     cta='Explorer le B1'; ctaUrl='cours.html'; ksLevel='b1';
   } else {
     /* finalStage === 'final' — a répondu aux 45 questions, jusqu'au B2 */
     if (pct >= 80) {
-      level='Niveau B2 — Avancé'; emoji=SVG_CROWN;
-      desc='Niveau exceptionnel ! Nominalisation, concessive, style narratif, connecteurs de dissertation — tu maîtrises le coréen avancé. Le B2 t\'attend.';
+      level='Niveau B2 : Avancé'; emoji=SVG_CROWN;
+      desc='Niveau exceptionnel ! Nominalisation, concessive, style narratif, connecteurs de dissertation, tu maîtrises le coréen avancé. Le B2 t\'attend.';
       cta='Explorer le B2'; ctaUrl='cours.html'; ksLevel='b2';
     } else {
       level='Niveau B1 Confirmé'; emoji=SVG_CROWN;
-      desc='Tu es allé(e) jusqu\'au bout d\'un test jusqu\'au B2 — un très beau résultat. Le B1 est solidement acquis, direction le B1 pour progresser vers le B2.';
+      desc='Tu es allé(e) jusqu\'au bout d\'un test jusqu\'au B2, un très beau résultat. Le B1 est solidement acquis, direction le B1 pour progresser vers le B2.';
       cta='Explorer le B1'; ctaUrl='cours.html'; ksLevel='b1';
     }
   }

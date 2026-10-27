@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Exercice : Particules auxiliaires 만/도/까지/부터 — Korean Stories</title>
+  <title>Exercice : Particules auxiliaires 만/도/까지/부터 · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/exercice36.html"/>
 <meta name="description" content="Pratique les particules 만 (seulement), 도 (aussi/même), 부터...까지 (de...à) en 8 questions corrigées. Exercice A2."/>
   <meta name="theme-color" content="#0F1B2D"/>
@@ -47,7 +47,7 @@
   <div class="prog"><div class="prog-fill" id="progFill"></div></div>
   <div id="quizArea"></div>
   <div id="resultArea" style="display:none" class="result">
-    <div class="score" id="scoreVal">—</div>
+    <div class="score" id="scoreVal">-</div>
     <p id="resultMsg" style="color:var(--tx-muted)"></p>
     <button class="result-btn" onclick="restart()">Recommencer</button>
     <a class="result-btn" id="doneBtn" href="#" onclick="finish();return false;">Terminer · +12 XP</a>
@@ -62,7 +62,7 @@ const QS=[
   {fr:"« Je travaille de 9h à 17h »",txt:"아홉 시___ 다섯 시___ 일해요",opts:["부터 / 까지","까지 / 부터","만 / 도"],ans:0,exp:"부터...까지 = de...à, l'ordre ne s'inverse jamais."},
   {fr:"« Combien de temps de Séoul à Busan ? »",txt:"서울___ 부산___ 얼마나 걸려요?",opts:["부터 / 까지","도 / 만","까지 / 부터"],ans:0,exp:"Même structure pour l'espace que pour le temps : point de départ 부터, point d'arrivée 까지."},
   {fr:"« Même toi tu fais ça ?! » (surprise)",txt:"너___ 그래?",opts:["까지","만","도"],ans:0,exp:"까지 seul, en fin de phrase de surprise, = « même », plus fort que 도."},
-  {fr:"« Donnez-moi seulement celui-ci »",txt:"이거 하나___ 주세요",opts:["만","도","부터"],ans:0,exp:"만 précise une quantité exacte — très utile pour commander/acheter."},
+  {fr:"« Donnez-moi seulement celui-ci »",txt:"이거 하나___ 주세요",opts:["만","도","부터"],ans:0,exp:"만 précise une quantité exacte, très utile pour commander/acheter."},
   {fr:"« Toi seul(e) ne sais pas »",txt:"너___ 몰라",opts:["만","도","까지"],ans:0,exp:"만 isole une personne : « toi seul(e), contrairement aux autres »."}
 ];
 let cur=0,score=0,order=[];
@@ -93,7 +93,7 @@ function showResult(){
   document.getElementById('quizArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
   document.getElementById('scoreVal').textContent=score+' / '+order.length;
-  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! 만/도/부터/까지 n\'ont plus de secret pour toi.':score>=5?'Bien — revois surtout 도 en contexte négatif et 까지 de surprise.':'Reprends la leçon « Particules auxiliaires » puis réessaie.';
+  document.getElementById('resultMsg').textContent=score>=7?'Parfait ! 만/도/부터/까지 n\'ont plus de secret pour toi.':score>=5?'Bien, revois surtout 도 en contexte négatif et 까지 de surprise.':'Reprends la leçon « Particules auxiliaires » puis réessaie.';
 }
 function restart(){start();}
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_b28c',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_b28c');location.href='cours.html';}}

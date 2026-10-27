@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Exercice : Commander au restaurant — Korean Stories</title>
+  <title>Exercice : Commander au restaurant · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/exercice25.html"/>
 <meta name="description" content="Commande au restaurant en coréen à travers 8 situations concrètes : s'installer, commander, payer, avec correction immédiate. Exercice A1."/>
   <meta name="theme-color" content="#0F1B2D"/>
@@ -48,7 +48,7 @@
   <div class="prog"><div class="prog-fill" id="progFill"></div></div>
   <div id="quizArea"></div>
   <div id="resultArea" style="display:none" class="result">
-    <div class="score" id="scoreVal">—</div>
+    <div class="score" id="scoreVal">-</div>
     <p id="resultMsg" style="color:var(--tx-muted)"></p>
     <button class="result-btn" onclick="restart()">Recommencer</button>
     <a class="result-btn" id="doneBtn" href="#" onclick="finish();return false;">Terminer · +12 XP</a>
@@ -95,7 +95,7 @@ function showResult(){
   document.getElementById('quizArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
   document.getElementById('scoreVal').textContent=score+' / '+order.length;
-  document.getElementById('resultMsg').textContent=score>=7?'Excellent ! Tu peux commander en Corée.':score>=5?'Bien joué — révise les phrases ratées.':'Reprends la leçon « Au restaurant » puis réessaie.';
+  document.getElementById('resultMsg').textContent=score>=7?'Excellent ! Tu peux commander en Corée.':score>=5?'Bien joué, révise les phrases ratées.':'Reprends la leçon « Au restaurant » puis réessaie.';
 }
 function restart(){start();}
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_a61',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_a61');location.href='cours.html';}}

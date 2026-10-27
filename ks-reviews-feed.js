@@ -158,7 +158,7 @@
             '<div class="krv-row">' + stars(r.rating) + '</div>' +
             '<p class="krv-quote">' + esc(r.comment) + '</p>' +
             '<div class="krv-by">' + esc(r.name) +
-              (when ? ' <span class="krv-when">— ' + when + '</span>' : '') +
+              (when ? '<span class="krv-when">, ' + when + '</span>' : '') +
             '</div>' +
           '</div>';
       });

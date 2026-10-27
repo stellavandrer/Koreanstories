@@ -304,7 +304,7 @@
         '<button class="pf-close" type="button" aria-label="Fermer">×</button>' +
       '</div>' +
       '<div class="pf-row">' +
-        '<div class="pf-label">Texte attendu' + (hasDiff ? ' — mot par mot' : '') + '</div>' +
+        '<div class="pf-label">Texte attendu' + (hasDiff ? ', mot par mot' : '') + '</div>' +
         '<div class="pf-text">' + renderExpectedDiff(opts.expected, opts.heard) + '</div>' +
       '</div>' +
       '<div class="pf-row">' +

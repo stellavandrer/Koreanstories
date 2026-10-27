@@ -46,7 +46,7 @@
     },
     {
       title: 'Recherche globale',
-      body:  'Cherche n\'importe quelle leçon, exercice ou mot avec ⌘K (Mac) ou Ctrl+K (Windows) — ou clique sur le bouton flottant.',
+      body:  'Cherche n\'importe quelle leçon, exercice ou mot avec ⌘K (Mac) ou Ctrl+K (Windows), ou clique sur le bouton flottant.',
       target: '.ks-search-fab'
     },
     {

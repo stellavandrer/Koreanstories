@@ -158,7 +158,7 @@
       '<div class="kcd-ok">' + ech(titre(id)) + '</div>' +
       (ici
         ? '<p>Elle est à toi, définitivement. Tu la retrouves dans la liste ' +
-          'ci-dessous, marquée <strong>« Ta fiche offerte »</strong> — ' +
+          'ci-dessous, marquée <strong>« Ta fiche offerte »</strong>, ' +
           'téléchargeable autant de fois que tu veux.</p>'
         : '<p>Elle est à toi, définitivement. Tu la retrouveras toujours dans ' +
           'tes ressources.</p>' +
@@ -169,7 +169,7 @@
   function vueAnonyme() {
     return '<div class="kcd"><div class="kcd-l">Un cadeau t’attend</div>' +
       '<h3>Une fiche PDF, offerte</h3>' +
-      '<p>Tu viens de finir le Hangeul — choisis une fiche A1 parmi sept, elle est à toi ' +
+      '<p>Tu viens de finir le Hangeul, choisis une fiche A1 parmi sept, elle est à toi ' +
       'pour toujours. Il faut juste un compte pour qu’on sache à qui elle appartient. ' +
       'C’est gratuit et ça prend trente secondes.</p>' +
       '<a class="kcd-cta" href="signup.html">Créer mon compte →</a>' +
@@ -180,7 +180,7 @@
   function vueIndispo() {
     return '<div class="kcd"><div class="kcd-l">Un cadeau t’attend</div>' +
       '<h3>Une fiche PDF, offerte</h3>' +
-      '<p>Tu as fini le Hangeul — une fiche A1 t’attend. On n’arrive pas à ' +
+      '<p>Tu as fini le Hangeul, une fiche A1 t’attend. On n’arrive pas à ' +
       'vérifier ton compte à l’instant : recharge la page dans un moment, ' +
       'le cadeau ne s’en va pas.</p>' +
       '<p class="kcd-note">Si ça persiste, <a href="login.html">reconnecte-toi</a>.</p></div>';
@@ -197,7 +197,7 @@
       '<p>Tu connais les 40 caractères. Voilà de quoi attaquer le A1 : ' +
       '<strong>une</strong> de ces sept fiches PDF, offerte, à garder.</p>' +
       '<div class="kcd-gr">' + cartes + '</div>' +
-      '<p class="kcd-note">Un seul choix, et il est définitif — prends celle qui te ' +
+      '<p class="kcd-note">Un seul choix, et il est définitif, prends celle qui te ' +
       'manque vraiment.</p><p class="kcd-err" id="kcdErr" hidden></p></div>';
   }
 

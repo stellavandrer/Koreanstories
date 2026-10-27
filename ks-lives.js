@@ -136,7 +136,7 @@
       '<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:700;margin-bottom:8px">Plus de vies pour l\'instant</div>' +
       '<div style="font-size:14px;line-height:1.55;color:rgba(247,248,250,.6);margin-bottom:14px">Ta prochaine vie arrive dans <strong style="color:#C9A96E">' + timeStr + '</strong>.</div>' +
       '<div style="font-size:13.5px;line-height:1.55;color:rgba(247,248,250,.5);margin-bottom:22px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:12px;text-align:left">' +
-        'En attendant, <strong style="color:rgba(247,248,250,.75)">les histoires, le dictionnaire, la grammaire et le Speaking ne consomment pas de vies</strong> — tu peux continuer à apprendre tout de suite.' +
+        'En attendant, <strong style="color:rgba(247,248,250,.75)">les histoires, le dictionnaire, la grammaire et le Speaking ne consomment pas de vies</strong>, tu peux continuer à apprendre tout de suite.' +
       '</div>' +
       '<a href="histoires.html" style="display:block;width:100%;padding:13px;border-radius:12px;background:#C9A96E;color:#0a1220;font-weight:700;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Lire une histoire →</a>' +
       '<a href="premium.html" style="display:block;width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(201,169,110,.4);color:#e8d3a6;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Lever la limite &amp; soutenir le projet</a>' +

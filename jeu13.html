@@ -7,8 +7,8 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Particule Rush — le bon suffixe en 90 secondes — Korean Stories</title>
-<meta name="description" content="Particule Rush — le bon suffixe en 90 secondes : jeu pour pratiquer ton coréen de façon ludique sur Korean Stories."/>
+  <title>Particule Rush · le bon suffixe en 90 secondes · Korean Stories</title>
+<meta name="description" content="Particule Rush, le bon suffixe en 90 secondes : jeu pour pratiquer ton coréen de façon ludique sur Korean Stories."/>
   <link rel="canonical" href="https://koreanstories.fr/jeu13.html"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <link rel="stylesheet" href="design.css">
@@ -79,11 +79,11 @@
     <div class="hero">
       <div class="hero-tag">Jeu · Particules</div>
       <h1>Particule Rush</h1>
-      <p>이/가 · 은/는 · 을/를 · 에 · 에서 — choisis la bonne particule<br/>avant la fin du chrono. 20 phrases, 90 secondes.</p>
+      <p>이/가 · 은/는 · 을/를 · 에 · 에서, choisis la bonne particule<br/>avant la fin du chrono. 20 phrases, 90 secondes.</p>
     </div>
     <div class="rules">
       <div class="rule-row"><div class="rule-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="10" y1="2" x2="14" y2="2"/><line x1="12" y1="14" x2="15" y2="11"/><circle cx="12" cy="14" r="8"/></svg></div><div><strong>90 secondes</strong> pour 20 phrases. Réponds vite : +1 point par bonne réponse.</div></div>
-      <div class="rule-row"><div class="rule-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5Z"/></svg></div><div><strong>Combo ×2</strong> à partir de 3 bonnes réponses d'affilée — une erreur et le combo retombe.</div></div>
+      <div class="rule-row"><div class="rule-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5Z"/></svg></div><div><strong>Combo ×2</strong> à partir de 3 bonnes réponses d'affilée, une erreur et le combo retombe.</div></div>
       <div class="rule-row"><div class="rule-ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg></div><div>Souviens-toi : <strong>이/가</strong> sujet · <strong>은/는</strong> thème · <strong>을/를</strong> objet · <strong>에</strong> lieu/destination · <strong>에서</strong> lieu d'action.</div></div>
       <div class="best-line" id="bestLine" style="display:none"></div>
     </div>
@@ -114,7 +114,7 @@
       <div class="end-stats">
         <div class="end-stat"><div class="end-stat-n" id="endScore">0</div><div class="end-stat-l">Points</div></div>
         <div class="end-stat"><div class="end-stat-n" id="endAcc">0%</div><div class="end-stat-l">Précision</div></div>
-        <div class="end-stat"><div class="end-stat-n" id="endBest">—</div><div class="end-stat-l">Record</div></div>
+        <div class="end-stat"><div class="end-stat-n" id="endBest">-</div><div class="end-stat-l">Record</div></div>
       </div>
       <div class="end-btns">
         <button class="end-btn violet" onclick="startGame()">Rejouer</button>
@@ -233,9 +233,9 @@ function endGame(){
     if(score>best){ localStorage.setItem(BEST_KEY,String(score)); best=score; }
   }catch(e){}
   document.getElementById('endBest').textContent=best+(score>=best&&score>0?'':'');
-  if(acc>=90&&answered>=TOTAL){ document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>'; document.getElementById('endTitle').textContent='Maître des particules !'; document.getElementById('endSub').textContent='90 %+ de précision sur les 20 phrases — les particules n\'ont plus de secret.'; }
+  if(acc>=90&&answered>=TOTAL){ document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>'; document.getElementById('endTitle').textContent='Maître des particules !'; document.getElementById('endSub').textContent='90 %+ de précision sur les 20 phrases, les particules n\'ont plus de secret.'; }
   else if(acc>=65){ document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'; document.getElementById('endTitle').textContent='Bien joué !'; document.getElementById('endSub').textContent='Encore un rush ou deux et le réflexe sera automatique.'; }
-  else { document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>'; document.getElementById('endTitle').textContent='Continue !'; document.getElementById('endSub').textContent='Relis la leçon Particules 이/가 et 은/는 puis retente — ça vient vite.'; }
+  else { document.getElementById('endEmoji').innerHTML='<svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>'; document.getElementById('endTitle').textContent='Continue !'; document.getElementById('endSub').textContent='Relis la leçon Particules 이/가 et 은/는 puis retente, ça vient vite.'; }
   /* Validation + XP (une seule fois) */
   try{
     localStorage.setItem('ks_a50','done');

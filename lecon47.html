@@ -7,7 +7,7 @@
   <meta charset="UTF-8"/>
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. --><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="manifest" href="manifest.json"/>
-  <title>Korean Stories — Leçon A2 : Permission & Interdiction</title>
+  <title>Korean Stories · Leçon A2 : Permission & Interdiction</title>
 <link rel="canonical" href="https://koreanstories.fr/lecon47.html"/>
   <meta name="description" content="Apprenez à exprimer la permission et l'interdiction en coréen : -아도 되다, -면 안 되다, -지 않아도 되다."/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
@@ -134,7 +134,7 @@
         <span><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
       </div>
       <div class="res-title">Permission maîtrisée !</div>
-      <div class="res-subtitle">허가 & 금지 완료 — 잘 했어요 !</div>
+      <div class="res-subtitle">허가 & 금지 완료 : 잘 했어요 !</div>
       <div class="res-stats">
         <div class="res-stat"><div class="res-stat-n" id="resScore">0</div><div class="res-stat-l" id="resOf">/ 0 bonnes rép.</div></div>
         <div class="res-stat"><div class="res-stat-n">+15</div><div class="res-stat-l">XP gagnés</div></div>
@@ -142,7 +142,7 @@
       
       <div class="res-msg">Tu sais maintenant demander la permission, exprimer l'interdiction et dire que quelque chose n'est pas nécessaire. Ces structures sont essentielles dans la vie quotidienne !</div>
       <div class="res-btns">
-        <button class="res-prim" onclick="window.location.href='lecon48.html'">Leçon suivante — Comparaisons <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
+        <button class="res-prim" onclick="window.location.href='lecon48.html'">Leçon suivante : Comparaisons <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M9 18l6-6-6-6"/></svg></button>
         <div class="res-btns-row">
           <button class="res-sec" id="retryBtn">Recommencer</button>
           <a href="cours.html" class="res-sec">Parcours</a>
@@ -228,7 +228,7 @@ function renderStory(){
     <div class="story">
       <span class="story-tag">Leçon A2 · Permission & Interdiction</span>
       <div class="story-txt">"Emma visite un palais à Séoul. Elle sort son téléphone. Un garde s'approche. Mina lui chuchote : 잠깐만요 ! 여기서 사진 찍으면 안 돼요. (Attendez ! On ne peut pas prendre de photos ici.) Emma range son téléphone. Plus loin, Mina dit : 저기서는 찍어도 돼요. (Là-bas, c\'est permis.)"</div>
-      <div class="story-scene"> Gyeongbokgung, Séoul — visite guidée</div>
+      <div class="story-scene"> Gyeongbokgung, Séoul, visite guidée</div>
     </div>
     <div style="background:rgba(201,169,110,.1);border:1.5px solid var(--gold);border-radius:18px;padding:14px 16px;margin-bottom:20px">
       <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M9 21h6"/><path d="M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.22V18H9v-3.78A6.003 6.003 0 016 9a6 6 0 016-6z"/></svg> 3 structures essentielles</div>
@@ -244,7 +244,7 @@ function renderStory(){
 function renderPattern(type){
   const p=PATTERNS.find(x=>x.type===type);
   const cls=type;
-  document.getElementById('msay').textContent=p.formula+' — '+p.meaning;
+  document.getElementById('msay').textContent=p.formula+', '+p.meaning;
   let exHtml='';
   p.exs.forEach(e=>{
     exHtml+=`<div style="padding:8px 0;border-bottom:1px solid var(--bd);cursor:pointer" onclick="speak('${e.kor}',null)">
@@ -272,7 +272,7 @@ function renderDialogue(){
     {r:false,av:'',kor:'한국어로 말하지 않아도 돼요?',rom:'han-gu-geo-ro mal-ha-ji a-na-do dwae-yo?',mean:'On n\'est pas obligé de parler en coréen ?'},
     {r:true,av:'‍',kor:'아니요, 수업 중에는 한국어로만 말하면 돼요. 영어로 하면 안 돼요!',rom:'a-ni-yo, su-eop jung-e-neun han-gu-geo-ro-man mal-ha-myeon dwae-yo. yeong-eo-ro ha-myeon an dwae-yo!',mean:'Non, pendant le cours il faut parler uniquement en coréen. L\'anglais est interdit !'},
   ];
-  let html=`<div class="dlg"><div class="dlg-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Dialogue — En cours</div>`;
+  let html=`<div class="dlg"><div class="dlg-title"><svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Dialogue : En cours</div>`;
   lines.forEach(l=>{
     html+=`<div class="bubble ${l.r?'r':''}">
       <div class="bubble-av">${l.av}</div>

@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Résolution ou Obligation ? — Korean Stories</title>
+  <title>Résolution ou Obligation ? · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/jeu32.html"/>
 <meta name="description" content="Résolution ou Obligation ? 90 secondes pour choisir entre -아/어야지 (résolution personnelle) et -아/어야 하다 (obligation générale) avant la fin du chrono. Jeu A2 sur Korean Stories."/>
   <meta name="theme-color" content="#0F1B2D"/>
@@ -46,7 +46,7 @@
   <h2>Résolution ou Obligation ?</h2>
   <span class="pill">A2 · 90 secondes</span>
   <div id="introArea" class="intro" style="margin-top:1rem">
-    <p style="color:var(--tx-muted);line-height:1.6">Choisis la bonne phrase — -아/어야지 (résolution) ou -아/어야 하다 (obligation générale) — avant la fin du chrono !</p>
+    <p style="color:var(--tx-muted);line-height:1.6">Choisis la bonne phrase, -아/어야지 (résolution) ou -아/어야 하다 (obligation générale), avant la fin du chrono !</p>
     <button class="start-btn" onclick="startGame()">Commencer →</button>
   </div>
   <div id="gameArea" style="display:none">
@@ -113,7 +113,7 @@ function endGame(){
   document.getElementById('gameArea').style.display='none';
   const r=document.getElementById('resultArea');r.style.display='block';
   document.getElementById('finalScore').textContent=score+' réponses';
-  document.getElementById('finalMsg').textContent=score>=11?'-아/어야지 et -아/어야 하다 dans la poche !':score>=6?'Bien joué — continue !':'Encore un peu d\'entraînement.';
+  document.getElementById('finalMsg').textContent=score>=11?'-아/어야지 et -아/어야 하다 dans la poche !':score>=6?'Bien joué, continue !':'Encore un peu d\'entraînement.';
 }
 function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_b24j',xp:10});else{if(typeof ksAddXP==='function')ksAddXP(10);if(typeof ksMarkDone==='function')ksMarkDone('ks_b24j');location.href='cours.html';}}
 try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}

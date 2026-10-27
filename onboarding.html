@@ -8,9 +8,9 @@
   <meta charset="UTF-8"/>
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Korean Stories — Bienvenue à bord</title>
+  <title>Korean Stories · Bienvenue à bord</title>
 <link rel="canonical" href="https://koreanstories.fr/onboarding.html"/>
-<meta name="description" content="Korean Stories — Bienvenue à bord — apprends le coréen à travers des histoires, leçons et exercices interactifs avec Korean Stories."/>
+<meta name="description" content="Korean Stories : Bienvenue à bord, apprends le coréen à travers des histoires, leçons et exercices interactifs avec Korean Stories."/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -194,7 +194,7 @@
   <div class="step" data-step="1">
     <div class="step-kicker">Étape 2 sur 4</div>
     <h2 class="step-title">Quel est ton <em>objectif</em> quotidien&thinsp;?</h2>
-    <p class="step-sub">La régularité bat l'intensité. Choisis un rythme que tu pourras tenir — tu pourras le changer plus tard.</p>
+    <p class="step-sub">La régularité bat l'intensité. Choisis un rythme que tu pourras tenir, tu pourras le changer plus tard.</p>
     <div class="opts" id="optsGoal" data-key="ks_goal">
       <button class="opt" data-val="30">
         <span class="opt-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
@@ -223,11 +223,11 @@
   <div class="step" data-step="2">
     <div class="step-kicker">Étape 3 sur 4</div>
     <h2 class="step-title">Découvrons ton <em>niveau</em></h2>
-    <p class="step-sub">20 questions, 3 minutes — pour te placer exactement là où il faut dans le parcours. Aucune mauvaise réponse&thinsp;!</p>
+    <p class="step-sub">20 questions, 3 minutes, pour te placer exactement là où il faut dans le parcours. Aucune mauvaise réponse&thinsp;!</p>
     <div class="opts" id="optsLevel" data-key="ks_level">
       <button class="opt" data-val="test" data-start="test-niveau.html">
         <span class="opt-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
-        <span class="opt-txt"><span class="opt-label">Faire le test de niveau</span><span class="opt-desc">Rapide et précis — détermine ton point de départ idéal</span></span>
+        <span class="opt-txt"><span class="opt-label">Faire le test de niveau</span><span class="opt-desc">Rapide et précis, détermine ton point de départ idéal</span></span>
         <span class="opt-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
       </button>
     </div>
@@ -379,9 +379,9 @@ function buildRecap(){
   var icBook='<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>';
 
   document.getElementById('recapList').innerHTML =
-    recapItem(icTarget,'Ta motivation', MOTIV[answers.ks_motivation]||'—') +
-    recapItem(icClock,'Objectif quotidien', GOAL[answers.ks_goal]||'—') +
-    recapItem(icBook,'Point de départ', LEVEL[answers.ks_level]||'—');
+    recapItem(icTarget,'Ta motivation', MOTIV[answers.ks_motivation]||', ') +
+    recapItem(icClock,'Objectif quotidien', GOAL[answers.ks_goal]||', ') +
+    recapItem(icBook,'Point de départ', LEVEL[answers.ks_level]||', ');
 }
 function recapItem(ic,k,v){
   return '<div class="recap-item"><div class="recap-ic">'+ic+'</div>'+

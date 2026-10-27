@@ -5,10 +5,10 @@
 <script src="gate.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Avis — Korean Stories</title>
+  <title>Avis · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/avis.html"/>
   <meta name="description" content="Découvre ce que les apprenants pensent de Korean Stories, et laisse ton propre avis sur le parcours, les histoires et les leçons.">
-  <meta property="og:title" content="Avis — Korean Stories">
+  <meta property="og:title" content="Avis : Korean Stories">
   <meta property="og:description" content="Découvre ce que les apprenants pensent de Korean Stories, et laisse ton propre avis.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://koreanstories.fr/avis.html">
@@ -78,13 +78,13 @@
 <div class="shell"><main class="main"><div style="padding:1rem;max-width:560px;margin:0 auto">
 
   <h2>Ton avis <em>compte</em></h2>
-  <p class="lead">Korean Stories se construit avec ses utilisateurs. Dis-nous ce que tu penses du parcours, des histoires, des leçons — en bien comme en mal.</p>
+  <p class="lead">Korean Stories se construit avec ses utilisateurs. Dis-nous ce que tu penses du parcours, des histoires, des leçons, en bien comme en mal.</p>
 
   <h3>Ce que disent les apprenants</h3>
   <div class="card">
     <div id="revSummary" class="summary" style="display:none">
       <div>
-        <div class="summary-avg" id="revAvg">—</div>
+        <div class="summary-avg" id="revAvg">-</div>
         <div class="summary-stars" id="revAvgStars"></div>
         <div class="summary-count" id="revCount"></div>
       </div>
@@ -105,7 +105,7 @@
 
   <div class="card" id="revFormCard">
     <form class="frm" id="revForm">
-      <label for="revName">Prénom <span class="frm-hint">— seul ton prénom sera publié</span></label>
+      <label for="revName">Prénom<span class="frm-hint">, seul ton prénom sera publié</span></label>
       <input type="text" id="revName" maxlength="40" required autocomplete="given-name" placeholder="Ton prénom">
 
       <label>Note</label>
@@ -304,7 +304,7 @@
            orderBy reviendrait dans la requete un jour. */
         var code = (err && err.code) || '';
         if (code === 'failed-precondition') {
-          console.error('[KS] Avis : index composite Firestore manquant — ' +
+          console.error('[KS] Avis : index composite Firestore manquant, ' +
             'un orderBy a-t-il ete rajoute a la requete ? Voir firestore.indexes.json.',
             err && err.message);
         } else {

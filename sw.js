@@ -363,7 +363,7 @@ self.addEventListener('periodicsync', e => {
         headers: { 'Content-Type': 'application/json' }
       }));
       await self.registration.showNotification('Ton mix du jour t\'attend', {
-        body: '10 questions sur tout ce que tu as appris — 3 minutes, +15 XP.',
+        body: '10 questions sur tout ce que tu as appris : 3 minutes, +15 XP.',
         icon: 'Logo/Logo - KoreanStories_logo_4x4_bleu.png',
         badge: 'Logo/Logo - KoreanStories_logo_4x4_bleu.png',
         tag: 'ks-daily-mix',

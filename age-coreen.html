@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.json"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
-  <title>Calculer son âge coréen — et savoir le dire en coréen · Korean Stories</title>
+  <title>Calculer son âge coréen · et savoir le dire en coréen · Korean Stories</title>
   <link rel="canonical" href="https://koreanstories.fr/age-coreen.html"/>
   <meta name="description" content="Entre ta date de naissance : tu obtiens tes trois âges coréens (세는 나이, 만 나이, 연 나이), lequel compte depuis la réforme de 2023, et comment dire ton âge en coréen. Gratuit, sans inscription."/>
   <meta property="og:title" content="Quel est ton âge coréen ? Le calculateur qui te l'apprend aussi en coréen"/>
@@ -152,7 +152,7 @@
 <div class="ag-hero">
   <span class="ag-kicker">Gratuit · sans inscription</span>
   <h1>Quel est ton <em>âge coréen</em> ?</h1>
-  <p class="lead">Entre ta date de naissance. Tu verras tes trois âges — et surtout, comment dire le tien en coréen.</p>
+  <p class="lead">Entre ta date de naissance. Tu verras tes trois âges, et surtout, comment dire le tien en coréen.</p>
   <form class="ag-form" id="agForm" autocomplete="off">
     <input type="date" id="agInput" aria-label="Ta date de naissance">
   </form>
@@ -186,12 +186,12 @@
           <div class="ag-mini">
             <div class="ag-mini-n" id="agIntl"></div>
             <div class="ag-mini-l">만 나이</div>
-            <div class="ag-mini-x">Ton âge international — celui qui fait foi depuis 2023</div>
+            <div class="ag-mini-x">Ton âge international, celui qui fait foi depuis 2023</div>
           </div>
           <div class="ag-mini">
             <div class="ag-mini-n" id="agAnnee"></div>
             <div class="ag-mini-l">연 나이</div>
-            <div class="ag-mini-x">L'âge « d'année » — école, service militaire, alcool</div>
+            <div class="ag-mini-x">L'âge « d'année », école, service militaire, alcool</div>
           </div>
         </div>
 
@@ -219,15 +219,15 @@
     <p>Ce n'est pas une bizarrerie folklorique : jusqu'à récemment, les trois cohabitaient vraiment, chacun dans son domaine.</p>
     <div class="ag-grid">
       <div class="ag-item">
-        <div class="ag-item-t"><span class="kr">세는 나이</span> — l'âge compté</div>
+        <div class="ag-item-t"><span class="kr">세는 나이</span>, l'âge compté</div>
         <div class="ag-item-x">Tu nais à 1 an, et tout le monde prend une année ensemble le 1<sup>er</sup> janvier. C'est celui qu'on appelle « l'âge coréen ».</div>
       </div>
       <div class="ag-item">
-        <div class="ag-item-t"><span class="kr">만 나이</span> — l'âge international</div>
+        <div class="ag-item-t"><span class="kr">만 나이</span>, l'âge international</div>
         <div class="ag-item-x">Le nôtre : il change le jour de ton anniversaire. Officiel dans tous les documents depuis le 28 juin 2023.</div>
       </div>
       <div class="ag-item">
-        <div class="ag-item-t"><span class="kr">연 나이</span> — l'âge d'année</div>
+        <div class="ag-item-t"><span class="kr">연 나이</span>, l'âge d'année</div>
         <div class="ag-item-x">Année en cours moins année de naissance. Il régit encore l'entrée à l'école, le service militaire, l'alcool et le tabac.</div>
       </div>
       <div class="ag-item">
@@ -241,8 +241,8 @@
   <div class="ag-sec">
     <h2>Pourquoi on te demande ton âge <em>si vite</em></h2>
     <p>En Corée, la question <span class="kr">몇 살이에요?</span> tombe dans les premières minutes d'une rencontre. Ce n'est pas de l'indiscrétion : c'est une question <strong>grammaticale</strong>.</p>
-    <p>Tant que personne ne sait qui est l'aîné, personne ne sait comment parler. L'âge décide du registre — <span class="kr">반말</span> ou <span class="kr">존댓말</span> — et du mot par lequel on s'appellera : <span class="kr">오빠</span>, <span class="kr">언니</span>, <span class="kr">형</span> ou <span class="kr">누나</span>. Répondre, c'est débloquer la suite de la conversation.</p>
-    <p>Et pour compter les âges, le coréen utilise ses nombres <strong>natifs</strong> — pas les nombres sino-coréens des dates et des prix. C'est <span class="kr">스무 살</span> pour vingt ans, jamais <span class="kr">이십 살</span>.</p>
+    <p>Tant que personne ne sait qui est l'aîné, personne ne sait comment parler. L'âge décide du registre :<span class="kr">반말</span> ou <span class="kr">존댓말</span>, et du mot par lequel on s'appellera : <span class="kr">오빠</span>, <span class="kr">언니</span>, <span class="kr">형</span> ou <span class="kr">누나</span>. Répondre, c'est débloquer la suite de la conversation.</p>
+    <p>Et pour compter les âges, le coréen utilise ses nombres <strong>natifs</strong>, pas les nombres sino-coréens des dates et des prix. C'est <span class="kr">스무 살</span> pour vingt ans, jamais <span class="kr">이십 살</span>.</p>
   </div>
 
   <div class="ag-next">
@@ -328,7 +328,7 @@
     var parts = v.split('-');
     var d = new Date(+parts[0], +parts[1] - 1, +parts[2]);
     if (isNaN(d.getTime())) { err.hidden = false; err.textContent = 'Cette date ne semble pas valide.'; return; }
-    if (d > new Date())     { err.hidden = false; err.textContent = 'Cette date est dans le futur — reviens quand tu seras né !'; return; }
+    if (d > new Date())     { err.hidden = false; err.textContent = 'Cette date est dans le futur, reviens quand tu seras né !'; return; }
     if (d.getFullYear() < 1900) { err.hidden = false; err.textContent = 'Le calculateur commence à l’année 1900.'; return; }
 
     var a = calculer(d);
@@ -352,7 +352,7 @@
          hangeul.html prévient déjà que le « u » de la romanisation est un
          piège — autant ne pas le tendre nous-mêmes. */
       var lu = window.KSLectureFR ? window.KSLectureFR.lire(kr) : '';
-      romEl.textContent = (lu ? '« ' + lu + ' » — ' : '') + a.coreen + ' ' + pluriel;
+      romEl.textContent = (lu ? '« ' + lu + ' », ' : '') + a.coreen + ' ' + pluriel;
       btnSay.hidden = !(voix && voix[kr]);
       repEl.hidden = false;
       repKr.textContent = mots.join('') + ' 살이에요';
@@ -388,7 +388,7 @@
 
   document.getElementById('agCopy').addEventListener('click', function () {
     var txt = krEl.textContent
-      ? krEl.textContent + ' ' + romEl.textContent.split(' —')[0]
+      ? krEl.textContent + ' ' + romEl.textContent.split(', ')[0]
       : big.textContent + ' ans';
     function ok() { copie.textContent = 'Copié !'; setTimeout(function(){ copie.textContent=''; }, 2200); }
     if (navigator.clipboard && navigator.clipboard.writeText) {

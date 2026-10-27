@@ -126,7 +126,7 @@
         '15 min de coréen = grand pas'
       ];
       var bodies = streak > 0
-        ? ['Continue ton streak de '+streak+' jours !', 'Ne casse pas la chaîne — un freeze sera consommé sinon.', 'Reviens valider ta journée.']
+        ? ['Continue ton streak de '+streak+' jours !', 'Ne casse pas la chaîne, un freeze sera consommé sinon.', 'Reviens valider ta journée.']
         : ['Commence une nouvelle série dès aujourd\'hui.', 'Une petite leçon suffit pour relancer la dynamique.', 'C\'est le moment idéal pour reprendre.'];
       t = titles[Math.floor(Math.random() * titles.length)];
       b = bodies[Math.floor(Math.random() * bodies.length)];

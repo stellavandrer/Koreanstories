@@ -7,7 +7,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="theme-color" content="#0F1B2D"/>
-<title>Dictionnaire coréen-français — Korean Stories</title>
+<title>Dictionnaire coréen-français · Korean Stories</title>
 <meta name="description" content="Dictionnaire coréen ⇄ français intelligent : recherche instantanée, audio, prononciation à la française et conjugaison complète des verbes et adjectifs coréens."/>
 <link rel="canonical" href="https://koreanstories.fr/dictionnaire.html"/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
@@ -105,7 +105,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   </div>
   <div class="dic-hd">
     <h1>Dictionnaire coréen ⇄ français</h1>
-    <p>Cherche en français ou en coréen — avec audio, prononciation à la française et conjugaison automatiques.</p>
+    <p>Cherche en français ou en coréen, avec audio, prononciation à la française et conjugaison automatiques.</p>
     <div class="search-wrap">
       <svg class="si" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input id="q" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex : 사랑, manger, 가다, école…" aria-label="Rechercher un mot"/>
@@ -116,7 +116,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </header>
 
 <main class="dic-main" id="main"></main>
-<p class="dic-credit">Vocabulaire enrichi par le <a href="https://krdict.korean.go.kr" target="_blank" rel="noopener">한국어기초사전</a> du 국립국어원 (National Institute of Korean Language) — <a href="https://creativecommons.org/licenses/by-sa/2.0/kr/deed.fr" target="_blank" rel="noopener">CC BY-SA 2.0 KR</a>.</p>
+<p class="dic-credit">Vocabulaire enrichi par le <a href="https://krdict.korean.go.kr" target="_blank" rel="noopener">한국어기초사전</a> du 국립국어원 (National Institute of Korean Language) :<a href="https://creativecommons.org/licenses/by-sa/2.0/kr/deed.fr" target="_blank" rel="noopener">CC BY-SA 2.0 KR</a>.</p>
 
 
 <script src="ks-lecture-fr.js"></script>
@@ -338,7 +338,7 @@ function entryHTML(e){
       forms.forEach(function(f){
         h+='<div class="conj-row"><span class="conj-lbl">'+f[0]+'</span><span class="conj-val">'+esc(f[1])+'<span class="rom">'+esc(lecture(f[1]))+'</span></span><button class="conj-spk" aria-label="Écouter" data-say="'+esc(f[1])+'">'+SPK_SVG+'</button></div>';
       });
-      h+='<div class="conj-note">Formes générées automatiquement — les cas très irréguliers peuvent varier.</div>';
+      h+='<div class="conj-note">Formes générées automatiquement, les cas très irréguliers peuvent varier.</div>';
       h+='</div></div>';
     }
   }
@@ -376,7 +376,7 @@ function renderEmpty(q){
 function renderHome(){
   var samples=['사랑','학교','먹다','예쁘다','감사합니다','가다','행복','시간','친구','맛있다','공부하다','물'];
   var h='';
-  h+='<div class="intro-card"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><h3>Un dictionnaire qui conjugue pour toi</h3><p>Cherche un mot en français ou en coréen. Pour chaque verbe et adjectif, retrouve la conjugaison complète — présent, passé, futur, formel… avec l\'audio.</p></div></div>';
+  h+='<div class="intro-card"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><h3>Un dictionnaire qui conjugue pour toi</h3><p>Cherche un mot en français ou en coréen. Pour chaque verbe et adjectif, retrouve la conjugaison complète, présent, passé, futur, formel… avec l\'audio.</p></div></div>';
   h+='<div class="sec-lbl">Essaie avec</div><div class="suggest">';
   samples.forEach(function(w){ var e=DICT[w]; h+='<button class="chip" data-go="'+esc(w)+'"><span class="k">'+esc(w)+'</span>'+(e?esc(e.fr.split('/')[0].trim()):'')+'</button>'; });
   h+='</div>';

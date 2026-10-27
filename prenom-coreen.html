@@ -10,10 +10,10 @@
   <link rel="manifest" href="manifest.json"/>
   <meta name="theme-color" content="#0F1B2D"/>
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
-  <title>Écrire son prénom en coréen — l'outil qui le fait pour toi · Korean Stories</title>
+  <title>Écrire son prénom en coréen · l'outil qui le fait pour toi · Korean Stories</title>
   <link rel="canonical" href="https://koreanstories.fr/prenom-coreen.html"/>
   <meta name="description" content="Tape ton prénom, vois-le s'écrire en hangeul syllabe par syllabe, et comprends pourquoi. On ne traduit pas un prénom : on transcrit ses sons. Gratuit, sans inscription."/>
-  <meta property="og:title" content="Écris ton prénom en coréen — et comprends pourquoi ça s'écrit comme ça"/>
+  <meta property="og:title" content="Écris ton prénom en coréen, et comprends pourquoi ça s'écrit comme ça"/>
   <meta property="og:description" content="L'outil transcrit ton prénom en hangeul, syllabe par syllabe, et t'explique chaque choix. On ne traduit pas un prénom : on écrit ses sons."/>
   <meta property="og:type" content="website"/>
   <meta property="og:locale" content="fr_FR"/>
@@ -149,7 +149,7 @@
 <div class="pn-hero">
   <span class="pn-kicker">Gratuit · sans inscription</span>
   <h1>Écris ton prénom <em>en coréen</em></h1>
-  <p class="lead">Tape-le ci-dessous. Tu verras chaque syllabe se construire — et surtout, pourquoi elle s'écrit comme ça.</p>
+  <p class="lead">Tape-le ci-dessous. Tu verras chaque syllabe se construire, et surtout, pourquoi elle s'écrit comme ça.</p>
   <form class="pn-form" id="pnForm" autocomplete="off">
     <input type="text" id="pnInput" maxlength="24" placeholder="Ton prénom" aria-label="Ton prénom" autocapitalize="words">
   </form>
@@ -184,7 +184,7 @@
       </div>
       <p class="pn-apres" id="pnApres" hidden>
         Image prête. Tu la postes ? Pense à identifier
-        <strong>@koreanstories.fr</strong> — et si tu veux apprendre pour de bon,
+        <strong>@koreanstories.fr</strong>, et si tu veux apprendre pour de bon,
         <a href="cours.html">le parcours est gratuit</a>.
       </p>
       <div class="pn-copie" id="pnCopie"></div>
@@ -193,7 +193,7 @@
 
   <div class="pn-sec">
     <h2>Pourquoi ton prénom <em>change</em> de son</h2>
-    <p>On ne traduit pas un prénom, on le <strong>transcrit</strong> : le hangeul note des sons, pas des lettres. C'est pour ça que Camille ne donne pas c‑a‑m‑i‑l‑l‑e mais <span class="kr">카미유</span>, « ka‑mi‑you » — exactement ce qu'on entend.</p>
+    <p>On ne traduit pas un prénom, on le <strong>transcrit</strong> : le hangeul note des sons, pas des lettres. C'est pour ça que Camille ne donne pas c‑a‑m‑i‑l‑l‑e mais <span class="kr">카미유</span>, « ka‑mi‑you », exactement ce qu'on entend.</p>
     <p>Et le coréen n'a pas tous nos sons. Quelques-uns se rapprochent du plus proche voisin :</p>
     <div class="pn-grid">
       <div class="pn-item">
@@ -213,13 +213,13 @@
         <div class="pn-item-x">Le coréen n'enchaîne pas deux consonnes : Pierre fait trois blocs, <span class="kr">피에르</span>.</div>
       </div>
     </div>
-    <p>Ce décalage n'est pas une erreur — c'est ce qui donne à un prénom étranger sa couleur coréenne, et c'est la même chose dans l'autre sens quand on prononce <span class="kr">김치</span> « kimchi ».</p>
+    <p>Ce décalage n'est pas une erreur, c'est ce qui donne à un prénom étranger sa couleur coréenne, et c'est la même chose dans l'autre sens quand on prononce <span class="kr">김치</span> « kimchi ».</p>
   </div>
 
   <div class="pn-sec">
     <h2>Comment se construit <em>une syllabe</em></h2>
     <p>Une syllabe coréenne s'empile dans un carré : une consonne, une voyelle, et parfois une consonne finale. Jamais dans le désordre, jamais en ligne comme chez nous.</p>
-    <p>C'est pour ça que ton prénom se découpe en blocs bien nets au lieu de s'écrire lettre à lettre. Une fois cette logique comprise, <strong>le hangeul entier s'apprend en quelques heures</strong> — il a justement été conçu pour ça, en 1443, pour que tout le monde puisse apprendre à lire.</p>
+    <p>C'est pour ça que ton prénom se découpe en blocs bien nets au lieu de s'écrire lettre à lettre. Une fois cette logique comprise, <strong>le hangeul entier s'apprend en quelques heures</strong>, il a justement été conçu pour ça, en 1443, pour que tout le monde puisse apprendre à lire.</p>
   </div>
 
   <div class="pn-next">
@@ -318,7 +318,7 @@
     if (muettes && voix) {
       note.hidden = false;
       note.textContent = muettes === res.blocs.length
-        ? 'Aucune de ces syllabes n’a encore d’enregistrement — la lecture ci-dessus reste juste.'
+        ? 'Aucune de ces syllabes n’a encore d’enregistrement, la lecture ci-dessus reste juste.'
         : 'Les syllabes qui portent « écouter » ont un enregistrement ; les autres n’en ont pas encore.';
     } else {
       note.hidden = true;
@@ -460,7 +460,7 @@
         if (f && navigator.canShare && navigator.canShare({ files: [f] })) {
           navigator.share({
             files: [f],
-            text: prenom + ' en coréen : ' + hangeul + ' — koreanstories.fr'
+            text: prenom + ' en coréen : ' + hangeul + ', koreanstories.fr'
           }).then(function () { apres.hidden = false; })
             .catch(function () {});
           return;

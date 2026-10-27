@@ -11,7 +11,7 @@
   <meta name="theme-color" content="#0F1B2D"/>
   <title>Mes statistiques · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/statistiques.html"/>
-  <meta name="description" content="Statistiques détaillées de ta progression — activités par type, niveau CEFR, vocabulaire SRS."/>
+  <meta name="description" content="Statistiques détaillées de ta progression, activités par type, niveau CEFR, vocabulaire SRS."/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
   <link rel="stylesheet" href="design.css"/>
   <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -184,7 +184,7 @@
   <!-- MEILLEUR JOUR -->
   <span class="sec-lbl">Meilleur jour</span>
   <div class="best-day-card" id="bestDayCard">
-    <div class="d-date" id="bdDate">—</div>
+    <div class="d-date" id="bdDate">-</div>
     <div class="d-xp" id="bdXp">0 XP</div>
     <div class="d-sub">le jour où tu as le plus appris</div>
   </div>
@@ -346,12 +346,12 @@
   function buildBestDay() {
     try {
       var hm = JSON.parse(ls('ks_heatmap') || 'null');
-      if (!hm) { document.getElementById('bdDate').textContent = 'Pas encore'; document.getElementById('bdXp').textContent = '—'; return; }
+      if (!hm) { document.getElementById('bdDate').textContent = 'Pas encore'; document.getElementById('bdXp').textContent = ', '; return; }
       var best = { date: null, xp: 0 };
       Object.keys(hm).forEach(function (d) {
         if (hm[d] > best.xp) { best = { date: d, xp: hm[d] }; }
       });
-      if (!best.date) { document.getElementById('bdDate').textContent = 'Pas encore'; document.getElementById('bdXp').textContent = '—'; return; }
+      if (!best.date) { document.getElementById('bdDate').textContent = 'Pas encore'; document.getElementById('bdXp').textContent = ', '; return; }
       var parts = best.date.split('-');
       var dateObj = new Date(parts[0], parts[1]-1, parts[2]);
       var fmtDate = dateObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
@@ -359,7 +359,7 @@
       document.getElementById('bdXp').textContent = '+' + best.xp + ' XP';
     } catch (e) {
       document.getElementById('bdDate').textContent = 'Pas encore';
-      document.getElementById('bdXp').textContent = '—';
+      document.getElementById('bdXp').textContent = ', ';
     }
   }
 

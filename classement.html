@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
   <title>Mes Records · Korean Stories</title>
 <link rel="canonical" href="https://koreanstories.fr/classement.html"/>
-  <meta name="description" content="Tes records personnels Korean Stories — meilleure série, record d'XP, mots maîtrisés et défi de la semaine."/>
+  <meta name="description" content="Tes records personnels Korean Stories, meilleure série, record d'XP, mots maîtrisés et défi de la semaine."/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
   <link rel="stylesheet" href="design.css"/>
   <script src="ks.js" defer></script>
@@ -203,7 +203,7 @@
         <svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M5 21h14"/><path d="M9.5 16.5V19h5v-2.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
       </div>
       <h1 class="rec-hero-h1">Mes <em>Records</em></h1>
-      <p class="rec-hero-sub">Tes meilleures performances — bats tes propres scores&thinsp;!</p>
+      <p class="rec-hero-sub">Tes meilleures performances, bats tes propres scores&thinsp;!</p>
       <div class="rec-hero-stats">
         <div class="rec-hs"><div class="rec-hs-n" id="hXp">0</div><div class="rec-hs-l">XP total</div></div>
         <div class="rec-hs"><div class="rec-hs-n" id="hStreak">0</div><div class="rec-hs-l">Série actuelle</div></div>
@@ -226,7 +226,7 @@
     <!-- TON ACTIVITÉ DE LA SEMAINE (progression personnelle vs semaine précédente) -->
     <span class="sec-lbl">Ton activité de la semaine</span>
     <div class="week-card">
-      <div class="week-verdict" id="weekVerdict">—</div>
+      <div class="week-verdict" id="weekVerdict">-</div>
       <div class="week-row">
         <div class="week-row-top">
           <span class="week-row-lbl">Cette semaine</span>
@@ -352,7 +352,7 @@
     verdict = 'Lance-toi&thinsp;! Termine une activité pour gagner tes premiers XP de la semaine.';
   } else if(weekNow>weekPrev){
     var diff = weekPrev>0 ? Math.round((weekNow-weekPrev)/weekPrev*100) : 100;
-    verdict = 'Tu te surpasses — <strong>+'+diff+'%</strong> par rapport à la semaine dernière&thinsp;!';
+    verdict = 'Tu te surpasses,<strong>+'+diff+'%</strong> par rapport à la semaine dernière&thinsp;!';
   } else if(weekNow===weekPrev){
     verdict = 'Tu es au coude-à-coude avec la semaine dernière. Une activité de plus pour passer devant&thinsp;!';
   } else {
@@ -403,7 +403,7 @@
       'Encore '+(nextStep.d-streak)+' jour'+((nextStep.d-streak)>1?'s':'')+' pour le palier '+nextStep.l+'.';
   } else {
     document.getElementById('msTitle').textContent = 'Série de '+streak+' jours';
-    document.getElementById('msSub').textContent = 'Tu as atteint tous les paliers — légendaire&thinsp;!';
+    document.getElementById('msSub').textContent = 'Tu as atteint tous les paliers, légendaire&thinsp;!';
   }
   document.getElementById('msTrack').innerHTML = STEPS.map(function(st){
     var cls = streak>=st.d ? 'done' : (nextStep && st.d===nextStep.d ? 'next' : '');
@@ -509,7 +509,7 @@
     var unsub = KSSync.auth.onAuthStateChanged(function (user) {
       if (unsub) { try { unsub(); } catch (e) {} unsub = null; }
       if (!user) {
-        lbCard.innerHTML = '<div class="lb-empty">Le classement est réservé aux membres.<br/><a href="login.html">Connecte-toi</a> — c’est gratuit — pour voir le top 50 et y participer.</div>';
+        lbCard.innerHTML = '<div class="lb-empty">Le classement est réservé aux membres.<br/><a href="login.html">Connecte-toi</a>, c’est gratuit, pour voir le top 50 et y participer.</div>';
         return;
       }
       KSSync.fetchLeaderboard(50)

@@ -112,7 +112,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 <div class="hero">
   <div class="hero-tag">EXERCICE</div>
   <h1 class="hero-title">Lis tes premières syllabes</h1>
-  <p class="hero-sub">5 niveaux progressifs — de la syllabe simple au mot connu</p>
+  <p class="hero-sub">5 niveaux progressifs, de la syllabe simple au mot connu</p>
 </div>
 
 <div class="wrap">
@@ -121,7 +121,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:20%"></div></div>
 
     <div class="card" style="padding:16px 20px 12px">
-      <div class="level-badge" id="levelBadge">NIVEAU 1 — Syllabes simples</div>
+      <div class="level-badge" id="levelBadge">NIVEAU 1 : Syllabes simples</div>
       <p style="font-size:13px;color:var(--t2);margin-bottom:12px">Clique sur chaque syllabe : tu la révèles et tu l'entends, en voix coréenne réelle.</p>
       <div class="syllable-grid" id="syllableGrid"></div>
     </div>
@@ -141,7 +141,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
   <!-- Quiz between levels -->
   <div id="quizSection" style="display:none">
-    <div class="prog-label" id="quizLabel">Validation — Question 1/2</div>
+    <div class="prog-label" id="quizLabel">Validation : Question 1/2</div>
     <div class="prog-wrap"><div class="prog-bar" id="quizProg" style="width:50%"></div></div>
     <div class="card">
       <div class="card-title"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Valide le niveau</div>
@@ -167,7 +167,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 <script>
 const levels = [
   {
-    name:'NIVEAU 1 — Syllabes simples',
+    name:'NIVEAU 1 : Syllabes simples',
     type:'grid',
     items:[
       {kr:'가',rom:'ga',meaning:'ga',example:''},
@@ -180,7 +180,7 @@ const levels = [
     ]
   },
   {
-    name:'NIVEAU 2 — 5 syllabes',
+    name:'NIVEAU 2 : 5 syllabes',
     type:'grid',
     items:[
       {kr:'라',rom:'ra',meaning:'ra',example:''},
@@ -195,7 +195,7 @@ const levels = [
     ]
   },
   {
-    name:'NIVEAU 3 — Syllabes + batchim',
+    name:'NIVEAU 3 : Syllabes + batchim',
     type:'grid',
     items:[
       {kr:'강',rom:'gang',meaning:'rivière',example:''},
@@ -209,14 +209,14 @@ const levels = [
     ]
   },
   {
-    name:'NIVEAU 4 — Vrais mots',
+    name:'NIVEAU 4 : Vrais mots',
     type:'reveal',
     items:[
-      {kr:'나라',rom:'nara',meaning:'pays <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',example:'한국은 나라예요. — La Corée est un pays.'},
-      {kr:'가다',rom:'gada',meaning:'aller ',example:'학교에 가다. — Aller à l\'école.'},
-      {kr:'자다',rom:'jada',meaning:'dormir ',example:'일찍 자다. — Dormir tôt.'},
-      {kr:'마다',rom:'mada',meaning:'chaque ',example:'날마다 — Chaque jour.'},
-      {kr:'바다',rom:'bada',meaning:'mer ',example:'바다에 가요. — Je vais à la mer.'},
+      {kr:'나라',rom:'nara',meaning:'pays <svg viewBox="0 0 24 24" style="width:13px;height:13px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>',example:'한국은 나라예요. La Corée est un pays.'},
+      {kr:'가다',rom:'gada',meaning:'aller ',example:'학교에 가다. Aller à l\'école.'},
+      {kr:'자다',rom:'jada',meaning:'dormir ',example:'일찍 자다. Dormir tôt.'},
+      {kr:'마다',rom:'mada',meaning:'chaque ',example:'날마다 : Chaque jour.'},
+      {kr:'바다',rom:'bada',meaning:'mer ',example:'바다에 가요. Je vais à la mer.'},
     ],
     quiz:[
       {prompt:'Que signifie ce mot ?',char:'바다',answer:'mer',options:['mer','pays','dormir','aller']},
@@ -224,14 +224,14 @@ const levels = [
     ]
   },
   {
-    name:'NIVEAU 5 — Mots connus',
+    name:'NIVEAU 5 : Mots connus',
     type:'reveal',
     items:[
-      {kr:'안녕',rom:'annyeong',meaning:'bonjour / au revoir ',example:'안녕! — Salut !'},
-      {kr:'사랑',rom:'sarang',meaning:'amour <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',example:'사랑해요. — Je t\'aime.'},
-      {kr:'김치',rom:'gimchi',meaning:'kimchi ',example:'김치 맛있어요. — Le kimchi est délicieux.'},
-      {kr:'한국',rom:'hanguk',meaning:'Corée KR',example:'한국에 가고 싶어요. — Je veux aller en Corée.'},
-      {kr:'서울',rom:'Seoul',meaning:'Séoul ',example:'서울은 한국의 수도예요. — Séoul est la capitale de la Corée.'},
+      {kr:'안녕',rom:'annyeong',meaning:'bonjour / au revoir ',example:'안녕! Salut !'},
+      {kr:'사랑',rom:'sarang',meaning:'amour <svg viewBox="0 0 24 24" style="width:14px;height:14px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',example:'사랑해요. Je t\'aime.'},
+      {kr:'김치',rom:'gimchi',meaning:'kimchi ',example:'김치 맛있어요. Le kimchi est délicieux.'},
+      {kr:'한국',rom:'hanguk',meaning:'Corée KR',example:'한국에 가고 싶어요. Je veux aller en Corée.'},
+      {kr:'서울',rom:'Seoul',meaning:'Séoul ',example:'서울은 한국의 수도예요. Séoul est la capitale de la Corée.'},
     ],
     quiz:[
       {prompt:'Que signifie ce mot ?',char:'사랑',answer:'amour',options:['amour','Corée','kimchi','bonjour']},
@@ -340,7 +340,7 @@ function startLevelQuiz() {
 
 function showQuizQ() {
   const q = levels[currentLevel].quiz[quizStep];
-  document.getElementById('quizLabel').textContent = `Validation — Question ${quizStep+1}/2`;
+  document.getElementById('quizLabel').textContent = `Validation : Question ${quizStep+1}/2`;
   document.getElementById('quizProg').style.width = ((quizStep+1)/2*100)+'%';
   document.getElementById('quizPrompt').textContent = q.prompt;
   document.getElementById('quizChar').textContent = q.char;

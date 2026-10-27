@@ -176,7 +176,7 @@
             '<span class="ks-star" id="ks-s3">'+STAR_SVG+'</span>' +
           '</div>' +
           '<div class="ks-title"  id="ks-title"></div>' +
-          '<div class="ks-sub"    id="ks-sub">완료 — Complété</div>' +
+          '<div class="ks-sub"    id="ks-sub">완료 : Complété</div>' +
           '<div class="ks-stats"  id="ks-stats"></div>' +
           '<div class="ks-emblem" id="ks-emblem"></div>' +
           '<div class="ks-msg"    id="ks-msg"></div>' +
@@ -262,10 +262,10 @@
     var msg;
     if (stars === 3) {
       msg = score !== null
-        ? '<strong>Score parfait !</strong> Tu maîtrises parfaitement ce sujet — continue comme ça !'
+        ? '<strong>Score parfait !</strong> Tu maîtrises parfaitement ce sujet, continue comme ça !'
         : '<strong>Excellent !</strong> Tu as terminé cette leçon. Le coréen avance à grands pas !';
     } else if (stars === 2) {
-      msg = 'Bien joué ! Tu progresses bien — relis les points clés pour <strong>consolider</strong>.';
+      msg = 'Bien joué ! Tu progresses bien, relis les points clés pour <strong>consolider</strong>.';
     } else {
       msg = 'Continue à pratiquer ! Recommence pour bien ancrer les notions. <strong>화이팅 !</strong>';
     }
