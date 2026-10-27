@@ -31,7 +31,7 @@
      cles, le telechargement des PDF, le portail de gestion d'abonnement. Les
      gens qui ont DEJA paye gardent tout. Fermer la vente n'est pas fermer le
      produit. */
-  var VENTES_OUVERTES = false;
+  var VENTES_OUVERTES = true;
 
   /* ── CONFIG Stripe + Cloudflare Worker ── */
   var BUY_URL_MONTHLY  = 'https://buy.stripe.com/aFaaEZfc3cZH9uDeAEe7m01';
