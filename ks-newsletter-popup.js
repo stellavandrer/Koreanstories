@@ -29,7 +29,16 @@
     /* Pages de vente : une popup qui recouvre le bouton d'achat au bout de
        20 s coûte plus cher en ventes perdues qu'elle ne rapporte d'adresses.
        Ce sont les deux seules pages du site où quelqu'un sort sa carte. */
-    'premium.html':1, 'livret-a1.html':1, 'premium-success.html':1
+    'premium.html':1, 'livret-a1.html':1, 'premium-success.html':1,
+    /* Les pages ou quelqu'un CHOISIT quoi faire : le tableau de bord, le
+       parcours, le hub des histoires. Les lecons elles-memes etaient deja
+       exclues (EXCLUDE_PREFIX), mais pas ces trois-la, si bien que la popup
+       s'ouvrait par-dessus la carte du parcours au bout de 20 s. Ce sont
+       des surfaces de travail, et la personne qui les voit a deja un
+       compte : on lui parlera autrement. La popup garde sa vraie cible,
+       les 71 articles de blog, ou le visiteur est anonyme. */
+    'cours.html':1, 'app.html':1, 'histoires.html':1,
+    'revision.html':1, 'vocabulaire.html':1, 'mes-mots.html':1
   };
   var EXCLUDE_PREFIX = /^(lecon|exercice|jeu|quiz|histoire\d|chanson|conseil|anecdote|flash\d|podcast|presse\d|pro\d|lect-a|lect-b)/;
 

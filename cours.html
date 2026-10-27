@@ -823,6 +823,33 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
   .chal{display:none}                     /* « Défi du jour » : vit sur app.html, pas sur la page programme */
   .ks-search-fab{display:none!important}  /* la barre de recherche de la page rend ce flottant redondant */
 
+  /* Dès 960 px la barre latérale apparaît, et trois choses se retrouvaient
+     affichées deux fois sur le même écran : la marque, le compteur XP et le
+     bouton de thème. La barre latérale les porte déjà (.side-logo, .side-xp,
+     .side-theme) ; la barre du haut n'en garde rien. En dessous de 960 px la
+     barre latérale est cachée, donc la barre du haut les reprend. */
+  @media(min-width:960px){
+    .bar-logo,.bar-xp,.bar-theme{display:none}
+  }
+
+  /* Les cinq niveaux empilés en aplats saturés (or, bleu, vert, violet, rose)
+     faisaient un mur d'arc-en-ciel où le niveau en cours ne ressortait pas :
+     tout criait à la même intensité. La couleur reste le repère du niveau,
+     mais en filet ; seul celui qu'on est en train de faire est rempli. */
+  .stab.on{background:var(--surf)!important;color:var(--t)!important;
+    border-left:3px solid var(--stab-c,var(--gold))}
+  .stab.on .stab-pct{background:var(--s3);color:var(--t2)}
+  .stab.on.cur{background:var(--stab-c)!important;color:#fff!important;border-left-color:transparent}
+  .stab.on.cur .stab-pct{background:rgba(255,255,255,.24);color:#fff}
+
+  /* Les huit pastilles colorées du pied de carte répétaient, en plus bruyant,
+     ce que la liste d'activités donne juste en dessous. Même information,
+     une seule ligne, une seule encre. */
+  .lvc-chips{gap:4px 12px;margin-top:12px}
+  .lvc-chip{background:none!important;color:var(--t2)!important;
+    font-size:11px;font-weight:600;padding:0;gap:5px}
+  .lvc-chip-dot{width:5px;height:5px;border-radius:50%;flex:none}
+
   /* Jour 1 : on enlève le mur de zéros, on invite à commencer */
   .page-enter.ks-new .stats,
   .page-enter.ks-new .prog-track{display:none}
@@ -941,6 +968,26 @@ a.nc.active-card:hover{border-color:rgba(37,99,235,.45)}
 
 <script>
 /* ── TYPES ─────────────────────────────────── */
+/* Pluriel des libellés de TYPES. Un « s » ajouté à l'aveugle donnait
+   « 2 Jeus », « 2 Quizs » et « 2 Flashcardss » : le français ne se laisse
+   pas mettre au pluriel par concaténation. */
+function pluriel(mot,n){
+  if(n<2) return mot;
+  if(/(?:s|x|z)$/i.test(mot)) return mot;       // Quiz, Flashcards : invariables ici
+  if(/^k-pop$/i.test(mot))    return mot;       // nom propre : « 2 K-Pop », jamais « 2 K-Pops »
+  if(/eu$|au$/i.test(mot))    return mot+'x';   // Jeu -> Jeux
+  return mot+'s';
+}
+
+/* Les libellés sont capitalisés dans TYPES parce qu'ils servent aussi de
+   titres. Dans une ligne de comptage (« 5 leçons · 3 exercices »), la
+   minuscule se lit mieux — sauf pour K-Pop, qui garde ses capitales :
+   une majuscule au milieu du mot signale un nom propre. */
+function libelleCompte(mot,n){
+  var p=pluriel(mot,n);
+  return /[A-ZÀ-Þ]/.test(p.slice(1)) ? p : p.toLowerCase();
+}
+
 const TYPES={
   lecon:        {l:'Leçon',         c:'#B8924E',bg:'rgba(184,146,78,.13)',  svg:`<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>`},
   exercice:     {l:'Exercice',      c:'#2563EB',bg:'rgba(37,99,235,.12)',   svg:`<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>`},
@@ -2032,6 +2079,14 @@ function buildFilter(){
 function buildTabs(doneMap){
   const mobWrap=document.getElementById('tabsEl');
   const sideWrap=document.getElementById('sideTabsEl');
+  /* Le niveau « en cours » : le premier niveau ouvert qui n'est pas fini.
+     Si tout est fini, c'est le dernier. C'est lui, et lui seul, qui est
+     rempli dans la barre latérale. */
+  const libres=LEVELS.filter(l=>l.free);
+  const enCours=(libres.find(l=>{
+    const t=(l.acts||l.teasers||[]).length;
+    return !t || (doneMap[l.id]||0) < t;
+  }) || libres[libres.length-1] || {}).id;
 
   LEVELS.forEach(lv=>{
     const done=doneMap[lv.id]||0;
@@ -2058,9 +2113,9 @@ function buildTabs(doneMap){
       b.className='stab off';
       b.innerHTML=`<span>${lv.tab}</span><span class="stab-r"><svg style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>`;
     } else {
-      b.className='stab on';
-      b.style.background=`linear-gradient(135deg,${lv.color},${lv.color}cc)`;
-      b.innerHTML=`<span>${lv.tab}</span><span class="stab-r"><span class="stab-pct">${pct}%</span></span>`;
+      b.className='stab on'+(lv.id===enCours?' cur':'');
+      b.style.setProperty('--stab-c',lv.color);
+      b.innerHTML=`<span>${lv.tab}</span><span class="stab-r">${pct?`<span class="stab-pct">${pct}%</span>`:''}</span>`;
     }
     sideWrap.appendChild(b);
   });
@@ -2074,7 +2129,7 @@ function rBanner(lv,done,tot,pct){
   const totalXP=(lv.acts||[]).reduce((s,a)=>s+(a.xp||0),0);
   const chips=Object.entries(TYPES).map(([k,t])=>{
     const n=(lv.acts||[]).filter(a=>a.t===k).length;
-    return n?`<span class="lvc-chip" style="color:${t.c};background:${t.bg}">${n} ${t.l}${n>1?'s':''}</span>`:'';
+    return n?`<span class="lvc-chip"><span class="lvc-chip-dot" style="background:${t.c}"></span>${n} ${libelleCompte(t.l,n)}</span>`:'';
   }).join('');
   d.innerHTML=`
     <div class="lvc-accent" style="background:linear-gradient(180deg,${lv.color},${lv.color}88)"></div>
@@ -2095,7 +2150,7 @@ function rBanner(lv,done,tot,pct){
     <div class="lvc-foot">
       <div class="lvc-prog-row">
         <span class="lvc-prog-lbl">${done} / ${tot} activités complétées</span>
-        <span class="lvc-prog-pct" style="color:${lv.color};font-size:13px">${pct}%</span>
+        ${pct?`<span class="lvc-prog-pct" style="color:${lv.color};font-size:13px">${pct}%</span>`:''}
       </div>
       <div class="lvc-bar"><div class="lvc-fill" style="width:${pct}%;background:linear-gradient(90deg,${lv.color},${lv.color}cc)"></div></div>
       <div class="lvc-chips">${chips}</div>
@@ -2176,10 +2231,6 @@ function rMs(lv,achieved){
       confetti+=`<span style="background:${c};left:${x}%;top:${y}%;width:${d2}px;height:${d2}px;animation-delay:${del}s"></span>`;
     }
   }
-  const chips=Object.entries(TYPES).map(([k,t])=>{
-    const n=(lv.acts||[]).filter(a=>a.t===k).length;
-    return n?`<div class="ms-chip"><span class="ms-chip-dot" style="background:${t.c}"></span>${n} ${t.l}${n>1?'s':''}</div>`:'';
-  }).join('');
   const MS_ICONS={
     hangeul:`<svg viewBox="0 0 24 24" style="width:44px;height:44px;fill:none;stroke:var(--ms-c,#B8924E);stroke-width:1.5;stroke-linecap:round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>`,
     a1:`<svg viewBox="0 0 24 24" style="width:44px;height:44px;fill:none;stroke:var(--ms-c,#2563EB);stroke-width:1.5;stroke-linecap:round"><path d="M12 2l2.09 6.26L20 9.27l-4 4.14 1 6.59L12 16.9l-5 3.1 1-6.59L4 9.27l5.91-.01z"/><path d="M12 8v8M9 13h6"/></svg>`,
@@ -2194,8 +2245,7 @@ function rMs(lv,achieved){
     <div class="ms-sub">${m.sub}</div>
     <span class="ms-badge" style="background:${achieved?m.bg:'var(--s3)'};color:${achieved?m.c:'var(--t3)'};border:1.5px solid ${achieved?m.border:'var(--bd)'}">
       ${achieved?checkSvg+' Niveau validé':lockSvg+' À débloquer'}
-    </span>
-    <div class="ms-chips">${chips}</div>`;
+    </span>`;
   return d;
 }
 
@@ -2242,7 +2292,7 @@ function rPrem(lv){
   (lv.teasers||[]).forEach(ta=>{typeCount[ta.t]=(typeCount[ta.t]||0)+1});
   const chips=Object.entries(typeCount).map(([k,n])=>{
     const tp=TYPES[k]||TYPES.lecon;
-    return `<span class="lvc-chip" style="background:${tp.bg};color:${tp.c}">${n} ${tp.l}${n>1?'s':''}</span>`;
+    return `<span class="lvc-chip"><span class="lvc-chip-dot" style="background:${tp.c}"></span>${n} ${libelleCompte(tp.l,n)}</span>`;
   }).join('');
 
   // Show first 8 teasers visibly, rest faded
