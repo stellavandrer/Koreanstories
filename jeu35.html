@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pourquoi ça a raté ? · Korean Stories</title>
+<link rel="canonical" href="https://koreanstories.fr/jeu35.html"/>
+<meta name="description" content="Pourquoi ça a raté ? 90 secondes pour choisir la bonne causale coréenne entre -느라고, -바람에, -탓에, -통에 et 덕분에. Jeu B2 sur Korean Stories."/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    .wrap{padding:1rem;max-width:540px;margin:0 auto}
+    h2{color:var(--navy);margin:0 0 .3rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#f9a8d4}
+    .hud{display:flex;justify-content:space-between;align-items:center;margin:1rem 0 .6rem;font-weight:700}
+    .timer{color:#DB2777}.timer.low{color:#ef4444}
+    .streak{font-size:.85rem;color:var(--tx-muted)}
+    .bar2{height:6px;background:var(--bd);border-radius:100px;overflow:hidden;margin-bottom:1rem}
+    .bar2-fill{height:100%;background:#DB2777;width:100%;border-radius:100px;transition:width 1s linear}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.3rem 1.2rem;text-align:center}
+    .sit{font-size:1.05rem;font-weight:600;line-height:1.5;margin-bottom:1rem}
+    .opt{padding:.7rem .9rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;margin:.45rem 0;font-size:1rem;font-weight:600;background:var(--bg);transition:.12s;line-height:1.35}
+    .opt:hover{border-color:#DB2777}
+    .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.12);color:#15803D}
+    .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.1);color:#dc2626}
+    .start-btn,.again-btn{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1rem}
+    .result{text-align:center;padding:1.5rem 0}
+    .result .big{font-size:2.6rem;font-weight:800;color:#DB2777}
+    .intro{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;text-align:center}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="ks-boot-sync.js"></script>
+</head>
+<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Pourquoi ça a raté ?</h1>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">&larr;</button><span class="bar-title">Pourquoi ça a raté ?</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div class="wrap">
+  <h2>Pourquoi ça a raté ?</h2>
+  <span class="pill">B2 · 90 secondes</span>
+  <div id="introArea" class="intro" style="margin-top:1rem">
+    <p style="color:var(--tx-muted);line-height:1.6">Cinq façons de dire « à cause de », une seule qui va avec la situation. Choisis vite : 느라고, 바람에, 탓에, 통에 ou 덕분에.</p>
+    <button class="start-btn" onclick="startGame()">Commencer &rarr;</button>
+  </div>
+  <div id="gameArea" style="display:none">
+    <div class="hud"><span class="timer" id="timer">90</span><span class="streak" id="streak">Série : 0</span></div>
+    <div class="bar2"><div class="bar2-fill" id="barFill"></div></div>
+    <div class="card">
+      <div class="sit" id="sit"></div>
+      <div id="opts"></div>
+    </div>
+  </div>
+  <div id="resultArea" style="display:none" class="result">
+    <div class="big" id="finalScore">0</div>
+    <p style="color:var(--tx-muted)" id="finalMsg"></p>
+    <button class="again-btn" onclick="startGame()">Rejouer</button>
+    <a class="again-btn" href="#" style="background:none;border:1.5px solid var(--bd);color:var(--tx)" onclick="finish();return false;">Terminer · +12 XP</a>
+  </div>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+const QUESTIONS=[{"sit": "Tu étais au travail et tu n'as pas pu répondre.", "ok": "일하느라고 전화를 못 받았어요.", "alts": ["일하는 통에 전화를 못 받았어요.", "일한 탓에 전화를 못 받았어요."]}, {"sit": "La pluie est tombée, le pique-nique est tombé à l'eau.", "ok": "비가 오는 바람에 소풍을 못 갔어요.", "alts": ["비가 오느라고 소풍을 못 갔어요.", "비가 오는 덕분에 소풍을 못 갔어요."]}, {"sit": "Les travaux t'ont empêché de dormir.", "ok": "공사를 하는 통에 잠을 못 잤어요.", "alts": ["공사를 하느라고 잠을 못 잤어요.", "공사를 한 덕분에 잠을 못 잤어요."]}, {"sit": "Tu t'es levé tard, et c'est bien ta faute.", "ok": "늦게 일어난 탓에 학교에 늦었어요.", "alts": ["늦게 일어나느라고 학교에 늦었어요.", "늦게 일어나는 통에 학교에 늦었어요."]}, {"sit": "C'est grâce à un ami que tu as appris le coréen.", "ok": "친구 덕분에 한국어를 배웠어요.", "alts": ["친구 탓에 한국어를 배웠어요.", "친구 통에 한국어를 배웠어요."]}, {"sit": "Dans la bousculade, tu as perdu ton portefeuille.", "ok": "사람들이 밀치는 통에 지갑을 잃어버렸어요.", "alts": ["사람들이 밀치느라고 지갑을 잃어버렸어요.", "사람들이 밀친 덕분에 지갑을 잃어버렸어요."]}, {"sit": "Tu as passé la nuit sur les documents de la présentation.", "ok": "발표 자료를 만드느라고 밤을 새웠어요.", "alts": ["발표 자료를 만들느라고 밤을 새웠어요.", "발표 자료를 만들었느라고 밤을 새웠어요."]}, {"sit": "Quelqu'un vient d'arriver de loin. Tu le remercies de l'effort.", "ok": "오느라고 고생하셨어요.", "alts": ["온 탓에 고생하셨어요.", "오는 통에 고생하셨어요."]}, {"sit": "La pluie battante a bouché la route.", "ok": "비가 많이 온 탓에 길이 막혔어요.", "alts": ["비가 많이 오느라고 길이 막혔어요.", "비가 많이 온 덕분에 길이 막혔어요."]}, {"sit": "Tu assumes : c'est ta faute.", "ok": "제 탓이에요.", "alts": ["제 덕분이에요.", "제 통이에요."]}];
+let order=[],idx=0,score=0,streak=0,timeLeft=90,timer=null,locked=false;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startGame(){
+  order=shuffle(QUESTIONS.slice());idx=0;score=0;streak=0;timeLeft=90;locked=false;
+  document.getElementById('introArea').style.display='none';
+  document.getElementById('resultArea').style.display='none';
+  document.getElementById('gameArea').style.display='block';
+  clearInterval(timer);
+  timer=setInterval(()=>{timeLeft--;updTimer();if(timeLeft<=0)endGame();},1000);
+  updTimer();render();
+}
+function updTimer(){
+  const t=document.getElementById('timer');t.textContent=timeLeft;
+  t.classList.toggle('low',timeLeft<=15);
+  document.getElementById('barFill').style.width=(timeLeft/90*100)+'%';
+}
+function render(){
+  if(idx>=order.length){order=shuffle(QUESTIONS.slice());idx=0;}
+  const q=order[idx];locked=false;
+  document.getElementById('sit').textContent=q.sit;
+  const opts=shuffle([{t:q.ok,c:true},...q.alts.map(a=>({t:a,c:false}))]);
+  const box=document.getElementById('opts');box.innerHTML='';
+  opts.forEach(o=>{const b=document.createElement('div');b.className='opt';b.textContent=o.t;b.tabIndex=0;b.setAttribute('role','button');b.onclick=()=>pick(b,o.c,q);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(b,o.c,q);}};box.appendChild(b);});
+  document.getElementById('streak').textContent='Série : '+streak;
+}
+function pick(el,correct,q){
+  if(locked)return;locked=true;
+  if(correct){el.classList.add('ok');score++;streak++;if(window.speak)window.speak(q.ok);}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();streak=0;document.querySelectorAll('.opt').forEach(o=>{if(o.textContent===q.ok)o.classList.add('ok');});}
+  setTimeout(()=>{idx++;render();},700);
+}
+function endGame(){
+  clearInterval(timer);
+  document.getElementById('gameArea').style.display='none';
+  const r=document.getElementById('resultArea');r.style.display='block';
+  document.getElementById('finalScore').textContent=score+' réponses';
+  document.getElementById('finalMsg').textContent=score>=12?'Les cinq causales sont devenues un réflexe.':score>=6?'Bien joué. Le couple 느라고 / 바람에 mérite encore un tour.':'Reprends le tableau des 5 formes, puis rejoue.';
+}
+function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_d44',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_d44');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
