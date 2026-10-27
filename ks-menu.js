@@ -48,8 +48,16 @@
      qu'on consulte de temps en temps : elles tenaient chacune une pleine
      colonne et repoussaient tout le reste hors de l'écran. */
   var SECTIONS = [
+    /* Le Parcours porte une etiquette parce qu'il n'est pas une rubrique parmi
+       sept : c'est le fil a suivre, et tout le reste vient en complement.
+       Retour d'une cliente (2026-10) : « tout est un peu fouilli, il y a
+       tellement de choses que je ne sais pas trop ou regarder ». Le menu
+       etait pourtant deja range en quatre sections, et le tableau de bord
+       n'offre que 7 destinations -- ce n'etait donc pas l'encombrement.
+       Ce qui manquait, c'est de dire lequel des sept est la colonne
+       vertebrale. */
     { title:'Apprendre', items:[
-      ['cours.html','Parcours',IC.learn],
+      ['cours.html','Parcours',IC.learn,null,'À SUIVRE'],
       ['histoires.html','Histoires',IC.book],
       ['vocabulaire.html','Vocabulaire par thème',IC.cards],
       ['dictionnaire.html','Dictionnaire',IC.dico],
