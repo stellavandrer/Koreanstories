@@ -69,7 +69,7 @@
          livret (A2, puis B1, B2) en aurait ajoute une. Le menu grossissait
          a chaque parution. ressources.html accueille desormais les livrets
          en haut et les 35 fiches en dessous : le menu, lui, ne bouge plus. */
-      ['ressources.html','Livrets & fiches à imprimer',IC.livret,'or','PDF']
+      ['ressources.html','Livrets & fiches',IC.livret,'or','PDF']
     ]},
     { title:'Pratiquer', items:[
       ['challenge.html','Défi du jour',IC.bolt],
@@ -84,7 +84,7 @@
       ['statistiques.html','Statistiques',IC.chart],
       ['trophees.html','Trophées',IC.trophy],
       ['album.html','Album',IC.album],
-      ['classement.html','Classement',IC.rank]
+      ['classement.html','Records',IC.rank]
     ]},
     { title:'Mon compte', grid:true, items:[
       ['mes-mots.html','Bibliothèque',IC.star],
