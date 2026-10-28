@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ce qui va arriver · Korean Stories</title>
+<link rel="canonical" href="https://koreanstories.fr/jeu36.html"/>
+<meta name="description" content="Ce qui va arriver : 90 secondes pour choisir entre -(으)ㄹ 테니까, -(으)ㄹ 텐데, -(으)ㄹ까 봐, -(으)ㄹ지도 모르다 et -다가는. Jeu B2 sur Korean Stories."/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    .wrap{padding:1rem;max-width:540px;margin:0 auto}
+    h2{color:var(--navy);margin:0 0 .3rem}
+    [data-theme="dark"] h2{color:#EDF2FA}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#f9a8d4}
+    .hud{display:flex;justify-content:space-between;align-items:center;margin:1rem 0 .6rem;font-weight:700}
+    .timer{color:#DB2777}.timer.low{color:#ef4444}
+    .streak{font-size:.85rem;color:var(--tx-muted)}
+    .bar2{height:6px;background:var(--bd);border-radius:100px;overflow:hidden;margin-bottom:1rem}
+    .bar2-fill{height:100%;background:#DB2777;width:100%;border-radius:100px;transition:width 1s linear}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.3rem 1.2rem;text-align:center}
+    .sit{font-size:1.05rem;font-weight:600;line-height:1.5;margin-bottom:1rem}
+    .opt{padding:.7rem .9rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;margin:.45rem 0;font-size:1rem;font-weight:600;background:var(--bg);transition:.12s;line-height:1.35}
+    .opt:hover{border-color:#DB2777}
+    .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.12);color:#15803D}
+    .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.1);color:#dc2626}
+    .start-btn,.again-btn{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1rem}
+    .result{text-align:center;padding:1.5rem 0}
+    .result .big{font-size:2.6rem;font-weight:800;color:#DB2777}
+    .intro{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.2rem;text-align:center}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="ks-boot-sync.js"></script>
+</head>
+<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Ce qui va arriver</h1>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">&larr;</button><span class="bar-title">Ce qui va arriver</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div class="wrap">
+  <h2>Ce qui va arriver</h2>
+  <span class="pill">B2 · 90 secondes</span>
+  <div id="introArea" class="intro" style="margin-top:1rem">
+    <p style="color:var(--tx-muted);line-height:1.6">Cinq façons de parler de ce qui n'est pas encore arrivé, une seule qui va avec la situation. Choisis vite : 테니까, 텐데, 까 봐, 지도 몰라요 ou 다가는.</p>
+    <button class="start-btn" onclick="startGame()">Commencer &rarr;</button>
+  </div>
+  <div id="gameArea" style="display:none">
+    <div class="hud"><span class="timer" id="timer">90</span><span class="streak" id="streak">Série : 0</span></div>
+    <div class="bar2"><div class="bar2-fill" id="barFill"></div></div>
+    <div class="card">
+      <div class="sit" id="sit"></div>
+      <div id="opts"></div>
+    </div>
+  </div>
+  <div id="resultArea" style="display:none" class="result">
+    <div class="big" id="finalScore">0</div>
+    <p style="color:var(--tx-muted)" id="finalMsg"></p>
+    <button class="again-btn" onclick="startGame()">Rejouer</button>
+    <a class="again-btn" href="#" style="background:none;border:1.5px solid var(--bd);color:var(--tx)" onclick="finish();return false;">Terminer · +12 XP</a>
+  </div>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+const QUESTIONS=[{"sit": "Tu préviens : la route sera bouchée, qu'il parte tôt.", "ok": "길이 막힐 테니까 일찍 출발하세요.", "alts": ["길이 막힐 텐데 일찍 출발하세요.", "길이 막힐까 봐 일찍 출발하세요."]}, {"sit": "Tu rassures un collègue : tu t'en occupes.", "ok": "제가 할 테니까 걱정하지 마세요.", "alts": ["제가 할 텐데 걱정하지 마세요.", "제가 할까 봐 걱정하지 마세요."]}, {"sit": "Tu expliques pourquoi tu as pris un taxi.", "ok": "늦을까 봐 택시를 탔어요.", "alts": ["늦을 테니까 택시를 탔어요.", "늦다가는 택시를 탔어요."]}, {"sit": "Tu préviens que tu seras peut-être un peu en retard.", "ok": "조금 늦을지도 몰라요.", "alts": ["조금 늦을까 봐요.", "조금 늦을 테니까요."]}, {"sit": "Un ami court dans l'escalier. Tu l'avertis.", "ok": "그렇게 급하게 가다가는 넘어질 거예요.", "alts": ["그렇게 급하게 갈까 봐 넘어질 거예요.", "그렇게 급하게 갈 테니까 넘어질 거예요."]}, {"sit": "Il va pleuvoir et tu n'as pas de parapluie. Tu le constates.", "ok": "비가 올 텐데 우산이 없어요.", "alts": ["비가 올 테니까 우산이 없어요.", "비가 오다가는 우산이 없어요."]}, {"sit": "Tu expliques pourquoi tu as emporté un parapluie.", "ok": "비가 올까 봐 우산을 가져왔어요.", "alts": ["비가 올 테니까 우산을 가져왔어요.", "비가 올지도 몰라 우산을 가져왔어요."]}, {"sit": "Il y aura du monde. Tu proposes de réserver.", "ok": "사람이 많을 테니까 미리 예매합시다.", "alts": ["사람이 많을 텐데 미리 예매합시다.", "사람이 많을까 봐 미리 예매합시다."]}, {"sit": "Tu penses qu'il est déjà parti, sans en être sûr.", "ok": "그 사람은 벌써 갔을지도 몰라요.", "alts": ["그 사람은 벌써 갈지도 몰라요.", "그 사람은 벌써 갈까 봐요."]}, {"sit": "Quelqu'un repousse tout. Tu l'avertis.", "ok": "계속 미루다가는 아무것도 못 할 거예요.", "alts": ["계속 미룰까 봐 아무것도 못 할 거예요.", "계속 미룰 테니까 아무것도 못 할 거예요."]}];
+let order=[],idx=0,score=0,streak=0,timeLeft=90,timer=null,locked=false;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startGame(){
+  order=shuffle(QUESTIONS.slice());idx=0;score=0;streak=0;timeLeft=90;locked=false;
+  document.getElementById('introArea').style.display='none';
+  document.getElementById('resultArea').style.display='none';
+  document.getElementById('gameArea').style.display='block';
+  clearInterval(timer);
+  timer=setInterval(()=>{timeLeft--;updTimer();if(timeLeft<=0)endGame();},1000);
+  updTimer();render();
+}
+function updTimer(){
+  const t=document.getElementById('timer');t.textContent=timeLeft;
+  t.classList.toggle('low',timeLeft<=15);
+  document.getElementById('barFill').style.width=(timeLeft/90*100)+'%';
+}
+function render(){
+  if(idx>=order.length){order=shuffle(QUESTIONS.slice());idx=0;}
+  const q=order[idx];locked=false;
+  document.getElementById('sit').textContent=q.sit;
+  const opts=shuffle([{t:q.ok,c:true},...q.alts.map(a=>({t:a,c:false}))]);
+  const box=document.getElementById('opts');box.innerHTML='';
+  opts.forEach(o=>{const b=document.createElement('div');b.className='opt';b.textContent=o.t;b.tabIndex=0;b.setAttribute('role','button');b.onclick=()=>pick(b,o.c,q);b.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(b,o.c,q);}};box.appendChild(b);});
+  document.getElementById('streak').textContent='Série : '+streak;
+}
+function pick(el,correct,q){
+  if(locked)return;locked=true;
+  if(correct){el.classList.add('ok');score++;streak++;if(window.speak)window.speak(q.ok);}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();streak=0;document.querySelectorAll('.opt').forEach(o=>{if(o.textContent===q.ok)o.classList.add('ok');});}
+  setTimeout(()=>{idx++;render();},700);
+}
+function endGame(){
+  clearInterval(timer);
+  document.getElementById('gameArea').style.display='none';
+  const r=document.getElementById('resultArea');r.style.display='block';
+  document.getElementById('finalScore').textContent=score+' réponses';
+  document.getElementById('finalMsg').textContent=score>=12?'Les cinq formes de prévision sont devenues un réflexe.':score>=6?'Bien joué. Le couple 테니까 / 텐데 mérite encore un tour.':'Reprends le tableau des 5 formes, puis rejoue.';
+}
+function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_d50',xp:12});else{if(typeof ksAddXP==='function')ksAddXP(12);if(typeof ksMarkDone==='function')ksMarkDone('ks_d50');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>

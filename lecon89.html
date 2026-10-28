@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>-다가는 : l'avertissement coréen · Korean Stories</title>
+<meta name="description" content="-다가는 annonce où mène ce que l'autre est en train de faire, avec la nuance de registre qui l'interdit face à un supérieur, plus le tableau des 5 formes de prévision du coréen. Leçon B2."/>
+  <link rel="canonical" href="https://koreanstories.fr/lecon89.html"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    h1{color:var(--navy);margin:0 0 .4rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    h3{color:#DB2777;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    [data-theme="dark"] h3{color:#f9a8d4}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#f9a8d4}
+    .xp-badge{background:rgba(219,39,119,.12);color:#DB2777;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    [data-theme="dark"] .xp-badge{color:#f9a8d4}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .ex-block{background:rgba(219,39,119,.07);border-radius:10px;padding:.6rem .9rem;margin:.4rem 0;font-size:.9rem}
+    .ex-block .ko{color:#DB2777;font-weight:700;font-size:.95rem}
+    [data-theme="dark"] .ex-block .ko{color:#f9a8d4}
+    .ex-block .fr{color:var(--tx-muted);font-style:italic;font-size:.8rem;margin-top:.2rem}
+    .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.5rem .85rem;font-size:.85rem;margin:.5rem 0;line-height:1.5}
+    .survival{background:linear-gradient(135deg,#DB2777,#9D174D);color:#fff;border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
+    .survival .ko{font-size:1.2rem;font-weight:800;display:block}
+    .survival .fr{font-size:.82rem;opacity:.85;margin-top:.25rem}
+    .speak-btn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:rgba(219,39,119,.1);border:none;border-radius:50%;cursor:pointer;margin-left:.3rem;vertical-align:middle}
+    .speak-btn:hover{background:rgba(219,39,119,.2)}
+    .speak-btn.playing{background:#DB2777}
+    .speak-btn.playing svg{stroke:#fff}
+    .speak-btn svg{width:13px;height:13px;stroke:#DB2777;fill:none;stroke-width:2}
+    .survival .speak-btn{background:rgba(255,255,255,.18)}
+    .survival .speak-btn svg{stroke:#fff}
+    .contrast{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.7rem 0}
+    .side-a{background:rgba(37,99,235,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(37,99,235,.2)}
+    .side-b{background:rgba(219,39,119,.07);border-radius:10px;padding:.7rem;border:1px solid rgba(219,39,119,.2)}
+    .side-a h4,.side-b h4{margin:0 0 .4rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+    .side-a h4{color:#2563EB}
+    .side-b h4{color:#DB2777}
+    .side-a .ko{color:#2563EB;font-weight:700}
+    [data-theme="dark"] .side-a .ko{color:#93c5fd}
+    .side-b .ko{color:#DB2777;font-weight:700}
+    [data-theme="dark"] .side-b .ko{color:#f9a8d4}
+    @media (max-width:480px){.contrast{grid-template-columns:1fr}}
+    .tbl{width:100%;border-collapse:collapse;font-size:.85rem;margin:.6rem 0}
+    .tbl th,.tbl td{border:1px solid var(--bd);padding:.45rem .55rem;text-align:left;vertical-align:top}
+    .tbl th{background:rgba(219,39,119,.08);color:#DB2777;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em}
+    [data-theme="dark"] .tbl th{color:#f9a8d4}
+    .tbl td.ko{color:#DB2777;font-weight:700;white-space:nowrap}
+    [data-theme="dark"] .tbl td.ko{color:#f9a8d4}
+    .formula{background:var(--bg);border:1px dashed rgba(219,39,119,.4);border-radius:10px;padding:.55rem .8rem;font-weight:700;font-size:.95rem;color:#DB2777;text-align:center;margin:.2rem 0 .7rem}
+    [data-theme="dark"] .formula{color:#f9a8d4}
+    .fv{background:rgba(239,68,68,.06);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;padding:.6rem .85rem;margin:.5rem 0;font-size:.88rem;line-height:1.55}
+    .fv-x{color:#ef4444;font-weight:800}
+    .fv-v{color:#16A34A;font-weight:800}
+    .fv-ko{font-weight:700;color:#ef4444}
+    .fv-ko.ok{color:#16A34A}
+    .fv-why{color:var(--tx-muted);font-size:.82rem;margin:.25rem 0 .4rem}
+    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
+    .mq .opt:hover{border-color:#DB2777}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="ks-boot-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">&larr;</button><span class="bar-title">-다가는 et le tableau des 5</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div style="padding:1rem">
+  <h1>-다가는 : si ça continue comme ça</h1>
+  <span class="pill">B2 · Grammaire</span> <span class="xp-badge">+16 XP</span>
+  <p style="color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1rem">Dernière pièce de l'anticipation : la forme qui ne prévoit pas la météo, mais ce qui va t'arriver si tu continues. Et à la fin, le tableau qui range les cinq façons coréennes de parler de ce qui n'est pas encore arrivé.</p>
+  <h3>1 : -다가는 : « si tu continues comme ça… »</h3>
+  <div class="card">
+    <div class="formula">Radical du verbe + 다가는 &nbsp;(forme parlée : 다간)</div>
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">Un avertissement. Tu décris ce que quelqu'un est en train de faire, et tu annonces où ça va le mener si rien ne change. La suite est donc toujours une conséquence fâcheuse, au futur : -(으)ㄹ 거예요 ou -겠어요.</p>
+    <div class="ex-block">
+      <div class="ko">이렇게 계속 놀다가는 시험에 떨어질 거예요. <button class="speak-btn" onclick="window.speak('이렇게 계속 놀다가는 시험에 떨어질 거예요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">À continuer à t'amuser comme ça, tu vas rater l'examen.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">그렇게 급하게 가다가는 넘어질 거예요. <button class="speak-btn" onclick="window.speak('그렇게 급하게 가다가는 넘어질 거예요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">À aller si vite, tu vas tomber.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">매일 늦게 자다가는 건강이 나빠질 거예요. <button class="speak-btn" onclick="window.speak('매일 늦게 자다가는 건강이 나빠질 거예요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">À te coucher tard tous les jours, tu vas y laisser ta santé.</div>
+    </div>
+    <div class="ex-block">
+      <div class="ko">계속 미루다가는 아무것도 못 할 거예요. <button class="speak-btn" onclick="window.speak('계속 미루다가는 아무것도 못 할 거예요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+      <div class="fr">À force de repousser, tu ne feras plus rien du tout.</div>
+    </div>
+  </div>
+  <div class="tip"><strong>Ne pas confondre avec -다가 tout court</strong>, que tu connais : 가다가 (en cours de route, j'ai…) raconte une interruption, un changement en chemin. Le 는 ajouté transforme le récit en avertissement : 가다가는 ne décrit plus, il met en garde.</div>
+  <h3>2 : À qui on le dit, et à qui on ne le dit pas</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">-다가는 est franc, presque abrupt : il suppose que tu te permets de corriger l'autre. Entre amis et en famille, il passe très bien. À un supérieur, jamais. À un supérieur, on dit la même chose avec -(으)ㄹ 테니까 et un conseil poli.</p>
+    <div class="contrast">
+      <div class="side-a">
+        <h4>-다가는 : l'avertissement direct</h4>
+        <div class="ko">매일 늦게 자다가는 건강이 나빠질 거예요. <button class="speak-btn" onclick="window.speak('매일 늦게 자다가는 건강이 나빠질 거예요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">À te coucher tard tous les jours, tu vas y laisser ta santé.</div>
+      </div>
+      <div class="side-b">
+        <h4>-(으)ㄹ 테니까 : la version prudente</h4>
+        <div class="ko">피곤할 테니까 좀 쉬세요. <button class="speak-btn" onclick="window.speak('피곤할 테니까 좀 쉬세요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div>
+        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">Tu dois être fatigué, repose-toi un peu.</div>
+      </div>
+    </div>
+  </div>
+  <h3>3 : Les cinq façons de parler de ce qui n'est pas encore arrivé</h3>
+  <div class="card">
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">Tu les as maintenant toutes. Et comme pour les causales, elles ne se distinguent pas par le sens mais par <strong>ce que tu attends de ton interlocuteur</strong>.</p>
+    <table class="tbl">
+      <tr><th>Forme</th><th>Ce que tu fais</th><th>Exemple</th></tr>
+      <tr><td class="ko">-(으)ㄹ 거예요</td><td>Tu annonces, neutre</td><td>비가 올 거예요</td></tr>
+      <tr><td class="ko">-(으)ㄹ 테니까</td><td>Tu prévois, donc fais ceci</td><td>비가 올 테니까 우산을 챙기세요</td></tr>
+      <tr><td class="ko">-(으)ㄹ 텐데</td><td>Tu prévois, et ça t'ennuie</td><td>비가 올 텐데 우산이 없어요</td></tr>
+      <tr><td class="ko">-(으)ㄹ까 봐</td><td>Tu crains, donc tu as agi</td><td>비가 올까 봐 우산을 가져왔어요</td></tr>
+      <tr><td class="ko">-(으)ㄹ지도 몰라요</td><td>C'est possible, sans plus</td><td>내일 비가 올지도 몰라요</td></tr>
+    </table>
+    <p style="margin:.3rem 0 .8rem;font-size:.92rem">Et -다가는 se tient à part : il ne prévoit pas la pluie, il prévoit ce qui t'arrivera si tu continues à sortir sans parapluie.</p>
+  </div>
+  <div class="tip"><strong>Si tu hésites</strong> : -(으)ㄹ 거예요 passe partout, comme 때문에 chez les causales. Les autres ajoutent une intention. Mieux vaut une prévision neutre bien placée qu'un -다가는 qui sonne comme un reproche à quelqu'un à qui tu ne te permettrais pas d'en faire.</div>
+  <h3>La phrase de survie</h3>
+  <div class="survival">
+    <span class="ko">그렇게 급하게 가다가는 넘어질 거예요. <button class="speak-btn" onclick="window.speak('그렇게 급하게 가다가는 넘어질 거예요.',this)" aria-label="Écouter"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></span>
+    <span class="fr">« À aller si vite, tu vas tomber. » : la phrase qu'on lance à un ami pressé. Dite en riant, elle vous fera passer pour quelqu'un qui parle vraiment coréen.</span>
+  </div>
+  <h3>Mini-quiz</h3>
+  <div class="card mq" id="q1">
+    <p style="font-weight:600">« À continuer à t'amuser comme ça, tu vas rater l'examen. » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">이렇게 계속 놀다가는 시험에 떨어질 거예요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이렇게 계속 놀다가 시험에 떨어질 거예요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">이렇게 계속 노느라고 시험에 떨어질 거예요.</div>
+  </div>
+  <div class="card mq" id="q2">
+    <p style="font-weight:600">« Il va pleuvoir, prenez un parapluie. » (prévision + conseil) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">비가 올까 봐 우산을 챙기세요.</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">비가 올 테니까 우산을 챙기세요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">비가 오다가는 우산을 챙기세요.</div>
+  </div>
+  <div class="card mq" id="q3">
+    <p style="font-weight:600">« J'ai emporté un parapluie au cas où il pleuvrait. » :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">비가 올 테니까 우산을 가져왔어요.</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">비가 올까 봐 우산을 가져왔어요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">비가 오다가는 우산을 가져왔어요.</div>
+  </div>
+  <div class="card mq" id="q4">
+    <p style="font-weight:600">« À force de repousser, tu ne feras plus rien du tout. » :</p>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">계속 미루다가는 아무것도 못 할 거예요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">계속 미룰까 봐 아무것도 못 할 거예요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">계속 미룰 테니까 아무것도 못 할 거예요.</div>
+  </div>
+  <div class="card mq" id="q5">
+    <p style="font-weight:600">« Il se pourrait qu'il pleuve demain. » (simple possibilité) :</p>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">내일 비가 올 테니까요.</div>
+    <div class="opt" onclick="a(this,'ok')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ok')}">내일 비가 올지도 몰라요.</div>
+    <div class="opt" onclick="a(this,'ko')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();a(this,'ko')}">내일 비가 오다가는요.</div>
+  </div>
+
+  <button class="btn-done" id="doneBtn" onclick="completeLesson()">Terminer, +16 XP</button>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+function completeLesson(){if(typeof ksFinish==='function')ksFinish({key:'ks_d47',xp:16});else{if(typeof ksAddXP==='function')ksAddXP(16);if(typeof ksMarkDone==='function')ksMarkDone('ks_d47');location.href='cours.html';}}
+function a(btn,r){const p=btn.closest('.mq');if(p.querySelector('.opt.ok,.opt.ko'))return;btn.classList.add(r);if(r==='ko'&&window.KSLives)KSLives.lose();}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>

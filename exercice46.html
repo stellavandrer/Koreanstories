@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
+  <meta charset="UTF-8">
+<meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Exercice : prévoir, craindre, avertir · Korean Stories</title>
+<link rel="canonical" href="https://koreanstories.fr/exercice46.html"/>
+<meta name="description" content="10 questions pour choisir entre -(으)ㄹ 테니까, -(으)ㄹ 텐데, -(으)ㄹ까 봐, -(으)ㄹ지도 모르다 et -다가는 selon ce que tu attends de ton interlocuteur. Exercice B2."/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
+    .wrap{padding:1rem;max-width:560px;margin:0 auto}
+    h1{color:var(--navy);margin:0 0 .3rem}
+    [data-theme="dark"] h1{color:#EDF2FA}
+    .pill{display:inline-block;background:rgba(219,39,119,.12);color:#DB2777;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    [data-theme="dark"] .pill{color:#f9a8d4}
+    .prog{height:6px;background:var(--bd);border-radius:100px;overflow:hidden;margin:1rem 0}
+    .prog-fill{height:100%;background:#DB2777;width:0;border-radius:100px;transition:width .4s}
+    .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem 1.2rem;margin:.9rem 0}
+    .q-fr{font-size:.82rem;color:var(--tx-muted);margin-bottom:.2rem}
+    .q-txt{font-weight:600;font-size:1rem;margin-bottom:.8rem;line-height:1.5}
+    .opt{padding:.6rem .85rem;border:1.5px solid var(--bd);border-radius:10px;cursor:pointer;margin:.4rem 0;font-size:.92rem;background:var(--bg);transition:.15s}
+    .opt:hover{border-color:#DB2777}
+    .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#15803D;font-weight:600}
+    .opt.ko{border-color:#ef4444;background:rgba(239,68,68,.08);color:#dc2626}
+    .fb{font-size:.85rem;margin-top:.6rem;min-height:1.2em;line-height:1.5}
+    .next{display:block;width:100%;padding:.85rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:.8rem}
+    .result{text-align:center;padding:2rem 1rem}
+    .result .score{font-size:2.4rem;font-weight:800;color:#DB2777}
+    .result-btn{display:inline-block;margin-top:1.2rem;padding:.8rem 1.6rem;background:#DB2777;color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;text-decoration:none}
+  </style>
+<style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
+<link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script defer src="ks-boot-sync.js"></script>
+</head>
+<body>
+<nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">&larr;</button><span class="bar-title">Prévoir, craindre, avertir</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
+<div class="shell"><main class="main"><div class="wrap">
+  <h1>Prévoir, craindre, avertir</h1>
+  <span class="pill">B2 · 10 questions</span>
+  <div class="prog"><div class="prog-fill" id="progFill"></div></div>
+  <div id="quizArea"></div>
+  <div id="resultArea" style="display:none" class="result">
+    <div class="score" id="scoreVal">-</div>
+    <p id="resultMsg" style="color:var(--tx-muted)"></p>
+    <button class="result-btn" onclick="restart()">Recommencer</button>
+    <a class="result-btn" id="doneBtn" href="#" onclick="finish();return false;">Terminer · +14 XP</a>
+  </div>
+</div></main></div>
+<script src="ks.js"></script>
+<script>
+const QS=[{"fr": "« La route va être bouchée, partez tôt. » (prévision + conseil)", "txt": "길이 ___ 일찍 출발하세요.", "opts": ["막힐 테니까", "막힐 텐데", "막힐까 봐"], "ans": 0, "exp": "테니까 annonce une prévision POUR que l'autre agisse : la suite est un conseil."}, {"fr": "« Il va pleuvoir, et je n'ai pas de parapluie. » (un simple constat embarrassé)", "txt": "비가 ___ 우산이 없어요.", "opts": ["올 테니까", "올 텐데", "올까 봐"], "ans": 1, "exp": "Pas d'ordre derrière, donc pas 테니까. 텐데 laisse venir un constat."}, {"fr": "« J'ai pris un taxi de peur d'être en retard. »", "txt": "___ 택시를 탔어요.", "opts": ["늦을 테니까", "늦을지도 몰라서", "늦을까 봐"], "ans": 2, "exp": "까 봐 : la crainte, puis la précaution qu'elle t'a fait prendre."}, {"fr": "« Je serai peut-être un peu en retard. » (tu préviens, rien de plus)", "txt": "조금 ___", "opts": ["늦을까 봐요.", "늦을지도 몰라요.", "늦을 테니까요."], "ans": 1, "exp": "Une possibilité posée sans conséquence : -(으)ㄹ지도 몰라요. 까 봐 ne termine jamais une phrase."}, {"fr": "« Je m'en occupe, ne vous inquiétez pas. »", "txt": "제가 ___ 걱정하지 마세요.", "opts": ["할 테니까", "할 텐데", "할까 봐"], "ans": 0, "exp": "À la première personne, 테니까 n'est plus une devinette : c'est une promesse."}, {"fr": "« À continuer à t'amuser comme ça, tu vas rater l'examen. »", "txt": "이렇게 계속 ___ 시험에 떨어질 거예요.", "opts": ["놀다가", "놀다가는", "노느라고"], "ans": 1, "exp": "Le 는 ajouté transforme le récit (다가) en avertissement (다가는)."}, {"fr": "« Il est peut-être déjà parti. » (sur un fait passé)", "txt": "그 사람은 벌써 ___", "opts": ["갈지도 몰라요.", "갔을지도 몰라요.", "갈까 봐요."], "ans": 1, "exp": "Fait passé : -았/었을지도 몰라요."}, {"fr": "« J'ai noté, de peur d'oublier. »", "txt": "___ 메모했어요.", "opts": ["잊어버릴까 봐", "잊어버릴 테니까", "잊어버리다가는"], "ans": 0, "exp": "Une crainte qui fait agir : 까 봐."}, {"fr": "« Il y aura du monde, réservons à l'avance. »", "txt": "사람이 ___ 미리 예매합시다.", "opts": ["많을 텐데", "많을 테니까", "많을까 봐"], "ans": 1, "exp": "La suite est une proposition (-ㅂ시다) : c'est le terrain de 테니까."}, {"fr": "« À te coucher tard tous les jours, tu vas y laisser ta santé. »", "txt": "매일 늦게 ___ 건강이 나빠질 거예요.", "opts": ["잘 테니까", "잘까 봐", "자다가는"], "ans": 2, "exp": "Un avertissement sur ce qui arrivera si ça continue : 다가는."}];
+let cur=0,score=0,order=[];
+function start(){cur=0;score=0;order=QS.map(q=>q);document.getElementById('resultArea').style.display='none';document.getElementById('quizArea').style.display='block';render();}
+function render(){
+  const q=order[cur];
+  document.getElementById('progFill').style.width=(cur/order.length*100)+'%';
+  const opts=q.opts.map((o,i)=>({text:o,correct:i===q.ans}));
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+  let html='<div class="card"><div class="q-fr">'+q.fr+'</div>';
+  html+='<div class="q-txt">'+q.txt+'</div>';
+  opts.forEach(o=>{html+='<div class="opt" data-c="'+(o.correct?1:0)+'">'+o.text+'</div>';});
+  html+='<div class="fb" id="fb"></div><button class="next" id="nextBtn" style="display:none" onclick="next()">Suivant &rarr;</button></div>';
+  document.getElementById('quizArea').innerHTML=html;
+  document.querySelectorAll('.opt').forEach(o=>{o.onclick=()=>pick(o,q);o.tabIndex=0;o.setAttribute('role','button');o.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(o,q);}};});
+}
+function pick(el,q){
+  if(document.querySelector('.opt.ok,.opt.ko'))return;
+  const correct=el.getAttribute('data-c')==='1';
+  const fb=document.getElementById('fb');
+  if(correct){el.classList.add('ok');score++;fb.style.color='#16A34A';fb.textContent='\u2713 '+q.exp;}
+  else{el.classList.add('ko');if(window.KSLives)KSLives.lose();document.querySelectorAll('.opt').forEach(o=>{if(o.getAttribute('data-c')==='1')o.classList.add('ok');});fb.style.color='#dc2626';fb.textContent='\u2717 '+q.exp;}
+  document.getElementById('nextBtn').style.display='block';
+}
+function next(){cur++;if(cur>=order.length){showResult();return;}render();}
+function showResult(){
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('quizArea').style.display='none';
+  const r=document.getElementById('resultArea');r.style.display='block';
+  document.getElementById('scoreVal').textContent=score+' / '+order.length;
+  document.getElementById('resultMsg').textContent=score>=9?"Les cinq formes sont en place. Tu ne choisis plus au hasard, tu choisis une intention.":score>=6?"Bien. Reprends le tableau des 5 en fin de leçon 89 : la question tient en une ligne.":"Reprends les trois leçons de l'unité : ces formes se distinguent par ce que tu attends de l'autre, pas par le sens.";
+}
+function restart(){start();}
+function finish(){if(typeof ksFinish==='function')ksFinish({key:'ks_d48',xp:14});else{if(typeof ksAddXP==='function')ksAddXP(14);if(typeof ksMarkDone==='function')ksMarkDone('ks_d48');location.href='cours.html';}}
+try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+start();
+</script>
+  <script src="ks-menu.js" defer></script>
+</body></html>
