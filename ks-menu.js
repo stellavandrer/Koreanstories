@@ -71,13 +71,20 @@
          en haut et les 35 fiches en dessous : le menu, lui, ne bouge plus. */
       ['ressources.html','Livrets & fiches',IC.livret,'or','PDF']
     ]},
+    /* Trois entrees de cette section se ressemblaient de nom : « Defi du
+       jour », « Mix du jour » et « Revisions ». Ce sont pourtant trois
+       choses differentes : un jeu chronometre, un quiz quotidien pioche
+       dans ce qu'on a appris, et la repetition espacee. La troisieme
+       portait le nom le plus vague pour l'outil le plus precis ; elle
+       reprend celui qu'elle se donne elle-meme, « Revision
+       intelligente ». Les libelles viennent des pages, pas d'ici. */
     { title:'Pratiquer', items:[
       ['challenge.html','Défi du jour',IC.bolt],
       ['speaking.html','Speaking Practice',IC.speak],
       ['topik.html','Examen blanc TOPIK',IC.medaille],
       ['daily-mix.html','Mix du jour',IC.mix],
       ['exercice.html','Exercices',IC.check],
-      ['revision.html','Révisions',IC.refresh],
+      ['revision.html','Révision intelligente',IC.refresh],
       ['ecriture.html','Écriture',IC.pen]
     ]},
     { title:'Ma progression', grid:true, items:[
