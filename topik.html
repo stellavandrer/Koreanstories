@@ -507,7 +507,23 @@ const GRAMMAR_POOL=[
   {lvl:'b2',q:'« La société coréenne change rapidement. » (dans une dissertation TOPIK)',hint:'L\'essai ne s\'adresse à personne.',opts:['한국 사회는 빠르게 변하고 있어요.','한국 사회는 빠르게 변하고 있습니다.','한국 사회는 빠르게 변하고 있다.','한국 사회는 빠르게 변하고 있는다.'],ans:2},
   {lvl:'b2',q:'« C\'est bon. » dans le registre de l\'écrit :',hint:'Les adjectifs ne prennent jamais 는다.',opts:['좋아요','좋습니다','좋는다','좋다'],ans:3},
   {lvl:'b2',q:'« Je vais demander au directeur. » (registre honorifique)',hint:'묻다 a une forme honorifique dédiée.',opts:['부장님께 물어볼게요.','부장님께 여쭤볼게요.','부장님께 말할게요.','부장님께 물어보실게요.'],ans:1},
-  {lvl:'b2',q:'« C\'est cher. En revanche, la qualité est bonne. »',hint:'Le connecteur du contraste à l\'écrit.',opts:['비쌉니다. 게다가 품질이 좋습니다.','비쌉니다. 따라서 품질이 좋습니다.','비쌉니다. 반면에 품질이 좋습니다.','비쌉니다. 즉 품질이 좋습니다.'],ans:2}
+  {lvl:'b2',q:'« C\'est cher. En revanche, la qualité est bonne. »',hint:'Le connecteur du contraste à l\'écrit.',opts:['비쌉니다. 게다가 품질이 좋습니다.','비쌉니다. 따라서 품질이 좋습니다.','비쌉니다. 반면에 품질이 좋습니다.','비쌉니다. 즉 품질이 좋습니다.'],ans:2},
+
+  /* TOPIK I : 30 questions de grammaire pour 12 places. Quatorze de plus. */
+  {lvl:'a1',q:'« Je bois du café. » (커피 = café, finit par une voyelle)',hint:null,opts:['커피을 마셔요','커피를 마셔요','커피이 마셔요','커피가 마셔요'],ans:1},
+  {lvl:'a1',q:'« Il y a trois livres. » (책 = livre)',hint:'Le compteur des objets est 권.',opts:['책 세 권이 있어요','책 삼 권이 있어요','책 세 개가 있어요','책 셋 권이 있어요'],ans:0},
+  {lvl:'a1',q:'« Je vais à l\'école. »',hint:'Destination : 에.',opts:['학교에서 가요','학교를 가요','학교에 가요','학교로 가요가'],ans:2},
+  {lvl:'a1',q:'« J\'étudie à la bibliothèque. »',hint:'Lieu où se déroule l\'action : 에서.',opts:['도서관에 공부해요','도서관에서 공부해요','도서관를 공부해요','도서관이 공부해요'],ans:1},
+  {lvl:'a1',q:'« Je n\'ai pas d\'argent. »',hint:null,opts:['돈이 있어요','돈이 없어요','돈을 없어요','돈이 아니에요'],ans:1},
+  {lvl:'a1',q:'« Hier, j\'ai regardé un film. »',hint:'Passé poli de 보다.',opts:['어제 영화를 봐요','어제 영화를 볼 거예요','어제 영화를 봤어요','어제 영화를 보고 싶어요'],ans:2},
+  {lvl:'a1',q:'« Je veux manger du kimchi. »',hint:null,opts:['김치를 먹어요','김치를 먹고 싶어요','김치를 먹었어요','김치를 먹을 거예요'],ans:1},
+  {lvl:'a2',q:'« Je ne peux pas y aller aujourd\'hui. » (capacité)',hint:null,opts:['오늘은 안 가요','오늘은 못 가요','오늘은 가지 않아요','오늘은 갈 거예요'],ans:1},
+  {lvl:'a2',q:'« Il faut porter un manteau. »',hint:'Obligation : -아/어야 해요.',opts:['코트를 입고 싶어요','코트를 입어야 해요','코트를 입을 수 있어요','코트를 입지 마세요'],ans:1},
+  {lvl:'a2',q:'« S\'il pleut, je n\'irai pas. »',hint:'Condition : -(으)면.',opts:['비가 와서 안 갈 거예요','비가 오면 안 갈 거예요','비가 오니까 안 갈 거예요','비가 와도 안 갈 거예요'],ans:1},
+  {lvl:'a2',q:'« Comme il fait froid, fermons la fenêtre. »',hint:'Cause + proposition : -(으)니까.',opts:['추워서 창문을 닫읍시다','추우니까 창문을 닫읍시다','추우면 창문을 닫읍시다','추워도 창문을 닫읍시다'],ans:1},
+  {lvl:'a2',q:'« Asseyez-vous, s\'il vous plaît. » (poli)',hint:null,opts:['앉아요','앉으세요','앉고 싶어요','앉을 거예요'],ans:1},
+  {lvl:'a2',q:'« Du lundi au vendredi, je travaille. »',hint:'De… à… : 부터 … 까지.',opts:['월요일에서 금요일까지 일해요','월요일부터 금요일까지 일해요','월요일부터 금요일에서 일해요','월요일까지 금요일부터 일해요'],ans:1},
+  {lvl:'a2',q:'« Je suis en train de manger. »',hint:'Action en cours : -고 있어요.',opts:['밥을 먹어요','밥을 먹고 있어요','밥을 먹었어요','밥을 먹을 거예요'],ans:1}
 ];
 
 const LISTEN_POOL=[
@@ -800,7 +816,22 @@ const REALIA_POOL = [
     q:'합계는 얼마입니까?', opts:['6,000원','5,000원','11,000원','16,000원'], ans:2 },
   { title: '실용문 · 포스터', html:
     '<div class="realia-sign"><div class="realia-shop">한국어 말하기 대회</div><div>일시: 11월 15일 (토) 오후 2시</div><div>장소: 학생회관 3층 강당</div><div class="realia-note">신청 마감: 11월 10일 · 누구나 참가할 수 있습니다!</div></div>',
-    q:'신청은 언제까지 해야 합니까?', opts:['11월 10일','11월 15일','오후 2시','3층'], ans:0 }
+    q:'신청은 언제까지 해야 합니까?', opts:['11월 10일','11월 15일','오후 2시','3층'], ans:0 },
+  { title: '실용문 · 안내문', html:
+    '<div class="realia-sign"><div class="realia-shop">중앙 도서관</div><div class="realia-hours">이용 안내</div><div>대출 기간: 2주</div><div>대출 권수: 한 번에 5권까지</div><div class="realia-note">연장은 1회만 가능합니다</div></div>',
+    q:'책을 한 번에 몇 권까지 빌릴 수 있습니까?', opts:['2권','5권','1권','2주'], ans:1 },
+  { title: '실용문 · 영수증', html:
+    '<div class="realia-receipt"><div class="realia-shop">하나 편의점</div><div class="realia-line"><span>삼각김밥 2개</span><span>3,000원</span></div><div class="realia-line"><span>생수 1병</span><span>900원</span></div><div class="realia-line"><span>우유 1개</span><span>1,600원</span></div><div class="realia-line realia-total"><span>합계</span><span>5,500원</span></div><div class="realia-note">교환은 3일 이내에 가능합니다</div></div>',
+    q:'우유는 얼마입니까?', opts:['900원','1,600원','3,000원','5,500원'], ans:1 },
+  { title: '실용문 · 포스터', html:
+    '<div class="realia-sign"><div class="realia-shop">한국 요리 수업</div><div>일시: 매주 토요일 오전 10시</div><div>장소: 문화센터 2층</div><div>수업료: 1회 15,000원</div><div class="realia-note">재료비는 수업료에 포함되어 있습니다</div></div>',
+    q:'수업은 언제 합니까?', opts:['매주 토요일','매주 일요일','평일 오전','매일 오후'], ans:0 },
+  { title: '실용문 · 안내문', html:
+    '<div class="realia-sign"><div class="realia-shop">시청 앞 정류장</div><div class="realia-hours">버스 운행 안내</div><div>472번: 05:30 - 23:00</div><div>701번: 06:00 - 22:30</div><div class="realia-note">주말에는 배차 간격이 길어집니다</div></div>',
+    q:'472번 버스는 몇 시에 운행을 시작합니까?', opts:['05:30','06:00','22:30','23:00'], ans:0 },
+  { title: '실용문 · 포스터', html:
+    '<div class="realia-sign"><div class="realia-shop">카페 아르바이트 모집</div><div>근무: 평일 오후 1시 - 6시</div><div>시급: 11,000원</div><div>경험이 없어도 괜찮습니다</div><div class="realia-note">신청: 가게로 직접 방문해 주세요</div></div>',
+    q:'신청은 어떻게 해야 합니까?', opts:['전화를 겁니다','가게에 직접 갑니다','이메일을 보냅니다','인터넷으로 신청합니다'], ans:1 }
 ];
 
 const READING_POOL=[
@@ -835,7 +866,16 @@ const READING_POOL=[
   {lvl:'b2',title:'한류와 한국어 학습',sentences:['드라마와 음악을 통해 한국 문화를 접하는 사람이 전 세계에서 늘었어요','많은 학습자가 좋아하는 가수나 배우의 말을 이해하고 싶어서 공부를 시작해요','자막 없이 한 문장이라도 알아듣는 순간이 큰 동기가 되기도 해요','그러나 드라마에 나오는 말투를 그대로 따라 하면 실수를 하기 쉬워요','친구에게 쓰는 반말과 윗사람에게 쓰는 높임말이 분명히 다르기 때문이에요','그래서 재미로 시작하더라도 결국에는 체계적인 학습이 필요해요','한국어능력시험을 준비하는 학습자의 수도 해마다 늘고 있어요','관심에서 시작된 공부가 오래 이어지려면 꾸준한 습관이 중요해요'],questions:[{q:'Quel risque le texte signale-t-il chez ceux qui apprennent par les dramas ?',opts:['Ils apprennent trop vite','Ils risquent de copier un registre qui ne convient pas à la situation','Ils oublient leur langue maternelle','Ils ne regardent plus de dramas'],ans:1},{q:'Que faut-il pour que cet apprentissage dure ?',opts:['Regarder plus de séries','Une habitude régulière et un apprentissage structuré','Voyager en Corée chaque année','Arrêter d\'écouter de la musique'],ans:1}]},
   {lvl:'b1',title:'제주도 여행',sentences:['제주도는 한국에서 가장 큰 섬이에요','화산 활동으로 만들어진 섬이라서 풍경이 독특해요','섬 가운데에는 한라산이 높이 솟아 있어요','바닷가를 따라 걷는 길이 잘 만들어져 있어요','바다에서 직접 해산물을 잡는 해녀 문화도 유명해요','해녀는 산소 장비 없이 바다에 들어가 일해요','제주도의 말과 음식은 육지와 조금 달라요','그래서 한국 사람들도 제주도를 여행하면 새로운 느낌을 받아요'],questions:[{q:'Pourquoi les paysages de Jeju sont-ils particuliers ?',opts:['Parce que l\'île est très récente','Parce que l\'île est née d\'une activité volcanique','Parce qu\'il n\'y a pas de montagne','Parce qu\'il y fait toujours froid'],ans:1},{q:'Qu\'est-ce qui caractérise les haenyeo ?',opts:['Elles pêchent depuis un bateau','Elles plongent sans équipement à oxygène','Elles travaillent seulement en hiver','Elles vivent sur le continent'],ans:1}]},
   {lvl:'b1',title:'한국의 명절',sentences:['한국에는 설날과 추석이라는 큰 명절이 있어요','설날은 음력 새해 첫날이에요','추석은 가을에 한 해의 수확을 감사하는 날이에요','명절에는 멀리 사는 가족들이 고향으로 모여요','그래서 고속도로가 아주 많이 막혀요','차례를 지내고 성묘를 가는 집도 많아요','설날에는 떡국을 먹고 추석에는 송편을 만들어요','요즘에는 명절에 여행을 떠나는 가족도 늘고 있어요'],questions:[{q:'Que célèbre le Chuseok ?',opts:['Le premier jour de l\'année lunaire','La récolte de l\'année, à l\'automne','L\'anniversaire du roi Sejong','La fin de l\'hiver'],ans:1},{q:'Qu\'est-ce qui a changé récemment selon le texte ?',opts:['On ne mange plus de tteokguk','Les autoroutes sont vides pendant les fêtes','Certaines familles partent en voyage au lieu de se réunir','Les fêtes ont été supprimées'],ans:2}]},
-  {lvl:'b1',title:'한국의 카페 문화',sentences:['한국에는 거리마다 카페가 아주 많아요','사람들은 커피를 마시려고만 카페에 가는 것이 아니에요','공부를 하거나 일을 하러 가는 사람도 많아요','친구를 만나 이야기하는 장소로도 자주 쓰여요','그래서 카페는 집과 회사 사이의 또 다른 공간이 되었어요','혼자 조용히 책을 읽는 사람도 쉽게 볼 수 있어요','카페마다 분위기가 달라서 목적에 맞춰 고르기도 해요','카페 문화는 한국 사람들의 생활 방식을 잘 보여 줘요'],questions:[{q:'Pourquoi les gens vont-ils au café, selon le texte ?',opts:['Uniquement pour boire un café','Pour étudier, travailler ou voir des amis','Pour dormir','Pour faire leurs courses'],ans:1},{q:'Comment le texte décrit-il le café ?',opts:['Comme un lieu réservé aux étudiants','Comme un espace entre la maison et le travail','Comme un endroit trop bruyant','Comme un commerce en voie de disparition'],ans:1}]}
+  {lvl:'b1',title:'한국의 카페 문화',sentences:['한국에는 거리마다 카페가 아주 많아요','사람들은 커피를 마시려고만 카페에 가는 것이 아니에요','공부를 하거나 일을 하러 가는 사람도 많아요','친구를 만나 이야기하는 장소로도 자주 쓰여요','그래서 카페는 집과 회사 사이의 또 다른 공간이 되었어요','혼자 조용히 책을 읽는 사람도 쉽게 볼 수 있어요','카페마다 분위기가 달라서 목적에 맞춰 고르기도 해요','카페 문화는 한국 사람들의 생활 방식을 잘 보여 줘요'],questions:[{q:'Pourquoi les gens vont-ils au café, selon le texte ?',opts:['Uniquement pour boire un café','Pour étudier, travailler ou voir des amis','Pour dormir','Pour faire leurs courses'],ans:1},{q:'Comment le texte décrit-il le café ?',opts:['Comme un lieu réservé aux étudiants','Comme un espace entre la maison et le travail','Comme un endroit trop bruyant','Comme un commerce en voie de disparition'],ans:1}]},
+
+  /* TOPIK I : 14 textes pour 9 places, soit pres des deux tiers identiques
+     d'une tentative a l'autre. Six de plus. */
+  {lvl:'a1',title:'주말에 하는 일',sentences:['저는 주말에 보통 늦게 일어나요','아침을 먹고 커피를 마셔요','오후에는 친구를 만나요','같이 영화를 보거나 카페에 가요','저녁에는 집에서 요리를 해요','가끔 부모님께 전화해요','밤에는 책을 읽어요','주말은 정말 짧아요'],questions:[{q:'Que fait cette personne l\'après-midi ?',opts:['Elle dort','Elle retrouve un ami','Elle cuisine','Elle lit'],ans:1},{q:'Que fait-elle le soir chez elle ?',opts:['Elle regarde un film','Elle téléphone à ses amis','Elle cuisine','Elle va au café'],ans:2}]},
+  {lvl:'a1',title:'우리 가족',sentences:['우리 가족은 네 명이에요','아버지, 어머니, 동생 그리고 저예요','아버지는 회사에 다녀요','어머니는 학교에서 일해요','동생은 아직 학생이에요','우리는 저녁을 같이 먹어요','주말에는 공원에 산책하러 가요','저는 우리 가족을 아주 좋아해요'],questions:[{q:'Combien sont-ils dans la famille ?',opts:['Trois','Quatre','Cinq','Deux'],ans:1},{q:'Où travaille la mère ?',opts:['Dans une entreprise','À l\'école','Au parc','À la maison'],ans:1}]},
+  {lvl:'a1',title:'한국 음식',sentences:['저는 한국 음식을 좋아해요','김치는 조금 매워요','그런데 아주 맛있어요','비빔밥에는 채소가 많아요','불고기는 맵지 않아요','그래서 외국 사람들도 잘 먹어요','저는 보통 식당에서 점심을 먹어요','집에서도 가끔 요리해요'],questions:[{q:'Comment est le kimchi selon le texte ?',opts:['Sucré','Un peu épicé mais très bon','Froid','Sans goût'],ans:1},{q:'Pourquoi les étrangers mangent-ils volontiers du bulgogi ?',opts:['Parce que c\'est bon marché','Parce que ce n\'est pas épicé','Parce que c\'est rapide','Parce qu\'il y a beaucoup de légumes'],ans:1}]},
+  {lvl:'a2',title:'지하철 타기',sentences:['서울에서는 지하철이 아주 편리해요','노선이 많아서 어디든지 갈 수 있어요','교통카드를 사면 더 싸게 탈 수 있어요','출근 시간에는 사람이 정말 많아요','그때는 앉기가 어려워요','지하철 안에서는 조용히 이야기해야 해요','노약자석에는 앉지 않는 것이 좋아요','처음에는 복잡하지만 금방 익숙해져요'],questions:[{q:'Pourquoi le métro est-il pratique à Séoul ?',opts:['Parce qu\'il est gratuit','Parce qu\'il y a beaucoup de lignes','Parce qu\'il n\'y a jamais de monde','Parce qu\'il roule la nuit'],ans:1},{q:'Que conseille le texte à l\'intérieur du métro ?',opts:['Parler fort','Parler doucement','Manger','Courir'],ans:1}]},
+  {lvl:'a2',title:'병원에 가기',sentences:['어제부터 목이 아프고 열이 났어요','그래서 오늘 아침에 병원에 갔어요','접수를 하고 조금 기다렸어요','의사 선생님이 목을 보고 감기라고 했어요','주사는 맞지 않아도 된다고 했어요','약국에서 약을 사 왔어요','하루에 세 번 식후에 먹어야 해요','푹 쉬면 금방 나을 거예요'],questions:[{q:'Qu\'a dit le médecin ?',opts:['Que c\'était grave','Que c\'était un rhume','Qu\'il fallait une piqûre','Qu\'il fallait rester à l\'hôpital'],ans:1},{q:'Comment faut-il prendre le médicament ?',opts:['Une fois par jour','Trois fois par jour après les repas','Avant de dormir seulement','Quand on a mal'],ans:1}]},
+  {lvl:'a2',title:'친구와 약속',sentences:['오늘 친구와 약속이 있었어요','우리는 두 시에 만나기로 했어요','그런데 버스가 늦게 와서 조금 늦었어요','친구는 벌써 카페에 와 있었어요','미안하다고 하니까 친구가 괜찮다고 했어요','우리는 커피를 마시면서 이야기했어요','다음에는 지하철을 타기로 했어요','약속 시간은 꼭 지켜야 해요'],questions:[{q:'Pourquoi la personne est-elle arrivée en retard ?',opts:['Elle s\'est levée tard','Le bus est arrivé en retard','Elle a oublié le rendez-vous','Le café était fermé'],ans:1},{q:'Qu\'ont-ils décidé pour la prochaine fois ?',opts:['Se voir plus tard','Prendre le métro','Ne plus se voir','Aller au restaurant'],ans:1}]}
 ];
 
 /* ═══════ ÉTAT ═══════ */
@@ -959,7 +999,9 @@ function buildQueueBrut(sectionKey){
     });
     let pool = grammarItems.concat(readItems);
     if(currentTrack==='I'){
-      const realiaItems = REALIA_POOL.map(r => ({type:'realia', title:r.title, html:r.html, q:r.q, opts:r.opts, ans:r.ans}));
+      // 3 documents tires au sort : le pool en contient davantage, les prendre
+      // tous allongerait l'epreuve a chaque ajout.
+      const realiaItems = shuffled(REALIA_POOL).slice(0,3).map(r => ({type:'realia', title:r.title, html:r.html, q:r.q, opts:r.opts, ans:r.ans}));
       pool = pool.concat(realiaItems);
     }
     return shuffled(pool);
