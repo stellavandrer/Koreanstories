@@ -340,7 +340,7 @@
     /* Pages utilitaires */
     'app.html':1, 'index.html':1, 'profil.html':1, 'reglages.html':1,
     'cours.html':1, 'histoires.html':1, 'challenge.html':1,
-    'classement.html':1, 'revision.html':1, 'statistiques.html':1,
+    'classement.html':1, 'revision.html':1, 'statistiques.html':1, 'progression.html':1,
     'trophees.html':1, 'aide.html':1, 'ressources.html':1,
     'login.html':1, 'signup.html':1, 'test-niveau.html':1,
     'bienvenue.html':1, 'vocabulaire.html':1, 'hangeul.html':1,
@@ -351,10 +351,17 @@
     var path = location.pathname.split('/').pop() || 'index.html';
     if (EXCLUDED[path]) return null;
     if (CURATED[path]) return CURATED[path];
-    /* Fallback par préfixe */
+    /* Fallback par préfixe. Le caractère qui suit le préfixe ne doit pas
+       être une lettre : sinon « pro » attrapait prononciation.html (et
+       progression.html, dont la mise en page cassait, la bannière étant
+       alors injectée dans le .shell en flex). lecon.html et lecon_a1.html
+       gardent la leur, le caractère suivant étant « . » ou « _ ». */
     var prefixes = Object.keys(FALLBACK_BY_PREFIX);
     for (var i = 0; i < prefixes.length; i++) {
-      if (path.indexOf(prefixes[i]) === 0) return FALLBACK_BY_PREFIX[prefixes[i]];
+      var pre = prefixes[i];
+      if (path.indexOf(pre) !== 0) continue;
+      if (/[a-z]/.test(path.charAt(pre.length))) continue;
+      return FALLBACK_BY_PREFIX[pre];
     }
     return null;
   }

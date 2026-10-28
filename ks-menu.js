@@ -88,10 +88,10 @@
       ['ecriture.html','Écriture',IC.pen]
     ]},
     { title:'Ma progression', grid:true, items:[
-      ['statistiques.html','Statistiques',IC.chart],
-      ['trophees.html','Trophées',IC.trophy],
-      ['album.html','Album',IC.album],
-      ['classement.html','Records',IC.rank]
+      /* Statistiques, Trophées, Records et Album sont devenus les quatre
+         onglets de progression.html le 2026-10-28 : une seule ligne de menu
+         pour une seule question, « où j'en suis ». */
+      ['progression.html','Ma progression',IC.chart]
     ]},
     { title:'Mon compte', grid:true, items:[
       ['mes-mots.html','Bibliothèque',IC.star],
@@ -200,7 +200,7 @@
     + '</div></div>'
     + '<div class="ksm-body">'
     + '<button class="ksm-search" id="ksmSearch" type="button" aria-label="Rechercher dans tout le parcours">'+svg('<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>')+'<span>Rechercher…</span><kbd>⌘K</kbd></button>'
-    + '<a class="ksm-streak" id="ksmStreak" href="statistiques.html" hidden></a>';
+    + '<a class="ksm-streak" id="ksmStreak" href="progression.html" hidden></a>';
   SECTIONS.forEach(function(sec){
     var cls = sec.grid ? 'ksm-tile' : 'ksm-link';
     html += '<div class="ksm-sec"><div class="ksm-sec-t">'+sec.title+'</div>'

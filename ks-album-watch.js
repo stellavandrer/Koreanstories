@@ -45,7 +45,7 @@
       '<span style="min-width:0;flex:1"><span class="kat-t">' +
         (gained > 1 ? gained + ' nouvelles cartes dans ton Album !' : 'Nouvelle carte dans ton Album !') +
       '</span><span class="kat-s" style="display:block">' + count + ' / ' + KEYS.length + ' histoires collectionnées</span></span>' +
-      '<a href="album.html">Voir</a>' +
+      '<a href="progression.html#album">Voir</a>' +
       '<button class="kat-x" aria-label="Fermer">&times;</button>';
     document.body.appendChild(el);
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.classList.add('on'); }); });

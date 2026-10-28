@@ -50,7 +50,7 @@
      du site n'herite jamais d'une sollicitation par accident. */
   var ALLOW = {
     'app.html': 1, 'cours.html': 1, 'histoires.html': 1,
-    'statistiques.html': 1, 'trophees.html': 1, 'album.html': 1,
+    'statistiques.html': 1, 'progression.html': 1, 'trophees.html': 1, 'album.html': 1,
     'mes-mots.html': 1, 'profil.html': 1
   };
 

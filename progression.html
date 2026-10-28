@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+<script>/* Jour-1 : aucune activité (0 XP + aucune clé ks_*='done') → on masque le mur de zéros de l'onglet Statistiques et on montre une invite. Posé sur <html> avant le rendu pour éviter tout flash. */try{var _xp=parseInt(localStorage.getItem('ks_xp')||'0',10)||0,_dn=false,_i,_k;for(_i=0;_i<localStorage.length;_i++){_k=localStorage.key(_i);if(_k&&_k.indexOf('ks_')===0&&localStorage.getItem(_k)==='done'){_dn=true;break;}}if(!_xp&&!_dn)document.documentElement.classList.add('ks-stat-empty');}catch(e){}</script>
+<script src="gate.js"></script>
+<script src="ks-account-gate.js"></script>
+  <meta charset="UTF-8"/>
+<meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0F1B2D"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Korean Stories"/>
+  <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+  <title>Ma progression · Korean Stories</title>
+<link rel="canonical" href="https://koreanstories.fr/progression.html"/>
+  <meta name="description" content="Statistiques, trophées, records personnels et album des histoires, toute ta progression Korean Stories sur une seule page."/>
+<link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
+  <link rel="stylesheet" href="design.css"/>
+  <link rel="stylesheet" href="fonts/ks-fonts-kr.css"/><!-- les cartes de l'album affichent du coréen -->
+  <script src="ks.js" defer></script>
+  <script src="ks-srs.js"></script>
+  <script defer src="ks-curriculum.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden}
+    #pageWrap{animation:pageIn .38s ease both}
+    @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    /* ── HERO commun aux quatre vues ── */
+    .pr-hero{background:var(--navy);padding:26px 20px 34px;position:relative;overflow:hidden}
+    .pr-hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+    .pr-orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.2}
+    .pr-orb1{width:220px;height:220px;background:var(--gold);top:-70px;right:-50px}
+    .pr-orb2{width:160px;height:160px;background:#a78bfa;bottom:-50px;left:-30px}
+    .pr-hero-in{max-width:560px;margin:0 auto;position:relative;text-align:center}
+    .pr-badge{width:54px;height:54px;margin:0 auto 12px;border-radius:16px;
+      background:linear-gradient(135deg,#F1DBAC,#C9A96E);
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 10px 28px rgba(201,169,110,.4)}
+    .pr-badge svg{width:28px;height:28px;stroke:#0F1B2D;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .pr-hero h1{font-family:'Playfair Display',serif;font-size:clamp(22px,5vw,28px);color:#fff;line-height:1.2;margin-bottom:4px}
+    .pr-hero h1 em{color:var(--gold);font-style:italic}
+    .pr-hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.6}
+    .pr-hero-stats{display:flex;justify-content:center;gap:30px;margin-top:18px}
+    .pr-hs{text-align:center}
+    .pr-hs-n{font-family:'Playfair Display',serif;font-size:26px;color:var(--gold);line-height:1}
+    .pr-hs-l{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(247,248,250,.4);margin-top:4px}
+
+    main{max-width:560px;margin:0 auto;padding:22px 20px 0}
+    .sec-lbl{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+      color:var(--gray);margin:22px 0 12px;display:block}
+    .sec-lbl:first-child{margin-top:4px}
+    .empty{padding:32px 18px;text-align:center;font-size:13px;color:var(--t3)}
+
+    /* ── Onglets (même mécanique que Ma bibliothèque) ── */
+    .tabs{display:flex;gap:6px;background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:5px;margin:0 0 18px}
+    .tab{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:.6rem .3rem;border:none;background:none;
+         border-radius:10px;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:700;color:var(--t2);transition:.15s}
+    .tab:hover:not(.on){background:rgba(201,169,110,.08);color:var(--t)}
+    .tab.on{background:var(--gold,#C9A96E);color:#0a1220}
+    .pane{display:none}
+    .pane.on{display:block}
+    @media(max-width:420px){.tab{font-size:.74rem;padding:.55rem .2rem}}
+
+    /* ══ Onglet STATISTIQUES ══ */
+    .big-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .big-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:16px;box-shadow:var(--sh)}
+    .big-card .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+    .big-card .ic svg{width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .big-card .n{font-family:'Playfair Display',serif;font-size:30px;color:var(--t);line-height:1;font-weight:700}
+    .big-card .l{font-size:11.5px;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-top:4px}
+    .big-card.gold .ic{background:rgba(201,169,110,.13);color:var(--gold)}
+    .big-card.gold .n{color:var(--gold)}
+    .big-card.fire .ic{background:rgba(255,107,53,.14);color:#FF6B35}
+    .big-card.fire .n{color:#FF6B35}
+    .big-card.green .ic{background:rgba(34,197,94,.13);color:#16a34a}
+    .big-card.green .n{color:#16a34a}
+    .big-card.blue .ic{background:rgba(91,142,245,.13);color:#5B8EF5}
+    .big-card.blue .n{color:#5B8EF5}
+    .act-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh)}
+    .act-row{margin-bottom:14px}
+    .act-row:last-child{margin-bottom:0}
+    .act-row-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+    .act-row-lbl{font-size:13px;font-weight:700;color:var(--t)}
+    .act-row-lbl .ico{display:inline-block;width:16px;height:16px;vertical-align:middle;margin-right:6px;color:var(--t2)}
+    .act-row-val{font-size:13px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+    .act-row-val .total{color:var(--t3);font-weight:500}
+    .act-bar{height:8px;background:var(--s3);border-radius:100px;overflow:hidden}
+    .act-bar-fill{height:100%;border-radius:100px;transition:width .9s cubic-bezier(.4,0,.2,1);background:linear-gradient(90deg,var(--gold),#E8C97E)}
+    .act-bar-fill.complete{background:linear-gradient(90deg,#22c55e,#16a34a)}
+    .lvl-row{display:flex;align-items:center;gap:14px;padding:13px 16px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;margin-bottom:8px;box-shadow:var(--sh)}
+    .lvl-tag{flex-shrink:0;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);width:50px;text-align:center}
+    .lvl-body{flex:1;min-width:0}
+    .lvl-name{font-size:13px;font-weight:700;color:var(--t);margin-bottom:6px}
+    .lvl-meta{font-size:11px;color:var(--t2);margin-top:4px}
+    .lvl-meta strong{color:var(--gold)}
+    .lvl-bar{height:6px;background:var(--s3);border-radius:100px;overflow:hidden}
+    .lvl-bar-fill{height:100%;border-radius:100px;transition:width 1s ease;background:linear-gradient(90deg,#C9A96E,#FFD700)}
+    .lvl-pct{flex-shrink:0;font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);min-width:50px;text-align:right}
+    .srs-stats{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh)}
+    .srs-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bd)}
+    .srs-row:last-child{border-bottom:none}
+    .srs-row-lbl{font-size:13px;color:var(--t2);display:flex;align-items:center;gap:8px}
+    .srs-row-lbl .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+    .srs-row-val{font-family:'Playfair Display',serif;font-size:18px;color:var(--t);font-weight:700}
+    .best-day-card{background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(201,169,110,.03));border:1.5px solid rgba(201,169,110,.3);border-radius:18px;padding:18px;text-align:center}
+    .best-day-card .d-date{font-size:11.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+    .best-day-card .d-xp{font-family:'Playfair Display',serif;font-size:36px;color:var(--gold);font-weight:700;line-height:1}
+    .best-day-card .d-sub{font-size:12px;color:var(--t2);margin-top:6px}
+    /* Jour 1 : l'invite remplace le mur de zeros, dans cet onglet seulement */
+    #statEmpty{display:none}
+    .ks-stat-empty #pane-stats>*:not(#statEmpty){display:none !important}
+    .ks-stat-empty #statEmpty{display:block}
+    #statEmpty{text-align:center;background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:38px 22px;box-shadow:var(--sh);margin-top:8px}
+    #statEmpty .se-ic{width:54px;height:54px;border-radius:14px;background:rgba(201,169,110,.13);color:var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+    #statEmpty .se-ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    #statEmpty .se-t{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin:0 0 8px;font-weight:700}
+    #statEmpty .se-p{font-size:14px;color:var(--t2);line-height:1.6;max-width:340px;margin:0 auto 20px}
+    #statEmpty .se-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e0c48a,var(--gold));color:#3a2c12;font-weight:800;font-size:14px;padding:13px 24px;border-radius:100px;text-decoration:none;box-shadow:0 8px 22px rgba(201,169,110,.3)}
+
+    /* ══ Onglet RECORDS ══ */
+    .lb-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;box-shadow:var(--sh);overflow:hidden}
+    .lb-loading{padding:24px 16px;text-align:center;font-size:13px;color:var(--t3)}
+    .lb-empty{padding:24px 18px;text-align:center;font-size:13px;color:var(--t2);line-height:1.6}
+    .lb-empty strong{color:var(--gold)}
+    .lb-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid var(--bd);text-decoration:none;color:inherit;transition:background .15s}
+    .lb-row:first-child{border-top:none}
+    .lb-row:hover{background:var(--s2)}
+    .lb-row.me{background:linear-gradient(135deg,rgba(201,169,110,.10),rgba(201,169,110,.03));border-left:3px solid var(--gold)}
+    .lb-rank{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--t3);width:32px;text-align:center;flex-shrink:0;line-height:1}
+    .lb-row.top1 .lb-rank{color:#FFD700;font-size:22px}
+    .lb-row.top2 .lb-rank{color:#C0C0C0;font-size:20px}
+    .lb-row.top3 .lb-rank{color:#CD7F32;font-size:20px}
+    .lb-avatar{width:38px;height:38px;border-radius:50%;flex-shrink:0;overflow:hidden;background:#152030;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(201,169,110,.18)}
+    .lb-avatar img{width:100%;height:100%;display:block;object-fit:cover}
+    .lb-name{flex:1;font-size:14px;font-weight:700;color:var(--t);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .lb-name .me-tag{font-size:10px;color:var(--gold);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-left:6px}
+    .lb-streak{font-size:11.5px;color:#FF8050;font-weight:700;display:flex;align-items:center;gap:3px;flex-shrink:0}
+    .lb-streak svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .lb-xp{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--gold);min-width:60px;text-align:right;flex-shrink:0}
+    .lb-foot{font-size:11.5px;color:var(--t3);margin-top:9px;text-align:center;line-height:1.6}
+    .lb-foot a{color:var(--gold);text-decoration:none;font-weight:600}
+    .week-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh)}
+    .week-verdict{font-family:'Playfair Display',serif;font-size:16px;color:var(--t);margin-bottom:16px;line-height:1.35}
+    .week-verdict strong{color:var(--gold)}
+    .week-row{margin-bottom:12px}
+    .week-row:last-child{margin-bottom:0}
+    .week-row-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+    .week-row-lbl{color:var(--t2);font-weight:600}
+    .week-row-val{color:var(--t);font-weight:800}
+    .week-bar{height:9px;background:var(--s3);border-radius:100px;overflow:hidden}
+    .week-bar-fill{height:100%;border-radius:100px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+    .week-bar-fill.now{background:linear-gradient(90deg,var(--gold),#E8C97E)}
+    .week-bar-fill.prev{background:var(--bd2)}
+    .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .rec-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:15px 14px;box-shadow:var(--sh);display:flex;align-items:center;gap:12px}
+    .rec-card-ic{width:40px;height:40px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+    .rec-card-ic svg{width:20px;height:20px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .rec-card-body{min-width:0}
+    .rec-card-n{font-family:'Playfair Display',serif;font-size:21px;color:var(--t);line-height:1}
+    .rec-card-l{font-size:10.5px;font-weight:600;color:var(--t2);margin-top:3px;line-height:1.3}
+    .ms-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:18px;box-shadow:var(--sh)}
+    .ms-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .ms-flame{width:38px;height:38px;border-radius:11px;flex-shrink:0;background:rgba(255,107,53,.13);display:flex;align-items:center;justify-content:center}
+    .ms-flame svg{width:19px;height:19px;stroke:#FF6B35;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .ms-head-t{font-size:14px;font-weight:800;color:var(--t)}
+    .ms-head-s{font-size:11.5px;color:var(--t2);margin-top:1px}
+    .ms-track{display:flex;gap:6px}
+    .ms-step{flex:1;text-align:center}
+    .ms-dot{height:8px;border-radius:100px;background:var(--s3);margin-bottom:6px;transition:background .3s}
+    .ms-step.done .ms-dot{background:linear-gradient(90deg,#FF8050,#FF6B35)}
+    .ms-step.next .ms-dot{background:rgba(255,107,53,.3)}
+    .ms-step-n{font-size:12px;font-weight:800;color:var(--t3)}
+    .ms-step.done .ms-step-n{color:#FF6B35}
+    .ms-step.next .ms-step-n{color:var(--t)}
+    .ms-step-l{font-size:9px;color:var(--t3);margin-top:1px}
+    @media(max-width:360px){.rec-grid{grid-template-columns:1fr}}
+
+    /* ══ Partagé par Trophées et Album ══ */
+    .pane h2{color:var(--t);margin:0 0 .3rem;font-size:1.3rem;font-family:'Playfair Display',serif;font-weight:700}
+    .pane .sub{color:var(--t2);font-size:.9rem;margin:0 0 1rem;line-height:1.55}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.8rem 0 1.2rem}
+    .stat{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.7rem;text-align:center}
+    .stat-val{font-size:1.6rem;font-weight:800;color:#C9A96E;line-height:1}
+    .stat-lbl{font-size:.7rem;color:var(--t2);margin-top:.3rem;text-transform:uppercase;letter-spacing:.04em}
+    .overlay{position:fixed;inset:0;background:rgba(8,14,24,.75);z-index:999;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s}
+    .overlay.open{opacity:1;pointer-events:auto}
+
+    /* ══ Onglet TROPHÉES ══ */
+    .cat-title{margin:1.3rem 0 .6rem;color:var(--t);font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:flex;align-items:center;gap:.5rem}
+    .cat-title::before{content:"";flex:1;height:1px;background:var(--bd)}
+    .cat-title::after{content:"";flex:1;height:1px;background:var(--bd)}
+    .trophy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.6rem}
+    .trophy{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:.8rem;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+    .trophy.locked{opacity:.45}
+    .trophy.earned{border-color:#C9A96E;background:linear-gradient(135deg,rgba(201,169,110,.07),rgba(201,169,110,.02))}
+    .trophy.earned::before{content:"";position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:#C9A96E;box-shadow:0 0 8px rgba(201,169,110,.6)}
+    .trophy:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.08)}
+    .t-ico{width:50px;height:50px;margin:0 auto .4rem;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.1);border-radius:50%}
+    .trophy.earned .t-ico{background:rgba(201,169,110,.18)}
+    .t-name{font-size:.85rem;font-weight:700;margin-bottom:.15rem;color:var(--t)}
+    .t-desc{font-size:.72rem;color:var(--t2);line-height:1.35}
+    .t-progress{margin-top:.5rem;height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
+    .t-progress-bar{height:100%;background:linear-gradient(90deg,#C9A96E,#E8C589);border-radius:2px;transition:width .4s}
+    .t-progress-text{font-size:.65rem;color:var(--t2);margin-top:.2rem}
+    .modal{background:var(--surf);border-radius:18px;padding:1.5rem;max-width:340px;width:100%;text-align:center;border:1px solid var(--bd)}
+    .modal .m-ico{width:80px;height:80px;margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;background:rgba(201,169,110,.15);border-radius:50%}
+    .modal .m-ico.locked{opacity:.4}
+    .modal h3{margin:.3rem 0;font-size:1.2rem;color:var(--t)}
+    .modal .m-status{display:inline-block;font-size:.75rem;font-weight:700;padding:.2rem .7rem;border-radius:8px;letter-spacing:.05em;text-transform:uppercase;margin:.3rem 0}
+    .m-status.earned{background:rgba(201,169,110,.15);color:#C9A96E}
+    .m-status.locked{background:rgba(127,127,127,.1);color:var(--t2)}
+    .modal .m-desc{font-size:.9rem;color:var(--t2);line-height:1.5;margin:.6rem 0}
+    .modal .close-btn{margin-top:.8rem;background:#C9A96E;color:#0a1220;border:none;border-radius:10px;padding:.6rem 1.5rem;font-weight:700;cursor:pointer;font-size:.9rem}
+
+    /* ══ Onglet ALBUM ══ */
+    .al-cat{display:flex;align-items:center;gap:.5rem;margin:1.4rem 0 .7rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--t)}
+    .al-dot{width:9px;height:9px;border-radius:50%;flex:none}
+    .al-cat-n{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--t2);letter-spacing:0;text-transform:none}
+    .al-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.7rem}
+    .al-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:.15rem;
+      min-height:150px;padding:.85rem;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);
+      font-family:inherit;text-align:left;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden}
+    .al-card:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(0,0,0,.1)}
+    .al-card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .al-card:not(.locked){border-color:color-mix(in srgb,var(--ac) 55%,var(--bd));
+      background:linear-gradient(160deg,color-mix(in srgb,var(--ac) 12%,var(--surf)),var(--surf) 60%)}
+    .al-card:not(.locked)::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--ac)}
+    body.ks-prem .al-card:not(.locked){
+      border-color:rgba(201,169,110,.55);
+      box-shadow:inset 0 0 0 1px rgba(201,169,110,.28);
+      background:linear-gradient(160deg,
+        color-mix(in srgb,var(--ac) 10%,var(--surf)),
+        color-mix(in srgb,#C9A96E 7%,var(--surf)) 70%, var(--surf));
+    }
+    body.ks-prem .al-card:not(.locked)::before{
+      background:linear-gradient(180deg,#E0C48A,#C9A96E 55%,#A8884E);
+      width:6px;
+    }
+    body.ks-prem .al-card:not(.locked):hover{
+      box-shadow:inset 0 0 0 1px rgba(201,169,110,.45), 0 10px 26px rgba(168,136,78,.22);
+    }
+    .al-gold-note{display:none;align-items:center;gap:7px;margin:0 0 14px;font-size:12.5px;font-weight:700;color:#A8884E}
+    body.ks-prem .al-gold-note{display:inline-flex}
+    .al-gold-note svg{width:14px;height:14px;fill:#C9A96E}
+    .al-kr{font-family:'Noto Sans KR',sans-serif;font-size:1.35rem;font-weight:800;color:var(--t);margin-top:.35rem;line-height:1.2}
+    .al-fr{font-size:.82rem;font-weight:600;color:var(--t);line-height:1.25}
+    .al-loc{font-size:.68rem;color:var(--t2);margin-top:.1rem}
+    .al-lvl{margin-top:auto;padding-top:.4rem;font-size:.66rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.05em}
+    .al-rar{align-self:flex-start;font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+      padding:.15rem .45rem;border:1.3px solid;border-radius:100px;line-height:1.4}
+    .al-new{position:absolute;top:0;right:0;background:#C9A96E;color:#fff;font-size:.6rem;font-weight:800;
+      text-transform:uppercase;letter-spacing:.04em;padding:.2rem .5rem;border-bottom-left-radius:10px}
+    .al-card.locked{align-items:center;justify-content:center;text-align:center;gap:.4rem;color:var(--t2);opacity:.72}
+    .al-card.locked .al-rar{position:absolute;top:.7rem;left:.7rem}
+    .al-lock{opacity:.5}
+    .al-q{font-family:'Noto Sans KR',sans-serif;font-size:2rem;font-weight:800;color:var(--t2);opacity:.5;line-height:1}
+    .al-card.locked .al-lvl{margin-top:0;padding-top:0}
+    html.ks-premium .al-card:not(.locked){border-color:#C9A96E;
+      box-shadow:0 0 0 1px rgba(201,169,110,.35),0 8px 20px rgba(201,169,110,.22)}
+    .al-modal{background:var(--surf);border-radius:20px;padding:1.6rem 1.4rem;max-width:360px;width:100%;text-align:center;border:1px solid var(--bd);max-height:88vh;overflow:auto}
+    .al-m-kr{font-family:'Noto Sans KR',sans-serif;font-size:2rem;font-weight:800;margin:.7rem 0 .1rem;line-height:1.2}
+    .al-m-fr{font-size:1rem;font-weight:700;color:var(--t)}
+    .al-m-loc{font-size:.78rem;color:var(--t2);margin-top:.2rem}
+    .al-m-desc{font-size:.88rem;color:var(--t);line-height:1.5;margin:.9rem 0}
+    .al-chips{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;margin-bottom:1rem}
+    .al-chip{font-family:'Noto Sans KR',sans-serif;font-size:.8rem;background:rgba(201,169,110,.12);color:var(--t);padding:.25rem .55rem;border-radius:8px}
+    .al-m-btn{display:inline-block;background:#C9A96E;color:#fff;font-weight:700;text-decoration:none;padding:.7rem 1.4rem;border-radius:100px;font-size:.9rem}
+    .al-close{margin-top:.9rem;display:block;width:100%;background:none;border:none;color:var(--t2);font-family:inherit;font-size:.85rem;cursor:pointer;padding:.5rem}
+    .al-m-share{margin-top:.7rem;display:inline-flex;align-items:center;background:none;border:1.5px solid var(--bd);border-radius:100px;color:var(--t);font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;padding:.55rem 1.1rem;transition:border-color .2s}
+    .al-m-share:hover{border-color:#C9A96E;color:#C9A96E}
+    .al-empty{text-align:center;color:var(--t2);font-size:.9rem;padding:2rem 1rem;line-height:1.6}
+
+    .pr-foot{text-align:center;font-size:11px;color:var(--t3);margin:28px 0 8px;line-height:1.7}
+  </style>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script defer src="ks-sync.js"></script>
+<script defer src="ks-boot-sync.js"></script>
+</head>
+<body>
+
+<div class="shell">
+<div class="main">
+  <div class="bar">
+    <a href="app.html" class="bar-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Mon espace
+    </a>
+    <div class="bar-logo">Korean <em>Stories</em></div>
+    <div class="bar-r">
+      <button class="bar-theme" onclick="toggleTheme()" aria-label="Thème">
+        <span class="ico-l"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></span>
+        <span class="ico-d"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="profil.html" class="bar-xp">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span id="xpEl">0</span> XP
+      </a>
+    </div>
+  </div>
+
+<div id="pageWrap">
+
+  <div class="pr-hero">
+    <div class="pr-hero-bg">
+      <div class="pr-orb pr-orb1"></div>
+      <div class="pr-orb pr-orb2"></div>
+    </div>
+    <div class="pr-hero-in">
+      <div class="pr-badge">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <h1>Ma <em>progression</em></h1>
+      <p class="pr-hero-sub">Tout ce que tu as appris, débloqué et collectionné, au même endroit.</p>
+      <div class="pr-hero-stats">
+        <div class="pr-hs"><div class="pr-hs-n" id="hXp">0</div><div class="pr-hs-l">XP total</div></div>
+        <div class="pr-hs"><div class="pr-hs-n" id="hStreak">0</div><div class="pr-hs-l">Série actuelle</div></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <div class="tabs" role="tablist" aria-label="Vues de ma progression">
+      <button class="tab on" role="tab" id="tab-stats"    aria-selected="true"  aria-controls="pane-stats"    onclick="showTab('stats')">Statistiques</button>
+      <button class="tab"    role="tab" id="tab-trophees" aria-selected="false" aria-controls="pane-trophees" onclick="showTab('trophees')">Trophées</button>
+      <button class="tab"    role="tab" id="tab-records"  aria-selected="false" aria-controls="pane-records"  onclick="showTab('records')">Records</button>
+      <button class="tab"    role="tab" id="tab-album"    aria-selected="false" aria-controls="pane-album"    onclick="showTab('album')">Album</button>
+    </div>
+
+    <section class="pane on" id="pane-stats" role="tabpanel" aria-labelledby="tab-stats">
+  <!-- ÉTAT JOUR-1 (affiché via html.ks-stat-empty, masque les sections de zéros) -->
+    <div id="statEmpty">
+      <div class="se-ic"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <h2 class="se-t">Tes statistiques arrivent</h2>
+      <p class="se-p">Termine ta première activité et tu verras ici ton XP, ta série, ta progression par niveau et ton vocabulaire grandir.</p>
+      <a class="se-cta" href="cours.html">Commencer le parcours →</a>
+    </div>
+
+    <!-- VUE D'ENSEMBLE -->
+    <span class="sec-lbl">Vue d'ensemble</span>
+    <div class="big-grid">
+      <div class="big-card gold">
+        <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="n" id="ovXP">0</div>
+        <div class="l">XP total</div>
+      </div>
+      <div class="big-card fire">
+        <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg></div>
+        <div class="n" id="ovStreak">0</div>
+        <div class="l">Jours d'affilée</div>
+      </div>
+      <div class="big-card green">
+        <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="n" id="ovActs">0</div>
+        <div class="l">Activités finies</div>
+      </div>
+      <div class="big-card blue">
+        <div class="ic"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="n" id="ovDays">0</div>
+        <div class="l">Jours actifs</div>
+      </div>
+    </div>
+
+    <!-- ACTIVITÉS PAR TYPE -->
+    <span class="sec-lbl">Activités par type</span>
+    <div class="act-card" id="actBreakdown">
+      <div class="empty">Calcul en cours…</div>
+    </div>
+
+    <!-- PROGRESSION PAR NIVEAU -->
+    <span class="sec-lbl">Progression par niveau CEFR</span>
+    <div id="lvlList">
+      <div class="empty">Calcul en cours…</div>
+    </div>
+
+    <!-- VOCABULAIRE SRS -->
+    <span class="sec-lbl">Vocabulaire (SRS)</span>
+    <div class="srs-stats" id="srsBreakdown">
+      <div class="empty">Calcul en cours…</div>
+    </div>
+
+    <!-- MEILLEUR JOUR -->
+    <span class="sec-lbl">Meilleur jour</span>
+    <div class="best-day-card" id="bestDayCard">
+      <div class="d-date" id="bdDate">-</div>
+      <div class="d-xp" id="bdXp">0 XP</div>
+      <div class="d-sub">le jour où tu as le plus appris</div>
+    </div>
+    </section>
+
+    <section class="pane" id="pane-trophees" role="tabpanel" aria-labelledby="tab-trophees">
+  <h2>Tes accomplissements</h2>
+    <p class="sub">Débloque des trophées en progressant. Chaque jalon récompense ta régularité, ta maîtrise et ta curiosité.</p>
+
+    <div class="summary">
+      <div class="stat"><div class="stat-val" id="sEarned">0</div><div class="stat-lbl">Débloqués</div></div>
+      <div class="stat"><div class="stat-val" id="sTotal">0</div><div class="stat-lbl">Total</div></div>
+      <div class="stat"><div class="stat-val" id="sPercent">0%</div><div class="stat-lbl">Complété</div></div>
+    </div>
+
+    <div class="cat-title">Régularité</div>
+    <div class="trophy-grid" id="catRegular"></div>
+
+    <div class="cat-title">XP & Niveau</div>
+    <div class="trophy-grid" id="catXP"></div>
+
+    <div class="cat-title">Maîtrise</div>
+    <div class="trophy-grid" id="catMastery"></div>
+
+    <div class="cat-title">Blocs thématiques</div>
+    <div class="trophy-grid" id="catBlocs"></div>
+
+    <div class="cat-title">Exploration</div>
+    <div class="trophy-grid" id="catExplo"></div>
+    </section>
+
+    <section class="pane" id="pane-records" role="tabpanel" aria-labelledby="tab-records">
+  <!-- DÉFI COMMUNAUTAIRE DE LA SEMAINE (le même pour tous) -->
+      <span class="sec-lbl">Défi de la semaine</span>
+      <div id="ksCommunityChallenge" style="margin-bottom:18px"></div>
+
+      <!-- CLASSEMENT COMMUNAUTÉ -->
+      <span class="sec-lbl">Classement communauté · Top 50</span>
+      <div class="lb-card" id="lbCard">
+        <div class="lb-loading" id="lbLoading">Chargement du classement…</div>
+      </div>
+      <p class="lb-foot" id="lbFoot"></p>
+
+      <!-- TON ACTIVITÉ DE LA SEMAINE (progression personnelle vs semaine précédente) -->
+      <span class="sec-lbl">Ton activité de la semaine</span>
+      <div class="week-card">
+        <div class="week-verdict" id="weekVerdict">-</div>
+        <div class="week-row">
+          <div class="week-row-top">
+            <span class="week-row-lbl">Cette semaine</span>
+            <span class="week-row-val" id="weekNowVal">0 XP</span>
+          </div>
+          <div class="week-bar"><div class="week-bar-fill now" id="weekNowBar" style="width:0%"></div></div>
+        </div>
+        <div class="week-row">
+          <div class="week-row-top">
+            <span class="week-row-lbl">Semaine dernière</span>
+            <span class="week-row-val" id="weekPrevVal">0 XP</span>
+          </div>
+          <div class="week-bar"><div class="week-bar-fill prev" id="weekPrevBar" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- RECORDS PERSONNELS -->
+      <span class="sec-lbl">Records personnels</span>
+      <div class="rec-grid" id="recGrid"></div>
+
+      <!-- PROCHAIN PALIER DE SÉRIE -->
+      <span class="sec-lbl">Paliers de série</span>
+      <div class="ms-card">
+        <div class="ms-head">
+          <div class="ms-flame">
+            <svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.9 0-3.5-.5-4.8-1.5L8.5 14.5z"/></svg>
+          </div>
+          <div>
+            <div class="ms-head-t" id="msTitle">Série de 0 jour</div>
+            <div class="ms-head-s" id="msSub">Commence aujourd'hui&thinsp;!</div>
+          </div>
+        </div>
+        <div class="ms-track" id="msTrack"></div>
+      </div>
+    </section>
+
+    <section class="pane" id="pane-album" role="tabpanel" aria-labelledby="tab-album">
+  <h2>Ton album des histoires</h2>
+    <p class="sub">Chaque histoire lue, en article ou en planche BD, ajoute sa carte à ta collection. À toi de compléter l'album, du tout premier « 안녕하세요 » jusqu'aux récits B2.</p>
+
+    <div class="summary">
+      <div class="stat"><div class="stat-val" id="alUnlocked">0</div><div class="stat-lbl">Cartes</div></div>
+      <div class="stat"><div class="stat-val" id="alTotal">42</div><div class="stat-lbl">Total</div></div>
+      <div class="stat"><div class="stat-val" id="alPercent">0%</div><div class="stat-lbl">Complété</div></div>
+    </div>
+
+    <div id="albumBody"></div>
+    </section>
+
+    <div class="pr-foot">
+      Korean <em style="color:var(--gold);font-style:italic">Stories</em><br/>
+      Tes données restent sur cet appareil. Chaque session compte 화이팅&thinsp;!
+    </div>
+  </main>
+</div><!-- #pageWrap -->
+</div><!-- .main -->
+</div><!-- .shell -->
+
+<!-- Modale d'un trophée -->
+<div class="overlay" id="ovr" onclick="if(event.target===this)ksTrClose()">
+  <div class="modal">
+    <div class="m-ico" id="mIco"></div>
+    <h3 id="mName"></h3>
+    <div class="m-status" id="mStatus"></div>
+    <p class="m-desc" id="mDesc"></p>
+    <p class="t-progress-text" id="mProgress"></p>
+    <button class="close-btn" onclick="ksTrClose()">Fermer</button>
+  </div>
+</div>
+
+<!-- Modale d'une carte d'album -->
+<div class="overlay" id="alOvr" onclick="if(event.target===this)KSAlbum.close()">
+  <div class="al-modal">
+    <div id="alModalBody"></div>
+    <button class="al-close" onclick="KSAlbum.close()">Fermer</button>
+  </div>
+</div>
+
+<script>
+var TABS = ['stats','trophees','records','album'];
+function showTab(name){
+  if (TABS.indexOf(name) === -1) name = 'stats';
+  TABS.forEach(function(t){
+    var btn = document.getElementById('tab-' + t);
+    var pane = document.getElementById('pane-' + t);
+    var on = (t === name);
+    if (btn){ btn.classList.toggle('on', on); btn.setAttribute('aria-selected', on ? 'true' : 'false'); }
+    if (pane) pane.classList.toggle('on', on);
+  });
+  /* Le classement communaute coute 50 lectures Firestore : il n'est tire
+     qu'a la premiere ouverture de l'onglet Records. */
+  if (name === 'records' && window.ksLoadLeaderboard) window.ksLoadLeaderboard();
+  try { history.replaceState(null, '', name === 'stats' ? location.pathname : '#' + name); } catch(e){}
+}
+/* L'onglet demande par l'URL est ouvert apres le chargement du document :
+   showTab declenche le classement communaute, defini plus bas dans la page. */
+(function(){
+  function ouvre(){
+    var h = (location.hash || '').replace('#','');
+    if (TABS.indexOf(h) !== -1) showTab(h);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ouvre);
+  else ouvre();
+})();
+document.addEventListener('keydown', function(e){
+  if (e.key !== 'Escape') return;
+  var tr = document.getElementById('ovr'); if (tr) tr.classList.remove('open');
+  if (window.KSAlbum) KSAlbum.close();
+});
+function initAlbum(){
+  if(!window.KSAlbum){ setTimeout(initAlbum,80); return; }
+  KSAlbum.render('#albumBody');
+  KSAlbum.markSeen();
+}
+document.addEventListener('DOMContentLoaded', function(){
+  initAlbum();
+  setTimeout(function(){ if (window.ksTrRefresh) ksTrRefresh(); }, 100);
+});
+</script>
+
+<!-- Onglet Statistiques -->
+<script>
+(function () {
+  /* ─── UTILS ─── */
+  function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function fmt(n){ return (n||0).toLocaleString('fr-FR'); }
+
+  /* ─── VUE D'ENSEMBLE ─── */
+  var xp = parseInt(ls('ks_xp')||'0', 10) || 0;
+  var streak = parseInt(ls('ks_streak')||'0', 10) || 0;
+  document.getElementById('xpEl').textContent = fmt(xp);
+  document.getElementById('ovXP').textContent = fmt(xp);
+  document.getElementById('ovStreak').textContent = streak;
+
+  /* Compte les activités finies (clés ks_* === 'done') */
+  var doneCount = 0, allKeys = [];
+  try {
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      allKeys.push(k);
+      if (k.indexOf('ks_') === 0 && localStorage.getItem(k) === 'done') doneCount++;
+    }
+  } catch (e) {}
+  document.getElementById('ovActs').textContent = doneCount;
+
+  /* Jours actifs et meilleur jour : lus dans les cles ks_xp_day_<date>,
+     les seules reellement ecrites par le site. L'ancienne lecture de
+     ks_heatmap ne trouvait jamais rien (cle jamais ecrite), si bien que
+     « Jours actifs » retombait sur la serie et « Meilleur jour » restait
+     vide pour tout le monde. */
+  var dayXp = {};
+  try {
+    for (var dk = 0; dk < localStorage.length; dk++) {
+      var kd = localStorage.key(dk);
+      if (kd && kd.indexOf('ks_xp_day_') === 0) {
+        var jour = kd.slice(10);
+        if (/^\d{4}-\d{2}-\d{2}$/.test(jour)) dayXp[jour] = parseInt(localStorage.getItem(kd)) || 0;
+      }
+    }
+  } catch (e) {}
+  var activeDays = Object.keys(dayXp).filter(function (d) { return dayXp[d] > 0; }).length;
+  if (!activeDays) activeDays = Math.max(streak, doneCount > 0 ? 1 : 0);
+  document.getElementById('ovDays').textContent = activeDays;
+
+  /* ─── ACTIVITÉS PAR TYPE ─── */
+  /* On dérive depuis les préfixes de clés et le curriculum si disponible.
+     Sinon on compte par catégorie de clé. */
+  function buildActivityBreakdown() {
+    var types = {
+      lecons:    { l: 'Leçons',         total: 0, done: 0, color: '#B8924E', svg: '<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>' },
+      exercices: { l: 'Exercices',      total: 0, done: 0, color: '#2563EB', svg: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>' },
+      quiz:      { l: 'Quiz',           total: 0, done: 0, color: '#9A3412', svg: '<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>' },
+      histoires: { l: 'Histoires',      total: 0, done: 0, color: '#4F46E5', svg: '<path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>' },
+      anecdotes: { l: 'Anecdotes',      total: 0, done: 0, color: '#DB2777', svg: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>' },
+      conseils:  { l: 'Conseils',       total: 0, done: 0, color: '#D97706', svg: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/>' },
+      jeux:      { l: 'Jeux',           total: 0, done: 0, color: '#16A34A', svg: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>' },
+      chansons:  { l: 'K-Pop',          total: 0, done: 0, color: '#7C3AED', svg: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>' },
+      pro:       { l: 'Professionnel',  total: 0, done: 0, color: '#0EA5E9', svg: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/>' },
+      flashcards:{ l: 'Flashcards',     total: 0, done: 0, color: '#0369A1', svg: '<rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>' },
+    };
+    /* Utilise le curriculum si chargé */
+    if (window.KSCurriculum && KSCurriculum.activities) {
+      KSCurriculum.activities.forEach(function (a) {
+        var t = a.t;
+        var key = (t === 'lecon')?'lecons':(t==='exercice')?'exercices':(t==='quiz')?'quiz':(t==='histoire')?'histoires':(t==='anecdote')?'anecdotes':(t==='conseil')?'conseils':(t==='jeu')?'jeux':(t==='chanson')?'chansons':(t==='pro')?'pro':(t==='flashcards')?'flashcards':null;
+        if (!key || !types[key]) return;
+        types[key].total++;
+        if (KSCurriculum.isDone && KSCurriculum.isDone(a.key)) types[key].done++;
+      });
+    } else {
+      /* Sinon, on devine depuis les clés terminées */
+      allKeys.forEach(function (k) {
+        if (localStorage.getItem(k) !== 'done') return;
+        if (k.match(/^ks_l\d+$|^ks_h\d+$/)) types.lecons.done++;
+        else if (k.indexOf('ks_c0') === 0 || k.indexOf('ks_d0') === 0) types.lecons.done++;
+      });
+    }
+
+    var html = '';
+    Object.keys(types).forEach(function (key) {
+      var t = types[key];
+      if (t.total === 0 && t.done === 0) return; // skip categories with no data
+      var pct = t.total > 0 ? Math.round((t.done / t.total) * 100) : 0;
+      var isComplete = t.done >= t.total && t.total > 0;
+      html += '<div class="act-row">'
+            + '<div class="act-row-top">'
+            +   '<span class="act-row-lbl"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="'+t.color+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+t.svg+'</svg></span>'+t.l+'</span>'
+            +   '<span class="act-row-val">'+t.done+'<span class="total"> / '+t.total+'</span></span>'
+            + '</div>'
+            + '<div class="act-bar"><div class="act-bar-fill'+(isComplete?' complete':'')+'" style="width:'+pct+'%;background:linear-gradient(90deg,'+t.color+',color-mix(in srgb, '+t.color+' 70%, white))"></div></div>'
+            + '</div>';
+    });
+    if (!html) html = '<div class="empty">Aucune activité terminée pour le moment. Commence une leçon pour voir tes stats apparaître ici !</div>';
+    document.getElementById('actBreakdown').innerHTML = html;
+  }
+
+  /* ─── PROGRESSION PAR NIVEAU CEFR ─── */
+  function buildLevelProgress() {
+    var levels = [
+      { id: 'hangeul', name: 'Hangeul', sub: 'L\'alphabet coréen', tag: '한' },
+      { id: 'a1',      name: 'Niveau A1', sub: 'Débutant', tag: 'A1' },
+      { id: 'a2',      name: 'Niveau A2', sub: 'Élémentaire', tag: 'A2' },
+      { id: 'b1',      name: 'Niveau B1', sub: 'Intermédiaire', tag: 'B1' },
+      { id: 'b2',      name: 'Niveau B2', sub: 'Avancé', tag: 'B2' }
+    ];
+    var counts = { hangeul: {d:0,t:0}, a1: {d:0,t:0}, a2: {d:0,t:0}, b1: {d:0,t:0}, b2: {d:0,t:0} };
+    if (window.KSCurriculum && KSCurriculum.activities) {
+      KSCurriculum.activities.forEach(function (a) {
+        if (!counts[a.lvl]) return;
+        counts[a.lvl].t++;
+        if (KSCurriculum.isDone(a.key)) counts[a.lvl].d++;
+      });
+    }
+    var html = '';
+    levels.forEach(function (lv) {
+      var c = counts[lv.id];
+      var pct = c.t > 0 ? Math.round((c.d / c.t) * 100) : 0;
+      html += '<div class="lvl-row">'
+            + '<div class="lvl-tag">'+lv.tag+'</div>'
+            + '<div class="lvl-body">'
+            +   '<div class="lvl-name">'+lv.name+' <span style="font-weight:normal;color:var(--t3);font-size:11px">· '+lv.sub+'</span></div>'
+            +   '<div class="lvl-bar"><div class="lvl-bar-fill" style="width:'+pct+'%"></div></div>'
+            +   '<div class="lvl-meta">'+(c.t>0 ? '<strong>'+c.d+'</strong> / '+c.t+' activités' : 'Pas encore débloqué')+'</div>'
+            + '</div>'
+            + '<div class="lvl-pct">'+pct+'%</div>'
+            + '</div>';
+    });
+    document.getElementById('lvlList').innerHTML = html;
+  }
+
+  /* ─── VOCABULAIRE SRS ─── */
+  function buildSRSBreakdown() {
+    if (!window.KSSRS || !KSSRS.stats) {
+      document.getElementById('srsBreakdown').innerHTML = '<div class="empty">Données SRS pas encore chargées.</div>';
+      return;
+    }
+    var s = KSSRS.stats();
+    document.getElementById('srsBreakdown').innerHTML =
+      '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#22c55e"></span>Mots maîtrisés</span><span class="srs-row-val">'+s.mastered+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#5B8EF5"></span>En cours d\'apprentissage</span><span class="srs-row-val">'+s.learning+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#C9A96E"></span>À découvrir (nouveaux)</span><span class="srs-row-val">'+s.fresh+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl"><span class="dot" style="background:#FF6B35"></span>À réviser aujourd\'hui</span><span class="srs-row-val">'+s.due+'</span></div>'
+    + '<div class="srs-row"><span class="srs-row-lbl">Total débloqué</span><span class="srs-row-val">'+s.available+' / '+s.total+'</span></div>';
+  }
+
+  /* ─── MEILLEUR JOUR ─── */
+  function buildBestDay() {
+    try {
+      var best = { date: null, xp: 0 };
+      Object.keys(dayXp).forEach(function (d) {
+        if (dayXp[d] > best.xp) { best = { date: d, xp: dayXp[d] }; }
+      });
+      if (!best.date) { document.getElementById('bdDate').textContent = 'Pas encore'; document.getElementById('bdXp').textContent = '0 XP'; return; }
+      var parts = best.date.split('-');
+      var dateObj = new Date(parts[0], parts[1]-1, parts[2]);
+      var fmtDate = dateObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      document.getElementById('bdDate').textContent = fmtDate;
+      document.getElementById('bdXp').textContent = '+' + best.xp + ' XP';
+    } catch (e) {
+      document.getElementById('bdDate').textContent = 'Pas encore';
+      document.getElementById('bdXp').textContent = '0 XP';
+    }
+  }
+
+  /* Lance tout */
+  function run() {
+    buildActivityBreakdown();
+    buildLevelProgress();
+    buildSRSBreakdown();
+    buildBestDay();
+  }
+  /* Attend que les libs (curriculum, srs) soient chargées */
+  function ready() {
+    if (window.KSCurriculum && window.KSSRS) run();
+    else setTimeout(ready, 100);
+  }
+  ready();
+})();
+</script>
+
+<!-- Onglet Trophées -->
+<script>
+(function(){
+function ls(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function ls(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsi(k){var v=parseInt(ls(k)||'0',10);return isNaN(v)?0:v;}
+
+/* Compteurs dérivés du localStorage */
+function countDone(prefix){
+  var n=0;
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k && k.indexOf(prefix)===0 && (localStorage.getItem(k)==='done'||localStorage.getItem(k)==='1')){
+        n++;
+      }
+    }
+  }catch(e){}
+  return n;
+}
+function countActivities(){
+  /* Total d'activités complétées via ks_h*, ks_a*, ks_b*, ks_c*, ks_d* */
+  var n=0;
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(!k) continue;
+      var m=k.match(/^ks_[habcd][_0-9a-z]+$/);
+      if(m && (localStorage.getItem(k)==='done'||localStorage.getItem(k)==='1')) n++;
+    }
+  }catch(e){}
+  return n;
+}
+function getXP(){return lsi('ks_xp');}
+function getStreak(){return lsi('ks_streak');}
+function getBestStreak(){return lsi('ks_beststreak');}
+function getVocab(){
+  if(window.KSSRS){try{return KSSRS.stats().available||0;}catch(e){}}
+  return 0;
+}
+function getActiveDays(){
+  /* Reconstruit l'activité réelle depuis les clés ks_xp_day_<date>
+     (ks_heatmap n'est écrit nulle part dans le code — clé morte) */
+  var n=0;
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k && k.indexOf('ks_xp_day_')===0 && (parseInt(localStorage.getItem(k))||0)>0) n++;
+    }
+  }catch(e){}
+  return n;
+}
+function countByPrefix(prefix){return countDone(prefix);}
+
+/* Icônes SVG */
+function ico(color,svg){return '<svg viewBox="0 0 24 24" style="width:30px;height:30px;fill:none;stroke:'+color+';stroke-width:2;stroke-linecap:round;stroke-linejoin:round">'+svg+'</svg>';}
+function bigIco(color,svg){return '<svg viewBox="0 0 24 24" style="width:48px;height:48px;fill:none;stroke:'+color+';stroke-width:2;stroke-linecap:round;stroke-linejoin:round">'+svg+'</svg>';}
+
+/* Définition des trophées avec catégorie, condition, progression */
+var TROPHIES = [
+  /* Régularité */
+  {cat:'regular',id:'first',name:'Premier Pas',desc:'Complète ta première activité',ico:ico('#22C55E','<path d="M6 21c0-6 5-9 9-12V3l-3 3-3-3v6"/><path d="M6 21h12"/>'),target:1,progress:countActivities},
+  {cat:'regular',id:'streak3',name:'Flamme x3',desc:'Maintiens un streak de 3 jours',ico:ico('#FF8B5C','<path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/>'),target:3,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'streak7',name:'Semaine de feu',desc:'Maintiens un streak de 7 jours',ico:ico('#F59E0B','<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>'),target:7,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'streak30',name:'Mois Marathon',desc:'Maintiens un streak de 30 jours',ico:ico('#EF4444','<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'),target:30,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'streak100',name:'Centurion',desc:'Maintiens un streak de 100 jours',ico:ico('#7C3AED','<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>'),target:100,progress:function(){return Math.max(getStreak(),getBestStreak());}},
+  {cat:'regular',id:'active30',name:'Habitué·e',desc:'Sois actif·ve sur 30 jours différents',ico:ico('#06B6D4','<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'),target:30,progress:getActiveDays},
+
+  /* XP & Niveau */
+  {cat:'xp',id:'xp100',name:'100 XP Club',desc:'Atteins 100 XP au total',ico:ico('#C9A96E','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'),target:100,progress:getXP},
+  {cat:'xp',id:'xp500',name:'500 XP Club',desc:'Atteins 500 XP au total',ico:ico('#EAB308','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><circle cx="12" cy="12" r="3"/>'),target:500,progress:getXP},
+  {cat:'xp',id:'xp1000',name:'Milliardaire d\'XP',desc:'Atteins 1 000 XP au total',ico:ico('#F59E0B','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><circle cx="12" cy="12" r="5"/>'),target:1000,progress:getXP},
+  {cat:'xp',id:'xp5000',name:'Légende',desc:'Atteins 5 000 XP, sommet du parcours',ico:ico('#DB2777','<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="12" r="5"/>'),target:5000,progress:getXP},
+
+  /* Maîtrise */
+  {cat:'mastery',id:'hangeul',name:'Hangeul Maîtrisé',desc:'Termine tout le module Hangeul',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:28px;color:#3B82F6;line-height:1">한</span>',target:8,progress:function(){return countByPrefix('ks_h');}},
+  {cat:'mastery',id:'a1Done',name:'Niveau A1',desc:'Complète toutes les activités A1',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#3B82F6;line-height:1">A1</span>',target:31,progress:function(){return countByPrefix('ks_a');}},
+  {cat:'mastery',id:'a2Done',name:'Niveau A2',desc:'Complète toutes les activités A2',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#10B981;line-height:1">A2</span>',target:30,progress:function(){return countByPrefix('ks_b');}},
+  {cat:'mastery',id:'b1Done',name:'Niveau B1',desc:'Complète toutes les activités B1',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#F59E0B;line-height:1">B1</span>',target:29,progress:function(){return countByPrefix('ks_c');}},
+  {cat:'mastery',id:'b2Done',name:'Niveau B2',desc:'Complète toutes les activités B2',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:var(--accent-purple);line-height:1">B2</span>',target:22,progress:function(){return countByPrefix('ks_d');}},
+  {cat:'mastery',id:'perfect',name:'Perfection',desc:'Obtiens un score parfait sur une leçon',ico:ico('#06B6D4','<path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>'),target:1,progress:function(){return ls('ks_badge_perfect')==='1'?1:0;}},
+
+  /* Exploration */
+  {cat:'explo',id:'vocab50',name:'Vocabulaire x50',desc:'Apprends 50 mots distincts en SRS',ico:ico('#8B5CF6','<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>'),target:50,progress:getVocab},
+  {cat:'explo',id:'vocab200',name:'Polyglotte en herbe',desc:'Apprends 200 mots distincts en SRS',ico:ico('#8B5CF6','<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><line x1="12" y1="6" x2="12" y2="18"/>'),target:200,progress:getVocab},
+  {cat:'explo',id:'activities50',name:'Explorateur·rice',desc:'Termine 50 activités sur le parcours',ico:ico('#10B981','<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>'),target:50,progress:countActivities},
+  {cat:'explo',id:'activities100',name:'Voyageur·euse aguerri',desc:'Termine 100 activités sur le parcours',ico:ico('#10B981','<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/><circle cx="12" cy="12" r="3"/>'),target:100,progress:countActivities},
+  {cat:'explo',id:'community',name:'Communauté',desc:'Active ton classement public dans Réglages',ico:ico('#DB2777','<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/>'),target:1,progress:function(){return ls('ks_leaderboard_opt')==='yes'?1:0;}}
+];
+
+/* ── Badges de blocs thématiques — un badge par groupe du parcours ──
+   Chaque badge se débloque quand TOUTES les activités du bloc sont
+   faites (alias historiques ks_l, ks_h et ks_jeu pris en compte). */
+var BLOC_ALIAS={'ks_a01':'ks_l5','ks_a05':'ks_l6','ks_a09':'ks_l7','ks_a12':'ks_l8','ks_a14':'ks_l10','ks_a22':'ks_l9','ks_a03':'ks_h1','ks_a15':'ks_h2','ks_a27':'ks_h3','ks_h01':'ks_l1','ks_h04':'ks_l2','ks_h07':'ks_l3','ks_h09':'ks_l4','ks_d30':'ks_jeu11','ks_a45':'ks_jeu12'};
+function blocDone(k){
+  var v=ls(k); if(v==='done'||v==='1'||v==='true')return true;
+  var a=BLOC_ALIAS[k]; if(a){var v2=ls(a); return v2==='done'||v2==='1'||v2==='true';}
+  return false;
+}
+function blocProgress(keys){
+  return function(){ var n=0; keys.forEach(function(k){ if(blocDone(k)) n++; }); return n; };
+}
+function emo(e){return '<span style="font-size:28px;line-height:1">'+e+'</span>';}
+function blocBadge(id,name,icoSvg,keys,desc){
+  TROPHIES.push({cat:'blocs',id:'bloc_'+id,name:name,desc:desc||('Termine tout le bloc « '+name+' »'),ico:icoSvg,target:keys.length,progress:blocProgress(keys)});
+}
+/* A1 */
+blocBadge('salut','Salutations',ico('#3B82F6','<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>'),['ks_a01','ks_a02','ks_a03','ks_a04']);
+blocBadge('partic','Particules & Premières phrases',ico('#8B5CF6','<path d="M14 7h.01"/><path d="M4 7a3 3 0 0 1 3-3h2.5a2 2 0 0 1 2 2 2 2 0 0 0 2 2H17a3 3 0 0 1 3 3v2a2 2 0 0 1-2 2 2 2 0 0 0-2 2v1a3 3 0 0 1-3 3h-2a2 2 0 0 1-2-2 2 2 0 0 0-2-2H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2 2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 1-2-2z"/>'),['ks_a31','ks_a32','ks_a33','ks_a48','ks_a50','ks_a34','ks_a22','ks_a23','ks_a24','ks_a25','ks_a26','ks_a49']);
+blocBadge('chiffres','Chiffres',ico('#06B6D4','<line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/>'),['ks_a05','ks_a06','ks_a07','ks_a08']);
+blocBadge('famille','Famille & Description',ico('#F59E0B','<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'),['ks_a09','ks_a10','ks_a11','ks_a12','ks_a13']);
+blocBadge('food','Nourriture & Culture',ico('#EF4444','<path d="M12 3a8 8 0 0 0-8 8h16a8 8 0 0 0-8-8Z"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M3 11h18"/>'),['ks_a14','ks_a15','ks_a16','ks_a17']);
+blocBadge('lieux','Lieux & Directions',ico('#10B981','<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>'),['ks_a18','ks_a19','ks_a20','ks_a21']);
+blocBadge('temps','Temps, Météo & Compteurs',ico('#38BDF8','<path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.95 12.65a4 4 0 0 0-5.93-4.13"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/>'),['ks_a_time','ks_a_meteo','ks_a_counters']);
+blocBadge('maison','Maison & Quotidien',ico('#F59E0B','<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'),['ks_a36','ks_a37','ks_a35','ks_a43']);
+blocBadge('vie','Corps, Mode & Émotions',ico('#EC4899','<path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23Z"/>'),['ks_a38','ks_a39','ks_a40','ks_a52']);
+/* A2 */
+blocBadge('gramA2','Grammaire A2 complète',ico('#8B5CF6','<path d="M21.3 8.7 8.7 21.3a1 1 0 0 1-1.4 0l-4.6-4.6a1 1 0 0 1 0-1.4L15.3 2.7a1 1 0 0 1 1.4 0l4.6 4.6a1 1 0 0 1 0 1.4Z"/><path d="m7.5 10.5 2 2"/><path d="m10.5 7.5 2 2"/><path d="m13.5 4.5 2 2"/><path d="m4.5 13.5 2 2"/>'),['ks_b01','ks_b23','ks_b24','ks_b25','ks_b26','ks_b27','ks_b28','ks_b29','ks_b04b','ks_b04c','ks_b04d','ks_b04e','ks_b34','ks_b35','ks_b36']);
+blocBadge('cultA2','Culture & Immersion A2',ico('#A855F7','<circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>'),['ks_b09','ks_b10','ks_b11','ks_b12','ks_b32','ks_b31']);
+blocBadge('shop','Shopping & Voyage',ico('#F472B6','<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>'),['ks_b13','ks_b14','ks_b15','ks_b16','ks_b17','ks_b18','ks_b33']);
+blocBadge('histA2','Histoires A2',ico('#10B981','<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'),['ks_b37','ks_b38','ks_b43','ks_b44','ks_b45']);
+/* B1 */
+blocBadge('gramB1','Grammaire B1 complète',ico('#F59E0B','<path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>'),['ks_c01','ks_c02','ks_c03','ks_c04','ks_c05','ks_c09b','ks_c09c','ks_c09d','ks_c27','ks_c28','ks_c29']);
+blocBadge('proB1','Politesse & Monde pro',ico('#0EA5E9','<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>'),['ks_c06','ks_c07','ks_c08','ks_c09','ks_c19','ks_c20','ks_c21','ks_c22']);
+blocBadge('immB1','Immersion B1',ico('#8B5CF6','<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>'),['ks_c12','ks_c13','ks_c14','ks_c15','ks_c16','ks_c17','ks_c18','ks_c30','ks_c31','ks_c36','ks_c37','ks_c38']);
+/* B2 */
+blocBadge('rhetoB2','Rhétorique & Médias B2',ico('#6366F1','<line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/>'),['ks_d18','ks_d19','ks_d20','ks_d21','ks_d08','ks_d09','ks_d10','ks_d11']);
+blocBadge('immB2','Immersion B2',ico('#DB2777','<path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/>'),['ks_d05','ks_d06','ks_d07','ks_d22','ks_d23','ks_d24','ks_d35','ks_d36','ks_d37']);
+
+function isEarned(t){return t.progress()>=t.target;}
+
+function renderCat(catId,containerId){
+  var html='';
+  var c=0;
+  TROPHIES.filter(function(t){return t.cat===catId;}).forEach(function(t){
+    var earned=isEarned(t);
+    var prog=t.progress();
+    var pct=Math.min(100,Math.round((prog/t.target)*100));
+    if(earned)c++;
+    var progBar='';
+    if(!earned && t.target>1){
+      progBar='<div class="t-progress"><div class="t-progress-bar" style="width:'+pct+'%"></div></div>'+
+        '<div class="t-progress-text">'+prog+' / '+t.target+'</div>';
+    }
+    html+='<div class="trophy '+(earned?'earned':'locked')+'" onclick="ksTrOpen(\''+t.id+'\')">'+
+      '<div class="t-ico">'+t.ico+'</div>'+
+      '<div class="t-name">'+t.name+'</div>'+
+      '<div class="t-desc">'+t.desc+'</div>'+
+      progBar+
+      '</div>';
+  });
+  document.getElementById(containerId).innerHTML=html;
+  return c;
+}
+
+function refresh(){
+  var earned=0;
+  earned+=renderCat('regular','catRegular');
+  earned+=renderCat('xp','catXP');
+  earned+=renderCat('mastery','catMastery');
+  earned+=renderCat('blocs','catBlocs');
+  earned+=renderCat('explo','catExplo');
+  var total=TROPHIES.length;
+  document.getElementById('sEarned').textContent=earned;
+  document.getElementById('sTotal').textContent=total;
+  document.getElementById('sPercent').textContent=Math.round(earned/total*100)+'%';
+}
+
+function openM(id){
+  var t=TROPHIES.find(function(x){return x.id===id;});
+  if(!t) return;
+  var earned=isEarned(t);
+  var prog=t.progress();
+  document.getElementById('mIco').innerHTML=t.ico.replace(/width:30px;height:30px/,'width:48px;height:48px').replace(/font-size:28px/,'font-size:42px');
+  document.getElementById('mIco').className='m-ico'+(earned?'':' locked');
+  document.getElementById('mName').textContent=t.name;
+  document.getElementById('mStatus').textContent=earned?'Débloqué':'À débloquer';
+  document.getElementById('mStatus').className='m-status '+(earned?'earned':'locked');
+  document.getElementById('mDesc').textContent=t.desc;
+  document.getElementById('mProgress').textContent=earned?'':'Progression : '+prog+' / '+t.target;
+  document.getElementById('ovr').classList.add('open');
+}
+function closeM(){document.getElementById('ovr').classList.remove('open');}
+
+
+window.ksTrOpen=openM; window.ksTrClose=closeM; window.ksTrRefresh=refresh;
+})();
+</script>
+
+<!-- Onglet Records -->
+<script>
+(function(){
+  function ls(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function iv(k){ return parseInt(ls(k)||'0',10)||0; }
+  function fmt(n){ return n>=1000 ? (n/1000).toFixed(n%1000===0?0:1).replace('.',',')+' k' : String(n); }
+
+  /* ── Données réelles ── */
+  var xp     = iv('ks_xp');
+  var streak = iv('ks_streak');
+  var best   = Math.max(iv('ks_beststreak'), streak);
+
+  /* XP par jour depuis les clés ks_xp_day_<date> */
+  var dayXp = {};
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k&&k.indexOf('ks_xp_day_')===0){
+        var d=k.slice(10);
+        if(/^\d{4}-\d{2}-\d{2}$/.test(d)) dayXp[d]=parseInt(localStorage.getItem(k))||0;
+      }
+    }
+  }catch(e){}
+
+  function dayKey(offset){
+    var d=new Date(); d.setDate(d.getDate()-offset);
+    return d.toISOString().slice(0,10);
+  }
+  var bestDay=0, activeDays=0, weekNow=0, weekPrev=0;
+  for(var key in dayXp){
+    var v=dayXp[key];
+    if(v>bestDay) bestDay=v;
+    if(v>0) activeDays++;
+  }
+  for(var o=0;o<7;o++)  weekNow  += (dayXp[dayKey(o)]||0);
+  for(var o2=7;o2<14;o2++) weekPrev += (dayXp[dayKey(o2)]||0);
+
+  /* Activités terminées (inclut ks_l\d : les 10 leçons Hangeul — absentes
+     de l'ancien regex alors que ks-weekly.js/daily-mix.html les comptent déjà,
+     ce qui sous-comptait chaque nouvel utilisateur de jusqu'à 10 activités) */
+  var activities=0;
+  try{
+    for(var j=0;j<localStorage.length;j++){
+      var kk=localStorage.key(j);
+      if(/^ks_(h\d|l\d|a[\d_]|b[\d_]|c\d|d\d)/.test(kk)){
+        var vv=localStorage.getItem(kk);
+        if(vv==='done'||vv==='1') activities++;
+      }
+    }
+  }catch(e){}
+
+  /* Mots maîtrisés (SRS) */
+  var mastered=0;
+  if(window.KSSRS){ try{ mastered=KSSRS.stats().mastered; }catch(e){} }
+
+  /* Badges débloqués (mêmes règles que le profil) */
+  var hangeulDone=0;
+  try{ for(var h=1;h<=10;h++){ if(localStorage.getItem('ks_l'+h)==='done')hangeulDone++; } }catch(e){}
+  var vocAvail = window.KSSRS ? (function(){try{return KSSRS.stats().available;}catch(e){return 0;}})() : 0;
+  var perfect = ls('ks_badge_perfect')==='1';
+  var badges = [activities>=1, streak>=3, streak>=7, xp>=100, xp>=500,
+                hangeulDone>=10, vocAvail>=50, perfect].filter(Boolean).length;
+
+  /* ── Hero ── */
+  document.getElementById('hXp').textContent = fmt(xp);
+  document.getElementById('hStreak').textContent = streak;
+
+  /* ── Défi de la semaine ── */
+  document.getElementById('weekNowVal').textContent  = weekNow+' XP';
+  document.getElementById('weekPrevVal').textContent = weekPrev+' XP';
+  var wMax = Math.max(weekNow, weekPrev, 1);
+  setTimeout(function(){
+    document.getElementById('weekNowBar').style.width  = Math.round(weekNow/wMax*100)+'%';
+    document.getElementById('weekPrevBar').style.width = Math.round(weekPrev/wMax*100)+'%';
+  },150);
+  var verdict;
+  if(weekNow===0 && weekPrev===0){
+    verdict = 'Lance-toi&thinsp;! Termine une activité pour gagner tes premiers XP de la semaine.';
+  } else if(weekNow>weekPrev){
+    var diff = weekPrev>0 ? Math.round((weekNow-weekPrev)/weekPrev*100) : 100;
+    verdict = 'Tu te surpasses,<strong>+'+diff+'%</strong> par rapport à la semaine dernière&thinsp;!';
+  } else if(weekNow===weekPrev){
+    verdict = 'Tu es au coude-à-coude avec la semaine dernière. Une activité de plus pour passer devant&thinsp;!';
+  } else {
+    verdict = 'Encore <strong>'+(weekPrev-weekNow+1)+' XP</strong> pour battre la semaine dernière. Tu peux le faire&thinsp;!';
+  }
+  document.getElementById('weekVerdict').innerHTML = verdict;
+
+  /* ── Records grid ── */
+  var ICO = {
+    flame:'<path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.9 0-3.5-.5-4.8-1.5L8.5 14.5z"/>',
+    bolt:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+    check:'<path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+    book:'<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>',
+    medal:'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>'
+  };
+  var RECORDS = [
+    {ic:'flame', c:'#FF6B35', n:best,        l:'Meilleure série (jours)'},
+    {ic:'bolt',  c:'#C9A96E', n:fmt(bestDay),l:"Record d'XP en un jour"},
+    {ic:'cal',   c:'#4F8EF7', n:activeDays,  l:"Jours d'apprentissage"},
+    {ic:'check', c:'#16A34A', n:activities,  l:'Activités terminées'},
+    {ic:'book',  c:'#FF8EA8', n:mastered,    l:'Mots maîtrisés'},
+    {ic:'medal', c:'#A855F7', n:badges+' / 8',l:'Badges débloqués'}
+  ];
+  document.getElementById('recGrid').innerHTML = RECORDS.map(function(r){
+    return '<div class="rec-card">'+
+      '<div class="rec-card-ic" style="background:'+r.c+'1f">'+
+        '<svg viewBox="0 0 24 24" stroke="'+r.c+'">'+ICO[r.ic]+'</svg></div>'+
+      '<div class="rec-card-body">'+
+        '<div class="rec-card-n">'+r.n+'</div>'+
+        '<div class="rec-card-l">'+r.l+'</div>'+
+      '</div></div>';
+  }).join('');
+
+  /* ── Paliers de série ── */
+  var STEPS = [
+    {d:3,   l:'3 j'},
+    {d:7,   l:'1 sem.'},
+    {d:14,  l:'2 sem.'},
+    {d:30,  l:'1 mois'},
+    {d:100, l:'100 j'}
+  ];
+  var nextStep = null;
+  for(var s=0;s<STEPS.length;s++){ if(STEPS[s].d>streak){ nextStep=STEPS[s]; break; } }
+  if(nextStep){
+    document.getElementById('msTitle').textContent = 'Série de '+streak+' jour'+(streak>1?'s':'');
+    document.getElementById('msSub').textContent =
+      'Encore '+(nextStep.d-streak)+' jour'+((nextStep.d-streak)>1?'s':'')+' pour le palier '+nextStep.l+'.';
+  } else {
+    document.getElementById('msTitle').textContent = 'Série de '+streak+' jours';
+    document.getElementById('msSub').textContent = 'Tu as atteint tous les paliers, légendaire&thinsp;!';
+  }
+  document.getElementById('msTrack').innerHTML = STEPS.map(function(st){
+    var cls = streak>=st.d ? 'done' : (nextStep && st.d===nextStep.d ? 'next' : '');
+    return '<div class="ms-step '+cls+'">'+
+      '<div class="ms-dot"></div>'+
+      '<div class="ms-step-n">'+st.d+'</div>'+
+      '<div class="ms-step-l">'+st.l+'</div>'+
+    '</div>';
+  }).join('');
+
+  /* XP pills (topbar / sidebar) */
+  ['xpEl','xpSide'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.textContent=fmt(xp);
+  });
+})();
+
+/* ─────────────────────────────────────────────────────────────────────
+   Classement communauté — fetch + render top 50
+   Attends que ks-sync.js soit chargé (Firebase), puis tire la liste
+   /leaderboard ordonnée par xp desc. Met en avant l'utilisateur·rice
+   courant·e si elle figure dans le top.
+   ───────────────────────────────────────────────────────────────────── */
+(function () {
+  var lbCard = document.getElementById('lbCard');
+  var lbFoot = document.getElementById('lbFoot');
+  if (!lbCard) return;
+
+  function dicebearURL(av) {
+    /* Reconstruit l'URL DiceBear à partir des champs publics. */
+    var params = new URLSearchParams();
+    params.set('seed', 'koreanstories');
+    if (av) {
+      ['hair','hairColor','skinColor','eyes','mouth','body','backgroundColor'].forEach(function (k) {
+        if (av[k]) params.set(k, av[k]);
+      });
+      if (av.facialHair && av.facialHair !== 'none') {
+        params.set('facialHair', av.facialHair);
+        params.set('facialHairProbability', '100');
+      } else {
+        params.set('facialHairProbability', '0');
+      }
+    }
+    return 'https://api.dicebear.com/9.x/personas/svg?' + params.toString();
+  }
+
+  function escapeHtml(s) {
+    return (s || '').toString().replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function render(list, myUid) {
+    if (!list || !list.length) {
+      lbCard.innerHTML = '<div class="lb-empty">Personne dans le classement pour le moment.<br/>Active <strong>« Apparaître dans le classement »</strong> dans <a href="reglages.html" style="color:var(--gold)">Réglages</a> pour être le premier !</div>';
+      if (lbFoot) lbFoot.textContent = '';
+      return;
+    }
+    var html = '';
+    list.forEach(function (u, i) {
+      var rank = i + 1;
+      var isMe = u.uid === myUid;
+      var topCls = rank === 1 ? ' top1' : rank === 2 ? ' top2' : rank === 3 ? ' top3' : '';
+      var meCls = isMe ? ' me' : '';
+      var streakChip = (u.streak > 0)
+        ? '<span class="lb-streak"><svg viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>' + u.streak + '</span>'
+        : '';
+      /* Les avatars DiceBear d'autrui ne sont chargés que si CE visiteur
+         a accepté les cookies « fonctionnels » (lui n'a rien choisi ici,
+         contrairement à sa propre création d'avatar sur profil.html). */
+      var funcOk = !window.KSCookieConsent || window.KSCookieConsent.hasFunctional();
+      var avatarImg = (u.avatar && funcOk)
+        ? '<img src="' + escapeHtml(dicebearURL(u.avatar)) + '" alt="" loading="lazy"/>'
+        : '<span style="font-family:Playfair Display,serif;font-style:italic;color:#C9A96E;font-size:18px">' + escapeHtml((u.name || 'A').charAt(0).toUpperCase()) + '</span>';
+      html += '<div class="lb-row' + topCls + meCls + '">'
+            + '<div class="lb-rank">' + rank + '</div>'
+            + '<div class="lb-avatar">' + avatarImg + '</div>'
+            + '<div class="lb-name">' + escapeHtml(((u.name || 'Apprenant·e') + '').trim().split(/\s+/)[0])
+            + (isMe ? '<span class="me-tag">Toi</span>' : '') + '</div>'
+            + streakChip
+            + '<div class="lb-xp">' + (u.xp || 0).toLocaleString('fr-FR') + '</div>'
+            + '</div>';
+    });
+    lbCard.innerHTML = html;
+    /* Empreinte en bas */
+    var optedIn = false;
+    try { optedIn = localStorage.getItem('ks_leaderboard_opt') === 'yes'; } catch (e) {}
+    if (lbFoot) {
+      lbFoot.innerHTML = optedIn
+        ? 'Tu apparais dans le classement. Tu peux te retirer dans <a href="reglages.html">Réglages → Communauté</a>.'
+        : 'Pas dans le classement ? Active la visibilité dans <a href="reglages.html">Réglages → Communauté</a>.';
+    }
+  }
+
+  function load() {
+    if (!window.KSSync || typeof KSSync.fetchLeaderboard !== 'function' || !KSSync.auth) {
+      /* ks-sync pas encore chargé — réessaie dans 500ms */
+      setTimeout(load, 500);
+      return;
+    }
+    /* Les règles Firestore exigent d'être connecté pour lire le
+       classement : on attend la restauration de session Firebase
+       (sinon la requête part trop tôt et échoue même pour un membre). */
+    var unsub = KSSync.auth.onAuthStateChanged(function (user) {
+      if (unsub) { try { unsub(); } catch (e) {} unsub = null; }
+      if (!user) {
+        lbCard.innerHTML = '<div class="lb-empty">Le classement est réservé aux membres.<br/><a href="login.html">Connecte-toi</a>, c’est gratuit, pour voir le top 50 et y participer.</div>';
+        return;
+      }
+      KSSync.fetchLeaderboard(50)
+        .then(function (list) { render(list, user.uid); })
+        .catch(function (err) {
+          console.warn('[leaderboard] fetch error:', err);
+          var denied = !!(err && err.code === 'permission-denied');
+          lbCard.innerHTML = '<div class="lb-empty">' + (denied
+            ? 'Ton compte n’a pas pu accéder au classement. Déconnecte-toi puis reconnecte-toi, et réessaie.'
+            : 'Impossible de charger le classement pour le moment.<br/>Vérifie ta connexion ou réessaie dans un instant.') + '</div>';
+        });
+    });
+  }
+
+  /* Ne part qu'a l'ouverture de l'onglet Records : 50 lectures Firestore
+     par visite, inutiles si la personne vient voir son album. */
+  window.ksLoadLeaderboard = function(){ window.ksLoadLeaderboard = function(){}; load(); };
+})();
+</script>
+
+<script src="ks-album.js" defer></script>
+<script src="ks-challenge.js" defer></script>
+<script>
+(function(){
+  function r(){ if(window.KSChallenge){ KSChallenge.render('#ksCommunityChallenge'); } else { setTimeout(r,80); } }
+  if(document.readyState!=='loading') r(); else document.addEventListener('DOMContentLoaded', r);
+})();
+</script>
+<script src="ks-menu.js" defer></script>
+<script src="ks-review-prompt.js" defer></script>
+</body>
+</html>

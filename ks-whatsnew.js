@@ -48,7 +48,7 @@
       icon: 'trophy',
       color: '#B8924E',
       cta: 'Voir mes trophées',
-      href: 'trophees.html'
+      href: 'progression.html#trophees'
     },
     {
       id: 'offline',
