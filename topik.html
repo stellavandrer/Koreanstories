@@ -466,7 +466,48 @@ const GRAMMAR_POOL=[
   {lvl:'b1',q:'Laquelle de ces phrases signifie « Même en vieillissant, le cœur reste jeune » ?',hint:null,opts:['늙어 가도 마음은 젊어요.','지금까지 노력해 왔어요.','우리는 오랫동안 친구로 지내 왔어요.','이 프로젝트를 끝까지 해 갈 거예요.'],ans:0},
   {lvl:'b1',q:'Laquelle de ces phrases signifie « J\'aurais dû voir ce film » ?',hint:null,opts:['비행기를 놓칠 뻔했어요.','길에서 넘어질 뻔했어요.','그 영화를 볼걸 그랬어요.','지갑을 잃어버릴 뻔했어요.'],ans:2},
   {lvl:'b1',q:'Laquelle de ces phrases signifie « J\'ai failli rater l\'avion » ?',hint:null,opts:['그 영화를 볼걸 그랬어요.','비행기를 놓칠 뻔했어요.','한국어를 일찍 배웠더라면 더 좋았을 거예요.','우산을 가져올걸 그랬어요.'],ans:1},
-  {lvl:'b1',q:'Laquelle de ces phrases signifie « J\'aurais dû prendre mon parapluie » ?',hint:null,opts:['우산을 가져올걸 그랬어요.','비행기를 놓칠 뻔했어요.','지갑을 잃어버릴 뻔했어요.','길에서 넘어질 뻔했어요.'],ans:0}
+  {lvl:'b1',q:'Laquelle de ces phrases signifie « J\'aurais dû prendre mon parapluie » ?',hint:null,opts:['우산을 가져올걸 그랬어요.','비행기를 놓칠 뻔했어요.','지갑을 잃어버릴 뻔했어요.','길에서 넘어질 뻔했어요.'],ans:0},
+
+  /* B2 : les formes des unités « Expliquer pourquoi ça a raté », « Anticiper,
+     craindre, prévoir », « Le coréen qu'on parle vraiment » et « Écrire pour le
+     TOPIK 쓰기 », plus les formes rhétoriques. Le niveau n'avait que 2 questions
+     pour une section qui en tire 8 : les mêmes revenaient à chaque tentative. */
+  {lvl:'b2',q:'« J\'étais au travail, je n\'ai pas pu répondre. »',hint:'Mon temps est passé dans cette activité.',opts:['일하느라고 전화를 못 받았어요.','일하는 통에 전화를 못 받았어요.','일한 탓에 전화를 못 받았어요.','일하는 김에 전화를 못 받았어요.'],ans:0},
+  {lvl:'b2',q:'« J\'ai passé la nuit à préparer les documents. »',hint:'만들다 perd son ㄹ devant ㄴ.',opts:['발표 자료를 만들느라고 밤을 새웠어요.','발표 자료를 만드느라고 밤을 새웠어요.','발표 자료를 만들었느라고 밤을 새웠어요.','발표 자료를 만드는 통에 밤을 새웠어요.'],ans:1},
+  {lvl:'b2',q:'« À cause de la pluie, on n\'a pas pu pique-niquer. »',hint:'La pluie n\'est pas ton activité : sujets différents.',opts:['비가 오느라고 소풍을 못 갔어요.','비가 오는 바람에 소풍을 못 갔어요.','비가 오는 김에 소풍을 못 갔어요.','비가 온 덕분에 소풍을 못 갔어요.'],ans:1},
+  {lvl:'b2',q:'« Je me suis levé tard, et c\'est bien ma faute. »',hint:'탓 = la faute de. Après un verbe au passé.',opts:['늦게 일어나느라고 학교에 늦었어요.','늦게 일어나는 통에 학교에 늦었어요.','늦게 일어난 탓에 학교에 늦었어요.','늦게 일어난 덕분에 학교에 늦었어요.'],ans:2},
+  {lvl:'b2',q:'« Grâce à un ami, j\'ai appris le coréen. »',hint:'Une bonne chose : 덕분에, jamais 탓에.',opts:['친구 탓에 한국어를 배웠어요.','친구 덕분에 한국어를 배웠어요.','친구 느라고 한국어를 배웠어요.','친구 통에 한국어를 배웠어요.'],ans:1},
+  {lvl:'b2',q:'« Avec les travaux, je n\'ai pas pu dormir. »',hint:'통 = le remue-ménage, le bruit, la pagaille.',opts:['공사를 한 탓에 잠을 못 잤어요.','공사를 하느라고 잠을 못 잤어요.','공사를 하는 통에 잠을 못 잤어요.','공사를 하는 김에 잠을 못 잤어요.'],ans:2},
+  {lvl:'b2',q:'« C\'est ma faute. »',hint:'탓 est un nom : il se construit avec 이다.',opts:['제 탓이에요.','제 탓에요.','제 덕분이에요.','제 통이에요.'],ans:0},
+  {lvl:'b2',q:'« La route va être bouchée, partez tôt. »',hint:'Une prévision suivie d\'un conseil.',opts:['길이 막힐 텐데 일찍 출발하세요.','길이 막힐 테니까 일찍 출발하세요.','길이 막힐까 봐 일찍 출발하세요.','길이 막히다가는 일찍 출발하세요.'],ans:1},
+  {lvl:'b2',q:'« Il va pleuvoir, et je n\'ai pas de parapluie. »',hint:'Pas d\'ordre derrière : ce n\'est pas 테니까.',opts:['비가 올 테니까 우산이 없어요.','비가 올까 봐 우산이 없어요.','비가 올 텐데 우산이 없어요.','비가 오다가는 우산이 없어요.'],ans:2},
+  {lvl:'b2',q:'« Je m\'en occupe, ne vous inquiétez pas. »',hint:'À la première personne, c\'est une promesse.',opts:['제가 할 테니까 걱정하지 마세요.','제가 할 텐데 걱정하지 마세요.','제가 할까 봐 걱정하지 마세요.','제가 하다가는 걱정하지 마세요.'],ans:0},
+  {lvl:'b2',q:'« J\'ai pris un taxi de peur d\'être en retard. »',hint:'La crainte, puis la précaution prise.',opts:['늦을 테니까 택시를 탔어요.','늦을지도 몰라서 택시를 탔어요.','늦다가는 택시를 탔어요.','늦을까 봐 택시를 탔어요.'],ans:3},
+  {lvl:'b2',q:'« Je serai peut-être un peu en retard. » (tu préviens, rien de plus)',hint:'-(으)ㄹ까 봐 ne termine jamais une phrase.',opts:['조금 늦을까 봐요.','조금 늦을지도 몰라요.','조금 늦을 테니까요.','조금 늦다가는요.'],ans:1},
+  {lvl:'b2',q:'« Il est peut-être déjà parti. »',hint:'Un fait passé.',opts:['그 사람은 벌써 갈지도 몰라요.','그 사람은 벌써 갈까 봐요.','그 사람은 벌써 갔을지도 몰라요.','그 사람은 벌써 갈 테니까요.'],ans:2},
+  {lvl:'b2',q:'« À te coucher tard tous les jours, tu vas y laisser ta santé. »',hint:'Un avertissement sur ce qui arrivera si ça continue.',opts:['매일 늦게 잘 테니까 건강이 나빠질 거예요.','매일 늦게 잘까 봐 건강이 나빠질 거예요.','매일 늦게 자다가 건강이 나빠질 거예요.','매일 늦게 자다가는 건강이 나빠질 거예요.'],ans:3},
+  {lvl:'b2',q:'« C\'était bon marché, alors j\'en ai pris deux. »',hint:'Tu réagis à ce que tu viens de constater.',opts:['싸길래 두 개 샀어요.','싼 김에 두 개 샀어요.','쌌더니 두 개 샀어요.','싸느라고 두 개 샀어요.'],ans:0},
+  {lvl:'b2',q:'« J\'étais fatigué, alors je me suis couché tôt. »',hint:'La cause doit venir du dehors pour 길래.',opts:['제가 피곤하길래 일찍 잤어요.','제가 피곤한 김에 일찍 잤어요.','제가 피곤해서 일찍 잤어요.','제가 피곤했더니 일찍 잤어요.'],ans:2},
+  {lvl:'b2',q:'« Puisque je faisais le ménage, j\'ai aussi nettoyé les fenêtres. »',hint:'Tu profites de ce que tu faisais déjà.',opts:['청소하길래 창문도 닦았어요.','청소하는 김에 창문도 닦았어요.','청소했더니 창문도 닦았어요.','청소하는 통에 창문도 닦았어요.'],ans:1},
+  {lvl:'b2',q:'« Je n\'ai pas déjeuné, du coup j\'ai faim. »',hint:'Tu agis, puis tu découvres. Le sujet, c\'est toi.',opts:['아침을 안 먹길래 배가 고파요.','아침을 안 먹는 김에 배가 고파요.','아침을 안 먹었더니 배가 고파요.','아침을 안 먹더라고요 배가 고파요.'],ans:2},
+  {lvl:'b2',q:'« Ce film, il était bien, figure-toi. » (tu l\'as vu toi-même)',hint:'Jamais du ouï-dire : pour cela, c\'est -대요.',opts:['그 영화 재미있대요.','그 영화 재미있더라고요.','그 영화 재미있었더니요.','그 영화 재미있는 김에요.'],ans:1},
+  {lvl:'b2',q:'On te dit que ce restaurant est cher. Tu l\'as trouvé correct, tu réponds :',hint:'La forme qui répond pour nuancer.',opts:['아니요, 괜찮더라고요.','아니요, 괜찮았더니요.','아니요, 괜찮던데요.','아니요, 괜찮을 테니까요.'],ans:2},
+  {lvl:'b2',q:'« J\'essayais de me retenir, mais j\'ai fini par rire. »',hint:'L\'action est allée au bout malgré toi.',opts:['참으려고 했지만 웃어 버렸어요.','참으려고 했지만 웃고 말았어요.','참으려고 했지만 웃더라고요.','참으려고 했지만 웃는 김에요.'],ans:1},
+  {lvl:'b2',q:'« J\'ai tout mangé. » (soulagé, c\'est réglé)',hint:'Le jumeau clair de -고 말다.',opts:['다 먹고 말았어요.','다 먹었더니요.','다 먹어 버렸어요.','다 먹는 김에요.'],ans:2},
+  {lvl:'b2',q:'« Jiwoo ne mentirait jamais. » (c\'est invraisemblable)',hint:'리 = la raison. « Il n\'y a aucune raison que… »',opts:['지우가 거짓말을 할 수 없어요.','지우가 거짓말을 할 리가 없어요.','지우가 거짓말을 하기 마련이에요.','지우가 거짓말을 하는 법이에요.'],ans:1},
+  {lvl:'b2',q:'« Là, je ne peux pas y aller. » (c\'est moi qui en suis empêché)',hint:'Capacité, pas vraisemblance.',opts:['지금은 갈 리가 없어요.','지금은 가는 법이에요.','지금은 갈 수 없어요.','지금은 가기 마련이에요.'],ans:2},
+  {lvl:'b2',q:'« Au début, c\'est forcément difficile. » (pour rassurer quelqu\'un)',hint:'Une loi de la vie, dite avec bienveillance.',opts:['처음에는 어려울 리가 없어요.','처음에는 어렵기 마련이에요.','처음에는 어려울 수 없어요.','처음에는 어려운 탓이에요.'],ans:1},
+  {lvl:'b2',q:'« Rien n\'est gratuit en ce monde. » (ton de proverbe)',hint:'없다 se comporte comme un verbe : 없는.',opts:['세상에 공짜는 없을 리가 없어요.','세상에 공짜는 없을 수 없어요.','세상에 공짜는 없는 법이에요.','세상에 공짜는 없기 마련이에요.'],ans:2},
+  {lvl:'b2',q:'« En tant qu\'étudiant, il faut travailler avec sérieux. »',hint:'Une position, pas un outil.',opts:['학생으로써 열심히 공부해야 합니다.','학생이야말로 열심히 공부해야 합니다.','학생으로서 열심히 공부해야 합니다.','학생에 달려 열심히 공부해야 합니다.'],ans:2},
+  {lvl:'b2',q:'« Le problème a été résolu par le dialogue. »',hint:'Si tu peux dire « avec », c\'est 로써.',opts:['대화로서 문제를 해결했습니다.','대화로써 문제를 해결했습니다.','대화야말로 문제를 해결했습니다.','대화에 달려 문제를 해결했습니다.'],ans:1},
+  {lvl:'b2',q:'« L\'éducation est précisément l\'investissement le plus important. »',hint:'La formule des conclusions.',opts:['교육으로서 가장 중요한 투자입니다.','교육으로써 가장 중요한 투자입니다.','교육에 달려 가장 중요한 투자입니다.','교육이야말로 가장 중요한 투자입니다.'],ans:3},
+  {lvl:'b2',q:'« Dans ce texte, nous nous proposons d\'examiner… » (introduction écrite)',hint:'L\'équivalent écrit de -(으)려고 하다.',opts:['이 글에서는 변화를 살펴보려고 해요.','이 글에서는 변화를 살펴보고자 합니다.','이 글에서는 변화를 살펴볼까 봐요.','이 글에서는 변화를 살펴보는 김에요.'],ans:1},
+  {lvl:'b2',q:'« Je n\'ai même pas pu boire d\'eau, alors manger… »',hint:'La grande chose d\'abord, la petite ensuite.',opts:['물은커녕 밥도 못 마셨습니다.','밥도 물은커녕 못 마셨습니다.','밥은커녕 물도 못 마셨습니다.','밥이야말로 물도 못 마셨습니다.'],ans:2},
+  {lvl:'b2',q:'« Le succès dépend de l\'effort. »',hint:'La formule qui désigne le facteur décisif.',opts:['성공은 노력으로서 있습니다.','성공이야말로 노력에 있습니다.','성공은 노력에 달려 있습니다.','성공은 노력고자 합니다.'],ans:2},
+  {lvl:'b2',q:'« La société coréenne change rapidement. » (dans une dissertation TOPIK)',hint:'L\'essai ne s\'adresse à personne.',opts:['한국 사회는 빠르게 변하고 있어요.','한국 사회는 빠르게 변하고 있습니다.','한국 사회는 빠르게 변하고 있다.','한국 사회는 빠르게 변하고 있는다.'],ans:2},
+  {lvl:'b2',q:'« C\'est bon. » dans le registre de l\'écrit :',hint:'Les adjectifs ne prennent jamais 는다.',opts:['좋아요','좋습니다','좋는다','좋다'],ans:3},
+  {lvl:'b2',q:'« Je vais demander au directeur. » (registre honorifique)',hint:'묻다 a une forme honorifique dédiée.',opts:['부장님께 물어볼게요.','부장님께 여쭤볼게요.','부장님께 말할게요.','부장님께 물어보실게요.'],ans:1},
+  {lvl:'b2',q:'« C\'est cher. En revanche, la qualité est bonne. »',hint:'Le connecteur du contraste à l\'écrit.',opts:['비쌉니다. 게다가 품질이 좋습니다.','비쌉니다. 따라서 품질이 좋습니다.','비쌉니다. 반면에 품질이 좋습니다.','비쌉니다. 즉 품질이 좋습니다.'],ans:2}
 ];
 
 const LISTEN_POOL=[
@@ -492,7 +533,36 @@ const LISTEN_POOL=[
   {phase:'Lecture avancée',q:'Que signifie cette phrase entendue dans une conversation ?',kr:'비가 온대요',opts:['Il pleut (je le vois)','Il paraît qu\'il pleut (rapporté)','Il va pleuvoir demain','Il a plu hier'],ans:1},
   {phase:'Lecture avancée',q:'Que signifie cette phrase de conclusion ?',kr:'따라서 저는 둘 다 경험해 보고 싶어요. 도시에서 일하고, 주말에는 시골에 가는 거예요.',opts:['« Donc » je veux essayer les deux : travailler en ville, aller à la campagne le week-end','« Mais » je préfère la campagne uniquement','« De plus » je déteste la ville','« Par contre » je ne veux ni l\'un ni l\'autre'],ans:0},
   {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'집이 정말 예뻐요! 텔레비전도 있네요.',opts:['La maison est jolie mais je n\'aime pas la télé','La maison est vraiment jolie ! Oh, il y a même une télé (je le remarque)','La maison n\'a pas de télé','Je cherche une maison avec télé'],ans:1},
-  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'정말 맛있네요! 얼마예요?',opts:['C\'était délicieux hier, c\'était combien ?','Oh, c\'est vraiment délicieux ! C\'est combien ? (réaction au moment de goûter)','Ce n\'est pas très bon, dommage','Je voudrais commander autre chose'],ans:1}
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'정말 맛있네요! 얼마예요?',opts:['C\'était délicieux hier, c\'était combien ?','Oh, c\'est vraiment délicieux ! C\'est combien ? (réaction au moment de goûter)','Ce n\'est pas très bon, dommage','Je voudrais commander autre chose'],ans:1},
+
+  /* TOPIK II : le niveau ne disposait que de 11 extraits pour 9 places.
+   Deux tentatives donnaient presque le meme examen. Les 24 suivants
+   reprennent des phrases deja enregistrees dans les lecons B2 : aucune
+   generation audio supplementaire, et l'eleve entend ce qu'il a appris. */
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'일하느라고 전화를 못 받았어요.',opts:['J\'étais au travail, je n\'ai pas pu répondre','Je n\'ai pas répondu parce que le téléphone ne marchait pas','Je travaille, alors appelle-moi','J\'ai répondu au téléphone pendant le travail'],ans:0},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'늦게 일어난 탓에 학교에 늦었어요.',opts:['Je me suis levé tôt, j\'étais à l\'heure','Je me suis levé tard, et c\'est ma faute si j\'étais en retard','L\'école a commencé en retard','Je me lève tard tous les jours'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'공사를 하는 통에 잠을 못 잤어요.',opts:['J\'ai dormi pendant les travaux','J\'ai fait des travaux au lieu de dormir','Avec les travaux et tout ce bruit, je n\'ai pas pu dormir','Les travaux commencent quand je dors'],ans:2},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'제 탓이에요.',opts:['C\'est grâce à moi','C\'est ma faute','Ce n\'est pas ma faute','C\'est à mon tour'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'친구 덕분에 한국어를 배웠어요.',opts:['C\'est la faute de mon ami si j\'ai appris le coréen','Grâce à un ami, j\'ai appris le coréen','J\'ai appris le coréen avec mon ami, en même temps','Mon ami a appris le coréen grâce à moi'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'제가 할 테니까 걱정하지 마세요.',opts:['Je m\'en occupe, ne vous inquiétez pas','Je le ferai peut-être, inquiétez-vous','Faites-le, ne vous inquiétez pas','J\'ai peur de le faire'],ans:0},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'비가 올 텐데 우산이 없어요.',opts:['Il va pleuvoir, prends un parapluie','Il va pleuvoir, et je n\'ai pas de parapluie','Il pleut, j\'ai pris un parapluie','Il ne pleuvra sûrement pas'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'늦을까 봐 택시를 탔어요.',opts:['J\'ai pris un taxi de peur d\'être en retard','J\'ai pris un taxi, du coup j\'étais en retard','Je serai peut-être en retard, alors prends un taxi','J\'étais en retard, alors j\'ai pris un taxi'],ans:0},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'조금 늦을지도 몰라요.',opts:['Je serai sûrement en retard','Je ne serai pas en retard','Je serai peut-être un peu en retard','Je suis en retard de peu'],ans:2},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'그렇게 급하게 가다가는 넘어질 거예요.',opts:['Tu es tombé parce que tu allais vite','À aller si vite, tu vas finir par tomber','Vas-y vite avant de tomber','Je suis tombé en me dépêchant'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'싸길래 두 개 샀어요.',opts:['J\'en ai acheté deux pour que ce soit moins cher','C\'était bon marché, alors j\'en ai pris deux','J\'en achèterai deux si c\'est bon marché','Deux, ça coûte moins cher'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'청소하는 김에 창문도 닦았어요.',opts:['J\'ai nettoyé les fenêtres avant de faire le ménage','Puisque je faisais le ménage, j\'ai aussi nettoyé les fenêtres','J\'ai fait le ménage parce que les fenêtres étaient sales','Je nettoie les fenêtres chaque fois que je fais le ménage'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'아침을 안 먹었더니 배가 고파요.',opts:['Je n\'ai pas déjeuné, du coup j\'ai faim','J\'ai faim, alors je ne déjeune pas','Je ne déjeune jamais quand j\'ai faim','J\'ai déjeuné mais j\'ai encore faim'],ans:0},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'그 영화 재미있더라고요.',opts:['Il paraît que ce film est bien','Ce film, je l\'ai vu, il était bien','Ce film va être bien','Ce film n\'était pas terrible'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'아니요, 괜찮던데요.',opts:['Non, moi je l\'ai trouvé très correct','Non, ça ne va pas du tout','Non merci, ça ira','Oui, c\'était cher'],ans:0},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'참으려고 했지만 웃고 말았어요.',opts:['J\'ai réussi à me retenir de rire','J\'essayais de me retenir, mais j\'ai fini par rire','J\'ai ri, puis je me suis retenu','Je ne voulais pas rire, et je n\'ai pas ri'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'그럴 리가 없어요.',opts:['C\'est sûrement vrai','Ça ne peut pas être','Je ne peux pas le faire','Ça arrive forcément'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'사람은 누구나 실수하기 마련이에요.',opts:['Personne ne fait d\'erreur','Tout le monde fait des erreurs, c\'est normal','Il ne faut pas faire d\'erreur','Cette personne se trompe toujours'],ans:1},
+  {phase:'Grammaire B2',q:'Que signifie cette phrase ?',kr:'세상에 공짜는 없는 법이에요.',opts:['Rien n\'est gratuit en ce monde, c\'est la règle','Tout est gratuit dans ce monde','Il n\'y a pas de loi dans ce monde','Le gratuit n\'existe pas encore'],ans:0},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'말이 나온 김에 말인데요.',opts:['Je n\'ai rien à ajouter','Puisqu\'on en parle…','Je ne peux pas en parler','On en reparlera plus tard'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'교육이야말로 가장 중요한 투자입니다.',opts:['L\'éducation est un investissement parmi d\'autres','L\'éducation est précisément l\'investissement le plus important','L\'éducation coûte très cher','Investir dans l\'éducation est difficile'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'성공은 노력에 달려 있습니다.',opts:['Le succès vient avec le temps','Le succès dépend de l\'effort','L\'effort ne suffit pas au succès','Le succès est suspendu'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'밥은커녕 물도 못 마셨습니다.',opts:['J\'ai mangé mais je n\'ai pas bu','Je n\'ai même pas pu boire d\'eau, alors manger…','J\'ai bu de l\'eau au lieu de manger','Je n\'ai bu que de l\'eau'],ans:1},
+  {phase:'Lecture avancée',q:'Que signifie cette phrase ?',kr:'학생으로서 열심히 공부해야 합니다.',opts:['Il faut étudier avec les étudiants','En tant qu\'étudiant, il faut travailler avec sérieux','Les étudiants doivent travailler pour moi','J\'étudie sérieusement grâce aux étudiants'],ans:1}
 ];
 
 /* Format authentique TOPIK I (초급 듣기) : écouter un mot, choisir l'image correspondante */
@@ -688,6 +758,32 @@ const WRITING_ESSAY_POOL = [
     context: '최근 한국을 비롯한 여러 나라에서 1인 가구가 빠르게 증가하고 있습니다. 1인 가구 증가에 대해 아래의 내용을 중심으로 자신의 생각을 쓰십시오.',
     subquestions: ['1인 가구가 증가하는 이유는 무엇입니까?', '1인 가구 증가로 인해 어떤 문제가 생길 수 있습니까?', '이러한 문제를 해결하기 위해 어떤 노력이 필요합니까?'],
     modelAnswer: '최근 한국 사회에서 1인 가구가 빠르게 증가하고 있다. 이러한 현상에는 여러 원인이 있다. 첫째, 결혼을 하지 않거나 늦게 하는 사람들이 늘어나면서 혼자 사는 삶을 선택하는 경우가 많아졌다. 둘째, 개인의 자유와 독립적인 생활을 중시하는 가치관의 변화도 큰 영향을 미쳤다. 셋째, 고령화로 인해 배우자와 사별한 후 혼자 지내는 노인 인구도 꾸준히 늘고 있다.\n\n그러나 1인 가구의 증가는 여러 사회적 문제를 낳고 있다. 우선 혼자 사는 사람들은 경제적 부담을 온전히 혼자 감당해야 하므로 생활이 불안정해지기 쉽다. 또한 사회적 관계가 줄어들면서 고립감이나 외로움을 느끼는 경우도 많아지고 있으며, 특히 노인의 경우 위급한 상황에서 도움을 받지 못하는 위험도 커지고 있다.\n\n이러한 문제를 해결하기 위해서는 사회 전체의 노력이 필요하다. 먼저 정부는 1인 가구를 위한 소형 주택 공급을 늘리고 생활비 부담을 줄일 수 있는 정책을 마련해야 한다. 또한 지역 사회에서는 이웃 간의 교류를 늘릴 수 있는 프로그램을 운영하여 고립을 예방할 필요가 있다. 개인적으로도 온라인 모임이나 취미 활동 등을 통해 적극적으로 관계를 맺으려는 노력이 중요하다.\n\n결론적으로 1인 가구의 증가는 이제 특별한 현상이 아니라 우리 사회가 함께 대응해야 할 중요한 과제다. 정부와 지역 사회, 그리고 개인이 함께 노력한다면 1인 가구도 안정적이고 건강한 삶을 누릴 수 있을 것이다.',
+    rubric: [['내용 및 과제 수행','12점'],['글의 전개 구조','12점'],['언어 사용','26점 (13점×2)']] },
+  { no:53, minChars:200, maxChars:300,
+    title:'온라인 수업의 장단점',
+    prompt:'다음을 참고하여 \'온라인 수업의 장단점\'에 대한 글을 200~300자로 쓰십시오. 단, 글의 제목을 쓰지 마십시오.',
+    outline: { pros: ['시간과 장소에 관계없이 들을 수 있다', '녹화된 강의를 반복해서 들을 수 있다'], cons: ['혼자 공부하면 집중력이 떨어지기 쉽다', '궁금한 점을 바로 질문하기 어렵다'] },
+    modelAnswer: '온라인 수업에는 분명한 장점이 있다. 첫째, 시간과 장소에 관계없이 수업을 들을 수 있어 자신의 일정에 맞추어 공부할 수 있다. 둘째, 녹화된 강의를 반복해서 들을 수 있으므로 이해하지 못한 부분을 다시 확인하기에 좋다. 그러나 단점도 분명하다. 혼자 화면을 보며 공부하다 보면 집중력이 떨어지기 쉽고, 궁금한 점이 생겨도 바로 질문하기 어렵다. 따라서 온라인 수업의 효과를 높이기 위해서는 스스로 학습 계획을 세우고, 질문을 모아 두었다가 교사에게 전달하는 습관이 필요하다.',
+    rubric: [['내용 및 과제 수행','7점'],['글의 전개 구조','7점'],['언어 사용','16점 (8점×2)']] },
+  { no:53, minChars:200, maxChars:300,
+    title:'대중교통 이용의 장단점',
+    prompt:'다음을 참고하여 \'대중교통 이용의 장단점\'에 대한 글을 200~300자로 쓰십시오. 단, 글의 제목을 쓰지 마십시오.',
+    outline: { pros: ['교통비를 줄일 수 있다', '환경 오염을 줄일 수 있다'], cons: ['출퇴근 시간에 매우 혼잡하다', '원하는 시간에 이동하기 어렵다'] },
+    modelAnswer: '대중교통을 이용하면 여러 가지 이점을 얻을 수 있다. 먼저 자가용을 사용할 때보다 교통비를 크게 줄일 수 있어 경제적이다. 또한 여러 사람이 함께 이동하므로 배출되는 매연이 줄어 환경 오염을 완화하는 데에도 도움이 된다. 반면 단점도 존재한다. 출퇴근 시간에는 지하철과 버스가 매우 혼잡하여 이용이 불편하며, 운행 시간이 정해져 있어 원하는 때에 자유롭게 이동하기 어렵다. 그러므로 대중교통 이용을 늘리기 위해서는 운행 횟수를 확대하고 혼잡한 시간대의 환경을 개선하려는 노력이 필요하다.',
+    rubric: [['내용 및 과제 수행','7점'],['글의 전개 구조','7점'],['언어 사용','16점 (8점×2)']] },
+  { no:54, minChars:600, maxChars:700,
+    title:'휴대폰 사용 시간 증가',
+    prompt:'다음을 주제로 하여 자신의 생각을 600~700자로 글을 쓰십시오. 단, 문제를 그대로 옮겨 쓰지 마십시오.',
+    context: '최근 사람들이 휴대폰을 사용하는 시간이 꾸준히 늘고 있습니다. 휴대폰 사용 시간 증가에 대해 아래의 내용을 중심으로 자신의 생각을 쓰십시오.',
+    subquestions: ['휴대폰 사용 시간이 늘어나는 이유는 무엇입니까?', '사용 시간이 늘어나면 어떤 문제가 생길 수 있습니까?', '이러한 문제를 줄이기 위해 어떤 노력이 필요합니까?'],
+    modelAnswer: '최근 휴대폰을 사용하는 시간이 해마다 늘어나고 있다. 여기에는 몇 가지 원인이 있다. 첫째, 휴대폰 하나로 할 수 있는 일이 크게 늘었다. 연락은 물론이고 영상 시청, 결제, 업무까지 모두 가능해지면서 손에서 놓기 어려워진 것이다. 둘째, 짧은 영상이나 알림이 끊임없이 이어지도록 설계되어 있어 처음 의도한 시간보다 오래 사용하게 된다.\\n\\n그러나 사용 시간이 길어지면 여러 문제가 나타난다. 우선 화면을 오래 보면 시력이 나빠지고 목과 어깨에 통증이 생기기 쉽다. 또한 잠들기 직전까지 휴대폰을 보면 수면의 질이 떨어져 다음 날의 생활에까지 영향을 미친다. 무엇보다 가족이나 친구와 함께 있으면서도 각자 화면만 보는 일이 많아져 실제 관계가 약해질 수 있다.\\n\\n이러한 문제를 줄이기 위해서는 개인과 사회가 함께 노력해야 한다. 개인은 사용 시간을 스스로 확인하고, 식사 시간이나 잠자기 전처럼 휴대폰을 보지 않는 시간을 정해 두는 것이 좋다. 또한 불필요한 알림을 꺼 두면 무심코 화면을 켜는 일을 크게 줄일 수 있다. 사회적으로는 학교에서 올바른 사용 습관을 가르치고, 기업은 지나친 사용을 유도하는 설계를 자제할 필요가 있다.\\n\\n결론적으로 휴대폰은 생활을 편리하게 만드는 도구이지 생활 그 자체가 아니다. 사용 시간을 스스로 관리하려는 노력이 있을 때 비로소 휴대폰은 우리에게 도움이 되는 도구로 남을 것이다.',
+    rubric: [['내용 및 과제 수행','12점'],['글의 전개 구조','12점'],['언어 사용','26점 (13점×2)']] },
+  { no:54, minChars:600, maxChars:700,
+    title:'환경 보호와 개인의 역할',
+    prompt:'다음을 주제로 하여 자신의 생각을 600~700자로 글을 쓰십시오. 단, 문제를 그대로 옮겨 쓰지 마십시오.',
+    context: '기후 변화에 대한 관심이 높아지면서 개인이 무엇을 할 수 있는지에 대한 논의도 활발해지고 있습니다. 환경 보호와 개인의 역할에 대해 아래의 내용을 중심으로 자신의 생각을 쓰십시오.',
+    subquestions: ['환경 문제가 심각해지는 이유는 무엇입니까?', '개인의 노력만으로 환경 문제를 해결할 수 있습니까?', '환경을 지키기 위해 개인은 무엇을 할 수 있습니까?'],
+    modelAnswer: '환경 문제가 해마다 심각해지고 있다. 그 원인은 분명하다. 산업이 발전하면서 온실가스 배출이 크게 늘었고, 편리함을 위해 일회용품을 사용하는 습관이 자리를 잡았다. 또한 소비가 빨라지면서 아직 쓸 수 있는 물건까지 쉽게 버려지고 있다.\\n\\n그렇다면 개인의 노력만으로 이 문제를 해결할 수 있을까. 솔직히 말하면 그렇지 않다. 배출량의 대부분은 산업 활동에서 나오기 때문에 기업의 변화와 정부의 정책 없이는 근본적인 해결이 어렵다. 개인이 아무리 노력해도 제도가 바뀌지 않으면 그 효과는 제한적일 수밖에 없다.\\n\\n그러나 개인의 실천이 의미가 없다는 뜻은 아니다. 오히려 두 가지 점에서 중요하다. 첫째, 일상의 작은 선택이 모이면 실제로 큰 차이를 만든다. 분리수거를 정확히 하고, 가까운 거리는 걷거나 대중교통을 이용하며, 필요하지 않은 물건을 사지 않는 것만으로도 자원의 낭비를 줄일 수 있다. 둘째, 개인의 행동은 사회의 분위기를 바꾼다. 환경을 생각하는 사람이 늘어나면 기업도 그에 맞추어 제품을 만들고, 정부도 관련 정책을 서두르게 된다.\\n\\n결국 환경 보호는 개인과 사회 가운데 어느 한쪽의 몫이 아니다. 개인은 생활 속에서 할 수 있는 일을 꾸준히 실천하고, 동시에 기업과 정부가 책임을 다하도록 요구해야 한다. 이 두 가지가 함께 갈 때 비로소 환경 문제는 해결의 길로 들어설 수 있을 것이다.',
     rubric: [['내용 및 과제 수행','12점'],['글의 전개 구조','12점'],['언어 사용','26점 (13점×2)']] }
 ];
 
@@ -730,7 +826,16 @@ const READING_POOL=[
   {lvl:'b2',title:'한국 현대 문학',sentences:['한국 현대 문학은 전례 없는 국제적 인지도를 얻고 있어요','2024년에 한강이 노벨 문학상을 수상했어요','그녀의 소설 채식주의자는 억압적 사회에 맞선 개인의 저항을 탐구해요','이러한 주제들은 한국 국경을 훨씬 넘어 공명을 일으켜요','한국 문학은 역사적 기억 폭력 정체성을 자주 다뤄요','분단과 전쟁이 작품에 깊은 흔적을 남겨요','다양한 언어로의 번역이 세계가 이 풍요로움을 발견할 수 있게 해줘요','한국 문학은 이 민족의 영혼과 역사를 엿볼 수 있는 독특한 창문이에요'],questions:[{q:'Quel prix Han Kang a-t-elle reçu en 2024 ?',opts:['Le Booker Prize','Le prix Pulitzer','Le prix Nobel de littérature','Le prix Goncourt'],ans:2},{q:'Quel roman de Han Kang est mentionné ?',opts:['Actes humains','La Végétarienne','Le Livre blanc','La leçon de grec'],ans:1}]},
   {lvl:'b2',title:'남북한 분단 이야기',sentences:['1945년 한반도의 분단은 온 민족의 운명을 깊이 바꾸어 놓았어요','일제 강점기에서 해방된 후 한반도는 두 개의 영향권으로 나뉘었어요','한국 전쟁(1950~1953)이 이 분단을 유혈 충돌로 심화시켰어요','1953년에 정전 협정이 체결되었지만 평화 조약은 맺어지지 않았어요','수백만 가족이 38선 양쪽에서 헤어져 살았어요','이산 가족 상봉이 상징적인 순간에 이루어졌어요','통일은 한국 정치 담론에서 여전히 섬세하고 복잡한 주제예요','새로운 세대는 이 문제를 윗세대와는 다른 시각으로 바라봐요'],questions:[{q:'En quelle année la Corée a-t-elle été divisée ?',opts:['1943','1945','1950','1953'],ans:1},{q:'Qu\'est-ce qui fut signé en 1953 ?',opts:['Un traité de paix','Un accord de réunification','Un armistice','Un traité d\'alliance'],ans:2}]},
   {lvl:'a1',title:'내 생일 파티',sentences:['다음 주에 제 생일이에요','저는 스물다섯 살이 돼요','생일은 유월 십오일이에요','친구 여덟 명을 초대했어요','오후 세 시에 모여요','케이크와 피자를 준비해요','선물은 필요 없어요','함께 사진을 찍을 거예요'],questions:[{q:'Quel âge le narrateur va-t-il avoir ? (nombre natif devant 살)',opts:['이십 살','스물다섯 살','스물 살','이십오 살'],ans:1},{q:'Combien d\'amis sont invités ? (nombre natif devant 명)',opts:['다섯 명','여덟 명','팔 명','여덟 개'],ans:1}]},
-  {lvl:'a2',title:'기차표 예매',sentences:['서울에서 부산까지 기차표를 예매해요','기차는 오전 아홉 시에 출발해요','부산에 오후 한 시에 도착해요','표는 오만 오천 원이에요','좌석은 칠 호차 십이 번이에요','창가 자리를 골랐어요','도시락도 하나 샀어요','기차 여행이 기대돼요'],questions:[{q:'À quelle heure le train arrive-t-il à Busan ? (nombre natif pour l\'heure)',opts:['한 시','일 시','열두 시','두 시'],ans:0},{q:'Combien coûte le billet ? (nombre sino-coréen pour le prix)',opts:['오천 원','오만 원','오만 오천 원','오백 원'],ans:2}]}
+  {lvl:'a2',title:'기차표 예매',sentences:['서울에서 부산까지 기차표를 예매해요','기차는 오전 아홉 시에 출발해요','부산에 오후 한 시에 도착해요','표는 오만 오천 원이에요','좌석은 칠 호차 십이 번이에요','창가 자리를 골랐어요','도시락도 하나 샀어요','기차 여행이 기대돼요'],questions:[{q:'À quelle heure le train arrive-t-il à Busan ? (nombre natif pour l\'heure)',opts:['한 시','일 시','열두 시','두 시'],ans:0},{q:'Combien coûte le billet ? (nombre sino-coréen pour le prix)',opts:['오천 원','오만 원','오만 오천 원','오백 원'],ans:2}]},
+
+  /* B1-B2 : le niveau avance ne disposait que de 9 textes pour 7 places.
+   Avec 15, deux tentatives ne donnent plus le meme examen. */
+  {lvl:'b2',title:'한국의 고령화',sentences:['한국은 세계에서 가장 빠르게 고령화가 진행되는 나라 중 하나예요','65세 이상 인구의 비율이 해마다 빠르게 늘고 있어요','출산율이 낮아지면서 젊은 세대의 수는 줄어들고 있어요','그래서 일하는 사람 한 명이 책임져야 할 부담이 점점 커지고 있어요','노인을 위한 복지 제도를 넓히는 일이 중요한 과제가 되었어요','혼자 사는 노인이 늘어나 외로움도 큰 문제로 떠올랐어요','정부는 노인 일자리를 만들고 돌봄 서비스를 늘리려고 노력하고 있어요','고령화는 한 세대만의 문제가 아니라 사회 전체가 함께 풀어야 할 일이에요'],questions:[{q:'Pourquoi la charge pesant sur les actifs augmente-t-elle ?',opts:['Parce que les personnes âgées travaillent plus','Parce que la natalité baisse et que les jeunes sont moins nombreux','Parce que les salaires diminuent','Parce que les retraites ont été supprimées'],ans:1},{q:'Quelle réponse le gouvernement apporte-t-il, selon le texte ?',opts:['Il limite le nombre de personnes âgées','Il augmente l\'âge de la retraite','Il crée des emplois pour les seniors et développe les services d\'aide','Il réduit les dépenses de santé'],ans:2}]},
+  {lvl:'b2',title:'발효 음식의 지혜',sentences:['한국 음식에서 발효는 아주 중요한 자리를 차지해요','김치와 된장, 간장은 모두 오랜 시간을 들여 발효시킨 음식이에요','냉장고가 없던 시절에 발효는 음식을 오래 저장하는 방법이었어요','소금과 시간만으로 재료를 상하지 않게 지킬 수 있었기 때문이에요','발효 과정에서 영양이 더 풍부해진다는 점도 밝혀졌어요','김장은 겨울을 준비하며 온 가족이 함께 김치를 담그는 행사예요','2013년에 김장 문화는 유네스코 무형문화유산으로 등재되었어요','발효 음식은 단순한 요리가 아니라 오래 쌓인 생활의 지혜예요'],questions:[{q:'À quoi servait d\'abord la fermentation ?',opts:['À rendre les plats plus épicés','À conserver longtemps les aliments sans réfrigérateur','À cuisiner plus vite','À économiser le sel'],ans:1},{q:'Que dit le texte du kimjang ?',opts:['C\'est une recette inventée en 2013','C\'est un plat servi uniquement en été','C\'est un moment où la famille prépare le kimchi ensemble, inscrit à l\'UNESCO','C\'est une technique réservée aux restaurants'],ans:2}]},
+  {lvl:'b2',title:'한류와 한국어 학습',sentences:['드라마와 음악을 통해 한국 문화를 접하는 사람이 전 세계에서 늘었어요','많은 학습자가 좋아하는 가수나 배우의 말을 이해하고 싶어서 공부를 시작해요','자막 없이 한 문장이라도 알아듣는 순간이 큰 동기가 되기도 해요','그러나 드라마에 나오는 말투를 그대로 따라 하면 실수를 하기 쉬워요','친구에게 쓰는 반말과 윗사람에게 쓰는 높임말이 분명히 다르기 때문이에요','그래서 재미로 시작하더라도 결국에는 체계적인 학습이 필요해요','한국어능력시험을 준비하는 학습자의 수도 해마다 늘고 있어요','관심에서 시작된 공부가 오래 이어지려면 꾸준한 습관이 중요해요'],questions:[{q:'Quel risque le texte signale-t-il chez ceux qui apprennent par les dramas ?',opts:['Ils apprennent trop vite','Ils risquent de copier un registre qui ne convient pas à la situation','Ils oublient leur langue maternelle','Ils ne regardent plus de dramas'],ans:1},{q:'Que faut-il pour que cet apprentissage dure ?',opts:['Regarder plus de séries','Une habitude régulière et un apprentissage structuré','Voyager en Corée chaque année','Arrêter d\'écouter de la musique'],ans:1}]},
+  {lvl:'b1',title:'제주도 여행',sentences:['제주도는 한국에서 가장 큰 섬이에요','화산 활동으로 만들어진 섬이라서 풍경이 독특해요','섬 가운데에는 한라산이 높이 솟아 있어요','바닷가를 따라 걷는 길이 잘 만들어져 있어요','바다에서 직접 해산물을 잡는 해녀 문화도 유명해요','해녀는 산소 장비 없이 바다에 들어가 일해요','제주도의 말과 음식은 육지와 조금 달라요','그래서 한국 사람들도 제주도를 여행하면 새로운 느낌을 받아요'],questions:[{q:'Pourquoi les paysages de Jeju sont-ils particuliers ?',opts:['Parce que l\'île est très récente','Parce que l\'île est née d\'une activité volcanique','Parce qu\'il n\'y a pas de montagne','Parce qu\'il y fait toujours froid'],ans:1},{q:'Qu\'est-ce qui caractérise les haenyeo ?',opts:['Elles pêchent depuis un bateau','Elles plongent sans équipement à oxygène','Elles travaillent seulement en hiver','Elles vivent sur le continent'],ans:1}]},
+  {lvl:'b1',title:'한국의 명절',sentences:['한국에는 설날과 추석이라는 큰 명절이 있어요','설날은 음력 새해 첫날이에요','추석은 가을에 한 해의 수확을 감사하는 날이에요','명절에는 멀리 사는 가족들이 고향으로 모여요','그래서 고속도로가 아주 많이 막혀요','차례를 지내고 성묘를 가는 집도 많아요','설날에는 떡국을 먹고 추석에는 송편을 만들어요','요즘에는 명절에 여행을 떠나는 가족도 늘고 있어요'],questions:[{q:'Que célèbre le Chuseok ?',opts:['Le premier jour de l\'année lunaire','La récolte de l\'année, à l\'automne','L\'anniversaire du roi Sejong','La fin de l\'hiver'],ans:1},{q:'Qu\'est-ce qui a changé récemment selon le texte ?',opts:['On ne mange plus de tteokguk','Les autoroutes sont vides pendant les fêtes','Certaines familles partent en voyage au lieu de se réunir','Les fêtes ont été supprimées'],ans:2}]},
+  {lvl:'b1',title:'한국의 카페 문화',sentences:['한국에는 거리마다 카페가 아주 많아요','사람들은 커피를 마시려고만 카페에 가는 것이 아니에요','공부를 하거나 일을 하러 가는 사람도 많아요','친구를 만나 이야기하는 장소로도 자주 쓰여요','그래서 카페는 집과 회사 사이의 또 다른 공간이 되었어요','혼자 조용히 책을 읽는 사람도 쉽게 볼 수 있어요','카페마다 분위기가 달라서 목적에 맞춰 고르기도 해요','카페 문화는 한국 사람들의 생활 방식을 잘 보여 줘요'],questions:[{q:'Pourquoi les gens vont-ils au café, selon le texte ?',opts:['Uniquement pour boire un café','Pour étudier, travailler ou voir des amis','Pour dormir','Pour faire leurs courses'],ans:1},{q:'Comment le texte décrit-il le café ?',opts:['Comme un lieu réservé aux étudiants','Comme un espace entre la maison et le travail','Comme un endroit trop bruyant','Comme un commerce en voie de disparition'],ans:1}]}
 ];
 
 /* ═══════ ÉTAT ═══════ */
@@ -831,7 +936,13 @@ function buildQueueBrut(sectionKey){
     // Format réel TOPIK II 쓰기 : 51+52 (complétion) puis 53 (rédaction courte)
     // puis 54 (rédaction longue) — ordre fixe, pas de mélange entre les 4.
     const completions = shuffled(WRITING_POOL).slice(0,2).map(w => ({type:'write', context:w.context, hint:w.hint, answer:w.answer}));
-    const essays = WRITING_ESSAY_POOL.map(w => ({type:'write-essay', ...w}));
+    // Un sujet 53 et un sujet 54 tires au sort, dans cet ordre : le pool en
+    // contient plusieurs de chaque, les prendre tous afficherait 6 redactions.
+    const un = no => {
+      const choix = WRITING_ESSAY_POOL.filter(w => w.no === no);
+      return choix[Math.floor(Math.random() * choix.length)];
+    };
+    const essays = [un(53), un(54)].filter(Boolean).map(w => ({type:'write-essay', ...w}));
     return completions.concat(essays);
   }
   if(sectionKey==='read'){
