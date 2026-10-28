@@ -94,6 +94,30 @@
   .pn-ex button:hover{border-color:#C9A96E;color:var(--tx)}
   .pn-note{font-size:.72rem;color:var(--t2);line-height:1.5;margin-top:14px}
 
+  /* Les 60 prénoms : une grille de pastilles, pas un tableau. Sur un
+     téléphone un tableau à deux colonnes se lit mal, et l'intérêt est
+     de pouvoir toucher un prénom pour le reprendre en haut. */
+  .pn-noms{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));
+    gap:8px;margin:16px 0 14px}
+  .pn-nom{display:flex;flex-direction:column;align-items:flex-start;gap:2px;
+    padding:9px 12px;border-radius:11px;border:1px solid var(--bd,#e0e0e0);
+    background:transparent;cursor:pointer;font-family:inherit;text-align:left;
+    transition:border-color .12s}
+  .pn-nom:hover{border-color:#C9A96E}
+  .pn-nom-fr{font-size:.8rem;color:var(--t2);font-weight:600}
+  .pn-nom-kr{font-size:1.05rem;font-weight:700;color:var(--tx)}
+  /* Questions fréquentes : en accordéon, parce que la réponse intéresse
+     une personne sur cinq et que la page est déjà longue. Le contenu
+     reste dans le HTML, donc lisible par un robot comme par un lecteur
+     d'écran, même replié. */
+  .pn-faq{margin-top:14px;border-top:1px solid var(--bd,#e0e0e0)}
+  .pn-q{border-bottom:1px solid var(--bd,#e0e0e0)}
+  .pn-q summary{cursor:pointer;padding:13px 0;font-weight:700;font-size:.92rem;
+    list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .pn-q summary::-webkit-details-marker{display:none}
+  .pn-q summary::after{content:'+';color:#C9A96E;font-weight:700;font-size:1.1rem;flex:none}
+  .pn-q[open] summary::after{content:'\2212'}
+  .pn-q p{margin:0 0 14px;color:var(--t2);font-size:.88rem;line-height:1.65}
   .pn-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;
     margin-top:20px}
   .pn-btn{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;
@@ -143,6 +167,62 @@
   .pn-next .cta2{display:block;margin-top:12px;font-size:.82rem;
     color:rgba(199,210,227,.75);text-decoration:underline}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Peut-on traduire son prénom en coréen ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non, et c'est la confusion la plus fréquente. Un prénom n'a pas de sens à traduire : on le transcrit, c'est-à-dire qu'on écrit ses sons avec l'alphabet coréen. Camille ne devient pas un mot coréen, elle s'écrit 카미유, qui se prononce « ka-mi-you »."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pourquoi mon prénom compte-t-il plus de syllabes en coréen ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parce que le coréen n'enchaîne pas deux consonnes et ne termine pas une syllabe par n'importe quel son. Chaque consonne isolée reçoit donc une voyelle d'appui, le plus souvent 으. Pierre, une syllabe en français, en fait trois en coréen : 피에르."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Est-ce ainsi qu'un Coréen m'appellerait ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. C'est la transcription usuelle, celle qu'on écrit sur un badge, un formulaire ou un compte coréen. C'est différent d'un prénom coréen à proprement parler, qui se compose généralement de deux syllabes placées après le nom de famille."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pourquoi deux prénoms différents donnent-ils parfois la même écriture ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parce que le hangeul note des sons, pas des lettres. Des orthographes françaises différentes qui se prononcent pareil aboutissent logiquement au même résultat. C'est le même phénomène qu'une oreille française qui n'entend aucune différence entre Sean et Shawn."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Les sons v, f et z existent-ils en coréen ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non, aucun des trois. Le v devient ㅂ (b), le f devient ㅍ (p) et le z devient ㅈ (j). David s'écrit 다비드 et Sophie 소피. Ce n'est pas une approximation de l'outil : c'est ainsi que ces prénoms s'écrivent réellement en Corée."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment écrire un prénom composé ou avec un accent ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tape-le tel quel, avec son trait d'union et ses accents. L'outil lit l'orthographe française, y compris é, è, ç et les traits d'union. Jean-Baptiste donne 장밥티스트."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -220,6 +300,109 @@
     <h2>Comment se construit <em>une syllabe</em></h2>
     <p>Une syllabe coréenne s'empile dans un carré : une consonne, une voyelle, et parfois une consonne finale. Jamais dans le désordre, jamais en ligne comme chez nous.</p>
     <p>C'est pour ça que ton prénom se découpe en blocs bien nets au lieu de s'écrire lettre à lettre. Une fois cette logique comprise, <strong>le hangeul entier s'apprend en quelques heures</strong>, il a justement été conçu pour ça, en 1443, pour que tout le monde puisse apprendre à lire.</p>
+  </div>
+
+
+  <div class="pn-sec">
+    <h2>60 prénoms <em>déjà transcrits</em></h2>
+    <p>Le tien n'y est peut-être pas, et ce n'est pas grave : l'outil au-dessus les écrit tous. Mais si tu
+    cherches juste à voir à quoi ça ressemble, voici les prénoms français les plus portés, passés dans la
+    machine. <strong>Touche un prénom</strong> pour le reprendre en haut, l'entendre et le partager.</p>
+    <div class="pn-noms" id="pnNoms">
+      <button type="button" class="pn-nom" data-ex="Marie"><span class="pn-nom-fr">Marie</span><span class="pn-nom-kr">마리</span></button>
+      <button type="button" class="pn-nom" data-ex="Jean"><span class="pn-nom-fr">Jean</span><span class="pn-nom-kr">장</span></button>
+      <button type="button" class="pn-nom" data-ex="Pierre"><span class="pn-nom-fr">Pierre</span><span class="pn-nom-kr">피에르</span></button>
+      <button type="button" class="pn-nom" data-ex="Sophie"><span class="pn-nom-fr">Sophie</span><span class="pn-nom-kr">소피</span></button>
+      <button type="button" class="pn-nom" data-ex="Thomas"><span class="pn-nom-fr">Thomas</span><span class="pn-nom-kr">토마</span></button>
+      <button type="button" class="pn-nom" data-ex="Camille"><span class="pn-nom-fr">Camille</span><span class="pn-nom-kr">카미유</span></button>
+      <button type="button" class="pn-nom" data-ex="Julie"><span class="pn-nom-fr">Julie</span><span class="pn-nom-kr">쥘리</span></button>
+      <button type="button" class="pn-nom" data-ex="Nicolas"><span class="pn-nom-fr">Nicolas</span><span class="pn-nom-kr">니콜라</span></button>
+      <button type="button" class="pn-nom" data-ex="Léa"><span class="pn-nom-fr">Léa</span><span class="pn-nom-kr">레아</span></button>
+      <button type="button" class="pn-nom" data-ex="Lucas"><span class="pn-nom-fr">Lucas</span><span class="pn-nom-kr">뤼카</span></button>
+      <button type="button" class="pn-nom" data-ex="Emma"><span class="pn-nom-fr">Emma</span><span class="pn-nom-kr">에마</span></button>
+      <button type="button" class="pn-nom" data-ex="Hugo"><span class="pn-nom-fr">Hugo</span><span class="pn-nom-kr">위고</span></button>
+      <button type="button" class="pn-nom" data-ex="Chloé"><span class="pn-nom-fr">Chloé</span><span class="pn-nom-kr">클로에</span></button>
+      <button type="button" class="pn-nom" data-ex="Louis"><span class="pn-nom-fr">Louis</span><span class="pn-nom-kr">루이</span></button>
+      <button type="button" class="pn-nom" data-ex="Manon"><span class="pn-nom-fr">Manon</span><span class="pn-nom-kr">마농</span></button>
+      <button type="button" class="pn-nom" data-ex="Gabriel"><span class="pn-nom-fr">Gabriel</span><span class="pn-nom-kr">가브리엘</span></button>
+      <button type="button" class="pn-nom" data-ex="Sarah"><span class="pn-nom-fr">Sarah</span><span class="pn-nom-kr">사라</span></button>
+      <button type="button" class="pn-nom" data-ex="Arthur"><span class="pn-nom-fr">Arthur</span><span class="pn-nom-kr">아르튀르</span></button>
+      <button type="button" class="pn-nom" data-ex="Inès"><span class="pn-nom-fr">Inès</span><span class="pn-nom-kr">이네스</span></button>
+      <button type="button" class="pn-nom" data-ex="Jules"><span class="pn-nom-fr">Jules</span><span class="pn-nom-kr">쥘</span></button>
+      <button type="button" class="pn-nom" data-ex="Alice"><span class="pn-nom-fr">Alice</span><span class="pn-nom-kr">알리스</span></button>
+      <button type="button" class="pn-nom" data-ex="Raphaël"><span class="pn-nom-fr">Raphaël</span><span class="pn-nom-kr">라파엘</span></button>
+      <button type="button" class="pn-nom" data-ex="Louise"><span class="pn-nom-fr">Louise</span><span class="pn-nom-kr">루이즈</span></button>
+      <button type="button" class="pn-nom" data-ex="Adam"><span class="pn-nom-fr">Adam</span><span class="pn-nom-kr">아당</span></button>
+      <button type="button" class="pn-nom" data-ex="Jade"><span class="pn-nom-fr">Jade</span><span class="pn-nom-kr">자드</span></button>
+      <button type="button" class="pn-nom" data-ex="Paul"><span class="pn-nom-fr">Paul</span><span class="pn-nom-kr">폴</span></button>
+      <button type="button" class="pn-nom" data-ex="Anna"><span class="pn-nom-fr">Anna</span><span class="pn-nom-kr">아나</span></button>
+      <button type="button" class="pn-nom" data-ex="Nathan"><span class="pn-nom-fr">Nathan</span><span class="pn-nom-kr">나탕</span></button>
+      <button type="button" class="pn-nom" data-ex="Lina"><span class="pn-nom-fr">Lina</span><span class="pn-nom-kr">리나</span></button>
+      <button type="button" class="pn-nom" data-ex="Maxime"><span class="pn-nom-fr">Maxime</span><span class="pn-nom-kr">막심</span></button>
+      <button type="button" class="pn-nom" data-ex="Clara"><span class="pn-nom-fr">Clara</span><span class="pn-nom-kr">클라라</span></button>
+      <button type="button" class="pn-nom" data-ex="Antoine"><span class="pn-nom-fr">Antoine</span><span class="pn-nom-kr">앙투안</span></button>
+      <button type="button" class="pn-nom" data-ex="Juliette"><span class="pn-nom-fr">Juliette</span><span class="pn-nom-kr">쥘리에트</span></button>
+      <button type="button" class="pn-nom" data-ex="Victor"><span class="pn-nom-fr">Victor</span><span class="pn-nom-kr">빅토르</span></button>
+      <button type="button" class="pn-nom" data-ex="Zoé"><span class="pn-nom-fr">Zoé</span><span class="pn-nom-kr">조에</span></button>
+      <button type="button" class="pn-nom" data-ex="Mathis"><span class="pn-nom-fr">Mathis</span><span class="pn-nom-kr">마티</span></button>
+      <button type="button" class="pn-nom" data-ex="Eva"><span class="pn-nom-fr">Eva</span><span class="pn-nom-kr">에바</span></button>
+      <button type="button" class="pn-nom" data-ex="Théo"><span class="pn-nom-fr">Théo</span><span class="pn-nom-kr">테오</span></button>
+      <button type="button" class="pn-nom" data-ex="Charlotte"><span class="pn-nom-fr">Charlotte</span><span class="pn-nom-kr">샤를로트</span></button>
+      <button type="button" class="pn-nom" data-ex="Noah"><span class="pn-nom-fr">Noah</span><span class="pn-nom-kr">노아</span></button>
+      <button type="button" class="pn-nom" data-ex="Rose"><span class="pn-nom-fr">Rose</span><span class="pn-nom-kr">로즈</span></button>
+      <button type="button" class="pn-nom" data-ex="Enzo"><span class="pn-nom-fr">Enzo</span><span class="pn-nom-kr">앙조</span></button>
+      <button type="button" class="pn-nom" data-ex="Mila"><span class="pn-nom-fr">Mila</span><span class="pn-nom-kr">밀라</span></button>
+      <button type="button" class="pn-nom" data-ex="Ethan"><span class="pn-nom-fr">Ethan</span><span class="pn-nom-kr">에탕</span></button>
+      <button type="button" class="pn-nom" data-ex="Agathe"><span class="pn-nom-fr">Agathe</span><span class="pn-nom-kr">아가트</span></button>
+      <button type="button" class="pn-nom" data-ex="Tom"><span class="pn-nom-fr">Tom</span><span class="pn-nom-kr">통</span></button>
+      <button type="button" class="pn-nom" data-ex="Nina"><span class="pn-nom-fr">Nina</span><span class="pn-nom-kr">니나</span></button>
+      <button type="button" class="pn-nom" data-ex="Baptiste"><span class="pn-nom-fr">Baptiste</span><span class="pn-nom-kr">밥티스트</span></button>
+      <button type="button" class="pn-nom" data-ex="Céline"><span class="pn-nom-fr">Céline</span><span class="pn-nom-kr">셀린</span></button>
+      <button type="button" class="pn-nom" data-ex="Olivier"><span class="pn-nom-fr">Olivier</span><span class="pn-nom-kr">올리비에르</span></button>
+      <button type="button" class="pn-nom" data-ex="Amélie"><span class="pn-nom-fr">Amélie</span><span class="pn-nom-kr">아멜리</span></button>
+      <button type="button" class="pn-nom" data-ex="Benjamin"><span class="pn-nom-fr">Benjamin</span><span class="pn-nom-kr">방자맹</span></button>
+      <button type="button" class="pn-nom" data-ex="Élise"><span class="pn-nom-fr">Élise</span><span class="pn-nom-kr">엘리즈</span></button>
+      <button type="button" class="pn-nom" data-ex="Mathieu"><span class="pn-nom-fr">Mathieu</span><span class="pn-nom-kr">마티어</span></button>
+      <button type="button" class="pn-nom" data-ex="Laura"><span class="pn-nom-fr">Laura</span><span class="pn-nom-kr">로라</span></button>
+      <button type="button" class="pn-nom" data-ex="Quentin"><span class="pn-nom-fr">Quentin</span><span class="pn-nom-kr">캉탱</span></button>
+      <button type="button" class="pn-nom" data-ex="Pauline"><span class="pn-nom-fr">Pauline</span><span class="pn-nom-kr">폴린</span></button>
+      <button type="button" class="pn-nom" data-ex="Romain"><span class="pn-nom-fr">Romain</span><span class="pn-nom-kr">로맹</span></button>
+      <button type="button" class="pn-nom" data-ex="Margaux"><span class="pn-nom-fr">Margaux</span><span class="pn-nom-kr">마르곡</span></button>
+      <button type="button" class="pn-nom" data-ex="Vincent"><span class="pn-nom-fr">Vincent</span><span class="pn-nom-kr">뱅상</span></button>
+    </div>
+    <p class="pn-note">Deux prénoms différents peuvent donner la même écriture : le hangeul note les sons, et
+    certains sons français se rejoignent une fois transcrits. Ce n'est pas une erreur de l'outil, c'est la
+    même chose qui arrive à Sean et Shawn pour une oreille française.</p>
+  </div>
+
+  <div class="pn-sec">
+    <h2>Les questions <em>qu'on se pose</em></h2>
+    <div class="pn-faq">
+      <details class="pn-q">
+        <summary>Peut-on traduire son prénom en coréen ?</summary>
+        <p>Non, et c'est la confusion la plus fréquente. Un prénom n'a pas de sens à traduire : on le transcrit, c'est-à-dire qu'on écrit ses sons avec l'alphabet coréen. Camille ne devient pas un mot coréen, elle s'écrit 카미유, qui se prononce « ka-mi-you ».</p>
+      </details>
+      <details class="pn-q">
+        <summary>Pourquoi mon prénom compte-t-il plus de syllabes en coréen ?</summary>
+        <p>Parce que le coréen n'enchaîne pas deux consonnes et ne termine pas une syllabe par n'importe quel son. Chaque consonne isolée reçoit donc une voyelle d'appui, le plus souvent 으. Pierre, une syllabe en français, en fait trois en coréen : 피에르.</p>
+      </details>
+      <details class="pn-q">
+        <summary>Est-ce ainsi qu'un Coréen m'appellerait ?</summary>
+        <p>Oui. C'est la transcription usuelle, celle qu'on écrit sur un badge, un formulaire ou un compte coréen. C'est différent d'un prénom coréen à proprement parler, qui se compose généralement de deux syllabes placées après le nom de famille.</p>
+      </details>
+      <details class="pn-q">
+        <summary>Pourquoi deux prénoms différents donnent-ils parfois la même écriture ?</summary>
+        <p>Parce que le hangeul note des sons, pas des lettres. Des orthographes françaises différentes qui se prononcent pareil aboutissent logiquement au même résultat. C'est le même phénomène qu'une oreille française qui n'entend aucune différence entre Sean et Shawn.</p>
+      </details>
+      <details class="pn-q">
+        <summary>Les sons v, f et z existent-ils en coréen ?</summary>
+        <p>Non, aucun des trois. Le v devient ㅂ (b), le f devient ㅍ (p) et le z devient ㅈ (j). David s'écrit 다비드 et Sophie 소피. Ce n'est pas une approximation de l'outil : c'est ainsi que ces prénoms s'écrivent réellement en Corée.</p>
+      </details>
+      <details class="pn-q">
+        <summary>Comment écrire un prénom composé ou avec un accent ?</summary>
+        <p>Tape-le tel quel, avec son trait d'union et ses accents. L'outil lit l'orthographe française, y compris é, è, ç et les traits d'union. Jean-Baptiste donne 장밥티스트.</p>
+      </details>
+    </div>
   </div>
 
   <div class="pn-next">
@@ -330,12 +513,40 @@
     e.preventDefault(); input.blur();
   });
 
-  vide.addEventListener('click', function (e) {
+  function remplir(e) {
     var b = e.target.closest('button[data-ex]');
     if (!b) return;
     input.value = b.getAttribute('data-ex');
     rendre();
-  });
+    memoriserDansURL();
+    document.getElementById('pnForm').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+  vide.addEventListener('click', remplir);
+  var grilleNoms = document.getElementById('pnNoms');
+  if (grilleNoms) grilleNoms.addEventListener('click', remplir);
+
+  /* ── Un prénom dans l'URL ────────────────────────────────────────────────
+     Deux usages, le même mécanisme : partager « voilà mon prénom en coréen »
+     avec un lien qui montre tout de suite le résultat, et laisser les 60
+     pastilles produire une adresse lisible.
+
+     L'URL n'est réécrite qu'au moment où l'on arrête de taper, jamais à
+     chaque frappe : Chrome limite replaceState à environ 200 appels par
+     10 secondes et coupe ensuite sans prévenir. */
+  function memoriserDansURL() {
+    var v = input.value.trim();
+    try {
+      var u = new URL(location.href);
+      if (v) u.searchParams.set('p', v); else u.searchParams.delete('p');
+      history.replaceState(null, '', u.pathname + u.search);
+    } catch (e) {}
+  }
+  input.addEventListener('blur', memoriserDansURL);
+
+  try {
+    var depuisURL = new URL(location.href).searchParams.get('p');
+    if (depuisURL) input.value = depuisURL.slice(0, 40);
+  } catch (e) {}
 
   /* ── Image à partager ────────────────────────────────────────────────────
      « Écris ton prénom en coréen » est une recherche à forte intention, un

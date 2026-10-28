@@ -92,9 +92,76 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .intro-card p{font-size:13.5px;color:var(--t2);line-height:1.55}
 .dic-credit{max-width:760px;margin:26px auto 0;padding:0 18px 4px;text-align:center;font-size:11px;color:var(--t3);line-height:1.55}
 .dic-credit a{color:var(--gold-deep,#B8924E);font-weight:600;text-decoration:none}
+
+/* ── Texte de présentation ────────────────────────────────────────────────
+   La page n'affichait que sa barre de recherche : une cinquantaine de mots
+   visibles, pour une requête à forte intention. Ce bloc dit ce que contient
+   l'outil et ce qu'il fait, pour un visiteur comme pour un moteur. Il vit
+   hors de #main, que l'application réécrit à chaque frappe. */
+.dic-apropos{max-width:720px;margin:34px auto 0;padding:0 18px 10px;
+  font-size:.93rem;line-height:1.7;color:var(--t2)}
+.dic-apropos h2{font-size:1.05rem;color:var(--tx);margin:26px 0 8px}
+.dic-apropos p{margin:0 0 12px}
+.dic-apropos a{color:#C9A96E}
+.dic-faq{margin-top:10px;border-top:1px solid var(--bd,#e0e0e0)}
+.dic-q{border-bottom:1px solid var(--bd,#e0e0e0)}
+.dic-q summary{cursor:pointer;padding:13px 0;font-weight:700;font-size:.9rem;color:var(--tx);
+  list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.dic-q summary::-webkit-details-marker{display:none}
+.dic-q summary::after{content:'+';color:#C9A96E;font-weight:700;font-size:1.1rem;flex:none}
+.dic-q[open] summary::after{content:'\2212'}
+.dic-q p{margin:0 0 14px;font-size:.88rem}
 </style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Comment chercher si je ne sais pas écrire en coréen ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tape le mot en français : la recherche fonctionne dans les deux sens et détecte seule la langue que tu utilises. Tu n'as pas besoin d'un clavier coréen pour t'en servir."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pourquoi la prononciation n'est-elle pas écrite comme ailleurs ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parce que la romanisation officielle du coréen est conçue pour l'anglais. Un francophone qui la lit telle quelle prononce faux : u se lit « ou », eo se lit « o ouvert », j se lit « dj ». Ce dictionnaire écrit donc les sons à la française."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Les verbes irréguliers sont-ils conjugués correctement ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Les sept familles d'irréguliers du coréen sont reconnues (ㄷ, ㅂ, ㅅ, 르, 으, ㅎ et ㄹ), ainsi que les verbes qui leur ressemblent mais restent réguliers. Les formes sont calculées, donc les cas très rares peuvent varier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pourquoi tous les mots n'ont-ils pas d'audio ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parce que les voix sont des enregistrements préparés à l'avance, pas une synthèse jouée dans le navigateur. Le vocabulaire des leçons et des histoires est enregistré ; le reste du fonds, beaucoup plus vaste, ne l'est pas encore. Un bouton muet vaut mieux qu'une voix robotique."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Faut-il créer un compte pour l'utiliser ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Le dictionnaire est entièrement libre d'accès, sans inscription et sans limite de recherches."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -116,6 +183,58 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </header>
 
 <main class="dic-main" id="main"></main>
+
+<section class="dic-apropos">
+  <h2>Ce que contient ce dictionnaire</h2>
+  <p><strong>45 312 entrées</strong>, dans les deux sens. Tu peux chercher un mot français et obtenir le
+  coréen, ou l'inverse : la barre de recherche détecte seule ce que tu tapes. Le fond vient de deux
+  sources. Un noyau de 2 322 mots et expressions, relus un par un, ceux dont on se sert vraiment pour
+  parler. Puis le <a href="https://krdict.korean.go.kr" target="_blank" rel="noopener">한국어기초사전</a>
+  du 국립국어원, l'Institut national de la langue coréenne, qui apporte les 43 000 autres.</p>
+
+  <h2>La conjugaison est faite pour toi</h2>
+  <p>C'est ce qui manque à la plupart des dictionnaires en ligne : ils donnent 듣다 et te laissent deviner
+  comment on dit « j'ai écouté ». Ici, chaque verbe et chaque adjectif affiche ses formes du plus formel au
+  plus familier, présent, passé et futur compris.</p>
+  <p>Les <strong>verbes irréguliers sont traités</strong>, pas contournés : les familles ㄷ, ㅂ, ㅅ, 르, 으,
+  ㅎ et ㄹ sont reconnues, ainsi que les faux amis qui leur ressemblent sans l'être. 듣다 donne bien 들어요,
+  춥다 donne 추워요, 모르다 donne 몰라요. Les formes sont générées par le calcul, pas recopiées : les cas
+  les plus rares peuvent donc varier.</p>
+
+  <h2>La prononciation est écrite à la française</h2>
+  <p>La romanisation officielle est pensée pour des anglophones. Lue par un francophone, elle induit en
+  erreur : <em>u</em> se lit « ou », <em>eo</em> se lit « o ouvert », <em>j</em> se lit « dj ». Ce
+  dictionnaire affiche donc une lecture à la française, celle qu'il faut prononcer telle qu'elle est
+  écrite. Et quand le mot fait partie de ceux qui sont enregistrés, un bouton le fait entendre par une
+  voix coréenne.</p>
+  <p>Tout est gratuit et sans compte. <a href="hangeul.html">Apprendre à lire l'alphabet</a> prend
+  quelques heures, et change complètement ce que tu peux faire d'un dictionnaire.</p>
+
+  <h2>Les questions qu'on se pose</h2>
+  <div class="dic-faq">
+    <details class="dic-q">
+      <summary>Comment chercher si je ne sais pas écrire en coréen ?</summary>
+      <p>Tape le mot en français : la recherche fonctionne dans les deux sens et détecte seule la langue que tu utilises. Tu n'as pas besoin d'un clavier coréen pour t'en servir.</p>
+    </details>
+    <details class="dic-q">
+      <summary>Pourquoi la prononciation n'est-elle pas écrite comme ailleurs ?</summary>
+      <p>Parce que la romanisation officielle du coréen est conçue pour l'anglais. Un francophone qui la lit telle quelle prononce faux : u se lit « ou », eo se lit « o ouvert », j se lit « dj ». Ce dictionnaire écrit donc les sons à la française.</p>
+    </details>
+    <details class="dic-q">
+      <summary>Les verbes irréguliers sont-ils conjugués correctement ?</summary>
+      <p>Oui. Les sept familles d'irréguliers du coréen sont reconnues (ㄷ, ㅂ, ㅅ, 르, 으, ㅎ et ㄹ), ainsi que les verbes qui leur ressemblent mais restent réguliers. Les formes sont calculées, donc les cas très rares peuvent varier.</p>
+    </details>
+    <details class="dic-q">
+      <summary>Pourquoi tous les mots n'ont-ils pas d'audio ?</summary>
+      <p>Parce que les voix sont des enregistrements préparés à l'avance, pas une synthèse jouée dans le navigateur. Le vocabulaire des leçons et des histoires est enregistré ; le reste du fonds, beaucoup plus vaste, ne l'est pas encore. Un bouton muet vaut mieux qu'une voix robotique.</p>
+    </details>
+    <details class="dic-q">
+      <summary>Faut-il créer un compte pour l'utiliser ?</summary>
+      <p>Non. Le dictionnaire est entièrement libre d'accès, sans inscription et sans limite de recherches.</p>
+    </details>
+  </div>
+</section>
+
 <p class="dic-credit">Vocabulaire enrichi par le <a href="https://krdict.korean.go.kr" target="_blank" rel="noopener">한국어기초사전</a> du 국립국어원 (National Institute of Korean Language) :<a href="https://creativecommons.org/licenses/by-sa/2.0/kr/deed.fr" target="_blank" rel="noopener">CC BY-SA 2.0 KR</a>.</p>
 
 

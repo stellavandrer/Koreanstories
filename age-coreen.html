@@ -116,6 +116,16 @@
     margin-top:9px}
 
   /* ── EXPLICATIONS ── */
+  /* Questions fréquentes, en accordéon : le contenu reste dans le HTML,
+     donc lisible par un robot et par un lecteur d'écran même replié. */
+  .ag-faq{margin-top:14px;border-top:1px solid var(--bd,#e0e0e0)}
+  .ag-q{border-bottom:1px solid var(--bd,#e0e0e0)}
+  .ag-q summary{cursor:pointer;padding:13px 0;font-weight:700;font-size:.92rem;
+    list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .ag-q summary::-webkit-details-marker{display:none}
+  .ag-q summary::after{content:'+';color:#C9A96E;font-weight:700;font-size:1.1rem;flex:none}
+  .ag-q[open] summary::after{content:'\2212'}
+  .ag-q p{margin:0 0 14px;color:var(--t2);font-size:.88rem;line-height:1.65}
   .ag-sec{margin-top:44px}
   .ag-sec h2{font-family:'Playfair Display',Georgia,serif;font-size:1.35rem;
     font-weight:800;color:var(--tx);margin:0 0 10px;line-height:1.25}
@@ -146,6 +156,54 @@
   .ag-next .cta2{display:block;margin-top:12px;font-size:.82rem;
     color:rgba(199,210,227,.75);text-decoration:underline}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Pourquoi les Coréens n'ont-ils pas le même âge que nous ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Jusqu'en juin 2023, la Corée comptait l'âge autrement : on naissait avec un an, et tout le monde prenait un an de plus au 1er janvier. Depuis la réforme, l'âge international est la norme officielle dans les textes et l'administration, mais l'ancien calcul reste très présent dans la vie courante."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quel âge dois-je donner si on me le demande ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dans une conversation ordinaire, l'âge coréen traditionnel reste le réflexe de beaucoup de gens, surtout au-delà de la trentaine. Pour un formulaire, un contrat, un cabinet médical ou toute démarche officielle, c'est l'âge international qui compte."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Pourquoi me demande-t-on mon âge dès la première rencontre ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Parce que le coréen choisit son niveau de langue selon la relation. Tant que l'écart d'âge n'est pas connu, on ne sait pas s'il faut employer le 반말 ou le 존댓말, ni quel mot utiliser pour s'adresser à l'autre. La question n'est pas indiscrète : elle sert à savoir comment vous parler."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment dit-on son âge en coréen ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Avec les nombres coréens natifs suivis de 살 : 스무 살 pour vingt ans, 서른 살 pour trente. Attention, ce ne sont pas les mêmes nombres que pour l'heure des minutes ou les prix, qui utilisent les nombres sino-coréens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "À partir de quel âge se vouvoie-t-on en coréen ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ce n'est pas une question d'âge absolu mais d'écart et de contexte. Entre personnes du même âge, le passage au 반말 se négocie, souvent explicitement. Avec quelqu'un de plus âgé, même d'un an, le 존댓말 reste la règle tant qu'il n'a pas proposé autre chose."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -243,6 +301,32 @@
     <p>En Corée, la question <span class="kr">몇 살이에요?</span> tombe dans les premières minutes d'une rencontre. Ce n'est pas de l'indiscrétion : c'est une question <strong>grammaticale</strong>.</p>
     <p>Tant que personne ne sait qui est l'aîné, personne ne sait comment parler. L'âge décide du registre :<span class="kr">반말</span> ou <span class="kr">존댓말</span>, et du mot par lequel on s'appellera : <span class="kr">오빠</span>, <span class="kr">언니</span>, <span class="kr">형</span> ou <span class="kr">누나</span>. Répondre, c'est débloquer la suite de la conversation.</p>
     <p>Et pour compter les âges, le coréen utilise ses nombres <strong>natifs</strong>, pas les nombres sino-coréens des dates et des prix. C'est <span class="kr">스무 살</span> pour vingt ans, jamais <span class="kr">이십 살</span>.</p>
+  </div>
+
+  <div class="ag-sec">
+    <h2>Les questions <em>qu'on se pose</em></h2>
+    <div class="ag-faq">
+      <details class="ag-q">
+        <summary>Pourquoi les Coréens n'ont-ils pas le même âge que nous ?</summary>
+        <p>Jusqu'en juin 2023, la Corée comptait l'âge autrement : on naissait avec un an, et tout le monde prenait un an de plus au 1er janvier. Depuis la réforme, l'âge international est la norme officielle dans les textes et l'administration, mais l'ancien calcul reste très présent dans la vie courante.</p>
+      </details>
+      <details class="ag-q">
+        <summary>Quel âge dois-je donner si on me le demande ?</summary>
+        <p>Dans une conversation ordinaire, l'âge coréen traditionnel reste le réflexe de beaucoup de gens, surtout au-delà de la trentaine. Pour un formulaire, un contrat, un cabinet médical ou toute démarche officielle, c'est l'âge international qui compte.</p>
+      </details>
+      <details class="ag-q">
+        <summary>Pourquoi me demande-t-on mon âge dès la première rencontre ?</summary>
+        <p>Parce que le coréen choisit son niveau de langue selon la relation. Tant que l'écart d'âge n'est pas connu, on ne sait pas s'il faut employer le 반말 ou le 존댓말, ni quel mot utiliser pour s'adresser à l'autre. La question n'est pas indiscrète : elle sert à savoir comment vous parler.</p>
+      </details>
+      <details class="ag-q">
+        <summary>Comment dit-on son âge en coréen ?</summary>
+        <p>Avec les nombres coréens natifs suivis de 살 : 스무 살 pour vingt ans, 서른 살 pour trente. Attention, ce ne sont pas les mêmes nombres que pour l'heure des minutes ou les prix, qui utilisent les nombres sino-coréens.</p>
+      </details>
+      <details class="ag-q">
+        <summary>À partir de quel âge se vouvoie-t-on en coréen ?</summary>
+        <p>Ce n'est pas une question d'âge absolu mais d'écart et de contexte. Entre personnes du même âge, le passage au 반말 se négocie, souvent explicitement. Avec quelqu'un de plus âgé, même d'un an, le 존댓말 reste la règle tant qu'il n'a pas proposé autre chose.</p>
+      </details>
+    </div>
   </div>
 
   <div class="ag-next">
