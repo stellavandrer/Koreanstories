@@ -61,6 +61,52 @@
        ramene vers le parcours. La fermer la viderait de son unique raison
        d'exister : accueillir des inconnus. */
     'age-coreen.html': 1,
+
+    /* Les 40 fiches de conjugaison et leur index (2026-10-28). Ce sont
+       des pages d'acquisition : elles repondent a « conjugaison [verbe]
+       coreen », requete que le site ne touchait pas du tout. Les fermer
+       reviendrait a les ecrire pour personne. */
+    'conjugaison-alda.html': 1,
+    'conjugaison-apeuda.html': 1,
+    'conjugaison-baeuda.html': 1,
+    'conjugaison-bappeuda.html': 1,
+    'conjugaison-batda.html': 1,
+    'conjugaison-boda.html': 1,
+    'conjugaison-bureuda.html': 1,
+    'conjugaison-chupda.html': 1,
+    'conjugaison-coreen.html': 1,
+    'conjugaison-deopda.html': 1,
+    'conjugaison-deutda.html': 1,
+    'conjugaison-eopda.html': 1,
+    'conjugaison-eoryeopda.html': 1,
+    'conjugaison-gada.html': 1,
+    'conjugaison-gareuchida.html': 1,
+    'conjugaison-gidarida.html': 1,
+    'conjugaison-gongbuhada.html': 1,
+    'conjugaison-hada.html': 1,
+    'conjugaison-ikda.html': 1,
+    'conjugaison-ilhada.html': 1,
+    'conjugaison-ipda.html': 1,
+    'conjugaison-itda.html': 1,
+    'conjugaison-jada.html': 1,
+    'conjugaison-joahada.html': 1,
+    'conjugaison-johda.html': 1,
+    'conjugaison-juda.html': 1,
+    'conjugaison-keuda.html': 1,
+    'conjugaison-malhada.html': 1,
+    'conjugaison-mandeulda.html': 1,
+    'conjugaison-mannada.html': 1,
+    'conjugaison-masida.html': 1,
+    'conjugaison-meokda.html': 1,
+    'conjugaison-moreuda.html': 1,
+    'conjugaison-natda.html': 1,
+    'conjugaison-oda.html': 1,
+    'conjugaison-sada.html': 1,
+    'conjugaison-salda.html': 1,
+    'conjugaison-sseuda.html': 1,
+    'conjugaison-swipda.html': 1,
+    'conjugaison-tada.html': 1,
+    'conjugaison-yeppeuda.html': 1,
     /* Ouvertes le 2026-08-12. ressources.html est la vitrine des 35 fiches :
        la garder fermee revenait a cacher le catalogue a ceux qui pourraient
        l'acheter. Les cinq fiches Hangeul, elles, sont entierement gratuites
