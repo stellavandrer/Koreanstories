@@ -105,7 +105,7 @@ def construire():
             c = ''          # la forme ne change pas a partir de cinq
         l2.append([('', str(v)), (' class="kr"', k + spk(k)), ('', romanise(k)),
                    (' class="lire" data-lire="%s"' % k, ''),
-                   (' class="kr"', c or '—')])
+                   (' class="kr"', c or '<span class="inchange">inchangé</span>')])
     s_natif = section(IC_NB, 'Les chiffres natifs coréens',
                       '<p class="nb-intro">Les coréens d\'origine. Ils servent pour l\'âge, l\'heure, '
                       'et pour compter les choses avec un compteur. Les quatre premiers changent de forme '
@@ -181,6 +181,7 @@ if __name__ == '__main__':
     .tbl td.sys{font-weight:700}
     .tbl td.sys.natif{color:#8a6d35}
     .tbl td.sys.sino{color:#2f6fb5}
+    .inchange{font-size:12px;color:#8FA5BE;font-style:italic}
     @media print{.nb-spk{display:none}}
   </style>
   <script src="../ks-lecture-fr.js" defer></script>

@@ -72,7 +72,7 @@ def construire():
                                  % (v['page'], html.escape(v['kr']), html.escape(v['fr'].split('/')[0].strip()))
                                  for v in lot[1:]) + '</p>')
         corps = ('<p class="nb-intro"><b>La règle :</b> %s</p>'
-                 '<p class="nb-intro"><b>L\'exemple :</b> <span class="kr">%s</span> — %s</p>%s'
+                 '<p class="nb-intro"><b>L\'exemple :</b> <span class="kr">%s</span>, %s</p>%s'
                  % (html.escape(FAMILLES[f]).replace('&#x27;', "'"),
                     html.escape(ex['kr']), html.escape(ex['fr']),
                     N.table(['Forme', 'Ce que ça donne', 'Ça se lit'], lignes)) + autres)
