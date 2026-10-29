@@ -177,7 +177,7 @@
     'ressources.html': 1,
     'hangeul-chart.html': 1, 'hangeul-mnemo.html': 1, 'hangeul-exercices.html': 1,
     'prononc-hangeul.html': 1, 'clavier-coreen.html': 1,
-    'nombres-coreens.html': 1,
+    'nombres-coreens.html': 1, 'heure-date-coreen.html': 1,
     'avis.html': 1, 'a-propos.html': 1, 'aide.html': 1,
     'mentions-legales.html': 1, 'cgv.html': 1, 'confidentialite.html': 1,
     '404.html': 1, 'reset.html': 1
