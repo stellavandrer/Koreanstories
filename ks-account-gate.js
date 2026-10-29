@@ -62,6 +62,67 @@
        d'exister : accueillir des inconnus. */
     'age-coreen.html': 1,
 
+    /* Les 53 regles de grammaire et leur index (2026-10-29). Meme
+       raison que les conjugaisons : elles repondent a « -(으)면 coreen »
+       ou « particule 은 는 », requetes ou le site etait invisible, toute
+       sa grammaire tenant jusqu'ici sur une seule page fermee.
+       grammaire.html, elle, reste derriere la porte : c'est l'outil de
+       revision des inscrits, avec leur progression. */
+    'grammaire-a-eo-bwateoyo.html': 1,
+    'grammaire-a-eodo-deorado.html': 1,
+    'grammaire-a-eoseo-vs-eunikka.html': 1,
+    'grammaire-an.html': 1,
+    'grammaire-at-eotdeoni.html': 1,
+    'grammaire-at-eoteoyo.html': 1,
+    'grammaire-ayo-eoyo.html': 1,
+    'grammaire-boda-deo-jeil.html': 1,
+    'grammaire-coreen.html': 1,
+    'grammaire-da.html': 1,
+    'grammaire-daganeun.html': 1,
+    'grammaire-dago-hada.html': 1,
+    'grammaire-deoragoyo-et-deondeyo.html': 1,
+    'grammaire-e-dalryeo-itda.html': 1,
+    'grammaire-e-vs-eseo.html': 1,
+    'grammaire-eu-geot-gatda.html': 1,
+    'grammaire-eu-geoyeyo.html': 1,
+    'grammaire-eu-neun-tate.html': 1,
+    'grammaire-eu-riga-eopda.html': 1,
+    'grammaire-eu-su-iteoyo-eopeoyo.html': 1,
+    'grammaire-eu-tenikka.html': 1,
+    'grammaire-eugeyo-euraeyo.html': 1,
+    'grammaire-eujido-moreuda.html': 1,
+    'grammaire-eukka-bwa.html': 1,
+    'grammaire-eul-reul.html': 1,
+    'grammaire-eumyeon.html': 1,
+    'grammaire-eun-neun.html': 1,
+    'grammaire-eun-neunkeonyeong.html': 1,
+    'grammaire-eureo-vs-gi-wihaeseo.html': 1,
+    'grammaire-euroseo-et-eurosseo.html': 1,
+    'grammaire-euseyo.html': 1,
+    'grammaire-gae-myeong-jan.html': 1,
+    'grammaire-gi-eum.html': 1,
+    'grammaire-gi-maryeonida-neun-beopida.html': 1,
+    'grammaire-gi-ttaemune.html': 1,
+    'grammaire-gilrae.html': 1,
+    'grammaire-go-iteoyo.html': 1,
+    'grammaire-go-malda.html': 1,
+    'grammaire-go-naseo.html': 1,
+    'grammaire-go-sipeoyo.html': 1,
+    'grammaire-goja-hada.html': 1,
+    'grammaire-i-ga.html': 1,
+    'grammaire-i-hi-ri-gi.html': 1,
+    'grammaire-ieyo-yeyo.html': 1,
+    'grammaire-iteoyo-eopeoyo.html': 1,
+    'grammaire-iyamalro.html': 1,
+    'grammaire-man-do-buteo-kkaji.html': 1,
+    'grammaire-mwo-nugu-eodi-eonje.html': 1,
+    'grammaire-na-boda.html': 1,
+    'grammaire-neun-gime.html': 1,
+    'grammaire-neun-tonge.html': 1,
+    'grammaire-neunde-eude.html': 1,
+    'grammaire-neunde.html': 1,
+    'grammaire-neurago.html': 1,
+
     /* Les 40 fiches de conjugaison et leur index (2026-10-28). Ce sont
        des pages d'acquisition : elles repondent a « conjugaison [verbe]
        coreen », requete que le site ne touchait pas du tout. Les fermer
