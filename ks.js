@@ -34,8 +34,17 @@ var _ksDictLoaded=false,_ksDictLoading=null;
    page l'annonce (window.KS_AUDIO_DICT = true, cas de dictionnaire.html), soit
    une lecture tombe sur une cle absente du coeur — on tente alors le
    dictionnaire une seule fois avant de conclure a l'absence d'audio. */
-function _ksLoadDict(){if(_ksDictLoaded)return Promise.resolve(_ksAudioManifest);if(_ksDictLoading)return _ksDictLoading;_ksDictLoading=fetch('/audio/manifest-dict.json',{cache:'default'}).then(function(r){return r.ok?r.json():{};}).then(function(d){_ksAudioManifest=_ksAudioManifest||{};for(var k in d){if(Object.prototype.hasOwnProperty.call(d,k)&&!_ksAudioManifest[k])_ksAudioManifest[k]=d[k];}_ksDictLoaded=true;return _ksAudioManifest;}).catch(function(){_ksDictLoaded=true;return _ksAudioManifest||{};});return _ksDictLoading;}
-function _ksLoadManifest(text){var core=_ksAudioManifest?Promise.resolve(_ksAudioManifest):(_ksAudioManifestLoading||(_ksAudioManifestLoading=fetch('/audio/manifest.json',{cache:'default'}).then(function(r){return r.ok?r.json():{};}).then(function(m){_ksAudioManifest=m||{};return _ksAudioManifest;}).catch(function(){_ksAudioManifest={};return _ksAudioManifest;})));return core.then(function(m){if(_ksDictLoaded)return m;if(window.KS_AUDIO_DICT)return _ksLoadDict();if(text&&!m[text])return _ksLoadDict();return m;});}
+function _ksLoadDict(){if(_ksDictLoaded)return Promise.resolve(_ksAudioManifest);if(_ksDictLoading)return _ksDictLoading;_ksDictLoading=fetch('/audio/manifest-dict.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(d){_ksAudioManifest=_ksAudioManifest||{};for(var k in d){if(Object.prototype.hasOwnProperty.call(d,k)&&!_ksAudioManifest[k])_ksAudioManifest[k]=d[k];}_ksDictLoaded=true;return _ksAudioManifest;}).catch(function(){_ksDictLoaded=true;return _ksAudioManifest||{};});return _ksDictLoading;}
+/* Les manifestes audio sont demandes en 'no-cache' : revalidation
+   systematique, pas retelechargement. GitHub Pages les sert avec
+   Cache-Control: max-age=600 et on ne peut pas changer cet en-tete ;
+   avec 'default' le navigateur repondait depuis son cache sans rien
+   demander, et un texte tout juste ajoute restait muet jusqu'a dix
+   minutes. Pire : tant que la page restait ouverte, _ksAudioManifest
+   gardait la version perimee en memoire. Avec l'ETag, une
+   revalidation ne coute que quelques octets quand rien n'a change.
+   Constate sur les 31 segments des podcasts, le 2026-10-29. */
+function _ksLoadManifest(text){var core=_ksAudioManifest?Promise.resolve(_ksAudioManifest):(_ksAudioManifestLoading||(_ksAudioManifestLoading=fetch('/audio/manifest.json',{cache:'no-cache'}).then(function(r){return r.ok?r.json():{};}).then(function(m){_ksAudioManifest=m||{};return _ksAudioManifest;}).catch(function(){_ksAudioManifest={};return _ksAudioManifest;})));return core.then(function(m){if(_ksDictLoaded)return m;if(window.KS_AUDIO_DICT)return _ksLoadDict();if(text&&!m[text])return _ksLoadDict();return m;});}
 /* Prechauffage du manifeste audio (119 Ko). Il partait a 21 ms, en pleine
    phase critique, sur TOUTES les pages -- y compris le tableau de bord, qui
    ne porte aucun declencheur audio dans son balisage. speak() sait charger le
