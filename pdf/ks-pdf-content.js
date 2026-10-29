@@ -40,6 +40,18 @@
       '</div></div>';
   }
 
+  function showIndisponible(mount) {
+    mount.innerHTML =
+      '<div class="pdf-locked"><div class="pdf-locked-card">' +
+      '<div class="pdf-locked-logo">Korean <em>Stories</em></div>' +
+      '<h2>Fiche momentanément indisponible</h2>' +
+      '<p>Ton accès est bien actif, mais cette fiche n\'a pas pu être chargée. ' +
+      'Réessaie dans un instant, ou écris-nous si ça persiste.</p>' +
+      '<a class="pdf-locked-btn" href="../ressources.html">Retour aux ressources</a>' +
+      '<a class="pdf-locked-back" href="../aide.html">Nous signaler le problème</a>' +
+      '</div></div>';
+  }
+
   function showLoading(mount) {
     mount.innerHTML = '<div class="pdf-loading">Chargement de la fiche…</div>';
   }
@@ -84,7 +96,11 @@
     }).then(function (html) {
       mount.innerHTML = html;
     }).catch(function () {
-      showLocked(mount);
+      /* Quelqu'un qui a paye et voit « Decouvre le Premium » croit que sa
+         licence ne marche plus. Si la cle est la, le probleme vient de la
+         fiche ou du reseau : on le dit, et on ne lui revend rien. */
+      if (key) showIndisponible(mount);
+      else showLocked(mount);
     });
   });
 })();
