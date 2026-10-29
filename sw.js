@@ -63,7 +63,7 @@
 //        d'onboarding désormais réservé à app.html (plus sur la landing).
 // v3.9 : nouveau dictionnaire intelligent (dictionnaire.html) — recherche
 //        FR⇄KR, audio, romanisation + conjugaison auto des verbes/adjectifs.
-const CACHE = 'ks-v8.45';
+const CACHE = 'ks-v8.46';
 const STATE_CACHE = 'ks-state'; // état partagé page ↔ SW (mix fait, notifs)
 
 const CORE = [
@@ -250,7 +250,15 @@ self.addEventListener('fetch', e => {
   const isManifest = /manifest\.json(?:\?|$)/i.test(url.pathname);
   if (isHTML || isCode || isManifest) {
     e.respondWith(
-      fetch(e.request).then(res => {
+      /* cache:'no-cache' force une revalidation aupres du serveur. Sans lui,
+         ce « network-first » n'etait network-first que de nom : GitHub Pages
+         sert tout en Cache-Control: max-age=600 (en-tete non configurable),
+         donc ce fetch repondait depuis le cache HTTP du navigateur, sans
+         requete, et une correction mettait jusqu'a dix minutes a atteindre
+         les gens. Avec l'ETag, une revalidation inchangee coute un 304 de
+         quelques octets. Constate le 2026-10-29 : le manifeste audio corrige
+         n'arrivait pas, et les podcasts restaient muets. */
+      fetch(e.request, { cache: 'no-cache' }).then(res => {
         if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
         return res;
       }).catch(() =>
