@@ -74,7 +74,7 @@
   <link rel="manifest" href="manifest.json"/>
   <link rel="icon" href="img/logo-bleu.png"/>
   <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
-  <link rel="preload" as="image" type="image/webp" href="img/logo-bleu.webp" fetchpriority="high"/>
+  <link rel="preload" as="image" type="image/png" href="img/logo-h-clair.png" fetchpriority="high"/><!-- le logo reellement affiche en theme clair, celui par defaut -->
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
 <link rel="preload" href="fonts/ks-fonts-kr.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts-kr.css"/></noscript>
 <style>
@@ -162,7 +162,18 @@ em{font-style:italic;color:var(--or-fonce)}
 .bar-in{display:flex;align-items:center;gap:22px;padding:14px 0}
 .logo{display:flex;align-items:center;gap:9px;color:var(--titre);
   font-weight:800;font-size:18px;letter-spacing:-.03em;white-space:nowrap}
-.logo img{width:28px;height:28px;border-radius:8px}
+/* Le logo est un bloc typographique large : le forcer dans un carre de
+   28px l'ecrasait en vignette noire illisible. Il garde ses proportions,
+   et porte lui-meme le nom (le texte a cote faisait doublon).
+   Attention au nom des fichiers d'origine : logo-bleu.png et logo-dark.png
+   ont tous deux un FOND noir opaque (ils sont faits pour un fond sombre),
+   d'ou la vignette noire. logo-h-clair / logo-h-sombre sont decoupes des
+   versions « sansfond », les seules reellement transparentes, et nommes
+   d'apres le theme qui les accueille, pas d'apres leur encre. */
+.logo img{height:30px;width:auto;display:block}
+.logo .logo-sombre{display:none}
+[data-theme=dark] .logo .logo-clair{display:none}
+[data-theme=dark] .logo .logo-sombre{display:block}
 .liens{display:flex;gap:4px;margin-left:auto}
 .liens a{color:var(--texte);font-size:15px;font-weight:500;padding:9px 14px;border-radius:999px}
 .liens a:hover{background:var(--fond-2);color:var(--titre)}
@@ -375,7 +386,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
 
 <nav class="bar">
   <div class="enveloppe bar-in">
-    <a class="logo" href="index.html"><img src="img/logo-bleu.png" alt="" width="28" height="28">Korean Stories</a>
+    <a class="logo" href="index.html"><img class="logo-clair" src="img/logo-h-clair.png" alt="Korean Stories" width="300" height="61"/><img class="logo-sombre" src="img/logo-h-sombre.png" alt="" aria-hidden="true" width="300" height="61"/></a>
     <div class="liens">
       <a href="cours.html">Le parcours</a>
       <a href="histoires.html">Les histoires</a>
