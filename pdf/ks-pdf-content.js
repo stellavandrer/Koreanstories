@@ -68,7 +68,8 @@
        cote — c'est lui qui decide, pas cette liste-ci. */
     var LIBRES = {
       'hangeul-chart': 1, 'hangeul-mnemo': 1, 'hangeul-exercices': 1,
-      'prononc-hangeul': 1, 'clavier-coreen': 1
+      'prononc-hangeul': 1, 'clavier-coreen': 1,
+      'nombres-coreens': 1
     };
     var libre = !!LIBRES[file];
 
