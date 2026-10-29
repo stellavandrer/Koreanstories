@@ -1301,14 +1301,25 @@ const ARTICLES = [
 // Podcasts (onglet Podcast) — épisodes audio + transcription KR/FR.
 // soon:true = épisode à venir (pas d'audio) → carte « Bientôt » non cliquable.
 const PODCASTS = [
-  {level:'A1', href:'podcast2.html', kr:'제 하루', fr:'Ma journée', theme:'Quotidien', time:4, host:'Joon', xp:12, xpKey:'ks_pod_2', isNew:true},
-  {level:'A2', href:'podcast1.html', kr:'한국의 카페 문화', fr:'La culture des cafés', theme:'Société', time:4, host:'Mina', xp:15, xpKey:'ks_pod_1', isNew:true},
-  {level:'A2', href:'podcast3.html', kr:'한국의 편의점', fr:'Les supérettes coréennes', theme:'Vie quotidienne', time:5, host:'Mina', xp:15, xpKey:'ks_pod_3', isNew:true},
-  {level:'B1', href:'podcast4.html', kr:'한국의 사계절', fr:'Les quatre saisons', theme:'Culture', time:6, host:'Mina', xp:18, xpKey:'ks_pod_4', isNew:true},
-  {level:'B2', href:'podcast5.html', kr:'‘빨리빨리’ 문화', fr:'La culture du « ppalli-ppalli »', theme:'Société', time:7, host:'Joon', xp:22, xpKey:'ks_pod_5', isNew:true}
+  {level:'A1', href:'podcast2.html', kr:'제 하루', fr:'Ma journée', theme:'Quotidien', sec:30, host:'Joon', xp:12, xpKey:'ks_pod_2', isNew:true},
+  {level:'A2', href:'podcast1.html', kr:'한국의 카페 문화', fr:'La culture des cafés', theme:'Société', sec:30, host:'Mina', xp:15, xpKey:'ks_pod_1', isNew:true},
+  {level:'A2', href:'podcast3.html', kr:'한국의 편의점', fr:'Les supérettes coréennes', theme:'Vie quotidienne', sec:40, host:'Mina', xp:15, xpKey:'ks_pod_3', isNew:true},
+  {level:'B1', href:'podcast4.html', kr:'한국의 사계절', fr:'Les quatre saisons', theme:'Culture', sec:45, host:'Mina', xp:18, xpKey:'ks_pod_4', isNew:true},
+  {level:'B2', href:'podcast5.html', kr:'‘빨리빨리’ 문화', fr:'La culture du « ppalli-ppalli »', theme:'Société', sec:50, host:'Joon', xp:22, xpKey:'ks_pod_5', isNew:true}
 ];
 
 // Carte « podcast »
+/* Duree reelle, mesuree sur les fichiers audio de l'episode. Les cartes
+   annoncaient 4 a 7 minutes pour des episodes de 30 a 50 secondes, un
+   facteur 8 systematique : promettre huit fois ce qu'on donne, c'est
+   decevoir a chaque ecoute. Arrondi a 5 s, sans faux precis. */
+function dureeLisible(s){
+  if (s.sec == null) return s.time ? '~' + s.time + ' min' : '';
+  if (s.sec < 60) return s.sec + ' s';
+  const m = Math.floor(s.sec / 60), r = s.sec % 60;
+  return r ? m + ' min ' + r + ' s' : m + ' min';
+}
+
 function podcastCardHtml(s, i){
   const soon = s.soon || s.href === '#';
   const tag = soon ? 'div' : 'a';
@@ -1333,7 +1344,7 @@ function podcastCardHtml(s, i){
     <div class="story-meta">
       <div class="story-meta-left">
         <div class="story-info"><svg viewBox="0 0 24 24">${mic}</svg>${s.host}</div>
-        <div class="story-info"><svg viewBox="0 0 24 24">${clock}</svg>~${s.time} min</div>
+        <div class="story-info"><svg viewBox="0 0 24 24">${clock}</svg>${dureeLisible(s)}</div>
         ${xpInfo}
       </div>
       <div class="story-btn"${soon?' style="background:var(--bd);color:var(--gray)"':''}>${btnLabel}<svg viewBox="0 0 24 24">${soon?clock:arrow}</svg></div>
