@@ -110,10 +110,28 @@ async def main():
 
     sema = asyncio.Semaphore(CONCURRENCY)
 
-    # Manifest = mapping text → hash (commun aux 3 voix)
-    manifest = {text: short_hash(text)+'.mp3' for text in strings}
+    # Manifest = mapping text → hash (commun aux 3 voix).
+    # On FUSIONNE avec l'existant au lieu de l'ecraser : des entrees arrivent
+    # d'ailleurs que audio_strings.txt (sidecar manifest-extra.json, ajouts
+    # manuels). Les ecraser a deja casse le son deux fois, en silence et sans
+    # rien signaler : la page demande le texte, le manifeste ne le connait
+    # plus, le lecteur saute le segment. Les fichiers .mp3, eux, sont
+    # toujours la, orphelins et introuvables.
+    # Dernier cas en date : les 31 segments des 5 podcasts (2026-10-29).
+    ancien = {}
+    if os.path.exists(MANIFEST_PATH):
+        try:
+            with open(MANIFEST_PATH, encoding='utf-8') as f:
+                ancien = json.load(f)
+        except Exception as e:
+            print(f"⚠️  manifeste existant illisible ({e}), on repart de zero")
+    manifest = dict(ancien)
+    manifest.update({text: short_hash(text)+'.mp3' for text in strings})
+    perdues = len(ancien) - sum(1 for k in ancien if k in manifest)
     with open(MANIFEST_PATH, 'w', encoding='utf-8') as f:
         json.dump(manifest, f, ensure_ascii=False, indent=1)
+    print(f"📓 Manifeste : {len(ancien)} entrees avant, {len(manifest)} apres "
+          f"(+{len(manifest)-len(ancien)}, {perdues} perdue(s))")
 
     # Génère chaque voix séquentiellement (pour ne pas saturer Edge)
     for voice_key in chosen:
