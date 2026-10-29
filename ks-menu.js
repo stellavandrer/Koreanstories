@@ -210,10 +210,11 @@
       var or  = it[3] === 'or' ? ' ksm-or' : '';
       var tag = it[4] ? '<em class="ksm-tag">'+it[4]+'</em>' : '';
       if(it[0]==='#premium'){
-        /* Le libellé se décide a l'ouverture, pas ici : ks-premium.js peut se
-           charger apres ce script. reglages.html est le href de repli, donc
-           un clic mene quelque part de sensé meme si le script manque. */
-        html += '<a class="'+cls+'" id="ksmPremium" href="reglages.html">'+svg(it[2])+'<span>'+it[1]+'</span></a>';
+        /* Le libellé et le href se décident a l'ouverture, pas ici :
+           ks-premium.js peut se charger apres ce script. premium.html est le
+           repli, donc un clic mene quelque part de sensé meme si le script
+           manque (ksmPremSync bascule vers reglages.html pour un membre). */
+        html += '<a class="'+cls+'" id="ksmPremium" href="premium.html">'+svg(it[2])+'<span>'+it[1]+'</span></a>';
       } else {
         html += '<a class="'+cls+on+or+'" href="'+it[0]+'">'+svg(it[2])+'<span>'+it[1]+'</span>'+tag+'</a>';
       }
@@ -360,6 +361,11 @@
     try { ok = !!(window.KSPremium && window.KSPremium.isPremium()); } catch (e) {}
     premLink.dataset.prem = ok ? '1' : '0';
     premLink.querySelector('span').textContent = ok ? 'Ton Premium' : 'Premium';
+    /* Le href suit l'etat, pas seulement le libelle : un clic normal est
+       intercepte plus bas et ouvre la modale, mais un Cmd+clic, un clic
+       milieu ou « copier l'adresse du lien » ignorent le listener. Sans
+       ca, qui n'est pas Premium atterrissait dans Reglages. */
+    premLink.setAttribute('href', ok ? 'reglages.html' : 'premium.html');
   }
   ksmPremSync();
   if (premLink) premLink.addEventListener('click', function (e) {
