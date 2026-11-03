@@ -68,7 +68,7 @@
          liste secondaire : deux lignes pour la meme idee, et chaque nouveau
          livret (A2, puis B1, B2) en aurait ajoute une. Le menu grossissait
          a chaque parution. ressources.html accueille desormais les livrets
-         en haut et les 35 fiches en dessous : le menu, lui, ne bouge plus. */
+         en haut et les 30 fiches Premium en dessous : le menu, lui, ne bouge plus. */
       ['ressources.html','Livrets & fiches',IC.livret,'or','PDF']
     ]},
     /* Trois entrees de cette section se ressemblaient de nom : « Defi du

@@ -189,7 +189,7 @@
     'conjugaison-swipda.html': 1,
     'conjugaison-tada.html': 1,
     'conjugaison-yeppeuda.html': 1,
-    /* Ouvertes le 2026-08-12. ressources.html est la vitrine des 35 fiches :
+    /* Ouvertes le 2026-08-12. ressources.html est la vitrine des fiches :
        la garder fermee revenait a cacher le catalogue a ceux qui pourraient
        l'acheter. Les cinq fiches Hangeul, elles, sont entierement gratuites
        (voir PDF_LIBRES dans le worker) : ce sont des portes d'entree, pas
