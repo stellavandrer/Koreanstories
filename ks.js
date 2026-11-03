@@ -1,4 +1,4 @@
-(function injectPolish(){if(document.getElementById('ks-polish-css'))return;var css=['html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}','*{-webkit-tap-highlight-color:transparent}','::selection{background:rgba(201,169,110,.28)}',':focus-visible{outline:2px solid #C9A96E;outline-offset:2px;border-radius:3px}','a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}','a:active,button:active,[role="button"]:active,[onclick]:active{','transition:transform .04s ease}','@media(pointer:fine){','::-webkit-scrollbar{width:10px;height:10px}','::-webkit-scrollbar-track{background:transparent}','::-webkit-scrollbar-thumb{background:rgba(140,140,140,.34);','border-radius:8px;border:2px solid transparent;background-clip:padding-box}','::-webkit-scrollbar-thumb:hover{background:rgba(140,140,140,.55);background-clip:padding-box}','}','@media(prefers-reduced-motion:reduce){','*,*::before,*::after{','animation-duration:.001ms!important;animation-iteration-count:1!important;','transition-duration:.001ms!important;scroll-behavior:auto!important}','}',''].join('');var s=document.createElement('style');s.id='ks-polish-css';s.textContent=css;(document.head||document.documentElement).appendChild(s);})();function toggleTheme(){const html=document.documentElement;const isDark=html.getAttribute('data-theme')==='dark';const next=isDark?'light':'dark';html.setAttribute('data-theme',next);try{localStorage.setItem('ks_theme',next);}catch(e){}
+(function injectPolish(){if(document.getElementById('ks-polish-css'))return;var css=['html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}','*{-webkit-tap-highlight-color:transparent}','::selection{background:rgba(201,169,110,.28)}',':focus-visible{outline:3px solid var(--gold-text,#7A5F2E);outline-offset:2px;border-radius:3px}','a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}','a:active,button:active,[role="button"]:active,[onclick]:active{','transition:transform .04s ease}','@media(pointer:fine){','::-webkit-scrollbar{width:10px;height:10px}','::-webkit-scrollbar-track{background:transparent}','::-webkit-scrollbar-thumb{background:rgba(140,140,140,.34);','border-radius:8px;border:2px solid transparent;background-clip:padding-box}','::-webkit-scrollbar-thumb:hover{background:rgba(140,140,140,.55);background-clip:padding-box}','}','@media(prefers-reduced-motion:reduce){','*,*::before,*::after{','animation-duration:.001ms!important;animation-iteration-count:1!important;','transition-duration:.001ms!important;scroll-behavior:auto!important}','}',''].join('');var s=document.createElement('style');s.id='ks-polish-css';s.textContent=css;(document.head||document.documentElement).appendChild(s);})();function toggleTheme(){const html=document.documentElement;const isDark=html.getAttribute('data-theme')==='dark';const next=isDark?'light':'dark';html.setAttribute('data-theme',next);try{localStorage.setItem('ks_theme',next);}catch(e){}
 document.querySelectorAll('[data-dark-icon]').forEach(el=>{el.setAttribute('data-dark-icon',next);});}
 window.ksDarkToggle=toggleTheme;window.toggleDarkGlobal=toggleTheme;function ksGetXP(){try{return parseInt(localStorage.getItem('ks_xp')||'0');}catch(e){return 0;}}
 function ksCountUp(el,target,opts){if(!el)return;opts=opts||{};var duration=opts.duration||700;var suffix=opts.suffix||'';var locale=opts.locale||'fr-FR';var prefersReduce=false;try{prefersReduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
@@ -349,4 +349,25 @@ if (typeof window !== 'undefined' && typeof window.ksLireDe !== 'function') {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer);
   else demarrer();
   window.ksMarquerCoreen = marquer;
+})();
+
+/* ── Activation au clavier des éléments cliquables ────────────────────────
+   WCAG 2.1.1 : un <div onclick> n'est ni atteignable au clavier ni activable
+   à l'Entrée, contrairement à <button>. Le site en comptait 401 : phrases à
+   écouter, cartes à déplier, options de quiz. Ils portent désormais
+   role="button" et tabindex="0" ; ce gestionnaire-ci leur rend l'activation
+   à l'Entrée et à la barre d'espace, comme un vrai bouton. */
+(function () {
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    var el = e.target;
+    if (!el || !el.getAttribute) return;
+    if (el.getAttribute('role') !== 'button') return;
+    var t = el.tagName;
+    /* les éléments nativement activables se débrouillent seuls */
+    if (t === 'BUTTON' || t === 'A' || t === 'INPUT' || t === 'SELECT' || t === 'TEXTAREA') return;
+    if (el.getAttribute('aria-disabled') === 'true') return;
+    e.preventDefault();          /* la barre d'espace ne doit pas faire défiler */
+    el.click();
+  });
 })();

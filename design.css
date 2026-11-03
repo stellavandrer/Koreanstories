@@ -415,6 +415,12 @@ button:focus-visible,
 [data-theme=dark] .theme-pill::after{transform:translateX(20px)}
 
 /* ── GLASS TOPBAR (.bar) ─────────────────────────────────────────── */
+/* Cibles tactiles : 24x24 px au minimum (WCAG 2.5.8, niveau AA).
+   Ces deux boutons d'icone n'avaient aucune regle de taille et prenaient
+   celle de leur contenu : 14x19 pour la fleche de retour, 16x17 pour la
+   bascule de theme. Mesure dans le navigateur, pas estime. */
+.back-btn,.theme-btn,.bar-back,.bar-theme{min-width:24px;min-height:24px;
+  display:inline-flex;align-items:center;justify-content:center}
 .bar{
   position:sticky;top:0;z-index:100;height:56px;
   padding:0 16px;display:flex;align-items:center;gap:12px;
