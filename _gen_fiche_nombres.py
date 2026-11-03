@@ -162,7 +162,7 @@ if __name__ == '__main__':
                   '<div class="hero-sub">Deux systèmes, leurs usages, et les 8 compteurs</div>', page, count=1)
     # corps
     deb = page.index('<div class="wrap" id="pdf-content"')
-    fin = page.index('<div class="pfoot">')
+    fin = page.index('<div class="doc-footer">')
     page = (page[:deb] + '<div class="wrap" id="pdf-content" data-file="nombres-coreens">'
             + corps + '</div>\n' + page[fin:])
     # styles propres a la fiche + lecture a la francaise

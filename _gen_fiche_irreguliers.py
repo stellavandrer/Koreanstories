@@ -16,16 +16,49 @@ import sys
 sys.path.insert(0, '.')
 import _gen_fiche_nombres as N
 
-SCRATCH = ('/private/tmp/claude-501/-Users-justinetilleul-Desktop-DesignbyStelva-Projet-perso-'
-           'Koreanstories--claude-worktrees-peaceful-snyder-413864/'
-           '292addcc-67b4-431a-952e-586c154bdafc/scratchpad/')
-VERBES = json.load(open(SCRATCH + 'irr.json', encoding='utf-8'))
+# Les donnees viennent des modules du site, plus d'un fichier de travail :
+# ce generateur dependait de deux fichiers poses dans un bac a sable de session,
+# disparus depuis, ce qui le rendait irreproductible. Tout est recalcule ici.
+import _gen_conjugaison as C
+
+
+def _verbes():
+    """Les 40 verbes des fiches de conjugaison, avec leur famille d'irregulier."""
+    d = C.donnees()
+    return [{'kr': v, 'fr': d[v]['fr'], 'famille': (d[v]['irr'] or {}).get('famille', ''),
+             'formes': [tuple(x) for x in d[v]['formes']],
+             'page': 'conjugaison-%s.html' % C.slug(v)} for v in C.VERBES]
+
+
+def _extra():
+    """La famille \u314e n'a aucun verbe parmi les 40 : on prend celui que le
+    conjugueur cite dans l'explication de cette famille, et on le fait conjuguer
+    par ce meme moteur. Rien n'est saisi a la main."""
+    cites = re.findall(r'[\uac00-\ud7a3]+\ub2e4', FAMILLES.get('\u314e', ''))
+    if not cites:
+        raise SystemExit("aucun verbe cite dans l'explication de la famille \u314e")
+    js = ("global.window={}; require('./ks-conjugueur.js');"
+          "const K=global.window.KSConj; const out={};"
+          "for (const v of %s) if ((K.irregulier(v)||{}).famille==='\u314e') out[v]={formes:K.conjuguer(v)};"
+          "process.stdout.write(JSON.stringify(out));" % json.dumps(cites, ensure_ascii=False))
+    r = subprocess.run(['node', '-e', js], capture_output=True, text=True, cwd='.')
+    if r.returncode:
+        raise SystemExit('node a echoue : ' + r.stderr[:300])
+    d = json.loads(r.stdout)
+    if not d:
+        raise SystemExit("le conjugueur ne reconnait aucun de ces verbes comme \u314e : " + ', '.join(cites))
+    return d
+
+
 MAN = json.load(open('audio/manifest.json', encoding='utf-8'))
 
 FAMILLES = dict(re.findall(r"'([^']+)':\s*'((?:[^'\\]|\\.)*)'",
                            re.search(r'var FAMILLES = \{(.*?)\n  \};',
                                      open('ks-conjugueur.js', encoding='utf-8').read(), re.S).group(1)))
 ORDRE = ['ㅂ', 'ㄷ', 'ㅅ', '르', '으', 'ㄹ', 'ㅎ']
+
+VERBES = _verbes()
+EXTRA = _extra()
 
 FIN = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ',
        'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
@@ -34,12 +67,6 @@ FIN = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ',
 def finale(syl):
     n = ord(syl) - 0xAC00
     return FIN[n % 28] if 0 <= n < 11172 else ''
-
-
-# le verbe de la famille ㅎ n'est dans aucune page de conjugaison : on le
-# prend dans l'explication meme de cette famille, et on le fait conjuguer
-EXTRA = json.loads(subprocess.run(
-    ['node', SCRATCH + 'irr2.js'], capture_output=True, text=True, cwd='.').stdout)
 
 
 def par_famille(f):
@@ -120,7 +147,7 @@ if __name__ == '__main__':
                         '.tbl td.ex{font-size:12.5px;font-weight:400}\n'
                         '    .nb-intro a{color:#8a6d35;text-decoration:none;border-bottom:1px dotted rgba(201,169,110,.5)}')
     deb = page.index('<div class="wrap" id="pdf-content"')
-    fin = page.index('<div class="pfoot">')
+    fin = page.index('<div class="doc-footer">')
     page = (page[:deb] + '<div class="wrap" id="pdf-content" data-file="verbes-irreguliers-coreen">'
             + corps + '</div>\n' + page[fin:])
     open('pdf/verbes-irreguliers-coreen.html', 'w', encoding='utf-8').write(page)

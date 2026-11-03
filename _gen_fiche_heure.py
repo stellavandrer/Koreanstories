@@ -111,7 +111,7 @@ if __name__ == '__main__':
     page = page.replace('.tbl td.sys.natif{color:#8a6d35}',
                         '.tbl td.sys.natif{color:#8a6d35}\n    .tbl td.hanja{font-size:16px;color:#8a6d35;text-align:center}')
     deb = page.index('<div class="wrap" id="pdf-content"')
-    fin = page.index('<div class="pfoot">')
+    fin = page.index('<div class="doc-footer">')
     page = (page[:deb] + '<div class="wrap" id="pdf-content" data-file="heure-date-coreen">'
             + corps + '</div>\n' + page[fin:])
     open('pdf/heure-date-coreen.html', 'w', encoding='utf-8').write(page)
