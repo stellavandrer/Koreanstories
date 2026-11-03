@@ -138,8 +138,9 @@ if __name__ == '__main__':
     gabarit = open('pdf/hangeul-chart.html', encoding='utf-8').read()
     # head : on garde tout, on change les metadonnees
     page = gabarit
-    page = page.replace('<title>Tableau Hangeul Complet · Korean Stories</title>',
-                        '<title>Les nombres coréens : les deux systèmes, les compteurs · Korean Stories</title>')
+    page = re.sub(r'<title>.*?</title>',
+                  '<title>Les nombres coréens : les deux systèmes, les compteurs'
+                  ' · fiche à imprimer · Korean Stories</title>', page, count=1, flags=re.S)
     page = re.sub(r'<meta name="description" content="[^"]*"',
                   '<meta name="description" content="Les deux systèmes de numération coréens, sino-coréen et natif, '
                   'quand employer l\'un ou l\'autre, et les 8 compteurs. Fiche gratuite à imprimer, avec l\'audio de chaque forme."',

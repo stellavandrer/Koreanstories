@@ -13,7 +13,7 @@ def tpl(ac, title, sub, badge, meta, body):
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet"/>
-<title>{title} · Korean Stories</title>
+<title>{title} · fiche à imprimer · Korean Stories</title>
 <style>:root{{--ac:{ac}}}
   .pfoot{{display:none}}
   @media print{{

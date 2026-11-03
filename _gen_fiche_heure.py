@@ -88,8 +88,9 @@ def construire():
 if __name__ == '__main__':
     corps = construire()
     page = open('pdf/nombres-coreens.html', encoding='utf-8').read()
-    page = page.replace('<title>Les nombres coréens : les deux systèmes, les compteurs · Korean Stories</title>',
-                        "<title>Dire l'heure et la date en coréen · Korean Stories</title>")
+    page = re.sub(r'<title>.*?</title>',
+                  "<title>Dire l'heure et la date en coréen"
+                  " · fiche à imprimer · Korean Stories</title>", page, count=1, flags=re.S)
     page = re.sub(r'<meta name="description" content="[^"]*"',
                   '<meta name="description" content="Dire l\'heure, les jours et les mois en coréen : '
                   'pourquoi les heures prennent les chiffres natifs et les minutes les sino-coréens, '

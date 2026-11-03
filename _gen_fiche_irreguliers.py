@@ -125,7 +125,9 @@ if __name__ == '__main__':
     corps = construire()
     page = open('pdf/nombres-coreens.html', encoding='utf-8').read()
     rempl = [
-        (r'<title>[^<]*</title>', '<title>Les verbes irréguliers coréens : les 7 familles · Korean Stories</title>'),
+        (r'<title>[^<]*</title>',
+         '<title>Les verbes irréguliers coréens : les 7 familles'
+         ' · fiche à imprimer · Korean Stories</title>'),
         (r'<meta name="description" content="[^"]*"',
          '<meta name="description" content="Les 7 familles de verbes irréguliers coréens (ㅂ, ㄷ, ㅅ, 르, 으, ㄹ, ㅎ), '
          'la règle de chacune, les formes calculées et les verbes qui en ont l\'air sans en être. '
