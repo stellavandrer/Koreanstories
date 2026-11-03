@@ -192,6 +192,7 @@ TEMPLATE = '''<!DOCTYPE html>
   <div class="gr-liens">
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
     <a href="conjugaison-coreen.html">Conjuguer un verbe</a>
+    <a href="vocabulaire-coreen.html">Le vocabulaire par thème</a>
     <a href="dictionnaire.html">Le dictionnaire</a>
     <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
   </div>
@@ -321,6 +322,7 @@ INDEX_TPL = '''<!DOCTYPE html>
   <h2>Aller plus loin</h2>
   <div class="gr-liens">
     <a href="conjugaison-coreen.html">Conjuguer un verbe</a>
+    <a href="vocabulaire-coreen.html">Le vocabulaire par thème</a>
     <a href="dictionnaire.html">Le dictionnaire</a>
     <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
     <a href="hangeul.html">Apprendre le hangeul</a>
@@ -366,3 +368,16 @@ def index(toutes, slugs, corpus):
           "mainEntity": {"@type": "ItemList", "numberOfItems": n, "itemListElement": items}}
     return INDEX_TPL.format(css=CSS_EXTRA, ld=json.dumps(ld, ensure_ascii=False),
                             sections='\n'.join(sections))
+
+
+# index() est defini plus bas que le premier bloc __main__ : son ecriture doit donc
+# venir ici, en fin de fichier, sinon l'index n'est jamais regenere (il ne l'etait pas).
+if __name__ == '__main__':
+    if '--essai' not in sys.argv:
+        _toutes = E.fiches()
+        _slugs = {f['id']: slug(f['titre']) for f in _toutes}
+        _idx = json.load(open('_index_phrases.json', encoding='utf-8'))
+        _phrases = list(_idx.keys())
+        _corpus = {f['id']: exemples(f['titre'], f['cat'], _phrases) for f in _toutes}
+        open('grammaire-coreen.html', 'w', encoding='utf-8').write(index(_toutes, _slugs, _corpus))
+        print('   + index grammaire-coreen.html')

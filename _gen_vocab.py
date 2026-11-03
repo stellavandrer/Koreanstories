@@ -196,6 +196,7 @@ TPL = '''<!DOCTYPE html>
     <a href="vocabulaire-coreen.html">Tous les thèmes de vocabulaire</a>
     <a href="dictionnaire.html">Le dictionnaire</a>
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
+    <a href="conjugaison-coreen.html">Conjuguer un verbe</a>
     <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
   </div>
 
@@ -310,3 +311,10 @@ def index():
           "mainEntity": {"@type": "ItemList", "numberOfItems": len(pub), "itemListElement": items}}
     return INDEX.format(n=total, t=len(pub), liens=liens, css=CSS,
                         ld=json.dumps(ld, ensure_ascii=False))
+
+
+# Meme remarque que dans _gen_grammaire.py : index() est defini apres le premier bloc
+# __main__, donc son ecriture se fait ici, en fin de fichier.
+if __name__ == '__main__':
+    open('vocabulaire-coreen.html', 'w', encoding='utf-8').write(index())
+    print('   + index vocabulaire-coreen.html')

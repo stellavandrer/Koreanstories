@@ -206,6 +206,7 @@ def page(mot, e, voisins):
         h.append('    <a href="blog-verbes-irreguliers-coreens.html">Les verbes irréguliers expliqués</a>')
     h.append('    <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>')
     h.append('    <a href="conjugaison-coreen.html">Tous les verbes</a>')
+    h.append('    <a href="vocabulaire-coreen.html">Le vocabulaire par thème</a>')
     h.append('  </div>')
 
     h.append('  <h2>D\'autres verbes</h2>')
@@ -303,6 +304,12 @@ def index(d):
             lignes.append('    <a href="conjugaison-%s.html"><span class="kr">%s</span>'
                           '<span class="fr">%s</span></a>' % (slug(v), v, e['fr'].split(' / ')[0]))
         lignes.append('  </div>')
+    lignes.append('  <h2>Aller plus loin</h2>')
+    lignes.append('  <div class="cj-liens">')
+    lignes.append('    <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>')
+    lignes.append('    <a href="vocabulaire-coreen.html">Le vocabulaire par thème</a>')
+    lignes.append('    <a href="dictionnaire.html">Le dictionnaire</a>')
+    lignes.append('  </div>')
     corps = ('  <h1>Conjugaison coréenne :<br>%d verbes, forme par forme</h1>\n'
              '  <p class="cj-chapeau">Chaque fiche donne les six formes utiles du verbe, du tutoiement '
              'au registre formel, avec l\'audio de chacune et la lecture à la française. Les formes sont '
