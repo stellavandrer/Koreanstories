@@ -14,6 +14,7 @@ existent déjà sur le site et qu'on peut entendre.
     python3 _gen_conjugaison.py            # écrit les pages
     python3 _gen_conjugaison.py --phrases  # liste l'audio à générer
 """
+import html
 import json
 import os
 import re
@@ -41,6 +42,7 @@ def donnees():
     global.window={}; require('./ks-dictionary.js'); require('./ks-conjugueur.js');
     const D=global.window.KSDict.raw(), K=global.window.KSConj;
     const man=JSON.parse(fs.readFileSync('audio/manifest.json','utf8'));
+    const idx=JSON.parse(fs.readFileSync('_index_phrases.json','utf8'));
     const out={};
     for (const v of %s) {
       const stem=v.slice(0,-1);
@@ -58,12 +60,20 @@ def donnees():
         while(i>=0){ const avant=(i===0||p[i-1]===' ');
           const apres=(i+f.length>=p.length)||fin.test(p[i+f.length]);
           if(avant&&apres) return true; i=p.indexOf(f,i+1); } return false; };
+      /* On n'exige plus une ponctuation finale : une bonne partie du corpus
+         vient de dialogues de BD, qui n'en portent pas (« 오늘 카페에서 책을
+         읽어요 »). Neuf verbes se retrouvaient ainsi sans aucun exemple. Deux
+         eojeols et dix caracteres disent aussi bien qu'il s'agit d'une phrase. */
+      const phrase=p=>p.length>=10 && p.length<=44 && !/[A-Za-z_<>=]/.test(p)
+                      && p.trim().split(/\s+/).length>=2;
       const ex=Object.keys(man)
-        .filter(p=>p.length>=10 && p.length<=42 && /[.!?]$/.test(p) && !/[A-Za-z_<>=]/.test(p)
-                   && formes.some(f=>porte(p,f)))
-        .sort((a,b)=>a.length-b.length).slice(0,2);
+        .filter(p=>phrase(p) && formes.some(f=>porte(p,f)))
+        .sort((a,b)=>{ const pa=/[.!?]$/.test(a)?0:1, pb=/[.!?]$/.test(b)?0:1;
+                       return pa-pb || a.length-b.length; })
+        .slice(0,2);
       out[v]={fr:(D[v]||{}).fr||'', pos:(D[v]||{}).pos||'', formes:K.conjuguer(v),
-              irr:K.irregulier(v), exemples:ex};
+              irr:K.irregulier(v), exemples:ex,
+              sources:ex.map(p=>(idx[p]&&idx[p][0])||null)};
     }
     process.stdout.write(JSON.stringify(out));
     ''' % json.dumps(VERBES, ensure_ascii=False)
@@ -106,6 +116,7 @@ CSS = """    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;backgroun
     .cj-spk.muet{opacity:.25;cursor:default}
     .cj-ex{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.7rem .9rem;margin:.5rem 0}
     .cj-ex .k{font-weight:700;font-size:.98rem}
+    .cj-ex-src{display:inline-block;margin-top:.3rem;font-size:.73rem;color:#8a6d35;text-decoration:none;border-bottom:1px dotted rgba(201,169,110,.5)}
     .cj-ex .f{color:var(--tx-muted);font-size:.82rem;font-style:italic;margin-top:.15rem}
     .cj-liens{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem}
     .cj-liens a{font-size:.84rem;font-weight:600;padding:.55rem .9rem;border-radius:10px;
@@ -174,12 +185,19 @@ def page(mot, e, voisins):
 
     if e['exemples']:
         h.append('  <h2>Dans une vraie phrase</h2>')
-        for ex in e['exemples']:
+        for ex, src in zip(e['exemples'], e.get('sources') or [None] * len(e['exemples'])):
+            lien = ''
+            if src:
+                lien = ('<a class="cj-ex-src" href="%s">%s</a>'
+                        % (html.escape(src[0], quote=True), html.escape(src[1])))
             h.append('  <div class="cj-ex"><div class="k">%s %s</div>'
-                     '<div class="f" data-lire="%s"></div></div>' % (ex, SPK % (ex, ex), ex))
+                     '<div class="f" data-lire="%s"></div>%s</div>'
+                     % (ex, SPK % (ex, ex), ex, lien))
+        # « enregistrees » laissait croire a des voix humaines : ce sont des voix
+        # de synthese, et la regle est ferme la-dessus.
         h.append('  <p class="cj-chapeau" style="margin-top:.5rem;font-size:.82rem">'
-                 'Ces phrases viennent des leçons et des histoires du site : elles sont enregistrées, '
-                 'pas inventées pour l\'occasion.</p>')
+                 'Ces phrases viennent des leçons et des histoires du site, elles ne sont pas '
+                 'inventées pour l\'occasion, et chacune se prononce.</p>')
 
     h.append('  <h2>Pour aller plus loin</h2>')
     h.append('  <div class="cj-liens">')

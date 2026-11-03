@@ -26,8 +26,13 @@ def titre_de(html):
     m = re.search(r'<title>(.*?)</title>', html, re.S)
     if not m:
         return None
-    t = re.sub(r'\s*·\s*Korean Stories\s*$', '', m.group(1)).strip()
-    return re.sub(r'\s+', ' ', t)
+    t = m.group(1)
+    # Le nom du site se place tantot en suffixe (« Leçon 12 · Korean Stories »),
+    # tantot en PREFIXE (« Korean Stories · Leçon A2 : ... ») : retirer l'un
+    # sans l'autre laissait des libelles de lien comme « Korean Stories · Leç… ».
+    t = re.sub(r'\s*·\s*Korean Stories\s*$', '', t)
+    t = re.sub(r'^\s*Korean Stories\s*·\s*', '', t)
+    return re.sub(r'\s+', ' ', t).strip()
 
 
 def construire():
