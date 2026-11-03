@@ -33,15 +33,23 @@ Disallow: /offline.html
 # Fiches PDF Premium : contenu payant, ne doit jamais être indexé
 # ni découvert via une recherche Google (même si la protection
 # réelle reste côté client, cf. audit 2026-07-09).
-# Les cinq fiches Hangeul sont gratuites et publiques depuis le 2026-08-12 :
-# ce sont des portes d'entree (« alphabet coreen a imprimer »). Le reste du
-# dossier reste hors index : contenu sous licence, sans valeur pour la
-# recherche et qui n'afficherait qu'un mur de paiement.
+# Les fiches gratuites sont des portes d'entree et doivent rester crawlables.
+# Cinq fiches Hangeul et clavier depuis le 2026-08-12 (« alphabet coreen a
+# imprimer »), trois fiches de langue depuis le 2026-11-03. Le reste du dossier
+# reste hors index : contenu sous licence, sans valeur pour la recherche et qui
+# n'afficherait qu'un mur de paiement.
+# Toute fiche rendue gratuite doit etre ajoutee ICI en meme temps qu'au
+# sitemap : sans la ligne Allow, Google la voit « bloquee par robots.txt »
+# et ne l'indexe jamais, ce qui annule exactement l'objectif. C'est ce qui
+# etait arrive aux trois fiches ci-dessous.
 Allow: /pdf/hangeul-chart.html
 Allow: /pdf/hangeul-mnemo.html
 Allow: /pdf/hangeul-exercices.html
 Allow: /pdf/prononc-hangeul.html
 Allow: /pdf/clavier-coreen.html
+Allow: /pdf/nombres-coreens.html
+Allow: /pdf/heure-date-coreen.html
+Allow: /pdf/verbes-irreguliers-coreen.html
 Disallow: /pdf/
 
 # Code source du Worker Premium + outils internes : aucune valeur
