@@ -30,7 +30,7 @@ PAGES = {
  'h3':  ('restaurant', 'Le vocabulaire du restaurant en coréen',
          "Commander, demander de l'eau, dire que c'est trop piquant : les mots qu'on emploie vraiment dans un restaurant coréen."),
  'h5':  ('konbini', 'Le vocabulaire de la supérette en coréen',
-         "Le konbien coréen est ouvert jour et nuit et sert de dépannage à tout le pays. Voici de quoi y payer, demander un sac et compter sa monnaie."),
+         "Le konbini coréen est ouvert jour et nuit et sert de dépannage à tout le pays. Voici de quoi y payer, demander un sac et compter sa monnaie."),
  'h7':  ('maison', 'Le vocabulaire de la maison en coréen',
          "Les pièces, les meubles, les objets du quotidien : de quoi décrire où l'on vit et ce qu'on y fait."),
  'h8':  ('noraebang', 'Le vocabulaire du noraebang en coréen',
@@ -74,6 +74,29 @@ def phrases_du_theme(mots, maxi=4):
     vus.sort(key=lambda x: (-x[0], abs(len(x[1]) - 26)))
     return [p for _, p in vus[:maxi]]
 
+
+# Chaque theme de vocabulaire a souvent un article de blog qui le prolonge.
+# Le lien va dans les deux sens : les articles portent deja un encart vers les
+# pages ouvertes, les pages renvoient ici vers l'article. Trois themes (cafe,
+# medecin, couleurs) n'ont pas d'article proche et n'ont donc pas de ligne :
+# un lien force vaut moins que pas de lien.
+ARTICLE = {
+ 'h2':  ('blog-ingredients-base-cuisine-coreenne.html',
+         "Les 8 ingrédients de la cuisine coréenne"),
+ 'h3':  ('blog-cuisine-coreenne-debutants.html',
+         "10 plats coréens à goûter, et comment les commander"),
+ 'h5':  ('blog-pyeonuijeom-convenience-store-coree.html',
+         "Comment la supérette a conquis la Corée"),
+ 'h6':  ('blog-quartiers-seoul.html', "Les quartiers de Séoul, lequel visiter"),
+ 'h7':  ('blog-se-loger-en-coree.html', "Se loger en Corée : jeonse, wolse, goshiwon"),
+ 'h8':  ('blog-noraebang-karaoke-coreen.html', "À l'intérieur du karaoké coréen"),
+ 'h10': ('blog-shopping-vetements-coree.html',
+         "Faire du shopping en Corée : essayer, marchander, se faire rembourser"),
+ 'h11': ('blog-seollal-chuseok-fetes-coreennes.html',
+         "Seollal et Chuseok, les deux plus grandes fêtes"),
+ 'fam': ('blog-oppa-unnie-hyung-noona.html', "Oppa, unnie, hyung, noona : qui appeler comment"),
+ 'tps': ('blog-jours-mois-coreen.html', "Les jours et les mois, et les deux mois irréguliers"),
+}
 
 def page(code):
     slug, titre, chapeau = PAGES[code]
@@ -121,10 +144,15 @@ def page(code):
         {"@type": "ListItem", "position": 2, "name": "Vocabulaire coréen", "item": SITE + "vocabulaire-coreen.html"},
         {"@type": "ListItem", "position": 3, "name": d['label'], "item": url}]}
 
+    art = ''
+    if code in ARTICLE:
+        a_url, a_titre = ARTICLE[code]
+        art = '\n    <a href="%s">%s</a>' % (a_url, html.escape(a_titre))
+
     return TPL.format(
         titre=html.escape(titre), desc=attr(desc), url=url, slug=slug,
         label=html.escape(d['label']), chapeau=html.escape(chapeau),
-        n=len(mots), lignes=lignes, phrases=bloc_ph, autres=autres,
+        n=len(mots), lignes=lignes, phrases=bloc_ph, autres=autres, article=art,
         fil=json.dumps(fil, ensure_ascii=False), css=CSS)
 
 
@@ -196,7 +224,7 @@ TPL = '''<!DOCTYPE html>
     <a href="vocabulaire-coreen.html">Tous les thèmes de vocabulaire</a>
     <a href="dictionnaire.html">Le dictionnaire</a>
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
-    <a href="conjugaison-coreen.html">Conjuguer un verbe</a>
+    <a href="conjugaison-coreen.html">Conjuguer un verbe</a>{article}
     <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
   </div>
 

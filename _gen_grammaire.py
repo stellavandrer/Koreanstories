@@ -101,6 +101,35 @@ def voisines(f, toutes, slugs):
     return liens
 
 
+# Les articles de blog qui prolongent une regle precise. Les articles portent
+# deja un encart vers les pages ouvertes ; ces liens-la font le chemin inverse.
+# Correspondances explicites et non devinees : une regle sans article vraiment
+# proche n'a pas de ligne, un lien force vaut moins que pas de lien.
+ARTICLE = {
+ 'eun-neun':            ('blog-particules-coreennes.html', 'Les particules enfin claires'),
+ 'i-ga':                ('blog-particules-coreennes.html', 'Les particules enfin claires'),
+ 'eul-reul':            ('blog-particules-coreennes.html', 'Les particules enfin claires'),
+ 'man-do-buteo-kkaji':  ('blog-particules-coreennes.html', 'Les particules enfin claires'),
+ 'e-vs-eseo':           ('blog-particules-coreennes.html', 'Les particules enfin claires'),
+ 'a-eoseo-vs-eunikka':  ('blog-connecteurs-grammaticaux-coreens.html',
+                         'Le piège du « parce que » coréen'),
+ 'gi-ttaemune':         ('blog-connecteurs-grammaticaux-coreens.html',
+                         'Le piège du « parce que » coréen'),
+ 'neunde':              ('blog-connecteurs-grammaticaux-coreens.html',
+                         'Les trois « parce que » comparés'),
+ 'neunde-eude':         ('blog-connecteurs-grammaticaux-coreens.html',
+                         'Les trois « parce que » comparés'),
+ 'dago-hada':           ('blog-discours-indirect-coreen.html', 'Le discours indirect coréen'),
+ 'i-hi-ri-gi':          ('blog-voix-passive-causative-coreen.html',
+                         'Voix passive et causative : le duel'),
+ 'gae-myeong-jan':      ('blog-classificateurs-numeriques-coreens.html',
+                         'Pourquoi jamais juste « trois pommes »'),
+ 'ayo-eoyo':            ('blog-banmal-jondaenmal-politesse.html',
+                         'Banmal et jondaenmal : la politesse'),
+ 'euseyo':              ('blog-banmal-jondaenmal-politesse.html',
+                         'Banmal et jondaenmal : la politesse'),
+}
+
 def page(f, toutes, slugs, idx, corpus):
     s = slugs[f['id']]
     url = SITE + 'grammaire-' + s + '.html'
@@ -134,7 +163,13 @@ def page(f, toutes, slugs, idx, corpus):
         {"@type": "ListItem", "position": 2, "name": "Grammaire coréenne", "item": SITE + "grammaire-coreen.html"},
         {"@type": "ListItem", "position": 3, "name": forme, "item": url}]}
 
+    art = ''
+    if s in ARTICLE:
+        a_url, a_titre = ARTICLE[s]
+        art = '\n    <a href="%s">%s</a>' % (a_url, html.escape(a_titre))
+
     return TEMPLATE.format(
+        article=art,
         titre=html.escape('%s : %s en coréen' % (forme, sens)),
         desc=attr(desc), url=url, slug=s,
         forme=html.escape(forme), sens=html.escape(sens),
@@ -192,7 +227,7 @@ TEMPLATE = '''<!DOCTYPE html>
   <div class="gr-liens">
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
     <a href="conjugaison-coreen.html">Conjuguer un verbe</a>
-    <a href="vocabulaire-coreen.html">Le vocabulaire par thème</a>
+    <a href="vocabulaire-coreen.html">Le vocabulaire par thème</a>{article}
     <a href="dictionnaire.html">Le dictionnaire</a>
     <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
   </div>
