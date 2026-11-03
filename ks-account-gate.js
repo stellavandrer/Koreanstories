@@ -69,6 +69,9 @@
        vocabulaire.html reste fermee : c'est l'outil de revision des inscrits,
        avec sa maitrise par mot. */
     'vocabulaire-coreen.html': 1,
+    'vocabulaire-marche.html': 1,
+    'vocabulaire-cafe.html': 1,
+    'vocabulaire-metro.html': 1,
     'vocabulaire-couleurs.html': 1,
     'vocabulaire-famille.html': 1,
     'vocabulaire-fete.html': 1,

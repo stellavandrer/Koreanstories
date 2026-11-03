@@ -21,6 +21,12 @@ CSS = open('_gram_fiche.css', encoding='utf-8').read()
 
 # slug, titre de page, chapeau : du francais, ecrit ici
 PAGES = {
+ 'h2':  ('marche', 'Le vocabulaire du marché en coréen',
+         "Fruits, légumes, viande : les mots des étals coréens, et les quelques phrases pour demander un prix et marchander un peu."),
+ 'h4':  ('cafe', 'Le vocabulaire du café en coréen',
+         "La Corée compte plus de cafés par habitant que presque partout ailleurs. Les mots pour commander, préciser chaud ou glacé, et payer."),
+ 'h6':  ('metro', 'Le vocabulaire du métro en coréen',
+         "Prendre un ticket, trouver sa ligne, descendre au bon arrêt : les mots des transports de Séoul."),
  'h3':  ('restaurant', 'Le vocabulaire du restaurant en coréen',
          "Commander, demander de l'eau, dire que c'est trop piquant : les mots qu'on emploie vraiment dans un restaurant coréen."),
  'h5':  ('konbini', 'Le vocabulaire de la supérette en coréen',

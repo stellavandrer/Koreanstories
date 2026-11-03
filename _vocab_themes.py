@@ -28,11 +28,15 @@ FERMES = {'col', 'num'}
 #   glace (glacon)
 # Un mot-cle qui designe autre chose dans un autre contexte ramene ce contexte.
 CHAMPS = {
- 'h2':  ['marché','fruit','légume','kilo','viande'],
+ 'h2':  ['marché','fruit','légume','kilo','viande','pomme','fraise','tomate','oignon',
+         'carotte','ail','piment','œuf','pastèque','raisin','poire','pêche','banane',
+         'épicerie','vendeur','marchander'],
  'h3':  ['restaurant','menu','serveur','repas','riz','soupe','commander'],
- 'h4':  ['café','thé','boisson','gâteau','sucre','lait','tasse'],
+ 'h4':  ['café','thé','boisson','gâteau','sucre','lait','tasse','americano','latte',
+         'expresso','dessert','chocolat','sirop','emporter'],
  'h5':  ['supérette','bouteille','sachet','caisse','monnaie','payer','ticket'],
- 'h6':  ['métro','station','train','bus','sortie','correspondance','billet','arrêt'],
+ 'h6':  ['métro','station','train','bus','sortie','correspondance','billet','arrêt',
+         'wagon','siège','direction','transport','taxi','vélo','quai','rame'],
  'h7':  ['maison','chambre','cuisine','porte','fenêtre','lit','chaise','meuble','appartement'],
  'h8':  ['chanson','chanter','musique','karaoké','danser','écran'],
  'h9':  ['médecin','hôpital','douleur','fièvre','médicament','malade','pharmacie','santé','mal'],
@@ -48,9 +52,11 @@ CHAMPS = {
 # n'appartiennent pas au theme. On les nomme, pour que la raison reste lisible.
 ECARTES = {
  'col': ['무', '녹차', '황사', '멍'],          # radis blanc, the vert, vent de sable, ecchymose
- 'h4':  ['카페에', '냉면'],                    # forme flechie ; nouilles froides
+ 'h4':  ['카페에', '냉면', '밀대'],             # forme flechie ; nouilles froides ; rouleau a patisserie
  'h9':  ['어색하다', '불행', '새옹지마'],      # gene ; malheur ; proverbe
  'h7':  ['화장실에'],                          # forme flechie
+ 'h6':  ['은하수', '차'],                      # voie lactee ; the/voiture, ambigu
+ 'h2':  ['배'],                               # ventre/bateau/poire, trop ambigu
 }
 
 
