@@ -39,7 +39,7 @@ def irregulier(n, kor):
 
 
 def construire():
-    l1 = [[('', h + ' h'), (' class="kr"', k + ' ' + '시' + N.spk(k + ' 시')),
+    l1 = [[('', h + ' h'), (' lang="ko" class="kr"', k + ' ' + '시' + N.spk(k + ' 시')),
            (' class="lire" data-lire="%s"' % (k + ' 시'), '')]
           for k, h in HEURES]
     s1 = N.section(N.IC_NB, 'Les heures',
@@ -47,7 +47,7 @@ def construire():
                    'suivis de 시. Les quatre premiers prennent leur forme courte.</p>'
                    + N.table(['Heure', 'En coréen', 'Ça se lit'], l1))
 
-    l2 = [[('', m + ' min'), (' class="kr"', k.strip() + ' ' + '분' + N.spk(k.strip() + ' 분')),
+    l2 = [[('', m + ' min'), (' lang="ko" class="kr"', k.strip() + ' ' + '분' + N.spk(k.strip() + ' 분')),
            (' class="lire" data-lire="%s"' % (k.strip() + ' 분'), '')]
           for k, m in MINUTES]
     s2 = N.section(N.IC_NB, 'Les minutes',
@@ -56,7 +56,7 @@ def construire():
                    'dans une même heure, les deux systèmes cohabitent.</p>'
                    + N.table(['Minutes', 'En coréen', 'Ça se lit'], l2))
 
-    l3 = [[('', j[2]), (' class="kr"', j[0] + N.spk(j[0])), ('', j[1]),
+    l3 = [[('', j[2]), (' lang="ko" class="kr"', j[0] + N.spk(j[0])), ('', j[1]),
            (' class="lire" data-lire="%s"' % j[0], ''), (' class="hanja"', j[3])]
           for j in JOURS]
     s3 = N.section(N.IC_CLE, 'Les jours de la semaine',
@@ -68,7 +68,7 @@ def construire():
     for n, kor, rom in MOIS:
         n = int(n)
         irr, attendu = irregulier(n, kor)
-        l4.append([('', str(n)), (' class="kr"', kor + N.spk(kor)), ('', rom),
+        l4.append([('', str(n)), (' lang="ko" class="kr"', kor + N.spk(kor)), ('', rom),
                    (' class="lire" data-lire="%s"' % kor, ''),
                    (' class="sys ' + ('natif' if irr else '') + '"', 'irrégulier' if irr else '')])
         if irr:
@@ -76,7 +76,7 @@ def construire():
     note = ''
     if notes:
         note = ('<p class="nb-intro"><b>Les deux pièges :</b> ' +
-                ' et '.join('le mois %d se dit <b class="kr">%s</b>, pas %s' % (n, k, a) for n, k, a in notes) +
+                ' et '.join('le mois %d se dit <b lang="ko" class="kr">%s</b>, pas %s' % (n, k, a) for n, k, a in notes) +
                 '. Tous les autres suivent la règle.</p>')
     s4 = N.section(N.IC_BOITE, 'Les mois',
                    '<p class="nb-intro">Le mois se dit avec le chiffre <b>sino-coréen</b> suivi de 월. '

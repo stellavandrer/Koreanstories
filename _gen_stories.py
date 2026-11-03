@@ -413,7 +413,7 @@ def page(s):
     bubbles_html = []
     for sc in s['scenes']:
         bubbles_html.append(f'  <h3>{sc["h"]}</h3>\n  <div class="panel">\n    <div class="panel-num">SCÈNE {s["scenes"].index(sc)+1:02d}</div>')
-        bubbles_html.append(f'    <div class="narration">\n      <div class="narration-kr">{sc["narr_kr"]}</div>\n      {sc["narr_fr"]}\n    </div>')
+        bubbles_html.append(f'    <div class="narration">\n      <div lang="ko" class="narration-kr">{sc["narr_kr"]}</div>\n      {sc["narr_fr"]}\n    </div>')
         for b in sc['bubbles']:
             side = ' right' if b['side']=='right' else ''
             ini = s['avatars'][b['sp']][0]
@@ -423,16 +423,16 @@ def page(s):
       <div class="avatar-circle av-{b['sp']}">{ini}</div>
       <div class="bubble">
         <span class="speaker-name">{b['name']}</span>
-        <div class="ko">{b['ko']}</div>
+        <div lang="ko" class="ko">{b['ko']}</div>
         <div class="bubble-rom">{b['rom']}</div>
         <div class="bubble-fr">{b['fr']}</div>
         <button class="bubble-audio" onclick="{esc_attr(onclick)}" aria-label="Écouter">{SVG_SPK}</button>
       </div>
     </div>''')
         if 'narr2_kr' in sc:
-            bubbles_html.append(f'    <div class="narration">\n      <div class="narration-kr">{sc["narr2_kr"]}</div>\n      {sc["narr2_fr"]}\n    </div>')
+            bubbles_html.append(f'    <div class="narration">\n      <div lang="ko" class="narration-kr">{sc["narr2_kr"]}</div>\n      {sc["narr2_fr"]}\n    </div>')
         bubbles_html.append('  </div>')
-    vocab_rows = '\n'.join(f'    <tr><td><span class="ko">{k}</span></td><td>{v}</td></tr>' for k,v in s['vocab'])
+    vocab_rows = '\n'.join(f'    <tr><td><span lang="ko" class="ko">{k}</span></td><td>{v}</td></tr>' for k,v in s['vocab'])
     voice_map_js = json.dumps(VOICE, ensure_ascii=False)
     return f'''<!DOCTYPE html>
 <html lang="fr" data-theme="light">

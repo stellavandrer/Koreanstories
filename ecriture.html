@@ -118,7 +118,7 @@
   <div class="ecr-hero">
     <div class="ecr-hero-tag">Atelier d'écriture</div>
     <h1>Tape en coréen</h1>
-    <p>Un vrai clavier coréen 2-beolsik, comme sur les téléphones en Corée.<br/>Compose les syllabes jamo par jamo : ㅎ + ㅏ + ㄴ = 한</p>
+    <p>Un vrai clavier coréen 2-beolsik, comme sur les téléphones en Corée.<br/>Compose les syllabes jamo par jamo : ㅎ + ㅏ + ㄴ = <span lang="ko">한</span></p>
   </div>
 
   <div class="ecr-lbl">Choisis ton niveau</div>
@@ -298,7 +298,7 @@ function renderQuestion(){
   const p = document.getElementById('exoPrompt');
   if (curMode === 'copie'){
     kind.textContent = 'COPIE, retape ce mot';
-    p.innerHTML = `<div class="exo-prompt-kr">${q.kr}</div><div class="exo-prompt-rom">${ksLireDe(q)} · ${q.fr}</div>`;
+    p.innerHTML = `<div lang="ko" class="exo-prompt-kr">${q.kr}</div><div class="exo-prompt-rom">${ksLireDe(q)} · ${q.fr}</div>`;
   } else if (curMode === 'dictee'){
     kind.textContent = 'DICTÉE, écris ce que tu entends';
     p.innerHTML = `<button class="exo-audio-btn" id="exoPlay" aria-label="Écouter le mot">

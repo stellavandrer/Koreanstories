@@ -3,7 +3,7 @@
    ──────────────────────────────────────────────────────────────────
    Chaque page podcast fournit :
      • des segments  <div class="pc-seg"><div class="pc-seg-spk">…</div>
-                       <div class="pc-seg-kr">…</div><div class="pc-seg-fr">…</div></div>
+                       <div lang="ko" class="pc-seg-kr">…</div><div class="pc-seg-fr">…</div></div>
      • un lecteur    #pcPlay #pcIco #pcFill #pcCur #pcDur #pcRate #pcSoon
      • un bouton FR  #frBtn
      • (optionnel)   #pcReward (.pcr-xp) affiché à la fin

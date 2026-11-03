@@ -286,7 +286,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 
 <div class="main">
 <div class="bar">
-  <a href="app.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Accueil</a>
+  <a href="app.html" class="bar-back"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Mon espace</a>
   <div class="bar-logo">Korean <em>Stories</em></div>
   <div class="bar-r">
     <button class="bar-theme" onclick="toggleTheme()" aria-label="Basculer le thème">
@@ -308,7 +308,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <div class="hero-name" onclick="openEdit()" id="heroNameEl" tabindex="0" role="button" aria-label="Modifier mon pseudo" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEdit()}">Apprenant
     <svg class="edit-ico" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
   </div>
-  <div class="hero-rank" id="heroRankEl">초보자 · Débutant·e</div>
+  <div class="hero-rank" id="heroRankEl"><span lang="ko">초보자</span> · Débutant·e</div>
   <div class="hero-sub" id="heroSubEl">Apprenant·e coréen · Niveau A1</div>
   <div id="premBadge" style="display:none;margin-top:8px">
     <span style="display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(224,196,138,.25),rgba(201,169,110,.15));border:1px solid rgba(201,169,110,.4);border-radius:100px;padding:4px 12px;font-size:11.5px;font-weight:700;color:var(--gold-text);letter-spacing:.03em">
@@ -362,10 +362,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="goal-current" id="goalLabel">10 min/jour</div>
     </div>
     <div class="goal-options">
-      <button class="goal-btn" data-xp="30" onclick="setGoal(30)">5 min<span>기초</span></button>
-      <button class="goal-btn act" data-xp="50" onclick="setGoal(50)">10 min<span>보통</span></button>
-      <button class="goal-btn" data-xp="80" onclick="setGoal(80)">15 min<span>열심히</span></button>
-      <button class="goal-btn" data-xp="120" onclick="setGoal(120)">20 min<span>마스터</span></button>
+      <button class="goal-btn" data-xp="30" onclick="setGoal(30)">5 min<span lang="ko">기초</span></button>
+      <button class="goal-btn act" data-xp="50" onclick="setGoal(50)">10 min<span lang="ko">보통</span></button>
+      <button class="goal-btn" data-xp="80" onclick="setGoal(80)">15 min<span lang="ko">열심히</span></button>
+      <button class="goal-btn" data-xp="120" onclick="setGoal(120)">20 min<span lang="ko">마스터</span></button>
     </div>
   </div>
 
@@ -403,7 +403,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
   <span class="sec-lbl">Progression par niveau</span>
   <div class="prog-list">
     <div class="prog-item">
-      <div class="prog-top"><span class="prog-name">Hangeul 한글</span><span class="prog-pct" id="pctHangeul">-%</span></div>
+      <div class="prog-top"><span class="prog-name">Hangeul <span lang="ko">한글</span></span><span class="prog-pct" id="pctHangeul">-%</span></div>
       <div class="prog-bar"><div class="prog-fill" id="pfHangeul" style="width:0%"></div></div>
     </div>
     <div class="prog-item">

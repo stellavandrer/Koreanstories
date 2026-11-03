@@ -265,7 +265,7 @@ function renderLevel() {
     lv.items.forEach((item,i) => {
       const div = document.createElement('div');
       div.className = 'syl-card';
-      div.innerHTML = `<span class="syl-kr">${item.kr}</span><span class="syl-rom">${ksLireDe(item)}${item.meaning && item.meaning !== ksLireDe(item) ? '<br>'+item.meaning : ''}</span>`;
+      div.innerHTML = `<span lang="ko" class="syl-kr">${item.kr}</span><span class="syl-rom">${ksLireDe(item)}${item.meaning && item.meaning !== ksLireDe(item) ? '<br>'+item.meaning : ''}</span>`;
       /* Un clic revele ET fait entendre. La regle du site est ferme : aucune
          voix de synthese. speak() ne joue que s'il existe un enregistrement
          reel au manifeste -- verifie ici, les 22 items de l'exercice en ont un.

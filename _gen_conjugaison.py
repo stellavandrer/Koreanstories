@@ -165,7 +165,7 @@ def page(mot, e, voisins):
                'touche le haut-parleur.' % mot)
 
     h = []
-    h.append('  <h1>Conjuguer <span class="kr">%s</span><br>(%s) en coréen</h1>' % (mot, fr))
+    h.append('  <h1>Conjuguer <span lang="ko" class="kr">%s</span><br>(%s) en coréen</h1>' % (mot, fr))
     h.append('  <p class="cj-chapeau">%s</p>' % chapeau)
     h.append('  <div class="cj-tags"><span class="cj-tag">%s</span>' % nature)
     h.append('    <span class="cj-tag">%s</span>' % ('irrégulier en %s' % irr['famille'] if irr else 'régulier'))
@@ -212,7 +212,7 @@ def page(mot, e, voisins):
     h.append('  <h2>D\'autres verbes</h2>')
     h.append('  <div class="cj-autres">')
     for v2, fr2 in voisins:
-        h.append('    <a href="conjugaison-%s.html"><span class="kr">%s</span>'
+        h.append('    <a href="conjugaison-%s.html"><span lang="ko" class="kr">%s</span>'
                  '<span class="fr">%s</span></a>' % (slug(v2), v2, fr2.split(' / ')[0]))
     h.append('  </div>')
 
@@ -301,7 +301,7 @@ def index(d):
         lignes.append('  <p class="cj-chapeau">%s</p>' % intro)
         lignes.append('  <div class="cj-autres">')
         for v, e in lot:
-            lignes.append('    <a href="conjugaison-%s.html"><span class="kr">%s</span>'
+            lignes.append('    <a href="conjugaison-%s.html"><span lang="ko" class="kr">%s</span>'
                           '<span class="fr">%s</span></a>' % (slug(v), v, e['fr'].split(' / ')[0]))
         lignes.append('  </div>')
     lignes.append('  <h2>Aller plus loin</h2>')

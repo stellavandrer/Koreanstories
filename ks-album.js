@@ -111,7 +111,7 @@
     return '<button class="al-card" data-n="' + card.n + '" style="--ac:' + card.color + '" aria-label="' + esc(card.fr) + '">' +
       (isNew ? '<span class="al-new">Nouveau</span>' : '') +
       '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + '</span>' +
-      '<span class="al-kr">' + esc(card.kr) + '</span>' +
+      '<span lang="ko" class="al-kr">' + esc(card.kr) + '</span>' +
       '<span class="al-fr">' + esc(card.fr) + '</span>' +
       '<span class="al-loc">' + esc(card.loc) + '</span>' +
       '<span class="al-lvl">' + esc(card.lv) + '</span>' +
@@ -167,7 +167,7 @@
       var words = (card.words || []).map(function(w){ return '<span class="al-chip">' + esc(w) + '</span>'; }).join('');
       body.innerHTML =
         '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + ' · ' + esc(card.lv) + '</span>' +
-        '<div class="al-m-kr" style="color:' + card.color + '">' + esc(card.kr) + '</div>' +
+        '<div lang="ko" class="al-m-kr" style="color:' + card.color + '">' + esc(card.kr) + '</div>' +
         '<div class="al-m-fr">' + esc(card.fr) + '</div>' +
         '<div class="al-m-loc">' + esc(card.loc) + '</div>' +
         '<p class="al-m-desc">' + esc(card.desc) + '</p>' +
@@ -179,7 +179,7 @@
     } else {
       body.innerHTML =
         '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + ' · ' + esc(card.lv) + '</span>' +
-        '<div class="al-m-kr" style="color:var(--tx-muted,#8B94A6)">? ? ?</div>' +
+        '<div lang="ko" class="al-m-kr" style="color:var(--tx-muted,#8B94A6)">? ? ?</div>' +
         '<div class="al-m-fr">Carte verrouillée</div>' +
         '<p class="al-m-desc">Lis cette histoire (article ou planche BD) pour débloquer sa carte et l\'ajouter à ta collection.</p>' +
         '<a class="al-m-btn" href="' + card.href + '">Découvrir l\'histoire</a>';

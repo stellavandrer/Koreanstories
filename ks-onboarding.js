@@ -250,7 +250,7 @@
     cardEl.innerHTML =
       arrowHtml +
       '<div class="onb-progress">' + renderProgressDots() + '</div>' +
-      '<div class="onb-kr">' + escapeHtml(step.kr) + '</div>' +
+      '<div lang="ko" class="onb-kr">' + escapeHtml(step.kr) + '</div>' +
       '<h3 class="onb-title">' + escapeHtml(step.title) + '</h3>' +
       '<p class="onb-body">' + escapeHtml(step.body) + '</p>' +
       '<div class="onb-btns">' +

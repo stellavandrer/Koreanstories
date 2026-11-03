@@ -236,7 +236,7 @@
     var card = document.getElementById('ksImCard');
     card.innerHTML =
       (b.speaker ? '<div class="ks-im-speaker">' + escapeHtml(b.speaker) + '</div>' : '') +
-      '<div class="ks-im-kr">' + b.krHtml + '</div>' +
+      '<div lang="ko" class="ks-im-kr">' + b.krHtml + '</div>' +
       (b.rom ? '<div class="ks-im-rom">' + escapeHtml(b.rom) + '</div>' : '') +
       '<button class="ks-im-audio" id="ksImAudio" aria-label="Écouter">' +
         '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +

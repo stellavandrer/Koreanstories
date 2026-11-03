@@ -235,7 +235,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <script defer src="ks-boot-sync.js"></script>
 </head>
-<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">나의 하루</h1>
+<body><h1 lang="ko" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">나의 하루</h1>
 
 <!-- ════════════════════ LAYOUT SHELL ════════════════════ -->
 <div class="shell">
@@ -266,7 +266,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </a>
       <div class="read-top-info">
-        <div class="read-top-kr">나의 하루</div>
+        <div lang="ko" class="read-top-kr">나의 하루</div>
         <div class="read-top-fr">Ma journée quotidienne</div>
       </div>
       <div class="read-top-badge">A1</div>
@@ -480,7 +480,7 @@ function renderSentences() {
     words.forEach(([kr, rom, fr]) => {
       const w = document.createElement('div');
       w.className = 'word';
-      w.innerHTML = `<span class="word-kr">${kr}</span><span class="word-rom">${rom}</span><div class="word-tip">${fr}</div>`;
+      w.innerHTML = `<span lang="ko" class="word-kr">${kr}</span><span class="word-rom">${rom}</span><div class="word-tip">${fr}</div>`;
       w.addEventListener('click', e => {
         e.stopPropagation();
         const wasActive = w.classList.contains('active');
@@ -501,7 +501,7 @@ function renderVocab() {
   VOCAB.forEach(v => {
     const d = document.createElement('div');
     d.className = 'vocab-card';
-    d.innerHTML = `<div class="vocab-kr">${v.kr}</div><div class="vocab-rom">${ksLireDe(v)}</div><div class="vocab-fr">${v.fr}</div><span class="vocab-type vt-${v.t}">${labels[v.t]}</span>`;
+    d.innerHTML = `<div lang="ko" class="vocab-kr">${v.kr}</div><div class="vocab-rom">${ksLireDe(v)}</div><div class="vocab-fr">${v.fr}</div><span class="vocab-type vt-${v.t}">${labels[v.t]}</span>`;
     grid.appendChild(d);
   });
 }

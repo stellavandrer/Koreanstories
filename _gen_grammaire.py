@@ -75,7 +75,7 @@ def bloc_corpus(phrases, idx):
         out.append(
             '<div class="gr-c"><button class="gr-c-spk" onclick="speakKorean(this,%s)" '
             'aria-label="Écouter">%s</button>'
-            '<div class="gr-c-txt"><div class="gr-c-kr">%s</div>'
+            '<div class="gr-c-txt"><div lang="ko" class="gr-c-kr">%s</div>'
             '<div class="gr-c-lire" data-lire="%s"></div>'
             '<a class="gr-c-src" href="%s">%s</a></div></div>'
             % ("'" + p.replace("'", "\\'") + "'", SPK, html.escape(p), attr(p),
@@ -94,7 +94,7 @@ def voisines(f, toutes, slugs):
         m = [g for g in toutes if g['id'] != f['id']]
     m = m[:8]
     liens = ''.join(
-        '<a href="grammaire-%s.html"><span class="kr">%s</span><span class="fr">%s</span></a>'
+        '<a href="grammaire-%s.html"><span lang="ko" class="kr">%s</span><span class="fr">%s</span></a>'
         % (slugs[g['id']], html.escape(sanstags(g['titre']).split(':')[0].strip()),
            html.escape(sanstags(g['titre']).split(':')[-1].strip()))
         for g in m)
@@ -216,7 +216,7 @@ TEMPLATE = '''<!DOCTYPE html>
 <nav class="bar"><a class="back-btn" href="grammaire-coreen.html" aria-label="Toutes les règles">&larr;</a><span class="bar-title">Grammaire</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
 <div class="shell"><main class="main"><div class="gr">
   <nav class="gr-fil"><a href="grammaire-coreen.html">Grammaire coréenne</a> <span>›</span> {niveau}</nav>
-  <h1><span class="kr">{forme}</span><br><span class="sens">{sens}</span></h1>
+  <h1><span lang="ko" class="kr">{forme}</span><br><span class="sens">{sens}</span></h1>
   <p class="gr-chapeau">{chapeau}</p>
   <div class="gr-tags"><span class="gr-tag">{niveau}</span><span class="gr-tag">{cat}</span></div>
 
@@ -392,7 +392,7 @@ def index(toutes, slugs, corpus):
             sens = sanstags(f['titre']).split(':')[-1].strip()
             url = 'grammaire-%s.html' % slugs[f['id']]
             items.append({"@type": "ListItem", "position": n, "name": forme, "url": SITE + url})
-            liens += ('<a href="%s"><span class="kr">%s</span><span class="fr">%s</span></a>'
+            liens += ('<a href="%s"><span lang="ko" class="kr">%s</span><span class="fr">%s</span></a>'
                       % (attr(url), html.escape(forme), html.escape(sens)))
         sections.append('  <h2>Niveau %s <span style="font-weight:400;color:var(--tx-muted)">· %d règles</span></h2>\n'
                         '  <p class="gr-sous">%s</p>\n  <div class="gr-autres">%s</div>'

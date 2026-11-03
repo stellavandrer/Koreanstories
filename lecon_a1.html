@@ -1385,7 +1385,7 @@ function renderSection(sec,i){
 
   if(sec.type==='vocab'){
     var rows = sec.rows.map(function(r){
-      return '<tr><td><span class="ko">'+r[0]+'</span><br><span class="rom">'+r[1]+'</span></td><td class="fr">'+r[2]+'</td></tr>';
+      return '<tr><td><span lang="ko" class="ko">'+r[0]+'</span><br><span class="rom">'+r[1]+'</span></td><td class="fr">'+r[2]+'</td></tr>';
     }).join('');
     return '<div class="section" id="sec'+i+'" onscroll="markViewed('+i+')">'
       +'<div class="sec-title">'+icon+' '+sec.title+'</div>'
@@ -1394,7 +1394,7 @@ function renderSection(sec,i){
   }
   if(sec.type==='rule'){
     var rulesHtml = (sec.rules||[]).map(function(r){
-      return '<div class="rule-box"><div class="rule-label">'+r.label+'</div><div class="rule-text">'+r.text+'</div><span class="rule-ko">'+r.ko+'</span></div>';
+      return '<div class="rule-box"><div class="rule-label">'+r.label+'</div><div class="rule-text">'+r.text+'</div><span lang="ko" class="rule-ko">'+r.ko+'</span></div>';
     }).join('');
     var tipHtml = sec.tip ? '<div class="tip-box"><strong>Astuce :</strong> '+sec.tip+'</div>' : '';
     return '<div class="section" id="sec'+i+'">'
@@ -1403,7 +1403,7 @@ function renderSection(sec,i){
   }
   if(sec.type==='examples'){
     var exHtml = (sec.items||[]).map(function(ex){
-      return '<div class="ex-card"><span class="ex-ko">'+ex.ko+'</span>'
+      return '<div class="ex-card"><span lang="ko" class="ex-ko">'+ex.ko+'</span>'
         +(ex.rom?'<div class="ex-rom">'+ex.rom+'</div>':'')
         +'<div class="ex-fr">'+ex.fr+'</div></div>';
     }).join('');
@@ -1443,7 +1443,7 @@ function renderSection(sec,i){
   }
   if(sec.type==='method'){
     var methHtml = (sec.steps||[]).map(function(s){
-      return '<div style="margin-bottom:8px"><strong>'+s.label+'</strong>, '+s.text+(s.ko?'<br><span class="ko" style="font-size:14px">'+s.ko+'</span>':'')+'</div>';
+      return '<div style="margin-bottom:8px"><strong>'+s.label+'</strong>, '+s.text+(s.ko?'<br><span lang="ko" class="ko" style="font-size:14px">'+s.ko+'</span>':'')+'</div>';
     }).join('');
     return '<div class="section" id="sec'+i+'">'
       +'<div class="sec-title">'+icon+' '+sec.title+'</div>'

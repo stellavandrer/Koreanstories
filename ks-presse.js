@@ -56,7 +56,7 @@
     var labels={n:'nom',v:'verbe',adj:'adjectif',adv:'adverbe',exp:'expression'};
     VOCAB.forEach(function(v){
       var el=document.createElement('div'); el.className='vocab-card';
-      el.innerHTML='<div class="vocab-kr">'+v[0]+'</div><div class="vocab-rom">'+v[1]+'</div><div class="vocab-fr">'+v[2]+'</div><span class="vocab-type vt-'+v[3]+'">'+(labels[v[3]]||v[3])+'</span>';
+      el.innerHTML='<div lang="ko" class="vocab-kr">'+v[0]+'</div><div class="vocab-rom">'+v[1]+'</div><div class="vocab-fr">'+v[2]+'</div><span class="vocab-type vt-'+v[3]+'">'+(labels[v[3]]||v[3])+'</span>';
       grid.appendChild(el);
     });
   })();

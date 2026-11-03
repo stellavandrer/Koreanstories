@@ -89,7 +89,7 @@ IC_BOITE = '<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8
 
 def construire():
     # 1. sino
-    l = [[('', str(v)), (' class="kr"', k + spk(k)), ('', romanise(k)),
+    l = [[('', str(v)), (' lang="ko" class="kr"', k + spk(k)), ('', romanise(k)),
           (' class="lire" data-lire="%s"' % k, '')]
          for v, k in zip(VAL_SINO, SINO)]
     s_sino = section(IC_NB, 'Les chiffres sino-coréens',
@@ -103,9 +103,9 @@ def construire():
         c = COURTES.get(v, '')
         if c == k:
             c = ''          # la forme ne change pas a partir de cinq
-        l2.append([('', str(v)), (' class="kr"', k + spk(k)), ('', romanise(k)),
+        l2.append([('', str(v)), (' lang="ko" class="kr"', k + spk(k)), ('', romanise(k)),
                    (' class="lire" data-lire="%s"' % k, ''),
-                   (' class="kr"', c or '<span class="inchange">inchangé</span>')])
+                   (' lang="ko" class="kr"', c or '<span class="inchange">inchangé</span>')])
     s_natif = section(IC_NB, 'Les chiffres natifs coréens',
                       '<p class="nb-intro">Les coréens d\'origine. Ils servent pour l\'âge, l\'heure, '
                       'et pour compter les choses avec un compteur. Les quatre premiers changent de forme '
@@ -123,7 +123,7 @@ def construire():
                       + table(['Ce que tu comptes', 'Le système'], l3))
 
     # 4. compteurs
-    l4 = [[(' class="kr"', c[0] + spk(c[0])), ('', c[1]), ('', c[2]),
+    l4 = [[(' lang="ko" class="kr"', c[0] + spk(c[0])), ('', c[1]), ('', c[2]),
            (' class="kr ex"', c[3])] for c in COMPTEURS]
     s_cpt = section(IC_BOITE, 'Les 8 compteurs à connaître',
                     '<p class="nb-intro">En coréen, on ne compte pas « trois pommes » mais « pomme trois [objet] ». '

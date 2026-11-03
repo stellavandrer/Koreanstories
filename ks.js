@@ -89,8 +89,8 @@ if(!p||!p.total)return null;var pct=Math.round(p.done/p.total*100);var threshold
 return null;}}
 return null;}
 function _ksRenderFinishOverlay(opts,next){_ksInjectFinishCSS();var existing=document.getElementById('ks-finish');if(existing)existing.remove();var stars=3;if(typeof opts.score==='number'&&typeof opts.total==='number'&&opts.total>0){var pct=opts.score/opts.total;stars=pct>=0.85?3:pct>=0.6?2:1;}
-var milestone=_ksCheckMilestone();var seed=(opts.key||'x').split('').reduce(function(a,c){return a+c.charCodeAt(0);},0);var enc=_KS_ENCOURAGE[seed%_KS_ENCOURAGE.length];var nextHref=next&&next.href?next.href:'cours.html';var nextLabel=next&&next.title?next.title:'Mon parcours';var nextSubLbl=next&&next.lvlName?next.lvlName:'';var xp=(typeof ksGetXP==='function')?ksGetXP():0;var streak=(typeof ksGetStreak==='function')?ksGetStreak():0;var gainedXP=opts.xp||0;var starSvg='<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';var arrowSvg='<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>';var homeSvg='<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';var bookSvg='<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>';var milestoneHtml='';if(milestone){var mctaLabel=milestone.pct===100?'Voir mon diplôme':'Voir mon certificat';milestoneHtml='<div class="ksf-milestone">'+'<div style="position:relative;z-index:1">'+'<div><span class="ksf-milestone-pct">'+milestone.pct+'%</span>'+'<span class="ksf-milestone-kr">'+milestone.kr+'</span></div>'+'<div class="ksf-milestone-fr">'+milestone.fr+' '+milestone.sub+'</div>'+'<a class="ksf-milestone-cta" href="certificat.html">'+mctaLabel+arrowSvg+'</a>'+'</div>'+'</div>';}
-var html='<div class="ksf-inner">'+'<div class="ksf-stars">'+'<span class="ksf-star'+(stars>=1?' lit':'')+'">'+starSvg+'</span>'+'<span class="ksf-star'+(stars>=2?' lit':'')+'">'+starSvg+'</span>'+'<span class="ksf-star'+(stars>=3?' lit':'')+'">'+starSvg+'</span>'+'</div>'+'<h2 class="ksf-kr">'+enc.kr+'</h2>'+'<div class="ksf-title">'+(opts.title||(typeof opts.score==='number'?'Score '+opts.score+' / '+opts.total:'Activité terminée'))+'</div>'+'<div class="ksf-stats">'+'<div class="ksf-stat"><div class="ksf-stat-n">+'+gainedXP+'</div><div class="ksf-stat-l">XP gagnés</div></div>'+'<div class="ksf-stat"><div class="ksf-stat-n">'+xp+'</div><div class="ksf-stat-l">XP total</div></div>'+
+var milestone=_ksCheckMilestone();var seed=(opts.key||'x').split('').reduce(function(a,c){return a+c.charCodeAt(0);},0);var enc=_KS_ENCOURAGE[seed%_KS_ENCOURAGE.length];var nextHref=next&&next.href?next.href:'cours.html';var nextLabel=next&&next.title?next.title:'Mon parcours';var nextSubLbl=next&&next.lvlName?next.lvlName:'';var xp=(typeof ksGetXP==='function')?ksGetXP():0;var streak=(typeof ksGetStreak==='function')?ksGetStreak():0;var gainedXP=opts.xp||0;var starSvg='<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';var arrowSvg='<svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>';var homeSvg='<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>';var bookSvg='<svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>';var milestoneHtml='';if(milestone){var mctaLabel=milestone.pct===100?'Voir mon diplôme':'Voir mon certificat';milestoneHtml='<div class="ksf-milestone">'+'<div style="position:relative;z-index:1">'+'<div><span class="ksf-milestone-pct">'+milestone.pct+'%</span>'+'<span lang="ko" class="ksf-milestone-kr">'+milestone.kr+'</span></div>'+'<div class="ksf-milestone-fr">'+milestone.fr+' '+milestone.sub+'</div>'+'<a class="ksf-milestone-cta" href="certificat.html">'+mctaLabel+arrowSvg+'</a>'+'</div>'+'</div>';}
+var html='<div class="ksf-inner">'+'<div class="ksf-stars">'+'<span class="ksf-star'+(stars>=1?' lit':'')+'">'+starSvg+'</span>'+'<span class="ksf-star'+(stars>=2?' lit':'')+'">'+starSvg+'</span>'+'<span class="ksf-star'+(stars>=3?' lit':'')+'">'+starSvg+'</span>'+'</div>'+'<h2 lang="ko" class="ksf-kr">'+enc.kr+'</h2>'+'<div class="ksf-title">'+(opts.title||(typeof opts.score==='number'?'Score '+opts.score+' / '+opts.total:'Activité terminée'))+'</div>'+'<div class="ksf-stats">'+'<div class="ksf-stat"><div class="ksf-stat-n">+'+gainedXP+'</div><div class="ksf-stat-l">XP gagnés</div></div>'+'<div class="ksf-stat"><div class="ksf-stat-n">'+xp+'</div><div class="ksf-stat-l">XP total</div></div>'+
 (streak>0?'<div class="ksf-stat"><div class="ksf-stat-n" style="color:#FF8050">'+streak+'</div><div class="ksf-stat-l">Jours</div></div>':'')+'</div>'+
 milestoneHtml+'<p class="ksf-msg">'+enc.fr+(opts.mina?'<br/><em>'+opts.mina+'</em>':'')+'</p>'+'<a class="ksf-next" href="'+nextHref+'">'+'<span>Continuer'+(nextLabel&&nextLabel!=='Mon parcours'?', '+nextLabel:'')+(nextSubLbl?'<span class="ksf-next-sub">'+nextSubLbl+'</span>':'')+'</span>'+
 arrowSvg+'</a>'+'<div class="ksf-row">'+'<a class="ksf-sec" href="cours.html">'+bookSvg+'Mon parcours</a>'+'<a class="ksf-sec" href="app.html">'+homeSvg+'Accueil</a>'+'</div>'+'</div>';var overlay=document.createElement('div');overlay.id='ks-finish';overlay.innerHTML=html;document.body.appendChild(overlay);overlay.offsetHeight;overlay.classList.add('on');if(milestone){var intensity=milestone.pct===100?90:50;_ksConfetti(intensity);}
@@ -285,3 +285,68 @@ if (typeof window !== 'undefined' && typeof window.ksLireDe !== 'function') {
     return o.rom || '';
   };
 }
+
+/* ── lang="ko" sur le coréen produit par les scripts ──────────────────────
+   WCAG 3.1.2 : sans cette indication, une synthèse vocale lit le coréen avec
+   la voix de la page, donc en français. Le balisage statique est posé dans
+   les fichiers ; ici on traite ce que les scripts créent après coup (options
+   de quiz, tableaux, listes de révision), où la classe ne dit pas la langue :
+   la décision se prend sur le CONTENU, pas sur le nom de classe. */
+(function () {
+  var KR = /[가-힣]/;
+  var LATIN = /[A-Za-zÀ-ÿ]/g;
+  var OPAQUE = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, TEMPLATE: 1 };
+
+  /* Vrai seulement si un ancetre declare DEJA le coreen. Tester la simple
+     presence d'un attribut lang ne marche pas : <html lang="fr"> est l'ancetre
+     de tout, et plus rien ne serait marque. */
+  function dansDuCoreen(el) {
+    for (var p = el; p && p !== document.documentElement; p = p.parentElement) {
+      var l = p.getAttribute && p.getAttribute('lang');
+      if (l) return l.toLowerCase().indexOf('ko') === 0;
+    }
+    return false;
+  }
+
+  function essentiellementCoreen(t) {
+    if (!KR.test(t)) return false;
+    var kr = (t.match(/[가-힣]/g) || []).length;
+    var la = (t.match(LATIN) || []).length;
+    return la <= Math.max(2, kr / 3);
+  }
+
+  function marquer(racine) {
+    if (!racine || !racine.querySelectorAll) return;
+    var n = 0;
+    var els = racine.querySelectorAll('span,div,td,th,p,b,strong,em,i,li,button,a,dt,dd,h1,h2,h3,h4,h5,h6');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (OPAQUE[el.tagName]) continue;
+      if (el.getAttribute('lang')) continue;
+      var t = (el.textContent || '').trim();
+      if (!t || t.length > 300) continue;
+      if (!essentiellementCoreen(t)) continue;
+      if (dansDuCoreen(el.parentElement)) continue;
+      el.setAttribute('lang', 'ko');
+      n++;
+    }
+    return n;
+  }
+
+  var enAttente = null;
+  function planifier() {
+    if (enAttente) return;
+    enAttente = setTimeout(function () { enAttente = null; marquer(document.body); }, 120);
+  }
+
+  function demarrer() {
+    marquer(document.body);
+    try {
+      new MutationObserver(planifier).observe(document.body, { childList: true, subtree: true });
+    } catch (e) {}
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer);
+  else demarrer();
+  window.ksMarquerCoreen = marquer;
+})();

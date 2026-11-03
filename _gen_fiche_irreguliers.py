@@ -90,16 +90,16 @@ def construire():
             k = list(EXTRA)[0]
             ex = {'kr': k, 'fr': 'être ainsi', 'page': None}
             formes = EXTRA[k]['formes'][:4]
-        lignes = [[('', lbl), (' class="kr"', fo + N.spk(fo)),
+        lignes = [[('', lbl), (' lang="ko" class="kr"', fo + N.spk(fo)),
                    (' class="lire" data-lire="%s"' % fo, '')] for lbl, fo in formes]
         autres = ''
         if len(lot) > 1:
             autres = ('<p class="nb-intro"><b>Les autres de cette famille :</b> ' +
-                      ' · '.join('<a href="../%s"><span class="kr">%s</span> %s</a>'
+                      ' · '.join('<a href="../%s"><span lang="ko" class="kr">%s</span> %s</a>'
                                  % (v['page'], html.escape(v['kr']), html.escape(v['fr'].split('/')[0].strip()))
                                  for v in lot[1:]) + '</p>')
         corps = ('<p class="nb-intro"><b>La règle :</b> %s</p>'
-                 '<p class="nb-intro"><b>L\'exemple :</b> <span class="kr">%s</span>, %s</p>%s'
+                 '<p class="nb-intro"><b>L\'exemple :</b> <span lang="ko" class="kr">%s</span>, %s</p>%s'
                  % (html.escape(FAMILLES[f]).replace('&#x27;', "'"),
                     html.escape(ex['kr']), html.escape(ex['fr']),
                     N.table(['Forme', 'Ce que ça donne', 'Ça se lit'], lignes)) + autres)
@@ -109,9 +109,9 @@ def construire():
     pieges = [v for v in VERBES if not v['famille']
               and finale(v['kr'][:-1][-1]) in ('ㅂ', 'ㄷ', 'ㅅ')]
     if pieges:
-        lignes = [[(' class="kr"', v['kr'] + N.spk(v['kr'])), ('', v['fr']),
+        lignes = [[(' lang="ko" class="kr"', v['kr'] + N.spk(v['kr'])), ('', v['fr']),
                    ('', 'finale ' + finale(v['kr'][:-1][-1])),
-                   (' class="kr"', v['formes'][0][1] + N.spk(v['formes'][0][1]))]
+                   (' lang="ko" class="kr"', v['formes'][0][1] + N.spk(v['formes'][0][1]))]
                   for v in pieges]
         out.append(N.section(N.IC_BOITE, 'Ceux qui en ont l\'air et n\'en sont pas',
                              '<p class="nb-intro">La finale ne suffit pas à trancher : ces verbes '

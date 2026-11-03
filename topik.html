@@ -247,7 +247,7 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
 <div class="main">
   <div class="bar">
     <a href="app.html" class="bar-back">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Accueil
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Mon espace
     </a>
     <div class="bar-logo">Korean <em>Stories</em></div>
     <div class="bar-r">
@@ -267,7 +267,7 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
 
 <!-- INTRO -->
 <div class="screen active" id="introScreen">
-  <div class="intro-kr-bg">시</div>
+  <div lang="ko" class="intro-kr-bg">시</div>
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
     <div class="intro-badge"><span></span>Gratuit · Chronométré · Style TOPIK</div>
     <h1 class="intro-h1">Examen blanc<br/><em>façon TOPIK</em></h1>
@@ -291,30 +291,30 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
     </div>
     <div class="track-grid">
       <div class="track-card">
-        <div class="track-tag">TOPIK I · 초급</div>
+        <div class="track-tag">TOPIK I · <span lang="ko">초급</span></div>
         <h2 class="track-title">Niveaux 1-2</h2>
         <p class="track-desc">Débutant. Écoute et lecture uniquement, comme le vrai TOPIK I, pas d'épreuve d'écriture à ce niveau.</p>
         <div class="track-chips">
-          <span class="track-chip">듣기 · 13 min</span>
-          <span class="track-chip">읽기 · 22 min</span>
+          <span class="track-chip"><span lang="ko">듣기</span> · 13 min</span>
+          <span class="track-chip"><span lang="ko">읽기</span> · 22 min</span>
         </div>
         <button class="btn-start btn-track" onclick="startExam('I')">Passer le TOPIK I →</button>
         <p class="track-note">51 questions tirées au sort · ~35 min</p>
       </div>
       <div class="track-card">
-        <div class="track-tag">TOPIK II · 중고급</div>
+        <div class="track-tag">TOPIK II · <span lang="ko">중고급</span></div>
         <h2 class="track-title">Niveaux 3-6</h2>
-        <p class="track-desc">Intermédiaire à avancé. Écoute, écriture (complétion + 2 rédactions, comme le vrai 51-54번) et lecture &amp; grammaire.</p>
+        <p class="track-desc">Intermédiaire à avancé. Écoute, écriture (complétion + 2 rédactions, comme le vrai 51-54<span lang="ko">번</span>) et lecture &amp; grammaire.</p>
         <div class="track-chips">
-          <span class="track-chip">듣기 · 10 min</span>
-          <span class="track-chip">쓰기 · 15 min</span>
-          <span class="track-chip">읽기 · 16 min</span>
+          <span class="track-chip"><span lang="ko">듣기</span> · 10 min</span>
+          <span class="track-chip"><span lang="ko">쓰기</span> · 15 min</span>
+          <span class="track-chip"><span lang="ko">읽기</span> · 16 min</span>
         </div>
         <button class="btn-start btn-track" onclick="startExam('II')">Passer le TOPIK II →</button>
         <p class="track-note">31 questions notées + 4 pratiques d'écriture · ~41 min</p>
       </div>
     </div>
-    <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel, le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel. La partie écriture du TOPIK II est une pratique libre avec réponse modèle à comparer : la correction automatique d'une rédaction libre n'est pas fiable, donc elle n'est pas notée. Une épreuve orale te manque (comme au SKA ou au TOPIK 말하기) ? Essaie <a href="speaking.html" style="color:var(--gold-text)">Speaking Practice</a>.</div>
+    <div class="disclaimer"><strong>À noter :</strong> ceci est un entraînement gratuit inspiré du format TOPIK, pas un examen officiel, le niveau donné en fin de test est une estimation indicative, pas un score TOPIK réel. La partie écriture du TOPIK II est une pratique libre avec réponse modèle à comparer : la correction automatique d'une rédaction libre n'est pas fiable, donc elle n'est pas notée. Une épreuve orale te manque (comme au SKA ou au TOPIK <span lang="ko">말하기</span>) ? Essaie <a href="speaking.html" style="color:var(--gold-text)">Speaking Practice</a>.</div>
   </div>
 </div>
 
@@ -322,7 +322,7 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
 <div class="screen" id="quizScreen">
   <div class="quiz-top">
     <div class="quiz-meta">
-      <span class="q-phase" id="qPhase">어휘 및 문법</span>
+      <span lang="ko" class="q-phase" id="qPhase">어휘 및 문법</span>
       <span class="q-timer" id="qTimer">08:00</span>
       <span class="q-counter" id="qCounter">1 / 12</span>
     </div>
@@ -348,7 +348,7 @@ body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
       <div class="essay-outline" id="essayOutline"></div>
       <div class="essay-rubric" id="essayRubric"></div>
       <textarea id="essayInput" class="essay-textarea" aria-label="Ta rédaction" placeholder="Écris ta rédaction ici… (pratique libre)" spellcheck="false" oninput="updateEssayCounter()"></textarea>
-      <div class="essay-counter" id="essayCounter">0 자</div>
+      <div lang="ko" class="essay-counter" id="essayCounter">0 자</div>
       <button class="review-toggle" id="essayRevealBtn" onclick="revealEssay()" style="margin-top:8px">Voir un exemple de réponse modèle</button>
       <div id="essayReveal" class="write-reveal" style="display:none"></div>
     </div>
@@ -1140,7 +1140,7 @@ function renderQuestion(){
     document.getElementById('qText').textContent = 'Quel mot ou expression irait le mieux à la place de ( ___ ) ?';
     const p = document.createElement('div');
     p.className = 'q-passage';
-    p.innerHTML = '<div class="q-passage-title">Contexte</div><div class="q-passage-kr" style="font-size:16px;line-height:1.8">' + esc(item.context) + '</div>';
+    p.innerHTML = '<div class="q-passage-title">Contexte</div><div lang="ko" class="q-passage-kr" style="font-size:16px;line-height:1.8">' + esc(item.context) + '</div>';
     passageWrap.appendChild(p);
     document.getElementById('optsGrid').style.display = 'none';
     document.getElementById('writeArea').style.display = 'block';
@@ -1183,13 +1183,13 @@ function renderQuestion(){
     if(item.isFirst){
       const p = document.createElement('div');
       p.className = 'q-passage';
-      p.innerHTML = '<div class="q-passage-title">Lis ce texte</div><div class="q-passage-kr">' +
+      p.innerHTML = '<div class="q-passage-title">Lis ce texte</div><div lang="ko" class="q-passage-kr">' +
         item.passage.sentences.map(esc).join(' ') + '</div>';
       passageWrap.appendChild(p);
     } else {
       const p = document.createElement('div');
       p.className = 'q-passage';
-      p.innerHTML = '<div class="q-passage-title">' + esc(item.passage.title) + ' (suite)</div><div class="q-passage-kr">' +
+      p.innerHTML = '<div class="q-passage-title">' + esc(item.passage.title) + ' (suite)</div><div lang="ko" class="q-passage-kr">' +
         item.passage.sentences.map(esc).join(' ') + '</div>';
       passageWrap.appendChild(p);
     }

@@ -130,8 +130,8 @@ body1 = sec('⌨️', 'Le layout 2-beolsik (두벌식) — le standard coréen',
 <p class="p">On ne tape jamais une syllabe « entière » : on tape les jamo dans l'ordre <strong>consonne → voyelle → (consonne finale)</strong> et le système compose le bloc tout seul :</p>
 <div class="compose">ㅎ <span class="op">+</span> ㅏ <span class="op">+</span> ㄴ <span class="op">=</span> <span class="res">한</span></div>
 <div class="compose">ㄱ <span class="op">+</span> ㅣ <span class="op">+</span> ㅁ <span class="op">+</span> ㅊ <span class="op">+</span> ㅣ <span class="op">=</span> <span class="res">김치</span></div>
-<div class="rule"><div class="rule-t">La magie du batchim</div><div class="rule-b">Si tu tapes une voyelle après une consonne finale, elle « migre » vers la syllabe suivante : 한 + ㅏ devient automatiquement <span class="kr">하나</span>. C'est déroutant 10 minutes, puis ça devient un réflexe.</div></div>
-<div class="rule"><div class="rule-t">Voyelles composées</div><div class="rule-b">Elles se tapent en deux touches : ㅗ+ㅏ=<span class="kr">ㅘ</span> · ㅜ+ㅓ=<span class="kr">ㅝ</span> · ㅗ+ㅣ=<span class="kr">ㅚ</span> · ㅡ+ㅣ=<span class="kr">ㅢ</span></div></div>
+<div class="rule"><div class="rule-t">La magie du batchim</div><div class="rule-b">Si tu tapes une voyelle après une consonne finale, elle « migre » vers la syllabe suivante : 한 + ㅏ devient automatiquement <span lang="ko" class="kr">하나</span>. C'est déroutant 10 minutes, puis ça devient un réflexe.</div></div>
+<div class="rule"><div class="rule-t">Voyelles composées</div><div class="rule-b">Elles se tapent en deux touches : ㅗ+ㅏ=<span lang="ko" class="kr">ㅘ</span> · ㅜ+ㅓ=<span lang="ko" class="kr">ㅝ</span> · ㅗ+ㅣ=<span lang="ko" class="kr">ㅚ</span> · ㅡ+ㅣ=<span lang="ko" class="kr">ㅢ</span></div></div>
 ''') + sec('📱', 'Activer le clavier coréen sur tes appareils', '''
 <table><thead><tr><th>Appareil</th><th>Chemin</th><th>Bascule FR ↔ KR</th></tr></thead><tbody>
 <tr><td style="font-family:Inter;font-size:13px">iPhone / iPad</td><td>Réglages → Général → Clavier → Claviers → Coréen (standard)</td><td>Touche globe 🌐</td></tr>
@@ -155,30 +155,30 @@ body2 = sec('⭐', 'Le verbe à tout faire du coréen', '''
 </tbody></table>
 ''') + sec('🧱', 'Les 3 structures à connaître', '''
 <div class="rule"><div class="rule-t">1 · Il y a — chose + 이/가 + 있어요</div>
-<div class="rule-kr">고양이가 있어요</div><div class="rule-fr">Il y a un chat.</div>
-<div class="rule-kr">시간이 없어요</div><div class="rule-fr">Je n'ai pas le temps. (litt. « le temps n'existe pas »)</div></div>
+<div lang="ko" class="rule-kr">고양이가 있어요</div><div class="rule-fr">Il y a un chat.</div>
+<div lang="ko" class="rule-kr">시간이 없어요</div><div class="rule-fr">Je n'ai pas le temps. (litt. « le temps n'existe pas »)</div></div>
 <div class="rule"><div class="rule-t">2 · Situer — lieu + 에 + chose + 이/가 + 있어요</div>
-<div class="rule-kr">거실에 텔레비전이 있어요</div><div class="rule-fr">Il y a une télé dans le salon.</div>
-<div class="rule-kr">친구가 집에 있어요</div><div class="rule-fr">Mon ami est à la maison.</div></div>
+<div lang="ko" class="rule-kr">거실에 텔레비전이 있어요</div><div class="rule-fr">Il y a une télé dans le salon.</div>
+<div lang="ko" class="rule-kr">친구가 집에 있어요</div><div class="rule-fr">Mon ami est à la maison.</div></div>
 <div class="rule"><div class="rule-t">3 · Avoir — 저는 + chose + 이/가 + 있어요</div>
-<div class="rule-kr">저는 우산이 있어요</div><div class="rule-fr">J'ai un parapluie. (litt. « quant à moi, un parapluie existe »)</div>
-<div class="rule-kr">돈이 없어요</div><div class="rule-fr">Je n'ai pas d'argent.</div></div>
+<div lang="ko" class="rule-kr">저는 우산이 있어요</div><div class="rule-fr">J'ai un parapluie. (litt. « quant à moi, un parapluie existe »)</div>
+<div lang="ko" class="rule-kr">돈이 없어요</div><div class="rule-fr">Je n'ai pas d'argent.</div></div>
 ''') + sec('🧭', 'Les particules de position', '''
 <p class="p">Pour préciser OÙ : <strong>nom de lieu + mot de position + 에</strong>.</p>
 <table><thead><tr><th>Position</th><th>Sens</th><th>Exemple</th></tr></thead><tbody>
-<tr><td>위</td><td>sur, au-dessus</td><td><span class="kr">책상 위에 책이 있어요</span> — un livre sur le bureau</td></tr>
-<tr><td>밑 / 아래</td><td>sous</td><td><span class="kr">의자 밑에 가방이 있어요</span> — un sac sous la chaise</td></tr>
-<tr><td>옆</td><td>à côté</td><td><span class="kr">소파 옆에 시계가 있어요</span> — une horloge à côté du canapé</td></tr>
-<tr><td>안</td><td>dans</td><td><span class="kr">방 안에 침대가 있어요</span> — un lit dans la chambre</td></tr>
-<tr><td>앞</td><td>devant</td><td><span class="kr">집 앞에 정원이 있어요</span> — un jardin devant la maison</td></tr>
-<tr><td>뒤</td><td>derrière</td><td><span class="kr">집 뒤에 차고가 있어요</span> — un garage derrière la maison</td></tr>
+<tr><td>위</td><td>sur, au-dessus</td><td><span lang="ko" class="kr">책상 위에 책이 있어요</span> — un livre sur le bureau</td></tr>
+<tr><td>밑 / 아래</td><td>sous</td><td><span lang="ko" class="kr">의자 밑에 가방이 있어요</span> — un sac sous la chaise</td></tr>
+<tr><td>옆</td><td>à côté</td><td><span lang="ko" class="kr">소파 옆에 시계가 있어요</span> — une horloge à côté du canapé</td></tr>
+<tr><td>안</td><td>dans</td><td><span lang="ko" class="kr">방 안에 침대가 있어요</span> — un lit dans la chambre</td></tr>
+<tr><td>앞</td><td>devant</td><td><span lang="ko" class="kr">집 앞에 정원이 있어요</span> — un jardin devant la maison</td></tr>
+<tr><td>뒤</td><td>derrière</td><td><span lang="ko" class="kr">집 뒤에 차고가 있어요</span> — un garage derrière la maison</td></tr>
 </tbody></table>
 ''') + sec('💬', 'Questions, réponses & phrase de survie', '''
 <div class="rule"><div class="rule-t">Question = même phrase, ton montant</div>
-<div class="rule-kr">우산이 있어요? — 네, 있어요 / 아니요, 없어요</div>
+<div lang="ko" class="rule-kr">우산이 있어요? — 네, 있어요 / 아니요, 없어요</div>
 <div class="rule-fr">Tu as un parapluie ? — Oui, j'en ai un / Non, je n'en ai pas</div></div>
 <div class="rule"><div class="rule-t">🆘 LA phrase de ton premier jour en Corée</div>
-<div class="rule-kr">화장실이 어디에 있어요?</div><div class="rule-fr">Où sont les toilettes ? — 어디 (où) + 에 + 있어요. Remplace 화장실 par n'importe quoi : 지하철역 (métro), 카페, 은행 (banque)…</div></div>
+<div lang="ko" class="rule-kr">화장실이 어디에 있어요?</div><div class="rule-fr">Où sont les toilettes ? — 어디 (où) + 에 + 있어요. Remplace 화장실 par n'importe quoi : 지하철역 (métro), 카페, 은행 (banque)…</div></div>
 <div class="tip"><b>Honorifique :</b> pour une personne respectée, 있다 devient <b>계세요</b> : 할머니가 집에 계세요 (grand-mère est à la maison). À reconnaître dès maintenant, à produire plus tard.</div>
 ''')
 

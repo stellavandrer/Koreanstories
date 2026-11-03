@@ -107,9 +107,9 @@ def page(code):
     lignes = ''
     for m in mots:
         kr = html.escape(m['kr'])
-        dec = ('<div class="vo-dec">%s</div>' % html.escape(m['decoupe'])) if m.get('decoupe') else ''
+        dec = ('<div lang="ko" class="vo-dec">%s</div>' % html.escape(m['decoupe'])) if m.get('decoupe') else ''
         lignes += (
-            '<tr><td class="kr"><button class="vo-spk" onclick="dire(this,\'%s\')" '
+            '<tr><td lang="ko" class="kr"><button class="vo-spk" onclick="dire(this,\'%s\')" '
             'aria-label="Écouter %s">%s</button>%s%s</td>'
             '<td>%s</td><td class="lire" data-lire="%s"></td><td>%s</td></tr>'
             % (attr(m['kr']), attr(m['kr']), SPK, kr, dec,
@@ -123,7 +123,7 @@ def page(code):
             page_src, titre_src = IDX[p][0]
             items += ('<div class="gr-c"><button class="gr-c-spk" onclick="dire(this,\'%s\')" '
                       'aria-label="Écouter">%s</button><div class="gr-c-txt">'
-                      '<div class="gr-c-kr">%s</div><div class="gr-c-lire" data-lire="%s"></div>'
+                      '<div lang="ko" class="gr-c-kr">%s</div><div class="gr-c-lire" data-lire="%s"></div>'
                       '<a class="gr-c-src" href="%s">%s</a></div></div>'
                       % (attr(p), SPK, html.escape(p), attr(p), attr(page_src), html.escape(titre_src)))
         bloc_ph = ('<h2>Ces mots dans les phrases du site</h2>'
@@ -132,7 +132,7 @@ def page(code):
                    '<div class="gr-corpus">%s</div>' % items)
 
     autres = ''.join(
-        '<a href="vocabulaire-%s.html"><span class="kr">%s</span><span class="fr">%d mots</span></a>'
+        '<a href="vocabulaire-%s.html"><span lang="ko" class="kr">%s</span><span class="fr">%d mots</span></a>'
         % (PAGES[c][0], html.escape(THEMES[c]['label']), len(THEMES[c]['mots']))
         for c in PAGES if c != code)
 
@@ -330,7 +330,7 @@ def index():
     pub = [c for c in PAGES if len(THEMES[c]['mots']) >= 20]
     total = sum(len(THEMES[c]['mots']) for c in pub)
     liens = ''.join(
-        '<a href="vocabulaire-%s.html"><span class="kr">%s</span><span class="fr">%d mots</span></a>'
+        '<a href="vocabulaire-%s.html"><span lang="ko" class="kr">%s</span><span class="fr">%d mots</span></a>'
         % (PAGES[c][0], html.escape(THEMES[c]['label']), len(THEMES[c]['mots'])) for c in pub)
     items = [{"@type": "ListItem", "position": i + 1, "name": THEMES[c]['label'],
               "url": SITE + 'vocabulaire-' + PAGES[c][0] + '.html'} for i, c in enumerate(pub)]

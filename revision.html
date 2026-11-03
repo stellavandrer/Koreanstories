@@ -335,7 +335,7 @@
     <div class="tab-sw" id="tabSw" style="display:none">
       <button class="tab-sw-btn" id="tabSrsBtn" onclick="switchTab('srs')">
         <div class="tab-sw-dot"></div>
-        SRS 복습
+        SRS <span lang="ko">복습</span>
       </button>
       <button class="tab-sw-btn" id="tabQuizBtn" onclick="switchTab('quiz')">
         Quiz libre
@@ -495,7 +495,7 @@
 
     <div class="qz-card" id="qzCard">
       <div class="qz-prompt-label" id="qzLabel">Que signifie ce mot ?</div>
-      <div class="qz-main" id="qzMain">가</div>
+      <div lang="ko" class="qz-main" id="qzMain">가</div>
       <div class="qz-roman" id="qzRoman"></div>
       <button class="qz-audio-btn" id="qzAudioBtn" onclick="playQ()">
         <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
@@ -539,7 +539,7 @@
     <div class="res-btns">
       <button class="res-prim" onclick="restartQuiz()">Recommencer </button>
       <a href="vocabulaire.html" class="res-sec">Vocabulaire</a>
-      <a href="app.html" class="res-sec">Accueil</a>
+      <a href="app.html" class="res-sec">Mon espace</a>
     </div>
   </div>
 
@@ -1087,7 +1087,7 @@ function renderQuestion() {
     if (quizMode === 'ko-fr') {
       btn.textContent = c.fr;
     } else {
-      btn.innerHTML = '<span class="ans-kr">'+c.kr+'</span>'+c.rom;
+      btn.innerHTML = '<span lang="ko" class="ans-kr">'+c.kr+'</span>'+c.rom;
     }
     btn.onclick = () => checkAnswer(c, q, btn);
     grid.appendChild(btn);
@@ -1350,7 +1350,7 @@ function showResult() {
       const badgeText = r.correct ? (r.mastered ? '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Maîtrisé' : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Correct') : '<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Revoir';
       html += `<div class="srs-word-row">
         <div class="srs-word-left">
-          <span class="srs-word-kr">${r.word.kr}</span>
+          <span lang="ko" class="srs-word-kr">${r.word.kr}</span>
           <span class="srs-word-fr">${r.word.fr}</span>
         </div>
         <div class="srs-word-right">

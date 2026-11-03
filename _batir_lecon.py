@@ -9,7 +9,7 @@ def spk(ko):
     return SPK % ko
 
 def ex(ko, fr):
-    return ('    <div class="ex-block">\n      <div class="ko">%s %s</div>\n'
+    return ('    <div class="ex-block">\n      <div lang="ko" class="ko">%s %s</div>\n'
             '      <div class="fr">%s</div>\n    </div>\n' % (ko, spk(ko), fr))
 
 def para(t):
@@ -29,16 +29,16 @@ def tip(t):
 
 def contrast(ta, ka, fa, tb, kb, fb):
     return ('    <div class="contrast">\n'
-            '      <div class="side-a">\n        <h4>%s</h4>\n        <div class="ko">%s %s</div>\n'
+            '      <div class="side-a">\n        <h4>%s</h4>\n        <div lang="ko" class="ko">%s %s</div>\n'
             '        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">%s</div>\n      </div>\n'
-            '      <div class="side-b">\n        <h4>%s</h4>\n        <div class="ko">%s %s</div>\n'
+            '      <div class="side-b">\n        <h4>%s</h4>\n        <div lang="ko" class="ko">%s %s</div>\n'
             '        <div style="font-size:.8rem;color:var(--tx-muted);margin-top:.2rem">%s</div>\n      </div>\n'
             '    </div>\n' % (ta, ka, spk(ka), fa, tb, kb, spk(kb), fb))
 
 def table(entetes, lignes):
     h = '    <table class="tbl">\n      <tr>' + ''.join('<th>%s</th>' % e for e in entetes) + '</tr>\n'
     for l in lignes:
-        cells = ''.join('<td%s>%s</td>' % (' class="ko"' if i == 0 and l[0].strip().startswith('-') or (i == 0 and any(ord(c) > 0x3000 for c in l[0])) else '', c)
+        cells = ''.join('<td%s>%s</td>' % (' lang="ko" class="ko"' if i == 0 and l[0].strip().startswith('-') or (i == 0 and any(ord(c) > 0x3000 for c in l[0])) else '', c)
                         for i, c in enumerate(l))
         h += '      <tr>' + cells + '</tr>\n'
     return h + '    </table>\n'
@@ -50,7 +50,7 @@ def faux_vrai(faux, pourquoi, vrai):
             % (faux, pourquoi, vrai, spk(vrai)))
 
 def survie(ko, fr):
-    return ('  <div class="survival">\n    <span class="ko">%s %s</span>\n'
+    return ('  <div class="survival">\n    <span lang="ko" class="ko">%s %s</span>\n'
             '    <span class="fr">%s</span>\n  </div>\n' % (ko, spk(ko), fr))
 
 def quiz(qid, question, options):

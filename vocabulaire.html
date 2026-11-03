@@ -976,13 +976,13 @@ function renderCards(filter) {
     return `<div class="flip-wrap" id="fw-${w.id}" tabindex="0" role="button" aria-label="Retourner la carte ${w.kr}" onclick="flipCard('${w.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();flipCard('${w.id}')}">
       <div class="flip-inner">
         <div class="flip-front">
-          <div class="card-kr">${w.kr}</div>
+          <div lang="ko" class="card-kr">${w.kr}</div>
           <div class="card-rom">${ksLireDe(w)}</div>
           <div class="card-lec-badge" style="${badgeStyle}">${lecNames[w.lec]}</div>
           <div class="card-hint">Appuie pour voir</div>
         </div>
         <div class="flip-back">
-          <div class="card-back-kr">${w.kr}</div>
+          <div lang="ko" class="card-back-kr">${w.kr}</div>
           <div class="card-back-fr">${w.fr}</div>
           <div class="card-back-break">${w.break}</div>
           <button class="card-audio" id="au-${w.id}" onclick="event.stopPropagation();speak('${w.audio}',this)">
@@ -1026,7 +1026,7 @@ function renderMastery(words) {
     const dot = m>=2?'good':m===1?'mid':'new';
     const dotTitle = m>=2?'Maîtrisé':'Vu';
     return `<div class="mastery-row">
-      <div class="mastery-kr">${w.kr}</div>
+      <div lang="ko" class="mastery-kr">${w.kr}</div>
       <div class="mastery-info">
         <div class="mastery-fr">${w.fr}</div>
         <div class="mastery-rom">${ksLireDe(w)} · ${VOC_BADGES[w.lec]||w.lec}</div>

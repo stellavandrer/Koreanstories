@@ -247,8 +247,8 @@ function renderWords(){
   if (!words.length) return;
   list.innerHTML = words.map(function(w){
     return '<div class="word-card">' +
-      '<div class="word-ko-block">' +
-        '<div class="word-ko">' + esc(w.ko) + '</div>' +
+      '<div lang="ko" class="word-ko-block">' +
+        '<div lang="ko" class="word-ko">' + esc(w.ko) + '</div>' +
         (w.rom ? '<div class="word-rom">' + esc(w.rom) + '</div>' : '') +
         '<div class="word-fr">' + esc(w.fr) + '</div>' +
         '<div class="word-meta">' +

@@ -490,7 +490,7 @@
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <script defer src="ks-boot-sync.js"></script>
 </head>
-<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Leçon 4 : ㄹ, ㅣ, ㅓ et 이리·나라</h1>
+<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Leçon 4 : ㄹ, ㅣ, ㅓ et <span lang="ko">이리·나라</span></h1>
 <div class="bar">
     <a href="cours.html" class="bar-back">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
@@ -519,7 +519,7 @@
     <div class="gram-rule"><div class="gram-char">ㄹ</div><div class="gram-info"><div class="gram-rom">r / l</div><div class="gram-exp">Entre le "r" et le "l" anglais, langue qui frôle le palais. Unique !</div></div></div>
 <div class="gram-rule"><div class="gram-char">ㅣ</div><div class="gram-info"><div class="gram-rom">i</div><div class="gram-exp">Comme "i" dans <em>île</em>. Court et net.</div></div></div>
 <div class="gram-rule"><div class="gram-char">ㅓ</div><div class="gram-info"><div class="gram-rom">eo</div><div class="gram-exp">Comme "eu" dans <em>peur</em>, mais la bouche plus ouverte.</div></div></div>
-    <div class="gram-tip"><strong>ㄹ</strong> n'existe pas en français. Prononce un "r" très doux, presque un "l" qui roule. Entraîne-toi avec <strong>이리</strong> (i-ri).</div>
+    <div class="gram-tip"><strong>ㄹ</strong> n'existe pas en français. Prononce un "r" très doux, presque un "l" qui roule. Entraîne-toi avec <strong lang="ko">이리</strong> (i-ri).</div>
   </div>
 </div>
 
@@ -540,7 +540,7 @@
   <div class="mav" style="background:linear-gradient(135deg,var(--navy),#1a2d4a);display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
   <div>
     <div class="mnm">Korean Stories</div>
-    <div class="msay" id="msay">잘 왔어요 ! Leçon 4, trois sons qui changent tout !</div>
+    <div class="msay" id="msay"><span lang="ko">잘 왔어요</span> ! Leçon 4, trois sons qui changent tout !</div>
   </div>
 </div>
 
@@ -557,7 +557,7 @@
         <span class="res-star" id="star3"><svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:#C9A96E;stroke:#C9A96E;stroke-width:1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
       </div>
       <div class="res-title">Leçon 4 terminée !</div>
-      <div class="res-subtitle">완료 : Complété</div>
+      <div class="res-subtitle"><span lang="ko">완료</span> : Complété</div>
       <div class="res-stats">
         <div class="res-stat">
           <div class="res-stat-n" id="resScore">0</div>
@@ -586,7 +586,7 @@
           </button>
           <a href="app.html" class="res-sec">
             <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            Accueil
+            Mon espace
           </a>
         </div>
       </div>
@@ -888,7 +888,7 @@ function render(step) {
     });
   }
   else if(step.type==='kbpick') {
-    lc.innerHTML=`<div class="kb-section"><span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span><p class="q-prompt">${step.prompt}</p><div class="kb-target-wrap"><div class="kb-target-lbl">Son à trouver</div><div class="kb-target-sound">${step.targetDisplay}</div></div><div class="kb-grid">${step.keys.map(k=>`<button class="kbkey" data-c="${k.c}"><div class="kk">${k.c}</div><div class="kr">?</div></button>`).join('')}</div><div class="fb" id="fb"></div><button class="nxt" id="nxt">Continuer →</button></div>`;
+    lc.innerHTML=`<div class="kb-section"><span class="q-cnt">Question ${step.qn} / ${TOTAL_Q}</span><p class="q-prompt">${step.prompt}</p><div class="kb-target-wrap"><div class="kb-target-lbl">Son à trouver</div><div class="kb-target-sound">${step.targetDisplay}</div></div><div class="kb-grid">${step.keys.map(k=>`<button class="kbkey" data-c="${k.c}"><div class="kk">${k.c}</div><div lang="ko" class="kr">?</div></button>`).join('')}</div><div class="fb" id="fb"></div><button class="nxt" id="nxt">Continuer →</button></div>`;
     setMina('Utilise le clavier, appuie sur la bonne syllabe !',A.e);
     document.querySelectorAll('.kbkey').forEach(btn=>{
       btn.addEventListener('click',function(){
