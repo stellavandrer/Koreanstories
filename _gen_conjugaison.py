@@ -204,7 +204,7 @@ def page(mot, e, voisins):
     h.append('    <a href="dictionnaire.html">Chercher %s dans le dictionnaire</a>' % mot)
     if irr:
         h.append('    <a href="blog-verbes-irreguliers-coreens.html">Les verbes irréguliers expliqués</a>')
-    h.append('    <a href="grammaire.html">Les 53 règles de grammaire</a>')
+    h.append('    <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>')
     h.append('    <a href="conjugaison-coreen.html">Tous les verbes</a>')
     h.append('  </div>')
 

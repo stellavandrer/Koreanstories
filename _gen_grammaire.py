@@ -56,8 +56,11 @@ def lien_lecon(f):
     if not f['lecon']:
         return ''
     titre = sanstags(f['lecon_titre'] or 'la leçon du parcours')
+    # Cette lecon est derriere la porte compte : le dire, plutot que de laisser
+    # quelqu'un venu de Google cliquer et se cogner au mur.
     return ('<a class="gr-lecon" href="%s"><span>La leçon qui l\'enseigne : <strong>%s</strong>'
-            '</span><span class="fl">&rarr;</span></a>' % (attr(f['lecon']), html.escape(titre)))
+            '<em class="gr-compte">compte gratuit</em></span>'
+            '<span class="fl">&rarr;</span></a>' % (attr(f['lecon']), html.escape(titre)))
 
 
 def bloc_corpus(phrases, idx):
@@ -190,7 +193,7 @@ TEMPLATE = '''<!DOCTYPE html>
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
     <a href="conjugaison-coreen.html">Conjuguer un verbe</a>
     <a href="dictionnaire.html">Le dictionnaire</a>
-    <a href="cours.html">Le parcours complet</a>
+    <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
   </div>
 
   <h2>Les autres règles du niveau {niveau}</h2>
@@ -319,7 +322,7 @@ INDEX_TPL = '''<!DOCTYPE html>
   <div class="gr-liens">
     <a href="conjugaison-coreen.html">Conjuguer un verbe</a>
     <a href="dictionnaire.html">Le dictionnaire</a>
-    <a href="cours.html">Le parcours complet</a>
+    <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
     <a href="hangeul.html">Apprendre le hangeul</a>
   </div>
 </div></main></div>

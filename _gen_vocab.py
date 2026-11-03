@@ -196,7 +196,7 @@ TPL = '''<!DOCTYPE html>
     <a href="vocabulaire-coreen.html">Tous les thèmes de vocabulaire</a>
     <a href="dictionnaire.html">Le dictionnaire</a>
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
-    <a href="cours.html">Le parcours complet</a>
+    <a href="cours.html">Le parcours complet<em class="gr-compte">compte gratuit</em></a>
   </div>
 
   <h2>Les autres thèmes</h2>
