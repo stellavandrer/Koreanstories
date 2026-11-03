@@ -145,7 +145,7 @@ if __name__ == '__main__':
     page = page.replace('>Les nombres coréens<', '>Les verbes irréguliers<')
     page = page.replace('.tbl td.ex{font-size:12.5px;font-weight:400}',
                         '.tbl td.ex{font-size:12.5px;font-weight:400}\n'
-                        '    .nb-intro a{color:#8a6d35;text-decoration:none;border-bottom:1px dotted rgba(201,169,110,.5)}')
+                        '    .nb-intro a{color:var(--gold-text);text-decoration:none;border-bottom:1px dotted rgba(201,169,110,.5)}')
     deb = page.index('<div class="wrap" id="pdf-content"')
     fin = page.index('<div class="doc-footer">')
     page = (page[:deb] + '<div class="wrap" id="pdf-content" data-file="verbes-irreguliers-coreen">'

@@ -7,7 +7,7 @@
 /* ── TOKENS ──────────────────────────────────────────────────────── */
 :root {
   --bg:#EEF2FB; --surf:#FFF; --s2:#F5F8FF; --s3:#E9EEFA;
-  --t:#0D1823; --t2:#475E78; --t3:#8FA5BE;
+  --t:#0D1823; --t2:#475E78; --t3:#4D6785;
   --bd:#DAE3F2; --bd2:#BFCEE6;
   --sh:0 2px 12px rgba(15,30,80,.07);
   --sh2:0 6px 28px rgba(15,30,80,.11);
@@ -16,7 +16,7 @@
   --side:rgba(255,255,255,.99);
   --gold:#B8924E; --goldl:#CAA96E; --gold-light:#CAA96E; --gl:#CAA96E; --goldbg:#FBF2E3; --goldbd:#E0CBA0;
   /* WCAG AA — variante accessible pour texte sur fond clair (ratio 4.92:1 sur #FFFFFF). */
-  --gold-text:#8B6B3D;
+  --gold-text:#7A5F2E;
   --navy:#0F1B2D;
   /* Accents de contenu (titres/vocab colorés) — fixes historiquement,
      éclaircis en sombre ci-dessous pour rester lisibles (WCAG AA). */
@@ -26,13 +26,19 @@
   /* Compat */
   --navy2:#1a2f4a; --pure:#FFF; --white:#EEF2FB;
   --border:#DAE3F2; --border2:#BFCEE6;
-  --gray:#8FA5BE; --shadow:0 6px 28px rgba(15,30,80,.11);
+  --gray:#4D6785; --shadow:0 6px 28px rgba(15,30,80,.11);
   --green:#22c55e; --red:#ef4444; --amber:#f59e0b; --purple:#a78bfa;
+  /* Les couleurs vives ci-dessus servent aux fonds, bordures et icones. Employees
+     comme couleur de TEXTE sur une surface claire elles echouent (vert 2,28, rouge
+     3,36, bleu 3,28) : ces variantes-la sont faites pour le texte, >=4,5:1 sur les
+     sept surfaces claires du site. */
+  --green-text:#147437; --red-text:#C91111; --amber-text:#8C5A06; --purple-text:#6939F6;
+  --blue-text:#0A5BE1; --pink-text:#C80B2C;
   --pink:#FF8EA8;
   --goldp:rgba(184,146,78,.10); --gold2:#E0CBA0;
   /* Text aliases */
   --tx:#0D1823; --tx-muted:#475E78;
-  --text:#0D1823; --text2:#475E78; --text3:#8FA5BE;
+  --text:#0D1823; --text2:#475E78; --text3:#4D6785;
   /* Opacity text variants */
   --t35:rgba(13,24,35,.35); --t40:rgba(13,24,35,.40); --t45:rgba(13,24,35,.45);
   --t50:rgba(13,24,35,.50); --t60:rgba(13,24,35,.60); --t70:rgba(13,24,35,.70); --t80:rgba(13,24,35,.80);
@@ -49,7 +55,7 @@
 }
 [data-theme=dark] {
   --bg:#0B1522; --surf:#152030; --s2:#192840; --s3:#1C3050;
-  --t:#EDF2FA; --t2:#8293A8; --t3:#7E93AB;
+  --t:#EDF2FA; --t2:#8999AD; --t3:#8599B0;
   --bd:rgba(255,255,255,.07); --bd2:rgba(255,255,255,.13);
   --sh:0 2px 12px rgba(0,0,0,.4); --sh2:0 6px 28px rgba(0,0,0,.5); --sh3:0 16px 48px rgba(0,0,0,.6);
   --bar:rgba(11,21,34,.96); --side:rgba(13,24,38,.99);
@@ -57,13 +63,19 @@
   /* WCAG AA — sur fonds sombres on peut éclaircir l'or pour le texte (ratio >7:1 sur #0F1B2D). */
   --gold-text:#D5BA8A;
   --white:#0B1522; --pure:#152030; --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.13);
-  /* WCAG AA — ratio ≥7:1 sur toutes les surfaces sombres (--bg/--surf/--s2/--s3), vérifié par calcul. */
+  /* WCAG AA : ratio ≥4,5:1 sur les quatre surfaces sombres (--bg/--surf/--s2/--s3),
+     recalculé le 3 novembre 2026. L'ancien commentaire annonçait 7:1, ce qui était faux :
+     --tx-muted tombait à 4,21 et --gray à 4,19 sur --s3. Les deux ont été éclaircis. */
   --accent-purple:#c4b5fd; --accent-pink:#f9a8d4; --accent-blue:#93c5fd;
-  --gray:#7E93AB; --shadow:0 6px 28px rgba(0,0,0,.5); --goldp:rgba(201,168,108,.12);
+  /* Sur fond sombre, les teintes vives passent (vert 5,80, ambre 6,16, violet 4,86).
+     Seul le rouge tombait a 3,51 sur --s3 : il est eclairci. */
+  --green-text:#22c55e; --red-text:#F36E6E; --amber-text:#f59e0b; --purple-text:#a78bfa;
+  --blue-text:#5B96F7; --pink-text:#F66880;
+  --gray:#8599B0; --shadow:0 6px 28px rgba(0,0,0,.5); --goldp:rgba(201,168,108,.12);
   --pink:#FF8EA8;
   /* Text aliases */
-  --tx:#EDF2FA; --tx-muted:#8293A8;
-  --text:#EDF2FA; --text2:#8293A8; --text3:#7E93AB;
+  --tx:#EDF2FA; --tx-muted:#8999AD;
+  --text:#EDF2FA; --text2:#8999AD; --text3:#8599B0;
   /* Opacity text variants */
   --t35:rgba(237,242,250,.35); --t40:rgba(237,242,250,.40); --t45:rgba(237,242,250,.45);
   --t50:rgba(237,242,250,.50); --t60:rgba(237,242,250,.60); --t70:rgba(237,242,250,.70); --t80:rgba(237,242,250,.80);
@@ -96,7 +108,7 @@ input,textarea,select{
   border:1.5px solid var(--bd);border-radius:var(--r);
   transition:background var(--tr),border-color var(--tr),color var(--tr);
 }
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold-text)}
 
 /* ── Micro-animations globales ────────────────────────────────────
    Transitions universelles sur les propriétés thématiques : quand
@@ -323,7 +335,7 @@ button:focus-visible,
   position:absolute;left:8px;top:-40px;background:var(--navy);color:#fff;
   padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;
   z-index:99999;text-decoration:none;transition:top .2s;
-}
+--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 .ks-skip-link:focus{top:8px}
 
 /* ── LAYOUT SHELL ─────────────────────────────────────────────────── */
@@ -359,7 +371,7 @@ button:focus-visible,
 .side-logo{
   flex:1;font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--t);
 }
-.side-logo em{color:var(--gold);font-style:italic}
+.side-logo em{color:var(--gold-text);font-style:italic}
 .side-xp{
   display:flex;align-items:center;gap:4px;padding:4px 10px;
   background:var(--goldbg);border:1.5px solid var(--goldbd);border-radius:100px;
@@ -425,14 +437,14 @@ button:focus-visible,
   text-decoration:none;
   transition:all var(--tr);flex-shrink:0;
 }
-.bar-back:hover{color:var(--gold);border-color:var(--goldbd)}
+.bar-back:hover{color:var(--gold-text);border-color:var(--goldbd)}
 .bar-back svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
 .bar-logo{
   position:absolute;left:50%;transform:translateX(-50%);
   font-family:'Playfair Display',serif;font-size:15px;font-weight:700;
   color:var(--t);pointer-events:none;white-space:nowrap;
 }
-.bar-logo em{color:var(--gold);font-style:italic}
+.bar-logo em{color:var(--gold-text);font-style:italic}
 .bar-r{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:auto}
 .bar-theme{
   width:34px;height:34px;border-radius:50%;
@@ -458,7 +470,7 @@ button:focus-visible,
   position:sticky;top:0;z-index:100;height:56px;padding:0 18px;
   display:flex;align-items:center;justify-content:space-between;
   background:var(--navy);flex-shrink:0;
-}
+--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 .tb-back,.back{
   display:flex;align-items:center;gap:6px;padding:7px 14px;
   border-radius:100px;border:1.5px solid rgba(255,255,255,.14);
@@ -466,7 +478,7 @@ button:focus-visible,
   color:rgba(247,248,250,.6);text-decoration:none;cursor:pointer;
   transition:border-color var(--tr),color var(--tr);
 }
-.tb-back:hover,.back:hover{border-color:var(--gold);color:var(--gold)}
+.tb-back:hover,.back:hover{border-color:var(--gold-text);color:var(--gold-text)}
 .tb-back svg,.back svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .tb-title{
   font-family:'Playfair Display',serif;font-size:15px;font-style:italic;
@@ -490,7 +502,7 @@ button:focus-visible,
   background:none;cursor:pointer;text-decoration:none;
   transition:border-color var(--tr),background var(--tr);flex-shrink:0;
 }
-.quit:hover{border-color:var(--gold);background:var(--goldbg)}
+.quit:hover{border-color:var(--gold-text);background:var(--goldbg)}
 .quit svg{width:13px;height:13px;stroke:var(--t3);fill:none;stroke-width:2.5;stroke-linecap:round}
 .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
 .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s cubic-bezier(.4,0,.2,1);width:0%}
@@ -515,7 +527,7 @@ button:focus-visible,
 /* ── HERO (navy dark hero for content pages) ──────────────────────── */
 .hero-navy{
   background:var(--navy);padding:24px 20px 36px;position:relative;overflow:hidden;
-}
+--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 .hero-navy::after{
   content:'';position:absolute;bottom:0;left:0;right:0;
   height:32px;background:var(--bg);border-radius:24px 24px 0 0;
@@ -555,7 +567,7 @@ button:focus-visible,
 /* ── BUTTONS ──────────────────────────────────────────────────────── */
 .btn-gold{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  background:var(--gold);color:#fff;
+  background:var(--gold);color:#0D1823;
   font-family:inherit;font-size:14px;font-weight:700;
   padding:14px 24px;border-radius:100px;border:none;cursor:pointer;
   transition:background var(--tr),transform .1s,box-shadow var(--tr);
@@ -574,7 +586,7 @@ button:focus-visible,
   cursor:pointer;transition:border-color var(--tr),color var(--tr),background var(--tr);
   -webkit-tap-highlight-color:transparent;
 }
-.btn-outline:hover{border-color:var(--gold);color:var(--gold);background:var(--goldbg)}
+.btn-outline:hover{border-color:var(--gold-text);color:var(--gold-text);background:var(--goldbg)}
 
 /* ── XP / STAT PILLS ─────────────────────────────────────────────── */
 .xp-pill{
@@ -605,7 +617,7 @@ button:focus-visible,
   transition:all var(--tr);-webkit-tap-highlight-color:transparent;
   box-shadow:var(--sh);
 }
-.fchip:hover,.fc:hover{border-color:var(--gold);color:var(--gold)}
+.fchip:hover,.fc:hover{border-color:var(--gold-text);color:var(--gold-text)}
 .fchip.act,.fc.on{background:var(--goldbg);border-color:var(--goldbd);color:var(--gold-text)}
 
 /* ── BADGE ───────────────────────────────────────────────────────── */
@@ -856,13 +868,13 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 [data-theme=dark] .chip.active,
 [data-theme=dark] .fchip.act{
   background:var(--gold)!important;
-  border-color:var(--gold)!important;
+  border-color:var(--gold-text)!important;
   color:var(--navy)!important;
 }
 [data-theme=dark] .chip:hover,
 [data-theme=dark] .fchip:hover{
-  color:var(--gold)!important;
-  border-color:var(--gold)!important;
+  color:var(--gold-text)!important;
+  border-color:var(--gold-text)!important;
 }
 
 /* Boutons gold qui ont déjà du texte navy — c'est l'usage attendu :

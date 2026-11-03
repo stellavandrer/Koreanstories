@@ -53,7 +53,7 @@
       '.ks-ck-title{font-weight:800;font-size:14.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}',
       '.ks-ck-title svg{width:16px;height:16px;stroke:var(--gold,#C9A96E);fill:none;stroke-width:2;flex-shrink:0}',
       '.ks-ck-txt{font-size:12.5px;line-height:1.55;color:var(--t2,#475E78);margin-bottom:12px}',
-      '.ks-ck-txt a{color:var(--gold,#C9A96E);font-weight:700;text-decoration:none}',
+      '.ks-ck-txt a{color:var(--gold-text,#7A5F2E);font-weight:700;text-decoration:none}',
       '.ks-ck-txt a:hover{text-decoration:underline}',
       '.ks-ck-btns{display:flex;gap:8px;flex-wrap:wrap}',
       '.ks-ck-btn{flex:1;min-width:120px;padding:10px 14px;border-radius:100px;font-size:13px;font-weight:700;',

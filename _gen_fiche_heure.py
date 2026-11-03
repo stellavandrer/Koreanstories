@@ -108,8 +108,8 @@ if __name__ == '__main__':
                   "<div class=\"hero-title\">Dire l'heure et la date</div>", page, count=1)
     page = re.sub(r'<div class="hero-sub">[^<]*</div>',
                   '<div class="hero-sub">Heures, minutes, jours et mois</div>', page, count=1)
-    page = page.replace('.tbl td.sys.natif{color:#8a6d35}',
-                        '.tbl td.sys.natif{color:#8a6d35}\n    .tbl td.hanja{font-size:16px;color:#8a6d35;text-align:center}')
+    page = page.replace('.tbl td.sys.natif{color:var(--gold-text)}',
+                        '.tbl td.sys.natif{color:var(--gold-text)}\n    .tbl td.hanja{font-size:16px;color:var(--gold-text);text-align:center}')
     deb = page.index('<div class="wrap" id="pdf-content"')
     fin = page.index('<div class="doc-footer">')
     page = (page[:deb] + '<div class="wrap" id="pdf-content" data-file="heure-date-coreen">'

@@ -17,12 +17,12 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:40px}
     
-    .back-btn{display:flex;align-items:center;gap:7px;background:rgba(201,169,110,.12);border:1.5px solid rgba(201,169,110,.5);border-radius:100px;color:#C9A96E;font-size:13px;font-weight:700;padding:8px 18px 8px 14px;cursor:pointer;text-decoration:none;transition:all .25s;letter-spacing:.01em;box-shadow:0 0 0 0 rgba(201,169,110,0)}
-    .back-btn:hover{background:rgba(201,169,110,.22);border-color:#C9A96E;color:#e2c97e;box-shadow:0 0 12px rgba(201,169,110,.25);transform:translateX(-2px)}
+    .back-btn{display:flex;align-items:center;gap:7px;background:rgba(201,169,110,.12);border:1.5px solid rgba(201,169,110,.5);border-radius:100px;color:var(--gold-text);font-size:13px;font-weight:700;padding:8px 18px 8px 14px;cursor:pointer;text-decoration:none;transition:all .25s;letter-spacing:.01em;box-shadow:0 0 0 0 rgba(201,169,110,0)}
+    .back-btn:hover{background:rgba(201,169,110,.22);border-color:var(--gold-text);color:#e2c97e;box-shadow:0 0 12px rgba(201,169,110,.25);transform:translateX(-2px)}
     .back-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
     .tb-title{font-family:'Playfair Display',serif;font-size:14px;color:white;font-style:italic;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-    .lesson-hero{background:#0F1B2D;padding:20px 20px 36px;position:relative;overflow:hidden}
+    .lesson-hero{background:#0F1B2D;padding:20px 20px 36px;position:relative;overflow:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
     .lesson-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:28px;background:var(--bg);border-radius:28px 28px 0 0}
     .lh-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);border-radius:100px;padding:4px 12px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#93c5fd;margin-bottom:10px}
     .lh-num{font-size:11px;color:rgba(255,255,255,.4);font-weight:600;margin-bottom:4px}
@@ -55,7 +55,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     /* Grammar rule box */
     .rule-box{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:0 10px 10px 0;padding:14px 16px;margin:12px 0}
     [data-theme="dark"] .rule-box{background:rgba(59,130,246,.1);border-left-color:#60a5fa}
-    .rule-box .rule-label{font-size:10px;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+    .rule-box .rule-label{font-size:10px;font-weight:700;color:var(--blue-text);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
     .rule-box .rule-text{font-size:13px;line-height:1.6;font-weight:500}
     .rule-box .rule-ko{font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;color:#1e40af;display:block;margin-top:6px}
     [data-theme="dark"] .rule-box .rule-ko{color:#93c5fd}
@@ -78,22 +78,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     [data-theme="dark"] .quiz-q .qko{color:#93c5fd}
     .quiz-opts{display:flex;flex-direction:column;gap:8px}
     .qopt{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;border:1.5px solid var(--bd);background:var(--white);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s;text-align:left;width:100%}
-    .qopt:hover{border-color:#3b82f6;background:#eff6ff}
-    .qopt.correct{border-color:#22c55e;background:#f0fdf4;color:#15803d}
-    .qopt.wrong{border-color:#ef4444;background:#fef2f2;color:#b91c1c}
+    .qopt:hover{border-color:var(--blue-text);background:#eff6ff}
+    .qopt.correct{border-color:var(--green-text);background:#f0fdf4;color:var(--green-text)}
+    .qopt.wrong{border-color:var(--red-text);background:#fef2f2;color:#b91c1c}
     .qopt .opt-letter{width:22px;height:22px;border-radius:50%;background:var(--bd);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
     .qopt.correct .opt-letter{background:#22c55e;color:white}
     .qopt.wrong .opt-letter{background:#ef4444;color:white}
     .quiz-fb{margin-top:12px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;display:none}
     .quiz-fb.show{display:block}
-    .quiz-fb.ok{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+    .quiz-fb.ok{background:#f0fdf4;color:var(--green-text);border:1px solid #bbf7d0}
     .quiz-fb.ko{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
     .quiz-next{margin-top:10px;width:100%;padding:12px;border-radius:10px;background:#3b82f6;color:white;font-weight:700;font-size:13px;border:none;cursor:pointer;display:none;transition:background .15s}
     .quiz-next.show{display:block}
     .quiz-next:hover{background:#2563eb}
     .quiz-done{text-align:center;padding:20px;display:none}
     .quiz-done.show{display:block}
-    .quiz-score{font-size:28px;font-weight:800;color:#3b82f6}
+    .quiz-score{font-size:28px;font-weight:800;color:var(--blue-text)}
     .quiz-score-lbl{font-size:13px;color:var(--gray);margin-top:4px}
 
     /* Progress bar */
@@ -124,7 +124,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .error-box .err-item:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
     .err-wrong{display:flex;align-items:center;gap:6px;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:#dc2626;font-size:14px;margin-bottom:3px}
     .err-wrong::before{content:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';font-family:sans-serif;font-size:11px;background:#fca5a5;color:#991b1b;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .err-correct{display:flex;align-items:center;gap:6px;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:#15803d;font-size:14px;margin-bottom:5px}
+    .err-correct{display:flex;align-items:center;gap:6px;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:var(--green-text);font-size:14px;margin-bottom:5px}
     .err-correct::before{content:'<svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>';font-family:sans-serif;font-size:11px;background:#86efac;color:#14532d;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
     .err-expl{font-size:12px;color:var(--gray);line-height:1.55;padding-left:22px}
     .error-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(249,115,22,.12);border-radius:100px;padding:3px 10px;font-size:10px;font-weight:700;color:#ea580c;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
@@ -132,14 +132,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     /* ── Method / tip box ── */
     .method-box{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:14px 16px;margin:10px 0;font-size:13px;line-height:1.65}
     [data-theme="dark"] .method-box{background:rgba(34,197,94,.07);border-color:rgba(34,197,94,.25)}
-    .method-box strong{color:#15803d}
+    .method-box strong{color:var(--green-text)}
   
     /* ── BOTTOM NAV ── */
     
     
     
     
-    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold-text)}
     body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
     @media(min-width:640px){body{padding-bottom:0}}
 
@@ -1474,7 +1474,7 @@ function renderQuestion(si){
     wrap.innerHTML = '<div class="quiz-done show">'
       +'<div class="quiz-score">'+st.score+' / '+st.total+'</div>'
       +'<div class="quiz-score-lbl">'+emoji+' '+pct+'% de réussite</div>'
-      +(pct>=80?'<p style="margin-top:12px;font-size:13px;color:var(--green);font-weight:600">Excellent ! Leçon validée !</p>':'<p style="margin-top:12px;font-size:13px;color:var(--gray)">Continue à t\'entraîner !</p>')
+      +(pct>=80?'<p style="margin-top:12px;font-size:13px;color:var(--green-text);font-weight:600">Excellent ! Leçon validée !</p>':'<p style="margin-top:12px;font-size:13px;color:var(--gray)">Continue à t\'entraîner !</p>')
       +'</div>';
     saveDone();
     return;

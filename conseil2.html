@@ -23,9 +23,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .back svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
     
     
-    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+    .hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
     .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,78,.08) 0%,transparent 70%);pointer-events:none}
-    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+    .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(184,146,78,.15);border:1px solid rgba(184,146,78,.2);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:14px}
     .hero-title{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:10px;line-height:1.3}
     .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:340px;margin:0 auto}
     .hero-meta{display:flex;justify-content:center;gap:16px;margin-top:18px}
@@ -38,24 +38,24 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     table{width:100%;border-collapse:collapse;font-size:13px}
     th{background:var(--s3);color:var(--t2);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;text-align:left}
     td{padding:10px 12px;border-bottom:1px solid var(--bd);color:var(--t)}
-    .kr{font-size:16px;color:var(--gold);font-weight:700}
+    .kr{font-size:16px;color:var(--gold-text);font-weight:700}
     tr:hover td{background:var(--s2)}
     .tip{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:13px;color:var(--t)}
-    .tip strong{color:var(--gold)}
+    .tip strong{color:var(--gold-text)}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);text-decoration:none}
     .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 18px rgba(184,146,78,.35)}
     .btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(184,146,78,.45)}
     .btn-row{display:flex;gap:12px;margin-top:20px;justify-content:center;flex-wrap:wrap}
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
     .sys-badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:800}
-    .sys-sino{background:rgba(184,146,78,.15);color:var(--gold);border:1px solid rgba(184,146,78,.3)}
-    .sys-native{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.3)}
+    .sys-sino{background:rgba(184,146,78,.15);color:var(--gold-text);border:1px solid rgba(184,146,78,.3)}
+    .sys-native{background:rgba(22,163,74,.1);color:var(--green-text);border:1px solid rgba(22,163,74,.3)}
     .situation-grid{display:flex;flex-direction:column;gap:10px}
     .situation-item{background:var(--s2);border-radius:12px;padding:14px;border:1px solid var(--bd)}
     .situation-item .sit-label{font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
     .situation-item .sit-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
     .situation-item .sit-sys{font-size:10px;font-weight:800;width:55px;flex-shrink:0}
-    .situation-item .sit-kr{font-size:17px;color:var(--gold);font-weight:700;flex:1}
+    .situation-item .sit-kr{font-size:17px;color:var(--gold-text);font-weight:700;flex:1}
     .situation-item .sit-fr{font-size:12px;color:var(--t2);flex:1}
     .quiz-progress{display:flex;gap:6px;margin-bottom:16px}
     .quiz-dot{width:28px;height:6px;border-radius:3px;background:var(--bd2);transition:background .3s}
@@ -63,15 +63,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .quiz-q{font-size:15px;font-weight:700;color:var(--t);margin-bottom:14px;line-height:1.4}
     .quiz-opts{display:flex;flex-direction:column;gap:8px}
     .quiz-opt{background:var(--s2);border:1.5px solid var(--bd);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--t);font-weight:500;cursor:pointer;transition:all .2s;text-align:left}
-    .quiz-opt:hover{border-color:var(--gold);background:var(--goldbg)}
-    .quiz-opt.correct{border-color:var(--green);background:rgba(22,163,74,.08);color:var(--green)}
-    .quiz-opt.wrong{border-color:var(--red);background:rgba(220,38,38,.06);color:var(--red)}
+    .quiz-opt:hover{border-color:var(--gold-text);background:var(--goldbg)}
+    .quiz-opt.correct{border-color:var(--green-text);background:rgba(22,163,74,.08);color:var(--green-text)}
+    .quiz-opt.wrong{border-color:var(--red-text);background:rgba(220,38,38,.06);color:var(--red-text)}
     .quiz-feedback{margin-top:10px;font-size:13px;font-weight:600;padding:8px 12px;border-radius:8px}
-    .quiz-feedback.ok{background:rgba(22,163,74,.1);color:var(--green)}
-    .quiz-feedback.ko{background:rgba(220,38,38,.08);color:var(--red)}
-    .quiz-next{margin-top:12px;padding:10px 20px;background:var(--gold);color:#fff;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:none;display:none}
+    .quiz-feedback.ok{background:rgba(22,163,74,.1);color:var(--green-text)}
+    .quiz-feedback.ko{background:rgba(220,38,38,.08);color:var(--red-text)}
+    .quiz-next{margin-top:12px;padding:10px 20px;background:var(--gold);color:#0D1823;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;border:none;display:none}
     .quiz-result{text-align:center;padding:16px;display:none}
-    .quiz-score{font-size:36px;font-weight:800;color:var(--gold);margin-bottom:6px}
+    .quiz-score{font-size:36px;font-weight:800;color:var(--gold-text);margin-bottom:6px}
     .quiz-score-label{font-size:14px;color:var(--t2)}
   </style>
   <script src="ks.js" defer></script>
@@ -179,13 +179,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     <div style="background:var(--s2);border-radius:12px;padding:14px;margin-top:12px;display:flex;gap:16px">
       <div style="flex:1;text-align:center">
         <div style="font-size:28px;margin-bottom:6px"></div>
-        <div style="font-size:12px;font-weight:800;color:var(--gold);margin-bottom:4px">SINO-CORÉEN</div>
+        <div style="font-size:12px;font-weight:800;color:var(--gold-text);margin-bottom:4px">SINO-CORÉEN</div>
         <div style="font-size:11px;color:var(--t2)">일 이 삼 사 오<br>육 칠 팔 구 십</div>
       </div>
       <div style="width:1px;background:var(--bd)"></div>
       <div style="flex:1;text-align:center">
         <div style="font-size:28px;margin-bottom:6px"></div>
-        <div style="font-size:12px;font-weight:800;color:var(--green);margin-bottom:4px">NATIF CORÉEN</div>
+        <div style="font-size:12px;font-weight:800;color:var(--green-text);margin-bottom:4px">NATIF CORÉEN</div>
         <div style="font-size:11px;color:var(--t2)">하나 둘 셋 넷 다섯<br>여섯 일곱 여덟 아홉 열</div>
       </div>
     </div>
@@ -201,12 +201,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="situation-item">
         <div class="sit-label">Donner l'heure : 3h15</div>
         <div class="sit-row">
-          <span class="sit-sys" style="color:var(--green);font-size:10px">Natif (heures)</span>
+          <span class="sit-sys" style="color:var(--green-text);font-size:10px">Natif (heures)</span>
           <span class="sit-kr">세 시</span>
           <span class="sit-fr">3 heures</span>
         </div>
         <div class="sit-row">
-          <span class="sit-sys" style="color:var(--gold);font-size:10px">Sino (minutes)</span>
+          <span class="sit-sys" style="color:var(--gold-text);font-size:10px">Sino (minutes)</span>
           <span class="sit-kr">십오 분</span>
           <span class="sit-fr">15 minutes</span>
         </div>
@@ -214,7 +214,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="situation-item">
         <div class="sit-label">Commander au café : 2 cafés</div>
         <div class="sit-row">
-          <span class="sit-sys" style="color:var(--green);font-size:10px">Natif (objets)</span>
+          <span class="sit-sys" style="color:var(--green-text);font-size:10px">Natif (objets)</span>
           <span class="sit-kr">커피 두 잔</span>
           <span class="sit-fr">2 tasses de café</span>
         </div>
@@ -222,7 +222,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="situation-item">
         <div class="sit-label">Se présenter : 27 ans</div>
         <div class="sit-row">
-          <span class="sit-sys" style="color:var(--green);font-size:10px">Natif (âge)</span>
+          <span class="sit-sys" style="color:var(--green-text);font-size:10px">Natif (âge)</span>
           <span class="sit-kr">스물일곱 살</span>
           <span class="sit-fr">27 ans</span>
         </div>
@@ -230,7 +230,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="situation-item">
         <div class="sit-label">Payer : 5 000 ₩</div>
         <div class="sit-row">
-          <span class="sit-sys" style="color:var(--gold);font-size:10px">Sino (argent)</span>
+          <span class="sit-sys" style="color:var(--gold-text);font-size:10px">Sino (argent)</span>
           <span class="sit-kr">오천 원</span>
           <span class="sit-fr">5 000 won</span>
         </div>
@@ -238,7 +238,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="situation-item">
         <div class="sit-label">Dire la date : 15 mars</div>
         <div class="sit-row">
-          <span class="sit-sys" style="color:var(--gold);font-size:10px">Sino (dates)</span>
+          <span class="sit-sys" style="color:var(--gold-text);font-size:10px">Sino (dates)</span>
           <span class="sit-kr">삼월 십오일</span>
           <span class="sit-fr">15 mars</span>
         </div>
@@ -246,7 +246,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
       <div class="situation-item">
         <div class="sit-label">Hôtel : 4e étage</div>
         <div class="sit-row">
-          <span class="sit-sys" style="color:var(--gold);font-size:10px">Sino (étages)</span>
+          <span class="sit-sys" style="color:var(--gold-text);font-size:10px">Sino (étages)</span>
           <span class="sit-kr">사층</span>
           <span class="sit-fr">4e étage</span>
         </div>

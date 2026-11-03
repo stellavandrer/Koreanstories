@@ -97,7 +97,7 @@ CSS = """    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;backgroun
     .cj-chapeau{color:var(--tx-muted);font-size:.93rem;line-height:1.65;margin:0 0 .4rem}
     .cj-tags{display:flex;flex-wrap:wrap;gap:6px;margin:.7rem 0 0}
     .cj-tag{font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:100px;
-      background:rgba(201,169,110,.14);color:#8a6d35}
+      background:rgba(201,169,110,.14);color:var(--gold-text)}
     [data-theme="dark"] .cj-tag{color:#C9A96E}
     .cj-irr{background:rgba(219,39,119,.07);border-left:3px solid #DB2777;border-radius:0 10px 10px 0;
       padding:.8rem 1rem;margin:1.1rem 0;font-size:.9rem;line-height:1.6}
@@ -111,12 +111,12 @@ CSS = """    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;backgroun
     .cj-spk{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
       background:rgba(201,169,110,.12);border:none;border-radius:50%;cursor:pointer;vertical-align:middle}
     .cj-spk:hover{background:rgba(201,169,110,.26)}
-    .cj-spk svg{width:13px;height:13px;stroke:#8a6d35;fill:none;stroke-width:2}
+    .cj-spk svg{width:13px;height:13px;stroke:#7A5F2E;fill:none;stroke-width:2}
     [data-theme="dark"] .cj-spk svg{stroke:#C9A96E}
     .cj-spk.muet{opacity:.25;cursor:default}
     .cj-ex{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:.7rem .9rem;margin:.5rem 0}
     .cj-ex .k{font-weight:700;font-size:.98rem}
-    .cj-ex-src{display:inline-block;margin-top:.3rem;font-size:.73rem;color:#8a6d35;text-decoration:none;border-bottom:1px dotted rgba(201,169,110,.5)}
+    .cj-ex-src{display:inline-block;margin-top:.3rem;font-size:.73rem;color:var(--gold-text);text-decoration:none;border-bottom:1px dotted rgba(201,169,110,.5)}
     .cj-ex .f{color:var(--tx-muted);font-size:.82rem;font-style:italic;margin-top:.15rem}
     .cj-liens{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem}
     .cj-liens a{font-size:.84rem;font-weight:600;padding:.55rem .9rem;border-radius:10px;

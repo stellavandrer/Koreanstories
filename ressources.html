@@ -31,14 +31,14 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(72px + env(safe-area-inset-bottom));overflow-x:hidden}
-.hero{background:var(--navy);padding:28px 20px 44px;position:relative;overflow:hidden}
+.hero{background:var(--navy);padding:28px 20px 44px;position:relative;overflow:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%)}
 .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:32px;background:var(--bg);border-radius:32px 32px 0 0}
 .hero-inner{max-width:560px;margin:0 auto;position:relative;z-index:1}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.25);border-radius:100px;padding:5px 13px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.25);border-radius:100px;padding:5px 13px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text)}
 .hero-tag svg{width:10px;height:10px;fill:var(--gold)}
 .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,32px);color:white;line-height:1.2;margin-bottom:8px}
-.hero-h1 em{color:var(--gold);font-style:italic}
+.hero-h1 em{color:var(--gold-text);font-style:italic}
 .hero-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.7;margin-bottom:20px}
 .hero-stats{display:flex;gap:24px}
 .h-stat-n{font-family:'Playfair Display',serif;font-size:24px;color:white;line-height:1}
@@ -47,8 +47,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .filters-wrap::-webkit-scrollbar{display:none}
 .filters{display:flex;gap:8px;padding-bottom:2px}
 .fchip{flex-shrink:0;padding:8px 16px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .18s;white-space:nowrap;font-family:'Inter',sans-serif}
-.fchip.act{background:var(--navy);border-color:var(--navy);color:white}
-.fchip:hover:not(.act){border-color:var(--gold);color:var(--navy)}
+.fchip.act{background:var(--navy);border-color:var(--navy);color:white;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+.fchip:hover:not(.act){border-color:var(--gold-text);color:var(--navy)}
 .section-wrap{max-width:560px;margin:0 auto;padding:20px 16px 0}
 /* Le Livret n'entre pas dans la grille au-dessus : les fiches sont
    comprises dans l'abonnement, lui s'achete aussi a l'unite (5 EUR).
@@ -104,17 +104,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 .pdf-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
 .pdf-tag{background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:3px 9px;font-size:10px;color:var(--navy);font-weight:500}
 .pdf-acces{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-right:4px}
-.pdf-acces.libre{background:rgba(22,163,74,.13);color:#15803d}
+.pdf-acces.libre{background:rgba(22,163,74,.13);color:var(--green-text)}
 [data-theme=dark] .pdf-acces.libre{background:rgba(74,222,128,.16);color:#86efac}
 .pdf-acces.prem{background:rgba(201,169,110,.16);color:#8B6B3D}
 [data-theme=dark] .pdf-acces.prem{background:rgba(213,186,138,.16);color:#D5BA8A}
 .pdf-type-tag{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-right:2px}
 .pdf-actions{display:flex;align-items:center;gap:8px}
-.pdf-btn-dl{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:white;border:none;border-radius:10px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;text-decoration:none;font-family:'Inter',sans-serif}
+.pdf-btn-dl{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:white;border:none;border-radius:10px;padding:9px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;text-decoration:none;font-family:'Inter',sans-serif;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 .pdf-btn-dl:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(15,27,45,.22)}
 .pdf-btn-dl svg{width:13px;height:13px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round}
 .pdf-btn-view{display:inline-flex;align-items:center;gap:5px;background:transparent;border:1.5px solid var(--bd);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .18s;text-decoration:none;font-family:'Inter',sans-serif}
-.pdf-btn-view:hover{border-color:var(--gold);color:var(--navy)}
+.pdf-btn-view:hover{border-color:var(--gold-text);color:var(--navy)}
 .pdf-btn-view svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 [data-theme="dark"] .pdf-card{background:var(--surf);border-color:var(--bd)}
 [data-theme="dark"] .pdf-title{color:var(--t)}
@@ -122,8 +122,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 [data-theme="dark"] .pdf-btn-view{border-color:var(--bd);color:rgba(200,220,240,.5)}
 [data-theme="dark"] .level-title{color:var(--t)}
 [data-theme="dark"] .fchip{background:var(--surf);border-color:var(--bd);color:rgba(200,220,240,.5)}
-[data-theme="dark"] .fchip.act{background:var(--navy);border-color:var(--navy);color:white}
-.bni.act svg,.bni.act span{stroke:var(--gold);color:var(--gold)}
+[data-theme="dark"] .fchip.act{background:var(--navy);border-color:var(--navy);color:white;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+.bni.act svg,.bni.act span{stroke:var(--gold);color:var(--gold-text)}
 
     /* ── Desktop : sections élargies, fiches PDF sur 2 colonnes ── */
     @media(min-width:1024px){

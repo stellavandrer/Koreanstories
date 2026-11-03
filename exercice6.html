@@ -30,7 +30,7 @@
     .choice:hover{border-color:#16A34A;color:#16A34A}
     .choice.sel{border-color:#16A34A;background:rgba(22,163,74,.12);color:#16A34A}
     .choice.ok{border-color:#16A34A;background:rgba(22,163,74,.15);color:#16A34A}
-    .choice.ko{border-color:#ef4444;background:rgba(239,68,68,.1);color:#ef4444}
+    .choice.ko{border-color:var(--red-text);background:rgba(239,68,68,.1);color:var(--red-text)}
     .fb{font-size:.85rem;margin-top:.4rem;min-height:1.2rem;font-weight:600}
     .tip{background:rgba(22,163,74,.07);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.3rem 0}
     .prog-bar{height:6px;background:var(--bd);border-radius:3px;margin:.5rem 0}
@@ -141,7 +141,7 @@
     } else {
       btn.classList.add('ko');if(window.KSLives)KSLives.lose();
       btns.forEach(b=>{if(b.textContent===q.ans)b.classList.add('ok');});
-      document.getElementById('fb'+i).innerHTML='<span style="color:#ef4444"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  </span><span style="color:#16A34A">'+q.ans+'</span>, '+q.tip;
+      document.getElementById('fb'+i).innerHTML='<span style="color:var(--red-text)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  </span><span style="color:#16A34A">'+q.ans+'</span>, '+q.tip;
     }
     answered++;
     document.getElementById('pgNum').textContent=answered;

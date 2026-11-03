@@ -169,7 +169,7 @@ if __name__ == '__main__':
     page = page.replace('</head>', '''<style>
     .nb-intro{font-size:12.5px;color:#475E78;line-height:1.6;margin:0 0 10px}
     .nb-spk{margin-left:6px;width:22px;height:22px;border-radius:50%;border:1px solid #e3e8f0;
-      background:rgba(201,169,110,.1);color:#8a6d35;cursor:pointer;padding:0;vertical-align:middle;
+      background:rgba(201,169,110,.1);color:var(--gold-text);cursor:pointer;padding:0;vertical-align:middle;
       display:inline-flex;align-items:center;justify-content:center}
     .nb-spk svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
     .nb-spk.muet{opacity:.3;cursor:default}
@@ -179,9 +179,9 @@ if __name__ == '__main__':
     .tbl td.kr{font-size:17px;font-weight:600}
     .tbl td.kr.ex{font-size:12.5px;font-weight:400}
     .tbl td.sys{font-weight:700}
-    .tbl td.sys.natif{color:#8a6d35}
+    .tbl td.sys.natif{color:var(--gold-text)}
     .tbl td.sys.sino{color:#2f6fb5}
-    .inchange{font-size:12px;color:#8FA5BE;font-style:italic}
+    .inchange{font-size:12px;color:var(--t3);font-style:italic}
     @media print{.nb-spk{display:none}}
   </style>
   <script src="../ks-lecture-fr.js" defer></script>

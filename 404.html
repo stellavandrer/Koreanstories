@@ -13,13 +13,13 @@
   <link rel="stylesheet" href="design.css"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100svh;font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden}
+html,body{min-height:100svh;font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 
     .page{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;position:relative;overflow:hidden}
 
     /* Animated background letters */
     .bg-letters{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.04}
-    .bg-char{position:absolute;font-family:'Playfair Display',serif;font-size:clamp(60px,12vw,120px);color:var(--gold);animation:float 8s ease-in-out infinite;user-select:none}
+    .bg-char{position:absolute;font-family:'Playfair Display',serif;font-size:clamp(60px,12vw,120px);color:var(--gold-text);animation:float 8s ease-in-out infinite;user-select:none}
     .bg-char:nth-child(1){top:5%;left:8%;animation-delay:0s}
     .bg-char:nth-child(2){top:15%;right:12%;animation-delay:1.2s;font-size:80px}
     .bg-char:nth-child(3){bottom:20%;left:5%;animation-delay:2.4s;font-size:100px}
@@ -32,7 +32,7 @@ html,body{min-height:100svh;font-family:'Inter',sans-serif;background:var(--navy
     @keyframes glow{0%,100%{filter:drop-shadow(0 0 20px rgba(201,169,110,0))}50%{filter:drop-shadow(0 0 40px rgba(201,169,110,0.3))}}
 
     /* Korean subtitle */
-    .kr-sub{font-size:clamp(16px,4vw,22px);color:var(--gold);font-weight:700;margin-bottom:6px;letter-spacing:.08em}
+    .kr-sub{font-size:clamp(16px,4vw,22px);color:var(--gold-text);font-weight:700;margin-bottom:6px;letter-spacing:.08em}
     .rom{font-size:13px;color:rgba(247,248,250,.55);margin-bottom:28px;letter-spacing:.04em}
 
     .title{font-family:'Playfair Display',serif;font-size:clamp(20px,4vw,30px);color:white;margin-bottom:12px}
@@ -40,7 +40,7 @@ html,body{min-height:100svh;font-family:'Inter',sans-serif;background:var(--navy
 
     /* Mina illustration */
     .mina-wrap{margin-bottom:28px;position:relative;display:inline-block}
-    .mina-bubble{position:absolute;top:-10px;right:-20px;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);border-radius:16px 16px 16px 4px;padding:8px 14px;font-size:13px;color:var(--gold);font-weight:600;white-space:nowrap;animation:bobble 2.5s ease-in-out infinite}
+    .mina-bubble{position:absolute;top:-10px;right:-20px;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);border-radius:16px 16px 16px 4px;padding:8px 14px;font-size:13px;color:var(--gold-text);font-weight:600;white-space:nowrap;animation:bobble 2.5s ease-in-out infinite}
     @keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
     /* Buttons */
@@ -48,13 +48,13 @@ html,body{min-height:100svh;font-family:'Inter',sans-serif;background:var(--navy
     .btn-primary{background:var(--gold);color:var(--navy);border:none;padding:14px 28px;border-radius:100px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;transition:all .25s;box-shadow:0 8px 28px rgba(201,169,110,.25)}
     .btn-primary:hover{background:var(--gold2);transform:translateY(-2px)}
     .btn-ghost{background:transparent;color:rgba(247,248,250,.55);border:1.5px solid rgba(247,248,250,.15);padding:13px 24px;border-radius:100px;font-family:'Inter',sans-serif;font-size:14px;cursor:pointer;text-decoration:none;transition:all .2s}
-    .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-ghost:hover{border-color:var(--gold-text);color:var(--gold-text)}
 
     /* Quick links */
     .quick-links{margin-top:40px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
     .ql{display:flex;align-items:center;gap:7px;padding:9px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);color:rgba(247,248,250,.5);font-size:12px;font-weight:600;text-decoration:none;transition:all .2s}
     .ql svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-    .ql:hover{border-color:rgba(201,169,110,.3);color:var(--gold);background:rgba(201,169,110,.05)}
+    .ql:hover{border-color:rgba(201,169,110,.3);color:var(--gold-text);background:rgba(201,169,110,.05)}
 
     @media(max-width:480px){
       .btn-primary,.btn-ghost{width:100%;text-align:center;padding:14px 20px}
@@ -161,7 +161,7 @@ html,body{min-height:100svh;font-family:'Inter',sans-serif;background:var(--navy
 
   <p style="margin-top:32px;font-size:12px;color:rgba(247,248,250,.4)">
     Tu cherchais quelque chose de précis ?<br/>
-    Écris-nous : <a href="mailto:contact@koreanstories.fr?subject=Korean%20Stories%20—%20Lien%20cassé" style="color:var(--gold);text-decoration:none;font-weight:600">contact@koreanstories.fr</a>
+    Écris-nous : <a href="mailto:contact@koreanstories.fr?subject=Korean%20Stories%20—%20Lien%20cassé" style="color:var(--gold-text);text-decoration:none;font-weight:600">contact@koreanstories.fr</a>
   </p>
 </div>
 

@@ -15,7 +15,7 @@
   <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
 a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
-.hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden}
+.hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(22,163,74,.1) 0%,transparent 70%);pointer-events:none}
 .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(22,163,74,.18);border:1px solid rgba(22,163,74,.3);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#4ade80;margin-bottom:14px}
 .hero-title{font-family:'Playfair Display',serif;font-size:24px;color:#fff;margin-bottom:10px;line-height:1.3}
@@ -27,13 +27,13 @@ a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;curs
 .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
 .card-title{font-size:13px;font-weight:800;color:var(--t);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .card-title svg{width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
-.kr{font-size:17px;color:var(--gold);font-weight:700}
+.kr{font-size:17px;color:var(--gold-text);font-weight:700}
 .example{background:var(--s2);border-left:3px solid var(--gold);padding:11px 14px;border-radius:0 10px 10px 0;margin:7px 0}
 .ex-kr{font-size:15px;color:var(--t);font-weight:600;margin-bottom:3px}
 .ex-rom{font-size:11px;color:var(--t3);margin-bottom:2px}
 .ex-fr{font-size:12px;color:var(--t2)}
 .tip{background:var(--goldbg);border:1px solid var(--goldbd);border-radius:12px;padding:13px 16px;margin:10px 0;font-size:13px;color:var(--t);line-height:1.6}
-.tip strong{color:var(--gold)}
+.tip strong{color:var(--gold-text)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .18s;text-decoration:none}
 .btn-gold{background:linear-gradient(135deg,var(--gold),#D4A55A);color:#fff;box-shadow:0 4px 16px rgba(184,146,78,.35)}
 .btn-gold:hover{transform:translateY(-1px)}
@@ -44,13 +44,13 @@ a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;curs
 .dial-u{background:var(--goldbg);border:1px solid var(--goldbd)}
 .dial-who{font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
 .dial-s .dial-who{color:var(--t3)}
-.dial-u .dial-who{color:var(--gold)}
+.dial-u .dial-who{color:var(--gold-text)}
 .dial-kr{font-size:15px;font-weight:600;color:var(--t);margin-bottom:3px}
 .dial-rom{font-size:10px;color:var(--t3);margin-bottom:2px}
 .dial-fr{font-size:12px;color:var(--t2)}
 .fact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .fact{background:var(--s2);border-radius:10px;padding:14px;border:1px solid var(--bd)}
-.fact-n{font-size:26px;font-weight:800;color:var(--gold);margin-bottom:4px}
+.fact-n{font-size:26px;font-weight:800;color:var(--gold-text);margin-bottom:4px}
 .fact-l{font-size:11px;color:var(--t2);line-height:1.4}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}</style>
   <script src="ks.js" defer></script>
@@ -83,7 +83,7 @@ a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;curs
 <div class="wrap">
 <div class="card">
   <div class="card-title"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Qu'est-ce que la K-Beauty ?</div>
-  <p style="font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:12px">La <strong style="color:var(--gold)">K-Beauty (한국 뷰티)</strong> est l'industrie de la beauté coréenne, reconnue mondialement pour ses soins ultra-hydratants, sa routine en plusieurs étapes et ses ingrédients innovants.</p>
+  <p style="font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:12px">La <strong style="color:var(--gold-text)">K-Beauty (한국 뷰티)</strong> est l'industrie de la beauté coréenne, reconnue mondialement pour ses soins ultra-hydratants, sa routine en plusieurs étapes et ses ingrédients innovants.</p>
   <div class="fact-grid">
     <div class="fact"><div class="fact-n">10</div><div class="fact-l">Étapes dans la routine K-Beauty complète</div></div>
     <div class="fact"><div class="fact-n"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:currentColor;stroke:none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> #1</div><div class="fact-l">Cosmétiques coréens, top mondial en innovation</div></div>
@@ -94,16 +94,16 @@ a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;curs
 <div class="card">
   <div class="card-title"><svg viewBox="0 0 24 24"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>La routine en 10 étapes</div>
   <div style="display:flex;flex-direction:column;gap:8px">
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">1</span><div><div style="font-size:12px;font-weight:700">클렌징 오일</div><div style="font-size:11px;color:var(--t3)">Huile démaquillante, dissout le maquillage</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">2</span><div><div style="font-size:12px;font-weight:700">폼 클렌저</div><div style="font-size:11px;color:var(--t3)">Nettoyant moussant, nettoyage en profondeur</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">3</span><div><div style="font-size:12px;font-weight:700">토너</div><div style="font-size:11px;color:var(--t3)">Toner, prépare la peau à absorber</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">4</span><div><div style="font-size:12px;font-weight:700">에센스</div><div style="font-size:11px;color:var(--t3)">Essence, hydratation légère, texture eau</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">5</span><div><div style="font-size:12px;font-weight:700">세럼 / 앰플</div><div style="font-size:11px;color:var(--t3)">Sérum concentré, anti-âge, éclat</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">6</span><div><div style="font-size:12px;font-weight:700">시트 마스크</div><div style="font-size:11px;color:var(--t3)">Masque tissu, boost hydratation intensive</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">7</span><div><div style="font-size:12px;font-weight:700">아이크림</div><div style="font-size:11px;color:var(--t3)">Crème contour des yeux, zone délicate</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">8</span><div><div style="font-size:12px;font-weight:700">모이스처라이저</div><div style="font-size:11px;color:var(--t3)">Crème hydratante, scelleravec toute la routine</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">9</span><div><div style="font-size:12px;font-weight:700">선크림</div><div style="font-size:11px;color:var(--t3)">Crème solaire SPF, protection UV (matin)</div></div></div>
-    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--goldbg);border-radius:8px;border:1px solid var(--goldbd)"><span style="font-size:18px;font-weight:800;color:var(--gold);width:24px;text-align:center">10</span><div><div style="font-size:12px;font-weight:700">BB크림 / 쿠션</div><div style="font-size:11px;color:var(--t3)">Maquillage couvrant léger et naturel</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">1</span><div><div style="font-size:12px;font-weight:700">클렌징 오일</div><div style="font-size:11px;color:var(--t3)">Huile démaquillante, dissout le maquillage</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">2</span><div><div style="font-size:12px;font-weight:700">폼 클렌저</div><div style="font-size:11px;color:var(--t3)">Nettoyant moussant, nettoyage en profondeur</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">3</span><div><div style="font-size:12px;font-weight:700">토너</div><div style="font-size:11px;color:var(--t3)">Toner, prépare la peau à absorber</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">4</span><div><div style="font-size:12px;font-weight:700">에센스</div><div style="font-size:11px;color:var(--t3)">Essence, hydratation légère, texture eau</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">5</span><div><div style="font-size:12px;font-weight:700">세럼 / 앰플</div><div style="font-size:11px;color:var(--t3)">Sérum concentré, anti-âge, éclat</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">6</span><div><div style="font-size:12px;font-weight:700">시트 마스크</div><div style="font-size:11px;color:var(--t3)">Masque tissu, boost hydratation intensive</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">7</span><div><div style="font-size:12px;font-weight:700">아이크림</div><div style="font-size:11px;color:var(--t3)">Crème contour des yeux, zone délicate</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">8</span><div><div style="font-size:12px;font-weight:700">모이스처라이저</div><div style="font-size:11px;color:var(--t3)">Crème hydratante, scelleravec toute la routine</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--s2);border-radius:8px;border:1px solid var(--bd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">9</span><div><div style="font-size:12px;font-weight:700">선크림</div><div style="font-size:11px;color:var(--t3)">Crème solaire SPF, protection UV (matin)</div></div></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:8px;background:var(--goldbg);border-radius:8px;border:1px solid var(--goldbd)"><span style="font-size:18px;font-weight:800;color:var(--gold-text);width:24px;text-align:center">10</span><div><div style="font-size:12px;font-weight:700">BB크림 / 쿠션</div><div style="font-size:11px;color:var(--t3)">Maquillage couvrant léger et naturel</div></div></div>
   </div>
 </div>
 <div class="card">

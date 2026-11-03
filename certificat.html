@@ -23,17 +23,17 @@
   <style>
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
     h2{color:var(--navy);margin:0 0 .4rem}
-    h3{color:#B8924E;margin:1.2rem 0 .4rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    h3{color:var(--gold-text);margin:1.2rem 0 .4rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
     .lead{color:var(--tx-muted);font-size:.92rem;margin:.5rem 0 1.2rem;line-height:1.5}
 
     /* ============ DIPLOME ============ */
     .diploma-wrap{margin:1rem 0 1.5rem}
     .diploma{position:relative;background:linear-gradient(135deg,#fffdf5 0%,#fff8e8 50%,#fffdf5 100%);border:2.5px solid #B8924E;border-radius:18px;padding:2.2rem 1.6rem 2rem;box-shadow:0 10px 35px rgba(184,146,78,.25), 0 2px 8px rgba(0,0,0,.06);overflow:hidden;text-align:center}
-    [data-theme="dark"] .diploma{background:linear-gradient(135deg,#1f1a14 0%,#2a2218 50%,#1f1a14 100%);border-color:#B8924E;color:#f5ecd9}
+    [data-theme="dark"] .diploma{background:linear-gradient(135deg,#1f1a14 0%,#2a2218 50%,#1f1a14 100%);border-color:var(--gold-text);color:#f5ecd9}
     .diploma::before,.diploma::after{content:'';position:absolute;width:60px;height:60px;border:1.5px solid rgba(184,146,78,.5);pointer-events:none}
     .diploma::before{top:14px;left:14px;border-right:none;border-bottom:none;border-top-left-radius:10px}
     .diploma::after{bottom:14px;right:14px;border-left:none;border-top:none;border-bottom-right-radius:10px}
-    .diploma .seal{display:inline-block;font-family:'Noto Serif KR',serif;font-size:1.1rem;color:#B8924E;letter-spacing:.15em;padding:.3rem 1rem;border:1.5px solid #B8924E;border-radius:30px;margin-bottom:1rem;font-weight:700}
+    .diploma .seal{display:inline-block;font-family:'Noto Serif KR',serif;font-size:1.1rem;color:var(--gold-text);letter-spacing:.15em;padding:.3rem 1rem;border:1.5px solid #B8924E;border-radius:30px;margin-bottom:1rem;font-weight:700}
     .diploma .brand{font-family:'Playfair Display',serif;font-weight:700;color:var(--navy);font-size:1.05rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.4rem}
     [data-theme="dark"] .diploma .brand{color:#f5ecd9}
     .diploma .title{font-family:'Playfair Display',serif;font-weight:800;font-size:1.7rem;color:var(--navy);margin:.6rem 0 .3rem;line-height:1.15}
@@ -46,13 +46,13 @@
     [data-theme="dark"] .diploma .name{color:#f5ecd9}
     .diploma .text{font-size:.95rem;color:#3d2f1a;line-height:1.6;margin:1.2rem auto;max-width:36ch}
     [data-theme="dark"] .diploma .text{color:#e6d8b8}
-    .diploma .rank{font-family:'Noto Serif KR',serif;font-size:1.5rem;color:#B8924E;font-weight:700;margin:.5rem 0 .3rem;letter-spacing:.05em}
+    .diploma .rank{font-family:'Noto Serif KR',serif;font-size:1.5rem;color:var(--gold-text);font-weight:700;margin:.5rem 0 .3rem;letter-spacing:.05em}
     .diploma .rank-fr{font-style:italic;color:#7a6135;font-size:.95rem;margin-bottom:1.4rem}
     [data-theme="dark"] .diploma .rank-fr{color:#c9b48b}
 
     .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1.3rem 0 1rem;border-top:1px solid rgba(184,146,78,.3);border-bottom:1px solid rgba(184,146,78,.3);padding:.9rem 0}
     .stat-block{text-align:center}
-    .stat-block .v{font-family:'Playfair Display',serif;font-size:1.4rem;color:#B8924E;font-weight:800;line-height:1}
+    .stat-block .v{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold-text);font-weight:800;line-height:1}
     .stat-block .l{font-size:.7rem;color:#7a6135;letter-spacing:.05em;text-transform:uppercase;margin-top:.2rem}
     [data-theme="dark"] .stat-block .l{color:#c9b48b}
 
@@ -65,14 +65,14 @@
 
     /* ============ ACTIONS ============ */
     .actions{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin:1rem 0}
-    .actions button{padding:.7rem .35rem;border-radius:10px;border:1.5px solid #B8924E;background:rgba(184,146,78,.08);color:#B8924E;font-weight:600;cursor:pointer;font-size:.78rem;display:flex;flex-direction:column;align-items:center;gap:.25rem}
+    .actions button{padding:.7rem .35rem;border-radius:10px;border:1.5px solid #B8924E;background:rgba(184,146,78,.08);color:var(--gold-text);font-weight:600;cursor:pointer;font-size:.78rem;display:flex;flex-direction:column;align-items:center;gap:.25rem}
     .actions button:hover{background:rgba(184,146,78,.18)}
     .actions button:disabled{opacity:.5;cursor:wait}
     .actions button svg{width:18px;height:18px}
     @media (max-width:380px){.actions{grid-template-columns:repeat(2,1fr)}}
 
     /* Toast feedback after download */
-    .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--navy);color:#fff;padding:.75rem 1.2rem;border-radius:10px;font-size:.88rem;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+    .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--navy);color:#fff;padding:.75rem 1.2rem;border-radius:10px;font-size:.88rem;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.2);--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
     [data-theme="dark"] .toast{background:#f5ecd9;color:#0a1220}
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -80,17 +80,17 @@
     .name-input-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
     .name-input-card label{font-size:.82rem;font-weight:600;color:var(--tx-muted)}
     .name-input-card input{display:block;width:100%;box-sizing:border-box;padding:.7rem .9rem;border:1.5px solid var(--bd);border-radius:10px;margin-top:.4rem;font-size:1rem;background:var(--bg);color:var(--tx)}
-    .name-input-card input:focus{outline:none;border-color:#B8924E}
+    .name-input-card input:focus{outline:none;border-color:var(--gold-text)}
     .name-input-card .row{display:flex;gap:.5rem;margin-top:.5rem}
     .name-input-card .row button{flex:1;padding:.65rem;border-radius:10px;border:none;font-weight:600;cursor:pointer;font-size:.88rem}
     .name-input-card .save-btn{background:#B8924E;color:#fff}
-    .name-input-card .skip-btn{background:rgba(184,146,78,.12);color:#B8924E}
+    .name-input-card .skip-btn{background:rgba(184,146,78,.12);color:var(--gold-text)}
 
     /* ============ Progression check ============ */
     .progress-card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;margin:.8rem 0}
     .progress-bar{height:8px;background:rgba(184,146,78,.15);border-radius:4px;margin:.5rem 0;overflow:hidden}
     .progress-fill{height:100%;background:linear-gradient(90deg,#B8924E,#d4a866);border-radius:4px;transition:width .6s}
-    .progress-pct{font-family:'Playfair Display',serif;font-size:1.6rem;color:#B8924E;font-weight:800}
+    .progress-pct{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold-text);font-weight:800}
     .progress-detail{font-size:.85rem;color:var(--tx-muted);margin-top:.3rem}
 
     /* ============ PRINT ============ */
@@ -190,7 +190,7 @@
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:.8rem;font-size:.85rem">
       <div>
         <div style="color:var(--tx-muted);font-size:.78rem">Niveau actuel</div>
-        <div style="font-weight:700;color:#B8924E" id="pgLevel">-</div>
+        <div style="font-weight:700;color:var(--gold-text)" id="pgLevel">-</div>
       </div>
       <div>
         <div style="color:var(--tx-muted);font-size:.78rem">Prochaine étape</div>
@@ -202,7 +202,7 @@
   <h3 class="print-hide">Et après ?</h3>
   <p class="lead print-hide">Si tu vises plus loin que B2, préparation TOPIK, immersion à long terme, départ en Corée, on a préparé un guide complet.</p>
   <a href="apres-b2.html" class="print-hide" style="display:block;background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem 1.2rem;text-decoration:none;color:var(--tx);font-weight:600;font-size:.92rem">
-    <span style="color:#B8924E">→</span> Continuer après B2 : TOPIK, immersion, certifications
+    <span style="color:var(--gold-text)">→</span> Continuer après B2 : TOPIK, immersion, certifications
   </a>
 
 </div></main></div>

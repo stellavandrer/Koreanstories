@@ -332,7 +332,7 @@
       '<div class="ks-im-head">' +
         '<button class="ks-im-close" id="ksImClose">Fermer</button>' +
         '<span class="ks-im-position" id="ksImPos">1 / ' + bubbles.length + '</span>' +
-        '<span style="font-size:11px;font-weight:700;color:var(--gold,#C9A96E)">Mode immersif</span>' +
+        '<span style="font-size:11px;font-weight:700;color:var(--gold-text,#7A5F2E)">Mode immersif</span>' +
       '</div>' +
       '<div class="ks-im-bar-wrap"><div class="ks-im-bar"><div class="ks-im-bar-fill" id="ksImBarFill"></div></div></div>' +
       '<div class="ks-im-stage">' +

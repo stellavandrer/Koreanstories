@@ -190,7 +190,7 @@ TPL = '''<!DOCTYPE html>
     .vo-t td.lire{{font-style:italic;color:var(--tx-muted);font-size:.84rem}}
     .vo-dec{{font-family:'Noto Sans KR',sans-serif;font-size:.7rem;color:var(--tx-muted);font-weight:400;margin-top:.1rem}}
     .vo-spk{{margin-right:7px;width:22px;height:22px;border-radius:50%;border:1px solid var(--bd);
-      background:rgba(201,169,110,.1);color:#8a6d35;cursor:pointer;padding:0;vertical-align:middle;
+      background:rgba(201,169,110,.1);color:var(--gold-text);cursor:pointer;padding:0;vertical-align:middle;
       display:inline-flex;align-items:center;justify-content:center}}
     .vo-spk svg{{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}}
     .vo-spk.muet{{opacity:.3;cursor:default}}

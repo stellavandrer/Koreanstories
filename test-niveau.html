@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="design.css"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);min-height:100svh;overflow-x:hidden}
+html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--white);min-height:100svh;overflow-x:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
 
 /* ── TOPBAR ── */
 
@@ -44,7 +44,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
   display:inline-flex;align-items:center;gap:7px;
   background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.25);
   border-radius:100px;padding:6px 16px;
-  font-size:11px;font-weight:700;color:var(--gold);
+  font-size:11px;font-weight:700;color:var(--gold-text);
   text-transform:uppercase;letter-spacing:.1em;margin-bottom:22px;
 }
 .intro-badge span{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s infinite}
@@ -54,7 +54,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
   font-size:clamp(30px,7vw,46px);
   line-height:1.1;margin-bottom:16px;
 }
-.intro-h1 em{color:var(--gold);font-style:italic}
+.intro-h1 em{color:var(--gold-text);font-style:italic}
 .intro-sub{font-size:14px;color:rgba(247,248,250,.55);line-height:1.7;max-width:380px;margin:0 auto 32px}
 .steps-row{display:flex;gap:12px;margin-bottom:36px;flex-wrap:wrap;justify-content:center}
 .step-chip{
@@ -85,13 +85,13 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
   backdrop-filter:blur(8px);
 }
 .quiz-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.q-phase{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold)}
+.q-phase{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-text)}
 .q-counter{font-size:12px;color:rgba(247,248,250,.4);font-weight:600}
 .prog-bar{height:4px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),#FFD700);border-radius:100px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 
 .quiz-body{flex:1;padding:24px 20px 40px;max-width:520px;margin:0 auto;width:100%}
-.q-label{font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px}
+.q-label{font-size:11px;font-weight:700;color:var(--gold-text);text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px}
 .q-text{font-size:18px;font-weight:700;line-height:1.4;margin-bottom:8px;color:white}
 .q-kr-box{
   background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
@@ -99,7 +99,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
   cursor:pointer;transition:all .2s;
 }
 .q-kr-box:hover{background:rgba(201,169,110,.08);border-color:rgba(201,169,110,.3)}
-.q-kr{font-family:'Noto Sans KR',sans-serif;font-size:clamp(36px,10vw,52px);font-weight:700;color:var(--gold);line-height:1}
+.q-kr{font-family:'Noto Sans KR',sans-serif;font-size:clamp(36px,10vw,52px);font-weight:700;color:var(--gold-text);line-height:1}
 .q-tts{font-size:11px;color:rgba(247,248,250,.55);margin-top:8px;display:flex;align-items:center;justify-content:center;gap:5px}
 .q-tts svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 
@@ -113,17 +113,17 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
   display:flex;align-items:center;gap:12px;
   font-family:'Inter',sans-serif;
 }
-.opt:hover:not(:disabled){border-color:var(--gold);background:rgba(201,169,110,.08)}
+.opt:hover:not(:disabled){border-color:var(--gold-text);background:rgba(201,169,110,.08)}
 .opt-letter{
   width:28px;height:28px;border-radius:50%;
   background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
   display:flex;align-items:center;justify-content:center;
   font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s;
 }
-.opt.correct{border-color:var(--green)!important;background:rgba(34,197,94,.12)!important}
-.opt.correct .opt-letter{background:var(--green);border-color:var(--green);color:white}
-.opt.wrong{border-color:var(--red)!important;background:rgba(239,68,68,.1)!important;opacity:.7}
-.opt.wrong .opt-letter{background:var(--red);border-color:var(--red);color:white}
+.opt.correct{border-color:var(--green-text)!important;background:rgba(34,197,94,.12)!important}
+.opt.correct .opt-letter{background:var(--green);border-color:var(--green-text);color:white}
+.opt.wrong{border-color:var(--red-text)!important;background:rgba(239,68,68,.1)!important;opacity:.7}
+.opt.wrong .opt-letter{background:var(--red);border-color:var(--red-text);color:white}
 .opt:disabled{cursor:default}
 
 .feedback-wrap{
@@ -151,7 +151,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 .trans-icon svg{width:38px;height:38px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
 .trans-title{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:10px}
-.trans-title em{color:var(--gold);font-style:italic}
+.trans-title em{color:var(--gold-text);font-style:italic}
 .trans-sub{font-size:14px;color:rgba(247,248,250,.5);line-height:1.6;max-width:320px;margin:0 auto 28px}
 .trans-bar{width:160px;height:4px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;margin:0 auto}
 .trans-fill{height:100%;background:var(--gold);border-radius:100px;width:0;transition:width 1.5s linear}
@@ -169,11 +169,11 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(201,169,110,.15);border:1.5px solid rgba(201,169,110,.35);
   border-radius:100px;padding:8px 22px;
-  font-size:12px;font-weight:800;color:var(--gold);
+  font-size:12px;font-weight:800;color:var(--gold-text);
   text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px;
 }
 .result-h1{font-family:'Playfair Display',serif;font-size:clamp(26px,7vw,38px);line-height:1.1;margin-bottom:12px}
-.result-h1 em{color:var(--gold);font-style:italic}
+.result-h1 em{color:var(--gold-text);font-style:italic}
 .result-desc{font-size:14px;color:rgba(247,248,250,.55);line-height:1.7;max-width:360px;margin:0 auto 28px}
 
 /* Score ring */
@@ -196,7 +196,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
 .skill-row{margin-bottom:12px}
 .skill-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
 .skill-name{font-weight:600;color:rgba(247,248,250,.75)}
-.skill-pct{font-weight:700;color:var(--gold)}
+.skill-pct{font-weight:700;color:var(--gold-text)}
 .skill-bar{height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden}
 .skill-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD700);transition:width 1.2s cubic-bezier(.4,0,.2,1)}
 
@@ -234,7 +234,7 @@ html,body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--whit
     
     
     
-    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold)}
+    .bni.act svg{stroke:var(--gold)}.bni.act span{color:var(--gold-text)}
     body{padding-bottom:calc(68px + env(safe-area-inset-bottom))}
     @media(min-width:640px){body{padding-bottom:0}}
 
@@ -831,8 +831,8 @@ function showResults(){
 
   // Stats
   document.getElementById('resultStats').innerHTML=
-    '<div class="rs"><div class="rs-val" style="color:var(--gold)">'+totalScore+'/'+total+'</div><div class="rs-lbl">Score</div></div>'+
-    '<div class="rs"><div class="rs-val" style="color:var(--green)">'+pct+'%</div><div class="rs-lbl">Réussite</div></div>';
+    '<div class="rs"><div class="rs-val" style="color:var(--gold-text)">'+totalScore+'/'+total+'</div><div class="rs-lbl">Score</div></div>'+
+    '<div class="rs"><div class="rs-val" style="color:var(--green-text)">'+pct+'%</div><div class="rs-lbl">Réussite</div></div>';
 
   // Skills bars — une ligne par phase réellement posée
   const skillsHtml=askedPhases.map(p=>
