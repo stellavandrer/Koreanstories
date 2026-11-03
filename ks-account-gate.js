@@ -62,6 +62,24 @@
        d'exister : accueillir des inconnus. */
     'age-coreen.html': 1,
 
+    /* Le vocabulaire par theme et son index (2026-11-03). Meme raison
+       que la grammaire et les conjugaisons : tout le vocabulaire thematique
+       tenait sur vocabulaire.html, fermee et en noindex, donc invisible sur
+       « vocabulaire coreen restaurant » ou « les couleurs en coreen ».
+       vocabulaire.html reste fermee : c'est l'outil de revision des inscrits,
+       avec sa maitrise par mot. */
+    'vocabulaire-coreen.html': 1,
+    'vocabulaire-couleurs.html': 1,
+    'vocabulaire-famille.html': 1,
+    'vocabulaire-fete.html': 1,
+    'vocabulaire-konbini.html': 1,
+    'vocabulaire-maison.html': 1,
+    'vocabulaire-medecin.html': 1,
+    'vocabulaire-noraebang.html': 1,
+    'vocabulaire-restaurant.html': 1,
+    'vocabulaire-shopping.html': 1,
+    'vocabulaire-temps.html': 1,
+
     /* Les 53 regles de grammaire et leur index (2026-10-29). Meme
        raison que les conjugaisons : elles repondent a « -(으)면 coreen »
        ou « particule 은 는 », requetes ou le site etait invisible, toute
