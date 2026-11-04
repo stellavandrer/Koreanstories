@@ -373,3 +373,34 @@ if (typeof window !== 'undefined' && typeof window.ksLireDe !== 'function') {
     el.click();
   });
 })();
+
+/* ── Page courante signalée dans la navigation (aria-current) ────────────────
+   Le site a deux navigations : la barre latérale codée en dur dans les pages
+   et le menu de ks-menu.js. Marquer la page courante aide à se repérer, et un
+   lecteur d'écran l'annonce (« page actuelle »). On compare le nom de fichier
+   seul, les liens étant parfois relatifs, parfois avec une ancre. */
+(function marquerPageCourante(){
+  function nom(href){
+    if(!href) return '';
+    try{
+      var u = new URL(href, location.href);
+      if(u.origin !== location.origin) return '';
+      var p = u.pathname.replace(/\/+$/,'');
+      p = p.slice(p.lastIndexOf('/')+1);
+      return p || 'index.html';
+    }catch(e){ return ''; }
+  }
+  function passe(){
+    var ici = nom(location.href);
+    if(!ici) return;
+    document.querySelectorAll('nav a[href], .ksm-body a[href], .ksm-sec a[href], .ksm-panel a[href], .side-nav a[href], .side-block a[href], .bnav a[href]')
+      .forEach(function(a){
+        if(nom(a.getAttribute('href')) === ici) a.setAttribute('aria-current','page');
+        else if(a.getAttribute('aria-current') === 'page') a.removeAttribute('aria-current');
+      });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', passe);
+  else passe();
+  /* le menu est construit après coup : on repasse une fois qu'il existe */
+  setTimeout(passe, 600);
+})();
