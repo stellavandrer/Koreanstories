@@ -115,14 +115,14 @@
 
   /* ── Styles ── */
   var css = [
-    '.ksm-btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:100px;background:var(--goldbg,#FBF2E3);border:1.5px solid var(--gold,#C9A96E);cursor:pointer;color:var(--gold-text,#8B6B3D);font:700 12.5px/1 inherit;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:.15s}',
+    '.ksm-btn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border-radius:100px;background:var(--goldbg,#FBF2E3);border:1.5px solid var(--gold,#C9A96E);cursor:pointer;color:var(--gold-text,#71582B);font:700 12.5px/1 inherit;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:.15s}',
     '.ksm-btn:hover{filter:brightness(.97)}',
     '.ksm-btn .ksm-ico{display:flex;flex-direction:column;justify-content:center;gap:3px;width:15px}',
     '.ksm-btn .ksm-ico i{display:block;height:2px;border-radius:2px;background:currentColor}',
     '.ksm-btn .ksm-txt{letter-spacing:.01em}',
-    '.ksm-btn.ksm-float{position:fixed;top:calc(10px + env(safe-area-inset-top));left:12px;z-index:1200;background:var(--surf,#fff);border-color:var(--gold-text,#7A5F2E);box-shadow:0 4px 14px rgba(0,0,0,.16);height:38px;padding:0 15px}',
+    '.ksm-btn.ksm-float{position:fixed;top:calc(10px + env(safe-area-inset-top));left:12px;z-index:1200;background:var(--surf,#fff);border-color:var(--gold-text,#71582B);box-shadow:0 4px 14px rgba(0,0,0,.16);height:38px;padding:0 15px}',
     '.ksm-side-btn{display:flex;align-items:center;gap:12px;width:100%;padding:11px 14px;border-radius:12px;border:1px dashed var(--bd,#DAE3F2);background:transparent;color:var(--t2,#475E78);font:600 14px/1 inherit;cursor:pointer;margin-top:6px}',
-    '.ksm-side-btn:hover{border-color:var(--gold-text,#7A5F2E);color:var(--gold-text,#8B6B3D)}',
+    '.ksm-side-btn:hover{border-color:var(--gold-text,#71582B);color:var(--gold-text,#806238)}',
     '.ksm-side-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}',
     '.ksm-overlay{position:fixed;inset:0;background:rgba(8,14,24,.55);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:.3s;z-index:1300}',
     '.ksm-overlay.open{opacity:1;visibility:visible}',
@@ -130,46 +130,46 @@
     '.ksm-drawer.open{transform:none}',
     '.ksm-head{display:flex;align-items:center;justify-content:space-between;padding:calc(16px + env(safe-area-inset-top)) 18px 14px;border-bottom:1px solid var(--bd,#DAE3F2);flex-shrink:0}',
     '.ksm-logo{font-family:"Playfair Display",Georgia,serif;font-weight:700;font-size:19px;color:var(--t,#0D1823)}',
-    '.ksm-logo em{color:var(--gold-text,#7A5F2E);font-style:italic}',
+    '.ksm-logo em{color:var(--gold-text,#71582B);font-style:italic}',
     '.ksm-head-r{display:flex;align-items:center;gap:7px;flex-shrink:0}',
     '.ksm-close{width:38px;height:38px;border-radius:10px;border:none;background:var(--s2,#F5F7FF);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2,#475E78)}',
     '.ksm-close svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}',
-    '.ksm-close:hover{color:var(--gold-text,#8B6B3D)}',
+    '.ksm-close:hover{color:var(--gold-text,#806238)}',
     '.ksm-body{flex:1;overflow-y:auto;padding:10px 12px calc(16px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}',
     '.ksm-sec{margin-bottom:11px}',
-    '.ksm-sec-t{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3,#4D6785);padding:0 10px;margin-bottom:3px}',
+    '.ksm-sec-t{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3,#465E79);padding:0 10px;margin-bottom:3px}',
     '.ksm-link{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;color:var(--t,#0D1823);text-decoration:none;font-size:14.5px;font-weight:500;transition:background .14s}',
     '.ksm-link:hover{background:var(--s2,#F5F7FF)}',
-    '.ksm-link svg{width:19px;height:19px;stroke:var(--t3,#4D6785);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
-    '.ksm-link.on{background:var(--goldbg,rgba(201,169,110,.1));color:var(--gold-text,#8B6B3D);font-weight:700}',
+    '.ksm-link svg{width:19px;height:19px;stroke:var(--t3,#465E79);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
+    '.ksm-link.on{background:var(--goldbg,rgba(201,169,110,.1));color:var(--gold-text,#806238);font-weight:700}',
     '.ksm-link.on svg{stroke:var(--gold,#C9A96E)}',
     '.ksm-link.ksm-or svg{stroke:var(--gold,#C9A96E)}',
-    '.ksm-tag{margin-left:auto;font:800 9.5px/1 inherit;letter-spacing:.09em;color:var(--gold-text,#8B6B3D);background:var(--goldbg,#FBF2E3);border:1px solid var(--gold,#C9A96E);border-radius:100px;padding:4px 7px;font-style:normal;flex-shrink:0}',
+    '.ksm-tag{margin-left:auto;font:800 9.5px/1 inherit;letter-spacing:.09em;color:var(--gold-text,#806238);background:var(--goldbg,#FBF2E3);border:1px solid var(--gold,#C9A96E);border-radius:100px;padding:4px 7px;font-style:normal;flex-shrink:0}',
     /* Deux colonnes : les rubriques qu'on ouvre de temps en temps tenaient
        chacune une pleine colonne et poussaient le pied du tiroir hors champ. */
     '.ksm-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}',
     '.ksm-tile{display:flex;align-items:center;gap:9px;padding:11px 10px;border-radius:10px;color:var(--t,#0D1823);text-decoration:none;font-size:13.5px;font-weight:500;transition:background .14s;min-width:0}',
     '.ksm-tile:hover{background:var(--s2,#F5F7FF)}',
-    '.ksm-tile svg{width:17px;height:17px;stroke:var(--t3,#4D6785);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
+    '.ksm-tile svg{width:17px;height:17px;stroke:var(--t3,#465E79);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
     '.ksm-tile span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}',
-    '.ksm-tile.on{background:var(--goldbg,rgba(201,169,110,.1));color:var(--gold-text,#8B6B3D);font-weight:700}',
+    '.ksm-tile.on{background:var(--goldbg,rgba(201,169,110,.1));color:var(--gold-text,#806238);font-weight:700}',
     '.ksm-tile.on svg{stroke:var(--gold,#C9A96E)}',
     /* Bandeau série : lu dans localStorage, aucun script en plus a charger. */
-    '.ksm-streak{display:flex;align-items:center;gap:9px;margin:-6px 0 14px;padding:10px 13px;border-radius:12px;background:var(--goldbg,#FBF2E3);border:1px solid var(--gold,#C9A96E);color:var(--gold-text,#8B6B3D);text-decoration:none;font:800 12.5px/1 inherit}',
+    '.ksm-streak{display:flex;align-items:center;gap:9px;margin:-6px 0 14px;padding:10px 13px;border-radius:12px;background:var(--goldbg,#FBF2E3);border:1px solid var(--gold,#C9A96E);color:var(--gold-text,#806238);text-decoration:none;font:800 12.5px/1 inherit}',
     '.ksm-streak svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
     '.ksm-streak i{margin-left:auto;font-style:normal;font-weight:600;opacity:.78;white-space:nowrap}',
     '.ksm-more{display:flex;flex-wrap:wrap;gap:4px 14px;padding:2px 10px 4px}',
-    '.ksm-more a{font-size:12.5px;font-weight:600;color:var(--t3,#4D6785);text-decoration:none;padding:3px 0}',
-    '.ksm-more a:hover{color:var(--gold-text,#8B6B3D);text-decoration:underline}',
+    '.ksm-more a{font-size:12.5px;font-weight:600;color:var(--t3,#465E79);text-decoration:none;padding:3px 0}',
+    '.ksm-more a:hover{color:var(--gold-text,#806238);text-decoration:underline}',
     /* Deconnexion : volontairement discrete et tout en bas. Ce n'est pas une
        action du quotidien — lui donner le poids visuel d'une lecon serait la
        mettre sur le chemin de gens qui ne la cherchent pas. Elle reste
        neanmoins a sa place attendue : derniere ligne du tiroir. */
     '.ksm-out{display:none;align-items:center;gap:9px;width:calc(100% - 20px);margin:6px 10px 4px;padding:11px 13px;border-radius:11px;border:1px solid var(--bd,#DAE3F2);background:none;color:var(--t2,#475E78);font:600 13px/1 inherit;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent;transition:border-color .15s,color .15s}',
     '.ksm-out[data-on="1"]{display:flex}',
-    '.ksm-out:hover{border-color:#dc2626;color:#dc2626}',
+    '.ksm-out:hover{border-color:#dc2626;color:var(--red-text)}',
     '.ksm-out svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
-    /* --t2 et non --t3 pour l'adresse : --t3 (#4D6785) ne fait que 2,5:1 sur
+    /* --t2 et non --t3 pour l'adresse : --t3 (#465E79) ne fait que 2,5:1 sur
        le fond du tiroir, sous le 4,5:1 exige. C'est la taille et la graisse
        qui la mettent au second plan, pas un gris illisible. */
     '.ksm-out i{margin-left:auto;font-style:normal;font-weight:500;font-size:11.5px;color:var(--t2,#475E78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:52%}',
@@ -178,10 +178,10 @@
     '.ksm-cta{background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12}',
     '.ksm-ghost{border:1.5px solid var(--bd,#DAE3F2);color:var(--t2,#475E78)}',
     '.ksm-theme svg{stroke:var(--gold,#C9A96E);fill:none;stroke-width:2;stroke-linejoin:round}',
-    '.ksm-search{display:flex;align-items:center;gap:10px;width:100%;margin-bottom:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--bd,#DAE3F2);background:var(--s2,#F5F7FF);color:var(--t3,#4D6785);font:500 14px/1 inherit;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent;transition:border-color .15s}',
-    '.ksm-search:hover{border-color:var(--gold-text,#7A5F2E)}',
+    '.ksm-search{display:flex;align-items:center;gap:10px;width:100%;margin-bottom:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--bd,#DAE3F2);background:var(--s2,#F5F7FF);color:var(--t3,#465E79);font:500 14px/1 inherit;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent;transition:border-color .15s}',
+    '.ksm-search:hover{border-color:var(--gold-text,#71582B)}',
     '.ksm-search svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}',
-    '.ksm-search kbd{margin-left:auto;font:600 11px/1 inherit;background:var(--surf,#fff);border:1px solid var(--bd,#DAE3F2);border-radius:5px;padding:3px 6px;color:var(--t3,#4D6785)}',
+    '.ksm-search kbd{margin-left:auto;font:600 11px/1 inherit;background:var(--surf,#fff);border:1px solid var(--bd,#DAE3F2);border-radius:5px;padding:3px 6px;color:var(--t3,#465E79)}',
     '@media(max-width:600px){.ksm-search kbd{display:none}}'
   ].join('');
   var st = document.createElement('style'); st.textContent = css;

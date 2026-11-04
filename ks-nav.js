@@ -165,7 +165,7 @@
         'stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}',
       '.ks-nav-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:.15rem}',
       '.ks-nav-lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;',
-        'letter-spacing:.1em;color:var(--tx-muted,#6B7280);line-height:1}',
+        'letter-spacing:.1em;color:var(--tx-muted,#626976);line-height:1}',
       '.ks-nav-ttl{font-size:.82rem;font-weight:600;line-height:1.3;',
         'overflow:hidden;text-overflow:ellipsis;display:-webkit-box;',
         '-webkit-line-clamp:2;-webkit-box-orient:vertical;color:var(--tx,#111)}',
@@ -175,7 +175,7 @@
       '}',
       /* Indicateur de position dans le parcours */
       '.ks-nav-position{',
-        'text-align:center;font-size:.7rem;font-weight:700;color:var(--tx-muted,#6B7280);',
+        'text-align:center;font-size:.7rem;font-weight:700;color:var(--tx-muted,#626976);',
         'text-transform:uppercase;letter-spacing:.1em;margin:.4rem 0',
       '}',
       '@media (max-width:480px){',

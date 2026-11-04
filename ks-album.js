@@ -61,11 +61,13 @@
     a1plus: 'peu', a2: 'peu',
     b1: 'rare', b2: 'legend'
   };
+  /* c = valeur littérale (canvas, qui n'accepte pas var()) ;
+     ct = jeton de couleur pour le texte et les bordures, qui suit le thème. */
   var RMETA = {
-    commune:  { label: 'Commune',     c: '#8B94A6' },
-    peu:      { label: 'Peu commune', c: '#16a34a' },
-    rare:     { label: 'Rare',        c: '#2563eb' },
-    legend:   { label: 'Légendaire',  c: '#7C3AED' }
+    commune:  { label: 'Commune',     c: '#8B94A6', ct: 'var(--gray)' },
+    peu:      { label: 'Peu commune', c: '#16a34a', ct: 'var(--green-text)' },
+    rare:     { label: 'Rare',        c: '#2563eb', ct: 'var(--blue-text)' },
+    legend:   { label: 'Légendaire',  c: '#7C3AED', ct: 'var(--purple-text)' }
   };
   var ORDER = ['commune', 'peu', 'rare', 'legend'];
 
@@ -102,7 +104,7 @@
     var r = rarityOf(card), rm = RMETA[r], on = isUnlocked(card);
     if (!on){
       return '<button class="al-card locked" data-n="' + card.n + '" aria-label="Carte verrouillée, ' + esc(card.lv) + '">' +
-        '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + '</span>' +
+        '<span class="al-rar" style="color:' + rm.ct + ';border-color:' + rm.ct + '">' + rm.label + '</span>' +
         '<span class="al-lock" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>' +
         '<span class="al-q">?</span>' +
         '<span class="al-lvl">' + esc(card.lv) + '</span>' +
@@ -110,7 +112,7 @@
     }
     return '<button class="al-card" data-n="' + card.n + '" style="--ac:' + card.color + '" aria-label="' + esc(card.fr) + '">' +
       (isNew ? '<span class="al-new">Nouveau</span>' : '') +
-      '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + '</span>' +
+      '<span class="al-rar" style="color:' + rm.ct + ';border-color:' + rm.ct + '">' + rm.label + '</span>' +
       '<span lang="ko" class="al-kr">' + esc(card.kr) + '</span>' +
       '<span class="al-fr">' + esc(card.fr) + '</span>' +
       '<span class="al-loc">' + esc(card.loc) + '</span>' +
@@ -136,7 +138,7 @@
       var list = groups[r]; if (!list.length) return;
       var rm = RMETA[r];
       var nbOn = list.filter(isUnlocked).length;
-      html += '<div class="al-cat"><span class="al-dot" style="background:' + rm.c + '"></span>' +
+      html += '<div class="al-cat"><span class="al-dot" style="background:' + rm.ct + '"></span>' +
               rm.label + '<span class="al-cat-n">' + nbOn + '/' + list.length + '</span></div>';
       html += '<div class="al-grid">';
       list.forEach(function(c){
@@ -166,7 +168,7 @@
     if (on){
       var words = (card.words || []).map(function(w){ return '<span class="al-chip">' + esc(w) + '</span>'; }).join('');
       body.innerHTML =
-        '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + ' · ' + esc(card.lv) + '</span>' +
+        '<span class="al-rar" style="color:' + rm.ct + ';border-color:' + rm.ct + '">' + rm.label + ' · ' + esc(card.lv) + '</span>' +
         '<div lang="ko" class="al-m-kr" style="color:' + card.color + '">' + esc(card.kr) + '</div>' +
         '<div class="al-m-fr">' + esc(card.fr) + '</div>' +
         '<div class="al-m-loc">' + esc(card.loc) + '</div>' +
@@ -178,8 +180,8 @@
           'Partager cette carte</button>';
     } else {
       body.innerHTML =
-        '<span class="al-rar" style="color:' + rm.c + ';border-color:' + rm.c + '">' + rm.label + ' · ' + esc(card.lv) + '</span>' +
-        '<div lang="ko" class="al-m-kr" style="color:var(--tx-muted,#8B94A6)">? ? ?</div>' +
+        '<span class="al-rar" style="color:' + rm.ct + ';border-color:' + rm.ct + '">' + rm.label + ' · ' + esc(card.lv) + '</span>' +
+        '<div lang="ko" class="al-m-kr" style="color:var(--tx-muted,#616874)">? ? ?</div>' +
         '<div class="al-m-fr">Carte verrouillée</div>' +
         '<p class="al-m-desc">Lis cette histoire (article ou planche BD) pour débloquer sa carte et l\'ajouter à ta collection.</p>' +
         '<a class="al-m-btn" href="' + card.href + '">Découvrir l\'histoire</a>';

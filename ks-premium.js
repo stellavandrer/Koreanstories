@@ -160,7 +160,7 @@
       '.ksp-status .d{width:7px;height:7px;border-radius:50%;background:#16a34a}',
       '.ksp-perks{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:8px}',
       '.ksp-perks li{display:flex;align-items:flex-start;gap:11px;font-size:13.5px;color:var(--t,#0D1823);line-height:1.4;background:var(--surf,#fff);border:1px solid var(--bd,#DAE3F2);border-radius:12px;padding:11px 13px}',
-      '.ksp-perks li small{display:inline-block;color:var(--gold-text,#7A5F2E);font-size:10.5px;font-weight:800;background:var(--goldbg,rgba(201,169,110,.14));border-radius:100px;padding:1px 7px;margin-left:4px}',
+      '.ksp-perks li small{display:inline-block;color:var(--gold-text,#71582B);font-size:10.5px;font-weight:800;background:var(--goldbg,rgba(201,169,110,.14));border-radius:100px;padding:1px 7px;margin-left:4px}',
       '.ksp-tick{flex:0 0 22px;width:22px;height:22px;border-radius:7px;background:var(--goldbg,rgba(201,169,110,.14));display:flex;align-items:center;justify-content:center;margin-top:1px}',
       '.ksp-tick svg{width:12px;height:12px;stroke:var(--gold,#C9A96E);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}',
       '.ksp-buys{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}',
@@ -168,17 +168,17 @@
       '.ksp-buy-main{background:linear-gradient(135deg,#e0c48a,var(--gold,#C9A96E));color:#3a2c12;box-shadow:0 8px 22px rgba(201,169,110,.32)}',
       '.ksp-buy-main:hover{filter:brightness(1.05);transform:translateY(-1px)}',
       '.ksp-buy-alt{background:var(--s2,#F5F7FF);color:var(--t,#0D1823);border:1.5px solid var(--bd,#DAE3F2)}',
-      '.ksp-buy-alt:hover{border-color:var(--gold-text,#7A5F2E)}',
+      '.ksp-buy-alt:hover{border-color:var(--gold-text,#71582B)}',
       '.ksp-buy small{font-weight:600;opacity:.7}',
       '.ksp-buy[aria-disabled="true"]{opacity:.55;pointer-events:none}',
-      '.ksp-or{text-align:center;font-size:11.5px;color:var(--t3,#4D6785);text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}',
+      '.ksp-or{text-align:center;font-size:11.5px;color:var(--t3,#465E79);text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}',
       '.ksp-key{display:flex;gap:8px}',
       '.ksp-key input{flex:1;min-width:0;border:1.5px solid var(--bd,#DAE3F2);border-radius:11px;padding:11px 13px;font:inherit;font-size:13.5px;background:var(--surf,#fff);color:var(--t,#0D1823)}',
       '.ksp-key button{flex:0 0 auto;border:none;border-radius:11px;padding:0 16px;background:var(--navy,#0F1B2D);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer}',
       '.ksp-key button:disabled{opacity:.6;cursor:wait}',
       '.ksp-msg{font-size:12.5px;margin-top:9px;text-align:center;line-height:1.45;display:none}',
       '.ksp-msg.show{display:block}',
-      '.ksp-msg.err{color:#dc2626}',
+      '.ksp-msg.err{color:var(--red-text)}',
       '.ksp-msg.ok{color:var(--green-text);font-weight:700}',
       '[data-theme="dark"] .ksp-buy-alt{background:rgba(255,255,255,.06)}',
       '[data-theme="dark"] .ksp-perks li{background:rgba(255,255,255,.04)}'
@@ -346,7 +346,7 @@
           'border-radius:16px;padding:20px 20px 18px;margin:8px 0;text-align:left;' +
           'font-family:inherit;max-width:420px}' +
         '.ksv-k{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;' +
-          'color:var(--gold-text,#7A5F2E);margin-bottom:7px}' +
+          'color:var(--gold-text,#71582B);margin-bottom:7px}' +
         '.ksv-t{font-size:17px;font-weight:800;color:var(--t,#0D1823);margin-bottom:7px;line-height:1.3}' +
         '.ksv-p{font-size:13.5px;line-height:1.65;color:var(--t2,#475E78);margin:0 0 14px}' +
         '.ksv-f{display:flex;gap:8px}' +
@@ -356,9 +356,9 @@
         '.ksv-f button{background:var(--gold,#B8924E);color:#1a1208;border:0;border-radius:10px;' +
           'padding:11px 16px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap}' +
         '.ksv-m{font-size:12.5px;margin-top:9px;line-height:1.55;display:none}' +
-        '.ksv-m.ok{display:block;color:var(--gold-text,#8B6B3D);font-weight:700}' +
+        '.ksv-m.ok{display:block;color:var(--gold-text,#806238);font-weight:700}' +
         '.ksv-m.ko{display:block;color:#b91c1c}' +
-        '.ksv-n{font-size:11.5px;line-height:1.55;color:var(--t3,#4D6785);margin-top:11px;' +
+        '.ksv-n{font-size:11.5px;line-height:1.55;color:var(--t3,#465E79);margin-top:11px;' +
           'padding-top:10px;border-top:1px solid var(--bd,#DAE3F2)}';
       document.head.appendChild(st);
     }

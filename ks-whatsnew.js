@@ -221,7 +221,7 @@
       '.ks-wn-item-ic{',
         'flex-shrink:0;width:42px;height:42px;border-radius:12px;',
         'display:flex;align-items:center;justify-content:center;',
-        'background:rgba(201,169,110,.13);color:var(--ic-color,#C9A96E)',
+        'background:rgba(201,169,110,.13);color:var(--ic-color,#796542)',
       '}',
       '.ks-wn-item-ic svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}',
       '.ks-wn-item-body{flex:1;min-width:0}',

@@ -116,7 +116,7 @@
   background:var(--goldbg,rgba(201,169,110,.1));\
   border:1.5px solid var(--goldbd,rgba(201,169,110,.3))}\
 .kcd-l{font-size:.68rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;\
-  color:#8B6B3D;margin-bottom:6px}\
+  color:var(--gold-text);margin-bottom:6px}\
 [data-theme=dark] .kcd-l{color:#D5BA8A}\
 .kcd h3{font-family:"Playfair Display",Georgia,serif;font-size:1.25rem;font-weight:800;\
   margin:0 0 6px;color:var(--t,#0D1823);line-height:1.25}\

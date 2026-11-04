@@ -68,7 +68,7 @@
         'font-size:12px;font-weight:700;color:inherit;cursor:pointer;font-family:inherit',
       '}',
       '[data-theme="dark"] .ks-im-close{background:rgba(255,255,255,.1)}',
-      '.ks-im-position{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx-muted,#9ca3af)}',
+      '.ks-im-position{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx-muted,#646870)}',
 
       '.ks-im-bar-wrap{padding:8px 20px 0;flex-shrink:0}',
       '.ks-im-bar{',
@@ -105,11 +105,11 @@
       '}',
       '[data-theme="dark"] .ks-im-kr{color:#f7f8fa}',
       '.ks-im-rom{',
-        'font-size:13px;color:var(--tx-muted,#9ca3af);font-style:italic;',
+        'font-size:13px;color:var(--tx-muted,#646870);font-style:italic;',
         'margin-bottom:14px;letter-spacing:.01em',
       '}',
       '.ks-im-fr{',
-        'font-size:14px;color:var(--tx-muted,#6b7280);line-height:1.55;',
+        'font-size:14px;color:var(--tx-muted,#626976);line-height:1.55;',
         'padding-top:14px;border-top:1px dashed rgba(201,169,110,.3);',
         'display:none',
       '}',
@@ -166,11 +166,11 @@
       '.ks-im-done-emblem svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}',
       '.ks-im-done h2{font-family:"Playfair Display",Georgia,serif;font-size:24px;color:var(--tx,#111);margin:0 0 6px}',
       '[data-theme="dark"] .ks-im-done h2{color:#f7f8fa}',
-      '.ks-im-done p{font-size:13px;color:var(--tx-muted,#6b7280);line-height:1.55;margin:.4rem 0 1rem}',
+      '.ks-im-done p{font-size:13px;color:var(--tx-muted,#626976);line-height:1.55;margin:.4rem 0 1rem}',
       '.ks-im-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0}',
       '.ks-im-stat{background:rgba(201,169,110,.10);border:1px solid rgba(201,169,110,.22);border-radius:12px;padding:10px}',
       '.ks-im-stat-val{font-size:20px;font-weight:800;color:#C9A96E}',
-      '.ks-im-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--tx-muted,#6b7280);margin-top:2px}',
+      '.ks-im-stat-lbl{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--tx-muted,#626976);margin-top:2px}',
       '.ks-im-done-btns{display:flex;gap:8px;margin-top:18px}',
       '.ks-im-done-btn{',
         'flex:1;padding:12px;border-radius:12px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;border:1.5px solid var(--bd,#e5e7eb);background:transparent;color:inherit',
@@ -332,7 +332,7 @@
       '<div class="ks-im-head">' +
         '<button class="ks-im-close" id="ksImClose">Fermer</button>' +
         '<span class="ks-im-position" id="ksImPos">1 / ' + bubbles.length + '</span>' +
-        '<span style="font-size:11px;font-weight:700;color:var(--gold-text,#7A5F2E)">Mode immersif</span>' +
+        '<span style="font-size:11px;font-weight:700;color:var(--gold-text,#71582B)">Mode immersif</span>' +
       '</div>' +
       '<div class="ks-im-bar-wrap"><div class="ks-im-bar"><div class="ks-im-bar-fill" id="ksImBarFill"></div></div></div>' +
       '<div class="ks-im-stage">' +

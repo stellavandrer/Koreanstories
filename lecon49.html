@@ -19,20 +19,20 @@
     .quit{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;background:none;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
     .quit svg{width:13px;height:13px;stroke:var(--gray);fill:none;stroke-width:2.5;stroke-linecap:round}
     .ptrack{flex:1;height:8px;background:var(--bd);border-radius:100px;overflow:hidden}
-    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%}
+    .pbar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--gold),#FFD800);transition:width .5s;width:0%;}
     .lives-row{display:flex;gap:3px;flex-shrink:0}
     .hrt{font-size:16px;color:var(--red-text);line-height:1}.hrt.lost{opacity:.25;filter:grayscale(1)}
     .step-dots{background:var(--surf);border-bottom:1px solid var(--bd);padding:7px 18px;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;min-height:26px}
     .sdot{width:9px;height:9px;border-radius:50%;background:var(--bd);transition:all .3s;flex-shrink:0}
     .sdot.done{transform:scale(.8)}.sdot.current{transform:scale(1.2);box-shadow:0 0 0 3px rgba(15,27,45,.12)}
-    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .mhdr{background:var(--navy);padding:16px 20px;display:flex;align-items:center;gap:14px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
     .mav{width:48px;height:48px;border-radius:50%;overflow:hidden;background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.8));flex-shrink:0;display:flex;align-items:flex-end;justify-content:center}
     .mav img{width:140%;height:140%;object-fit:cover;object-position:top center;margin-top:-8px;margin-left:-10px}
     .mnm{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:3px}
     .msay{font-size:13px;color:rgba(247,248,250,.72);line-height:1.55}
     .wrap{max-width:520px;margin:0 auto;padding:24px 18px 48px;animation:fadeUp .35s ease both}
     @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .story{background:var(--navy);border-radius:24px;padding:24px;margin-bottom:20px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
     .story-tag{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-text);display:block;margin-bottom:10px}
     .story-txt{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:rgba(247,248,250,.85);line-height:1.7;margin-bottom:10px}
     .story-scene{font-size:11px;color:rgba(247,248,250,.55)}
@@ -41,7 +41,7 @@
     .nom-block.ki{border-color:rgba(201,169,110,.5);background:rgba(201,169,110,.05)}
     .nom-block.um{border-color:rgba(99,102,241,.35);background:rgba(99,102,241,.04)}
     .nom-badge{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:20px;margin-bottom:10px}
-    .ki .nom-badge{background:rgba(201,169,110,.2);color:#92400E}
+    .ki .nom-badge{background:rgba(201,169,110,.2);color:var(--amber-text)}
     .um .nom-badge{background:rgba(99,102,241,.15);color:#3730A3}
     .nom-suffix{font-size:24px;color:var(--t);font-weight:300;margin-bottom:4px}
     .nom-meaning{font-size:13px;color:var(--t2);margin-bottom:8px}
@@ -66,12 +66,12 @@
     .ch{padding:14px 10px;border-radius:16px;border:1.5px solid var(--bd);background:var(--surf);color:var(--t);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;text-align:center;line-height:1.4}
     .ch:hover:not(:disabled){border-color:var(--gold-text);background:var(--goldp)}
     .ch.ok{border-color:var(--green-text)!important;background:rgba(34,197,94,.08)!important;color:var(--green-text)!important}
-    .ch.ko{border-color:var(--red-text)!important;background:rgba(239,68,68,.07)!important;color:#b91c1c!important}
+    .ch.ko{border-color:var(--red-text)!important;background:rgba(239,68,68,.07)!important;color:var(--red-text)!important}
     .ch:disabled{cursor:default}
     .fb-strip{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.6;font-weight:500;border:1px solid transparent}
     .fb-strip.ok{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:var(--green-text)}
-    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:#b91c1c}
-    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .fb-strip.ko{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.2);color:var(--red-text)}
+    .next-btn{display:block;width:100%;margin-top:16px;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
     .next-btn:hover{opacity:.88}
     /* Results */
     .results{display:none;text-align:center;padding:32px 0}
@@ -84,7 +84,7 @@
     .res-stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
     .res-mina{width:80px;margin:0 auto 14px;display:block}
     .res-msg{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px}
-    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .res-prim{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
     .res-btns-row{display:flex;gap:10px}
     .res-sec{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--t2);cursor:pointer;text-decoration:none}
     .res-sec:hover{border-color:var(--gold-text)}
@@ -305,7 +305,7 @@ function renderContrast(){
           <div style="font-size:11px;color:var(--t2);line-height:1.7"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Goûts/préférences<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Évaluations (쉽다, 어렵다)<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Expressions figées<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Oral et semi-formel</div>
         </div>
         <div style="background:rgba(99,102,241,.05);border-radius:12px;padding:12px">
-          <div style="font-size:12px;font-weight:800;color:#6366F1;margin-bottom:6px">-음/-ㅁ (écrit, formel)</div>
+          <div style="font-size:12px;font-weight:800;color:var(--purple-text);margin-bottom:6px">-음/-ㅁ (écrit, formel)</div>
           <div style="font-size:11px;color:var(--t2);line-height:1.7"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Textes littéraires<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Articles, journaux<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> TOPIK (lecture)<br><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg> Faits accomplis</div>
         </div>
       </div>

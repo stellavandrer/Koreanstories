@@ -32,7 +32,7 @@
     @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
     /* ── HERO commun aux quatre vues ── */
-    .pr-hero{background:var(--navy);padding:26px 20px 34px;position:relative;overflow:hidden;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .pr-hero{background:var(--navy);padding:26px 20px 34px;position:relative;overflow:hidden;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
     .pr-hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
     .pr-orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.2}
     .pr-orb1{width:220px;height:220px;background:var(--gold);top:-70px;right:-50px}
@@ -91,7 +91,7 @@
     .act-row-val{font-size:13px;font-weight:800;color:var(--gold-text);font-variant-numeric:tabular-nums}
     .act-row-val .total{color:var(--t3);font-weight:500}
     .act-bar{height:8px;background:var(--s3);border-radius:100px;overflow:hidden}
-    .act-bar-fill{height:100%;border-radius:100px;transition:width .9s cubic-bezier(.4,0,.2,1);background:linear-gradient(90deg,var(--gold),#E8C97E)}
+    .act-bar-fill{height:100%;border-radius:100px;transition:width .9s cubic-bezier(.4,0,.2,1);background:linear-gradient(90deg,var(--gold),#E8C97E);}
     .act-bar-fill.complete{background:linear-gradient(90deg,#22c55e,#16a34a)}
     .lvl-row{display:flex;align-items:center;gap:14px;padding:13px 16px;background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;margin-bottom:8px;box-shadow:var(--sh)}
     .lvl-tag{flex-shrink:0;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold-text);width:50px;text-align:center}
@@ -121,7 +121,7 @@
     #statEmpty .se-ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     #statEmpty .se-t{font-family:'Playfair Display',serif;font-size:22px;color:var(--t);margin:0 0 8px;font-weight:700}
     #statEmpty .se-p{font-size:14px;color:var(--t2);line-height:1.6;max-width:340px;margin:0 auto 20px}
-    #statEmpty .se-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e0c48a,var(--gold));color:#3a2c12;font-weight:800;font-size:14px;padding:13px 24px;border-radius:100px;text-decoration:none;box-shadow:0 8px 22px rgba(201,169,110,.3)}
+    #statEmpty .se-cta{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#e0c48a,var(--gold));color:#3a2c12;font-weight:800;font-size:14px;padding:13px 24px;border-radius:100px;text-decoration:none;box-shadow:0 8px 22px rgba(201,169,110,.3);}
 
     /* ══ Onglet RECORDS ══ */
     .lb-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;box-shadow:var(--sh);overflow:hidden}
@@ -155,7 +155,7 @@
     .week-row-val{color:var(--t);font-weight:800}
     .week-bar{height:9px;background:var(--s3);border-radius:100px;overflow:hidden}
     .week-bar-fill{height:100%;border-radius:100px;transition:width .8s cubic-bezier(.4,0,.2,1)}
-    .week-bar-fill.now{background:linear-gradient(90deg,var(--gold),#E8C97E)}
+    .week-bar-fill.now{background:linear-gradient(90deg,var(--gold),#E8C97E);}
     .week-bar-fill.prev{background:var(--bd2)}
     .rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .rec-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:16px;padding:15px 14px;box-shadow:var(--sh);display:flex;align-items:center;gap:12px}
@@ -815,7 +815,7 @@ var TROPHIES = [
   /* Maîtrise */
   {cat:'mastery',id:'hangeul',name:'Hangeul Maîtrisé',desc:'Termine tout le module Hangeul',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:28px;color:var(--blue-text);line-height:1">한</span>',target:8,progress:function(){return countByPrefix('ks_h');}},
   {cat:'mastery',id:'a1Done',name:'Niveau A1',desc:'Complète toutes les activités A1',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:var(--blue-text);line-height:1">A1</span>',target:31,progress:function(){return countByPrefix('ks_a');}},
-  {cat:'mastery',id:'a2Done',name:'Niveau A2',desc:'Complète toutes les activités A2',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:#10B981;line-height:1">A2</span>',target:30,progress:function(){return countByPrefix('ks_b');}},
+  {cat:'mastery',id:'a2Done',name:'Niveau A2',desc:'Complète toutes les activités A2',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:var(--green-text);line-height:1">A2</span>',target:30,progress:function(){return countByPrefix('ks_b');}},
   {cat:'mastery',id:'b1Done',name:'Niveau B1',desc:'Complète toutes les activités B1',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:var(--amber-text);line-height:1">B1</span>',target:29,progress:function(){return countByPrefix('ks_c');}},
   {cat:'mastery',id:'b2Done',name:'Niveau B2',desc:'Complète toutes les activités B2',ico:'<span style="font-family:\'Playfair Display\',serif;font-weight:700;font-size:22px;color:var(--accent-purple);line-height:1">B2</span>',target:22,progress:function(){return countByPrefix('ks_d');}},
   {cat:'mastery',id:'perfect',name:'Perfection',desc:'Obtiens un score parfait sur une leçon',ico:ico('#06B6D4','<path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>'),target:1,progress:function(){return ls('ks_badge_perfect')==='1'?1:0;}},

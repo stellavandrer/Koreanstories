@@ -90,7 +90,7 @@
       '[data-theme="dark"] #ks-onb-root .onb-dot{background:rgba(255,255,255,.1)}',
       '#ks-onb-root .onb-dot.act{background:linear-gradient(90deg,#C9A96E,#D4B582)}',
       '#ks-onb-root .onb-dot.done{background:#C9A96E}',
-      '#ks-onb-root .onb-kr{font-family:"Playfair Display",Georgia,serif;font-size:13px;font-weight:700;color:#8B6B3D;letter-spacing:.06em;margin-bottom:3px}',
+      '#ks-onb-root .onb-kr{font-family:"Playfair Display",Georgia,serif;font-size:13px;font-weight:700;color:var(--gold-text);letter-spacing:.06em;margin-bottom:3px}',
       '[data-theme="dark"] #ks-onb-root .onb-kr{color:#D5BA8A}',
       '#ks-onb-root .onb-title{font-family:"Playfair Display",Georgia,serif;font-size:18px;font-weight:700;color:#0F1B2D;line-height:1.2;margin:0 0 6px}',
       '[data-theme="dark"] #ks-onb-root .onb-title{color:#EDF2FA}',

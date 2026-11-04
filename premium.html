@@ -31,7 +31,7 @@
   .pm-back:hover{color:var(--tx)}
 
   /* ── HERO ── */
-  .pm-hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#0F1B2D 0%,#1b3a5c 100%);color:#fff;text-align:center;padding:54px 24px 52px;border-radius:0 0 28px 28px}
+  .pm-hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#0F1B2D 0%,#1b3a5c 100%);color:#fff;text-align:center;padding:54px 24px 52px;border-radius:0 0 28px 28px;--t:#EDF2FA;--t2:#8999AD;--tx-muted:#8999AD;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
   .pm-hero::before{content:"";position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:380px;height:380px;background:radial-gradient(circle,rgba(201,169,110,.34),transparent 62%);pointer-events:none}
   .pm-hero>*{position:relative}
   .pm-pill{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;letter-spacing:.04em;color:#e8d3a6;background:rgba(201,169,110,.14);border:1px solid rgba(201,169,110,.3);border-radius:100px;padding:5px 13px;margin-bottom:18px}
@@ -87,7 +87,7 @@
   .pm-cgv label{display:flex;align-items:flex-start;gap:11px;font-size:.86rem;color:var(--tx);line-height:1.5;cursor:pointer;background:var(--surf);border:1px solid var(--bd);border-radius:13px;padding:14px 16px;transition:.15s}
   .pm-cgv input{margin-top:2px;width:18px;height:18px;flex-shrink:0;accent-color:var(--gold-text);cursor:pointer}
   .pm-cgv a{color:var(--gold-text);font-weight:600}
-  .pm-cgv-err{font-size:.8rem;color:#dc2626;margin:7px 0 0 4px;min-height:1em}
+  .pm-cgv-err{font-size:.8rem;color:var(--red-text);margin:7px 0 0 4px;min-height:1em}
 
   /* ── PLANS ── */
   .pm-plans{max-width:560px;margin:0 auto;padding:14px 20px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -123,11 +123,11 @@
   .pm-lic-row{display:flex;gap:10px}
   .pm-lic-input{flex:1;border:1.5px solid var(--bd);border-radius:11px;padding:11px 14px;font-size:.9rem;background:var(--bg);color:var(--tx);outline:none;font-family:monospace;letter-spacing:.05em}
   .pm-lic-input:focus{border-color:var(--gold-text)}
-  .pm-lic-btn{padding:11px 18px;border-radius:11px;background:#0F1B2D;color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.9rem;white-space:nowrap;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+  .pm-lic-btn{padding:11px 18px;border-radius:11px;background:#0F1B2D;color:#fff;border:none;font-weight:700;cursor:pointer;font-size:.9rem;white-space:nowrap;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
   [data-theme=dark] .pm-lic-btn{background:#C9A96E;color:#3a2c12}
   .pm-lic-msg{font-size:.82rem;margin-top:10px;min-height:1.2em}
   .pm-lic-msg.ok{color:var(--green-text);font-weight:600}
-  .pm-lic-msg.err{color:#dc2626}
+  .pm-lic-msg.err{color:var(--red-text)}
   .pm-manage-link{display:block;text-align:center;margin-top:16px;font-size:.84rem}
   .pm-manage-link a{color:var(--t3);text-decoration:underline;text-underline-offset:2px}
   .pm-manage-link a:hover{color:var(--gold-text)}
@@ -237,7 +237,7 @@
     <!-- PLANS -->
     <div class="pm-plans">
       <div class="plan">
-        <div class="plan-tag" style="background:#e7f6ec;color:#147437;box-shadow:0 4px 12px rgba(22,163,74,.25)">7 jours d'essai gratuit</div>
+        <div class="plan-tag" style="background:#e7f6ec;color:#126A32;box-shadow:0 4px 12px rgba(22,163,74,.25)">7 jours d'essai gratuit</div>
         <div class="plan-name">Mensuel</div>
         <div class="plan-price">5€<small> /mois</small></div>
         <div class="plan-equiv">Sans engagement · essai sans carte bancaire</div>
