@@ -335,7 +335,7 @@
     if (hasReplay) {
       box.querySelector('.pf-replay').addEventListener('click', function(){
         /* On rejoue le modèle SANS fermer le popup : l'utilisateur
-           compare l'audio natif au diff mot à mot encore affiché. */
+           compare l'audio coréen au diff mot à mot encore affiché. */
         if (FEEDBACK_TIMEOUT) clearTimeout(FEEDBACK_TIMEOUT);
         FEEDBACK_TIMEOUT = setTimeout(function(){
           box.classList.remove('show');

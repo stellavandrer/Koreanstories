@@ -71,7 +71,7 @@ function render(){
   let html='<div class="card"><div class="q-fr">'+q.fr+'</div>';
   html+='<div class="q-txt">'+q.txt+'</div>';
   opts.forEach(o=>{html+='<div class="opt" data-c="'+(o.correct?1:0)+'">'+o.text+'</div>';});
-  html+='<div class="fb" id="fb"></div><button class="next" id="nextBtn" style="display:none" onclick="next()">Suivant &rarr;</button></div>';
+  html+='<div class="fb" id="fb" role="status" aria-live="polite"></div><button class="next" id="nextBtn" style="display:none" onclick="next()">Suivant &rarr;</button></div>';
   document.getElementById('quizArea').innerHTML=html;
   document.querySelectorAll('.opt').forEach(o=>{o.onclick=()=>pick(o,q);o.tabIndex=0;o.setAttribute('role','button');o.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(o,q);}};});
 }
@@ -99,7 +99,7 @@ def qcm(fichier, titre, barre, onglet, desc, pill, cle, xp, questions, msgs):
     corps = ('  <h1>%s</h1>\n  <span class="pill">%s</span>\n'
              '  <div class="prog"><div class="prog-fill" id="progFill"></div></div>\n'
              '  <div id="quizArea"></div>\n'
-             '  <div id="resultArea" style="display:none" class="result">\n'
+             '  <div id="resultArea" style="display:none" class="result" role="status" aria-live="polite">\n'
              '    <div class="score" id="scoreVal">-</div>\n'
              '    <p id="resultMsg" style="color:var(--tx-muted)"></p>\n'
              '    <button class="result-btn" onclick="restart()">Recommencer</button>\n'

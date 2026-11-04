@@ -4,11 +4,11 @@
 <script>try{if(localStorage.getItem('ks_theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <script src="gate.js"></script>
 <script src="ks-account-gate.js"></script>
-  <meta name="description" content="Audio natif : A1 | Histoires Coréennes, apprends le coréen à travers des histoires, leçons et exercices interactifs avec Korean Stories."/>
+  <meta name="description" content="Audio coréen : A1 | Histoires Coréennes, apprends le coréen à travers des histoires, leçons et exercices interactifs avec Korean Stories."/>
   <meta charset="UTF-8">
 <meta name="robots" content="noindex,follow"><!-- page derriere la porte compte : indexer un mur d'inscription creerait des centaines de pages quasi identiques dans Google. Retirer cette ligne si la page redevient publique. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audio natif · A1 | Histoires Coréennes</title>
+  <title>Audio coréen · A1 | Histoires Coréennes</title>
 <link rel="canonical" href="https://koreanstories.fr/prem-audio-a1.html"/>
 <link rel="preload" href="fonts/ks-fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts.css"/></noscript>
 <link rel="preload" href="fonts/ks-fonts-kr.css" as="style" onload="this.onload=null;this.rel='stylesheet'"/><noscript><link rel="stylesheet" href="fonts/ks-fonts-kr.css"/></noscript>
@@ -17,14 +17,12 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-    }
-
-    body {
+    }body{
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #0a0f1a 0%, #1a2a3f 100%);
       color: var(--text);
       overflow-x: hidden;
-      min-height: 100vh;--t:#EDF2FA;--t2:#8999AD;--tx-muted:#8999AD;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A;}
+      min-height: 100vh;}
 
     .container {
       max-width: 480px;
@@ -74,7 +72,8 @@
 
     .xp-badge {
       background: linear-gradient(135deg, var(--gold), #d4a574);
-      color: var(--bg);
+      /* Fond or fixe : encre sombre fixe, pas var(--bg) qui s'eclaircit. */
+      color: #0D1823;
       padding: 6px 12px;
       border-radius: 20px;
       font-size: 12px;
@@ -90,7 +89,7 @@
       border-left: 4px solid var(--gold);
       padding: 12px 20px;
       font-size: 13px;
-      color: var(--subtle);
+      color: var(--t2);
       text-align: center;
     }
 
@@ -113,7 +112,7 @@
       flex-shrink: 0;
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--subtle);
+      color: var(--t2);
       padding: 8px 14px;
       border-radius: 20px;
       cursor: pointer;
@@ -205,7 +204,7 @@
     .romanization {
       display: none;
       font-size: 16px;
-      color: var(--subtle);
+      color: var(--t2);
       margin-bottom: 12px;
       font-weight: 500;
       letter-spacing: 0.5px;
@@ -217,7 +216,7 @@
 
     .french {
       font-size: 16px;
-      color: var(--subtle);
+      color: var(--t2);
       font-style: italic;
     }
     [data-theme="dark"] .french { color:rgba(200,220,240,.65); }
@@ -275,7 +274,7 @@
     .voice-btn {
       background: var(--card-bg);
       border: 1px solid var(--bd);
-      color: var(--subtle);
+      color: var(--t2);
       padding: 8px;
       border-radius: 8px;
       cursor: pointer;
@@ -305,7 +304,7 @@
     .speed-btn {
       background: var(--card-bg);
       border: 1px solid var(--bd);
-      color: var(--subtle);
+      color: var(--t2);
       padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
@@ -338,7 +337,7 @@
 
     .toggle-label {
       font-size: 12px;
-      color: var(--subtle);
+      color: var(--t2);
     }
 
     .toggle-switch {
@@ -387,7 +386,7 @@
       flex: 1;
       background: var(--card-bg);
       border: 1px solid var(--bd);
-      color: var(--subtle);
+      color: var(--t2);
       padding: 12px;
       border-radius: 8px;
       cursor: pointer;
@@ -409,7 +408,7 @@
     .card-counter {
       flex: 0 0 auto;
       font-size: 12px;
-      color: var(--subtle);
+      color: var(--t2);
       min-width: 50px;
       text-align: center;
     }
@@ -467,7 +466,7 @@
 <link rel="apple-touch-icon" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <script defer src="ks-boot-sync.js"></script>
 </head>
-<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Audio natif : A1 | Histoires Coréennes</h1>
+<body><h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Audio coréen : A1 | Histoires Coréennes</h1>
 <div class="bar">
     <a href="cours.html" class="bar-back">
       <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>Parcours
@@ -488,13 +487,13 @@
     <!-- Top Navigation -->
     <div class="top-nav">
       <button class="back-btn" aria-label="Retour" onclick="goBack()">← Cours</button>
-      <div class="nav-title">Audio natif : A1</div>
+      <div class="nav-title">Audio coréen : A1</div>
       <div class="xp-badge">+50 XP</div>
     </div>
 
     <!-- Warning Banner (hidden by default) -->
     <div class="warning-banner" id="warningBanner">
-      Votre navigateur ne supporte pas la synthèse vocale. Essayez Chrome ou Safari.
+      Votre navigateur ne peut pas lire l'audio. Essayez Chrome, Safari ou Firefox.
     </div>
 
     <!-- Units Tabs -->
@@ -521,7 +520,7 @@
             </svg>
           </button>
           <div style="text-align: center;">
-            <div style="font-size: 12px; color: var(--subtle); margin-bottom: 4px;">Vitesse</div>
+            <div style="font-size: 12px; color: var(--t2); margin-bottom: 4px;">Vitesse</div>
             <div class="speed-control">
               <button class="speed-btn" onclick="setSpeed(0.5)">0.5x</button>
               <button class="speed-btn" onclick="setSpeed(0.75)">0.75x</button>
@@ -532,7 +531,7 @@
 
         <!-- Voice buttons (caché — voix unique InJoon depuis le 2026-05-31) -->
         <div style="display:none">
-          <div style="font-size: 12px; color: var(--subtle); margin-bottom: 8px; text-align: center;">Voix</div>
+          <div style="font-size: 12px; color: var(--t2); margin-bottom: 8px; text-align: center;">Voix</div>
           <div class="voice-buttons">
             <button class="voice-btn active" onclick="setVoice(1)">Voix 1</button>
             <button class="voice-btn" onclick="setVoice(2)">Voix 2</button>
@@ -833,12 +832,13 @@
       4: { rate: 0.95, pitch: 0.95 }
     };
 
-    // Check TTS support
-    const hasTTS = window.speechSynthesis !== undefined;
+    // La lecture passe par des MP3 (ks.js -> audio/injoon/) : c'est la
+    // balise Audio qu'il faut tester, pas la synthese vocale du navigateur.
+    const peutLireAudio = typeof window.Audio === 'function';
 
     // Init
     function init() {
-      if (!hasTTS) {
+      if (!peutLireAudio) {
         document.getElementById('warningBanner').classList.add('show');
       }
 
@@ -907,7 +907,7 @@
 
     // Play current card
     function playCard() {
-      if (!hasTTS) return;
+      if (!peutLireAudio) return;
 
       const unit = UNITS[currentUnitId];
       const card = unit.cards[currentCardIndex];

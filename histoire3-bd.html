@@ -285,16 +285,16 @@
         et on différencie toujours par la hauteur (pitch). ── */
 
 
-  /* data-speaker → ks.js choisit la vraie voix enregistrée (mina/joon,
-     repli neuronal sunhi/injoon). */
+  /* data-speaker → ks.js choisit la voix neuronale du personnage (mina/joon,
+     repli sunhi/injoon). Toutes sont des voix Edge TTS pré-générées. */
   document.querySelectorAll('.case.m').forEach(function(c){c.setAttribute('data-speaker','mina');});
   document.querySelectorAll('.case.j').forEach(function(c){c.setAttribute('data-speaker','joon');});
 
   function clearSpk(){document.querySelectorAll('.audio.on').forEach(function(b){b.classList.remove('on');});document.querySelectorAll('.case.speaking').forEach(function(b){b.classList.remove('speaking');});}
 
-  /* TTS de secours (uniquement si aucune voix enregistrée) */
+  /* Aucun secours en voix de synthèse du navigateur : règle « zéro voix robotique ». */
 
-  /* Joue la réplique : vraie voix via ks.js si dispo, sinon TTS */
+  /* Joue la réplique via ks.js ; si l'audio manque, on ne joue rien. */
   function playLine(text,btn,onDone){
     clearSpk();
     var c=btn?btn.closest('.case'):null;

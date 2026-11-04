@@ -353,7 +353,7 @@ window.ksFirestore = function () {
         <div class="field">
           <label for="pw">Mot de passe</label>
           <div class="field-pw">
-            <input type="password" id="pw" placeholder="Minimum 8 caractères" autocomplete="new-password" required oninput="checkPwStrength(this.value)"/>
+            <input type="password" id="pw" placeholder="Minimum 8 caractères" autocomplete="new-password" aria-describedby="pwLabel" required oninput="checkPwStrength(this.value)"/>
             <button type="button" class="pw-toggle" onclick="togglePw('pw','eyePw')" aria-label="Afficher ou masquer le mot de passe">
               <svg id="eyePw" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
@@ -372,7 +372,7 @@ window.ksFirestore = function () {
         <div class="field">
           <label for="pw2">Confirmer le mot de passe</label>
           <div class="field-pw">
-            <input type="password" id="pw2" placeholder="••••••••" autocomplete="new-password" required oninput="checkPwMatch()"/>
+            <input type="password" id="pw2" placeholder="••••••••" autocomplete="new-password" aria-describedby="pw2Err" required oninput="checkPwMatch()"/>
             <button type="button" class="pw-toggle" onclick="togglePw('pw2','eyePw2')" aria-label="Afficher ou masquer le mot de passe">
               <svg id="eyePw2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </button>
