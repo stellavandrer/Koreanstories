@@ -49,7 +49,19 @@
       '.ks-ck{pointer-events:auto;max-width:560px;width:100%;background:var(--surf,#fff);',
         'border:1.5px solid var(--bd,#DAE3F2);border-radius:18px;',
         'box-shadow:0 12px 40px rgba(15,30,80,.18);padding:18px 20px;',
-        'font-family:Inter,system-ui,sans-serif;color:var(--t,#0D1823)}',
+        'font-family:Inter,system-ui,sans-serif;color:var(--t,#0D1823);',
+        /* Le bandeau pose son propre fond (surface claire) : il doit donc poser
+           aussi ses jetons de texte, sinon une page sans design.css lui transmet
+           ceux de son fond sombre et le bandeau devient illisible. */
+        '--t:#0D1823;--t2:#475E78;--tx-muted:#475E78;--t3:#465E79;--gray:#465E79;',
+        '--tx:#0D1823;--text:#0D1823;--text2:#475E78;--text3:#465E79;',
+        '--gold-text:#71582B;--green-text:#126A32;--red-text:#B91010;--amber-text:#7F5205;',
+        '--purple-text:#6235E5;--teal-text:#09675F;--blue-text:#0953CD;--pink-text:#B80A28}',
+      '[data-theme=dark] .ks-ck{',
+        '--t:#EDF2FA;--t2:#94A2B4;--tx-muted:#94A2B4;--t3:#8FA5BE;--gray:#8FA5BE;',
+        '--tx:#EDF2FA;--text:#EDF2FA;--text2:#94A2B4;--text3:#8599B0;',
+        '--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;',
+        '--purple-text:#a78bfa;--teal-text:#22B0A3;--blue-text:#6CA1F8;--pink-text:#F7748A}',
       '.ks-ck-title{font-weight:800;font-size:14.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}',
       '.ks-ck-title svg{width:16px;height:16px;stroke:var(--gold,#C9A96E);fill:none;stroke-width:2;flex-shrink:0}',
       '.ks-ck-txt{font-size:12.5px;line-height:1.55;color:var(--t2,#475E78);margin-bottom:12px}',
