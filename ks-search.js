@@ -196,11 +196,11 @@
       '[data-theme="dark"] .ks-search-item-tag{background:rgba(255,255,255,.08);color:#9ca3af}',
       '.ks-search-item-tag.lvl-hangeul{background:rgba(184,146,78,.18);color:#B8924E}',
       '.ks-search-item-tag.lvl-a1{background:rgba(37,99,235,.15);color:#2563EB}',
-      '.ks-search-item-tag.lvl-a2{background:rgba(22,163,74,.15);color:#16A34A}',
+      '.ks-search-item-tag.lvl-a2{background:rgba(22,163,74,.15);color:var(--green-text)}',
       '.ks-search-item-tag.lvl-b1{background:rgba(245,158,11,.18);color:#D97706}',
       '.ks-search-item-tag.lvl-b2{background:rgba(124,58,237,.15);color:#7C3AED}',
       '.ks-search-item-tag.soon{background:rgba(156,163,175,.18);color:#6b7280}',
-      '.ks-search-item-tag.done{background:rgba(22,163,74,.15);color:#16A34A}',
+      '.ks-search-item-tag.done{background:rgba(22,163,74,.15);color:var(--green-text)}',
 
       /* Highlight matches */
       '.ks-search-match{background:rgba(201,169,110,.35);color:inherit;font-weight:700;padding:0 1px;border-radius:2px}',

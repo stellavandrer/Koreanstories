@@ -7,7 +7,7 @@
 /* ── TOKENS ──────────────────────────────────────────────────────── */
 :root {
   --bg:#EEF2FB; --surf:#FFF; --s2:#F5F8FF; --s3:#E9EEFA;
-  --t:#0D1823; --t2:#475E78; --t3:#4D6785;
+  --t:#0D1823; --t2:#475E78; --t:#0D1823;--t3:#4D6785;--gray:#4D6785;
   --bd:#DAE3F2; --bd2:#BFCEE6;
   --sh:0 2px 12px rgba(15,30,80,.07);
   --sh2:0 6px 28px rgba(15,30,80,.11);
@@ -32,7 +32,8 @@
      comme couleur de TEXTE sur une surface claire elles echouent (vert 2,28, rouge
      3,36, bleu 3,28) : ces variantes-la sont faites pour le texte, >=4,5:1 sur les
      sept surfaces claires du site. */
-  --green-text:#147437; --red-text:#C91111; --amber-text:#8C5A06; --purple-text:#6939F6;
+  --green-text:#147437; --red-text:#C91111; --amber-text:#8C5A06; --purple-text:#6939F6;--teal-text:#0A7067;
+  --teal-text:#0A7067;
   --blue-text:#0A5BE1; --pink-text:#C80B2C;
   --pink:#FF8EA8;
   --goldp:rgba(184,146,78,.10); --gold2:#E0CBA0;
@@ -55,7 +56,7 @@
 }
 [data-theme=dark] {
   --bg:#0B1522; --surf:#152030; --s2:#192840; --s3:#1C3050;
-  --t:#EDF2FA; --t2:#8999AD; --t3:#8599B0;
+  --t:#EDF2FA; --t2:#8999AD; --t:#EDF2FA;--t3:#8599B0;--gray:#8599B0;
   --bd:rgba(255,255,255,.07); --bd2:rgba(255,255,255,.13);
   --sh:0 2px 12px rgba(0,0,0,.4); --sh2:0 6px 28px rgba(0,0,0,.5); --sh3:0 16px 48px rgba(0,0,0,.6);
   --bar:rgba(11,21,34,.96); --side:rgba(13,24,38,.99);
@@ -69,7 +70,8 @@
   --accent-purple:#c4b5fd; --accent-pink:#f9a8d4; --accent-blue:#93c5fd;
   /* Sur fond sombre, les teintes vives passent (vert 5,80, ambre 6,16, violet 4,86).
      Seul le rouge tombait a 3,51 sur --s3 : il est eclairci. */
-  --green-text:#22c55e; --red-text:#F36E6E; --amber-text:#f59e0b; --purple-text:#a78bfa;
+  --green-text:#22c55e; --red-text:#F36E6E; --amber-text:#f59e0b; --purple-text:#a78bfa;--teal-text:#0FA99B;
+  --teal-text:#0FA99B;
   --blue-text:#5B96F7; --pink-text:#F66880;
   --gray:#8599B0; --shadow:0 6px 28px rgba(0,0,0,.5); --goldp:rgba(201,168,108,.12);
   --pink:#FF8EA8;
@@ -335,7 +337,7 @@ button:focus-visible,
   position:absolute;left:8px;top:-40px;background:var(--navy);color:#fff;
   padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;
   z-index:99999;text-decoration:none;transition:top .2s;
---t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
 .ks-skip-link:focus{top:8px}
 
 /* ── LAYOUT SHELL ─────────────────────────────────────────────────── */
@@ -411,10 +413,16 @@ button:focus-visible,
   content:'';position:absolute;top:3px;left:3px;
   width:18px;height:18px;border-radius:50%;background:#fff;
   transition:transform var(--tr);box-shadow:0 1px 4px rgba(0,0,0,.2);
-}
+--t:#0D1823;--t3:#4D6785;--gray:#4D6785;--gold-text:#7A5F2E;--green-text:#147437;--red-text:#C91111;--amber-text:#8C5A06;--purple-text:#6939F6;--teal-text:#0A7067;--blue-text:#0A5BE1;--pink-text:#C80B2C;}
 [data-theme=dark] .theme-pill::after{transform:translateX(20px)}
 
 /* ── GLASS TOPBAR (.bar) ─────────────────────────────────────────── */
+/* La barre suit le theme, pas la page : topik.html declare un fond marine
+   sur html,body, ce qui imposait les jetons sombres a une barre presque
+   blanche. On les reaffirme ici. */
+.bar,.ks-ck{--t2:#475E78;--tx-muted:#475E78;--t:#0D1823;--t3:#4D6785;--gray:#4D6785;--gold-text:#7A5F2E;--green-text:#147437;--red-text:#C91111;--amber-text:#8C5A06;--purple-text:#6939F6;--teal-text:#0A7067;--blue-text:#0A5BE1;--pink-text:#C80B2C;}
+[data-theme=dark] .bar,[data-theme=dark] .ks-ck{--t2:#8999AD;--tx-muted:#8999AD;--t:#EDF2FA;--t3:#8599B0;--gray:#8599B0;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+
 /* Cibles tactiles : 24x24 px au minimum (WCAG 2.5.8, niveau AA).
    Ces deux boutons d'icone n'avaient aucune regle de taille et prenaient
    celle de leur contenu : 14x19 pour la fleche de retour, 16x17 pour la
@@ -476,7 +484,7 @@ button:focus-visible,
   position:sticky;top:0;z-index:100;height:56px;padding:0 18px;
   display:flex;align-items:center;justify-content:space-between;
   background:var(--navy);flex-shrink:0;
---t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
 .tb-back,.back{
   display:flex;align-items:center;gap:6px;padding:7px 14px;
   border-radius:100px;border:1.5px solid rgba(255,255,255,.14);
@@ -533,7 +541,7 @@ button:focus-visible,
 /* ── HERO (navy dark hero for content pages) ──────────────────────── */
 .hero-navy{
   background:var(--navy);padding:24px 20px 36px;position:relative;overflow:hidden;
---t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
 .hero-navy::after{
   content:'';position:absolute;bottom:0;left:0;right:0;
   height:32px;background:var(--bg);border-radius:24px 24px 0 0;
@@ -549,7 +557,7 @@ button:focus-visible,
   background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   border-top:1.5px solid var(--bd);
   transition:background var(--tr),border-color var(--tr);
-}
+--t:#0D1823;--t3:#4D6785;--gray:#4D6785;--gold-text:#7A5F2E;--green-text:#147437;--red-text:#C91111;--amber-text:#8C5A06;--purple-text:#6939F6;--teal-text:#0A7067;--blue-text:#0A5BE1;--pink-text:#C80B2C;}
 [data-theme=dark] .bnav{background:rgba(11,21,34,.97)}
 .bni{
   display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -781,7 +789,7 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 [data-theme=dark] .pill,
 [data-theme=dark] .xp-badge{
   background:rgba(124,58,237,.18)!important;
-  color:#c4b5fd!important;
+  color:var(--purple-text)!important;
 }
 
 /* Cards / messages "ok" (vert pâle + texte vert sombre) — message
@@ -840,7 +848,7 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 [data-theme=dark] .speak-btn:hover,
 [data-theme=dark] .speak-btn.playing{
   background:var(--gold)!important;
-  color:var(--navy)!important;
+  color:var(--t)!important;
 }
 
 /* Indices / hints / titres de questions dans les leçons */
@@ -875,7 +883,7 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 [data-theme=dark] .fchip.act{
   background:var(--gold)!important;
   border-color:var(--gold-text)!important;
-  color:var(--navy)!important;
+  color:var(--t)!important;
 }
 [data-theme=dark] .chip:hover,
 [data-theme=dark] .fchip:hover{
@@ -953,6 +961,6 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
    titres via une classe (héros, cartes…) gardent la main (spécificité
    égale, déclarée après). Idem pour les accents violets trop sombres. */
 [data-theme="dark"] h1, [data-theme="dark"] h2 { color: #EDF2FA; }
-[data-theme="dark"] .ko-big { color: #A78BFA; }
+[data-theme="dark"] .ko-big { color:var(--purple-text); }
 [data-theme="dark"] .vocab-type.vt-n { color: #7EB3FF; }
 [data-theme="dark"] .vocab-type.vt-v { color: #C4A6FF; }

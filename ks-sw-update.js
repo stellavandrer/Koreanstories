@@ -44,7 +44,7 @@
       '.ks-swu-body{flex:1;min-width:0}',
       '.ks-swu-t{font-size:13px;font-weight:700;line-height:1.2}',
       '.ks-swu-s{font-size:11px;color:rgba(255,255,255,.8);line-height:1.35;margin-top:1px}',
-      '.ks-swu-yes{background:#fff;color:#16A34A;border:none;border-radius:8px;',
+      '.ks-swu-yes{background:#fff;color:var(--green-text);border:none;border-radius:8px;',
         'padding:7px 12px;font-size:12px;font-weight:800;cursor:pointer;',
         'font-family:inherit;white-space:nowrap;transition:transform .15s}',
       '.ks-swu-yes:hover{transform:scale(1.05)}',

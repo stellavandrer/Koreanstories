@@ -13,30 +13,30 @@
   <link rel="stylesheet" href="design.css">
   <style>
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
-    h1{color:var(--navy);margin:0 0 .4rem}
-    h3{color:#16A34A;margin:1rem 0 .3rem;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-    .pill{display:inline-block;background:rgba(22,163,74,.12);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
-    .xp-badge{background:rgba(22,163,74,.12);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
-    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    h1{color:var(--t);margin:0 0 .4rem}
+    h3{color:var(--green-text);margin:1rem 0 .3rem;font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.12);color:var(--green-text);border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.12);color:var(--green-text);padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#0D1823;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
     .card{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1.1rem;margin:.7rem 0}
-    .ko{color:#16A34A;font-weight:700}
-    .part-chip{display:inline-block;background:rgba(22,163,74,.1);color:#16A34A;border-radius:8px;padding:.15rem .55rem;font-size:.88rem;font-weight:700;margin:.15rem}
+    .ko{color:var(--green-text);font-weight:700}
+    .part-chip{display:inline-block;background:rgba(22,163,74,.1);color:var(--green-text);border-radius:8px;padding:.15rem .55rem;font-size:.88rem;font-weight:700;margin:.15rem}
     .q-block{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:1rem;margin:.7rem 0}
-    .q-sent{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:.6rem;line-height:1.5}
+    .q-sent{font-size:1.05rem;font-weight:600;color:var(--t);margin-bottom:.6rem;line-height:1.5}
     [data-theme="dark"] .q-sent{color:#EDF2FA}
-    .blank{display:inline-block;min-width:60px;border-bottom:2.5px solid #16A34A;text-align:center;font-weight:700;color:#16A34A;padding:0 4px;cursor:pointer}
+    .blank{display:inline-block;min-width:60px;border-bottom:2.5px solid #16A34A;text-align:center;font-weight:700;color:var(--green-text);padding:0 4px;cursor:pointer}
     .choices{display:flex;flex-wrap:wrap;gap:.4rem;margin:.4rem 0}
     .choice{border:1.5px solid var(--bd);border-radius:8px;padding:.35rem .7rem;cursor:pointer;font-size:.9rem;font-weight:600;background:var(--bg);color:var(--tx);transition:.15s}
-    .choice:hover{border-color:#16A34A;color:#16A34A}
-    .choice.sel{border-color:#16A34A;background:rgba(22,163,74,.12);color:#16A34A}
-    .choice.ok{border-color:#16A34A;background:rgba(22,163,74,.15);color:#16A34A}
+    .choice:hover{border-color:#16A34A;color:var(--green-text)}
+    .choice.sel{border-color:#16A34A;background:rgba(22,163,74,.12);color:var(--green-text)}
+    .choice.ok{border-color:#16A34A;background:rgba(22,163,74,.15);color:var(--green-text)}
     .choice.ko{border-color:var(--red-text);background:rgba(239,68,68,.1);color:var(--red-text)}
     .fb{font-size:.85rem;margin-top:.4rem;min-height:1.2rem;font-weight:600}
     .tip{background:rgba(22,163,74,.07);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.5rem .8rem;font-size:.85rem;margin:.3rem 0}
     .prog-bar{height:6px;background:var(--bd);border-radius:3px;margin:.5rem 0}
     .prog-fill{height:100%;background:#16A34A;border-radius:3px;transition:.4s}
     .score-area{text-align:center;padding:1.2rem;background:var(--surf);border-radius:14px;border:1px solid var(--bd);display:none}
-    .score-num{font-size:2.5rem;font-weight:900;color:#16A34A}
+    .score-num{font-size:2.5rem;font-weight:900;color:var(--green-text)}
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -59,7 +59,7 @@
       <div style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0">
         <div style="font-size:.82rem;color:var(--tx-muted)">Progression</div>
         <div class="prog-bar" style="flex:1"><div class="prog-fill" id="pgFill" style="width:0%"></div></div>
-        <div style="font-size:.82rem;font-weight:700;color:#16A34A"><span id="pgNum">0</span>/15</div>
+        <div style="font-size:.82rem;font-weight:700;color:var(--green-text)"><span id="pgNum">0</span>/15</div>
       </div>
 
       <div class="card" style="margin:.5rem 0;padding:.7rem 1rem">
@@ -136,12 +136,12 @@
     if(val===q.ans){
       btn.classList.add('ok');
       document.getElementById('bl'+i).textContent=val;
-      document.getElementById('fb'+i).innerHTML='<span style="color:#16A34A"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Correct ! '+q.tip+'</span>';
+      document.getElementById('fb'+i).innerHTML='<span style="color:var(--green-text)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>  Correct ! '+q.tip+'</span>';
       score++;
     } else {
       btn.classList.add('ko');if(window.KSLives)KSLives.lose();
       btns.forEach(b=>{if(b.textContent===q.ans)b.classList.add('ok');});
-      document.getElementById('fb'+i).innerHTML='<span style="color:var(--red-text)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  </span><span style="color:#16A34A">'+q.ans+'</span>, '+q.tip;
+      document.getElementById('fb'+i).innerHTML='<span style="color:var(--red-text)"><svg viewBox="0 0 24 24" style="width:12px;height:12px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>  </span><span style="color:var(--green-text)">'+q.ans+'</span>, '+q.tip;
     }
     answered++;
     document.getElementById('pgNum').textContent=answered;

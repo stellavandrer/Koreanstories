@@ -131,7 +131,7 @@
       '}',
       '.ks-im-audio:hover{transform:scale(1.06)}',
       '.ks-im-audio:active{transform:scale(.94)}',
-      '.ks-im-audio.playing{background:#16A34A;color:#fff}',
+      '.ks-im-audio.playing{background:#16A34A;color:#0D1823}',
       '.ks-im-audio svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}',
 
       /* Navigation flèches */

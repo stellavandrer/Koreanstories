@@ -33,7 +33,7 @@
       '#ksAlbumToast .kat-t{font-size:13.5px;font-weight:700;line-height:1.3}' +
       '#ksAlbumToast .kat-s{font-size:11.5px;color:rgba(247,248,250,.55);margin-top:2px}' +
       '#ksAlbumToast a{color:#C9A96E;font-weight:800;text-decoration:none;font-size:12.5px;white-space:nowrap}' +
-      '#ksAlbumToast .kat-x{flex:none;background:none;border:none;color:rgba(247,248,250,.4);font-size:16px;cursor:pointer;padding:4px;line-height:1}';
+      '#ksAlbumToast .kat-x{flex:none;background:none;border:none;color:rgba(247,248,250,.55);font-size:16px;cursor:pointer;padding:4px;line-height:1}';
     (document.head || document.documentElement).appendChild(st);
 
     var el = document.createElement('div');

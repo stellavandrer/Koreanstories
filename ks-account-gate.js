@@ -265,7 +265,7 @@
         '<a href="login.html' + nextParam() + '" style="display:block;width:100%;padding:13px;border-radius:13px;' +
           'border:1.5px solid rgba(255,255,255,.18);color:#fff;font-size:14.5px;text-decoration:none;' +
           'box-sizing:border-box;margin-bottom:18px">J\'ai d&eacute;j&agrave; un compte</a>' +
-        '<div style="font-size:12.5px;color:rgba(199,210,227,.55);line-height:1.6">' +
+        '<div style="font-size:12.5px;color:rgba(199,210,227,.65);line-height:1.6">' +
           'Gratuit, sans carte bancaire. &middot; ' +
           '<a href="index.html" style="color:rgba(199,210,227,.8)">Retour &agrave; l\'accueil</a><br>' +
           'Tu peux lire le <a href="blog.html" style="color:#C9A96E">blog</a> librement, sans compte.' +

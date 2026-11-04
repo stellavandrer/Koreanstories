@@ -428,7 +428,7 @@
       '[data-theme="dark"] .ks-banner-img{filter:brightness(.92) contrast(1.05)}',
       '.ks-banner-loader{',
         'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;',
-        'color:rgba(201,169,110,.5);font-size:11px;font-weight:700;',
+        'color:rgba(201,169,110,.85);font-size:11px;font-weight:700;',
         'letter-spacing:.12em;text-transform:uppercase;pointer-events:none;z-index:1',
       '}',
       '@media (max-width:480px){',

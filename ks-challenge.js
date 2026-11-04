@@ -95,7 +95,7 @@
       '.ksc-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#C9A96E}' +
       '.ksc-card.done::before{background:#16a34a}' +
       '.ksc-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}' +
-      '.ksc-tag{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#C9A96E}' +
+      '.ksc-tag{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-text,#7A5F2E)}' +
       '.ksc-com{font-size:.64rem;font-weight:700;color:var(--tx-muted,#8B94A6);background:rgba(201,169,110,.12);padding:.18rem .5rem;border-radius:100px}' +
       '.ksc-label{font-family:"Playfair Display",serif;font-size:1.15rem;font-weight:800;color:var(--tx,#0F1B2D);line-height:1.2;margin-bottom:10px}' +
       '.ksc-bar{height:8px;border-radius:100px;background:var(--bd,#E5EAF3);overflow:hidden}' +
@@ -104,7 +104,7 @@
       '.ksc-foot{display:flex;align-items:baseline;gap:10px;margin-top:8px;flex-wrap:wrap}' +
       '.ksc-prog{font-size:.82rem;font-weight:800;color:var(--tx,#0F1B2D)}' +
       '.ksc-hint{font-size:.72rem;color:var(--tx-muted,#8B94A6)}' +
-      '.ksc-done-txt{font-size:.85rem;font-weight:800;color:#16a34a;display:inline-flex;align-items:center;gap:5px}';
+      '.ksc-done-txt{font-size:.85rem;font-weight:800;color:var(--green-text);display:inline-flex;align-items:center;gap:5px}';
     var st = document.createElement('style'); st.id = 'ksc-style'; st.textContent = css;
     (document.head || document.documentElement).appendChild(st);
   }

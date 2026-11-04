@@ -91,7 +91,7 @@
       '.ks-tour-body{font-size:13.5px;line-height:1.6;color:rgba(247,248,250,.78);',
         'margin:0 0 18px}',
       '.ks-tour-actions{display:flex;align-items:center;gap:10px}',
-      '.ks-tour-skip{flex:0 0 auto;background:none;border:none;color:rgba(247,248,250,.45);',
+      '.ks-tour-skip{flex:0 0 auto;background:none;border:none;color:rgba(247,248,250,.55);',
         'font-size:12px;cursor:pointer;font-family:inherit;font-weight:600;',
         'padding:8px 12px;border-radius:8px;transition:color .15s}',
       '.ks-tour-skip:hover{color:#f7f8fa}',

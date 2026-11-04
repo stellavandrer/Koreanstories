@@ -20,11 +20,11 @@
       '.pdf-locked{display:flex;align-items:center;justify-content:center;min-height:340px;padding:24px;text-align:center;font-family:system-ui,-apple-system,Segoe UI,sans-serif}' +
       '.pdf-locked-card{max-width:340px}' +
       '.pdf-locked-logo{font-family:Georgia,serif;font-style:italic;font-size:24px;color:#0F1B2D;margin-bottom:10px}' +
-      '.pdf-locked-logo em{color:#C9A96E;font-style:italic}' +
+      '.pdf-locked-logo em{color:var(--gold-text,#7A5F2E);font-style:italic}' +
       '.pdf-locked-card h2{font-size:18px;color:#0F1B2D;margin:0 0 10px}' +
       '.pdf-locked-card p{color:#475E78;font-size:13.5px;line-height:1.6;margin:0 0 20px}' +
       '.pdf-locked-btn{display:inline-block;width:100%;box-sizing:border-box;padding:13px;border-radius:12px;background:linear-gradient(135deg,#e0c48a,#C9A96E);color:#3a2c12;font-size:15px;font-weight:700;text-decoration:none;margin-bottom:10px}' +
-      '.pdf-locked-back{display:block;color:#8FA5BE;font-size:13px;text-decoration:none}' +
+      '.pdf-locked-back{display:block;color:var(--t3,#4D6785);font-size:13px;text-decoration:none}' +
       '.pdf-loading{padding:60px 20px;text-align:center;color:#8FA5BE;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:13.5px}';
     document.head.appendChild(s);
   }

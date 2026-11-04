@@ -15,13 +15,13 @@
   <style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-height:100svh;padding-bottom:calc(68px + env(safe-area-inset-bottom));overflow-x:hidden;transition:background .3s,color .3s}
 a{text-decoration:none;color:inherit}button{font-family:inherit;border:none;cursor:pointer}
-.hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+.hero{background:var(--navy);padding:28px 20px 36px;text-align:center;position:relative;overflow:hidden;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
 .hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(22,163,74,.1) 0%,transparent 70%);pointer-events:none}
 .hero-tag{display:inline-block;padding:4px 12px;border-radius:100px;background:rgba(22,163,74,.18);border:1px solid rgba(22,163,74,.3);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#4ade80;margin-bottom:14px}
 .hero-title{font-family:'Playfair Display',serif;font-size:24px;color:#fff;margin-bottom:10px;line-height:1.3}
 .hero-sub{font-size:13px;color:rgba(237,242,250,.55);line-height:1.6;max-width:360px;margin:0 auto}
 .hero-meta{display:flex;justify-content:center;gap:16px;margin-top:16px;flex-wrap:wrap}
-.hero-meta span{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(237,242,250,.45)}
+.hero-meta span{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:rgba(237,242,250,.55)}
 .hero-meta svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 .wrap{max-width:560px;margin:0 auto;padding:20px 16px 40px;animation:fadeUp .3s ease both}
 .card{background:var(--surf);border-radius:var(--r);padding:20px;margin-bottom:16px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,30,80,.06)}
@@ -78,7 +78,7 @@ tr:hover td{background:var(--s2)}
   <table><thead><tr><th>Particule</th><th>Après consonne</th><th>Après voyelle</th><th>Fonction</th></tr></thead><tbody>
     <tr><td lang="ko" style="font-weight:700;color:var(--gold-text)">을/를</td><td lang="ko">을</td><td lang="ko">를</td><td>Objet direct (COD)</td></tr>
     <tr><td lang="ko" style="font-weight:700;color:var(--accent-blue)">에</td><td colspan="2" style="text-align:center"><span lang="ko">에</span> (invariable)</td><td>Lieu (être) / Temps / Direction</td></tr>
-    <tr><td lang="ko" style="font-weight:700;color:#16A34A">에서</td><td colspan="2" style="text-align:center"><span lang="ko">에서</span> (invariable)</td><td>Lieu (action) / Origine</td></tr>
+    <tr><td lang="ko" style="font-weight:700;color:var(--green-text)">에서</td><td colspan="2" style="text-align:center"><span lang="ko">에서</span> (invariable)</td><td>Lieu (action) / Origine</td></tr>
     <tr><td lang="ko" style="font-weight:700;color:#9A3412">로/으로</td><td lang="ko">으로</td><td lang="ko">로</td><td>Direction / Moyen / Transformation</td></tr>
   </tbody></table>
 </div>
@@ -100,14 +100,14 @@ tr:hover td{background:var(--s2)}
       <div style="font-size:12px;color:var(--t2);line-height:1.5"><strong>Lieu STATIQUE</strong><br>Où quelque chose existe/est<br>+ Temps précis<br>+ Direction "vers"</div>
     </div>
     <div style="flex:1;min-width:140px;background:rgba(22,163,74,.05);border-radius:10px;padding:12px;border:1.5px solid rgba(22,163,74,.3)">
-      <div lang="ko" style="font-size:20px;font-weight:800;color:#16A34A;margin-bottom:6px">에서</div>
+      <div lang="ko" style="font-size:20px;font-weight:800;color:var(--green-text);margin-bottom:6px">에서</div>
       <div style="font-size:12px;color:var(--t2);line-height:1.5"><strong>Lieu DYNAMIQUE</strong><br>Où une action se passe<br>+ Origine "depuis"</div>
     </div>
   </div>
   <table><thead><tr><th><span lang="ko">에</span> (statique)</th><th><span lang="ko">에서</span> (action)</th></tr></thead><tbody>
-    <tr><td><span class="kr" style="font-size:14px"><span lang="ko">카페</span><strong lang="ko" style="color:var(--accent-blue)">에</strong> <span lang="ko">있어요</span></span><br><span style="font-size:11px;color:var(--t3)">Je suis au café</span></td><td><span class="kr" style="font-size:14px"><span lang="ko">카페</span><strong lang="ko" style="color:#16A34A">에서</strong> <span lang="ko">공부해요</span></span><br><span style="font-size:11px;color:var(--t3)">J'étudie au café</span></td></tr>
-    <tr><td><span class="kr" style="font-size:14px"><span lang="ko">학교</span><strong lang="ko" style="color:var(--accent-blue)">에</strong> <span lang="ko">가요</span></span><br><span style="font-size:11px;color:var(--t3)">Je vais à l'école</span></td><td><span class="kr" style="font-size:14px"><span lang="ko">학교</span><strong lang="ko" style="color:#16A34A">에서</strong> <span lang="ko">먹어요</span></span><br><span style="font-size:11px;color:var(--t3)">Je mange à l'école</span></td></tr>
-    <tr><td><span class="kr" style="font-size:14px">3<span lang="ko">시</span><strong lang="ko" style="color:var(--accent-blue)">에</strong> <span lang="ko">만나요</span></span><br><span style="font-size:11px;color:var(--t3)">On se retrouve à 3h</span></td><td><span class="kr" style="font-size:14px"><span lang="ko">서울</span><strong lang="ko" style="color:#16A34A">에서</strong> <span lang="ko">왔어요</span></span><br><span style="font-size:11px;color:var(--t3)">Je viens de Séoul</span></td></tr>
+    <tr><td><span class="kr" style="font-size:14px"><span lang="ko">카페</span><strong lang="ko" style="color:var(--accent-blue)">에</strong> <span lang="ko">있어요</span></span><br><span style="font-size:11px;color:var(--t3)">Je suis au café</span></td><td><span class="kr" style="font-size:14px"><span lang="ko">카페</span><strong lang="ko" style="color:var(--green-text)">에서</strong> <span lang="ko">공부해요</span></span><br><span style="font-size:11px;color:var(--t3)">J'étudie au café</span></td></tr>
+    <tr><td><span class="kr" style="font-size:14px"><span lang="ko">학교</span><strong lang="ko" style="color:var(--accent-blue)">에</strong> <span lang="ko">가요</span></span><br><span style="font-size:11px;color:var(--t3)">Je vais à l'école</span></td><td><span class="kr" style="font-size:14px"><span lang="ko">학교</span><strong lang="ko" style="color:var(--green-text)">에서</strong> <span lang="ko">먹어요</span></span><br><span style="font-size:11px;color:var(--t3)">Je mange à l'école</span></td></tr>
+    <tr><td><span class="kr" style="font-size:14px">3<span lang="ko">시</span><strong lang="ko" style="color:var(--accent-blue)">에</strong> <span lang="ko">만나요</span></span><br><span style="font-size:11px;color:var(--t3)">On se retrouve à 3h</span></td><td><span class="kr" style="font-size:14px"><span lang="ko">서울</span><strong lang="ko" style="color:var(--green-text)">에서</strong> <span lang="ko">왔어요</span></span><br><span style="font-size:11px;color:var(--t3)">Je viens de Séoul</span></td></tr>
   </tbody></table>
 </div>
 

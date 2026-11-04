@@ -120,7 +120,7 @@
         'border:1.5px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);',
         'color:#fff;font-size:13.5px;font-family:inherit;outline:none;transition:border-color .15s',
       '}',
-      '.ks-nlp-form input::placeholder{color:rgba(247,248,250,.4)}',
+      '.ks-nlp-form input::placeholder{color:rgba(247,248,250,.55)}',
       '.ks-nlp-form input:focus{border-color:#C9A96E}',
       '.ks-nlp-submit{',
         'flex:0 0 auto;padding:12px 20px;border-radius:100px;background:#C9A96E;',
@@ -140,7 +140,7 @@
         'text-decoration:underline;font-family:inherit',
       '}',
       '.ks-nlp-later:hover{color:rgba(247,248,250,.8)}',
-      '.ks-nlp-priv{font-size:10.5px;color:rgba(247,248,250,.4);margin:10px 0 0}',
+      '.ks-nlp-priv{font-size:10.5px;color:rgba(247,248,250,.55);margin:10px 0 0}',
       '.ks-nlp-priv a{color:rgba(247,248,250,.55)}'
     ].join('');
     document.head.appendChild(s);

@@ -35,9 +35,9 @@ body{{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);padding
 .hero{{background:var(--navy);padding:32px 20px 40px;text-align:center}}
 .hbadge{{display:inline-block;padding:4px 13px;border-radius:100px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:14px}}
 .htitle{{font-family:'Playfair Display',serif;font-size:25px;color:#fff;margin-bottom:9px;line-height:1.3}}
-.hsub{{font-size:13px;color:rgba(237,242,250,.5);max-width:520px;margin:0 auto;line-height:1.6}}
+.hsub{{font-size:13px;color:rgba(237,242,250,.55);max-width:520px;margin:0 auto;line-height:1.6}}
 .hmeta{{display:flex;justify-content:center;gap:18px;margin-top:15px}}
-.hmeta span{{font-size:11px;font-weight:600;color:rgba(237,242,250,.35)}}
+.hmeta span{{font-size:11px;font-weight:600;color:rgba(237,242,250,.55)}}
 .wrap{{max-width:840px;margin:0 auto;padding:24px 16px}}
 .sec{{background:#fff;border-radius:14px;border:1px solid var(--bd);box-shadow:0 2px 12px rgba(15,27,80,.05);margin-bottom:18px;overflow:hidden}}
 .sh{{background:linear-gradient(135deg,var(--navy),rgba(15,27,45,.94));padding:13px 18px;display:flex;align-items:center;gap:10px}}

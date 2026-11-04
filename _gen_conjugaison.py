@@ -89,10 +89,10 @@ SPK = ('<button class="cj-spk" onclick="dire(this,\'%s\')" aria-label="Écouter 
 
 CSS = """    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
     .cj{max-width:720px;margin:0 auto;padding:1rem 1.1rem 2.5rem}
-    h1{font-size:1.55rem;line-height:1.25;margin:.2rem 0 .5rem;color:var(--navy)}
+    h1{font-size:1.55rem;line-height:1.25;margin:.2rem 0 .5rem;color:var(--t)}
     [data-theme="dark"] h1{color:#EDF2FA}
     h1 .kr{color:#C9A96E}
-    h2{font-size:1.02rem;margin:2rem 0 .6rem;color:var(--navy)}
+    h2{font-size:1.02rem;margin:2rem 0 .6rem;color:var(--t)}
     [data-theme="dark"] h2{color:#EDF2FA}
     .cj-chapeau{color:var(--tx-muted);font-size:.93rem;line-height:1.65;margin:0 0 .4rem}
     .cj-tags{display:flex;flex-wrap:wrap;gap:6px;margin:.7rem 0 0}

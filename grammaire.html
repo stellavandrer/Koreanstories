@@ -25,15 +25,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     
 
     /* ── HEADER ── */
-    .hdr{background:var(--navy);padding:56px 20px 0;position:relative;overflow:hidden;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
-    .hdr::before{content:'문법';position:absolute;right:-20px;top:-10px;font-size:140px;color:rgba(201,169,110,.05);font-weight:700;line-height:1;pointer-events:none;font-family:'Playfair Display',serif}
+    .hdr{background:var(--navy);padding:56px 20px 0;position:relative;overflow:hidden;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .hdr::before{content:'문법';position:absolute;right:-20px;top:-10px;font-size:140px;color:rgba(201,169,110,.85);font-weight:700;line-height:1;pointer-events:none;font-family:'Playfair Display',serif}
     .hdr-inner{max-width:680px;margin:0 auto}
-    .hdr-back{display:inline-flex;align-items:center;gap:6px;color:rgba(247,248,250,.45);font-size:12px;font-weight:600;text-decoration:none;margin-bottom:20px;transition:color .2s}
+    .hdr-back{display:inline-flex;align-items:center;gap:6px;color:rgba(247,248,250,.55);font-size:12px;font-weight:600;text-decoration:none;margin-bottom:20px;transition:color .2s}
     .hdr-back:hover{color:var(--gold-text)}
     .hdr-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
     .hdr-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.3);border-radius:100px;padding:4px 12px;margin-bottom:14px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--purple-text)}
     .hdr-title{font-family:'Playfair Display',serif;font-size:clamp(26px,6vw,36px);color:white;line-height:1.15;margin-bottom:8px}
-    .hdr-sub{font-size:13px;color:rgba(247,248,250,.45);line-height:1.6;margin-bottom:24px}
+    .hdr-sub{font-size:13px;color:rgba(247,248,250,.55);line-height:1.6;margin-bottom:24px}
 
     /* Search bar */
     .search-wrap{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:4px 4px 4px 18px;display:flex;align-items:center;gap:10px;margin-bottom:0;transition:border-color .2s;max-width:600px}
@@ -41,7 +41,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .search-wrap svg{width:16px;height:16px;stroke:rgba(247,248,250,.35);fill:none;stroke-width:2;flex-shrink:0}
     .search-wrap input{flex:1;background:none;border:none;outline:none;font-family:'Inter',sans-serif;font-size:14px;color:white;padding:10px 0}
     .search-wrap input::placeholder{color:rgba(247,248,250,.55)}
-    .search-clear{background:rgba(255,255,255,.1);border:none;color:rgba(247,248,250,.5);width:32px;height:32px;border-radius:10px;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+    .search-clear{background:rgba(255,255,255,.1);border:none;color:rgba(247,248,250,.55);width:32px;height:32px;border-radius:10px;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
     .search-clear.show{display:flex}
     .search-clear:hover{background:rgba(255,255,255,.2);color:white}
 
@@ -49,8 +49,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .chips-row{display:flex;gap:8px;overflow-x:auto;padding:20px 20px 0;max-width:720px;margin:0 auto;scrollbar-width:none}
     .chips-row::-webkit-scrollbar{display:none}
     .chip{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);color:var(--gray);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
-    .chip:hover{border-color:var(--gold-text);color:var(--navy)}
-    .chip.active{background:var(--navy);border-color:var(--navy);color:white;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .chip:hover{border-color:var(--gold-text);color:var(--t)}
+    .chip.active{background:var(--navy);border-color:var(--navy);color:white;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
     .chip .chip-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
     [data-theme="dark"] .chip{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--gray)}
     [data-theme="dark"] .chip:hover{border-color:var(--gold-text);color:var(--gold-text)}
@@ -74,7 +74,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .gcard-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
     .gcard-info{flex:1;min-width:0}
     .gcard-level{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:3px}
-    .gcard-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy);line-height:1.2}
+    .gcard-title{font-family:'Playfair Display',serif;font-size:17px;color:var(--t);line-height:1.2}
     [data-theme="dark"] .gcard-title{color:#dce8f0}
     .gcard-formula{font-size:12px;color:var(--gray);margin-top:3px;font-style:italic}
     .gcard-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -84,7 +84,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .tag-b1{background:rgba(167,139,250,.1);color:#6d28d9;border:1px solid rgba(167,139,250,.25)}
     [data-theme="dark"] .tag-a1{background:rgba(34,197,94,.12);color:#4ade80;border-color:rgba(34,197,94,.2)}
     [data-theme="dark"] .tag-a2{background:rgba(96,165,250,.12);color:#93c5fd;border-color:rgba(96,165,250,.2)}
-    [data-theme="dark"] .tag-b1{background:rgba(167,139,250,.12);color:#c4b5fd;border-color:rgba(167,139,250,.2)}
+    [data-theme="dark"] .tag-b1{background:rgba(167,139,250,.12);color:var(--purple-text);border-color:rgba(167,139,250,.2)}
     .tag-b2{background:rgba(244,63,94,.08);color:#be123c;border:1px solid rgba(244,63,94,.22)}
     [data-theme="dark"] .tag-b2{background:rgba(244,63,94,.12);color:#fda4af;border-color:rgba(244,63,94,.2)}
     .gcard-lesson{display:flex;align-items:center;gap:9px;margin:14px 0;padding:11px 14px;border-radius:12px;background:rgba(201,169,110,.08);border:1.5px solid rgba(201,169,110,.28);color:#8a6a2f;font-size:12.5px;text-decoration:none;transition:all .18s}
@@ -109,11 +109,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     /* Rule explanation */
     .rule-box{background:rgba(201,169,110,.06);border:1.5px solid rgba(201,169,110,.2);border-radius:14px;padding:16px 18px;margin:18px 0 14px}
     .rule-box .rule-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-text);margin-bottom:8px}
-    .rule-box .rule-formula{font-size:15px;font-weight:600;color:var(--navy);line-height:1.6}
+    .rule-box .rule-formula{font-size:15px;font-weight:600;color:var(--t);line-height:1.6}
     [data-theme="dark"] .rule-box .rule-formula{color:#dce8f0}
     .rule-box .rule-formula em{color:var(--gold-text);font-style:normal;font-weight:700}
     .rule-note{font-size:13px;color:var(--gray);line-height:1.7;margin-bottom:16px}
-    .rule-note strong{color:var(--navy);font-weight:600}
+    .rule-note strong{color:var(--t);font-weight:600}
     [data-theme="dark"] .rule-note strong{color:#dce8f0}
 
     /* Examples */
@@ -123,7 +123,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     [data-theme="dark"] .ex{background:rgba(255,255,255,.04);border-color:var(--bd)}
     .ex::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);border-radius:3px 0 0 3px}
     .ex:hover{border-color:rgba(201,169,110,.5);background:rgba(201,169,110,.03)}
-    .ex-kr{font-family:'Playfair Display',serif;font-size:17px;color:var(--navy);margin-bottom:3px;line-height:1.4}
+    .ex-kr{font-family:'Playfair Display',serif;font-size:17px;color:var(--t);margin-bottom:3px;line-height:1.4}
     [data-theme="dark"] .ex-kr{color:#dce8f0}
     .ex-kr em{color:var(--gold-text);font-style:normal;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1.5px}
     .ex-rom{font-size:11px;color:var(--gray);margin-bottom:4px;letter-spacing:.03em}
@@ -137,33 +137,33 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     /* Memo / tip box */
     .memo{display:flex;gap:12px;background:rgba(96,165,250,.07);border:1.5px solid rgba(96,165,250,.2);border-radius:14px;padding:14px 16px;margin-bottom:14px}
     .memo-icon{font-size:20px;flex-shrink:0;line-height:1.2}
-    .memo-txt{font-size:13px;color:var(--navy);line-height:1.7}
+    .memo-txt{font-size:13px;color:var(--t);line-height:1.7}
     [data-theme="dark"] .memo-txt{color:#dce8f0}
     .memo-txt strong{color:var(--blue-text);font-weight:600}
 
     /* Common mistake */
     .mistake{display:flex;gap:12px;background:rgba(239,68,68,.06);border:1.5px solid rgba(239,68,68,.2);border-radius:14px;padding:14px 16px;margin-bottom:14px}
     .mistake-icon{font-size:20px;flex-shrink:0;line-height:1.2}
-    .mistake-txt{font-size:13px;color:var(--navy);line-height:1.7}
+    .mistake-txt{font-size:13px;color:var(--t);line-height:1.7}
     [data-theme="dark"] .mistake-txt{color:#dce8f0}
     .mistake-txt strong{color:var(--red-text);font-weight:600}
 
     /* Conjugation table */
     .conj-table{width:100%;border-collapse:collapse;margin-bottom:16px;overflow:hidden;border-radius:12px;border:1.5px solid var(--bd)}
     [data-theme="dark"] .conj-table{border-color:var(--bd)}
-    .conj-table th{background:var(--navy);color:rgba(247,248,250,.7);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;text-align:left;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .conj-table th{background:var(--navy);color:rgba(247,248,250,.7);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;text-align:left;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
     .conj-table td{padding:10px 14px;border-bottom:1px solid var(--bd);font-size:13px}
     [data-theme="dark"] .conj-table td{border-bottom-color:var(--bd)}
     .conj-table tr:last-child td{border-bottom:none}
-    .conj-table .kr-cell{font-family:'Playfair Display',serif;font-size:15px;color:var(--navy);font-weight:600}
+    .conj-table .kr-cell{font-family:'Playfair Display',serif;font-size:15px;color:var(--t);font-weight:600}
     [data-theme="dark"] .conj-table .kr-cell{color:#dce8f0}
     .conj-table .fr-cell{color:var(--gray)}
     .conj-table .highlight td{background:rgba(201,169,110,.06)}
     .conj-table .hl-kr{color:var(--gold-text)!important}
 
     /* Practice mini-quiz */
-    .quiz-box{background:var(--navy);border-radius:16px;padding:18px 20px;margin-top:6px;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
-    .quiz-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,248,250,.4);margin-bottom:12px}
+    .quiz-box{background:var(--navy);border-radius:16px;padding:18px 20px;margin-top:6px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .quiz-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(247,248,250,.55);margin-bottom:12px}
     .quiz-q{font-size:15px;color:white;margin-bottom:16px;line-height:1.55}
     .quiz-q em{color:var(--gold-text);font-style:normal;font-family:'Playfair Display',serif;font-size:17px}
     .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -183,8 +183,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .no-results p{font-size:15px;color:var(--gray);margin-top:12px}
 
     /* Progress counter */
-    .progress-bar-wrap{background:var(--navy);padding:14px 20px;position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
-    .pb-label{font-size:11px;font-weight:600;color:rgba(247,248,250,.4);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+    .progress-bar-wrap{background:var(--navy);padding:14px 20px;position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .pb-label{font-size:11px;font-weight:600;color:rgba(247,248,250,.55);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
     .pb-track{flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
     .pb-fill{height:100%;background:linear-gradient(90deg,var(--gold),#FFD800);border-radius:4px;transition:width .5s ease}
     .pb-count{font-size:12px;font-weight:700;color:var(--gold-text);white-space:nowrap}
@@ -225,7 +225,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .gstats{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
     .gstat{background:rgba(255,255,255,.06);border:1px solid rgba(201,169,110,.28);border-radius:100px;padding:5px 13px;font-size:11.5px;font-weight:700;color:rgba(247,248,250,.6)}
     .gstat b{color:var(--gold-text);font-weight:800}
-    .sp-banner{display:flex;align-items:center;gap:12px;text-decoration:none;background:var(--navy);border:1.5px solid rgba(201,169,110,.35);border-radius:16px;padding:14px 16px;margin:0 0 14px;transition:border-color .2s;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+    .sp-banner{display:flex;align-items:center;gap:12px;text-decoration:none;background:var(--navy);border:1.5px solid rgba(201,169,110,.35);border-radius:16px;padding:14px 16px;margin:0 0 14px;transition:border-color .2s;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
     .sp-banner:hover{border-color:var(--gold-text)}
     .sp-banner svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linecap:round;flex-shrink:0}
     .sp-banner span{font-size:13px;line-height:1.5;color:rgba(247,248,250,.72)}
@@ -233,7 +233,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     .sp-banner em{font-style:normal;color:var(--gold-text);font-weight:800}
     .list-tools{display:flex;justify-content:flex-end;margin:0 0 10px}
     .tool-btn{display:inline-flex;align-items:center;gap:6px;background:var(--surf);border:1.5px solid var(--bd);border-radius:100px;padding:7px 14px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--gray);cursor:pointer;transition:all .2s}
-    .tool-btn:hover{border-color:var(--gold-text);color:var(--navy)}
+    .tool-btn:hover{border-color:var(--gold-text);color:var(--t)}
     [data-theme="dark"] .tool-btn:hover{color:var(--gold-text)}
     .tool-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
     .gcard-peek{font-family:'Playfair Display',serif;font-size:13.5px;color:var(--gray);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -448,7 +448,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <a class="gcard-lesson" href="lecon15.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Approfondir : <strong>Leçon 15 · Particules <span lang="ko">이/가</span> et <span lang="ko">은/는</span></strong></span><span class="gl-arrow">→</span></a>
         <div class="quiz-box" id="quiz-g01">
           <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz : Teste-toi !</div>
-          <div class="quiz-q">Comment dit-on <em>« Le café, c'est chaud. »</em> en coréen ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px"><span lang="ko">커피</span> (café) • <span lang="ko">뜨거워요</span> (c'est chaud)</small></div>
+          <div class="quiz-q">Comment dit-on <em>« Le café, c'est chaud. »</em> en coréen ?<br/><small style="color:rgba(247,248,250,.55);font-size:11px"><span lang="ko">커피</span> (café) • <span lang="ko">뜨거워요</span> (c'est chaud)</small></div>
           <div class="quiz-opts">
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g01','g01')">커피가 뜨거워요</button>
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g01','g01')">커피는 뜨거워요</button>
@@ -593,7 +593,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <a class="gcard-lesson" href="lecon41.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Approfondir : <strong>Leçon 41 · Verbes essentiels & conjugaison</strong></span><span class="gl-arrow">→</span></a>
         <div class="quiz-box" id="quiz-g03">
           <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz : Teste-toi !</div>
-          <div class="quiz-q">Comment conjugue-t-on <em lang="ko">읽다</em> (lire) au présent poli ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px"><span lang="ko">읽</span> → voyelle ㅣ → ?</small></div>
+          <div class="quiz-q">Comment conjugue-t-on <em lang="ko">읽다</em> (lire) au présent poli ?<br/><small style="color:rgba(247,248,250,.55);font-size:11px"><span lang="ko">읽</span> → voyelle ㅣ → ?</small></div>
           <div class="quiz-opts">
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g03','g03')">읽아요</button>
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g03','g03')">읽어요</button>
@@ -1065,7 +1065,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         </div>
         <div class="quiz-box" id="quiz-g07">
           <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
-          <div class="quiz-q">Comment met-on <em lang="ko">마시다</em> (boire) au passé poli ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px">Radical : <span lang="ko">마시</span> → voyelle ㅣ → <span lang="ko">었어요</span></small></div>
+          <div class="quiz-q">Comment met-on <em lang="ko">마시다</em> (boire) au passé poli ?<br/><small style="color:rgba(247,248,250,.55);font-size:11px">Radical : <span lang="ko">마시</span> → voyelle ㅣ → <span lang="ko">었어요</span></small></div>
           <div class="quiz-opts">
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g07','g07')">마시았어요</button>
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g07','g07')">마셨어요</button>
@@ -1180,7 +1180,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <a class="gcard-lesson" href="lecon16.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Approfondir : <strong>Leçon 16 · Particules <span lang="ko">을/를, 에, 에서</span></strong></span><span class="gl-arrow">→</span></a>
         <div class="quiz-box" id="quiz-g09">
           <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
-          <div class="quiz-q">Choisis la bonne particule : <em>« Je travaille au bureau. »</em><br/><small style="color:rgba(247,248,250,.4);font-size:11px"><span lang="ko">회사</span> = bureau • <span lang="ko">일해요</span> = je travaille</small></div>
+          <div class="quiz-q">Choisis la bonne particule : <em>« Je travaille au bureau. »</em><br/><small style="color:rgba(247,248,250,.55);font-size:11px"><span lang="ko">회사</span> = bureau • <span lang="ko">일해요</span> = je travaille</small></div>
           <div class="quiz-opts">
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g09','g09')">회사에 일해요</button>
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g09','g09')">회사에서 일해요</button>
@@ -1238,7 +1238,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <a class="gcard-lesson" href="lecon30.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Approfondir : <strong>Leçon 30 · Le conditionnel -(<span lang="ko">으</span>)<span lang="ko">면</span></strong></span><span class="gl-arrow">→</span></a>
         <div class="quiz-box" id="quiz-g10">
           <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
-          <div class="quiz-q">Comment dit-on <em>« Si tu manges, tu vas mieux. »</em> ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px"><span lang="ko">먹다</span> (manger) • <span lang="ko">좋아져요</span> (aller mieux)</small></div>
+          <div class="quiz-q">Comment dit-on <em>« Si tu manges, tu vas mieux. »</em> ?<br/><small style="color:rgba(247,248,250,.55);font-size:11px"><span lang="ko">먹다</span> (manger) • <span lang="ko">좋아져요</span> (aller mieux)</small></div>
           <div class="quiz-opts">
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g10','g10')">먹으면 좋아져요</button>
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g10','g10')">먹면 좋아져요</button>
@@ -1786,7 +1786,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <a class="gcard-lesson" href="lecon31.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Approfondir : <strong>Leçon 31 · Cause avancée -<span lang="ko">기 때문에</span></strong></span><span class="gl-arrow">→</span></a>
         <div class="quiz-box" id="quiz-g11">
           <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
-          <div class="quiz-q">Transforme : <em>« Je suis fatigué(e), donc je rentre. »</em> en utilisant -<span lang="ko">기 때문에</span>.<br/><small style="color:rgba(247,248,250,.4);font-size:11px"><span lang="ko">피곤하다</span> (être fatigué) • <span lang="ko">집에 가요</span> (je rentre)</small></div>
+          <div class="quiz-q">Transforme : <em>« Je suis fatigué(e), donc je rentre. »</em> en utilisant -<span lang="ko">기 때문에</span>.<br/><small style="color:rgba(247,248,250,.55);font-size:11px"><span lang="ko">피곤하다</span> (être fatigué) • <span lang="ko">집에 가요</span> (je rentre)</small></div>
           <div class="quiz-opts">
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g11','g11')">피곤하기 때문에 집에 가요</button>
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g11','g11')">피곤하고 때문에 집에 가요</button>
@@ -1844,7 +1844,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
         <a class="gcard-lesson" href="lecon25.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><span>Approfondir : <strong>Leçon 25 · Exprimer une opinion</strong></span><span class="gl-arrow">→</span></a>
         <div class="quiz-box" id="quiz-g12">
           <div class="quiz-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:5px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Mini-quiz</div>
-          <div class="quiz-q">Comment dit-on <em>« Je crois qu'il va venir. »</em> ?<br/><small style="color:rgba(247,248,250,.4);font-size:11px"><span lang="ko">오다</span> (venir) • <span lang="ko">오</span> → voyelle → ㄹ <span lang="ko">것 같아요</span></small></div>
+          <div class="quiz-q">Comment dit-on <em>« Je crois qu'il va venir. »</em> ?<br/><small style="color:rgba(247,248,250,.55);font-size:11px"><span lang="ko">오다</span> (venir) • <span lang="ko">오</span> → voyelle → ㄹ <span lang="ko">것 같아요</span></small></div>
           <div class="quiz-opts">
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ok','quiz-g12','g12')">올 것 같아요</button>
             <button lang="ko" class="quiz-opt" onclick="quizAnswer(this,'ko','quiz-g12','g12')">오을 것 같아요</button>

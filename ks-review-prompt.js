@@ -168,7 +168,7 @@
         'font-size:13.5px;text-decoration:none;transition:filter .15s}',
       '.ksrp-go:hover{filter:brightness(1.06)}',
       '.ksrp-alt{display:flex;justify-content:center;gap:16px;margin-top:11px}',
-      '.ksrp-alt button{background:none;border:none;padding:8px 6px;color:rgba(247,248,250,.5);',
+      '.ksrp-alt button{background:none;border:none;padding:8px 6px;color:rgba(247,248,250,.55);',
         'font-size:12px;font-family:inherit;cursor:pointer;text-decoration:underline}',
       '.ksrp-alt button:hover{color:rgba(247,248,250,.8)}',
       '@media(prefers-reduced-motion:reduce){.ksrp{transition:none;transform:none;opacity:1}}'

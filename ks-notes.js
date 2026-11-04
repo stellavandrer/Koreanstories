@@ -159,10 +159,10 @@
         'flex-shrink:0',
       '}',
       '.ks-note-status{display:inline-flex;align-items:center;gap:4px;font-weight:600}',
-      '.ks-note-status.saved{color:#16A34A}',
+      '.ks-note-status.saved{color:var(--green-text)}',
       '.ks-note-status svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}',
       '.ks-note-delete{',
-        'background:none;border:none;color:#EF4444;font-size:11.5px;cursor:pointer;',
+        'background:none;border:none;color:var(--red-text);font-size:11.5px;cursor:pointer;',
         'font-weight:600;font-family:inherit;padding:4px 6px;border-radius:6px',
       '}',
       '.ks-note-delete:hover{background:rgba(239,68,68,.08)}'

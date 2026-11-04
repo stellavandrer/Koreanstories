@@ -13,8 +13,8 @@
   <link rel="stylesheet" href="design.css">
   <style>
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
-    h2{color:var(--navy);margin:0 0 .4rem}
-    h3{color:#F59E0B;margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    h2{color:var(--t);margin:0 0 .4rem}
+    h3{color:var(--amber-text);margin:1.3rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
     .pill{display:inline-block;background:rgba(245,158,11,.13);color:#D97706;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
     .xp-badge{background:rgba(245,158,11,.13);color:#D97706;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
     .draft-banner{background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:.5rem .8rem;font-size:.78rem;color:#92400E;margin:.6rem 0 1rem}
@@ -28,12 +28,12 @@
 
     .quiz-card{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:1rem 1.1rem;margin:.7rem 0}
     .quiz-meta{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tx-muted);margin-bottom:.5rem}
-    .quiz-meta .num{background:#F59E0B;color:#fff;padding:2px 10px;border-radius:100px}
+    .quiz-meta .num{background:#F59E0B;color:#0D1823;padding:2px 10px;border-radius:100px}
     .quiz-meta .cat{color:#D97706}
     .quiz-q{font-weight:700;color:var(--tx);font-size:.95rem;margin-bottom:.6rem;line-height:1.55}
     .quiz-q .blank{display:inline-block;min-width:60px;padding:1px 8px;background:rgba(245,158,11,.15);border-bottom:2px solid #F59E0B;color:#D97706;font-weight:700;border-radius:3px 3px 0 0}
     .quiz-q .ko{color:#D97706}
-    .quiz-passage{background:rgba(245,158,11,.05);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;padding:.7rem .9rem;margin:.5rem 0;font-size:.88rem;line-height:1.7;color:var(--navy)}
+    .quiz-passage{background:rgba(245,158,11,.05);border-left:3px solid #F59E0B;border-radius:0 8px 8px 0;padding:.7rem .9rem;margin:.5rem 0;font-size:.88rem;line-height:1.7;color:var(--t)}
     [data-theme="dark"] .quiz-passage{color:#f7f8fa}
     .quiz-opt{display:block;width:100%;text-align:left;padding:.55rem .85rem;background:var(--bg);border:1.5px solid var(--bd);border-radius:10px;margin:.3rem 0;font-size:.9rem;color:var(--tx);cursor:pointer;font-family:inherit;transition:all .15s}
     .quiz-opt:hover:not(:disabled){border-color:#F59E0B}
@@ -41,7 +41,7 @@
     .quiz-opt.wrong{background:rgba(239,68,68,.10);border-color:#DC2626;color:#991B1B}
     .quiz-explain{display:none;margin-top:.7rem;padding:.6rem .85rem;background:rgba(34,197,94,.07);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;font-size:.82rem;color:var(--tx-muted);line-height:1.55}
     .quiz-explain.show{display:block}
-    .quiz-explain strong{color:#16A34A}
+    .quiz-explain strong{color:var(--green-text)}
 
     .results{background:linear-gradient(135deg,#F59E0B,#FCD34D);border-radius:18px;padding:1.5rem;color:#0a1220;margin:1rem 0;text-align:center;display:none}
     .results.show{display:block;animation:resultIn .4s cubic-bezier(.34,1.2,.64,1)}
@@ -57,12 +57,12 @@
     .start-btn:hover{transform:translateY(-1px)}
 
     .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:1rem 0}
-    .stat-card{background:rgba(255,255,255,.92);border-radius:12px;padding:.7rem;color:#0a1220}
+    .stat-card{background:rgba(255,255,255,.92);border-radius:12px;padding:.7rem;color:#0a1220;--t:#0D1823;--t3:#4D6785;--gray:#4D6785;--gold-text:#7A5F2E;--green-text:#147437;--red-text:#C91111;--amber-text:#8C5A06;--purple-text:#6939F6;--teal-text:#0A7067;--blue-text:#0A5BE1;--pink-text:#C80B2C;}
     [data-theme="dark"] .stat-card{background:rgba(15,27,45,.92);color:#f7f8fa}
     .stat-val{font-size:1.4rem;font-weight:800;color:#D97706}
     .stat-lbl{font-size:.68rem;color:var(--tx-muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-top:.2rem}
 
-    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#F59E0B;color:#0D1823;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
@@ -100,7 +100,7 @@
     </div>
     <div class="results-actions">
       <button class="results-btn" onclick="restartQuiz()">Recommencer</button>
-      <button class="results-btn" onclick="completeLesson()" style="background:#fff;color:#D97706">Terminer · +25 XP</button>
+      <button class="results-btn" onclick="completeLesson()" style="background:#fff;color:var(--amber-text)">Terminer · +25 XP</button>
     </div>
   </div>
 </div></main></div>

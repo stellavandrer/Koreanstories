@@ -71,9 +71,9 @@ STYLE_SUP = """    .tbl{width:100%;border-collapse:collapse;font-size:.85rem;mar
     [data-theme="dark"] .formula{color:#f9a8d4}
     .fv{background:rgba(239,68,68,.06);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;padding:.6rem .85rem;margin:.5rem 0;font-size:.88rem;line-height:1.55}
     .fv-x{color:var(--red-text);font-weight:800}
-    .fv-v{color:#16A34A;font-weight:800}
+    .fv-v{color:var(--green-text);font-weight:800}
     .fv-ko{font-weight:700;color:var(--red-text)}
-    .fv-ko.ok{color:#16A34A}
+    .fv-ko.ok{color:var(--green-text)}
     .fv-why{color:var(--tx-muted);font-size:.82rem;margin:.25rem 0 .4rem}
 """
 
@@ -94,7 +94,7 @@ def page(nom_fichier, titre, titre_barre, titre_onglet, description, pill, xp, c
   <link rel="stylesheet" href="design.css">
   <style>
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
-    h1{color:var(--navy);margin:0 0 .4rem}
+    h1{color:var(--t);margin:0 0 .4rem}
     [data-theme="dark"] h1{color:#EDF2FA}
     h3{color:#DB2777;margin:1.4rem 0 .5rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
     [data-theme="dark"] h3{color:#f9a8d4}
@@ -132,7 +132,7 @@ def page(nom_fichier, titre, titre_barre, titre_onglet, description, pill, xp, c
     @media (max-width:480px){.contrast{grid-template-columns:1fr}}
 __STYLE_SUP__    .mq .opt{padding:.55rem .8rem;border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;margin:.3rem 0;font-size:.9rem;background:var(--bg)}
     .mq .opt:hover{border-color:#DB2777}
-    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:#16A34A;font-weight:600}
+    .mq .opt.ok{border-color:#16A34A;background:rgba(22,163,74,.1);color:var(--green-text);font-weight:600}
     .mq .opt.ko{border-color:var(--red-text);background:rgba(239,68,68,.08);color:var(--red-text)}
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>

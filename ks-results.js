@@ -40,7 +40,7 @@
       'font-size:clamp(20px,5.5vw,26px);color:#fff;',
       'margin-bottom:4px;line-height:1.2}',
     '.ks-sub{font-size:11px;font-weight:700;letter-spacing:.14em;',
-      'text-transform:uppercase;color:rgba(201,169,110,.55);margin-bottom:22px}',
+      'text-transform:uppercase;color:rgba(201,169,110,.85);margin-bottom:22px}',
 
     /* Stats row */
     '.ks-stats{display:flex;gap:10px;width:100%;margin-bottom:22px}',
@@ -49,7 +49,7 @@
     '.ks-stat-n{font-family:"Playfair Display",serif;font-size:26px;',
       'color:#C9A96E;line-height:1;margin-bottom:2px}',
     '.ks-stat-l{font-size:10px;font-weight:600;',
-      'color:rgba(247,248,250,.32);text-transform:uppercase;letter-spacing:.06em}',
+      'color:rgba(247,248,250,.52);text-transform:uppercase;letter-spacing:.06em}',
 
     /* Achievement emblem */
     '.ks-emblem{width:94px;height:94px;margin:0 auto 14px;',
@@ -60,7 +60,7 @@
       'filter:drop-shadow(0 8px 22px rgba(201,169,110,.45))}',
 
     /* Message */
-    '.ks-msg{font-size:14px;color:rgba(247,248,250,.5);line-height:1.75;',
+    '.ks-msg{font-size:14px;color:rgba(247,248,250,.55);line-height:1.75;',
       'margin-bottom:26px;max-width:300px}',
     '.ks-msg strong{color:rgba(247,248,250,.85)}',
 

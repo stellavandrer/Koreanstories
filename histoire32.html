@@ -14,27 +14,27 @@
   <link rel="stylesheet" href="design.css">
   <style>
     body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--bg);color:var(--tx)}
-    h2{color:var(--navy);margin:0 0 .4rem}
-    h3{color:#16A34A;margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
-    .pill{display:inline-block;background:rgba(22,163,74,.13);color:#16A34A;border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
-    .xp-badge{background:rgba(22,163,74,.13);color:#16A34A;padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
+    h2{color:var(--t);margin:0 0 .4rem}
+    h3{color:var(--green-text);margin:1.2rem 0 .4rem;font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .pill{display:inline-block;background:rgba(22,163,74,.13);color:var(--green-text);border-radius:20px;padding:.2rem .7rem;font-size:.82rem;font-weight:600}
+    .xp-badge{background:rgba(22,163,74,.13);color:var(--green-text);padding:.15rem .5rem;border-radius:8px;font-size:.8rem;font-weight:700}
     .story-hero{background:linear-gradient(135deg,#14532d,#16A34A);border-radius:16px;padding:1.4rem;color:#fff;margin:.8rem 0;text-align:center}
     .story-tag{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#bbf7d0;margin-bottom:.4rem}
     .story-title{font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
     .story-sub{font-size:.85rem;opacity:.85}
     .listen-bar{background:linear-gradient(135deg,rgba(22,163,74,.10),rgba(22,163,74,.04));border:1.5px solid rgba(22,163,74,.3);border-radius:14px;padding:.9rem 1rem;margin:1rem 0;display:flex;align-items:center;gap:.8rem}
-    .listen-btn{background:#16A34A;color:#fff;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+    .listen-btn{background:#16A34A;color:#0D1823;border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
     .listen-btn:hover{transform:scale(1.06)}
     .listen-btn.playing{background:#dc2626}
     .listen-btn svg{width:18px;height:18px;fill:#fff}
     .listen-meta{flex:1;min-width:0}
-    .listen-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:.15rem}
+    .listen-title{font-weight:700;color:var(--t);font-size:.93rem;margin-bottom:.15rem}
     [data-theme="dark"] .listen-title{color:#EDF2FA}
     .listen-sub{font-size:.78rem;color:var(--tx-muted)}
     .panel{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.7rem 0;position:relative}
-    .panel-num{position:absolute;top:-10px;left:14px;background:#16A34A;color:#fff;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
+    .panel-num{position:absolute;top:-10px;left:14px;background:#16A34A;color:#0D1823;border-radius:100px;padding:2px 10px;font-size:.7rem;font-weight:800;letter-spacing:.06em}
     .narration{background:rgba(22,163,74,.06);border-left:3px solid #16A34A;border-radius:0 8px 8px 0;padding:.7rem 1rem;margin:.4rem 0;font-style:italic;font-size:.88rem;color:var(--tx-muted);line-height:1.55}
-    .narration-kr{font-weight:600;color:var(--navy);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
+    .narration-kr{font-weight:600;color:var(--t);font-style:normal;margin-bottom:.3rem;font-size:.95rem}
     [data-theme="dark"] .narration-kr{color:#EDF2FA}
     .bubble-row{display:flex;gap:.5rem;margin:.5rem 0;align-items:flex-start}
     .bubble-row.right{flex-direction:row-reverse}
@@ -46,19 +46,19 @@
     .bubble{background:var(--surf);border:1.5px solid var(--bd);padding:.7rem .9rem;border-radius:18px 18px 18px 4px;flex:1;min-width:0;max-width:88%;transition:background .25s, box-shadow .25s}
     .bubble-row.right .bubble{border-radius:18px 18px 4px 18px;background:rgba(14,165,233,.06);border-color:rgba(14,165,233,.25)}
     .bubble.listening{box-shadow:0 0 0 2px rgba(22,163,74,.45)}
-    .ko{font-weight:600;color:var(--navy);font-size:.98rem;line-height:1.5}
+    .ko{font-weight:600;color:var(--t);font-size:.98rem;line-height:1.5}
     [data-theme="dark"] .ko{color:#EDF2FA}
     .bubble-rom{font-size:.74rem;color:var(--tx-muted);font-style:italic;margin-top:.15rem}
     .bubble-fr{font-size:.82rem;color:var(--tx-muted);margin-top:.3rem;padding-top:.3rem;border-top:1px dashed rgba(0,0,0,.08)}
-    .bubble-audio{background:rgba(22,163,74,.10);border:1.5px solid rgba(22,163,74,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:#16A34A;display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
+    .bubble-audio{background:rgba(22,163,74,.10);border:1.5px solid rgba(22,163,74,.3);border-radius:50%;width:28px;height:28px;cursor:pointer;color:var(--green-text);display:inline-flex;align-items:center;justify-content:center;margin-top:.4rem}
     .bubble-audio svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round}
     .vocab{background:var(--surf);border:1px solid var(--bd);border-radius:14px;padding:1rem;margin:.8rem 0}
     .vocab table{width:100%;border-collapse:collapse;font-size:.88rem}
-    .vocab th{background:rgba(22,163,74,.1);color:#16A34A;padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
+    .vocab th{background:rgba(22,163,74,.1);color:var(--green-text);padding:.4rem .6rem;text-align:left;font-size:.75rem;font-weight:700;text-transform:uppercase}
     .vocab td{padding:.45rem .6rem;border-bottom:1px solid var(--bd)}
-    .vocab td .ko{color:#16A34A;font-weight:700;font-size:.95rem}
+    .vocab td .ko{color:var(--green-text);font-weight:700;font-size:.95rem}
     .tip{background:rgba(184,146,78,.08);border-left:3px solid #B8924E;border-radius:0 8px 8px 0;padding:.6rem .9rem;font-size:.85rem;margin:.6rem 0;line-height:1.55}
-    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
+    .btn-done{display:block;width:100%;padding:.9rem;background:#16A34A;color:#0D1823;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-top:1.2rem}
   </style>
 <style>.bnav{padding-left:2px;padding-right:2px}.bni{padding:6px 4px;min-width:0}.bni span{font-size:8px;letter-spacing:.02em}</style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>

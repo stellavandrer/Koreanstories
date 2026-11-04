@@ -62,7 +62,7 @@
       '.ks-ck-btn:hover{filter:brightness(.97)}',
       '.ks-ck-btn.primary{background:linear-gradient(135deg,var(--gold,#C9A96E),#D4A55A);',
         'color:#fff;border-color:transparent}',
-      '.ks-ck-link{background:none;border:none;color:var(--t3,#8FA5BE);font-size:12px;font-weight:700;',
+      '.ks-ck-link{background:none;border:none;color:var(--t3,#4D6785);font-size:12px;font-weight:700;',
         'cursor:pointer;text-decoration:underline;padding:6px 4px;font-family:inherit;flex:0 0 auto}',
       '.ks-ck-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--bd,#DAE3F2)}',
       '.ks-ck-detail.show{display:block}',

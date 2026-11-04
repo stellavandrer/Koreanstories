@@ -19,7 +19,7 @@
     html,body{height:100%}
     body{font-family:'Inter',sans-serif;background:var(--navy);color:#fff;
       min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden;
-      animation:bodyIn .35s ease both;--t3:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--blue-text:#5B96F7;--pink-text:#F66880;}
+      animation:bodyIn .35s ease both;--t:#EDF2FA;--t3:#8FA5BE;--gray:#8FA5BE;--gold-text:#D5BA8A;--green-text:#22c55e;--red-text:#F36E6E;--amber-text:#f59e0b;--purple-text:#a78bfa;--teal-text:#0FA99B;--blue-text:#5B96F7;--pink-text:#F66880;}
     @keyframes bodyIn{from{opacity:0}to{opacity:1}}
 
     /* Background decoration */
@@ -31,7 +31,7 @@
     .ob-head{position:relative;z-index:2;padding:20px 20px 0;width:100%;max-width:480px;margin:0 auto;flex-shrink:0}
     .ob-bar-row{display:flex;align-items:center;gap:12px}
     .ob-back{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;
-      color:rgba(247,248,250,.4);transition:color .2s,background .2s;flex-shrink:0;
+      color:rgba(247,248,250,.55);transition:color .2s,background .2s;flex-shrink:0;
       display:flex;align-items:center;justify-content:center}
     .ob-back:hover{color:#fff;background:rgba(255,255,255,.06)}
     .ob-back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
@@ -41,7 +41,7 @@
     .ob-seg-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));
       border-radius:100px;transition:width .4s cubic-bezier(.4,0,.2,1)}
     .ob-skip{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;
-      font-size:12px;font-weight:600;color:rgba(247,248,250,.35);padding:6px 4px;
+      font-size:12px;font-weight:600;color:rgba(247,248,250,.55);padding:6px 4px;
       transition:color .2s;flex-shrink:0}
     .ob-skip:hover{color:rgba(247,248,250,.7)}
 
@@ -58,7 +58,7 @@
     .step-title{font-family:'Playfair Display',serif;font-size:clamp(22px,5.5vw,28px);
       font-weight:700;line-height:1.25;margin-bottom:8px}
     .step-title em{color:var(--gold-text);font-style:italic}
-    .step-sub{font-size:13.5px;color:rgba(247,248,250,.5);line-height:1.6;margin-bottom:24px}
+    .step-sub{font-size:13.5px;color:rgba(247,248,250,.55);line-height:1.6;margin-bottom:24px}
 
     /* Option cards */
     .opts{display:flex;flex-direction:column;gap:10px}
@@ -78,7 +78,7 @@
     .opt-txt{flex:1;min-width:0}
     .opt-label{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:2px}
     .opt.sel .opt-label{color:var(--gold-text)}
-    .opt-desc{font-size:12px;color:rgba(247,248,250,.42);line-height:1.45}
+    .opt-desc{font-size:12px;color:rgba(247,248,250,.52);line-height:1.45}
     .opt-check{width:22px;height:22px;border-radius:50%;flex-shrink:0;
       border:2px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;
       transition:all .18s}
@@ -107,7 +107,7 @@
       display:flex;align-items:center;justify-content:center}
     .recap-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
     .recap-k{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-      color:rgba(247,248,250,.35);margin-bottom:2px}
+      color:rgba(247,248,250,.55);margin-bottom:2px}
     .recap-v{font-size:14px;font-weight:700;color:#fff}
 
     /* ── Footer button ── */
@@ -115,7 +115,7 @@
       padding:16px 20px calc(20px + env(safe-area-inset-bottom));
       background:linear-gradient(180deg,transparent,var(--navy) 32%)}
     .ob-cta{width:100%;padding:16px;border-radius:15px;border:none;cursor:pointer;
-      background:var(--gold);color:var(--navy);font-family:'Inter',sans-serif;
+      background:var(--gold);color:var(--t);font-family:'Inter',sans-serif;
       font-size:15px;font-weight:800;transition:background .2s,transform .1s,opacity .2s;
       box-shadow:0 8px 26px rgba(201,169,110,.32);
       display:flex;align-items:center;justify-content:center;gap:8px}
