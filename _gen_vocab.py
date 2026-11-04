@@ -215,7 +215,7 @@ TPL = '''<!DOCTYPE html>
 
   <h2>Les mots</h2>
   <p class="gr-sous">Touche le haut-parleur pour entendre chaque mot. La troisième colonne donne la prononciation écrite à la française, pas la romanisation officielle, qui est pensée pour l'anglais.</p>
-  <table class="vo-t"><thead><tr><th>Coréen</th><th>Romanisation</th><th>Ça se lit</th><th>Français</th></tr></thead><tbody>{lignes}</tbody></table>
+  <table class="vo-t"><thead><tr><th scope="col">Coréen</th><th scope="col">Romanisation</th><th scope="col">Ça se lit</th><th scope="col">Français</th></tr></thead><tbody>{lignes}</tbody></table>
 
   {phrases}
 

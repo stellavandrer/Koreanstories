@@ -177,7 +177,7 @@ def page(mot, e, voisins):
 
     h.append('  <h2>Les formes</h2>')
     h.append('  <table class="cj-t">')
-    h.append('    <tr><th>Quand l\'employer</th><th>Forme</th><th>Ça se lit</th></tr>')
+    h.append('    <tr><th scope="col">Quand l\'employer</th><th scope="col">Forme</th><th scope="col">Ça se lit</th></tr>')
     for libelle, forme in e['formes']:
         h.append('    <tr><td>%s</td><td class="f">%s %s</td><td class="l" data-lire="%s"></td></tr>'
                  % (libelle, forme, SPK % (forme, forme), forme))

@@ -133,7 +133,7 @@ body1 = sec('⌨️', 'Le layout 2-beolsik (두벌식) — le standard coréen',
 <div class="rule"><div class="rule-t">La magie du batchim</div><div class="rule-b">Si tu tapes une voyelle après une consonne finale, elle « migre » vers la syllabe suivante : 한 + ㅏ devient automatiquement <span lang="ko" class="kr">하나</span>. C'est déroutant 10 minutes, puis ça devient un réflexe.</div></div>
 <div class="rule"><div class="rule-t">Voyelles composées</div><div class="rule-b">Elles se tapent en deux touches : ㅗ+ㅏ=<span lang="ko" class="kr">ㅘ</span> · ㅜ+ㅓ=<span lang="ko" class="kr">ㅝ</span> · ㅗ+ㅣ=<span lang="ko" class="kr">ㅚ</span> · ㅡ+ㅣ=<span lang="ko" class="kr">ㅢ</span></div></div>
 ''') + sec('📱', 'Activer le clavier coréen sur tes appareils', '''
-<table><thead><tr><th>Appareil</th><th>Chemin</th><th>Bascule FR ↔ KR</th></tr></thead><tbody>
+<table><thead><tr><th scope="col">Appareil</th><th scope="col">Chemin</th><th scope="col">Bascule FR ↔ KR</th></tr></thead><tbody>
 <tr><td style="font-family:Inter;font-size:13px">iPhone / iPad</td><td>Réglages → Général → Clavier → Claviers → Coréen (standard)</td><td>Touche globe 🌐</td></tr>
 <tr><td style="font-family:Inter;font-size:13px">Android</td><td>Gboard → Langues → Ajouter → Coréen → layout 2-Bulsik</td><td>Touche globe / espace long</td></tr>
 <tr><td style="font-family:Inter;font-size:13px">Windows</td><td>Paramètres → Langue → Ajouter le coréen (Microsoft IME)</td><td>Alt droite (한/영)</td></tr>
@@ -149,7 +149,7 @@ body1 = sec('⌨️', 'Le layout 2-beolsik (두벌식) — le standard coréen',
 # ═══════════════ FICHE 2 — 있어요 / 없어요 ═══════════════
 body2 = sec('⭐', 'Le verbe à tout faire du coréen', '''
 <p class="p">Un seul verbe pour trois idées françaises : <strong>« il y a »</strong>, <strong>« avoir »</strong> et <strong>« être quelque part »</strong>. Sa forme négative est un mot différent — pas un « ne pas » ajouté :</p>
-<table><thead><tr><th>Coréen</th><th>Prononciation</th><th>Sens</th></tr></thead><tbody>
+<table><thead><tr><th scope="col">Coréen</th><th scope="col">Prononciation</th><th scope="col">Sens</th></tr></thead><tbody>
 <tr><td>있어요</td><td>i-sseo-yo</td><td>il y a · j'ai · être (quelque part)</td></tr>
 <tr><td>없어요</td><td>eop-seo-yo</td><td>il n'y a pas · je n'ai pas</td></tr>
 </tbody></table>
@@ -165,7 +165,7 @@ body2 = sec('⭐', 'Le verbe à tout faire du coréen', '''
 <div lang="ko" class="rule-kr">돈이 없어요</div><div class="rule-fr">Je n'ai pas d'argent.</div></div>
 ''') + sec('🧭', 'Les particules de position', '''
 <p class="p">Pour préciser OÙ : <strong>nom de lieu + mot de position + 에</strong>.</p>
-<table><thead><tr><th>Position</th><th>Sens</th><th>Exemple</th></tr></thead><tbody>
+<table><thead><tr><th scope="col">Position</th><th scope="col">Sens</th><th scope="col">Exemple</th></tr></thead><tbody>
 <tr><td>위</td><td>sur, au-dessus</td><td><span lang="ko" class="kr">책상 위에 책이 있어요</span> — un livre sur le bureau</td></tr>
 <tr><td>밑 / 아래</td><td>sous</td><td><span lang="ko" class="kr">의자 밑에 가방이 있어요</span> — un sac sous la chaise</td></tr>
 <tr><td>옆</td><td>à côté</td><td><span lang="ko" class="kr">소파 옆에 시계가 있어요</span> — une horloge à côté du canapé</td></tr>

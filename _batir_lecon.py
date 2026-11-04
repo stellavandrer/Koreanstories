@@ -36,7 +36,7 @@ def contrast(ta, ka, fa, tb, kb, fb):
             '    </div>\n' % (ta, ka, spk(ka), fa, tb, kb, spk(kb), fb))
 
 def table(entetes, lignes):
-    h = '    <table class="tbl">\n      <tr>' + ''.join('<th>%s</th>' % e for e in entetes) + '</tr>\n'
+    h = '    <table class="tbl">\n      <tr>' + ''.join('<th scope="col">%s</th>' % e for e in entetes) + '</tr>\n'
     for l in lignes:
         cells = ''.join('<td%s>%s</td>' % (' lang="ko" class="ko"' if i == 0 and l[0].strip().startswith('-') or (i == 0 and any(ord(c) > 0x3000 for c in l[0])) else '', c)
                         for i, c in enumerate(l))

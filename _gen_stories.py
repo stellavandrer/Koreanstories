@@ -537,7 +537,7 @@ def page(s):
 
   <h3>Vocabulaire</h3>
   <div class="vocab"><table>
-    <tr><th>Coréen</th><th>Sens</th></tr>
+    <tr><th scope="col">Coréen</th><th scope="col">Sens</th></tr>
 {vocab_rows}
   </table></div>
 
