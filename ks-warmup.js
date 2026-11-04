@@ -130,7 +130,7 @@
         '<span class="kw-badge">Rappel</span>' +
         '<button class="kw-close" type="button" aria-label="Fermer">&times;</button>' +
       '</div>' +
-      '<div class="kw-lbl">Avant de continuer, un petit rappel de <a href="'+esc(result.lesson.href)+'">'+esc(result.lesson.title)+'</a> :</div>' +
+      '<div class="kw-lbl">Avant de continuer, un petit rappel. Tu avais vu :<br>'+'<a href="'+esc(result.lesson.href)+'">'+esc(result.lesson.title)+'</a></div>' +
       '<div class="kw-q">'+esc(result.quiz.q)+'</div>' +
       '<button class="kw-reveal" type="button">Voir la réponse</button>' +
       '<div class="kw-a" hidden><b>Réponse : </b>'+esc(result.quiz.a)+'</div>';
