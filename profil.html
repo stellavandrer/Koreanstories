@@ -497,8 +497,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </div>
 
 <!-- CHARACTER CREATOR MODAL -->
-<div role="button" tabindex="0" class="cc-overlay" id="ccOverlay" onclick="ccBgClose(event)">
-<div class="cc-panel" id="ccPanel">
+<div class="cc-overlay" id="ccOverlay" onclick="ccBgClose(event)">
+<div class="cc-panel" id="ccPanel" role="dialog" aria-modal="true" aria-label="Choisir son avatar">
   <div class="cc-handle"></div>
   <div class="cc-header">
     <div class="cc-title">Mon personnage</div>
@@ -524,8 +524,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </div>
 
 <!-- EDIT MODAL -->
-<div role="button" tabindex="0" class="edit-overlay" id="editOverlay" onclick="editBgClose(event)">
-<div class="edit-panel">
+<div class="edit-overlay" id="editOverlay" onclick="editBgClose(event)">
+<div class="edit-panel" role="dialog" aria-modal="true" aria-label="Modifier le profil">
   <div class="edit-title">Modifier mon profil</div>
   <div class="edit-field">
     <label class="edit-lbl">Pseudo</label>
@@ -543,8 +543,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </div>
 
 <!-- SHARE MODAL -->
-<div role="button" tabindex="0" class="share-overlay" id="shareOverlay" onclick="shareBgClose(event)">
-<div class="share-modal">
+<div class="share-overlay" id="shareOverlay" onclick="shareBgClose(event)">
+<div class="share-modal" role="dialog" aria-modal="true" aria-label="Partager">
   <div class="share-modal-title">Ma carte Korean Stories</div>
   <div class="share-card-preview"><canvas id="shareCanvas" width="640" height="400"></canvas></div>
   <div class="share-modal-btns">
@@ -555,8 +555,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
 </div>
 
 <!-- BADGE OVERLAY -->
-<div role="button" tabindex="0" class="badge-overlay" id="badgeOverlay" onclick="closeBadgePanel()">
-  <div class="badge-panel">
+<div class="badge-overlay" id="badgeOverlay" onclick="closeBadgePanel()">
+  <div class="badge-panel" role="dialog" aria-modal="true" aria-label="Détail du badge">
     <div class="bp-handle"></div>
     <div class="bp-top">
       <div class="bp-ico" id="bpIco"></div>
@@ -1317,5 +1317,19 @@ function _ksExportToast(msg, isError) {
       document.addEventListener('ks-premium-change', syncBadge);
     })();
   </script>
+
+<script>
+/* Echap ferme la modale ouverte : sans cela, un utilisateur au
+   clavier restait enfermé dans la fenêtre. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape') return;
+  function v(id){var el=document.getElementById(id); if(!el) return false;
+    var s=getComputedStyle(el);
+    /* ces fonds restent en display:flex et s'ouvrent par l'opacite */
+    return s.display!=='none' && s.visibility!=='hidden'
+      && s.pointerEvents!=='none' && el.getBoundingClientRect().height>0;}
+  if(v('ccOverlay')){try{closeCreator()}catch(e){}};if(v('editOverlay')){try{closeEdit()}catch(e){}};if(v('shareOverlay')){try{closeShare()}catch(e){}};if(v('badgeOverlay')){try{closeBadgePanel()}catch(e){}}
+});
+</script>
 </body>
 </html>

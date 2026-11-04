@@ -2017,8 +2017,8 @@
 <canvas id="confettiCanvas" style="display:none"></canvas>
 
 <!-- CELEBRATION MODAL -->
-<div role="button" tabindex="0" class="cele-overlay" id="celeOverlay" onclick="closeCele(event)">
-  <div class="cele-card" id="celeCard">
+<div class="cele-overlay" id="celeOverlay" onclick="closeCele(event)">
+  <div class="cele-card" id="celeCard" role="dialog" aria-modal="true" aria-label="Bravo">
     <span class="cele-badge-big" id="celeBadge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.9 0-3.5-.5-4.8-1.5L8.5 14.5z"/></svg></span>
     <div class="cele-title" id="celeTitle">Série de 7 jours !</div>
     <div class="cele-sub" id="celeSub">Tu t'es entraîné·e 7 jours de suite. C'est incroyable !</div>
@@ -4259,5 +4259,19 @@ document.addEventListener('click', function(e){
 })();
 </script>
 
+
+<script>
+/* Echap ferme la modale ouverte : sans cela, un utilisateur au
+   clavier restait enfermé dans la fenêtre. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape') return;
+  function v(id){var el=document.getElementById(id); if(!el) return false;
+    var s=getComputedStyle(el);
+    /* ces fonds restent en display:flex et s'ouvrent par l'opacite */
+    return s.display!=='none' && s.visibility!=='hidden'
+      && s.pointerEvents!=='none' && el.getBoundingClientRect().height>0;}
+  if(v('celeOverlay')){try{closeCele()}catch(e){}}
+});
+</script>
 </body>
 </html>

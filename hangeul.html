@@ -1293,7 +1293,7 @@
 
 <!-- MODAL -->
 <div class="modal-bg" id="modal">
-  <div class="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mChar">
     <div class="modal-handle"></div>
     <div class="modal-char" id="mChar"></div>
     <div class="modal-rom" id="mRom"></div>
@@ -2200,5 +2200,19 @@ function raceFinish(){
 
   <script src="ks-cadeau.js" defer></script>
 <script src="ks-menu.js" defer></script>
+
+<script>
+/* Echap ferme la fiche d'une lettre : sans cela, un utilisateur au clavier
+   restait enfermé dans la fenêtre. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Escape') return;
+  var el=document.getElementById('modal'); if(!el) return;
+  var s=getComputedStyle(el);
+  if(s.display!=='none' && s.visibility!=='hidden'
+     && s.pointerEvents!=='none' && el.getBoundingClientRect().height>0){
+    try{ closeModal(); }catch(err){}
+  }
+});
+</script>
 </body>
 </html>
