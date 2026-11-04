@@ -157,9 +157,10 @@
     /* Bandeau série : lu dans localStorage, aucun script en plus a charger. */
     '.ksm-streak{display:flex;align-items:center;gap:9px;margin:-6px 0 14px;padding:10px 13px;border-radius:12px;background:var(--goldbg,#FBF2E3);border:1px solid var(--gold,#C9A96E);color:var(--gold-text,#806238);text-decoration:none;font:800 12.5px/1 inherit}',
     '.ksm-streak svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}',
+    '.ksm-streak[hidden]{display:none}',
     '.ksm-streak i{margin-left:auto;font-style:normal;font-weight:600;opacity:.78;white-space:nowrap}',
     '.ksm-more{display:flex;flex-wrap:wrap;gap:4px 14px;padding:2px 10px 4px}',
-    '.ksm-more a{font-size:12.5px;font-weight:600;color:var(--t3,#465E79);text-decoration:none;padding:3px 0}',
+    '.ksm-more a{font-size:12.5px;font-weight:600;color:var(--t3,#465E79);text-decoration:none;padding:5px 0;min-height:24px;display:inline-flex;align-items:center}',
     '.ksm-more a:hover{color:var(--gold-text,#806238);text-decoration:underline}',
     /* Deconnexion : volontairement discrete et tout en bas. Ce n'est pas une
        action du quotidien — lui donner le poids visuel d'une lecon serait la
@@ -459,6 +460,10 @@
   document.querySelectorAll('.bar-logo, .side-logo, .ksm-logo').forEach(function (lg) {
     lg.style.cursor = 'pointer';
     lg.style.pointerEvents = 'auto';
+    /* Cible tactile : le logo mesurait 20 px de haut, sous le minimum de 24. */
+    lg.style.minHeight = '24px';
+    lg.style.display = 'inline-flex';
+    lg.style.alignItems = 'center';
     lg.setAttribute('role', 'link');
     lg.setAttribute('aria-label', 'Aller au tableau de bord');
     lg.setAttribute('tabindex', '0');

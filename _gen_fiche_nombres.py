@@ -169,7 +169,7 @@ if __name__ == '__main__':
     # styles propres a la fiche + lecture a la francaise
     page = page.replace('</head>', '''<style>
     .nb-intro{font-size:12.5px;color:#475E78;line-height:1.6;margin:0 0 10px}
-    .nb-spk{margin-left:6px;width:22px;height:22px;border-radius:50%;border:1px solid #e3e8f0;
+    .nb-spk{margin-left:6px;width:24px;height:24px;border-radius:50%;border:1px solid #e3e8f0;
       background:rgba(201,169,110,.1);color:var(--gold-text);cursor:pointer;padding:0;vertical-align:middle;
       display:inline-flex;align-items:center;justify-content:center}
     .nb-spk svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
