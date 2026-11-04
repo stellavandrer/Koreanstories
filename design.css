@@ -966,3 +966,19 @@ pre, code, kbd { word-wrap: break-word; overflow-wrap: anywhere; }
 [data-theme="dark"] .ko-big { color:var(--purple-text); }
 [data-theme="dark"] .vocab-type.vt-n { color: #7EB3FF; }
 [data-theme="dark"] .vocab-type.vt-v { color: #C4A6FF; }
+
+/* ── Objectif d'ouverture d'une leçon ────────────────────────────────────────
+   « Ce que tu sauras faire » : une phrase, en haut de la leçon, qui dit le
+   résultat attendu. Ajouté le 2026-11-04 aux 32 leçons qui n'annonçaient
+   rien avant d'entrer dans le contenu. Tout passe par des jetons, pour que
+   le bloc reste lisible dans les deux thèmes et dans un panneau. */
+.ks-objectif{
+  margin:0 0 14px;padding:11px 14px;
+  background:color-mix(in srgb, var(--gold) 9%, transparent);
+  border-left:3px solid var(--gold);border-radius:0 10px 10px 0;
+  font-size:14px;line-height:1.55;color:var(--t);
+}
+.ks-objectif strong{
+  display:block;font-size:10.5px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gold-text);margin-bottom:3px;
+}
