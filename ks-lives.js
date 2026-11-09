@@ -12,7 +12,10 @@
    Trois changements :
      - une LEÇON ne coûte jamais de vie (c'est là qu'on apprend) ;
      - la régénération passe à 1 vie / 30 min (recharge complète 2 h 30) ;
-     - une session de révision redonne une vie (KSLives.gain).
+     - une session de révision redonne une vie (KSLives.gain) ;
+     - terminer une activité pour la PREMIÈRE fois redonne une vie
+       (KSLives.recompense, appelé par ksFinish dans ks.js). Avancer
+       recharge : seule l'erreur coûte.
 ─────────────────────────────────────────────────────────────────── */
 (function () {
   var MAX = 5;
@@ -145,23 +148,35 @@
     var timeStr = formatDelay(nextRegenMs());
     var ov = document.createElement('div');
     ov.id = 'ks-lives-blocked';
-    ov.style.cssText = 'position:fixed;inset:0;z-index:999998;background:rgba(10,18,32,.92);display:flex;align-items:center;justify-content:center;font-family:"Inter",system-ui,sans-serif;padding:20px;animation:ksLivesIn .3s ease both';
+    /* align-items:center coupait la boite aux DEUX bouts des que son contenu
+   depassait la hauteur de l'ecran : sur un 375x568, le titre et le lien du
+   bas devenaient inatteignables, sans aucun defilement possible.
+   flex-start + margin:auto sur la boite centre quand il y a la place et
+   laisse defiler quand il n'y en a pas. */
+    ov.style.cssText = 'position:fixed;inset:0;z-index:999998;background:rgba(10,18,32,.92);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;font-family:"Inter",system-ui,sans-serif;padding:20px;animation:ksLivesIn .3s ease both';
     var style = document.createElement('style');
     style.textContent = '@keyframes ksLivesIn{from{opacity:0}to{opacity:1}}';
     ov.appendChild(style);
     var box = document.createElement('div');
-    box.style.cssText = 'max-width:360px;background:#152030;border:1.5px solid rgba(255,255,255,.08);border-radius:20px;padding:36px 28px;text-align:center;color:#fff;box-shadow:0 24px 64px rgba(0,0,0,.6)';
+    box.style.cssText = 'max-width:360px;margin:auto;flex:0 0 auto;background:#152030;border:1.5px solid rgba(255,255,255,.08);border-radius:20px;padding:36px 28px;text-align:center;color:#fff;box-shadow:0 24px 64px rgba(0,0,0,.6)';
     box.innerHTML =
       '<div style="margin-bottom:12px" aria-hidden="true"><svg viewBox="0 0 24 24" width="40" height="40" fill="#ef4444" stroke="none" style="opacity:.85"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>' +
       '<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:700;margin-bottom:8px">Plus de vies pour l\'instant</div>' +
       '<div style="font-size:14px;line-height:1.55;color:rgba(247,248,250,.6);margin-bottom:14px">Ta prochaine vie arrive dans <strong style="color:#C9A96E">' + timeStr + '</strong>.</div>' +
       '<div style="font-size:13.5px;line-height:1.55;color:rgba(247,248,250,.55);margin-bottom:22px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:12px;text-align:left">' +
-        '<strong style="color:rgba(247,248,250,.78)">Une session de révision te rend une vie tout de suite.</strong><br>Les leçons, les histoires, le dictionnaire et la grammaire ne consomment jamais de vies.' +
+        '<strong style="color:rgba(247,248,250,.78)">Trois façons de repartir tout de suite :</strong>' +
+        '<br>• terminer une activité que tu n\'as jamais faite rend une vie ;' +
+        '<br>• une session de révision en rend une aussi ;' +
+        '<br>• les leçons, histoires, dictionnaire et grammaire ne coûtent jamais de vie, et une leçon ne t\'en retire pas même si tu te trompes.' +
       '</div>' +
       '<a href="revision.html" style="display:block;width:100%;padding:13px;border-radius:12px;background:#C9A96E;color:#0a1220;font-weight:700;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Réviser et récupérer une vie →</a>' +
       '<a href="histoires.html" style="display:block;width:100%;padding:12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);color:rgba(247,248,250,.8);text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:13.5px">Lire une histoire</a>' +
-      '<a href="premium.html" style="display:block;width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(201,169,110,.4);color:#e8d3a6;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Lever la limite &amp; soutenir le projet</a>' +
-      '<a href="app.html" style="display:block;width:100%;padding:11px;border-radius:12px;color:rgba(255,255,255,.55);text-decoration:none;box-sizing:border-box;font-size:13.5px">Retour au tableau de bord</a>';
+      '<a href="cours.html" style="display:block;width:100%;padding:12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);color:rgba(247,248,250,.8);text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:13.5px">Suivre une leçon (jamais de vie perdue)</a>' +
+      '<a href="app.html" style="display:block;width:100%;padding:11px;border-radius:12px;color:rgba(255,255,255,.55);text-decoration:none;margin-bottom:14px;box-sizing:border-box;font-size:13.5px">Retour au tableau de bord</a>' +
+      /* Le Premium passe APRES les voies gratuites et en petit : bloquer
+         quelqu'un puis lui vendre la sortie serait un chantage, et le projet
+         est positionne en mecenat, pas en abonnement. */
+      '<div style="font-size:12px;line-height:1.5;color:rgba(247,248,250,.4);border-top:1px solid rgba(255,255,255,.07);padding-top:13px">Les vies illimitées font partie du soutien au projet. <a href="premium.html" style="color:rgba(201,169,110,.85)">En savoir plus</a></div>';
     ov.appendChild(box);
     document.body.appendChild(ov);
   }
@@ -199,7 +214,49 @@
     return apres;
   }
 
-  window.KSLives = { get: get, lose: lose, gain: gain, canPlay: canPlay, render: render, isPremium: isPremium, nextRegenMs: nextRegenMs, estUneLecon: estUneLecon };
+  /* Terminer une activite pour la PREMIERE fois redonne une vie.
+     C'est la reponse directe au retour de l'utilisatrice : elle avait cesse
+     de faire des exercices et des cours parce qu'ils coutaient des vies sans
+     jamais en rendre. Desormais avancer dans le parcours recharge, et seule
+     l'erreur coute. ks.js verifie ksIsDone AVANT de marquer la page comme
+     faite : refaire une page ne rapporte donc rien. */
+  function recompense() {
+    if (isPremium()) return MAX;
+    var avant = get();
+    var apres = gain(1);
+    if (apres > avant) signale(apres);
+    return apres;
+  }
+
+  /* Un gain silencieux n'apprend rien : il faut que la personne VOIE que
+     terminer une activite recharge, sinon la regle n'existe pas pour elle. */
+  function signale(total) {
+    try {
+      if (document.getElementById('ks-vie-gagnee')) return;
+      var t = document.createElement('div');
+      t.id = 'ks-vie-gagnee';
+      t.setAttribute('role', 'status');
+      t.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);' +
+        'bottom:calc(84px + env(safe-area-inset-bottom));z-index:999999;' +
+        'display:flex;align-items:center;gap:8px;padding:11px 18px;border-radius:100px;' +
+        'background:#152030;color:#fff;border:1.5px solid rgba(201,169,110,.45);' +
+        'box-shadow:0 10px 30px rgba(0,0,0,.35);font:600 13.5px/1 "Inter",system-ui,sans-serif;' +
+        'opacity:0;transition:opacity .25s';
+      t.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="#ef4444" ' +
+        'aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 ' +
+        '5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' +
+        '<span>Activité terminée : une vie récupérée' +
+        (total >= MAX ? ', tu es au complet.' : ' (' + total + ' sur ' + MAX + ').') + '</span>';
+      document.body.appendChild(t);
+      requestAnimationFrame(function () { t.style.opacity = '1'; });
+      setTimeout(function () {
+        t.style.opacity = '0';
+        setTimeout(function () { if (t.parentNode) t.remove(); }, 300);
+      }, 3600);
+    } catch (e) {}
+  }
+
+  window.KSLives = { get: get, lose: lose, gain: gain, canPlay: canPlay, render: render, isPremium: isPremium, nextRegenMs: nextRegenMs, estUneLecon: estUneLecon, recompense: recompense };
 
   function init() {
     ensureStyle();
