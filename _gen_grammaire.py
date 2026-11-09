@@ -130,6 +130,104 @@ ARTICLE = {
                          'Banmal et jondaenmal : la politesse'),
 }
 
+NIVEAU_PROSE = {
+    'A1': ('tout début du parcours',
+           'Elle fait partie du socle : sans elle, on ne construit pas une '
+           'phrase coréenne complète. C\'est une des premières choses que tu '
+           'rencontreras, et tu la reverras dans presque tout ce qui suit.'),
+    'A2': ('niveau élémentaire',
+           'Elle suppose que les bases de la phrase sont acquises et sert à '
+           'les articuler : relier deux idées, nuancer, situer dans le temps. '
+           'C\'est le niveau où le coréen cesse d\'être une liste de phrases '
+           'toutes faites.'),
+    'B1': ('niveau intermédiaire',
+           'À ce stade, la grammaire ne sert plus à se faire comprendre mais à '
+           'se faire comprendre justement : c\'est elle qui distingue une '
+           'phrase correcte d\'une phrase que dirait réellement un Coréen.'),
+    'B2': ('niveau avancé',
+           'Ces tournures sont celles qu\'on entend dans les dramas et qu\'on '
+           'lit dans la presse, rarement enseignées tôt parce qu\'elles '
+           'demandent de maîtriser ce qui précède. Les connaître fait une '
+           'différence audible.'),
+}
+
+
+FAMILLE = {
+    'particule': ('les particules', 'ces petits mots collés aux noms qui disent '
+                  'leur rôle dans la phrase'),
+    'verbe': ('les formes verbales', 'tout ce qui s\'accroche au verbe pour dire '
+              'le temps, la politesse ou l\'intention'),
+    'phrase': ('la construction de la phrase', 'la manière de relier, nuancer et '
+               'enchaîner les idées'),
+    'negation': ('la négation', 'les façons de dire non en coréen'),
+}
+
+
+def bloc_place(f, toutes, slugs):
+    """Situe la regle : son niveau, sa famille, ses voisines immediates.
+
+    Rien d'invente ici : le niveau et la categorie viennent de la fiche,
+    les voisines de la liste elle-meme. Cette section repond a la question
+    que se pose quelqu'un qui arrive de Google sur une regle isolee, et
+    qui ne sait pas ou elle se situe dans l'apprentissage.
+    """
+    niv = f['niveau']
+    nom_niv, prose = NIVEAU_PROSE.get(niv, ('parcours', ''))
+    famille = f['cat'].rsplit(' ', 1)[0]
+    meme = [g for g in toutes if g['cat'] == f['cat']]
+    rang = next((i for i, g in enumerate(meme) if g['id'] == f['id']), None)
+    forme = sanstags(f['titre']).split(':')[0].strip()
+
+    out = ['<h2>Où cette règle se place</h2>']
+    out.append('<p class="gr-place">Cette règle est classée <strong>%s</strong>, '
+               'c\'est-à-dire au %s. %s</p>'
+               % (html.escape(niv), html.escape(nom_niv), prose))
+
+    if len(meme) > 1 and rang is not None:
+        nom_fam, quoi = FAMILLE.get(famille, (famille, ''))
+        out.append('<p class="gr-place">Elle relève de <strong>%s</strong>%s. À ce '
+                   'niveau, le site en compte %d, et celle-ci en est la %s. Les '
+                   'règles d\'une même catégorie se tiennent : les apprendre '
+                   'ensemble coûte moins cher que de les croiser une par une au '
+                   'hasard des leçons.</p>'
+                   % (html.escape(nom_fam),
+                      (', ' + quoi) if quoi else '', len(meme),
+                      'première' if rang == 0 else '%de' % (rang + 1)))
+
+        avant = meme[rang - 1] if rang > 0 else None
+        apres = meme[rang + 1] if rang + 1 < len(meme) else None
+        liens = []
+        if avant:
+            liens.append('la règle qui la précède est <a href="grammaire-%s.html">%s</a>'
+                         % (slugs[avant['id']],
+                            ko_span(sanstags(avant['titre']).split(':')[0].strip())))
+        if apres:
+            liens.append('celle qui la suit est <a href="grammaire-%s.html">%s</a>'
+                         % (slugs[apres['id']],
+                            ko_span(sanstags(apres['titre']).split(':')[0].strip())))
+        if liens:
+            out.append('<p class="gr-place">Dans cet ordre, %s. Si %s te résiste, '
+                       'il y a de bonnes chances que la difficulté vienne de là '
+                       'plutôt que de la règle elle-même : les reprendre dans '
+                       'l\'ordre coûte souvent moins cher que de s\'acharner.</p>'
+                       % (', et '.join(liens), ko_span(forme)))
+
+    if not f['lecon']:
+        out.append('<p class="gr-place">Aucune leçon du parcours ne lui est '
+                   'consacrée en propre : elle s\'apprend au fil des autres, et '
+                   'c\'est précisément pourquoi une page à part a du sens.</p>')
+    return '\n'.join(out)
+
+
+def ko_span(t):
+    """Le coreen cite doit porter lang=\"ko\", sinon un lecteur d'ecran
+    francais le prononce comme du francais."""
+    import re as _re
+    return _re.sub(r'[\uac00-\ud7a3\u3130-\u318f]+',
+                   lambda m: '<span lang="ko" class="kr">%s</span>' % m.group(0),
+                   html.escape(t))
+
+
 def page(f, toutes, slugs, idx, corpus):
     s = slugs[f['id']]
     url = SITE + 'grammaire-' + s + '.html'
@@ -155,6 +253,7 @@ def page(f, toutes, slugs, idx, corpus):
     bc = bloc_corpus(corpus.get(f['id'], []), idx)
     if bc:
         corps.append(bc)
+    corps.append(bloc_place(f, toutes, slugs))
     if mo['quiz']:
         corps.append('<h2>Teste-toi</h2>' + mo['quiz'])
 

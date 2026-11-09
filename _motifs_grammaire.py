@@ -132,4 +132,9 @@ def exemples(titre, cat, phrases, maxi=4):
             vus.append(ph)
     vus.sort(key=lambda p: notes[p])
     vus = [p for p in vus if 10 <= len(p) <= 44]
-    return vus[:maxi] if len(vus) >= 3 else []
+    # Le seuil etait de trois. Mesure faite sur les 21 fiches sans exemple :
+    # descendre a UN ressuscite six fiches mais en introduit des faux (배터리가
+    # 없어서 n'est pas la tournure -(으)ㄹ 리가 없다, c'est le mot « batterie »
+    # suivi d'une particule). A DEUX, les deux fiches gagnees sont justes, et
+    # deux phrases qui se repondent valent mieux qu'une section absente.
+    return vus[:maxi] if len(vus) >= 2 else []
