@@ -65,30 +65,76 @@
     .cj-autres a:hover{border-color:#C9A96E}
     .cj-autres .kr{font-weight:700;display:block}
     .cj-autres .fr{font-size:.72rem;color:var(--tx-muted)}
+    /* Texte explicatif : la prose que les tables seules ne donnent pas. */
+    .cj-txt{font-size:.93rem;line-height:1.72;margin:.7rem 0;color:var(--tx)}
+    .cj-txt strong{color:var(--gold-text)}
+    .cj-txt .kr{font-weight:700}
+    .cj-reg{margin:.7rem 0;padding-left:1.1rem}
+    .cj-reg li{font-size:.92rem;line-height:1.7;margin-bottom:.6rem}
+    .cj-reg .kr{font-weight:700}
+    .cj-faq{margin-top:.7rem}
+    .cj-faq details{background:var(--surf);border:1px solid var(--bd);border-radius:12px;
+      padding:.7rem .9rem;margin-bottom:.5rem}
+    .cj-faq summary{cursor:pointer;font-weight:600;font-size:.92rem;line-height:1.5}
+    .cj-faq summary:hover{color:var(--gold-text)}
+    .cj-faq p{margin:.6rem 0 0;font-size:.9rem;line-height:1.7;color:var(--t2)}
   </style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
+  "@graph": [
     {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Accueil",
-      "item": "https://koreanstories.fr/"
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://koreanstories.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Conjugaison coréenne",
+          "item": "https://koreanstories.fr/conjugaison-coreen.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Conjuguer 받다 (recevoir) en coréen",
+          "item": "https://koreanstories.fr/conjugaison-batda.html"
+        }
+      ]
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Conjugaison coréenne",
-      "item": "https://koreanstories.fr/conjugaison-coreen.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Conjuguer 받다 (recevoir) en coréen",
-      "item": "https://koreanstories.fr/conjugaison-batda.html"
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Comment dit-on « 받다 » poliment en coréen ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La forme polie courante est 받아요. C'est celle à utiliser dans la vie de tous les jours, avec un commerçant, un collègue ou une personne que vous rencontrez pour la première fois."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quelle est la différence entre 받아요 et 받습니다 ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "받아요 est poli et courant, c'est la forme par défaut à l'oral. 받습니다 est formel et s'entend dans les annonces publiques, les journaux télévisés et les entretiens professionnels. Les deux sont corrects : c'est la situation qui tranche."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment conjuguer 받다 au passé ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le passé se dit 받았어요. Il se construit sur la même base que la forme polie du présent, à laquelle on ajoute la marque du passé."
+          }
+        }
+      ]
     }
   ]
 }
@@ -99,27 +145,46 @@
 <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">&larr;</button><span class="bar-title">Conjugaison</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
 <div class="shell"><main class="main"><div class="cj">
   <h1>Conjuguer <span lang="ko" class="kr">받다</span><br>(recevoir) en coréen</h1>
-  <p class="cj-chapeau">받다 se conjugue comme ceci, à tous les temps et dans les trois registres que tu entendras vraiment. Chaque forme est calculée, pas recopiée, et se prononce : touche le haut-parleur.</p>
+  <p class="cj-chapeau"><span lang="ko" class="kr">받다</span> se conjugue comme ceci, à tous les temps et dans les trois registres que tu entendras vraiment. Chaque forme est calculée, pas recopiée, et se prononce : touche le haut-parleur.</p>
   <div class="cj-tags"><span class="cj-tag">verbe</span>
     <span class="cj-tag">régulier</span>
     <span class="cj-tag">6 formes</span></div>
   <h2>Les formes</h2>
   <table class="cj-t">
     <tr><th scope="col">Quand l'employer</th><th scope="col">Forme</th><th scope="col">Ça se lit</th></tr>
-    <tr><td>Présent (poli)</td><td class="f">받아요 <button class="cj-spk" onclick="dire(this,'받아요')" aria-label="Écouter 받아요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받아요"></td></tr>
-    <tr><td>Présent (formel)</td><td class="f">받습니다 <button class="cj-spk" onclick="dire(this,'받습니다')" aria-label="Écouter 받습니다"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받습니다"></td></tr>
-    <tr><td>Passé</td><td class="f">받았어요 <button class="cj-spk" onclick="dire(this,'받았어요')" aria-label="Écouter 받았어요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받았어요"></td></tr>
-    <tr><td>Futur</td><td class="f">받을 거예요 <button class="cj-spk" onclick="dire(this,'받을 거예요')" aria-label="Écouter 받을 거예요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받을 거예요"></td></tr>
-    <tr><td>Impératif (poli)</td><td class="f">받으세요 <button class="cj-spk" onclick="dire(this,'받으세요')" aria-label="Écouter 받으세요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받으세요"></td></tr>
-    <tr><td>Tutoiement</td><td class="f">받아 <button class="cj-spk" onclick="dire(this,'받아')" aria-label="Écouter 받아"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받아"></td></tr>
+    <tr><td>Présent (poli)</td><td class="f"><span lang="ko">받아요</span> <button class="cj-spk" onclick="dire(this,'받아요')" aria-label="Écouter 받아요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받아요"></td></tr>
+    <tr><td>Présent (formel)</td><td class="f"><span lang="ko">받습니다</span> <button class="cj-spk" onclick="dire(this,'받습니다')" aria-label="Écouter 받습니다"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받습니다"></td></tr>
+    <tr><td>Passé</td><td class="f"><span lang="ko">받았어요</span> <button class="cj-spk" onclick="dire(this,'받았어요')" aria-label="Écouter 받았어요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받았어요"></td></tr>
+    <tr><td>Futur</td><td class="f"><span lang="ko">받을 거예요</span> <button class="cj-spk" onclick="dire(this,'받을 거예요')" aria-label="Écouter 받을 거예요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받을 거예요"></td></tr>
+    <tr><td>Impératif (poli)</td><td class="f"><span lang="ko">받으세요</span> <button class="cj-spk" onclick="dire(this,'받으세요')" aria-label="Écouter 받으세요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받으세요"></td></tr>
+    <tr><td>Tutoiement</td><td class="f"><span lang="ko">받아</span> <button class="cj-spk" onclick="dire(this,'받아')" aria-label="Écouter 받아"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="받아"></td></tr>
   </table>
+  <h2>D'où sortent ces formes</h2>
+  <p class="cj-txt">Ce verbe signifie « recevoir ». Le coréen ne distingue ni personne ni nombre : la forme que tu liras pour « je » est exactement celle que tu liras pour « nous » ou pour « ils », et c'est une difficulté de moins qu'en français.</p>
+  <p class="cj-txt">Tout part du radical : on enlève la terminaison du dictionnaire et il reste <span lang="ko" class="kr">받</span>. Les six formes du tableau se construisent ensuite dessus, et il suffit de connaître deux critères pour les retrouver seul.</p>
+  <p class="cj-txt"><strong>Premier critère : la dernière voyelle du radical.</strong> Ici c'est un <i>a</i>, une voyelle que les grammaires appellent claire. Le coréen pratique l'harmonie vocalique : une voyelle claire attire une terminaison claire, et le présent poli donne donc <span lang="ko" class="kr">받아요</span>. Si la voyelle avait été sombre, la terminaison aurait changé de timbre.</p>
+  <p class="cj-txt"><strong>Deuxième critère : le radical finit-il par une consonne ?</strong> Oui. C'est ce qui décide de la forme formelle, celle des annonces de métro et des entretiens : un radical fermé par une consonne prend la terminaison longue et donne <span lang="ko" class="kr">받습니다</span>. C'est aussi pour cette raison que l'impératif poli intercale une voyelle de liaison : sans elle, deux consonnes se heurteraient.</p>
+  <p class="cj-txt">Le passé ne demande aucun effort supplémentaire : il se forme sur la même base que le présent poli, à laquelle on ajoute la marque du passé. <span lang="ko" class="kr">받아요</span> et <span lang="ko" class="kr">받았어요</span> se ressemblent pour cette raison. Retiens la forme polie et tu tiens le passé.</p>
+  <h2>Quelle forme employer, et devant qui</h2>
+  <p class="cj-txt">Le coréen n'a pas un vouvoiement et un tutoiement, mais trois niveaux, et se tromper de niveau s'entend davantage qu'une faute de conjugaison. Pour ce verbe, voici lequel choisir.</p>
+  <ul class="cj-reg">
+    <li><span lang="ko" class="kr">받아요</span> est la forme à employer par défaut. Elle est polie sans être guindée : un commerçant, un collègue, quelqu'un que tu viens de rencontrer. Si tu n'en apprends qu'une seule, apprends celle-là, elle ne te mettra jamais en faute.</li>
+    <li><span lang="ko" class="kr">받습니다</span> est la forme formelle. On l'entend dans les journaux télévisés, les annonces publiques, l'armée et les entretiens d'embauche. À l'oral entre particuliers elle crée une distance que tu ne cherches probablement pas.</li>
+    <li><span lang="ko" class="kr">받아</span> est le langage familier. Il se mérite : entre amis proches, dans la famille, vers quelqu'un de plus jeune qui t'y autorise. L'employer trop tôt est la maladresse la plus fréquente des apprenants.</li>
+  </ul>
   <h2>Dans une vraie phrase</h2>
-  <div class="cj-ex"><div class="k">에마 씨, 한 잔 받으세요. <button class="cj-spk" onclick="dire(this,'에마 씨, 한 잔 받으세요.')" aria-label="Écouter 에마 씨, 한 잔 받으세요."><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="에마 씨, 한 잔 받으세요."></div><a class="cj-ex-src" href="blog-soju-hoesik-culture-coreenne.html">Soju et hoesik : la culture de l&#x27;alcool en entreprise coréenne · Blog Korean Stories</a></div>
-  <div class="cj-ex"><div class="k">이거 선물이에요. 받아 주세요. <button class="cj-spk" onclick="dire(this,'이거 선물이에요. 받아 주세요.')" aria-label="Écouter 이거 선물이에요. 받아 주세요."><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="이거 선물이에요. 받아 주세요."></div><a class="cj-ex-src" href="histoire36-bd.html">Histoire 36 · 지우의 생일 · BD</a></div>
+  <div class="cj-ex"><div class="k" lang="ko">에마 씨, 한 잔 받으세요. <button class="cj-spk" onclick="dire(this,'에마 씨, 한 잔 받으세요.')" aria-label="Écouter 에마 씨, 한 잔 받으세요."><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="에마 씨, 한 잔 받으세요."></div><a class="cj-ex-src" href="blog-soju-hoesik-culture-coreenne.html">Soju et hoesik : la culture de l&#x27;alcool en entreprise coréenne · Blog Korean Stories</a></div>
+  <div class="cj-ex"><div class="k" lang="ko">이거 선물이에요. 받아 주세요. <button class="cj-spk" onclick="dire(this,'이거 선물이에요. 받아 주세요.')" aria-label="Écouter 이거 선물이에요. 받아 주세요."><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="이거 선물이에요. 받아 주세요."></div><a class="cj-ex-src" href="histoire36-bd.html">Histoire 36 · <span lang="ko" class="kr">지우의</span> <span lang="ko" class="kr">생일</span> · BD</a></div>
   <p class="cj-chapeau" style="margin-top:.5rem;font-size:.82rem">Ces phrases viennent des leçons et des histoires du site, elles ne sont pas inventées pour l'occasion, et chacune se prononce.</p>
+  <h2>Questions fréquentes</h2>
+  <div class="cj-faq">
+    <details><summary>Comment dit-on « <span lang="ko" class="kr">받다</span> » poliment en coréen ?</summary><p>La forme polie courante est <span lang="ko" class="kr">받아요</span>. C&#x27;est celle à utiliser dans la vie de tous les jours, avec un commerçant, un collègue ou une personne que vous rencontrez pour la première fois.</p></details>
+    <details><summary>Quelle est la différence entre <span lang="ko" class="kr">받아요</span> et <span lang="ko" class="kr">받습니다</span> ?</summary><p><span lang="ko" class="kr">받아요</span> est poli et courant, c&#x27;est la forme par défaut à l&#x27;oral. <span lang="ko" class="kr">받습니다</span> est formel et s&#x27;entend dans les annonces publiques, les journaux télévisés et les entretiens professionnels. Les deux sont corrects : c&#x27;est la situation qui tranche.</p></details>
+    <details><summary>Comment conjuguer <span lang="ko" class="kr">받다</span> au passé ?</summary><p>Le passé se dit <span lang="ko" class="kr">받았어요</span>. Il se construit sur la même base que la forme polie du présent, à laquelle on ajoute la marque du passé.</p></details>
+  </div>
   <h2>Pour aller plus loin</h2>
   <div class="cj-liens">
-    <a href="dictionnaire.html">Chercher 받다 dans le dictionnaire</a>
+    <a href="dictionnaire.html">Chercher <span lang="ko" class="kr">받다</span> dans le dictionnaire</a>
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
     <a href="conjugaison-coreen.html">Tous les verbes</a>
     <a href="vocabulaire-coreen.html">Le vocabulaire par thème</a>

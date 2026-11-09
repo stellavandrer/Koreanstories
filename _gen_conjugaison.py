@@ -128,6 +128,19 @@ CSS = """    body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;backgroun
     .cj-autres a:hover{border-color:#C9A96E}
     .cj-autres .kr{font-weight:700;display:block}
     .cj-autres .fr{font-size:.72rem;color:var(--tx-muted)}
+    /* Texte explicatif : la prose que les tables seules ne donnent pas. */
+    .cj-txt{font-size:.93rem;line-height:1.72;margin:.7rem 0;color:var(--tx)}
+    .cj-txt strong{color:var(--gold-text)}
+    .cj-txt .kr{font-weight:700}
+    .cj-reg{margin:.7rem 0;padding-left:1.1rem}
+    .cj-reg li{font-size:.92rem;line-height:1.7;margin-bottom:.6rem}
+    .cj-reg .kr{font-weight:700}
+    .cj-faq{margin-top:.7rem}
+    .cj-faq details{background:var(--surf);border:1px solid var(--bd);border-radius:12px;
+      padding:.7rem .9rem;margin-bottom:.5rem}
+    .cj-faq summary{cursor:pointer;font-weight:600;font-size:.92rem;line-height:1.5}
+    .cj-faq summary:hover{color:var(--gold-text)}
+    .cj-faq p{margin:.6rem 0 0;font-size:.9rem;line-height:1.7;color:var(--t2)}
 """
 
 JS = """
@@ -153,6 +166,244 @@ window.addEventListener('load', function(){
 """
 
 
+# ── Analyse du radical ────────────────────────────────────────────────
+# Une syllabe hangeul se decompose arithmetiquement : son code vaut
+# 0xAC00 + (initiale*21 + voyelle)*28 + finale. On en tire la voyelle et
+# la presence d'une consonne finale sans jamais ecrire de coreen a la main,
+# donc sans risque d'inventer une forme.
+VOY_CLAIRES = (0, 8)          # ㅏ et ㅗ : les deux voyelles « claires »
+NOMS_VOYELLE = {0: 'a', 8: 'o'}
+
+
+def decompose(syllabe):
+    """(voyelle, finale) d'une syllabe hangeul, ou None si ce n'en est pas une."""
+    c = ord(syllabe) - 0xAC00
+    if c < 0 or c > 11171:
+        return None
+    return ((c // 28) % 21, c % 28)
+
+
+def radical(mot):
+    return mot[:-1]
+
+
+def analyse(mot):
+    """Ce qu'il faut savoir du radical pour expliquer ses formes."""
+    rad = radical(mot)
+    d = decompose(rad[-1]) if rad else None
+    if not d:
+        return None
+    voyelle, finale = d
+    return {
+        'radical': rad,
+        'claire': voyelle in VOY_CLAIRES,
+        'voyelle': NOMS_VOYELLE.get(voyelle),
+        'batchim': finale != 0,
+    }
+
+
+def forme(e, libelle):
+    """Retrouve une forme calculee par son libelle. Jamais de coreen ecrit ici."""
+    for lib, f in e['formes']:
+        if lib == libelle:
+            return f
+    return None
+
+
+def nature_de(e):
+    return 'adjectif' if e['pos'] == 'adj' else 'verbe'
+
+
+def ce_nature(e):
+    """« cet adjectif » / « ce verbe » : l'elision, que le premier jet ratait."""
+    return 'cet adjectif' if e['pos'] == 'adj' else 'ce verbe'
+
+
+def ko(texte):
+    """Balise les suites de hangeul d'un texte deja echappe.
+
+    Un lecteur d'ecran francais prononce le coreen non balise comme du
+    francais : la regle du site est de marquer lang="ko" partout.
+    """
+    return re.sub(r'[\uac00-\ud7a3\u3130-\u318f]+',
+                  lambda m: '<span lang="ko" class="kr">%s</span>' % m.group(0),
+                  texte)
+
+
+def sens_propre(sens):
+    """Le sens sans ses precisions entre parentheses.
+
+    Le dictionnaire ecrit « avoir froid (meteo) » : la parenthese est utile
+    dans une liste, pas au milieu d'une phrase francaise.
+    """
+    return re.sub(r'\s*\([^)]*\)', '', sens).strip()
+
+
+def bloc_fabrication(mot, e):
+    """Explique, pour CE verbe, d'ou sortent ses formes.
+
+    Tout le coreen cite vient de ks-conjugueur.js ; le francais explique
+    la regle que la machine a appliquee. C'est la partie que les apprenants
+    reclament et que les tables seules ne donnent pas.
+    """
+    a = analyse(mot)
+    poli = forme(e, 'Présent (poli)')
+    formel = forme(e, 'Présent (formel)')
+    passe = forme(e, 'Passé')
+    if not a or not poli:
+        return []
+
+    rad = a['radical']
+    sens = (e['fr'] or '').split(' / ')
+    h = ['  <h2>D\'où sortent ces formes</h2>']
+
+    # Un paragraphe qui parle de CE mot et d'aucun autre : son sens, sa
+    # nature, et le piege que sa nature tend aux francophones.
+    if e['pos'] == 'adj':
+        h.append('  <p class="cj-txt">Avant les formes, un avertissement qui vaut pour '
+                 'ce mot en particulier. Il signifie « %s », et la grammaire coréenne le '
+                 'classe parmi les adjectifs. Mais un adjectif coréen n\'est pas un '
+                 'adjectif français : il se conjugue exactement comme un verbe, il porte '
+                 'le temps, et il n\'a besoin d\'aucun équivalent du verbe « être » '
+                 'devant lui. C\'est pourquoi le tableau ci-dessous est bien un tableau '
+                 'de conjugaison, et pourquoi chercher où placer « être » dans la phrase '
+                 'est le réflexe francophone qu\'il faut désapprendre ici.</p>'
+                 % sens_propre(sens[0]))
+    else:
+        autres = (' Le dictionnaire lui donne aussi le sens de « %s » : la conjugaison '
+                  'ne change pas d\'un sens à l\'autre, ce sont les mêmes formes, et '
+                  'c\'est le contexte qui tranche.'
+                  % ' » et « '.join(sens_propre(x) for x in sens[1:])) if len(sens) > 1 else ''
+        h.append('  <p class="cj-txt">Ce verbe signifie « %s ». Le coréen ne distingue ni '
+                 'personne ni nombre : la forme que tu liras pour « je » est exactement '
+                 'celle que tu liras pour « nous » ou pour « ils », et c\'est une '
+                 'difficulté de moins qu\'en français.%s</p>'
+                 % (sens_propre(sens[0]), autres))
+
+    h.append('  <p class="cj-txt">Tout part du radical : on enlève la terminaison du '
+             'dictionnaire et il reste <span lang="ko" class="kr">%s</span>. '
+             'Les six formes du tableau se construisent ensuite dessus, et il suffit de '
+             'connaître deux critères pour les retrouver seul.</p>' % rad)
+
+    if mot.endswith('하다'):
+        # Pour 하다 lui-meme, parler de « la famille de faire » tournait en rond.
+        if len(mot) == 2:
+            h.append('  <p class="cj-txt"><strong>Premier critère : la terminaison.</strong> '
+                     'Ce verbe est la tête d\'une famille immense. Des centaines de verbes '
+                     'coréens se forment en lui accolant un nom, et tous se conjuguent '
+                     'comme lui. Sa forme polie, '
+                     '<span lang="ko" class="kr">%s</span>, ne suit pas l\'harmonie '
+                     'vocalique ordinaire : c\'est une irrégularité, mais si fréquente '
+                     'qu\'on l\'apprend comme une règle. L\'apprendre une fois, c\'est '
+                     'savoir conjuguer toute la famille.</p>' % poli)
+        else:
+            h.append('  <p class="cj-txt"><strong>Premier critère : la terminaison.</strong> '
+                     'Ce verbe est construit sur le verbe « faire », comme des centaines '
+                     'd\'autres en coréen : un nom, puis cette terminaison. Toute la '
+                     'famille se conjugue de la même façon, et le présent poli donne donc '
+                     '<span lang="ko" class="kr">%s</span>. Tu n\'as pas à retenir ce '
+                     'verbe à part : dès que tu reconnais cette terminaison, tu connais '
+                     'sa conjugaison.</p>' % poli)
+    else:
+        if a['claire']:
+            h.append('  <p class="cj-txt"><strong>Premier critère : la dernière voyelle '
+                     'du radical.</strong> Ici c\'est un <i>%s</i>, une voyelle que les '
+                     'grammaires appellent claire. Le coréen pratique l\'harmonie '
+                     'vocalique : une voyelle claire attire une terminaison claire, et le '
+                     'présent poli donne donc <span lang="ko" class="kr">%s</span>. Si la '
+                     'voyelle avait été sombre, la terminaison aurait changé de timbre.</p>'
+                     % (a['voyelle'] or 'a', poli))
+        else:
+            h.append('  <p class="cj-txt"><strong>Premier critère : la dernière voyelle '
+                     'du radical.</strong> Elle n\'est ni <i>a</i> ni <i>o</i>, donc elle '
+                     'compte comme sombre. Par harmonie vocalique, elle appelle la '
+                     'terminaison sombre, et le présent poli donne '
+                     '<span lang="ko" class="kr">%s</span>. C\'est le cas le plus '
+                     'courant : la majorité des radicaux coréens tombent dans cette '
+                     'catégorie.</p>' % poli)
+
+    if formel:
+        if a['batchim']:
+            h.append('  <p class="cj-txt"><strong>Deuxième critère : le radical '
+                     'finit-il par une consonne ?</strong> Oui. C\'est ce qui décide de '
+                     'la forme formelle, celle des annonces de métro et des entretiens : '
+                     'un radical fermé par une consonne prend la terminaison longue et '
+                     'donne <span lang="ko" class="kr">%s</span>. C\'est aussi pour cette '
+                     'raison que l\'impératif poli intercale une voyelle de liaison : '
+                     'sans elle, deux consonnes se heurteraient.</p>' % formel)
+        else:
+            h.append('  <p class="cj-txt"><strong>Deuxième critère : le radical '
+                     'finit-il par une consonne ?</strong> Non, il se termine sur une '
+                     'voyelle. La forme formelle se greffe donc directement, sans voyelle '
+                     'de liaison, et donne <span lang="ko" class="kr">%s</span>. Les '
+                     'radicaux ouverts comme celui-ci sont les plus simples à conjuguer : '
+                     'rien ne vient s\'intercaler.</p>' % formel)
+
+    if e['irr']:
+        h.append('  <p class="cj-txt"><strong>Et l\'irrégularité.</strong> '
+                 'Les deux critères ci-dessus suffiraient si %s était régulier, mais il '
+                 'appartient à la famille %s. %s Compare les lignes du tableau : celle qui '
+                 'ne ressemble pas à ce que tu attendais est précisément celle où cette '
+                 'famille se manifeste. C\'est la raison pour laquelle un tableau calculé '
+                 'vaut mieux qu\'une règle apprise seule.</p>'
+                 % (ce_nature(e), ko(html.escape(e['irr']['famille'])),
+                    ko(html.escape(e['irr']['explication']))))
+
+    if passe:
+        h.append('  <p class="cj-txt">Le passé ne demande aucun effort '
+                 'supplémentaire : il se forme sur la même base que le présent poli, à '
+                 'laquelle on ajoute la marque du passé. '
+                 '<span lang="ko" class="kr">%s</span> et '
+                 '<span lang="ko" class="kr">%s</span> se ressemblent pour cette raison. '
+                 'Retiens la forme polie et tu tiens le passé.</p>' % (poli, passe))
+
+    return h
+
+
+def bloc_registres(mot, e, nature):
+    """Le choix du registre : la question que se posent tous les francophones."""
+    poli = forme(e, 'Présent (poli)')
+    formel = forme(e, 'Présent (formel)')
+    tu = forme(e, 'Tutoiement')
+    if not (poli and formel and tu):
+        return [], []
+
+    h = ['  <h2>Quelle forme employer, et devant qui</h2>']
+    h.append('  <p class="cj-txt">Le coréen n\'a pas un vouvoiement et un tutoiement, '
+             'mais trois niveaux, et se tromper de niveau s\'entend davantage qu\'une '
+             'faute de conjugaison. Pour ce %s, voici lequel choisir.</p>' % nature)
+    h.append('  <ul class="cj-reg">')
+    h.append('    <li><span lang="ko" class="kr">%s</span> est la forme à employer par '
+             'défaut. Elle est polie sans être guindée : un commerçant, un collègue, '
+             'quelqu\'un que tu viens de rencontrer. Si tu n\'en apprends qu\'une seule, '
+             'apprends celle-là, elle ne te mettra jamais en faute.</li>' % poli)
+    h.append('    <li><span lang="ko" class="kr">%s</span> est la forme formelle. On '
+             'l\'entend dans les journaux télévisés, les annonces publiques, l\'armée et '
+             'les entretiens d\'embauche. À l\'oral entre particuliers elle crée une '
+             'distance que tu ne cherches probablement pas.</li>' % formel)
+    h.append('    <li><span lang="ko" class="kr">%s</span> est le langage familier. Il se '
+             'mérite : entre amis proches, dans la famille, vers quelqu\'un de plus jeune '
+             'qui t\'y autorise. L\'employer trop tôt est la maladresse la plus fréquente '
+             'des apprenants.</li>' % tu)
+    h.append('  </ul>')
+
+    faq = [
+        ('Comment dit-on « %s » poliment en coréen ?' % mot,
+         'La forme polie courante est %s. C\'est celle à utiliser dans la vie de tous les '
+         'jours, avec un commerçant, un collègue ou une personne que vous rencontrez pour '
+         'la première fois.' % poli),
+        ('Quelle est la différence entre %s et %s ?' % (poli, formel),
+         '%s est poli et courant, c\'est la forme par défaut à l\'oral. %s est formel et '
+         's\'entend dans les annonces publiques, les journaux télévisés et les entretiens '
+         'professionnels. Les deux sont corrects : c\'est la situation qui tranche.'
+         % (poli, formel)),
+        ('Comment conjuguer %s au passé ?' % mot,
+         'Le passé se dit %s. Il se construit sur la même base que la forme polie du '
+         'présent, à laquelle on ajoute la marque du passé.' % forme(e, 'Passé')),
+    ]
+    return h, faq
+
+
 def page(mot, e, voisins):
     s = slug(mot)
     fr = e['fr']
@@ -160,28 +411,37 @@ def page(mot, e, voisins):
     irr = e['irr']
     nature = 'adjectif' if e['pos'] == 'adj' else 'verbe'
 
-    chapeau = ('%s se conjugue comme ceci, à tous les temps et dans les trois registres que tu '
-               'entendras vraiment. Chaque forme est calculée, pas recopiée, et se prononce : '
-               'touche le haut-parleur.' % mot)
+    # Le coreen du chapeau n'etait pas balise : un lecteur d'ecran francais le
+    # prononcait comme du francais.
+    chapeau = ('<span lang="ko" class="kr">%s</span> se conjugue comme ceci, à tous les temps '
+               'et dans les trois registres que tu entendras vraiment. Chaque forme est '
+               'calculée, pas recopiée, et se prononce : touche le haut-parleur.' % mot)
 
     h = []
     h.append('  <h1>Conjuguer <span lang="ko" class="kr">%s</span><br>(%s) en coréen</h1>' % (mot, fr))
     h.append('  <p class="cj-chapeau">%s</p>' % chapeau)
     h.append('  <div class="cj-tags"><span class="cj-tag">%s</span>' % nature)
-    h.append('    <span class="cj-tag">%s</span>' % ('irrégulier en %s' % irr['famille'] if irr else 'régulier'))
+    h.append('    <span class="cj-tag">%s</span>'
+             % ('irrégulier en %s' % ko(html.escape(irr['famille'])) if irr else 'régulier'))
     h.append('    <span class="cj-tag">%d formes</span></div>' % len(e['formes']))
 
     if irr:
         h.append('  <div class="cj-irr"><strong>Irrégulier, famille %s.</strong> %s</div>'
-                 % (irr['famille'], irr['explication']))
+                 % (ko(html.escape(irr['famille'])), ko(html.escape(irr['explication']))))
 
     h.append('  <h2>Les formes</h2>')
     h.append('  <table class="cj-t">')
     h.append('    <tr><th scope="col">Quand l\'employer</th><th scope="col">Forme</th><th scope="col">Ça se lit</th></tr>')
     for libelle, forme in e['formes']:
-        h.append('    <tr><td>%s</td><td class="f">%s %s</td><td class="l" data-lire="%s"></td></tr>'
+        h.append('    <tr><td>%s</td>'
+                 '<td class="f"><span lang="ko">%s</span> %s</td>'
+                 '<td class="l" data-lire="%s"></td></tr>'
                  % (libelle, forme, SPK % (forme, forme), forme))
     h.append('  </table>')
+
+    h += bloc_fabrication(mot, e)
+    bloc_reg, faq = bloc_registres(mot, e, nature)
+    h += bloc_reg
 
     if e['exemples']:
         h.append('  <h2>Dans une vraie phrase</h2>')
@@ -189,8 +449,8 @@ def page(mot, e, voisins):
             lien = ''
             if src:
                 lien = ('<a class="cj-ex-src" href="%s">%s</a>'
-                        % (html.escape(src[0], quote=True), html.escape(src[1])))
-            h.append('  <div class="cj-ex"><div class="k">%s %s</div>'
+                        % (html.escape(src[0], quote=True), ko(html.escape(src[1]))))
+            h.append('  <div class="cj-ex"><div class="k" lang="ko">%s %s</div>'
                      '<div class="f" data-lire="%s"></div>%s</div>'
                      % (ex, SPK % (ex, ex), ex, lien))
         # « enregistrees » laissait croire a des voix humaines : ce sont des voix
@@ -199,9 +459,18 @@ def page(mot, e, voisins):
                  'Ces phrases viennent des leçons et des histoires du site, elles ne sont pas '
                  'inventées pour l\'occasion, et chacune se prononce.</p>')
 
+    if faq:
+        h.append('  <h2>Questions fréquentes</h2>')
+        h.append('  <div class="cj-faq">')
+        for q, r in faq:
+            h.append('    <details><summary>%s</summary><p>%s</p></details>'
+                     % (ko(html.escape(q)), ko(html.escape(r))))
+        h.append('  </div>')
+
     h.append('  <h2>Pour aller plus loin</h2>')
     h.append('  <div class="cj-liens">')
-    h.append('    <a href="dictionnaire.html">Chercher %s dans le dictionnaire</a>' % mot)
+    h.append('    <a href="dictionnaire.html">Chercher '
+             '<span lang="ko" class="kr">%s</span> dans le dictionnaire</a>' % mot)
     if irr:
         h.append('    <a href="blog-verbes-irreguliers-coreens.html">Les verbes irréguliers expliqués</a>')
     h.append('    <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>')
@@ -218,15 +487,24 @@ def page(mot, e, voisins):
 
     corps = '\n'.join(h)
 
-    ld = json.dumps({
-        "@context": "https://schema.org", "@type": "BreadcrumbList",
+    graphe = [{
+        "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://koreanstories.fr/"},
             {"@type": "ListItem", "position": 2, "name": "Conjugaison coréenne",
              "item": "https://koreanstories.fr/conjugaison-coreen.html"},
             {"@type": "ListItem", "position": 3, "name": titre,
-             "item": "https://koreanstories.fr/conjugaison-%s.html" % s}]},
-        ensure_ascii=False, indent=2)
+             "item": "https://koreanstories.fr/conjugaison-%s.html" % s}]}]
+    # La FAQ n'est declaree que si elle est reellement affichee sur la page :
+    # un balisage sans contenu visible est une faute que Google sanctionne.
+    if faq:
+        graphe.append({
+            "@type": "FAQPage",
+            "mainEntity": [{"@type": "Question", "name": q,
+                            "acceptedAnswer": {"@type": "Answer", "text": r}}
+                           for q, r in faq]})
+    ld = json.dumps({"@context": "https://schema.org", "@graph": graphe},
+                    ensure_ascii=False, indent=2)
 
     desc = ('%s (%s) : toutes les formes du présent, du passé, du futur et de l\'impératif, '
             'avec l\'audio de chacune et la lecture à la française.%s Gratuit, sans compte.'

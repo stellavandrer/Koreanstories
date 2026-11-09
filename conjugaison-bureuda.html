@@ -65,30 +65,76 @@
     .cj-autres a:hover{border-color:#C9A96E}
     .cj-autres .kr{font-weight:700;display:block}
     .cj-autres .fr{font-size:.72rem;color:var(--tx-muted)}
+    /* Texte explicatif : la prose que les tables seules ne donnent pas. */
+    .cj-txt{font-size:.93rem;line-height:1.72;margin:.7rem 0;color:var(--tx)}
+    .cj-txt strong{color:var(--gold-text)}
+    .cj-txt .kr{font-weight:700}
+    .cj-reg{margin:.7rem 0;padding-left:1.1rem}
+    .cj-reg li{font-size:.92rem;line-height:1.7;margin-bottom:.6rem}
+    .cj-reg .kr{font-weight:700}
+    .cj-faq{margin-top:.7rem}
+    .cj-faq details{background:var(--surf);border:1px solid var(--bd);border-radius:12px;
+      padding:.7rem .9rem;margin-bottom:.5rem}
+    .cj-faq summary{cursor:pointer;font-weight:600;font-size:.92rem;line-height:1.5}
+    .cj-faq summary:hover{color:var(--gold-text)}
+    .cj-faq p{margin:.6rem 0 0;font-size:.9rem;line-height:1.7;color:var(--t2)}
   </style>
 <link rel="icon" type="image/png" href="Logo/Logo - KoreanStories_logo_4x4_bleu.png"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
+  "@graph": [
     {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Accueil",
-      "item": "https://koreanstories.fr/"
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://koreanstories.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Conjugaison coréenne",
+          "item": "https://koreanstories.fr/conjugaison-coreen.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Conjuguer 부르다 (appeler) en coréen",
+          "item": "https://koreanstories.fr/conjugaison-bureuda.html"
+        }
+      ]
     },
     {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Conjugaison coréenne",
-      "item": "https://koreanstories.fr/conjugaison-coreen.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "Conjuguer 부르다 (appeler) en coréen",
-      "item": "https://koreanstories.fr/conjugaison-bureuda.html"
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Comment dit-on « 부르다 » poliment en coréen ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La forme polie courante est 불러요. C'est celle à utiliser dans la vie de tous les jours, avec un commerçant, un collègue ou une personne que vous rencontrez pour la première fois."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quelle est la différence entre 불러요 et 부릅니다 ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "불러요 est poli et courant, c'est la forme par défaut à l'oral. 부릅니다 est formel et s'entend dans les annonces publiques, les journaux télévisés et les entretiens professionnels. Les deux sont corrects : c'est la situation qui tranche."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment conjuguer 부르다 au passé ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le passé se dit 불렀어요. Il se construit sur la même base que la forme polie du présent, à laquelle on ajoute la marque du passé."
+          }
+        }
+      ]
     }
   ]
 }
@@ -99,28 +145,48 @@
 <nav class="bar"><button class="back-btn" aria-label="Retour" onclick="history.back()">&larr;</button><span class="bar-title">Conjugaison</span><button onclick="toggleTheme()" class="theme-btn" aria-label="Changer de thème"><svg viewBox="0 0 24 24" style="width:16px;height:16px;display:inline-block;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></button></nav>
 <div class="shell"><main class="main"><div class="cj">
   <h1>Conjuguer <span lang="ko" class="kr">부르다</span><br>(appeler / chanter) en coréen</h1>
-  <p class="cj-chapeau">부르다 se conjugue comme ceci, à tous les temps et dans les trois registres que tu entendras vraiment. Chaque forme est calculée, pas recopiée, et se prononce : touche le haut-parleur.</p>
+  <p class="cj-chapeau"><span lang="ko" class="kr">부르다</span> se conjugue comme ceci, à tous les temps et dans les trois registres que tu entendras vraiment. Chaque forme est calculée, pas recopiée, et se prononce : touche le haut-parleur.</p>
   <div class="cj-tags"><span class="cj-tag">verbe</span>
-    <span class="cj-tag">irrégulier en 르</span>
+    <span class="cj-tag">irrégulier en <span lang="ko" class="kr">르</span></span>
     <span class="cj-tag">6 formes</span></div>
-  <div class="cj-irr"><strong>Irrégulier, famille 르.</strong> Le 르 perd son 으 et ajoute un ㄹ à la syllabe précédente. 모르다 donne 몰라요.</div>
+  <div class="cj-irr"><strong>Irrégulier, famille <span lang="ko" class="kr">르</span>.</strong> Le <span lang="ko" class="kr">르</span> perd son <span lang="ko" class="kr">으</span> et ajoute un <span lang="ko" class="kr">ㄹ</span> à la syllabe précédente. <span lang="ko" class="kr">모르다</span> donne <span lang="ko" class="kr">몰라요</span>.</div>
   <h2>Les formes</h2>
   <table class="cj-t">
     <tr><th scope="col">Quand l'employer</th><th scope="col">Forme</th><th scope="col">Ça se lit</th></tr>
-    <tr><td>Présent (poli)</td><td class="f">불러요 <button class="cj-spk" onclick="dire(this,'불러요')" aria-label="Écouter 불러요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="불러요"></td></tr>
-    <tr><td>Présent (formel)</td><td class="f">부릅니다 <button class="cj-spk" onclick="dire(this,'부릅니다')" aria-label="Écouter 부릅니다"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="부릅니다"></td></tr>
-    <tr><td>Passé</td><td class="f">불렀어요 <button class="cj-spk" onclick="dire(this,'불렀어요')" aria-label="Écouter 불렀어요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="불렀어요"></td></tr>
-    <tr><td>Futur</td><td class="f">부를 거예요 <button class="cj-spk" onclick="dire(this,'부를 거예요')" aria-label="Écouter 부를 거예요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="부를 거예요"></td></tr>
-    <tr><td>Impératif (poli)</td><td class="f">부르세요 <button class="cj-spk" onclick="dire(this,'부르세요')" aria-label="Écouter 부르세요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="부르세요"></td></tr>
-    <tr><td>Tutoiement</td><td class="f">불러 <button class="cj-spk" onclick="dire(this,'불러')" aria-label="Écouter 불러"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="불러"></td></tr>
+    <tr><td>Présent (poli)</td><td class="f"><span lang="ko">불러요</span> <button class="cj-spk" onclick="dire(this,'불러요')" aria-label="Écouter 불러요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="불러요"></td></tr>
+    <tr><td>Présent (formel)</td><td class="f"><span lang="ko">부릅니다</span> <button class="cj-spk" onclick="dire(this,'부릅니다')" aria-label="Écouter 부릅니다"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="부릅니다"></td></tr>
+    <tr><td>Passé</td><td class="f"><span lang="ko">불렀어요</span> <button class="cj-spk" onclick="dire(this,'불렀어요')" aria-label="Écouter 불렀어요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="불렀어요"></td></tr>
+    <tr><td>Futur</td><td class="f"><span lang="ko">부를 거예요</span> <button class="cj-spk" onclick="dire(this,'부를 거예요')" aria-label="Écouter 부를 거예요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="부를 거예요"></td></tr>
+    <tr><td>Impératif (poli)</td><td class="f"><span lang="ko">부르세요</span> <button class="cj-spk" onclick="dire(this,'부르세요')" aria-label="Écouter 부르세요"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="부르세요"></td></tr>
+    <tr><td>Tutoiement</td><td class="f"><span lang="ko">불러</span> <button class="cj-spk" onclick="dire(this,'불러')" aria-label="Écouter 불러"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></td><td class="l" data-lire="불러"></td></tr>
   </table>
+  <h2>D'où sortent ces formes</h2>
+  <p class="cj-txt">Ce verbe signifie « appeler ». Le coréen ne distingue ni personne ni nombre : la forme que tu liras pour « je » est exactement celle que tu liras pour « nous » ou pour « ils », et c'est une difficulté de moins qu'en français. Le dictionnaire lui donne aussi le sens de « chanter » : la conjugaison ne change pas d'un sens à l'autre, ce sont les mêmes formes, et c'est le contexte qui tranche.</p>
+  <p class="cj-txt">Tout part du radical : on enlève la terminaison du dictionnaire et il reste <span lang="ko" class="kr">부르</span>. Les six formes du tableau se construisent ensuite dessus, et il suffit de connaître deux critères pour les retrouver seul.</p>
+  <p class="cj-txt"><strong>Premier critère : la dernière voyelle du radical.</strong> Elle n'est ni <i>a</i> ni <i>o</i>, donc elle compte comme sombre. Par harmonie vocalique, elle appelle la terminaison sombre, et le présent poli donne <span lang="ko" class="kr">불러요</span>. C'est le cas le plus courant : la majorité des radicaux coréens tombent dans cette catégorie.</p>
+  <p class="cj-txt"><strong>Deuxième critère : le radical finit-il par une consonne ?</strong> Non, il se termine sur une voyelle. La forme formelle se greffe donc directement, sans voyelle de liaison, et donne <span lang="ko" class="kr">부릅니다</span>. Les radicaux ouverts comme celui-ci sont les plus simples à conjuguer : rien ne vient s'intercaler.</p>
+  <p class="cj-txt"><strong>Et l'irrégularité.</strong> Les deux critères ci-dessus suffiraient si ce verbe était régulier, mais il appartient à la famille <span lang="ko" class="kr">르</span>. Le <span lang="ko" class="kr">르</span> perd son <span lang="ko" class="kr">으</span> et ajoute un <span lang="ko" class="kr">ㄹ</span> à la syllabe précédente. <span lang="ko" class="kr">모르다</span> donne <span lang="ko" class="kr">몰라요</span>. Compare les lignes du tableau : celle qui ne ressemble pas à ce que tu attendais est précisément celle où cette famille se manifeste. C'est la raison pour laquelle un tableau calculé vaut mieux qu'une règle apprise seule.</p>
+  <p class="cj-txt">Le passé ne demande aucun effort supplémentaire : il se forme sur la même base que le présent poli, à laquelle on ajoute la marque du passé. <span lang="ko" class="kr">불러요</span> et <span lang="ko" class="kr">불렀어요</span> se ressemblent pour cette raison. Retiens la forme polie et tu tiens le passé.</p>
+  <h2>Quelle forme employer, et devant qui</h2>
+  <p class="cj-txt">Le coréen n'a pas un vouvoiement et un tutoiement, mais trois niveaux, et se tromper de niveau s'entend davantage qu'une faute de conjugaison. Pour ce verbe, voici lequel choisir.</p>
+  <ul class="cj-reg">
+    <li><span lang="ko" class="kr">불러요</span> est la forme à employer par défaut. Elle est polie sans être guindée : un commerçant, un collègue, quelqu'un que tu viens de rencontrer. Si tu n'en apprends qu'une seule, apprends celle-là, elle ne te mettra jamais en faute.</li>
+    <li><span lang="ko" class="kr">부릅니다</span> est la forme formelle. On l'entend dans les journaux télévisés, les annonces publiques, l'armée et les entretiens d'embauche. À l'oral entre particuliers elle crée une distance que tu ne cherches probablement pas.</li>
+    <li><span lang="ko" class="kr">불러</span> est le langage familier. Il se mérite : entre amis proches, dans la famille, vers quelqu'un de plus jeune qui t'y autorise. L'employer trop tôt est la maladresse la plus fréquente des apprenants.</li>
+  </ul>
   <h2>Dans une vraie phrase</h2>
-  <div class="cj-ex"><div class="k">신나요! 어떤 노래 불러요? <button class="cj-spk" onclick="dire(this,'신나요! 어떤 노래 불러요?')" aria-label="Écouter 신나요! 어떤 노래 불러요?"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="신나요! 어떤 노래 불러요?"></div><a class="cj-ex-src" href="histoire8-bd.html">Histoire 8 · 노래방에서 · BD</a></div>
-  <div class="cj-ex"><div class="k">자, 케이크 먹기 전에 노래를 불러요! <button class="cj-spk" onclick="dire(this,'자, 케이크 먹기 전에 노래를 불러요!')" aria-label="Écouter 자, 케이크 먹기 전에 노래를 불러요!"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="자, 케이크 먹기 전에 노래를 불러요!"></div><a class="cj-ex-src" href="histoire36-bd.html">Histoire 36 · 지우의 생일 · BD</a></div>
+  <div class="cj-ex"><div class="k" lang="ko">신나요! 어떤 노래 불러요? <button class="cj-spk" onclick="dire(this,'신나요! 어떤 노래 불러요?')" aria-label="Écouter 신나요! 어떤 노래 불러요?"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="신나요! 어떤 노래 불러요?"></div><a class="cj-ex-src" href="histoire8-bd.html">Histoire 8 · <span lang="ko" class="kr">노래방에서</span> · BD</a></div>
+  <div class="cj-ex"><div class="k" lang="ko">자, 케이크 먹기 전에 노래를 불러요! <button class="cj-spk" onclick="dire(this,'자, 케이크 먹기 전에 노래를 불러요!')" aria-label="Écouter 자, 케이크 먹기 전에 노래를 불러요!"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg></button></div><div class="f" data-lire="자, 케이크 먹기 전에 노래를 불러요!"></div><a class="cj-ex-src" href="histoire36-bd.html">Histoire 36 · <span lang="ko" class="kr">지우의</span> <span lang="ko" class="kr">생일</span> · BD</a></div>
   <p class="cj-chapeau" style="margin-top:.5rem;font-size:.82rem">Ces phrases viennent des leçons et des histoires du site, elles ne sont pas inventées pour l'occasion, et chacune se prononce.</p>
+  <h2>Questions fréquentes</h2>
+  <div class="cj-faq">
+    <details><summary>Comment dit-on « <span lang="ko" class="kr">부르다</span> » poliment en coréen ?</summary><p>La forme polie courante est <span lang="ko" class="kr">불러요</span>. C&#x27;est celle à utiliser dans la vie de tous les jours, avec un commerçant, un collègue ou une personne que vous rencontrez pour la première fois.</p></details>
+    <details><summary>Quelle est la différence entre <span lang="ko" class="kr">불러요</span> et <span lang="ko" class="kr">부릅니다</span> ?</summary><p><span lang="ko" class="kr">불러요</span> est poli et courant, c&#x27;est la forme par défaut à l&#x27;oral. <span lang="ko" class="kr">부릅니다</span> est formel et s&#x27;entend dans les annonces publiques, les journaux télévisés et les entretiens professionnels. Les deux sont corrects : c&#x27;est la situation qui tranche.</p></details>
+    <details><summary>Comment conjuguer <span lang="ko" class="kr">부르다</span> au passé ?</summary><p>Le passé se dit <span lang="ko" class="kr">불렀어요</span>. Il se construit sur la même base que la forme polie du présent, à laquelle on ajoute la marque du passé.</p></details>
+  </div>
   <h2>Pour aller plus loin</h2>
   <div class="cj-liens">
-    <a href="dictionnaire.html">Chercher 부르다 dans le dictionnaire</a>
+    <a href="dictionnaire.html">Chercher <span lang="ko" class="kr">부르다</span> dans le dictionnaire</a>
     <a href="blog-verbes-irreguliers-coreens.html">Les verbes irréguliers expliqués</a>
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
     <a href="conjugaison-coreen.html">Tous les verbes</a>
