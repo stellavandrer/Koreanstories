@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _extraire_grammaire as E
 from _motifs_grammaire import exemples
 from _slug_grammaire import slug
+from _grammaire_sens import SENS, SOURCE
 
 SITE = 'https://koreanstories.fr/'
 NIVEAUX = {'A1': 'debutant', 'A2': 'elementaire', 'B1': 'intermediaire', 'B2': 'avance'}
@@ -163,6 +164,28 @@ FAMILLE = {
 }
 
 
+def bloc_sens(f):
+    """Les emplois officiels que la fiche d'origine ne couvre pas.
+
+    Le texte vient de _grammaire_sens.py, ecrit a la main et verifie contre
+    le dictionnaire de l'Institut national de la langue coreenne. On ne
+    traduit jamais leurs definitions : leur licence CC BY-SA imposerait le
+    partage a l'identique a toute traduction, donc a une partie du site.
+    """
+    e = SENS.get(f['id'])
+    if not e or not e.get('emplois'):
+        return ''
+    out = ['<h2>Les autres emplois, ceux qu\'on croise sans les avoir appris</h2>']
+    if e.get('intro'):
+        out.append('<p class="gr-place">%s</p>' % e['intro'])
+    out.append('<div class="gr-emplois">')
+    for titre, texte in e['emplois']:
+        out.append('<div class="gr-emploi"><h3>%s</h3><p>%s</p></div>' % (titre, texte))
+    out.append('</div>')
+    out.append('<p class="gr-source">%s</p>' % SOURCE)
+    return '\n'.join(out)
+
+
 def bloc_place(f, toutes, slugs):
     """Situe la regle : son niveau, sa famille, ses voisines immediates.
 
@@ -253,6 +276,9 @@ def page(f, toutes, slugs, idx, corpus):
     bc = bloc_corpus(corpus.get(f['id'], []), idx)
     if bc:
         corps.append(bc)
+    bs = bloc_sens(f)
+    if bs:
+        corps.append(bs)
     corps.append(bloc_place(f, toutes, slugs))
     if mo['quiz']:
         corps.append('<h2>Teste-toi</h2>' + mo['quiz'])
