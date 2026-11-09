@@ -1,10 +1,22 @@
 /* ── Système de vies ──────────────────────────────────────────────
-   5 vies max, -1 par mauvaise réponse en leçon/exercice, régénération
-   1 vie / 4h, illimité pour les comptes Premium.
+   5 vies max, illimité pour les comptes Premium.
+
+   Revu le 2026-11-09 après le retour d'une utilisatrice : « je fais très
+   peu d'exercices et de nouveaux cours car on perd très vite les vies ».
+   L'ancien réglage (-1 par erreur partout, 1 vie / 4 h) bloquait 4 heures
+   au bout de 5 erreurs et 20 heures pour une recharge complète. Pour un
+   débutant, 5 erreurs arrivent en deux minutes : le système punissait
+   exactement ce qu'on veut encourager, et poussait vers la révision, seule
+   activité gratuite.
+
+   Trois changements :
+     - une LEÇON ne coûte jamais de vie (c'est là qu'on apprend) ;
+     - la régénération passe à 1 vie / 30 min (recharge complète 2 h 30) ;
+     - une session de révision redonne une vie (KSLives.gain).
 ─────────────────────────────────────────────────────────────────── */
 (function () {
   var MAX = 5;
-  var REGEN_MS = 4 * 60 * 60 * 1000;
+  var REGEN_MS = 30 * 60 * 1000;
   var CKEY = 'ks_lives_count';
   var TKEY = 'ks_lives_ts';
 
@@ -72,6 +84,14 @@
     return h > 0 ? (h + 'h' + (m < 10 ? '0' : '') + m) : (m + ' min');
   }
 
+  /* Une leçon est un lieu d'apprentissage : s'y tromper est le but de
+     l'exercice, pas une faute à sanctionner. Les exercices, jeux et quiz
+     gardent un enjeu. */
+  function estUneLecon() {
+    var f = location.pathname.split('/').pop() || '';
+    return /^lecon/i.test(f);
+  }
+
   function canPlay() {
     return isPremium() || get() > 0;
   }
@@ -136,9 +156,10 @@
       '<div style="font-family:\'Playfair Display\',serif;font-size:20px;font-weight:700;margin-bottom:8px">Plus de vies pour l\'instant</div>' +
       '<div style="font-size:14px;line-height:1.55;color:rgba(247,248,250,.6);margin-bottom:14px">Ta prochaine vie arrive dans <strong style="color:#C9A96E">' + timeStr + '</strong>.</div>' +
       '<div style="font-size:13.5px;line-height:1.55;color:rgba(247,248,250,.55);margin-bottom:22px;padding:12px 14px;background:rgba(255,255,255,.04);border-radius:12px;text-align:left">' +
-        'En attendant, <strong style="color:rgba(247,248,250,.75)">les histoires, le dictionnaire, la grammaire et le Speaking ne consomment pas de vies</strong>, tu peux continuer à apprendre tout de suite.' +
+        '<strong style="color:rgba(247,248,250,.78)">Une session de révision te rend une vie tout de suite.</strong><br>Les leçons, les histoires, le dictionnaire et la grammaire ne consomment jamais de vies.' +
       '</div>' +
-      '<a href="histoires.html" style="display:block;width:100%;padding:13px;border-radius:12px;background:#C9A96E;color:#0a1220;font-weight:700;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Lire une histoire →</a>' +
+      '<a href="revision.html" style="display:block;width:100%;padding:13px;border-radius:12px;background:#C9A96E;color:#0a1220;font-weight:700;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Réviser et récupérer une vie →</a>' +
+      '<a href="histoires.html" style="display:block;width:100%;padding:12px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);color:rgba(247,248,250,.8);text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:13.5px">Lire une histoire</a>' +
       '<a href="premium.html" style="display:block;width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(201,169,110,.4);color:#e8d3a6;text-decoration:none;margin-bottom:10px;box-sizing:border-box;font-size:14px">Lever la limite &amp; soutenir le projet</a>' +
       '<a href="app.html" style="display:block;width:100%;padding:11px;border-radius:12px;color:rgba(255,255,255,.55);text-decoration:none;box-sizing:border-box;font-size:13.5px">Retour au tableau de bord</a>';
     ov.appendChild(box);
@@ -147,6 +168,7 @@
 
   function lose() {
     if (isPremium()) return MAX;
+    if (estUneLecon()) return get();
     var count = get();
     if (count <= 0) { showBlocked(); return 0; }
     count -= 1;
@@ -159,7 +181,25 @@
     return count;
   }
 
-  window.KSLives = { get: get, lose: lose, canPlay: canPlay, render: render, isPremium: isPremium, nextRegenMs: nextRegenMs };
+  /* Redonne des vies, sans jamais dépasser le maximum. Appelé par la page
+     de révision : réviser, c'est ce qu'on veut encourager, donc ça doit
+     débloquer le parcours plutôt que rester une impasse. */
+  function gain(n) {
+    if (isPremium()) return MAX;
+    var avant = get();
+    var apres = Math.min(MAX, avant + (n || 1));
+    if (apres === avant) return avant;
+    try {
+      localStorage.setItem(CKEY, String(apres));
+      if (apres >= MAX) localStorage.removeItem(TKEY);
+    } catch (e) {}
+    render();
+    var bloque = document.getElementById('ks-lives-blocked');
+    if (bloque && apres > 0) bloque.remove();
+    return apres;
+  }
+
+  window.KSLives = { get: get, lose: lose, gain: gain, canPlay: canPlay, render: render, isPremium: isPremium, nextRegenMs: nextRegenMs, estUneLecon: estUneLecon };
 
   function init() {
     ensureStyle();

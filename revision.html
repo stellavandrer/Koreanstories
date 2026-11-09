@@ -166,6 +166,7 @@
     .res-emoji{font-size:64px;margin-bottom:12px}
     .res-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--t);margin-bottom:6px}
     .res-sub{font-size:14px;color:var(--gray);margin-bottom:28px}
+.res-vie{margin:10px auto 0;max-width:320px;padding:9px 14px;border-radius:12px;background:color-mix(in srgb, var(--gold) 12%, transparent);border:1px solid var(--goldbd);color:var(--t);font-size:13.5px;line-height:1.5}
     .res-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px}
     .res-stat{background:var(--surf);border:1.5px solid var(--bd);border-radius:14px;padding:16px 8px;text-align:center}
     .res-stat-n{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--t);line-height:1}
@@ -514,6 +515,7 @@
     <div class="res-emoji" id="resEmoji"></div>
     <div class="res-title" id="resTitle">Bravo !</div>
     <div class="res-sub" id="resSub">Résultats de ta révision</div>
+    <div class="res-vie" id="resVie" style="display:none"></div>
     <div class="res-stats">
       <div class="res-stat">
         <div class="res-stat-n" id="resScore">0</div>
@@ -1305,6 +1307,23 @@ function launchConfetti(duration) {
 function showResult() {
   document.getElementById('screenQuiz').style.display = 'none';
   document.getElementById('screenResult').style.display = 'block';
+
+  /* Réviser redonne une vie : c'est le comportement qu'on veut encourager,
+     il doit rouvrir le parcours au lieu d'être une impasse. Au moins une
+     bonne réponse, pour que ce ne soit pas automatique. */
+  try {
+    if (window.KSLives && !KSLives.isPremium() && score > 0) {
+      const avant = KSLives.get();
+      const apres = KSLives.gain(1);
+      const note = document.getElementById('resVie');
+      if (note && apres > avant) {
+        note.textContent = apres >= 5
+          ? 'Vies au complet : tu peux repartir sur le parcours.'
+          : 'Tu récupères une vie. Il t\'en reste ' + apres + ' sur 5.';
+        note.style.display = '';
+      }
+    }
+  } catch (e) {}
 
   const total = questions.length;
   const pct = Math.round(score / total * 100);
