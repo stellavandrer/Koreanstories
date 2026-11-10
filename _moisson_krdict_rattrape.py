@@ -74,7 +74,7 @@ def main():
     base = os.path.dirname(os.path.abspath(__file__))
     d = json.load(open(os.path.join(base, 'krdict_grammaire.json'), encoding='utf-8'))
     vides = [i for i, b in d.items()
-             if sum(len(e['sens']) for fs in b['formes'].values() for e in fs) == 0]
+             if i != '_licence' and sum(len(e['sens']) for fs in b['formes'].values() for e in fs) == 0]
     print('fiches a rattraper :', len(vides), flush=True)
     fiches = {f['id']: f for f in E.fiches()}
     for n, i in enumerate(vides, 1):
@@ -95,7 +95,7 @@ def main():
     json.dump(d, open(os.path.join(base,'krdict_grammaire.json'),'w',encoding='utf-8'),
               ensure_ascii=False, indent=1)
     reste = [i for i,b in d.items()
-             if sum(len(e['sens']) for fs in b['formes'].values() for e in fs)==0]
+             if i != '_licence' and sum(len(e['sens']) for fs in b['formes'].values() for e in fs)==0]
     print('encore vides :', len(reste), reste)
 
 main()

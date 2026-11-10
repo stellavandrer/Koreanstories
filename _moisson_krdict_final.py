@@ -8,6 +8,8 @@ Deux causes restantes :
     « -을 거예요 »). Pour celles-la il n'y a pas de source officielle, et
     on n'inventera pas : la fiche gardera simplement sa forme actuelle.
 """
+# La cle « _licence » du JSON porte les conditions de redistribution :
+# ce n'est pas une fiche, on la saute partout.
 import html as H, json, os, re, subprocess, time
 from urllib.parse import quote
 UA='Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)'
@@ -63,7 +65,7 @@ for i,(reqs) in CIBLES.items():
     print('%-5s %-34s %d sens' % (i, d[i]['titre'][:34], tot), flush=True)
 json.dump(d,open(os.path.join(base,'krdict_grammaire.json'),'w',encoding='utf-8'),
           ensure_ascii=False,indent=1)
-vides=[i for i,b in d.items() if sum(len(e['sens']) for fs in b['formes'].values() for e in fs)==0]
+vides=[i for i,b in d.items() if i!='_licence' and sum(len(e['sens']) for fs in b['formes'].values() for e in fs)==0]
 print()
 print('fiches AVEC source officielle :', len(d)-len(vides), '/', len(d))
 print('sans source (pas de mot-vedette) :', [ (i, d[i]['titre'][:30]) for i in vides])

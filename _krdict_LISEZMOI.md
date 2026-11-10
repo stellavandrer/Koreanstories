@@ -22,8 +22,20 @@ Conséquence : **on ne traduit jamais leurs définitions**. Un fait n'est pas
 protégeable, sa formulation l'est. Le français publié est écrit de zéro, vérifié
 contre ces données, et la source est citée comme référence.
 
-Ce fichier JSON reste un document de travail interne : il n'est ni publié ni
-servi par le site.
+### Ce fichier est redistribué, donc il porte la licence
+
+Le dépôt est **public**. Committer ces définitions telles quelles, c'est les
+redistribuer, ce que CC BY-SA autorise à condition d'attribuer et de replacer la
+redistribution sous la même licence. `_krdict_grammaire.json` porte donc une clé
+`_licence` qui dit tout cela explicitement.
+
+Cette licence couvre **ce fichier, et lui seul**. Les textes publiés sur le site
+sont écrits de zéro à partir de ces faits, ne reprennent aucune formulation du
+dictionnaire, et ne sont donc pas des œuvres dérivées : ils restent sous les
+conditions propres à koreanstories.fr.
+
+Le fichier n'est ni référencé par le site, ni dans le sitemap, ni chargé par une
+page : c'est un outil de travail.
 
 ## Regénérer les données
 
