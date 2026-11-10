@@ -310,11 +310,9 @@ SENS = {
   ]},
 
  'g26': {
-  'intro': "La fiche enseigne le discours indirect, et c'est l'emploi central. "
-           "Mais le dictionnaire officiel range cette terminaison sous deux "
-           "entrées distinctes, l'une de liaison et l'autre de fin de phrase, avec "
-           "cinq emplois au total. Trois d'entre eux n'ont rien à voir avec "
-           "rapporter des paroles.",
+  'intro': "Une précision de périmètre d'abord. La fiche enseigne la construction complète du discours indirect, terminaison plus verbe de parole. "
+           "Le dictionnaire officiel, lui, traite la TERMINAISON SEULE, et la range sous deux entrées distinctes, l'une de liaison et l'autre de fin de phrase. "
+           "Ces emplois-là appartiennent donc à la terminaison employée sans le verbe de parole, et trois d'entre eux n'ont rien à voir avec rapporter des propos.",
   'emplois': [
    ("Le motif, pas la citation",
     "Comme terminaison de liaison, elle marque aussi l'intention qui a présidé à "
@@ -523,22 +521,26 @@ SENS = {
   ]},
 
  'g40': {
-  'intro': "La fiche enseigne la crainte : « de peur que ». C'est un emploi réel, "
-           "mais le dictionnaire officiel le place en SECOND. Le premier dit tout "
-           "autre chose, et l'ignorer rend certaines phrases incompréhensibles.",
+  'intro': "Attention au périmètre avant de lire ce qui suit. La fiche enseigne la "
+           "forme COURTE, celle qui relie deux propositions et qui, comme elle le "
+           "dit justement, ne termine jamais une phrase. Le dictionnaire officiel, "
+           "lui, range cette tournure sous sa forme LONGUE, avec le verbe de "
+           "perception conjugué en fin de phrase. Ce sont deux usages d'une même "
+           "famille, et c'est en les confondant qu'on croit voir une "
+           "contradiction. La forme longue a deux sens, et le premier surprend.",
   'emplois': [
-   ("D'abord une intention, pas une peur",
-    "Premier sens officiel : celui qui parle annonce qu'il a l'intention de faire "
-    "la chose. Aucune crainte là-dedans. La tournure sert alors à exprimer une "
-    "idée qu'on envisage, souvent avec une pointe d'hésitation, comme un « je "
-    "pense que je vais… » français. Si tu as déjà buté sur une phrase où la "
-    "traduction par « de peur que » ne donnait rien, c'était très probablement "
-    "cet emploi-là."),
-   ("Ensuite seulement, l'inquiétude",
-    "Second sens : celui que la fiche enseigne. On redoute que la situation "
-    "décrite se produise. Pour choisir entre les deux à la lecture, regarde qui "
-    "agit : si c'est celui qui parle et qu'il peut décider, c'est une intention ; "
-    "si la chose lui échappe, c'est une crainte."),
+   ("La forme longue sert d'abord à annoncer une intention",
+    "Premier sens officiel de la forme longue : celui qui parle annonce qu'il "
+    "envisage de faire la chose. Aucune crainte là-dedans. C'est l'équivalent "
+    "d'un « je pense que je vais peut-être… » français, avec la même hésitation "
+    "polie. Si tu as déjà buté sur une phrase se terminant ainsi, où la "
+    "traduction par « de peur que » ne donnait rien, c'était cet emploi."),
+   ("Et ensuite seulement l'inquiétude",
+    "Second sens de la forme longue : on redoute que la situation se produise. "
+    "C'est celui que la fiche enseigne, et c'est le seul que porte la forme "
+    "courte. Pour trancher à la lecture, regarde qui agit : si c'est celui qui "
+    "parle et qu'il en décide, c'est une intention ; si la chose lui échappe, "
+    "c'est une crainte."),
   ]},
 
  'g14': {
@@ -615,8 +617,8 @@ SENS = {
   ]},
 
  'g50': {
-  'intro': "« Nous nous proposons de » : la fiche vise le registre formel, et "
-           "c'est juste. La définition officielle est un peu plus ouverte.",
+  'intro': "« Nous nous proposons de » : la fiche vise le registre formel, et c'est juste. "
+           "Le dictionnaire traite ici la terminaison seule, sans le verbe qui la suit dans la fiche, et sa définition est un peu plus ouverte.",
   'emplois': [
    ("Le but, l'intention, mais aussi le souhait",
     "Le dictionnaire mentionne trois choses : un objectif, une intention, et un "
