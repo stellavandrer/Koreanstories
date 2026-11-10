@@ -29,6 +29,22 @@ Une fiche absente de ce dictionnaire n'affiche simplement pas la section.
 SOURCE = ('Emplois vérifiés contre le dictionnaire de l\'Institut national de la '
           'langue coréenne (krdict.korean.go.kr). Les explications sont les nôtres.')
 
+# ── Les fiches volontairement SANS section, et pourquoi ───────────────
+# Ce ne sont pas des oublis. Les reprendre sans nouvelle source serait
+# remplir pour remplir, et la regle est de ne rien ecrire qu'on ne puisse
+# verifier.
+#
+# Aucune entree dans le dictionnaire (ce ne sont pas des mots-vedettes) :
+#   g11 -기 때문에        g17 -(으)ㄹ 거예요     g32 -(으)ㄴ/는 탓에
+#   g37 -고 나서          g41 -(으)ㄹ지도 모르다  g52 -에 달려 있다
+#
+# Une seule definition officielle, qui ne dit rien de plus que la fiche :
+#   g06 안   g08 -고 싶어요   g12 -(으)ㄹ 것 같다   g28 -나 보다
+#
+# Fausse correspondance, ecartee :
+#   g22 -이/히/리/기 (le passif). La recherche remonte 히, un ADVERBE qui
+#   decrit un rire. Aucun rapport. Ne pas reprendre cette entree.
+
 SENS = {
 
  # ── A1 ──────────────────────────────────────────────────────────────
@@ -658,5 +674,77 @@ SENS = {
     "phrase : pour s'exclamer en attendant une réaction, et pour interroger en "
     "sollicitant une réponse. Une phrase qui s'arrête là n'est pas laissée en "
     "plan, elle tend la perche."),
+  ]},
+
+ 'g04': {
+  'intro': "La fiche enseigne l'équivalent du verbe « être » devant un nom, et "
+           "c'est bien sa fonction. Le dictionnaire officiel lui consacre pourtant "
+           "DEUX entrées séparées, et la seconde n'a rien à voir avec l'identité.",
+  'emplois': [
+   ("Dire l'attribut ou la catégorie",
+    "Première entrée : la particule attribue au sujet une qualité ou le range "
+    "dans une catégorie. C'est l'emploi que la fiche couvre, et de loin le plus "
+    "fréquent. Noter qu'il s'agit officiellement d'une PARTICULE et non d'un "
+    "verbe, même si le français traduit par « être » : c'est pourquoi elle se "
+    "colle au nom sans espace, là où un verbe serait un mot autonome."),
+   ("Relier et énumérer",
+    "Seconde entrée, qui surprend : la même forme sert à relier plusieurs "
+    "éléments dans une liste. Elle n'affirme alors plus que quelque chose EST "
+    "quelque chose, elle enchaîne des termes. Si tu as rencontré cette forme au "
+    "milieu d'une énumération sans comprendre ce qu'elle y faisait, c'était "
+    "celui-là."),
+  ]},
+
+ 'g13': {
+  'intro': "Exister et avoir : la fiche donne les deux portes d'entrée, et elles "
+           "suffisent longtemps. Mais le verbe négatif compte à lui seul quinze "
+           "sens officiels, et trois d'entre eux reviennent dans la conversation "
+           "courante sans jamais être enseignés.",
+  'emplois': [
+   ("Dire que c'est impossible",
+    "Parmi les sens reconnus : l'impossibilité. Le verbe ne nie plus une "
+    "existence ni une possession, il écarte une éventualité. C'est pour cela "
+    "qu'on l'entend dans des phrases où rien ne manque matériellement, et où "
+    "traduire par « il n'y a pas » ne donne rien."),
+   ("Parler d'argent",
+    "Autre sens officiel : être pauvre, manquer de moyens. Le verbe employé seul, "
+    "sans complément, peut qualifier la situation financière de quelqu'un. La "
+    "nuance est délicate socialement, et mieux vaut la reconnaître à l'écoute "
+    "que la produire."),
+   ("Ne pas avoir quelqu'un dans sa vie",
+    "Le dictionnaire distingue aussi le fait de ne pas avoir de personne avec qui "
+    "l'on entretient une relation donnée : pas de frère, pas de compagnon. Ce "
+    "n'est pas la même chose que ne pas posséder un objet, et le coréen le range "
+    "effectivement à part."),
+  ]},
+
+ 'g20': {
+  'intro': "« J'ai déjà essayé » : la fiche vise l'expérience passée, ce qui est "
+           "juste au passé. Le dictionnaire officiel donne deux sens à cette "
+           "tournure, et c'est le TEMPS du verbe qui décide lequel s'applique.",
+  'emplois': [
+   ("Au présent, tenter pour voir",
+    "Premier sens officiel : faire la chose à titre d'essai, pour voir ce que ça "
+    "donne. C'est une proposition ou une tentative, pas un souvenir. Au présent "
+    "ou à l'impératif, la tournure invite donc à goûter, à tester, à se lancer."),
+   ("Au passé, avoir déjà vécu la chose",
+    "Second sens : avoir fait l'expérience de la chose auparavant. C'est celui "
+    "que la fiche enseigne, et il correspond à la forme au passé. Le repère est "
+    "donc simple et fiable : la tournure au présent propose, la même au passé "
+    "raconte. Cela évite de lire comme un souvenir une phrase qui était une "
+    "invitation."),
+  ]},
+
+ 'g38': {
+  'intro': "« J'étais occupé à ça » : la fiche retient la cause, et c'est l'usage "
+           "que les manuels enseignent. La définition officielle est plus large "
+           "d'un cran.",
+  'emplois': [
+   ("Le but autant que la cause",
+    "Le dictionnaire dit que la proposition qui précède est le but OU la cause de "
+    "ce qui suit. La lecture par la seule cause, « j'étais pris par ceci, donc "
+    "cela », couvre la plupart des phrases, mais pas toutes : la tournure peut "
+    "aussi présenter ce à quoi on s'emploie comme l'objectif visé. Le savoir "
+    "évite de chercher une excuse là où il n'y a qu'une intention."),
   ]},
 }
