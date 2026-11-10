@@ -564,6 +564,28 @@ try{const t=localStorage.getItem('ks_theme');if(t)document.documentElement.setAt
 """
 
 
+FAMILLES_TESTS = ['춥다', '듣다', '낫다', '부르다', '살다', '쓰다', '그렇다']
+
+
+def familles_traitees():
+    """Combien de familles d'irreguliers le conjugueur sait traiter.
+
+    On le lui DEMANDE, avec un representant connu de chaque famille, au lieu
+    d'ecrire « sept » en dur : si le conjugueur evolue, la page suit.
+    Les verbes temoins viennent des fiches du site, pas d'une saisie.
+    """
+    js = '''
+    global.window={}; require('./ks-dictionary.js'); require('./ks-conjugueur.js');
+    const K=global.window.KSConj, out={};
+    for (const v of %s) { const i=K.irregulier(v); if(i) out[i.famille]=1; }
+    process.stdout.write(JSON.stringify(Object.keys(out)));
+    ''' % json.dumps(FAMILLES_TESTS, ensure_ascii=False)
+    r = subprocess.run(['node', '-e', js], capture_output=True, text=True)
+    if r.returncode:
+        raise SystemExit('node a échoué (familles) : ' + r.stderr[:300])
+    return json.loads(r.stdout)
+
+
 def index(d):
     lignes = []
     irr = [(v, d[v]) for v in VERBES if d[v]['irr']]
@@ -582,6 +604,69 @@ def index(d):
             lignes.append('    <a href="conjugaison-%s.html"><span lang="ko" class="kr">%s</span>'
                           '<span class="fr">%s</span></a>' % (slug(v), v, e['fr'].split(' / ')[0]))
         lignes.append('  </div>')
+    # Une page d'index qui n'est qu'une liste de liens n'apprend rien et ne se
+    # fait pas indexer. Ces sections expliquent la methode, et chaque chiffre
+    # qu'elles citent est compte sur les donnees, pas ecrit a la main.
+    par_famille = {}
+    for v, e in irr:
+        par_famille.setdefault(e['irr']['famille'], []).append(v)
+
+    lignes.append('  <h2>Comment lire une conjugaison coréenne</h2>')
+    lignes.append('  <p class="cj-txt">Conjuguer en coréen ne demande pas de retenir des '
+                  'tableaux : le verbe ne change ni avec la personne ni avec le nombre. La '
+                  'forme que tu emploies pour « je » est exactement celle que tu emploies '
+                  'pour « nous » et pour « ils ». Ce qui change, c\'est le temps et surtout '
+                  'le registre, c\'est-à-dire à qui tu parles.</p>')
+    lignes.append('  <p class="cj-txt">Deux questions suffisent à retrouver presque toutes '
+                  'les formes. <strong>Première question : quelle est la dernière voyelle du '
+                  'radical ?</strong> Le coréen pratique l\'harmonie vocalique : une voyelle '
+                  'claire appelle une terminaison claire, les autres appellent la terminaison '
+                  'sombre. <strong>Deuxième question : le radical se termine-t-il par une '
+                  'consonne ?</strong> C\'est ce qui décide de la forme formelle et de la '
+                  'voyelle de liaison. Chaque fiche applique ces deux critères au verbe '
+                  'qu\'elle traite et dit lequel a tranché.</p>')
+    lignes.append('  <p class="cj-txt">Les formes affichées ici ne sont pas recopiées d\'un '
+                  'manuel : elles sont calculées par le conjugueur du site, celui qui tourne '
+                  'aussi dans le dictionnaire. C\'est ce qui permet de garantir que les %d '
+                  'fiches disent la même chose et qu\'une correction profite à toutes.</p>'
+                  % len(VERBES))
+
+    toutes_familles = familles_traitees()
+    nb_fam = len(toutes_familles)
+    lignes.append('  <h2>Les %s familles d\'irréguliers</h2>'
+                  % {6: 'six', 7: 'sept', 8: 'huit'}.get(nb_fam, str(nb_fam)))
+    lignes.append('  <p class="cj-txt">Un verbe irrégulier coréen n\'est pas un caprice à '
+                  'apprendre par cœur : il appartient à une famille, et toute la famille se '
+                  'comporte pareil. Le conjugueur en traite %d. Sur les %d verbes de cette '
+                  'collection, %d sont irréguliers et se répartissent ainsi :</p>'
+                  % (nb_fam, len(VERBES), len(irr)))
+    lignes.append('  <ul class="cj-reg">')
+    for fam in sorted(par_famille, key=lambda x: -len(par_famille[x])):
+        vs = par_famille[fam]
+        lignes.append('    <li>Famille <span lang="ko" class="kr">%s</span> : %d verbe%s '
+                      'ici (%s). %s</li>'
+                      % (html.escape(fam), len(vs), 's' if len(vs) > 1 else '',
+                         ', '.join('<a href="conjugaison-%s.html">'
+                                   '<span lang="ko" class="kr">%s</span></a>'
+                                   % (slug(v), v) for v in vs),
+                         ko(html.escape(d[vs[0]]['irr']['explication']))))
+    lignes.append('  </ul>')
+    # Combien de familles le conjugueur traite SANS qu'un verbe de la liste les
+    # represente. Ce chiffre etait ecrit en dur et il etait faux.
+    absentes = [f for f in toutes_familles if f not in par_famille]
+    if len(absentes) == 1:
+        lignes.append('  <p class="cj-txt">Une septième famille, '
+                      '<span lang="ko" class="kr">%s</span>, n\'est représentée par aucun '
+                      'verbe de cette liste. Elle existe pourtant bel et bien, et regroupe '
+                      'surtout des adjectifs de couleur : le dictionnaire du site les '
+                      'conjugue tout aussi bien, même si aucune fiche ne leur est encore '
+                      'consacrée ici.</p>' % html.escape(absentes[0]))
+    elif absentes:
+        lignes.append('  <p class="cj-txt">%d familles que le conjugueur traite ne sont '
+                      'représentées par aucun verbe de cette liste. Elles existent pourtant, '
+                      'et le dictionnaire du site les conjugue tout aussi bien.</p>'
+                      % len(absentes))
+
     lignes.append('  <h2>Aller plus loin</h2>')
     lignes.append('  <div class="cj-liens">')
     lignes.append('    <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>')

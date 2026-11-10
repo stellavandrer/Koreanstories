@@ -310,6 +310,42 @@ INDEX = '''<!DOCTYPE html>
   <h2>Les thèmes</h2>
   <div class="gr-autres">{liens}</div>
 
+  <h2>Pourquoi par situation, et pas par ordre alphabétique</h2>
+  <p class="gr-place">Une liste alphabétique est commode pour retrouver un mot
+  qu'on connaît déjà. Elle est à peu près inutile pour en apprendre de nouveaux :
+  rien ne relie « abricot » à « aboyer », donc rien ne les retient ensemble. Ranger
+  par situation fait le contraire. Les {n} mots de ces pages sont groupés par
+  moment de la journée, et chaque groupe forme une scène qu'on peut se rejouer :
+  entrer dans un café, commander, préciser chaud ou glacé, payer. On ne retient
+  pas {n} mots isolés, on retient {t} scènes.</p>
+  <p class="gr-place">C'est aussi pour cela que chaque page porte, sous son
+  tableau, de vraies phrases tirées des leçons et des histoires du site. Un mot vu
+  seul s'oublie ; le même mot entendu dans une phrase qu'on a déjà lue ailleurs
+  s'accroche à quelque chose.</p>
+
+  <h2>La prononciation est écrite à la française</h2>
+  <p class="gr-place">La romanisation officielle du coréen a été conçue pour des
+  anglophones. Elle écrit des suites de lettres qu'un francophone lit de travers :
+  le « eo » n'est pas un « é-o », le « u » n'est pas un « u » français, et le
+  « j » n'est pas le nôtre. Lire la romanisation avec des réflexes français mène
+  donc à prononcer faux, avec application.</p>
+  <p class="gr-place">Chaque mot porte ici deux choses : la romanisation officielle,
+  parce qu'elle sert à chercher ailleurs, et une lecture écrite à la française,
+  qui est celle à suivre pour parler. Les {n} mots ont en plus leur audio, et
+  {dec} d'entre eux sont découpés syllabe par syllabe, ce qui permet de voir
+  comment le mot se construit au lieu de l'avaler d'un bloc.</p>
+
+  <h2>Comment s'en servir pour apprendre, et pas seulement pour consulter</h2>
+  <p class="gr-place">Prends un thème, pas la liste entière. Écoute chaque mot une
+  fois en suivant la lecture à la française, puis réécoute en cachant le français :
+  l'objectif n'est pas de traduire mais de reconnaître. Reviens au même thème le
+  lendemain, puis trois jours après. Deux passages espacés valent mieux que dix
+  d'affilée, et c'est vrai pour n'importe quelle langue.</p>
+  <p class="gr-place">Quand un thème te paraît acquis, va lire les phrases du site
+  qui l'emploient, puis cherche un de ses mots dans le dictionnaire pour le voir
+  conjugué ou accompagné de ses particules. C'est à ce moment-là qu'un mot cesse
+  d'être une entrée de tableau pour devenir quelque chose que tu sais dire.</p>
+
   <h2>Aller plus loin</h2>
   <div class="gr-liens">
     <a href="grammaire-coreen.html">Les 53 règles de grammaire</a>
@@ -337,7 +373,9 @@ def index():
     ld = {"@context": "https://schema.org", "@type": "CollectionPage",
           "name": "Vocabulaire coréen par thème", "url": SITE + "vocabulaire-coreen.html",
           "mainEntity": {"@type": "ItemList", "numberOfItems": len(pub), "itemListElement": items}}
-    return INDEX.format(n=total, t=len(pub), liens=liens, css=CSS,
+    # Compte sur les donnees : ce genre de chiffre se perime des qu'on ajoute un mot.
+    dec = sum(1 for c in pub for m in THEMES[c]['mots'] if m.get('decoupe'))
+    return INDEX.format(n=total, t=len(pub), dec=dec, liens=liens, css=CSS,
                         ld=json.dumps(ld, ensure_ascii=False))
 
 
