@@ -433,6 +433,40 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t);min-heig
     Mes notes<span id="noteCount" style="font-weight:700;color:var(--gold-text)"></span>
   </a>
 
+  <!-- Invitation permanente a donner son avis. N'apparait que pour un
+       compte reel qui n'en a pas encore laisse : ks-review-prompt.js ne
+       passe qu'une fois et se tait ensuite, alors qu'ici la porte reste
+       ouverte sans rien reclamer. Masquee par defaut, montree par le
+       script plus bas : si JS est coupe, on ne demande rien. -->
+  <a href="avis.html" id="profilAvis" style="display:none;align-items:center;gap:10px;
+     padding:12px 14px;margin:0 0 14px;border-radius:14px;text-decoration:none;
+     border:1.5px solid rgba(201,169,110,.3);
+     background:linear-gradient(135deg,rgba(201,169,110,.1),rgba(201,169,110,.03))">
+    <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;
+      border-radius:10px;background:rgba(201,169,110,.14);flex:none">
+      <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:var(--gold-text)" aria-hidden="true"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+    </span>
+    <span>
+      <span style="display:block;font-size:12.5px;font-weight:700;color:var(--t)">Tu n'as pas encore donné ton avis</span>
+      <span style="display:block;font-size:10.5px;color:var(--gray);line-height:1.45">Dis ce qui te plaît, et surtout ce qui ne va pas.</span>
+    </span>
+  </a>
+  <script>
+  /* Trois conditions, les memes que la carte flottante : un vrai compte,
+     aucun avis deja envoye, et pas de « non merci ». On ne reclame pas
+     deux fois la meme chose a la meme personne. */
+  (function(){
+    try{
+      var u = JSON.parse(localStorage.getItem('ks_user') || 'null');
+      if (!u || u.guest === true) return;
+      if (localStorage.getItem('ks_review_left')) return;
+      if (localStorage.getItem('ks_review_prompt_never')) return;
+      var el = document.getElementById('profilAvis');
+      if (el) el.style.display = 'flex';
+    }catch(e){}
+  })();
+  </script>
+
   <button class="share-btn" onclick="openShare()">
     <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
     Partager ma carte de profil
