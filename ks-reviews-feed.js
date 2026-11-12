@@ -35,6 +35,11 @@
      #ksHomeReviews   conteneur vide ou le bloc est injecte
      #ksReviewsTeaser paragraphe « premiers avis » a masquer s'il y a des avis
      #ksReviewsCta    lien dont le libelle change s'il y a des avis
+     #ksHeroNote      pastille « 4,9 sur 5 · 7 avis » du premier ecran,
+                      ajoutee le 2026-11-12 : la section d'avis est a 60 %
+                      de la page d'accueil, donc invisible pour qui ne
+                      scrolle pas. Elle reste vide tant qu'il n'y a aucun
+                      avis, comme tout le reste de ce fichier.
    ═══════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -45,7 +50,8 @@
             '/databases/(default)/documents:runQuery?key=' + KEY;
 
   var host = document.getElementById('ksHomeReviews');
-  if (!host) return;
+  var note = document.getElementById('ksHeroNote');
+  if (!host && !note) return;
 
   var MONTHS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
                 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
@@ -165,7 +171,27 @@
       grid += '</div>';
     }
 
-    host.innerHTML = '<div class="krv">' + head + grid + '</div>';
+    if (host) host.innerHTML = '<div class="krv">' + head + grid + '</div>';
+
+    /* La pastille du premier ecran. Elle n'apparait que maintenant,
+       c'est-a-dire seulement s'il existe de vrais avis : le HTML ne
+       contient aucune note, rien a nettoyer le jour ou il n'y en a plus. */
+    if (note) {
+      var et = '';
+      for (var i = 0; i < 5; i++) {
+        et += '<svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 ' +
+              '17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>';
+      }
+      note.innerHTML = '<span class="hn-et" aria-hidden="true">' + et + '</span>' +
+        '<span><b>' + avg.toFixed(1).replace('.', ',') + ' sur 5</b> ' +
+        '<span class="hn-nb">· ' + count + ' avis</span></span>';
+      note.setAttribute('aria-label',
+        'Note moyenne ' + avg.toFixed(1).replace('.', ',') + ' sur 5, ' +
+        count + (count > 1 ? ' avis' : ' avis') + '. Lire les avis.');
+      note.setAttribute('data-pret', '1');
+    }
+
+    if (!host) return;
 
     /* Le texte « les tout premiers avis sont en train de s'ecrire » n'est
        plus vrai des qu'il y en a un : on l'efface, et le bouton cesse de

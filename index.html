@@ -208,6 +208,18 @@ em{font-style:italic;color:var(--or-fonce)}
   margin-top:26px;font-size:14.5px;color:var(--gris)}
 .confiance span{display:inline-flex;align-items:center;gap:7px}
 .confiance svg{width:15px;height:15px;color:var(--or-fonce);flex:none}
+/* Note moyenne dans le hero. Remplie par ks-reviews-feed.js seulement s'il
+   existe de vrais avis approuves : jamais de note en dur ici. */
+.hero-note{display:none;align-items:center;justify-content:center;gap:9px;
+  margin:22px auto 0;padding:9px 16px;border-radius:999px;width:max-content;
+  max-width:100%;background:var(--fond-2);border:1px solid var(--bordure);
+  text-decoration:none;color:var(--texte);font-size:14.5px;line-height:1.3}
+.hero-note[data-pret]{display:flex}
+.hero-note:hover{border-color:var(--or)}
+.hero-note b{font-weight:700}
+.hero-note .hn-et{display:inline-flex;gap:1px;flex:none}
+.hero-note .hn-et svg{width:15px;height:15px;fill:var(--or-fonce)}
+.hero-note .hn-nb{color:var(--gris)}
 @media(max-width:600px){
   .hero{padding:38px 0 0}
   .hero .accroche{font-size:17px;margin-bottom:26px}
@@ -409,6 +421,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(-
       <a class="btn btn-grand" href="cours.html">Commencer, c'est gratuit</a>
       <a class="btn btn-grand btn-clair" href="histoires.html">Voir les histoires</a>
     </div>
+    <a class="hero-note" id="ksHeroNote" href="#avis"></a>
     <div class="confiance ap">
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Gratuit, sans carte bancaire</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Aucune publicité</span>
