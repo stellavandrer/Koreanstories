@@ -1,5 +1,5 @@
 /* ── Système de vies ──────────────────────────────────────────────
-   5 vies max, illimité pour les comptes Premium.
+   25 vies max, illimité pour les comptes Premium.
 
    Revu le 2026-11-09 après le retour d'une utilisatrice : « je fais très
    peu d'exercices et de nouveaux cours car on perd très vite les vies ».
@@ -16,9 +16,14 @@
      - terminer une activité pour la PREMIÈRE fois redonne une vie
        (KSLives.recompense, appelé par ksFinish dans ks.js). Avancer
        recharge : seule l'erreur coûte.
+
+   Le 2026-11-12, le plafond passe de 5 à 25 vies : avec 5, une mauvaise
+   série suffisait encore à fermer la porte. Au-delà de 8, la rangée de
+   cœurs ne tient plus dans la barre : l'affichage bascule alors sur un
+   cœur unique suivi du compte.
 ─────────────────────────────────────────────────────────────────── */
 (function () {
-  var MAX = 5;
+  var MAX = 25;
   var REGEN_MS = 30 * 60 * 1000;
   var CKEY = 'ks_lives_count';
   var TKEY = 'ks_lives_ts';
@@ -52,7 +57,14 @@
     var count = parseInt(safeGet(CKEY), 10);
     if (isNaN(count)) { count = MAX; }
     var ts = parseInt(safeGet(TKEY), 10);
-    if (!ts || count >= MAX) return;
+    /* Pas d'horodatage = le compteur etait plein sous l'ancien plafond.
+       Quand le plafond monte (5 -> 25), on remet a niveau tout de suite,
+       sinon ces comptes resteraient coinces a 5 jusqu'a la prochaine erreur. */
+    if (!ts) {
+      if (count < MAX) { try { localStorage.setItem(CKEY, String(MAX)); } catch (e) {} }
+      return;
+    }
+    if (count >= MAX) return;
     var gained = Math.floor((Date.now() - ts) / REGEN_MS);
     if (gained > 0) {
       count = Math.min(MAX, count + gained);
@@ -106,6 +118,12 @@
       return '<span class="hrt" title="Vies illimitées (Premium)" style="font-weight:700;color:#C9A96E">∞</span>';
     }
     var count = get(), html = '';
+    if (MAX > 8) {
+      return '<span class="hrt' + (count ? '' : ' lost') + '" title="' + count +
+        ' vies sur ' + MAX + '">' + HEART_SVG +
+        '<span style="margin-left:4px;font-weight:700;font-size:12.5px;vertical-align:middle">' +
+        count + '</span></span>';
+    }
     for (var i = 0; i < MAX; i++) {
       html += '<span class="hrt' + (i < count ? '' : ' lost') + '">' + HEART_SVG + '</span>';
     }
